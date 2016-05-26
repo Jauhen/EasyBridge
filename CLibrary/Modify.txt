@@ -1,0 +1,53 @@
+write by xwind
+
+以前由papachong修改了一些内存泄漏的问题
+
+2001.3.1
+CCJControlBar.cpp
+增加函数void CCJControlBar::OnDestroy() 在销毁的时候保存设置
+修改函数void CCJControlBar::OnWindowPosChanged(..) 不保存设置
+        if (m_bAutoSave)  SaveBarState(sizeTemp);
+
+	增加窗口visible判断,窗口可见才m_sizeFloat = sizeTemp;
+	if (IsFloating()) ----> if (IsFloating() && IsWindowVisable())
+修改函数void CCJControlBar::CalcDynamicLayout(..)
+    根据nMode状态分别返回m_sizeHorz, m_sizeVert, m_sizeFloat;
+
+
+CCJDockContext.cpp  移动窗口后，重新计算窗口的大小，位置
+void CCJDockContext::EndDragDockBar()拖动窗口时调用
+void CCJDockContext::ToggleDocking() 鼠标双击时调用
+
+
+CCJSizeDockBar.cpp
+增加函数
+void CCJSizeDockBar::DockCtrlBar(CControlBar *pBar, LPCRECT lpRect)
+  就是修改用来调用函数重载的函数Insert()，其他和CDockBar中一样
+int  CCJSizeDockBar::Insert(CCJControlBar* pBarIns, CRect rect, CPoint ptMid)
+  插入一个窗口时候，根据移动位置，计算插入的位置
+void CCJSizeDockBar::CalcSizeBarLayout(CCJControlBar* pBarDock, BOOL bFlag)
+  在移动窗口后重新计算窗口大小
+
+2001.3.18
+保存的参数增加4个,并把位置移动到上一级，这样就可以正确保存设置了
+(SaveBarState(_afxBars)中会调用
+	CWinApp* pApp = AfxGetApp();
+	pApp->WriteProfileString(szSection, NULL, NULL);
+	如果注册表中有子项，就不能正确删除
+)
+参数名为: CJMRUFloatCX, CJMRUFloatCY, CJMRUFloating, CJMRUHorzCX, CJMRUHorzCY, CJMRUVertCX, CJMRUVertCY
+
+2001.3.23
+修改DWORD CCJDockContext::CanDockDockBar(CRect rect, DWORD dwDockStyle, CDockBar** ppDockBar)
+重新计算移动后的虚线(根据是否Dock来判断)
+
+2001.3.27
+1.增加函数 	void CCJSizeDockBar::Average(CCJControlBar *);
+  用来计算expand和contract docked window按下后的大小变化(平均大小)
+2.修改函数 void CCJSizeDockBar::CalcSizeBarLayout(CCJControlBar* pBarDock, BOOL bFlag)
+  如果有一个Dock的Bar是Maximized，也能正确Dock
+  (CCJControlBar.h中的m_bMaximized移到public中)
+
+2001.4.3
+1.修改有2窗口个dock到一边，有一个隐藏时，另一个的大小不能保存的问题
+2.修改dock到top时，移动的虚框不对的问题
