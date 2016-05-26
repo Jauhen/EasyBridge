@@ -132,7 +132,7 @@ BEGIN_MESSAGE_MAP(CCJShellList, CCJListCtrl)
 	ON_NOTIFY_REFLECT(LVN_GETDISPINFO, OnGetdispinfo)
 	ON_NOTIFY_REFLECT(NM_DBLCLK, OnRclick)
 	//}}AFX_MSG_MAP
-//	ON_MESSAGE(WM_SHELL_NOTIFY, OnShellNotify)
+	ON_MESSAGE(WM_SHELL_NOTIFY, OnShellNotify)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -475,7 +475,7 @@ void CCJShellList::RefreshList()
 	}
 }
 
-long CCJShellList::OnShellNotify(WPARAM wParam, LPARAM /*lParam*/)
+LRESULT CCJShellList::OnShellNotify(WPARAM wParam, LPARAM /*lParam*/)
 {
 	switch (wParam)
 	{

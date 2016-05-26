@@ -98,7 +98,7 @@ BOOL CStatusGIBMonitorPage::OnCommand(WPARAM wParam, LPARAM lParam)
 			// do nuttin' if not initialized
 			if (!m_bInitialized)
 				return TRUE;
-			m_edit.SetWindowText((LPCTSTR)lParam);
+			//m_edit.SetWindowText((LPCTSTR)lParam);
 			m_edit.UpdateWindow();
 			return TRUE;
 	}

@@ -76,8 +76,8 @@ IMPLEMENT_DYNAMIC(CCJPagerCtrl, CWnd)
 
 BEGIN_MESSAGE_MAP(CCJPagerCtrl, CWnd)
 	//{{AFX_MSG_MAP(CCJPagerCtrl)
-//	ON_NOTIFY_REFLECT_EX(PGN_SCROLL, OnPagerScroll)
-//	ON_NOTIFY_REFLECT_EX(PGN_CALCSIZE, OnPagerCalcSize)
+	ON_NOTIFY_REFLECT_EX(PGN_SCROLL, OnPagerScroll)
+	ON_NOTIFY_REFLECT_EX(PGN_CALCSIZE, OnPagerCalcSize)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -90,24 +90,13 @@ BOOL CCJPagerCtrl::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UIN
 /////////////////////////////////////////////////////////////////////////////
 // CCJPagerCtrl message handlers
 
-BOOL CCJPagerCtrl::OnPagerCalcSize(NMPGCALCSIZE* pNMPGCalcSize, LRESULT* pResult)
+BOOL CCJPagerCtrl::OnPagerCalcSize(NMHDR* pNMPGCalcSize, LRESULT* pResult)
 {
-	switch(pNMPGCalcSize->dwFlag)
-    {
-	case PGF_CALCWIDTH:
-		pNMPGCalcSize->iWidth = m_nWidth;
-		break;
-		
-	case PGF_CALCHEIGHT:
-		pNMPGCalcSize->iHeight = m_nHeight;
-        break;
-	}
-	
     *pResult = 0;
 	return FALSE;	// Let parent handle message
 }
 
-BOOL CCJPagerCtrl::OnPagerScroll(NMPGSCROLL* /*pNMPGScroll*/, LRESULT* pResult)
+BOOL CCJPagerCtrl::OnPagerScroll(NMHDR* /*pNMPGScroll*/, LRESULT* pResult)
 {
     *pResult = 0;
 	return FALSE;	// Let parent handle message

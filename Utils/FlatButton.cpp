@@ -47,7 +47,7 @@ BEGIN_MESSAGE_MAP(CFlatButton, CButton)
 	ON_WM_KEYDOWN()
 	//}}AFX_MSG_MAP
   ON_WM_MOUSEMOVE()
-//  ON_WM_TIMER()
+  ON_WM_TIMER()
   ON_WM_KILLFOCUS()
 END_MESSAGE_MAP()
 
@@ -155,7 +155,7 @@ BOOL CFlatButton::GetShowText()
 } // End of GetShowText
 
 
-void CFlatButton::OnTimer(UINT nIDEvent) 
+void CFlatButton::OnTimer(UINT_PTR nIDEvent) 
 {
 	CRect rcItem;
 	GetWindowRect(rcItem);

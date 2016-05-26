@@ -164,7 +164,7 @@ protected:
 	afx_msg void OnDeleteitem(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
-	afx_msg long OnShellNotify(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnShellNotify(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 };

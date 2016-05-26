@@ -306,7 +306,7 @@ BEGIN_MESSAGE_MAP(CCJControlBar, CControlBar)
 	ON_WM_MOUSEMOVE()
 	ON_WM_SETCURSOR()
 	ON_WM_LBUTTONUP()
-//	ON_WM_NCHITTEST()
+	ON_WM_NCHITTEST()
 	ON_WM_CREATE()
 	ON_WM_WINDOWPOSCHANGED()
 	ON_WM_LBUTTONDOWN()
@@ -537,7 +537,7 @@ void CCJControlBar::OnPaint()
 	CBitmap* pOldBitmap = memDC.SelectObject(&bitmap);
 
 	// repaint the background.
-//	memDC.FillSolidRect( rcClient, afxData.clrBtnFace );
+	memDC.FillSolidRect( rcClient, afxData.clrBtnFace );
 	DrawBorders(&memDC, rcClient);
 
 	// draw a border around the child area.
@@ -690,7 +690,7 @@ void CCJControlBar::OnLButtonUp(UINT nFlags, CPoint point)
     }
 }
 
-UINT CCJControlBar::OnNcHitTest(CPoint /*point*/)
+LRESULT CCJControlBar::OnNcHitTest(CPoint /*point*/)
 {
 	return HTCLIENT;
 }

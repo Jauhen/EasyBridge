@@ -141,9 +141,9 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnPaint();
 	//}}AFX_MSG
-    afx_msg LONG OnSelEndOK(UINT lParam, LONG wParam);
-    afx_msg LONG OnSelEndCancel(UINT lParam, LONG wParam);
-    afx_msg LONG OnSelChange(UINT lParam, LONG wParam);
+    afx_msg LRESULT OnSelEndOK(WPARAM lParam, LPARAM wParam);
+    afx_msg LRESULT OnSelEndCancel(WPARAM lParam, LPARAM wParam);
+    afx_msg LRESULT OnSelChange(WPARAM lParam, LPARAM wParam);
 
     DECLARE_MESSAGE_MAP()
 };

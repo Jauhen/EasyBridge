@@ -58,7 +58,7 @@ void CGIBDialog::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CGIBDialog, CDialog)
 	//{{AFX_MSG_MAP(CGIBDialog)
 	ON_WM_CLOSE()
-//	ON_WM_TIMER()
+	ON_WM_TIMER()
 	ON_WM_SHOWWINDOW()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -94,7 +94,7 @@ void CGIBDialog::WaitForDialogInit()
 
 
 //
-void CGIBDialog::OnTimer(UINT nIDEvent) 
+void CGIBDialog::OnTimer(UINT_PTR nIDEvent) 
 {
 /*
 	// check for messages

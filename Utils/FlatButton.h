@@ -85,7 +85,7 @@ protected:
 	virtual void PreSubclassWindow();
     //{{AFX_MSG(CFlatButton)
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
-	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	//}}AFX_MSG
 
 	DECLARE_MESSAGE_MAP()

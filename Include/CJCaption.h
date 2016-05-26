@@ -224,8 +224,8 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	//}}AFX_MSG
 	afx_msg void OnCaptButton();
-	afx_msg void OnPushPinButton(UINT lParam, LONG wParam);
-	afx_msg void OnPushPinCancel(UINT lParam, LONG wParam);
+	afx_msg LRESULT OnPushPinButton(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnPushPinCancel(WPARAM wParam, LPARAM lParam);
 
 	DECLARE_MESSAGE_MAP()
 };

@@ -1837,7 +1837,7 @@ void CCJToolBar::GetButtonText(int nIndex, CString& rString) const
 
 BEGIN_MESSAGE_MAP(CCJToolBar, CCJToolBarBase)
 	//{{AFX_MSG_MAP(CCJToolBar)
-//	ON_WM_NCHITTEST()
+	ON_WM_NCHITTEST()
 	ON_WM_NCPAINT()
 	ON_WM_PAINT()
 	ON_WM_NCCALCSIZE()
@@ -1874,7 +1874,7 @@ BOOL CCJToolBar::OnEraseBkgnd(CDC*)
 	return (BOOL)Default();
 }
 
-UINT CCJToolBar::OnNcHitTest(CPoint)
+LRESULT CCJToolBar::OnNcHitTest(CPoint)
 {
 	return HTCLIENT;
 }

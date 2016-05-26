@@ -270,7 +270,7 @@ DWORD CCJDateTimeCtrl::GetRange(CTime* pMinTime, CTime* pMaxTime) const
 	SYSTEMTIME sysTimes[2];
 	memset(sysTimes, 0, sizeof(sysTimes));
 
-	DWORD dwResult = ::SendMessage(m_hWnd, DTM_GETRANGE, 0, (LPARAM) &sysTimes);
+	LRESULT dwResult = ::SendMessage(m_hWnd, DTM_GETRANGE, 0, (LPARAM) &sysTimes);
 
 	if (pMinTime != NULL)
 	{
@@ -296,7 +296,7 @@ DWORD CCJDateTimeCtrl::GetRange(COleDateTime* pMinTime,
 	SYSTEMTIME sysTimes[2];
 	memset(sysTimes, 0, sizeof(sysTimes));
 
-	DWORD dwResult = ::SendMessage(m_hWnd, DTM_GETRANGE, 0, (LPARAM) &sysTimes);
+	LRESULT dwResult = ::SendMessage(m_hWnd, DTM_GETRANGE, 0, (LPARAM) &sysTimes);
 	if (pMinTime != NULL)
 	{
 		if (dwResult & GDTR_MIN)
@@ -1046,90 +1046,86 @@ void AFXAPI DDV_CJMinMaxDateTime(CDataExchange* pDX, CTime& refValue,
 {
 	ASSERT(pMinRange == NULL || pMaxRange == NULL || *pMinRange <= *pMaxRange);
 
-//	CCJDateTimeCtrl* pWnd =
-//		(CCJDateTimeCtrl*) CWnd::FromHandle(pDX->m_hWndLastControl);
-//
-//	if (!pDX->m_bSaveAndValidate)
-//	{
-//		if ( (pMinRange != NULL && *pMinRange > refValue) ||
-//			  (pMaxRange != NULL && *pMaxRange < refValue))
-//		{
-//#ifdef _DEBUG
-//			int nIDC = GetWindowLong(pDX->m_hWndLastControl, GWL_ID);
-//			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
-//#endif
-//			return;     // don't stop now
-//		}
-//	}
-//
-//	pWnd->SetRange(pMinRange, pMaxRange);
+	CCJDateTimeCtrl* pWnd = (CCJDateTimeCtrl*) pDX->m_pDlgWnd;
+
+	if (!pDX->m_bSaveAndValidate)
+	{
+		if ( (pMinRange != NULL && *pMinRange > refValue) ||
+			  (pMaxRange != NULL && *pMaxRange < refValue))
+		{
+#ifdef _DEBUG
+			int nIDC = pDX->m_idLastControl;
+			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
+#endif
+			return;     // don't stop now
+		}
+	}
+
+	pWnd->SetRange(pMinRange, pMaxRange);
 }
 
 void AFXAPI DDV_CJMinMaxDateTime(CDataExchange* pDX,  COleDateTime& refValue,
 	const COleDateTime* pMinRange, const COleDateTime* pMaxRange)
 {
 	ASSERT(pMinRange == NULL || pMaxRange == NULL || *pMinRange <= *pMaxRange);
-	//CCJDateTimeCtrl* pWnd =
-	//	(CCJDateTimeCtrl*) CWnd::FromHandle(pDX->m_hWndLastControl);
+	CCJDateTimeCtrl* pWnd = (CCJDateTimeCtrl*) pDX->m_pDlgWnd;
 
-	//if (!pDX->m_bSaveAndValidate)
-	//{
-	//	if ( (pMinRange != NULL && *pMinRange > refValue) ||
-	//		  (pMaxRange != NULL && *pMaxRange < refValue))
-	//	{
-	//		int nIDC = GetWindowLong(pDX->m_hWndLastControl, GWL_ID);
-	//		TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
-	//		return;     // don't stop now
-	//	}
-	//}
+	if (!pDX->m_bSaveAndValidate)
+	{
+		if ( (pMinRange != NULL && *pMinRange > refValue) ||
+			  (pMaxRange != NULL && *pMaxRange < refValue))
+		{
+			int nIDC = pDX->m_idLastControl;
+			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
+			return;     // don't stop now
+		}
+	}
 
-	//pWnd->SetRange(pMinRange, pMaxRange);
+	pWnd->SetRange(pMinRange, pMaxRange);
 }
 
 void AFXAPI DDV_CJMinMaxMonth(CDataExchange* pDX, CTime& refValue,
 	const CTime* pMinRange, const CTime* pMaxRange)
 {
 	ASSERT(pMinRange == NULL || pMaxRange == NULL || *pMinRange <= *pMaxRange);
-//	CCJMonthCalCtrl* pWnd =
-//		(CCJMonthCalCtrl*) CWnd::FromHandle(pDX->m_hWndLastControl);
-//
-//	if (!pDX->m_bSaveAndValidate)
-//	{
-//		if ( (pMinRange != NULL && *pMinRange > refValue) ||
-//			  (pMaxRange != NULL && *pMaxRange < refValue))
-//		{
-//#ifdef _DEBUG
-//			int nIDC = GetWindowLong(pDX->m_hWndLastControl, GWL_ID);
-//			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
-//#endif
-//			return;     // don't stop now
-//		}
-//	}
-//
-//	pWnd->SetRange(pMinRange, pMaxRange);
+	CCJMonthCalCtrl* pWnd = (CCJMonthCalCtrl*) pDX->m_pDlgWnd;
+
+	if (!pDX->m_bSaveAndValidate)
+	{
+		if ( (pMinRange != NULL && *pMinRange > refValue) ||
+			  (pMaxRange != NULL && *pMaxRange < refValue))
+		{
+#ifdef _DEBUG
+			int nIDC = pDX->m_idLastControl;
+			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
+#endif
+			return;     // don't stop now
+		}
+	}
+
+	pWnd->SetRange(pMinRange, pMaxRange);
 }
 
 void AFXAPI DDV_CJMinMaxMonth(CDataExchange* pDX, COleDateTime& refValue,
 	const COleDateTime* pMinRange, const COleDateTime* pMaxRange)
 {
 	ASSERT(pMinRange == NULL || pMaxRange == NULL || *pMinRange <= *pMaxRange);
-//	CCJMonthCalCtrl* pWnd =
-//		(CCJMonthCalCtrl*) CWnd::FromHandle(pDX->m_hWndLastControl);
-//
-//	if (!pDX->m_bSaveAndValidate)
-//	{
-//		if ( (pMinRange != NULL && *pMinRange > refValue) ||
-//			  (pMaxRange != NULL && *pMaxRange < refValue))
-//		{
-//#ifdef _DEBUG
-//			int nIDC = GetWindowLong(pDX->m_hWndLastControl, GWL_ID);
-//			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
-//#endif
-//			return;     // don't stop now
-//		}
-//	}
-//
-//	pWnd->SetRange(pMinRange, pMaxRange);
+	CCJMonthCalCtrl* pWnd = (CCJMonthCalCtrl*) pDX->m_pDlgWnd;
+
+	if (!pDX->m_bSaveAndValidate)
+	{
+		if ( (pMinRange != NULL && *pMinRange > refValue) ||
+			  (pMaxRange != NULL && *pMaxRange < refValue))
+		{
+#ifdef _DEBUG
+			int nIDC = pDX->m_idLastControl;
+			TRACE1("Warning: initial dialog data is out of range in control ID %d.\n", nIDC);
+#endif
+			return;     // don't stop now
+		}
+	}
+
+	pWnd->SetRange(pMinRange, pMaxRange);
 }
 
 /////////////////////////////////////////////////////////////////////////////

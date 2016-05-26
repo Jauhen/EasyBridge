@@ -261,7 +261,7 @@ BEGIN_MESSAGE_MAP(CCJColorPopup, CWnd)
     ON_WM_QUERYNEWPALETTE()
     ON_WM_PALETTECHANGED()
 	ON_WM_KILLFOCUS()
-//	ON_WM_ACTIVATEAPP()
+	ON_WM_ACTIVATEAPP()
 	ON_WM_ERASEBKGND()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -951,9 +951,9 @@ void CCJColorPopup::OnKillFocus(CWnd* pNewWnd)
 }
 
 // KillFocus problem fix suggested by Paul Wilkerson.
-void CCJColorPopup::OnActivateApp(BOOL bActive, HTASK hTask) 
+void CCJColorPopup::OnActivateApp(BOOL bActive, DWORD hTask) 
 {
-	CWnd::OnActivateApp(bActive, (DWORD)hTask);
+	CWnd::OnActivateApp(bActive, hTask);
 
 	// If Deactivating App, cancel this selection
 	if (!bActive)

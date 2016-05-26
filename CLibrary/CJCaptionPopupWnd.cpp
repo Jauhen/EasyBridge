@@ -79,7 +79,7 @@ BEGIN_MESSAGE_MAP(CCJCaptionPopupWnd, CWnd)
 	ON_WM_DESTROY()
 	ON_BN_CLICKED(IDC_CAPT_BUTTON, OnCaptButton)
 	ON_WM_PAINT()
-//	ON_WM_TIMER()
+	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -191,7 +191,7 @@ void CCJCaptionPopupWnd::OnPaint()
 		::GetSysColor(COLOR_BTNHILIGHT));
 }
 
-void CCJCaptionPopupWnd::OnTimer(UINT nIDEvent) 
+void CCJCaptionPopupWnd::OnTimer(UINT_PTR nIDEvent) 
 {
 	UNUSED_ALWAYS( nIDEvent );
 

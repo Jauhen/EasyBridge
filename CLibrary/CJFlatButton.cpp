@@ -173,7 +173,7 @@ BEGIN_MESSAGE_MAP(CCJFlatButton, CButton)
 	ON_WM_MOUSEMOVE()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
-//	ON_WM_TIMER()
+	ON_WM_TIMER()
 	ON_WM_SYSCOLORCHANGE()
 	ON_WM_SETCURSOR()
 	ON_WM_LBUTTONDBLCLK()
@@ -208,7 +208,7 @@ void CCJFlatButton::OnLButtonUp(UINT nFlags, CPoint point)
 	CButton::OnLButtonUp(nFlags, point);
 }
 
-void CCJFlatButton::OnTimer(UINT nIDEvent) 
+void CCJFlatButton::OnTimer(UINT_PTR nIDEvent) 
 {
 	CRect rcItem;
 	GetWindowRect(rcItem);

@@ -225,8 +225,8 @@ BEGIN_MESSAGE_MAP(CCJCaption, CStatic)
 	ON_WM_ERASEBKGND()
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_CAPT_BUTTON, OnCaptButton)
-//	ON_MESSAGE(CM_ONPUSHPINBUTTON, OnPushPinButton)
-//	ON_MESSAGE(CM_ONPUSHPINCANCEL, OnPushPinCancel)
+	ON_MESSAGE(CM_ONPUSHPINBUTTON, OnPushPinButton)
+	ON_MESSAGE(CM_ONPUSHPINCANCEL, OnPushPinCancel)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -482,7 +482,7 @@ void CCJCaption::OnCaptButton()
 	m_CaptionButton.SetState(TRUE);
 }
 
-void CCJCaption::OnPushPinButton(UINT lParam, LONG wParam)
+LRESULT CCJCaption::OnPushPinButton(WPARAM wParam, LPARAM lParam)
 {
 	UNUSED_ALWAYS( lParam );
 	UNUSED_ALWAYS( wParam );
@@ -495,9 +495,11 @@ void CCJCaption::OnPushPinButton(UINT lParam, LONG wParam)
 	}
 	m_pChildWnd->MoveWindow(m_rcChild);
 	Invalidate();
+
+	return 0;
 }
 
-void CCJCaption::OnPushPinCancel(UINT lParam, LONG wParam)
+LRESULT CCJCaption::OnPushPinCancel(WPARAM wParam, LPARAM lParam)
 {
 	UNUSED_ALWAYS( lParam );
 	UNUSED_ALWAYS( wParam );
@@ -508,6 +510,8 @@ void CCJCaption::OnPushPinCancel(UINT lParam, LONG wParam)
 	_delete( m_pWndPopDown );
 	
 	m_pNotifyWnd->SendMessage(CM_ONPUSHPINCANCEL, 0, 0);
+
+	return 0;
 }
 
 void CCJCaption::UpdateCaption(LPCTSTR lpszWindowText, HICON hIcon)

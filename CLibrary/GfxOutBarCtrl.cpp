@@ -130,7 +130,7 @@ CGfxOutBarCtrl::~CGfxOutBarCtrl()
 BEGIN_MESSAGE_MAP(CGfxOutBarCtrl, CWnd)
 	//{{AFX_MSG_MAP(CGfxOutBarCtrl)
 	ON_WM_CREATE()
-//	ON_WM_TIMER()
+	ON_WM_TIMER()
 	ON_WM_PAINT()
 	ON_WM_ERASEBKGND()
 	ON_WM_MOUSEMOVE()
@@ -148,14 +148,14 @@ BEGIN_MESSAGE_MAP(CGfxOutBarCtrl, CWnd)
 	ON_UPDATE_COMMAND_UI(ID_GFX_RENAMEITEM, OnUpdateGfxRenameitem)
 	ON_WM_SYSCOLORCHANGE()
 	//}}AFX_MSG_MAP
-//	ON_MESSAGE(WM_OUTBAR_NOTIFY, OnEndLabelEdit)
+	ON_MESSAGE(WM_OUTBAR_NOTIFY, OnEndLabelEdit)
 END_MESSAGE_MAP()
 
 
 /////////////////////////////////////////////////////////////////////////////
 // CGfxOutBarCtrl message handlers
 
-long CGfxOutBarCtrl::OnEndLabelEdit(WPARAM wParam, LPARAM lParam)
+LRESULT CGfxOutBarCtrl::OnEndLabelEdit(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == NM_OB_ONGROUPENDEDIT)
 	{
@@ -295,7 +295,7 @@ int CGfxOutBarCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void CGfxOutBarCtrl::OnTimer(UINT nIDEvent) 
+void CGfxOutBarCtrl::OnTimer(UINT_PTR nIDEvent) 
 {
 	if (nIDEvent == 1)
 	{

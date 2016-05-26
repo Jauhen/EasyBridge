@@ -111,7 +111,7 @@ BEGIN_MESSAGE_MAP(CCJOutlookBar, CListBox)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
-//	ON_WM_TIMER()
+	ON_WM_TIMER()
 	ON_WM_PAINT()
 	ON_WM_SYSCOLORCHANGE()
 	//}}AFX_MSG_MAP
@@ -150,7 +150,7 @@ void CCJOutlookBar::OnLButtonUp(UINT nFlags, CPoint point)
 }
 
 // Sets the hilite flag based on cursor position.
-void CCJOutlookBar::OnTimer(UINT /*nIDEvent*/) 
+void CCJOutlookBar::OnTimer(UINT_PTR /*nIDEvent*/) 
 {
     BOOL   bOutSide;
     CRect  rItem;

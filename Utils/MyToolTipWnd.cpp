@@ -36,7 +36,7 @@ CMyToolTipWnd::~CMyToolTipWnd()
 BEGIN_MESSAGE_MAP(CMyToolTipWnd, CWnd)
 	//{{AFX_MSG_MAP(CMyToolTipWnd)
 	ON_WM_PAINT()
-//	ON_WM_TIMER()
+	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -102,7 +102,7 @@ BOOL CMyToolTipWnd::SetText(LPCTSTR szText, CPoint* pPoint)
 
 
 //
-void CMyToolTipWnd::OnTimer(UINT nIDEvent) 
+void CMyToolTipWnd::OnTimer(UINT_PTR nIDEvent) 
 {
 	// turn off if no longer in rect
 	CPoint pt;
