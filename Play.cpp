@@ -257,7 +257,8 @@ BOOL CPlay::IsPlayUsable(const CCombinedHoldings& combinedHand, const CPlayEngin
 		for(int i=0;i<m_pPrerequisiteList->GetSize();i++)
 		{
 			CPlay* pPlay = m_pPrerequisiteList->GetAt(i);
-			for(int j=0;j<numUsedPlays;j++)
+			int j = 0;
+			for(j=0;j<numUsedPlays;j++)
 			{
 				CPlay* pUsedPlay = usedPlays[j];
 				if (pPlay == pUsedPlay)

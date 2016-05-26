@@ -279,7 +279,7 @@ CCJControlBar::CCJControlBar()
 	m_eAuxIndex			= HIDE_CONTRLBAR;
 	m_hIcon				= NULL;
 	m_hAuxIcon			= NULL;
-	m_eChildBorder		= NONE;
+	m_eChildBorder		= NONE_BORDER;
 	m_nID				= 0;
 	m_bFloating			= FALSE;
 	m_nBarID			= 0;
@@ -306,7 +306,7 @@ BEGIN_MESSAGE_MAP(CCJControlBar, CControlBar)
 	ON_WM_MOUSEMOVE()
 	ON_WM_SETCURSOR()
 	ON_WM_LBUTTONUP()
-	ON_WM_NCHITTEST()
+//	ON_WM_NCHITTEST()
 	ON_WM_CREATE()
 	ON_WM_WINDOWPOSCHANGED()
 	ON_WM_LBUTTONDOWN()
@@ -537,11 +537,11 @@ void CCJControlBar::OnPaint()
 	CBitmap* pOldBitmap = memDC.SelectObject(&bitmap);
 
 	// repaint the background.
-	memDC.FillSolidRect( rcClient, afxData.clrBtnFace );
+//	memDC.FillSolidRect( rcClient, afxData.clrBtnFace );
 	DrawBorders(&memDC, rcClient);
 
 	// draw a border around the child area.
-	if( m_eChildBorder != NONE )
+	if( m_eChildBorder != NONE_BORDER)
 	{
 		CRect rect;
 		GetChildRect(rect);
@@ -1378,6 +1378,11 @@ void CCJControlBar::OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMen
 			CCJMenu::UpdateMenu(pPopupMenu);
 		}
 	}
+}
+
+void CCJControlBar::SaveBarState(CSize& siz)
+{
+	CCJControlBar::SaveBarState();
 }
 
 void CCJControlBar::SaveBarState()

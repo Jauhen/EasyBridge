@@ -200,7 +200,7 @@ typedef enum { HIDE_CONTRLBAR,
 	NORM_H_DISABLE, NORM_H_ENABLED, NORM_V_DISABLE, NORM_V_ENABLED
 } BTN_IMG_INDEX;
 
-typedef enum { BORDER_NONE, OUTLINE, SUNKEN, RAISED } CHILD_BORDER;
+typedef enum { NONE_BORDER, OUTLINE, SUNKEN, RAISED } CHILD_BORDER;
 
 // CCJControlBar is a CControlBar derived class which is simular to
 // the sizing / docking windows that are seen in Developer Studio.
@@ -230,6 +230,14 @@ public:
 	
 	CHILD_BORDER	m_eChildBorder;			// determines if a border should be drawn around the child area.
 
+	CSize			m_sizeDesired;			// the desired size of the control bar.
+	CSize			m_sizeNormal;			// normal size of the control bar.
+    CSize           m_sizeVert;				// vertical size
+    CSize           m_sizeHorz;				// horizontal size
+    CSize           m_sizeFloat;			// float size
+
+	BOOL			m_bMaximized;			// used to determine if the control bar has
+											// been maximized.
 protected:			
 
 	int				m_cxOffset;				// used to offset the horizontal client area
@@ -252,9 +260,6 @@ protected:
 	BOOL			m_bOkToDrag;			// used to determine if a drag operation
 											// should occur.
 
-	BOOL			m_bMaximized;			// used to determine if the control bar has
-											// been maximized.
-
 	BOOL			m_bDragging;			// set to TRUE when a drag operation is in
 											// process.
 
@@ -263,11 +268,6 @@ protected:
 											// control bar should display buttons.
 
 	CRect			m_rcTrack;				// used to determine rect of the tracker window.
-	CSize			m_sizeDesired;			// the desired size of the control bar.
-	CSize			m_sizeNormal;			// normal size of the control bar.
-    CSize           m_sizeVert;				// vertical size
-    CSize           m_sizeHorz;				// horizontal size
-    CSize           m_sizeFloat;			// float size
 	CPoint			m_ptCurDrag;			// cursor location during a drag operation.
 	CPoint			m_ptStartDrag;			// cursor starting point during a drag operation.
 	
@@ -293,6 +293,7 @@ protected:
 	HICON			m_hAuxIcon;				// handle to auxiliary button icon.
 	int				m_nID;					// holds the resource id for this control.
 	BOOL			m_bFloating;			// true if the control bar was floating when last destroyed.
+	UINT			m_nBarID;				// dock sizebar
 
 public:
 
@@ -480,7 +481,8 @@ protected:
 
 	virtual void LoadBarState(CSize& size, int nID);
 
-	virtual void SaveBarState(CSize& size);
+	virtual void SaveBarState(CSize& siz);
+	virtual void SaveBarState();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -512,6 +514,7 @@ protected:
 	afx_msg LRESULT OnMenuChar(UINT nChar, UINT nFlags, CMenu* pMenu);
 	afx_msg void OnInitMenuPopup(CMenu* pPopupMenu, UINT nIndex, BOOL bSysMenu);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnDestroy();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

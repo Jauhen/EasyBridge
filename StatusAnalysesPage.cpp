@@ -300,7 +300,7 @@ void CStatusAnalysesPage::OnSize(UINT nType, int cx, int cy)
 		int nCurrY = nY + m_nLabelHeight;
 		int nBtnHeight = nPanelHeight / 5;
 		//
-		for(i=0;i<5;i++)
+		for(int i=0;i<5;i++)
 		{
 			CButton* pButton = (CButton*) GetDlgItem(IDC_WEST+i);
 			pButton->MoveWindow(nX, nCurrY, tnButtonWidth, nBtnHeight);
@@ -310,7 +310,7 @@ void CStatusAnalysesPage::OnSize(UINT nType, int cx, int cy)
 
 		// relocate the edit controls & labels
 		CRect rect;
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			CStatic* pLabel = (CStatic*) GetDlgItem(IDC_LABEL_WEST+i);
 			if (((CButton*)GetDlgItem(IDC_WEST+i))->GetCheck())
@@ -362,7 +362,7 @@ void CStatusAnalysesPage::OnSize(UINT nType, int cx, int cy)
 		int nCurrX = nX;
 		int nBtnWidth = rectClient.Width() / 5;
 		//
-		for(i=0;i<5;i++)
+		for(int i=0;i<5;i++)
 		{
 			CButton* pButton = (CButton*) GetDlgItem(IDC_WEST+i);
 			pButton->MoveWindow(nCurrX, nY, nBtnWidth, tnButtonHeight);
@@ -372,7 +372,7 @@ void CStatusAnalysesPage::OnSize(UINT nType, int cx, int cy)
 
 		// relocate the edit controls & labels
 		CRect rect;
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			CStatic* pLabel = (CStatic*) GetDlgItem(IDC_LABEL_WEST+i);
 			if (((CButton*)GetDlgItem(IDC_WEST+i))->GetCheck())

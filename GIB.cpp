@@ -523,7 +523,7 @@ BOOL CGIB::CreateGIBInputFile(CFile& file, CPlayer* pPlayer, CHandHoldings* pHan
 	// and enter any plays so far
 	strInput.Empty();
 	int numCardsPlayed = pDoc->GetNumCardsPlayedInGame();
-	for(i=1;i<numCardsPlayed;i++)
+	for(int i=1;i<numCardsPlayed;i++)
 	{
 		strInput += CardToShortString(pDoc->GetPlayRecord(i));
 		strInput += ' ';

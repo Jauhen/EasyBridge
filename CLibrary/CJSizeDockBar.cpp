@@ -135,7 +135,7 @@ BEGIN_MESSAGE_MAP(CCJSizeDockBar, CDockBar)
 	ON_WM_NCPAINT()
 	ON_WM_NCCALCSIZE()
 	ON_WM_SETCURSOR()
-	ON_WM_NCHITTEST()
+//	ON_WM_NCHITTEST()
 	ON_WM_NCLBUTTONDOWN()
 	ON_WM_LBUTTONUP()
 	ON_WM_MOUSEMOVE()
@@ -734,7 +734,7 @@ void CCJSizeDockBar::Maximize(CCJControlBar* pBar)
 	//do not care too much about flickering when maximizing controlbars
 	CalcSizeBarLayout();
 	
-	for (i=0; i<m_arrBars.GetSize(); ++i)
+	for (int i=0; i<m_arrBars.GetSize(); ++i)
 	{
 		CCJControlBar *pBarDock = (CCJControlBar *)GetDockedControlBar(i);
 		if (pBarDock && pBarDock->IsVisible() ) {
@@ -781,7 +781,7 @@ void CCJSizeDockBar::Normalize(CCJControlBar *)
 	
 	CalcSizeBarLayout();
 	
-	for (i=0; i<m_arrBars.GetSize(); ++i)
+	for (int i=0; i<m_arrBars.GetSize(); ++i)
 	{
 		CCJControlBar *pBarDock = (CCJControlBar *)GetDockedControlBar(i);
 		if (pBarDock && pBarDock->IsVisible() ) {

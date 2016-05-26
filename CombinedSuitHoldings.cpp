@@ -346,7 +346,7 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	for(int i=0;i<13;i++)
 		m_nMissingCards[i] = NONE;
 	//
-	for(i=ACE;i>=2;i--)
+	for(int i=ACE;i>=2;i--)
 	{
 		// a card is considered "outstanding" if it's not in our (combined)
 		// hand and has not been played yet
@@ -370,7 +370,7 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	int numWinners = m_nMaxLength;
 	int nTheirOffset = 0, nOurOffset = 0;
 	int numComparisons = m_nMaxLength;
-	for(i=0;i<numComparisons;i++)
+	for(int i=0;i<numComparisons;i++)
 	{
 		// see if there are outstanding cards matching up against this one
 		if (m_numOutstandingCards > i) 
@@ -409,7 +409,7 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	// determine declarer's & dummy's winners & losers
 	m_numDeclarerWinners = 0;
 	m_numDummyWinners = 0;
-	for(i=0;i<m_numWinners;i++)
+	for(int i=0;i<m_numWinners;i++)
 	{
 		m_winners << m_cards[i];
 		if (m_declarerCards.HasCard(m_cards[i]))
@@ -445,7 +445,7 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	//
 	m_numDeclarerTopCards = 0;
 	m_numDummyTopCards = 0;
-	for(i=0;i<m_numTopCards;i++)
+	for(int i=0;i<m_numTopCards;i++)
 	{
 		if (m_declarerCards.HasCard(m_cards[i]))
 			m_numDeclarerTopCards++;
@@ -455,7 +455,7 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 
 	// fill the losers lists
 	int nIndex = m_numWinners;
-	for(i=0;i<m_numLosers;i++,nIndex++)
+	for(int i=0;i<m_numLosers;i++,nIndex++)
 	{
 		m_losers << m_cards[nIndex];
 		if (m_declarerCards.HasCard(m_cards[nIndex]))
@@ -646,7 +646,7 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 	//
 	m_numDeclarerTopCards = 0;
 	m_numDummyTopCards = 0;
-	for(i=0;i<m_numTopCards;i++)
+	for(int i=0;i<m_numTopCards;i++)
 	{
 		if (m_declarerCards.HasCard(m_cards[i]))
 			m_numDeclarerTopCards++;
@@ -656,7 +656,7 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 
 	// fill the losers lists
 	int nIndex = m_numWinners;
-	for(i=0;i<m_numLosers;i++,nIndex++)
+	for(int i=0;i<m_numLosers;i++,nIndex++)
 	{
 		m_losers << m_cards[nIndex];
 		if (m_declarerCards.HasCard(m_cards[nIndex]))

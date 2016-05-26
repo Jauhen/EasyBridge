@@ -149,7 +149,7 @@ void CGameReviewDialog::Initialize(BOOL bRefresh)
 	UpdateData(FALSE);
 
 	// enable/disable all controls
-	for(i=0;i<tnumControls;i++)
+	for(int i=0;i<tnumControls;i++)
 		EnableControl(i, bEnable, TRUE);
 
 	// disable the back buttons

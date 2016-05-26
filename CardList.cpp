@@ -146,7 +146,8 @@ void CCardList::Add(CCard* pCard, const BOOL bSort)
 	{
 		// insert the card in its proper place
 		int nValue = pCard->GetDeckValue();
-		for (int i=0;i<m_numCards;i++)
+		int i = 0;
+		for (i=0;i<m_numCards;i++)
 		{
 			if (!m_bReverseSort)
 			{
@@ -264,7 +265,8 @@ CCard* CCardList::RemoveByIndex(const int nIndex)
 	// update count
 	m_numCards--;
 	// move other cards over
-	for(int i=nIndex;i<m_numCards;i++) 
+	int i = 0;
+	for(i=nIndex;i<m_numCards;i++) 
 		m_cards[i] = m_cards[i+1];
 	for(;i<MAXHOLDING;i++) 
 		m_cards[i] = NULL;
@@ -718,7 +720,7 @@ int CCardList::GetEquivalentCards(CCard* pCard, CCardList& cardList, const BOOL 
 	// then add lower cards
 	nVal = pCard->GetFaceValue() - 1;
 	nIndex = GetCardIndex(pCard) + 1;
-	for(i=nIndex;i<m_numCards;i++,nVal--)
+	for(int i=nIndex;i<m_numCards;i++,nVal--)
 	{
 		if (m_cards[i]->GetFaceValue() == nVal)
 			cardList << m_cards[i];
@@ -775,7 +777,8 @@ CCard* CCardList::GetHighestEquivalentCard(CCard* pCard)
 	// 
 	int nVal = pCard->GetFaceValue() + 1;
 	int nIndex = GetCardIndex(pCard) - 1;
-	for(int i=nIndex;i>=0;i--,nVal++)
+	int i = nIndex;
+	for(i=nIndex;i>=0;i--,nVal++)
 	{
 		if (m_cards[i]->GetFaceValue() != nVal)
 			break;
@@ -802,7 +805,8 @@ CCard* CCardList::GetLowestEquivalentCard(CCard* pCard)
 	//
 	int nVal = pCard->GetFaceValue() - 1;
 	int nIndex = GetCardIndex(pCard) + 1;
-	for(int i=nIndex;i<m_numCards;i++,nVal--)
+	int i = nIndex;
+	for(i=nIndex;i<m_numCards;i++,nVal--)
 	{
 		if (m_cards[i]->GetFaceValue() != nVal)
 			break;

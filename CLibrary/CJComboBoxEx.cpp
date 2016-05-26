@@ -62,7 +62,7 @@ BOOL CCJComboBoxEx::Create(DWORD dwStyle, const RECT& rect, CWnd* pParentWnd,
 	icex.dwICC = ICC_USEREX_CLASSES;
 	VERIFY(InitCommonControlsEx(&icex));
 #else
-	VERIFY(AfxDeferRegisterClass(AFX_WNDCOMMCTL_USEREX_REG));
+//	VERIFY(AfxDeferRegisterClass(AFX_WNDCOMMCTL_USEREX_REG));
 #endif
 
 	CWnd* pWnd = this;

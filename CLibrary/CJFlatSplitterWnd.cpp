@@ -102,32 +102,32 @@ void CCJFlatSplitterWnd::OnDrawSplitter(CDC* pDC, ESplitType nType,
 		switch (nType)
 		{
 		case splitBorder:
-			ASSERT(afxData.bWin4);
+//			ASSERT(afxData.bWin4);
 			pDC->Draw3dRect(rect, afxData.clrBtnFace, afxData.clrBtnFace);
-			rect.InflateRect(-CX_BORDER, -CY_BORDER);
+			rect.InflateRect(-afxData.cxBorder2, -afxData.cyBorder2);
 			pDC->Draw3dRect(rect, afxData.clrBtnShadow, afxData.clrBtnHilite);
 			return;
 
 		case splitIntersection:
-			ASSERT(!afxData.bWin4);
+	//		ASSERT(!afxData.bWin4);
 			break;
 
 		case splitBox:
-			if (afxData.bWin4)
-			{
-				pDC->Draw3dRect(rect, afxData.clrBtnFace, afxData.clrWindowFrame);
-				rect.InflateRect(-CX_BORDER, -CY_BORDER);
-				pDC->Draw3dRect(rect, afxData.clrBtnHilite, afxData.clrBtnShadow);
-				rect.InflateRect(-CX_BORDER, -CY_BORDER);
-				break;
-			}
+			//if (afxData.bWin4)
+			//{
+			//	pDC->Draw3dRect(rect, afxData.clrBtnFace, afxData.clrWindowFrame);
+			//	rect.InflateRect(-afxData.cxBorder2, -afxData.cyBorder2);
+			//	pDC->Draw3dRect(rect, afxData.clrBtnHilite, afxData.clrBtnShadow);
+			//	rect.InflateRect(-afxData.cxBorder2, -afxData.cyBorder2);
+			//	break;
+			//}
 			// fall through...
 		case splitBar:
-			if (!afxData.bWin4)
-			{
-				pDC->Draw3dRect(rect, afxData.clrBtnHilite, afxData.clrBtnShadow);
-				rect.InflateRect(-CX_BORDER, -CY_BORDER);
-			}
+			//if (!afxData.bWin4)
+			//{
+			//	pDC->Draw3dRect(rect, afxData.clrBtnHilite, afxData.clrBtnShadow);
+			//	rect.InflateRect(-CX_BORDER, -CY_BORDER);
+			//}
 			break;
 
 		default:

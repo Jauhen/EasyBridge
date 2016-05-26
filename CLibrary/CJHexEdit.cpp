@@ -271,7 +271,8 @@ void CCJHexEdit::OnPaint()
 				{
 					LPTSTR p = &buf[0];
 					
-					for(int	 n = 0; (n < m_bpr) && (i < m_length); n++)
+					int n = 0;
+					for(n = 0; (n < m_bpr) && (i < m_length); n++)
 					{
 						TOHEX(m_pData[i], p);
 						*p++ = ' ';
@@ -351,8 +352,9 @@ void CCJHexEdit::OnPaint()
 				for(int	 i = m_topindex; (i < m_length) && (rcd.TopLeft().y < height);)
 				{
 					LPTSTR p = &buf[0];
-					
-					for(int	 n = 0; (n < m_bpr) && (i < m_length); n++)
+
+					int n = 0;
+					for(n = 0; (n < m_bpr) && (i < m_length); n++)
 					{
 						*p++ = isprint(m_pData[i]) ? m_pData[i] : '.';
 						i++;
@@ -513,7 +515,7 @@ void CCJHexEdit::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 	if(!(nFlags & MK_SHIFT))
 	{
-		if(DragDetect(this->m_hWnd, point))
+		if(DragDetect(point))
 		{
 			m_selStart = m_currentAddress;
 			m_selEnd   = m_selStart;

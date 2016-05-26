@@ -12,6 +12,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
+#include "Defines.h"
 #include "docopts.h"
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
@@ -167,7 +168,7 @@ void CFileCommentsDialog::UpdateText(BOOL bUpdateVariable)
 		return;
 	} 
 	// else update window text display
-	pEdit->SetWindowText(pDOC->GetValueString(tstrFileComments));
+	//pEdit->SetWindowText(pDOC->GetValueString(tstrFileComments));
 	//
 	RECT rect;
 	pEdit->GetClientRect(&rect);
@@ -188,7 +189,7 @@ void CFileCommentsDialog::UpdateText(BOOL bUpdateVariable)
 		pEdit->LineScroll(nScrollCount);
 	}
 	//
-	m_bAutoShow = pDOC->GetValue(tbShowCommentsUponOpen);
+	//m_bAutoShow = pDOC->GetValue(tbShowCommentsUponOpen);
 	UpdateData(FALSE);
 }
 

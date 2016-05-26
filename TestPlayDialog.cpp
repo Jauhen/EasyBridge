@@ -108,7 +108,7 @@ BOOL CTestPlayDialog::OnInitDialog()
 //	wpOrigListCtrlProc = (WNDPROC) SetWindowLong(m_listResults.GetSafeHwnd(), GWL_WNDPROC, (LONG) ListCtrlSubclassProc);
 
 	// clear data
-	for(i=0;i<8;i++)
+	for(int i=0;i<8;i++)
 	{
 		for(int j=0;j<8;j++)
 		{

@@ -55,7 +55,7 @@ void CSplashWnd::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CSplashWnd, CDialog)
 	//{{AFX_MSG_MAP(CSplashWnd)
-	ON_WM_TIMER()
+//	ON_WM_TIMER()
 	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()

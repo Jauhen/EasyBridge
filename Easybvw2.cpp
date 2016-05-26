@@ -1280,7 +1280,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	if (nNorthBottom > m_drawPoint[WEST].y)
 		nVertDummyOffset = (nNorthBottom - m_drawPoint[WEST].y) + (bSmallCards? 8 : 10);
 	else
-		nVertDummyOffset = Max(m_drawPoint[WEST].y - nNorthBottom, 12);
+		nVertDummyOffset = Max<int>(m_drawPoint[WEST].y - nNorthBottom, 12);
 	m_dummyDrawOffset[WEST].y = m_dummyDrawOffset[EAST].y = nVertDummyOffset;
 	m_dummyDrawOffset[WEST].x = m_dummyDrawOffset[EAST].x =0;
 	//
@@ -1342,7 +1342,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	{
 		int numCards = pDOC->GetNumCardsPlayedInRound();
 		int nPos = pDOC->GetRoundLead();
-		for(i=0;i<numCards;i++) 
+		for(int i=0;i<numCards;i++) 
 		{
 			CCard* pCard = pDOC->GetCurrentTrickCard(nPos);
 			if (pCard)
@@ -1354,7 +1354,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	//
 	// and tricks display
 	//
-	for(i=0;i<2;i++)
+	for(int i=0;i<2;i++)
 	{
 		if (bSmallCards)
 		{

@@ -462,7 +462,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 	m_numMissingInternalHonors = 0;
 	m_numMissingBottomHonors = 0;
 	//
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		if (m_pSuit[i]->HasAce())
 			m_numAces++;
@@ -479,7 +479,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 
 	// mark indicators of how many suits have at least 
 	// x # of cards in them
-	for(i=13;i>=0;i--) 
+	for(int i=13;i>=0;i--) 
 	{
 		// first clear, then add up
 		m_numSuitsOfAtLeast[i] = 0;
@@ -498,7 +498,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 	m_strSuitsStopped.Empty();
 	m_strSuitsUnstopped.Empty();
 	//
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_nSuitsStopped[i] = NONE;
 		m_nSuitsProbStopped[i] = NONE;
@@ -506,7 +506,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 	}
 	
 	// count stoppers & quick tricks
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_numQuickTricks += m_pSuit[i]->GetNumQuickTricks();
 		if (m_pSuit[i]->IsSuitStopped())
@@ -810,7 +810,7 @@ void CCombinedHoldings::ReevaluateHoldings(const CCard* pCard)
 	for(int i=0;i<4;i++) 
 		m_nSuitsByLength[i] = 3-i;	// init, high suit to low suit
 	// 
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		for(int j=0;j<3;j++) 
 		{
@@ -832,7 +832,7 @@ void CCombinedHoldings::ReevaluateHoldings(const CCard* pCard)
 	m_numMaxWinners = 0;
 	m_numMaxTopCards = 0;
 	m_numMaxLikelyWinners = 0;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_numWinners += m_pSuit[i]->GetNumWinners();
 		m_numLikelyWinners += m_pSuit[i]->GetNumLikelyWinners();
@@ -854,7 +854,7 @@ void CCombinedHoldings::ReevaluateHoldings(const CCard* pCard)
 	m_numDummyWinners = 0;
 	m_numDeclarerTopCards = 0;
 	m_numDummyTopCards = 0;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_numDeclarerWinners += m_pSuit[i]->GetNumDeclarerWinners();
 		m_numDummyWinners += m_pSuit[i]->GetNumDummyWinners();

@@ -231,13 +231,13 @@ void CCJToolBarBase::DrawBorders(CDC* pDC, CRect& rect)
 		CRect rect1, rect2;
 		rect1 = rect;
 		rect2 = rect;
-		COLORREF clr = afxData.bWin4 ? afxData.clrBtnShadow : afxData.clrWindowFrame;
+		COLORREF clr = afxData.clrWindowFrame;
 		
 		// draw dark line one pixel back/up
 		if (dwStyle & CBRS_BORDER_3D)
 		{
-			rect1.right -= CX_BORDER;
-			rect1.bottom -= CY_BORDER;
+			rect1.right -= afxData.cxBorder2;
+			rect1.bottom -= afxData.cyBorder2;
 		}
 		if (dwStyle & CBRS_BORDER_TOP)
 			rect2.top += afxData.cyBorder2;
@@ -246,15 +246,15 @@ void CCJToolBarBase::DrawBorders(CDC* pDC, CRect& rect)
 		
 		// draw left and top
 		if (dwStyle & CBRS_BORDER_LEFT)
-			pDC->FillSolidRect(0, rect2.top, CX_BORDER, rect2.Height(), clr);
+			pDC->FillSolidRect(0, rect2.top, afxData.cxBorder2, rect2.Height(), clr);
 		if (dwStyle & CBRS_BORDER_TOP)
-			pDC->FillSolidRect(0, 0, rect.right, CY_BORDER, clr);
+			pDC->FillSolidRect(0, 0, rect.right, afxData.cyBorder2, clr);
 		
 		// draw right and bottom
 		if (dwStyle & CBRS_BORDER_RIGHT)
-			pDC->FillSolidRect(rect1.right, rect2.top, -CX_BORDER, rect2.Height(), clr);
+			pDC->FillSolidRect(rect1.right, rect2.top, -afxData.cxBorder2, rect2.Height(), clr);
 		if (dwStyle & CBRS_BORDER_BOTTOM)
-			pDC->FillSolidRect(0, rect1.bottom, rect.right, -CY_BORDER, clr);
+			pDC->FillSolidRect(0, rect1.bottom, rect.right, -afxData.cyBorder2, clr);
 		
 		if (dwStyle & CBRS_BORDER_3D)
 		{
@@ -263,15 +263,15 @@ void CCJToolBarBase::DrawBorders(CDC* pDC, CRect& rect)
 			
 			// draw left and top
 			if (dwStyle & CBRS_BORDER_LEFT)
-				pDC->FillSolidRect(1, rect2.top, CX_BORDER, rect2.Height(), clr);
+				pDC->FillSolidRect(1, rect2.top, afxData.cxBorder2, rect2.Height(), clr);
 			if (dwStyle & CBRS_BORDER_TOP)
-				pDC->FillSolidRect(0, 1, rect.right, CY_BORDER, clr);
+				pDC->FillSolidRect(0, 1, rect.right, afxData.cyBorder2, clr);
 			
 			// draw right and bottom
 			if (dwStyle & CBRS_BORDER_RIGHT)
-				pDC->FillSolidRect(rect.right, rect2.top, -CX_BORDER, rect2.Height(), clr);
+				pDC->FillSolidRect(rect.right, rect2.top, -afxData.cxBorder2, rect2.Height(), clr);
 			if (dwStyle & CBRS_BORDER_BOTTOM)
-				pDC->FillSolidRect(0, rect.bottom, rect.right, -CY_BORDER, clr);
+				pDC->FillSolidRect(0, rect.bottom, rect.right, -afxData.cyBorder2, clr);
 		}
 		
 		if (dwStyle & CBRS_BORDER_LEFT)

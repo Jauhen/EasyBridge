@@ -86,7 +86,9 @@
 #include <afxpriv.h>
 #endif
 
-#include <..\src\afximpl.h>
+#include <..\src\mfc\afximpl.h>
+
+#define GWL_WNDPROC (-4)
 
 #define _delete(p){if(p){delete p;p=NULL;}}
 #define _destroyIcon(h){if(h){::DestroyIcon(h);h=NULL;}}

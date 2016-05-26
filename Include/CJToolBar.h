@@ -301,7 +301,7 @@ public:
 	virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
 	virtual void OnBarStyleChange(DWORD dwOldStyle, DWORD dwNewStyle);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	virtual int OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
+	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 	virtual void GetItemRect(int nIndex, LPRECT lpRect) const;
 	//}}AFX_VIRTUAL
 

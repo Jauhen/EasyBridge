@@ -11,6 +11,7 @@
 #ifndef __STATUS_CARD_LOCATIONS__
 #define __STATUS_CARD_LOCATIONS__
 
+#define GWL_WNDPROC (-4)
 
 /////////////////////////////////////////////////////////////////////////////
 // CStatusCardLocationsPage dialog

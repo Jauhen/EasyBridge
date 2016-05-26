@@ -478,7 +478,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 // Rebidding as opener after a weak 2-level opening
 //
 //
-CWeakTwoBidsConvention::HandleConventionResponse(const CPlayer& player, 
+int CWeakTwoBidsConvention::HandleConventionResponse(const CPlayer& player, 
 									  			 const CConventionSet& conventions, 
 												 CHandHoldings& hand, 
 												 CCardLocation& cardLocation, 

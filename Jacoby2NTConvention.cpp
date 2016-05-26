@@ -164,7 +164,8 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 		{
 			// see if we have a strong side suit
 			int nSideSuit = NONE;
-			for(int i=0;i<4;i++)
+			int i = 0;
+			for(i=0;i<4;i++)
 			{
 				if ((i != nSuit) && (bidState.nSuitStrength[i] <= SS_STRONG) &&
 						(bidState.numCardsInSuit[i] >= 5))

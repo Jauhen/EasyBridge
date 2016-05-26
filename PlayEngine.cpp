@@ -104,7 +104,7 @@ void CPlayEngine::Clear()
 	//
 	m_nPrioritySuit = NONE;
 	m_nPartnersPrioritySuit = NONE;
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_nSuitPriorityList[4] = NONE;
 }
 
@@ -465,7 +465,8 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 						for(int i=0;i<4;i++)
 						{
 							// test each suit to see if it's in the list of know suits
-							for(int j=0;j<3;j++)
+							int j = 0;
+							for(j=0;j<3;j++)
 							{
 								if (nIdentifiedSuits[j] == i)
 									break;
@@ -1201,7 +1202,7 @@ int CPlayEngine::PickFinalDiscardSuit(CHandHoldings& hand)
 	// i.e., suits that we may not be able to cash
 	if (!ISSUIT(nDiscardSuit))
 	{
-		for(i=3;i>=0;i--)
+		for(int i=3;i>=0;i--)
 		{
 			int nSuit = hand.GetSuitsByPreference(i);
 			// see if we have cards in this suit, and no outstanding cards in the suit
@@ -1217,7 +1218,7 @@ int CPlayEngine::PickFinalDiscardSuit(CHandHoldings& hand)
 	// finally, give up and get any old suit that has cards
 	if (!ISSUIT(nDiscardSuit))
  	{
-		for(i=3;i>=0;i--)
+		for(int i=3;i>=0;i--)
 		{
 			int nSuit = hand.GetSuitsByPreference(i);
 			if (hand.GetNumCardsInSuit(nSuit) > 0)
@@ -1269,7 +1270,7 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 
 	// then remove the cards remaining in our own hand
 	CSuitHoldings& suit = m_pHand->GetSuit(nSuit);
-	for(i=0;i<suit.GetNumCards();i++)
+	for(int i=0;i<suit.GetNumCards();i++)
 		cardList.Remove(suit[i]);
 
 	// then remove the cards in dummy from the list

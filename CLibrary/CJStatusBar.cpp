@@ -284,7 +284,7 @@ void CCJStatusBar::RemovePane(int nPaneID)
 	
 	CArray<CCJStatusBarPane,CCJStatusBarPane> arPanes;
 	CCJStatusBarPane statusPane;
-	i = 0;
+	int i = 0;
 	while( GetStatusPane(i,statusPane) )
 	{
 		if( statusPane.m_nID != (UINT)nPaneID )

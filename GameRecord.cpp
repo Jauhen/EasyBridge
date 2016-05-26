@@ -91,7 +91,7 @@ CGameRecord::CGameRecord()
 			m_nHands[j][i] = NONE;
 		}
 	}
-	for(i=0;i<52;i++)
+	for(int i=0;i<52;i++)
 		m_nPlayRecord[i] = NONE;
 	m_numTricksWon[0] = m_numTricksWon[1] = 0;
 	//
@@ -222,7 +222,7 @@ bool CGameRecord::IsValid()
 	}
 
 	// check required non-empty tags
-	for(i=0;i<c_numNonEmptyTags;i++)
+	for(int i=0;i<c_numNonEmptyTags;i++)
 	{
 		CString strTag = tszTagName[c_nonEmptyTags[i]];
 		strTag.MakeUpper();

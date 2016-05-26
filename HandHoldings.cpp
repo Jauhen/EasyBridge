@@ -166,16 +166,16 @@ void CHandHoldings::ClearHand(BOOL bClearInitialHand)
 	m_numVoids = 0;
 	m_numSingletons = 0;
 	m_numDoubletons = 0;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_nVoidSuits[i] = NONE;
 		m_nSingletonSuits[i] = NONE;
 		m_nDoubletonSuits[i] = NONE;
 	}
-	for(i=0;i<=13;i++)
+	for(int i=0;i<=13;i++)
 		m_numSuitsOfAtLeast[i] = 0;
 	// clear analysis
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		m_bRevaluedForSuit[i] = FALSE;
 	//
 	m_bCardsExposed = FALSE;
@@ -360,7 +360,7 @@ void CHandHoldings::Sort()
 	}
 
 	// and then be sure to sort each of the suits individually
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		m_suit[i].Sort();
 
 	// and also sort the display hand
@@ -397,7 +397,7 @@ void CHandHoldings::CountCards()
 		m_suit[i].CountCards();
 	
 	// init
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_nVoidSuits[i] = NONE;
 		m_nSingletonSuits[i] = NONE;
@@ -411,7 +411,7 @@ void CHandHoldings::CountCards()
 	m_numSingletons = 0;
 	m_numDoubletons = 0;
 	//
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		if (m_suit[i].IsVoid())
 		{
@@ -436,7 +436,7 @@ void CHandHoldings::CountCards()
 	m_numQueens = 0;
 	m_numJacks = 0;
 	m_numTens = 0;
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		if (m_suit[i].HasAce())
 			m_numAces++;
@@ -452,7 +452,7 @@ void CHandHoldings::CountCards()
 
 	// mark indicators of how many suits have at least 
 	// x # of cards in them
-	for(i=13;i>=0;i--) 
+	for(int i=13;i>=0;i--) 
 	{
 		// clear and set
 		m_numSuitsOfAtLeast[i] = 0;
@@ -525,7 +525,7 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 
 	// determine balanced-ness of each suit & the overall hand
 	m_nBalanceValue = 0;
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		int numSuitCards = m_suit[i].GetNumCards();
 		if (numSuitCards < 3) 
@@ -547,7 +547,7 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 	m_strSuitsStopped.Empty();
 	m_strSuitsUnstopped.Empty();
 	//
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_nSuitsStopped[i] = NONE;
 		m_nSuitsProbStopped[i] = NONE;
@@ -555,7 +555,7 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 	}
 	
 	// count stoppers & quick tricks
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_numQuickTricks += m_suit[i].GetNumQuickTricks();
 		if (m_suit[i].IsSuitStopped())
@@ -629,9 +629,9 @@ void CHandHoldings::EvaluateHoldings()
 		m_nSolidSuitList[i] = NONE;
 		m_nSuitsByPreference[i] = NONE;
 	}
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_nSuitsByLength[4] = NONE;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		m_bRevaluedForSuit[i] = FALSE;
 
 	// clear hand analysis
@@ -673,7 +673,7 @@ void CHandHoldings::EvaluateHoldings()
 	//
 
 	// first evaluate the individual suits
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		m_suit[i].EvaluateHoldings();
 
 /*
@@ -696,10 +696,10 @@ void CHandHoldings::EvaluateHoldings()
 	//
 	// sort suits by length (and also by suit rank)
 	//
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		m_nSuitsByLength[i] = 3-i;	// init, high suit to low suit
 	// here's that ol', inefficient bubble sort again
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		for(int j=0;j<3;j++) 
 		{
@@ -718,7 +718,7 @@ void CHandHoldings::EvaluateHoldings()
 	//
 	// summarize info about the suit holdings 
 	//
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		if (m_suit[i].GetStrength() >= SS_MARGINAL_OPENER) 
 		{
@@ -773,7 +773,7 @@ void CHandHoldings::EvaluateHoldings()
 	// suit among the strong or openable suits
 	if (m_numPreferredSuits == 0) 
 	{
-		for(i=0;i<4;i++) 
+		for(int i=0;i<4;i++) 
 		{
 			if (m_suit[i].GetStrength() >= SS_STRONG) 
 			{
@@ -790,7 +790,7 @@ void CHandHoldings::EvaluateHoldings()
 	// now check the openable suits
 	if (m_numPreferredSuits == 0) 
 	{
-		for(i=0;i<4;i++) 
+		for(int i=0;i<4;i++) 
 		{
 			if (m_suit[i].GetStrength() == SS_OPENABLE) 
 			{
@@ -807,7 +807,7 @@ void CHandHoldings::EvaluateHoldings()
 	// and the marginal opener/strong support suits
 	if (m_numPreferredSuits == 0) 
 	{
-		for(i=0;i<4;i++) 
+		for(int i=0;i<4;i++) 
 		{
 			if (m_suit[i].GetStrength() == SS_MARGINAL_OPENER) 
 			{
@@ -832,7 +832,7 @@ void CHandHoldings::EvaluateHoldings()
 		int nLength = m_suit[m_nLongestSuit].GetLength();
 
 		// see if there are other suits with the same length
-		for(i=3;i>=0;i--)
+		for(int i=3;i>=0;i--)
 		{
 			if ((i == m_nLongestSuit) || (m_suit[i].GetLength() < nLength))
 				continue;
@@ -847,7 +847,7 @@ void CHandHoldings::EvaluateHoldings()
 	//
 	// test for solid suits
 	//
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		if (m_suit[i].IsSolid())
 		{
@@ -864,14 +864,14 @@ void CHandHoldings::EvaluateHoldings()
 	// now rank the suits in order of preference
 	//
 	m_nPreferredSuit = RankSuits(4,SP_LAST,CLUBS,DIAMONDS,HEARTS,SPADES,m_nSuitsByPreference);
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_suit[m_nSuitsByPreference[i]].SetRank(i);	
 
 	//
 	// and see which suits (if any) are rebiddable
 	//
 	m_numRebiddableSuits = 0;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		if (m_suit[i].IsRebiddable())
 			m_numRebiddableSuits++;
 
@@ -881,7 +881,7 @@ void CHandHoldings::EvaluateHoldings()
 	m_numWinners = 0;
 	m_numLikelyWinners = 0;
 	m_numTopCards = 0;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_numWinners += m_suit[i].GetNumWinners();
 		m_numLikelyWinners += m_suit[i].GetNumLikelyWinners();
@@ -908,7 +908,7 @@ void CHandHoldings::EvaluateHoldings()
 	{
 		int nCount = 0;
 		strTemp = "  Sure Stoppers in: ";
-		for(i=3;i>=0;i--) 
+		for(int i=3;i>=0;i--) 
 		{
 			if (m_suit[i].IsSuitStopped()) 
 			{
@@ -934,7 +934,7 @@ void CHandHoldings::EvaluateHoldings()
 	{
 		int nCount = 0;
 		strTemp = "  Probable Stoppers in: ";
-		for(i=3;i>=0;i--) 
+		for(int i=3;i>=0;i--) 
 		{
 			if ((m_suit[i].IsSuitProbablyStopped()) &&
 								(!m_suit[i].IsSuitStopped())) 
@@ -1006,7 +1006,7 @@ void CHandHoldings::EvaluateHoldings()
 		else 
 		{
 			strTemp = "Have powerful suits in ";
-			for(i=0;i<m_numAbsoluteSuits;i++) 
+			for(int i=0;i<m_numAbsoluteSuits;i++) 
 			{
 				strTemp += STS(m_nAbsoluteSuitList[i]);
 				if (i < m_numAbsoluteSuits-1)
@@ -1021,7 +1021,7 @@ void CHandHoldings::EvaluateHoldings()
 	// and if so, list them
 	int nStrongCount = 0;
 	int nStrong[5];
-	for(i=0;i<m_numStrongSuits;i++) 
+	for(int i=0;i<m_numStrongSuits;i++) 
 	{
 		if (!m_suit[m_nStrongSuitList[i]].IsAbsolute()) 
 		{
@@ -1039,7 +1039,7 @@ void CHandHoldings::EvaluateHoldings()
 		else 
 		{
 			strTemp = "Have strong suits in ";
-			for(i=0;i<nStrongCount;i++) 
+			for(int i=0;i<nStrongCount;i++) 
 			{
 				strTemp += STS(nStrong[i]);
 				if (i < nStrongCount-1)
@@ -1058,7 +1058,7 @@ void CHandHoldings::EvaluateHoldings()
 	{
 		// more than one preferred suit
 		strTemp = "Preferred suits are  ";
-		for(i=0;i<m_numPreferredSuits;i++) 
+		for(int i=0;i<m_numPreferredSuits;i++) 
 		{
 			strTemp += STS(m_nPreferredSuitList[i]);
 			if (i < m_numPreferredSuits-1)
@@ -1109,10 +1109,10 @@ void CHandHoldings::ReevaluateHoldings(const CCard* pCard)
 		m_suit[m_nSuitsByPreference[i]].SetRank(i);	
 
 	// then sort the suits by length
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		m_nSuitsByLength[i] = 3-i;	// init, high suit to low suit
 	// 
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		for(int j=0;j<3;j++) 
 		{
@@ -1134,7 +1134,7 @@ void CHandHoldings::ReevaluateHoldings(const CCard* pCard)
 	m_numWinners = 0;
 	m_numLikelyWinners = 0;
 	m_numTopCards = 0;
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 	{
 		m_numWinners += m_suit[i].GetNumWinners();
 		m_numLikelyWinners += m_suit[i].GetNumLikelyWinners();
@@ -1162,7 +1162,7 @@ void CHandHoldings::RestoreInitialHand()
 		m_suit[i].Clear();
 
 	// and restore the original ones
-	for(i=0;i<m_initialHand.GetNumCards();i++)
+	for(int i=0;i<m_initialHand.GetNumCards();i++)
 		Add(m_initialHand[i]);
 
 	// then re-initialize
@@ -1776,7 +1776,7 @@ CCard* CHandHoldings::GetDiscard()
 				// or else have no cards in them
 				// so just pick the shortest non-void, non-trump suit that has 
 				// at least one loser in it
-				for(i=3;i>=0;i--)
+				for(int i=3;i>=0;i--)
 				{
 					int nSuit = m_nSuitsByLength[i];
 					int nSuitLength = GetNumCardsInSuit(nSuit);
@@ -1838,7 +1838,7 @@ CCard* CHandHoldings::GetDiscard()
 			// if we failed above, try again
 			if (pDiscardSuit == NULL)
 			{
-				for(i=3;i>=0;i--)
+				for(int i=3;i>=0;i--)
 				{
 					nSuit = m_nSuitsByPreference[i];
 					if (m_suit[nSuit].GetNumCards() > 0)
@@ -1867,7 +1867,8 @@ CCard* CHandHoldings::GetDiscard()
 		{
 			// don't discard from this suit if possible;
 			// try the other suits in descending length
-			for(int i=1;i<4;i++)
+			int i = 1;
+			for(i=1;i<4;i++)
 			{
 				// in order of descending length, find a suit that has losers
 				nSuit = m_nSuitsByLength[i];
@@ -2201,10 +2202,10 @@ int CHandHoldings::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2,
 			m_nSuitsUnstopped[nIndex1] = nVal;
 			break;
 		case tstrSuitsStopped:
-			m_strSuitsStopped = nVal;
+			m_strSuitsStopped = (char)nVal;
 			break;
 		case tstrSuitsUnstopped:
-			m_strSuitsUnstopped = nVal;
+			m_strSuitsUnstopped = (char)nVal;
 			break;
 		//
 		case tnumRebiddableSuits:

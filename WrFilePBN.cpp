@@ -152,7 +152,7 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 	if (m_numBidsMade > 0)
 		strBids += "\r\n";
 	nPos = m_nDealer;
-	for(i=0;i<m_numBidsMade;i++)
+	for(int i=0;i<m_numBidsMade;i++)
 	{
 		strBids += FormString("%s ", ::BidToPBNString(m_nBiddingHistory[i]));
 		nPos = ::GetNextPlayer(nPos);
@@ -172,7 +172,7 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 	CString strPlays = FormString("[PLAY \"%c\"]", PositionToChar(m_nGameLead));
 	if (m_numTricksPlayed> 0)
 		strPlays += "\r\n";
-	for(i=0;i<m_numTricksPlayed;i++)
+	for(int i=0;i<m_numTricksPlayed;i++)
 	{
 		int nPos = m_nGameLead;
 		for(int j=0;j<4;j++)

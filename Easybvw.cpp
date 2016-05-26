@@ -2706,13 +2706,13 @@ void CEasyBView::PrepareCardLayout()
 	SetCurrentMode(MODE_CARDLAYOUT);
 
 	// turn all cards & hands face up
-	for(i=0;i<52;i++) 
+	for(int i=0;i<52;i++) 
 		deck[i]->SetFaceUp();
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		PLAYER(i).ExposeCards(TRUE, FALSE);
 
 	// assign cards to layout deck
-	for(i=0;i<52;i++) 
+	for(int i=0;i<52;i++) 
 	{
 		m_layoutDeck[i] = deck.GetSortedCard(i);
 		m_layoutDeck[i]->ClearAssignment();
@@ -2809,11 +2809,11 @@ void CEasyBView::OnEditExistingHands()
 	// turn all cards face up
 	for(int i=0;i<52;i++) 
 		deck[i]->SetFaceUp();
-	for(i=0;i<4;i++) 
+	for(int i=0;i<4;i++) 
 		PLAYER(i).ExposeCards(TRUE, FALSE);
 
 	// clear layout deck
-	for(i=0;i<52;i++)
+	for(int i=0;i<52;i++)
 		m_layoutDeck[i] = NULL;
 	m_numCardsUnassigned = 0;
 

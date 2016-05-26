@@ -12,6 +12,7 @@
 #ifndef __DIALOGINFO__
 #define __DIALOGINFO__
 
+#define GWL_WNDPROC (-4)
 
 //
 typedef struct {

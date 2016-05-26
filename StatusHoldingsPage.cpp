@@ -82,7 +82,7 @@ static LPCTSTR tszColumnName[] = {
 BOOL CStatusHoldingsPage::OnInitDialog() 
 {
 	CPropertyPage::OnInitDialog();
-	const tnColSpacer = 14;
+	const int tnColSpacer = 14;
 
 	// init the list control
 	m_listSuitStatus.SetImageList(&CStatusSheet::m_imageList, LVSIL_SMALL);

@@ -110,12 +110,12 @@ void CSuitHoldings::Clear()
 
 	// clear the sequence list
 	m_numSequences = 0;
-	for(i=0;i<m_sequenceList.GetSize();i++)
+	for(int i=0;i<m_sequenceList.GetSize();i++)
 		delete m_sequenceList[i];
 	m_sequenceList.RemoveAll();
 	//
 	m_numMissingSequences = 0;
-	for(i=0;i<m_missingSequenceList.GetSize();i++)
+	for(int i=0;i<m_missingSequenceList.GetSize();i++)
 		delete m_missingSequenceList[i];
 	m_missingSequenceList.RemoveAll();
 
@@ -552,7 +552,7 @@ int CSuitHoldings::CheckKeyHoldings()
 	m_sequenceList.RemoveAll();
 	m_numSequences = 0;
 	// and missing sequences as well
-	for(i=0;i<m_missingSequenceList.GetSize();i++)
+	for(int i=0;i<m_missingSequenceList.GetSize();i++)
 		delete m_missingSequenceList[i];
 	m_missingSequenceList.RemoveAll();
 	m_numMissingSequences = 0;
@@ -575,6 +575,7 @@ int CSuitHoldings::CheckKeyHoldings()
 	// sort honors & body cards
 //	for(i=0;i<m_numHonors;i++)
 //		m_honors.Add(m_cards[i]);
+	int i = 0;
 	for(i=0;i<m_numPseudoHonors;i++)
 		m_honors.Add(m_cards[i]);
 	for(;i<m_numCards;i++)
@@ -619,7 +620,7 @@ int CSuitHoldings::CheckKeyHoldings()
 		m_numMissingInternalHonors = 0;
 	//
 	int nPrevCardVal = ACE;
-	for(i=0;i<m_numCards;i++)
+	for(int i=0;i<m_numCards;i++)
 	{
 		// consecutive high cards = sure winners
 		// e.g., in AKTxx, AK are the top cards
@@ -642,7 +643,7 @@ int CSuitHoldings::CheckKeyHoldings()
 	m_numSecondaryHonors = m_numPseudoHonors - m_numTopHonors;
 
 	// build the sequence list
-	for(i=0;i<m_numCards;)
+	for(int i=0;i<m_numCards;)
 	{
 		CCardList* pList = new CCardList;
 		m_sequenceList.Add(pList);
@@ -656,7 +657,7 @@ int CSuitHoldings::CheckKeyHoldings()
 	}
 
 	// and form the list of missing card sequences
-	for(i=ACE;i>=2;i--)
+	for(int i=ACE;i>=2;i--)
 	{
 		if ( (!HasCardOfFaceValue(i)) && 
 			 (!playedCardsList.HasCardOfFaceValue(i)) )
@@ -969,7 +970,8 @@ void CSuitHoldings::EvaluateHoldings()
 	// and for the winners and losers sequences
 	m_likelyWinners.Clear();
 	m_likelyLosers.Clear();
-	for(int i=0;i<m_numLikelyWinners;i++)
+	int i = 0;
+	for(i=0;i<m_numLikelyWinners;i++)
 		m_likelyWinners << m_cards[i];
 	for(;i<m_numCards;i++)
 		m_likelyLosers << m_cards[i];

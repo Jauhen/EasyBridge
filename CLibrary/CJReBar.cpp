@@ -360,7 +360,7 @@ void CCJReBar::OnPaint()
 	Default();
 }
 
-int CCJReBar::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
+INT_PTR CCJReBar::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
 	ASSERT_VALID(this);
 	ASSERT(::IsWindow(m_hWnd));

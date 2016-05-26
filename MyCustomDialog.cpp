@@ -181,7 +181,7 @@ BOOL CMyCustomDialog::OnInitDialog()
 		wpOrigListCtrlProc = (WNDPROC) SetWindowLong(m_pListControl->m_hWnd, GWL_WNDPROC, (LONG) ListCtrlSubclassProc);
 
 	// populate the control ID -> index map
-	for(i=0;i<m_numControls;i++)
+	for(int i=0;i<m_numControls;i++)
 		m_mapIDtoIndex.SetAt(m_pControlInfo[i].nControlID, i);
 
 	// and create custom tooltip for the tags list

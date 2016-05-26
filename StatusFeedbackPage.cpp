@@ -91,7 +91,7 @@ void CStatusFeedbackPage::Update()
 {
 	if (!m_bInitialized)
 		return;
-	m_strText = pMAINFRAME->GetValue(tszFeedbackText);
+	m_strText.Format("%d", pMAINFRAME->GetValue(tszFeedbackText));
 	UpdateData(FALSE);
 }
 

@@ -80,7 +80,7 @@ void CDefenderPlayEngine::Clear()
 	//
 	m_nSignalledSuit = NONE;
 	m_nEchoedSuit = NONE;
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		m_bSuitEchoed[i] = FALSE;
 		m_bSuitLed[i] = FALSE;
@@ -427,7 +427,8 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 			// do we have an Ace?
 			if (m_pHand->GetNumAces() >= 1)
 			{
-				for(int nSuit=CLUBS;nSuit<=SPADES;nSuit++)
+				int nSuit = 0;
+				for(nSuit=CLUBS;nSuit<=SPADES;nSuit++)
 				{
 					if (m_pHand->GetSuit(nSuit).HasAce())
 						break;
@@ -809,7 +810,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 			}
 
 			// else lead a suit that dummy won't ruff
-			for(j=0;j<4;j++)
+			for(int j=0;j<4;j++)
 			{
 				CSuitHoldings& suit = m_pHand->GetSuit(j);
 				if (suit.GetNumCards() == 0)
@@ -1123,7 +1124,7 @@ CCard* CDefenderPlayEngine::Get4thBestLeadCard()
 			// lead 4th best of the suit
 			pLeadCard = suit[3];
 			status << "PLYLD4A! Lead the fourth card from our best suit (" & STS(suit.GetSuit()) &
-					   & ") -- play the " & pLeadCard->GetName() & ".\n";
+					   ") -- play the " & pLeadCard->GetName() & ".\n";
 		}
 		else
 		{
@@ -1230,7 +1231,8 @@ CCard* CDefenderPlayEngine::CashWinners()
 	else
 		nSuit = CLUBS;
 	//
-	for(int i=0;i<4;i++)
+	int i = 0;
+	for(i=0;i<4;i++)
 	{
 		// find the first non-trump suit with winners
 		if (( bSuitIsSafe[i]) && (m_pHand->GetSuit(nSuit).GetNumTopCards() > 0) )
@@ -1592,7 +1594,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 			// or else have no cards in them
 			// so just pick the shortest non-void, non-trump suit that has 
 			// at least one loser in it
-			for(i=3;i>=0;i--)
+			for(int i=3;i>=0;i--)
 			{
 				int nSuit = hand.GetSuitsByLength(i);
 				int nSuitLength = hand.GetNumCardsInSuit(nSuit);
@@ -1672,7 +1674,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 		}
 
 		// look through the sorted list of suits
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			// check out the suit
 			int nSuit = nSuitsByLosers[i];

@@ -225,8 +225,8 @@ BEGIN_MESSAGE_MAP(CCJCaption, CStatic)
 	ON_WM_ERASEBKGND()
 	//}}AFX_MSG_MAP
 	ON_BN_CLICKED(IDC_CAPT_BUTTON, OnCaptButton)
-	ON_MESSAGE(CM_ONPUSHPINBUTTON, OnPushPinButton)
-	ON_MESSAGE(CM_ONPUSHPINCANCEL, OnPushPinCancel)
+//	ON_MESSAGE(CM_ONPUSHPINBUTTON, OnPushPinButton)
+//	ON_MESSAGE(CM_ONPUSHPINCANCEL, OnPushPinCancel)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

@@ -21,7 +21,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 // default progress bar time increment
-const DEFAULT_INCREMENT = 250;	// milliseconds between progress ctl updates
+const int DEFAULT_INCREMENT = 250;	// milliseconds between progress ctl updates
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ void CGIBDialog::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CGIBDialog, CDialog)
 	//{{AFX_MSG_MAP(CGIBDialog)
 	ON_WM_CLOSE()
-	ON_WM_TIMER()
+//	ON_WM_TIMER()
 	ON_WM_SHOWWINDOW()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()

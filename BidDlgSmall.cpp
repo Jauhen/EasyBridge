@@ -71,7 +71,7 @@ int CBidDialogSmall::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		m_buttonLevelIcons[i] = (HICON) LoadImage(theApp.m_hInstance, MAKEINTRESOURCE(IDI_LEVEL_1)+i, IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 	
 	// load suit button icons
-	for(i=0;i<5;i++)
+	for(int i=0;i<5;i++)
 		m_buttonSuitIcons[i] = (HICON) LoadImage(theApp.m_hInstance, MAKEINTRESOURCE(IDI_SUIT_CLUB)+i, IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 	
 	// done
@@ -120,7 +120,7 @@ BOOL CBidDialogSmall::OnInitDialog()
 	}
 
 	// subclass the bid suit buttons
-	for(i=0;i<5;i++)
+	for(int i=0;i<5;i++)
 	{
 		m_flatSuitButtons[i].SubclassDlgItem(IDC_SUIT_CLUBS + i, this);
 		m_flatSuitButtons[i].SetIcon(IDI_SUIT_CLUB + i);
@@ -335,7 +335,7 @@ void CBidDialogSmall::EnableControls()
 		pButton->SetState(FALSE);
 	}
 
-	for(i=IDC_SUIT_CLUBS;i<=IDC_SUIT_NOTRUMP;i++)
+	for(int i=IDC_SUIT_CLUBS;i<=IDC_SUIT_NOTRUMP;i++)
 	{
 		CButton* pButton = (CButton*) GetDlgItem(i);
 		pButton->EnableWindow(TRUE);

@@ -193,11 +193,11 @@ CEasyBDoc::CEasyBDoc()
 	m_nPrevFileFormat = m_nFileFormat;
 
 	// create the players
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i] = new CPlayer;
 
 	// and init each player's info
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		CPlayer* pLHOpponent = m_pPlayer[(i+1)%4];
 		CPlayer* pPartner = m_pPlayer[(i+2)%4];
@@ -206,7 +206,7 @@ CEasyBDoc::CEasyBDoc()
 	}
 
 	// init the players' engines (must do this after the above inits!!!)
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i]->InitializeEngines();
 
 	// clear out some info
@@ -415,7 +415,8 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName)
 			{
 				// silently play out the cards to reach the saved position
 				int nPlayer = m_nTrickLead[nRound];
-				for(int j=0;j<4;j++)
+				int j = 0;
+				for(j=0;j<4;j++)
 				{
 					// grab the card that was played
 					int nDeckVal = m_nPlayRecord[nIndex];
@@ -456,7 +457,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName)
 			}
 
 			// restore settings
-			for(i=0;i<4;i++)
+			for(int i=0;i<4;i++)
 				m_pPlayer[i]->ResumeTrace();
 			theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
 			pMAINFRAME->LockStatusBar(FALSE);
@@ -518,7 +519,7 @@ void CEasyBDoc::DeleteContents()
 
 	// empty out game record
 	int numGames = m_gameRecords.GetSize();
-	for(i=0;i<numGames;i++)
+	for(int i=0;i<numGames;i++)
 		delete m_gameRecords[i];
 	m_gameRecords.RemoveAll();
 
@@ -1123,12 +1124,12 @@ void CEasyBDoc::ClearPlayInfo()
 	m_bHintFollowed = TRUE;
 
 	// clear play record
-	for(i=0;i<13;i++) 
+	for(int i=0;i<13;i++) 
 	{
 		m_nTrickLead[i] = NONE;
 		m_nTrickWinner[i] = NONE;
 	}
-	for(i=0;i<52;i++)
+	for(int i=0;i<52;i++)
 		m_nPlayRecord[i] = -1;
 
 	// clear GIB Monitor && play history
@@ -1728,7 +1729,8 @@ int CEasyBDoc::UndoBid()
 		m_numPasses = 0;
 
 		// search back for the last valid bid
-		for(int i=m_numBidsMade-1;i>=0;i--)
+		int i = 0;
+		for(i=m_numBidsMade-1;i>=0;i--)
 		{
 			if ((m_nBiddingHistory[i] != BID_PASS) && (m_nBiddingHistory[i] != BID_DOUBLE) && (m_nBiddingHistory[i] != BID_DOUBLE))
 				break;
@@ -1752,13 +1754,13 @@ int CEasyBDoc::UndoBid()
 		// re-check to see which player led for team
 		// first clear 
 		m_nPartnershipSuit[NORTH_SOUTH] = m_nPartnershipSuit[EAST_WEST] = NONE;
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			m_nPartnershipLead[NORTH_SOUTH][i] = NONE;
 			m_nPartnershipLead[EAST_WEST][i] = NONE;
 		}
 		// then scan
-		for(i=0;i<m_numBidsMade;i++)
+		for(int i=0;i<m_numBidsMade;i++)
 		{
 			int nBid = m_nBiddingHistory[i];
 			int nSuit = (nBid-1) % 5;
@@ -1894,7 +1896,7 @@ void CEasyBDoc::UpdateBiddingHistory()
 	//
 	CString strSpace = "    ";
 
-	for(i=0;i<m_numBidsMade;i++) 
+	for(int i=0;i<m_numBidsMade;i++) 
 	{
 		// get the bid string
 		int nBid = m_nBiddingHistory[i];
@@ -2206,7 +2208,7 @@ void CEasyBDoc::UndoTrick()
 	for(int i=0;i<numCardsPlayed;i++)
 		UndoLastCardPlayed();
 	//
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i]->RecordTrickUndo();
 
 	// update info
@@ -2272,7 +2274,7 @@ void CEasyBDoc::UndoPreviousTrick()
 	}
 
 	// inform each player of the trick undo
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i]->RecordTrickUndo();
 
 	// clear pending hint
@@ -2416,7 +2418,7 @@ void CEasyBDoc::ClearTrick()
 		m_pPlayer[i]->RecordRoundComplete(m_nRoundWinner, m_pHighCard);
 
 	// record trick in game record
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pGameTrick[m_numTricksPlayed][i] = m_pCurrTrick[i];
 	m_numTricksWon[m_nRoundWinningTeam]++;
 	m_nTrickWinner[m_numTricksPlayed] = m_nRoundWinner;
@@ -2425,7 +2427,7 @@ void CEasyBDoc::ClearTrick()
 
 	// clear round
 	m_numCardsPlayedInRound = 0;
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pCurrTrick[i] = NULL;
 
 	// update counts
@@ -3728,11 +3730,11 @@ void CEasyBDoc::LoadGameRecord(const CGameRecord& game)
 		m_bVulnerable[1] = TRUE;
 	//
 	m_numBidsMade = game.GetNumBids();
-	for(i=0;i<m_numBidsMade;i++)
+	for(int i=0;i<m_numBidsMade;i++)
 		m_nBiddingHistory[i] = game.m_nBids[i];
 
 	// finally, have the players init their hands
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i]->InitializeRestoredHand();
 
 	// then set cards face up if desired
@@ -3830,7 +3832,7 @@ void CEasyBDoc::RotatePartialHands(int numPositions)
 	int numRounds = m_numBidsMade / 4;
 	if ((m_numBidsMade % 4) > 0)
 		numRounds++;
-	for(i=0;i<numRounds;i++)
+	for(int i=0;i<numRounds;i++)
 	{
 		for(int j=0;j<numPositions;j++)
 		{
@@ -3853,7 +3855,7 @@ void CEasyBDoc::RotatePartialHands(int numPositions)
 	UpdateBiddingHistory();
 
 	// adjust play history
-	for(i=0;i<=m_numTricksPlayed && i<13;i++)
+	for(int i=0;i<=m_numTricksPlayed && i<13;i++)
 	{
 		// rotate play record
 		for(int j=0;j<numPositions;j++)
@@ -3881,7 +3883,7 @@ void CEasyBDoc::RotatePartialHands(int numPositions)
 	pMAINFRAME->SetAllIndicators();
 
 	//
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i]->InitializeSwappedHand();
 }
 
@@ -3904,26 +3906,26 @@ void CEasyBDoc::SwapPartialHands(int nPos1, int nPos2)
 
 	// then take player 2's cards and give them to player 1
 	int numCards2 = pPlayer2->GetNumCards();
-	for(i=0;i<numCards2;i++) 
+	for(int i=0;i<numCards2;i++) 
 		pPlayer1->AddCardToHand(pPlayer2->RemoveCardFromHand(0));
 
 	// then place the saved cards from player 1's hand into player 2's hand
-	for(i=0;i<numCards1;i++) 
+	for(int i=0;i<numCards1;i++) 
 		pPlayer2->AddCardToHand(tempCards[i]);
 
 	//
 	// now swap initial cards
 	//
 	CCardList tempInitialCards;
-	for(i=0;i<13;i++) 
+	for(int i=0;i<13;i++) 
 		tempInitialCards << pPlayer1->RemoveCardFromInitialHand(0);
 
 	// take player 2's initial cards and give them to player 1
-	for(i=0;i<13;i++) 
+	for(int i=0;i<13;i++) 
 		pPlayer1->AddCardToInitialHand(pPlayer2->RemoveCardFromInitialHand(0));
 
 	// then place the saved cards from player 1's initial hand into player 2's initial hand
-	for(i=0;i<13;i++) 
+	for(int i=0;i<13;i++) 
 		pPlayer2->AddCardToInitialHand(tempInitialCards[i]);
 }
 
@@ -4607,7 +4609,7 @@ void CEasyBDoc::ClaimTricks(int nPos, int numTricks)
 	}
 
 	// clear the current round
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pCurrTrick[i] = NULL;
 
 	// mark the game complete
@@ -4618,7 +4620,7 @@ void CEasyBDoc::ClaimTricks(int nPos, int numTricks)
 	// and inform the players
 	if (!m_bReviewingGame)
 	{
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 			m_pPlayer[i]->RecordSpecialEvent(EVENT_CLAIMED, nPos, numRemainingTricks);
 	}
 
@@ -4674,7 +4676,7 @@ void CEasyBDoc::ConcedeTricks(int nPos)
 	}
 
 	// clear the current round
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pCurrTrick[i] = NULL;
 
 	// mark the game complete
@@ -4686,7 +4688,7 @@ void CEasyBDoc::ConcedeTricks(int nPos)
 	// and inform the players
 	if (!m_bReviewingGame)
 	{
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 			m_pPlayer[i]->RecordSpecialEvent(EVENT_CONCEDED, nPos, numRemainingTricks);
 	}
 
@@ -5018,13 +5020,13 @@ void CEasyBDoc::RotatePlayersHands(int nDirection, BOOL bRefresh, BOOL bRestartB
 	}
 
 	// resume trace
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_pPlayer[i]->ResumeTrace();
 
 	//
 	if (bRestartBidding)
 	{
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			m_pPlayer[i]->InitializeHand();
 			if (bRestartBidding)
@@ -5395,7 +5397,7 @@ CString CEasyBDoc::FormatOriginalHands()
 	int numWestCards = westCards.GetNumCards();
 	int numEastCards = eastCards.GetNumCards();
 	CString strTemp;
-	for(nSuit=SPADES;nSuit>=CLUBS;nSuit--)
+	for(int nSuit=SPADES;nSuit>=CLUBS;nSuit--)
 	{
 		strHands += CString(GetSuitLetter(nSuit)) + ": ";
 		int nCount = 3;
@@ -5412,7 +5414,7 @@ CString CEasyBDoc::FormatOriginalHands()
 		strHands += CString(' ', 32-nCount);
 		strHands += CString(GetSuitLetter(nSuit)) + ": ";
 		// show east suit
-		for(nIndex=0;nIndex<numEastCards;nIndex++)
+		for(int nIndex=0;nIndex<numEastCards;nIndex++)
 		{
 			if (eastCards[nIndex]->GetSuit() != nSuit)
 				continue;
@@ -5426,7 +5428,7 @@ CString CEasyBDoc::FormatOriginalHands()
 	// write out South
 	CCardList& southCards = m_pPlayer[SOUTH]->GetHand().GetInitialHand();
 	numCards = southCards.GetNumCards();
-	for(nSuit=SPADES;nSuit>=CLUBS;nSuit--)
+	for(int nSuit=SPADES;nSuit>=CLUBS;nSuit--)
 	{
 		strHands += CString(' ', 16) + GetSuitLetter(nSuit) + ": ";
 		for(int nIndex=0;nIndex<numCards;nIndex++)
@@ -5474,7 +5476,7 @@ CString CEasyBDoc::FormatCurrentHands()
 	int numWestCards = westCards.GetNumCards();
 	int numEastCards = eastCards.GetNumCards();
 	CString strTemp;
-	for(nSuit=SPADES;nSuit>=CLUBS;nSuit--)
+	for(int nSuit=SPADES;nSuit>=CLUBS;nSuit--)
 	{
 		strHands += CString(GetSuitLetter(nSuit)) + ": ";
 		int nCount = 3;
@@ -5491,7 +5493,7 @@ CString CEasyBDoc::FormatCurrentHands()
 		strHands += CString(' ', 32-nCount);
 		strHands += CString(GetSuitLetter(nSuit)) + ": ";
 		// show east suit
-		for(nIndex=0;nIndex<numEastCards;nIndex++)
+		for(int nIndex=0;nIndex<numEastCards;nIndex++)
 		{
 			if (eastCards[nIndex]->GetSuit() != nSuit)
 				continue;
@@ -5505,7 +5507,7 @@ CString CEasyBDoc::FormatCurrentHands()
 	// write out South
 	CCardList& southCards = m_pPlayer[SOUTH]->GetHand();
 	numCards = southCards.GetNumCards();
-	for(nSuit=SPADES;nSuit>=CLUBS;nSuit--)
+	for(int nSuit=SPADES;nSuit>=CLUBS;nSuit--)
 	{
 		strHands += CString(' ', 16) + GetSuitLetter(nSuit) + ": ";
 		for(int nIndex=0;nIndex<numCards;nIndex++)

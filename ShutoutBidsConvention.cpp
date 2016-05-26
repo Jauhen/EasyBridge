@@ -269,7 +269,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 // Rebidding after an opening shutout bid
 //
 //
-CShutoutBidsConvention::HandleConventionResponse(const CPlayer& player, 
+BOOL CShutoutBidsConvention::HandleConventionResponse(const CPlayer& player, 
 											     const CConventionSet& conventions, 
 											     CHandHoldings& hand, 
 											     CCardLocation& cardLocation, 

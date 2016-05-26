@@ -415,17 +415,17 @@ BOOL CPlayerStatusDialog::ConvertNewlines(CString& strOutput, LPCTSTR szInput)
 	// if in debug, strip header if desired
 	if (!theApp.GetValue(tbShowCommentIdentifiers))
 	{
-		TCHAR* pcToken = NULL;
-		if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)
-		{
-			// chop off the header
-			int nOffset = (pcToken - szInput) + 2;
-			if (nSrcLen >= nOffset)
-			{
-				szInput += nOffset;
-				nSrcLen -= nOffset;
-			}
-		}
+		//TCHAR* pcToken = NULL;
+		//if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)
+		//{
+		//	// chop off the header
+		//	int nOffset = (pcToken - szInput) + 2;
+		//	if (nSrcLen >= nOffset)
+		//	{
+		//		szInput += nOffset;
+		//		nSrcLen -= nOffset;
+		//	}
+		//}
 	}
 
 	//	

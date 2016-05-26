@@ -1397,15 +1397,15 @@ void CBidEngine::FillNeuralNetInputs(NVALUE* fInputs, int numInputs)
 		fInputs[nIndex++]		= (NVALUE) ((m_pHand->GetNumCardsInSuit(0) > nPos)? m_pHand->GetSuit(0).GetAt(nPos)->GetFaceValue() : 0);
 
 	// 261-273: Diamonds holdings
-	for(nPos=0;nPos<13;nPos++)
+	for(int nPos=0;nPos<13;nPos++)
 		fInputs[nIndex++]		= (NVALUE) ((m_pHand->GetNumCardsInSuit(1) > nPos)? m_pHand->GetSuit(1).GetAt(nPos)->GetFaceValue() : 0);
 
 	// 274-286: Hearts holdings
-	for(nPos=0;nPos<13;nPos++)
+	for(int nPos=0;nPos<13;nPos++)
 		fInputs[nIndex++]		= (NVALUE) ((m_pHand->GetNumCardsInSuit(2) > nPos)? m_pHand->GetSuit(2).GetAt(nPos)->GetFaceValue() : 0);
 
 	// 287-299: Spade holdings
-	for(nPos=0;nPos<13;nPos++)
+	for(int nPos=0;nPos<13;nPos++)
 		fInputs[nIndex++]		= (NVALUE) ((m_pHand->GetNumCardsInSuit(3) > nPos)? m_pHand->GetSuit(3).GetAt(nPos)->GetFaceValue() : 0);
 
 	// additional inputs

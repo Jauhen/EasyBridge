@@ -194,11 +194,11 @@ BOOL CBidDialog::OnInitDialog()
 
 	// subclass flat buttons
 	m_pFlatBaseButtons = new CFlatButton[tnumToolTips];
-	for(i=0;i<tnumToolTips;i++)
+	for(int i=0;i<tnumToolTips;i++)
 		m_pFlatBaseButtons[i].SubclassDlgItem(tToolTipInfo[i].nControlID, this);
 	
 	// clear bid displays
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		SetDlgItemText(IDC_BID_SOUTH+i,"");
 		((CStatic*)GetDlgItem(IDCI_BID_SOUTH+i))->SetIcon(NULL);

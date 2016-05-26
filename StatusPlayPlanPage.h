@@ -6,6 +6,8 @@
 //
 //----------------------------------------------------------------------------------------
 
+#define GWL_WNDPROC (-4)
+
 // StatusPlayPlanPage.h : header file
 //
 class CMyToolTipWnd;

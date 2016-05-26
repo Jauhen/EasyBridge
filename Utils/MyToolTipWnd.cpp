@@ -36,7 +36,7 @@ CMyToolTipWnd::~CMyToolTipWnd()
 BEGIN_MESSAGE_MAP(CMyToolTipWnd, CWnd)
 	//{{AFX_MSG_MAP(CMyToolTipWnd)
 	ON_WM_PAINT()
-	ON_WM_TIMER()
+//	ON_WM_TIMER()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -178,7 +178,7 @@ int CMyToolTipWnd::ListControlHitTest(CPoint point, CListCtrl& listCtl, int nCol
 	CRect targetRect;
 //	listCtl.ClientToScreen(&itemRect);
 	targetRect.left = itemRect.left;
-	for(i=0;i<nColumn;i++)
+	for(int i=0;i<nColumn;i++)
 		targetRect.left += listCtl.GetColumnWidth(i);
 	targetRect.right = targetRect.left + listCtl.GetColumnWidth(nColumn);
 	if ((point.x >= targetRect.left) && (point.x <= targetRect.right))

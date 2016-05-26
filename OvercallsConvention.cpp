@@ -559,7 +559,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 // Rebidding as opener after an overcall
 //
 //
-COvercallsConvention::HandleConventionResponse(const CPlayer& player, 
+BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player, 
 									  		   const CConventionSet& conventions, 
 											   CHandHoldings& hand, 
 											   CCardLocation& cardLocation, 

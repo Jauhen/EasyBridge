@@ -114,7 +114,7 @@ BOOL CBidDialogLarge::OnInitDialog()
 	}
 
 	// need this to prevent bid icon flickering the first time
-	for(i=IDCI_BID_SOUTH;i<IDCI_BID_SOUTH+4;i++)
+	for(int i=IDCI_BID_SOUTH;i<IDCI_BID_SOUTH+4;i++)
 	{
 		GetDlgItem(i)->ShowWindow(FALSE);
 		GetDlgItem(i)->UpdateWindow();

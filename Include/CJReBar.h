@@ -92,7 +92,7 @@ public:
 
 // Implementation
 	virtual void OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler);
-	virtual int OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
+	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 	virtual CSize CalcFixedLayout(BOOL bStretch, BOOL bHorz);
 	virtual CSize CalcDynamicLayout(int nLength, DWORD nMode);
 #ifdef _DEBUG

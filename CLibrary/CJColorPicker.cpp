@@ -127,9 +127,9 @@ BEGIN_MESSAGE_MAP(CCJColorPicker, CButton)
 	ON_WM_ERASEBKGND()
 	ON_WM_PAINT()
 	//}}AFX_MSG_MAP
-    ON_MESSAGE(CPN_SELENDOK,     OnSelEndOK)
-    ON_MESSAGE(CPN_SELENDCANCEL, OnSelEndCancel)
-    ON_MESSAGE(CPN_SELCHANGE,    OnSelChange)
+//    ON_MESSAGE(CPN_SELENDOK,     OnSelEndOK)
+ //   ON_MESSAGE(CPN_SELENDCANCEL, OnSelEndCancel)
+  //  ON_MESSAGE(CPN_SELCHANGE,    OnSelChange)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

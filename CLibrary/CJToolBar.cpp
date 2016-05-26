@@ -1637,7 +1637,7 @@ CSize CCJToolBar::CalcLayout(DWORD dwMode, int nLength)
 
 			if ((m_dwStyle & CBRS_FLOATING) && (m_dwStyle & CBRS_SIZE_DYNAMIC))
 				m_nMRUWidth = sizeResult.cx;
-			for (i = 0; i < nCount; i++)
+			for (int i = 0; i < nCount; i++)
 				SetButton(i, &pData[i]);
 
 			if (nControlCount > 0)
@@ -1725,7 +1725,7 @@ void CCJToolBar::SetButtonInfo(int nIndex, UINT nID, UINT nStyle, int iImage)
 	}
 }
 
-int CCJToolBar::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
+INT_PTR CCJToolBar::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 {
 	ASSERT_VALID(this);
 	ASSERT(::IsWindow(m_hWnd));
@@ -1837,7 +1837,7 @@ void CCJToolBar::GetButtonText(int nIndex, CString& rString) const
 
 BEGIN_MESSAGE_MAP(CCJToolBar, CCJToolBarBase)
 	//{{AFX_MSG_MAP(CCJToolBar)
-	ON_WM_NCHITTEST()
+//	ON_WM_NCHITTEST()
 	ON_WM_NCPAINT()
 	ON_WM_PAINT()
 	ON_WM_NCCALCSIZE()
@@ -2140,8 +2140,8 @@ void CCJToolBar::AssertValid() const
 	//  m_nCount and m_pData to be in sync, which they are not in CCJToolBar.
 
 #ifndef _VC_VERSION_5
-	ASSERT(m_hbmImageWell == NULL ||
-		( afxData.bWin95 || ::GetObjectType(m_hbmImageWell) == OBJ_BITMAP));
+	//ASSERT(m_hbmImageWell == NULL ||
+	//	( afxData.bWin95 || ::GetObjectType(m_hbmImageWell) == OBJ_BITMAP));
 #else
 	ASSERT(m_hbmImageWell == NULL ||
 		( ::GetObjectType(m_hbmImageWell) == OBJ_BITMAP));

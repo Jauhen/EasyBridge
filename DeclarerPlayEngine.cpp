@@ -144,10 +144,10 @@ void CDeclarerPlayEngine::Clear()
 	m_numPlannedTrumpPulls = 0;
 	m_numTotalPlannedTricks = 0;
 	m_numPlannedRounds = 0;
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 		m_nSuitPriorityList[i] = NONE;
 	//
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		m_numPlannedDummyRuffsInSuit[i] = 0;
 		m_numPlannedDeclarerRuffsInSuit[i] = 0;
@@ -653,7 +653,7 @@ void CDeclarerPlayEngine::EvaluateEntries()
 	}
 	
 	// check cashing entries in each suit
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		CCombinedSuitHoldings& combinedSuit = m_pCombinedHand->GetSuit(i);
 		if (combinedSuit.GetNumDummyCards() == 0)
@@ -716,7 +716,7 @@ void CDeclarerPlayEngine::EvaluateEntries()
 	}
 	
 	// check cashing entries in each suit
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		CCombinedSuitHoldings& combinedSuit = m_pCombinedHand->GetSuit(i);
 		if (combinedSuit.GetNumDummyCards() == 0)
@@ -975,7 +975,8 @@ void CDeclarerPlayEngine::TestForClaim()
 				return;
 
 			// also make sure the entries are in different suits
-			for(int i=0;i<4;i++)
+			int i = 0;
+			for(i=0;i<4;i++)
 			{
 				if (m_numDeclarerEntriesInSuit[i] != m_numDeclarerEntriesInSuit[i])
 					break;
@@ -2477,7 +2478,7 @@ CCard* CDeclarerPlayEngine::GetFinalDiscard()
 
 	// then sift through the suits to find one that is not a priority suit and 
 	// has losers
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		// check out the suit
 		int nSuit = nSuitsByLosers[i];
@@ -2520,13 +2521,15 @@ CCard* CDeclarerPlayEngine::GetFinalDiscard()
 	// and is not a trump suit
 	if (numDiscardSuits > 1)
 	{
+		int i = 0;
 		for(i=0;i<numDiscardSuits;i++)
 		{
 			int nSuit = nDiscardSuits[i];
 
 			// see if there are plays in this suit
 			int numPlays = m_playPlan.GetSize();
-			for(int j=0;j<numPlays;j++)
+			int j = 0;
+			for(j=0;j<numPlays;j++)
 			{
 				// search until we find a winning play in this suit
 				CPlay* pPlay = m_playPlan[j];
@@ -3039,7 +3042,7 @@ int CDeclarerPlayEngine::CreateSuitContractPlayPlan()
 
 	// then add them _before_ the trump pulls
 	int numTrumpFinesses = trumpFinessePlays.GetSize();
-	for(i=0;i<numTrumpFinesses;i++)
+	for(int i=0;i<numTrumpFinesses;i++)
 		m_playPlan.AddPlay(i, trumpFinessePlays[i]);
 
 	// at this point, screen out any obviously ineligible plays
@@ -3144,7 +3147,7 @@ void CDeclarerPlayEngine::PickPrioritySuit()
 
 	// also add points for internal honors and body cards in the suit
 	// and deduct pts for missing top honors
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		if (i != m_nTrumpSuit)
 		{
@@ -3185,7 +3188,7 @@ void CDeclarerPlayEngine::PickPrioritySuit()
 	// pick the strongest suit, in terms of merit calculated above
 	double fTopMerit = -1;
 	//
-	for(i=0;i<numSuits;i++)
+	for(int i=0;i<numSuits;i++)
 	{
 		int nSuit = nSuitsList[i];
 		if ((fSuitMerit[nSuit] > fTopMerit) && (nSuit != m_nTrumpSuit))
@@ -3625,7 +3628,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 				int nSize = pRuffs->GetSize();
 				for(int i=0;i<nSize;i++)
 				{
-					strPlan += pRuffs->GetAt(i)->GetSuit();
+					strPlan += (byte)pRuffs->GetAt(i)->GetSuit();
 					if (nSize > 2)
 					{
 						if (i < nSize-2)
@@ -3729,7 +3732,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 		// or have one card
 		// first see if we have any "excess" winners
 		int numExcessWinners = 0;
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			if (i == nTrumpSuit)
 				continue;
@@ -3745,7 +3748,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 		BOOL bExitSuit[4] = { FALSE, FALSE, FALSE, FALSE };
 		CArray<int,int> arrayClearSuits;
 		CArray<int,int> arrayExitSuits;
-		for(i=0;i<4;i++)
+		for(int i=0;i<4;i++)
 		{
 			if (i == nTrumpSuit)
 				continue;
@@ -3822,7 +3825,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 			{
 				// 2 exit cards -- check that they're in opposite hands
 				int nFirstHand = -1;	// 0 = declarer, 1=dummy
-				for(i=0;i<numExitSuits;i++)
+				for(int i=0;i<numExitSuits;i++)
 				{
 					int nSuit = arrayExitSuits[i];
 					if (nFirstHand == -1)
@@ -3852,6 +3855,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 			// - gotta put the cashes in the clear suits first, right after
 			//   any trump pulls, then insert an exit play before the finesses
 			int numPlays = m_playPlan.GetSize();
+			int i = 0;
 			for(i=0;i<m_playPlan.GetSize();i++)
 			{
 				if (m_playPlan[i]->GetPlayType() != CPlay::TRUMP_PULL)
@@ -3946,7 +3950,8 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 		pDOC->GetNumTricksRemaining() > m_numTricksLeftToBeMade)
 	{
 		int numPlays = m_playPlan.GetSize();
-		for(int i=0;i<numPlays;i++)
+		int i = 0;
+		for(i=0;i<numPlays;i++)
 			if (m_playPlan[i]->IsOpportunistic())
 				break;
 		
@@ -4204,7 +4209,7 @@ void CDeclarerPlayEngine::InterleavePlays()
 			numStrandedWinners++;
 	}
 	//
-	for(i=0;i<4;i++)
+	for(int i=0;i<4;i++)
 	{
 		CCombinedSuitHoldings& combinedSuit = m_pCombinedHand->GetSuit(i);
 		int numWinners = bPlayingInHand? combinedSuit.GetNumDummyWinners() : combinedSuit.GetNumDeclarerWinners();
@@ -4256,7 +4261,8 @@ void CDeclarerPlayEngine::InterleavePlays()
 		int nOppositeHand = bPlayingInHand? CPlay::IN_DUMMY : CPlay::IN_HAND;
 		CPlay* pCurrPlay;
 		// first look for a trump pull or ruff (the cheapest crossing plays)
-		for(int i=0;i<numPlays;i++)
+		int i = 0;
+		for(i=0;i<numPlays;i++)
 		{
 			pCurrPlay = m_playPlan[i];
 			int nPlayType = pCurrPlay->GetPlayType();
@@ -4289,7 +4295,8 @@ void CDeclarerPlayEngine::InterleavePlays()
 			// if this play is a cash, place it ahead of all non-trump pull plays
 			if (m_playPlan[i]->GetPlayType() == CPlay::CASH)
 			{
-				for(int j=0;j<i;j++)
+				int j = 0;
+				for(j=0;j<i;j++)
 				{
 					if (m_playPlan[j]->GetPlayType() != CPlay::TRUMP_PULL)
 						break;
@@ -4336,7 +4343,7 @@ void CDeclarerPlayEngine::InterleavePlays()
 	//
 //	for(int i=0;i<numPlays;i++)
 	int numIters = numPlays-1;
-	for(i=numPlays-1;(i>0) && (numIters>0);i--,numIters--)	// go in reverse to preserve the order
+	for(int i=numPlays-1;(i>0) && (numIters>0);i--,numIters--)	// go in reverse to preserve the order
 	{
 		//
 		BOOL bMoveUp = FALSE;
@@ -4359,7 +4366,8 @@ void CDeclarerPlayEngine::InterleavePlays()
 				// move it ahead of all other plays, except for trump plays
 				// i.e., put it just behind the last trump play if one exists
 				BOOL bBehindTrump = FALSE;
-				for(int j=i;j>=0;j--)
+				int j = 0;
+				for(j=i;j>=0;j--)
 				{
 //					if ((m_playPlan[j]->GetPlayType() == CPlay::TRUMP_PULL) &&
 //						(m_playPlan[j]->GetTargetHand() == pPlay->GetTargetHand()))
@@ -4514,6 +4522,7 @@ int CDeclarerPlayEngine::FilterPlays(CPlayList& playList)
 		// proposed play's list of OR key cards
 		if ((!bSkipRemainingChecks) && (numOrKeyCards > 0))
 		{
+			int j = 0;
 			for(j=0;j<numOrKeyCards;j++)
 				if (pOrCardPresentList[j])
 					break;
@@ -4542,6 +4551,7 @@ int CDeclarerPlayEngine::FilterPlays(CPlayList& playList)
 		// and do the same for the second set of OR key cards
 		if ((!bSkipRemainingChecks) && (numOrKeyCards2 > 0))
 		{
+			int j = 0;
 			for(j=0;j<numOrKeyCards2;j++)
 				if (pOrCardPresentList2[j])
 					break;
@@ -4775,7 +4785,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 
 		// now copy plays to the master list
 		int numCashes = localPlayList.GetSize();
-		for(j=0;j<numCashes;j++)
+		for(int j=0;j<numCashes;j++)
 			playList << localPlayList.PopPlay();
 
 		// and proceed to the next suit
@@ -5112,7 +5122,7 @@ int CDeclarerPlayEngine::FormTrumpFinessePlan(CPlayList& mainPlayList, CPlayList
 
 	// do a second layer of filtering -- allow a finesse only if the
 	// target opponent has shown out of the suit
-	for(i=0;i<numTrumpFinesses;i++)
+	for(int i=0;i<numTrumpFinesses;i++)
 	{
 		CFinesse* pPlay = (CFinesse*) trumpPlayList[i];
 		int nTargetPos = pPlay->GetTargetPos();
@@ -5670,7 +5680,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 	// new -- for now, try to develop only one suit at a time
 	if (numDevOpportunities > 1)
 		numDevOpportunities = 1;
-	for(i=0;i<numDevOpportunities ;i++)
+	for(int i=0;i<numDevOpportunities ;i++)
 	{
 		// pull out data
 		nSuit = opportunities[i].nSuit;
@@ -5720,7 +5730,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 			// offending enemy top cards are eliminated
 			nIndex = numWinners + numForces;
 			int numLeftOver = nLongHand - nIndex;
-			for(j=nIndex;j<nLongHand;j++)
+			for(int j=nIndex;j<nLongHand;j++)
 			{
 				// get the list of higher outstanding enemy cards
 				int numHigherCards = outstandingCards.GetNumCardsAbove(suit[j]);

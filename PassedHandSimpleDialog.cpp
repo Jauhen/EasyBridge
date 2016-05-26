@@ -44,7 +44,7 @@ void CPassedHandSimpleDialog::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CPassedHandSimpleDialog, CDialog)
 	//{{AFX_MSG_MAP(CPassedHandSimpleDialog)
-	ON_WM_TIMER()
+//	ON_WM_TIMER()
 	ON_WM_LBUTTONDOWN()
 	ON_WM_RBUTTONDOWN()
 	ON_WM_CHAR()
