@@ -14,7 +14,7 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "BidOptsOpenPage.h"
-#include "Bidparams.h"
+#include "engine/bidding/Bidparams.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

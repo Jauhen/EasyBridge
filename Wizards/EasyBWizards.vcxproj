@@ -247,7 +247,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..;..\Help;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\src;..;..\Help;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\..\Bin\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\..\Bin\Debug\EasyBWizards.pch</PrecompiledHeaderOutputFile>
@@ -283,7 +283,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Globals.cpp" />
+    <ClCompile Include="../src/Globals.cpp" />
     <ClCompile Include="BidOptionsPropSheet.cpp" />
     <ClCompile Include="BidOptsConfigPage.cpp" />
     <ClCompile Include="BidOptsGeneralPage.cpp" />

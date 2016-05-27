@@ -24,7 +24,7 @@
 #include "ProgConfigFinishPage.h"
 #include "ObjectWithProperties.h"
 #include "progopts.h"
-#include "ConvCodes.h"
+#include "engine/bidding/ConvCodes.h"
 #include "HelpCode.h"
 
 #ifdef _DEBUG

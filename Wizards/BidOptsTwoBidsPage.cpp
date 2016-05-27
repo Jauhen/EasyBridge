@@ -14,7 +14,7 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "BidOptsTwoBidsPage.h"
-#include "ConvCodes.h"
+#include "engine/bidding/ConvCodes.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

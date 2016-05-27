@@ -15,370 +15,370 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="4thSuitForcingConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AnalysisDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Artificial2ClubConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AutoHintDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BidDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingFinishedDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingGeneral.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingOpen.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingRebid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingRebid2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingRebidExtended.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BiddingResponse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BidDlgLarge.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BidDlgSmall.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BidEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BlackwoodConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="card.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CardHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CardLayout.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CardList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CardLocation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Cash.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CombinedHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CombinedSuitHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConfigData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Convention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ConventionSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CueBidConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="deal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DealNumberDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Deck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DeclarerPlayEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DefenderPlayEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Discard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="drawhand.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Drop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DruryConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DummyPlayEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EasyB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EasyBdoc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EasyBvw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EasyBVw2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="editdlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventProcessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ExitPlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileComments.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FilePropertiesDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Finesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Force.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Gambling3NTConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameRecord.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameReviewDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GerberConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GIB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GIBDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GIBMonitorThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Globals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GuessedCard.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GuessedCardHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GuessedHandHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GuessedSuitHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HandHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HistoryWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="HoldUp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Jacoby2NTConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="JacobyTransferConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mainfrm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MichaelsCueBidConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MyCustomDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="myfildlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NegativeDoublesConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NNetAutotrainStatusDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NNetConfigDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NNetOutputDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OvercallsConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PassedHandDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PassedHandSimpleDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Play.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerStatusDialog.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="print.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="rdfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RdFilePBN.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RoundFinishedDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ruff.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="saveopts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScreenSizeWarningDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SelectHandDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShutoutBidsConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SlamConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SplinterBidsConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusAnalysesPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusCardLocationsPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusFeedbackPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusGIBMonitorPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusHoldingsPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusPlayPlanPage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusSheet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StatusWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StaymanConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StrongTwoBidsConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="subclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SuitHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TakeoutDoublesConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TestPlayDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TrumpPull.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Type1Finesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Type2Finesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Type3Finesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TypeAFinesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TypeBFinesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnusualNTConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WeakTwoBidsConvention.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="wrfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WrFilePBN.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Include\CJToolBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\4thSuitForcingConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\Artificial2ClubConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BidEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BiddingResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BiddingRebidExtended.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BiddingRebid2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BiddingRebid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BiddingOpen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BiddingGeneral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\ConventionSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\Convention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\BlackwoodConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\Gambling3NTConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\GerberConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\Jacoby2NTConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\JacobyTransferConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\MichaelsCueBidConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\OvercallsConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\ShutoutBidsConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\SlamConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\SplinterBidsConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\StaymanConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\StrongTwoBidsConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\TakeoutDoublesConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\UnusualNTConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\WeakTwoBidsConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\CueBidConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\DruryConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\bidding\NegativeDoublesConvention.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\CardList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\CardLocation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\CardHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\CombinedSuitHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\CombinedHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Cash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\DeclarerPlayEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\DefenderPlayEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Discard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Drop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\DummyPlayEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\ExitPlay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Finesse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Force.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameRecord.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GuessedCard.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GuessedCardHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GuessedHandHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GuessedSuitHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\HandHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\PlayList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Ruff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\TrumpPull.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Type1Finesse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Type2Finesse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Type3Finesse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\TypeAFinesse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\TypeBFinesse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\SuitHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\DisplayHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnalysisDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AutoHintDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BidDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BiddingFinishedDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BidDlgLarge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BidDlgSmall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CardLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConfigData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\deal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DealNumberDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Deck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\drawhand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DrawParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EasyBdoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EasyBvw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EasyBVw2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileComments.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FilePropertiesDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameReviewDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GIB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GIBDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GIBMonitorThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HistoryWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mainfrm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MyCustomDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\myfildlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NNetAutotrainStatusDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NNetConfigDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NNetOutputDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PassedHandDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PassedHandSimpleDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerStatusDialog.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\print.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rdfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RdFilePBN.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RoundFinishedDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\saveopts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScoreDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScreenSizeWarningDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SelectHandDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusAnalysesPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusCardLocationsPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusFeedbackPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusGIBMonitorPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusHoldingsPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusPlayPlanPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusSheet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\StatusWnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\subclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestPlayDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\wrfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WrFilePBN.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EasyB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\Play.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\PlayEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\HoldUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -388,388 +388,388 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="4thSuitForcingConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AnalysisDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Artificial2ClubConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AutoHintDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BidDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BiddingFinishedDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BidDlgLarge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BidDlgSmall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BidEngine.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bidopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bidparams.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlackwoodConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CARD.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CardHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CardLayout.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CardList.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CardLocation.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cardopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Cash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CombinedHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CombinedSuitHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConfigData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConvCodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Convention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConventionSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CueBidConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DealNumberDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DEALPARM.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Deck.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="deckopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DeclarerPlayEngine.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DefenderPlayEngine.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DEFINES.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Discard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DisplayHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="docopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Drop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DruryConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DummyPlayEngine.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EasyB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EasyBdoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EasyBvw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="editdlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EventProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ExitPlay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FEEDBACK.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FILECODE.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileCodePBN.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileComments.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FilePropertiesDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Finesse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Force.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Gambling3NTConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameRecord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameReviewDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GerberConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GIB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GIBDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GIBMonitorThread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GuessedCard.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GuessedCardHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GuessedHandHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GuessedSuitHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HandHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Handopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HistoryWnd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HoldUp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Jacoby2NTConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="JacobyTransferConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MainFrameopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mainfrm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MichaelsCueBidConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyCustomDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MyException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MYFILDLG.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NegativeDoublesConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NNetAutotrainStatusDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NNetConfigDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NNetOutputDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectWithProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OptimizerThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OvercallsConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PassedHandDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PassedHandSimpleDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Play.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayEngine.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PLAYER.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="playeropts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStatusDialog.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="progopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="roundfinisheddialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ruff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="saveopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenSizeWarningDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SelectHandDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShutoutBidsConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SlamConvention.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sluff.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SplinterBidsConvention.h">
+    <ClInclude Include="src\engine\bidding\4thSuitForcingConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusAnalysesPage.h">
+    <ClInclude Include="src\engine\bidding\Artificial2ClubConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusCardLocationsPage.h">
+    <ClInclude Include="src\engine\bidding\BidEngine.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusFeedbackPage.h">
+    <ClInclude Include="src\engine\bidding\ConventionSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusGIBMonitorPage.h">
+    <ClInclude Include="src\engine\bidding\Convention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusHoldingsPage.h">
+    <ClInclude Include="src\engine\bidding\ConvCodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusPlayPlanPage.h">
+    <ClInclude Include="src\engine\bidding\Bidopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusSheet.h">
+    <ClInclude Include="src\engine\bidding\Bidparams.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusWnd.h">
+    <ClInclude Include="src\engine\bidding\BlackwoodConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StaymanConvention.h">
+    <ClInclude Include="src\engine\bidding\Gambling3NTConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\engine\bidding\GerberConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StrongTwoBidsConvention.h">
+    <ClInclude Include="src\engine\bidding\Jacoby2NTConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SUBCLASS.H">
+    <ClInclude Include="src\engine\bidding\JacobyTransferConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SuitHoldings.H">
+    <ClInclude Include="src\engine\bidding\MichaelsCueBidConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TakeoutDoublesConvention.h">
+    <ClInclude Include="src\engine\bidding\OvercallsConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TestPlayDialog.h">
+    <ClInclude Include="src\engine\bidding\ShutoutBidsConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TrumpPull.h">
+    <ClInclude Include="src\engine\bidding\SlamConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Type1Finesse.h">
+    <ClInclude Include="src\engine\bidding\SplinterBidsConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Type2Finesse.h">
+    <ClInclude Include="src\engine\bidding\StaymanConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Type3Finesse.h">
+    <ClInclude Include="src\engine\bidding\StrongTwoBidsConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeAFinesse.h">
+    <ClInclude Include="src\engine\bidding\TakeoutDoublesConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeBFinesse.h">
+    <ClInclude Include="src\engine\bidding\UnusualNTConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UnusualNTConvention.h">
+    <ClInclude Include="src\engine\bidding\WeakTwoBidsConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="viewopts.h">
+    <ClInclude Include="src\engine\bidding\CueBidConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WeakTwoBidsConvention.h">
+    <ClInclude Include="src\engine\bidding\DruryConvention.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\bidding\NegativeDoublesConvention.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\cardopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\CardList.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\CardLocation.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\CardHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\CombinedSuitHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\CombinedHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Cash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\DeclarerPlayEngine.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\DefenderPlayEngine.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Discard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Drop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\DummyPlayEngine.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\ExitPlay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Finesse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Force.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GameRecord.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Handopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GuessedCard.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GuessedCardHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GuessedHandHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GuessedSuitHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\HandHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\playeropts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\PlayList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Ruff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\TrumpPull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Type1Finesse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Type2Finesse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Type3Finesse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\TypeAFinesse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\TypeBFinesse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\SuitHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\DisplayHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnalysisDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AutoHintDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BidDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BiddingFinishedDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BidDlgLarge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BidDlgSmall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CARD.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CardLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConfigData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DealNumberDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DEALPARM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Deck.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\deckopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DEFINES.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DialogInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\docopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EasyBdoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EasyBvw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\editdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventProcessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FILECODE.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileCodePBN.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileComments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FilePropertiesDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameReviewDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GIB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GIBDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GIBMonitorThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HistoryWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MainFrameopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mainfrm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyCustomDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MyException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MYFILDLG.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NNetAutotrainStatusDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NNetConfigDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NNetOutputDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjectWithProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PassedHandDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PassedHandSimpleDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlayerStatusDialog.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\progopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\roundfinisheddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\saveopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScoreDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ScreenSizeWarningDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SelectHandDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusAnalysesPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusCardLocationsPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusFeedbackPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusGIBMonitorPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusHoldingsPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusPlayPlanPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusSheet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StatusWnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SUBCLASS.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestPlayDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\viewopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EasyB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\Play.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\PlayEngine.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\PLAYER.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\HoldUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1721,5 +1721,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
