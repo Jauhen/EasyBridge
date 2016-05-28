@@ -431,7 +431,6 @@
     <ClInclude Include="src\editdlg.h" />
     <ClInclude Include="src\EventProcessor.h" />
     <ClInclude Include="src\engine\play\ExitPlay.h" />
-    <ClInclude Include="FEEDBACK.H" />
     <ClInclude Include="src\FILECODE.H" />
     <ClInclude Include="src\FileCodePBN.H" />
     <ClInclude Include="src\FileComments.h" />
@@ -467,7 +466,6 @@
     <ClInclude Include="src\NNetConfigDialog.h" />
     <ClInclude Include="src\NNetOutputDialog.h" />
     <ClInclude Include="src\ObjectWithProperties.h" />
-    <ClInclude Include="OptimizerThread.h" />
     <ClInclude Include="src\engine\bidding\OvercallsConvention.h" />
     <ClInclude Include="src\PassedHandDialog.h" />
     <ClInclude Include="src\PassedHandSimpleDialog.h" />
@@ -486,7 +484,6 @@
     <ClInclude Include="src\SelectHandDialog.h" />
     <ClInclude Include="src\engine\bidding\ShutoutBidsConvention.h" />
     <ClInclude Include="src\engine\bidding\SlamConvention.h" />
-    <ClInclude Include="Sluff.h" />
     <ClInclude Include="src\engine\bidding\SplinterBidsConvention.h" />
     <ClInclude Include="src\StatusAnalysesPage.h" />
     <ClInclude Include="src\StatusCardLocationsPage.h" />
