@@ -1,37 +1,28 @@
-//----------------------------------------------------------------------------------------
-//
-// This file and all other Easy Bridge source files are copyright (C) 2002 by Steven Han.
-// Use of this file is governed by the GNU General Public License.
-// See the files COPYING and COPYRIGHT for details.
-//
-//----------------------------------------------------------------------------------------
-
-//
-// CCard
-//
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/cardopts.h"
-#include "card.h"
+#include "display_card.h"
 #include "deck.h"
 #include "viewopts.h"
 #include "math.h"
 
+#include "display_card.h"
 
+//namespace easy_bridge {
 // class static data
-int CCard::m_nCardWidth = -1;
-int CCard::m_nCardHeight = -1;
+int DisplayCard::m_nCardWidth = -1;
+int DisplayCard::m_nCardHeight = -1;
 
 
 // constructor
-CCard::CCard() {
+DisplayCard::DisplayCard() {
   m_pBitmap = NULL;
 }
 
 // destructor
-CCard::~CCard() {
+DisplayCard::~DisplayCard() {
   // destroy the card's prev bitmap
   m_prevBitmap.DeleteObject();
   m_hlPrevBitmap.DeleteObject();
@@ -39,7 +30,7 @@ CCard::~CCard() {
 
 
 //
-void CCard::Clear() {
+void DisplayCard::Clear() {
   m_bAssigned = FALSE;
   m_bBackgroundSet = FALSE;
   m_bHLBackgroundSet = FALSE;
@@ -53,7 +44,7 @@ void CCard::Clear() {
 
 
 //
-void CCard::ClearBackground() {
+void DisplayCard::ClearBackground() {
   m_bBackgroundSet = FALSE;
   m_bHLBackgroundSet = FALSE;
 }
@@ -65,7 +56,7 @@ void CCard::ClearBackground() {
 //
 
 //
-LPVOID CCard::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+LPVOID DisplayCard::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
   switch (nItem) {
   case tcCard:
     return (LPVOID)cCard[nIndex1];
@@ -74,14 +65,14 @@ LPVOID CCard::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const
   case tcSuit:
     return (LPVOID)cSuit[nIndex1];
   default:
-    AfxMessageBox("Unhandled Call to CCard::GetValuePV()");
+    AfxMessageBox("Unhandled Call to DisplayCard::GetValuePV()");
     return (LPVOID)NULL;
   }
   return NULL;
 }
 
 //
-int CCard::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3) {
+int DisplayCard::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3) {
   int nVal = (int)value;
   BOOL bVal = (BOOL)value;
   LPCTSTR sVal = (LPCTSTR)value;
@@ -96,34 +87,34 @@ int CCard::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIn
   case tcSuit:
     break;
   default:
-    AfxMessageBox("Unhandled Call to CCard::SetValuePV()");
+    AfxMessageBox("Unhandled Call to DisplayCard::SetValuePV()");
     return 1;
   }
   return 0;
 }
 
 // conversion functions
-int CCard::GetValueInt(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+int DisplayCard::GetValueInt(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
   return (int)GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
 }
 
-LPCTSTR CCard::GetValueString(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+LPCTSTR DisplayCard::GetValueString(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
   return (LPCTSTR)GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
 }
 
-int CCard::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+int DisplayCard::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
   return (int)GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
 }
 
-int CCard::SetValueInt(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3) {
+int DisplayCard::SetValueInt(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3) {
   return SetValuePV(nItem, (LPVOID)nValue, nIndex1, nIndex2, nIndex3);
 }
 
-int CCard::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3) {
+int DisplayCard::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3) {
   return SetValuePV(nItem, (LPVOID)szValue, nIndex1, nIndex2, nIndex3);
 }
 
-int CCard::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3) {
+int DisplayCard::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3) {
   return SetValuePV(nItem, (LPVOID)nValue, nIndex1, nIndex2, nIndex3);
 }
 
@@ -135,7 +126,7 @@ int CCard::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3
 
 
 //
-void CCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC) {
+void DisplayCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC) {
   CString strTemp;
   // check limits
   if ((nSuit < CLUBS) || (nSuit > SPADES) ||
@@ -162,7 +153,7 @@ void CCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC) {
 
 
 //
-void CCard::SetBitmap(CBitmap* pBitmap, CDC* pDC) {
+void DisplayCard::SetBitmap(CBitmap* pBitmap, CDC* pDC) {
   // if reassigning bitmap, clear old info
   if (m_pBitmap) {
     m_prevBitmap.DeleteObject();
@@ -192,14 +183,14 @@ void CCard::SetBitmap(CBitmap* pBitmap, CDC* pDC) {
 
 
 // duplicate
-void CCard::operator=(CCard*  pSource) {
+void DisplayCard::operator=(DisplayCard* pSource) {
   //
   m_nSuit = pSource->m_nSuit;
   m_nFaceValue = pSource->m_nFaceValue;
   m_pBitmap = pSource->m_pBitmap;
 }
 
-void CCard::operator=(CCard& cSource) {
+void DisplayCard::operator=(DisplayCard& cSource) {
   //
   m_nSuit = cSource.m_nSuit;
   m_nFaceValue = cSource.m_nFaceValue;
@@ -208,7 +199,7 @@ void CCard::operator=(CCard& cSource) {
 
 
 //
-BOOL CCard::IsValid() const {
+BOOL DisplayCard::IsValid() const {
   if ((m_nDeckValue < 0) || (m_nDeckValue >= 52))
     return FALSE;
   if ((m_nSuit < CLUBS) || (m_nSuit > SPADES))
@@ -233,7 +224,7 @@ BOOL CCard::IsValid() const {
 // the card's display order onscreen
 // the highest card (the one that appears first) has the lowest code
 //
-int CCard::GetDisplayValue() const {
+int DisplayCard::GetDisplayValue() const {
   CEasyBView* pView = CEasyBView::GetView();
   // get the suit's actual onscreen suit order
   int nSuitIndex = pView->GetSuitToScreenIndex(m_nSuit);
@@ -244,7 +235,7 @@ int CCard::GetDisplayValue() const {
 //
 // GetDummyDisplayValue()
 //
-int CCard::GetDummyDisplayValue() const {
+int DisplayCard::GetDummyDisplayValue() const {
   CEasyBView* pView = CEasyBView::GetView();
   // get the suit's actual (dummy) onscreen suit order
   int nSuitIndex = pView->GetDummySuitToScreenIndex(m_nSuit);
@@ -253,7 +244,7 @@ int CCard::GetDummyDisplayValue() const {
 
 
 //
-void CCard::GetRect(RECT& rect) const {
+void DisplayCard::GetRect(RECT& rect) const {
   rect.left = m_nPosX;
   rect.top = m_nPosY;
   rect.right = m_nPosX + deck.GetCardWidth();
@@ -262,12 +253,12 @@ void CCard::GetRect(RECT& rect) const {
 
 
 //
-TCHAR CCard::GetCardLetter() const {
+TCHAR DisplayCard::GetCardLetter() const {
   return cCard[m_nFaceValue];
 }
 
 //
-TCHAR CCard::GetSuitLetter() const {
+TCHAR DisplayCard::GetSuitLetter() const {
   return cSuit[m_nSuit];
 }
 
@@ -280,7 +271,7 @@ TCHAR CCard::GetSuitLetter() const {
 //
 
 // draw the card at the current location
-void CCard::Draw(CDC* pDC) {
+void DisplayCard::Draw(CDC* pDC) {
   CDC cardDC, cacheDC, maskDC;
   // create DCs
   cardDC.CreateCompatibleDC(pDC);
@@ -330,7 +321,7 @@ void CCard::Draw(CDC* pDC) {
 
 
 // draw the card highlighted  at the current location
-void CCard::DrawHighlighted(CDC* pDC, BOOL bVisible) {
+void DisplayCard::DrawHighlighted(CDC* pDC, BOOL bVisible) {
   //
   if (bVisible) {
     //
@@ -399,7 +390,7 @@ void CCard::DrawHighlighted(CDC* pDC, BOOL bVisible) {
 
 
 // flash the card
-void CCard::FlashCard(CDC* pDC, int numTimes) {
+void DisplayCard::FlashCard(CDC* pDC, int numTimes) {
   for (int i = 0; i < numTimes; i++) {
     DrawHighlighted(pDC, TRUE);
     Sleep(200);		// wait a fraction of a second
@@ -413,7 +404,7 @@ void CCard::FlashCard(CDC* pDC, int numTimes) {
 
 
 // restore the card's background image
-void CCard::RestoreBackground(CDC* pDC) {
+void DisplayCard::RestoreBackground(CDC* pDC) {
   CDC cacheDC;
   // create the DC
   cacheDC.CreateCompatibleDC(pDC);
@@ -430,7 +421,7 @@ void CCard::RestoreBackground(CDC* pDC) {
 
 
 // move card
-void CCard::MoveTo(CDC *pDC, int destX, int destY, BOOL bRedraw) {
+void DisplayCard::MoveTo(CDC *pDC, int destX, int destY, BOOL bRedraw) {
   //
   m_nPosX = destX;
   m_nPosY = destY;
@@ -441,7 +432,7 @@ void CCard::MoveTo(CDC *pDC, int destX, int destY, BOOL bRedraw) {
 
 
 // drag card
-void CCard::DragTo(CDC* pDC, int destX, int destY) {
+void DisplayCard::DragTo(CDC* pDC, int destX, int destY) {
   int dx = m_nPosX - destX;
   int dy = m_nPosY - destY;
   CDC oldBkDC, newBkDC, cacheDC, cardDC, maskDC;
@@ -526,7 +517,7 @@ void CCard::DragTo(CDC* pDC, int destX, int destY) {
 //
 // Animate()
 //
-void CCard::Animate(CDC* pDC, int destx, int desty, BOOL bClearAtEnd, int nGranularity) {
+void DisplayCard::Animate(CDC* pDC, int destx, int desty, BOOL bClearAtEnd, int nGranularity) {
   int x = m_nPosX;
   int y = m_nPosY;
   int diffx = destx - x;
@@ -575,3 +566,5 @@ void CCard::Animate(CDC* pDC, int destx, int desty, BOOL bClearAtEnd, int nGranu
   if (!bClearAtEnd)
     MoveTo(pDC, destx, desty);
 }
+
+//} // namespace easy_bridge

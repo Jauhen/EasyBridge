@@ -13,7 +13,7 @@
 #include "dib.h"
 
 class CIntroWnd;
-class CCard;
+class DisplayCard;
 
 
 //
@@ -88,8 +88,8 @@ public:
 	void ClearTable();
 	void ClearTableRegion(CDC* pSentDC=NULL);
 	void ClearPartialTrickCards();
-	void ThrowCard(Position nPos, CCard* pCard);
-	void DrawPlayedCard(Position nPos, CCard* pCard, BOOL bShowAtEnd=TRUE);
+	void ThrowCard(Position nPos, DisplayCard*  pCard);
+	void DrawPlayedCard(Position nPos, DisplayCard*  pCard, BOOL bShowAtEnd=TRUE);
 	void AdvanceToNextPlayer();
 	void GameFinished();
 	void BeginGameReview(BOOL bReset=TRUE);
@@ -115,7 +115,7 @@ private:
 	ScreenMode	m_nOldMode;
 	int			m_nSuppressRefresh;
 	//
-	CCard*  m_layoutDeck[52];
+	DisplayCard*   m_layoutDeck[52];
 	POINT 	m_drawPoint[4];
 	POINT 	m_dummyDrawOffset[4];
 	POINT 	m_dummyLabelOffset[4];
@@ -146,7 +146,7 @@ private:
 	BOOL		m_bLayoutCardSelected;
 	Position	m_nLayoutCardDest;
 	Position	m_nLayoutCardOrigin;
-	CCard* 		m_pLayoutCard;
+	DisplayCard*  		m_pLayoutCard;
 	POINT		m_pointLayout;
 	POINT		m_pointLayoutCardOffset;
 	int			m_numCardsUnassigned;
@@ -155,7 +155,7 @@ private:
 	//
 	BOOL		m_bExchanging;
 	int			m_nExchangeSrcPlayer;
-	CCard* 		m_pExchangeCard;
+	DisplayCard*  		m_pExchangeCard;
 	//
 	HCURSOR		m_hCursor[4],m_hCursorInvalid[4];
 	HCURSOR		m_hCursorPlay[4];
@@ -208,8 +208,8 @@ private:
 	void DrawPlayingField(CDC* pDC);
 	void DrawTableCards(CDC* pDC, BOOL bFullDraw=FALSE);
 	void DrawCardLayoutMode(CDC* pDC,BOOL bDrawPile=TRUE,BOOL bDrawHands=TRUE);
-	BOOL InRect(CPoint point, CCard* pCard);
-	BOOL GetCardUnderPoint(int& nPlayer, CCard*& pCard, CPoint* pTargetPoint=NULL);
+	BOOL InRect(CPoint point, DisplayCard*  pCard);
+	BOOL GetCardUnderPoint(int& nPlayer, DisplayCard* & pCard, CPoint* pTargetPoint=NULL);
 	// hand display routines
 	void GetHandBoundsRect(Position nPos, RECT& rect);
 	void DrawHoriz(CDC* pDC, Position nPos, int nDisplaySuit,BOOL bClearBackground,int nStartSuit,int nEndSuit);
@@ -226,11 +226,11 @@ private:
 	void EraseBackground(CDC& dc);
 	void ClearDisplayArea(RECT* pRect=NULL,CDC* pSentDC=NULL);
 	void ClearDisplayArea(int nLeft, int nTop, int nRight, int nBottom,CDC* pSentDC=NULL);
-	void HandleCardPlay(CCard* pCard);
+	void HandleCardPlay(DisplayCard*  pCard);
 	// misc routines
 	void JumpCursor(int nPlayer=NONE);
-	void CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, CCard* pPlayedCard, BOOL bRedraw);
-	CCard* GetPlayerBottomCard(CPlayer& player);
+	void CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, DisplayCard*  pPlayedCard, BOOL bRedraw);
+	DisplayCard*  GetPlayerBottomCard(CPlayer& player);
 	void SetViewParameters(int cx=0, int cy=0);
 	void ResetSuitSequence();
 	void ResetDummySuitSequence();

@@ -28,15 +28,15 @@ public:
 	//
 	virtual void InitNewHand();
 	virtual void ClearHand();
-	virtual void Add(CCard* pCard, const BOOL bSort=FALSE);
-	virtual void AddFromSource(CCard* pCard, const BOOL bPlayerCard, const BOOL bSort=FALSE);
-	virtual void RemoveFromSource(CCard* pCard, const BOOL bPlayerCard);
-	virtual CCard* RemoveByIndex(const int nIndex);
+	virtual void Add(DisplayCard* pCard, const BOOL bSort=FALSE);
+	virtual void AddFromSource(DisplayCard* pCard, const BOOL bPlayerCard, const BOOL bSort=FALSE);
+	virtual void RemoveFromSource(DisplayCard* pCard, const BOOL bPlayerCard);
+	virtual DisplayCard* RemoveByIndex(const int nIndex);
 	virtual void Sort();
 	//
 	virtual double CountPoints(const BOOL bForceCount=FALSE);
 	virtual void EvaluateHoldings();
-	virtual void ReevaluateHoldings(const CCard* pCard=NULL);
+	virtual void ReevaluateHoldings(const DisplayCard* pCard=NULL);
 	virtual void FormatHoldingsString();
 	//
 	void Initialize(CPlayer* pPlayer, CPlayerStatusDialog* pStatusDlg, CHandHoldings* pHand, CHandHoldings* pPartnersHand);
@@ -55,8 +55,8 @@ public:
 	int	GetSuitsByLength(int nIndex) const { return m_nSuitsByLength[nIndex]; }
 
 	//
-	virtual CCard* GetCard(int nCardValue) const;
-	virtual CCard* GetCard(int nSuit, int nPos) const;
+	virtual DisplayCard* GetCard(int nCardValue) const;
+	virtual DisplayCard* GetCard(int nSuit, int nPos) const;
 	CCombinedSuitHoldings& GetSuit(int nSuit);
 	int GetNumCardsInSuit(int nSuit) const;
 	int GetNumTrumps() const;

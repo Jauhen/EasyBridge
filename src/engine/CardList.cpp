@@ -14,9 +14,8 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "Card.h"
+#include "display_card.h"
 #include "CardList.h"
-
 
 
 //
@@ -59,25 +58,25 @@ CCardList::~CCardList()
 //
 
 //
-CCard* CCardList::operator[](const int nIndex) const 
+DisplayCard* CCardList::operator[](const int nIndex) const 
 	{ VERIFY(nIndex < m_numCards); return m_cards[nIndex]; }
 
-CCard* CCardList::GetAt(const int nIndex) const 
+DisplayCard* CCardList::GetAt(const int nIndex) const 
 	{ VERIFY(nIndex < m_numCards); return m_cards[nIndex]; }
 
-CCard* CCardList::GetTopCard() const 
+DisplayCard* CCardList::GetTopCard() const 
 //	{ VERIFY(m_numCards > 0); VERIFY(m_bSorted); return m_cards[0]; }
 	{ if (m_numCards == 0) return NULL; VERIFY(m_bSorted); return m_cards[0]; }
 
-CCard* CCardList::GetBottomCard() const 
+DisplayCard* CCardList::GetBottomCard() const 
 //	{ VERIFY(m_numCards > 0); VERIFY(m_bSorted); return m_cards[m_numCards-1]; }
 	{ if (m_numCards == 0) return NULL; VERIFY(m_bSorted); return m_cards[m_numCards-1]; }
 
-CCard* CCardList::GetSecondHighestCard() const 
+DisplayCard* CCardList::GetSecondHighestCard() const 
 //	{ VERIFY(m_numCards > 1); VERIFY(m_bSorted); return m_cards[1]; }
 	{ if (m_numCards <= 1) return NULL; VERIFY(m_bSorted); return m_cards[1]; }
 
-CCard* CCardList::GetSecondLowestCard() const 
+DisplayCard* CCardList::GetSecondLowestCard() const 
 //	{ VERIFY(m_numCards > 1); VERIFY(m_bSorted); return m_cards[m_numCards-2]; }
 	{ if (m_numCards <= 1) return NULL; VERIFY(m_bSorted); return m_cards[m_numCards-2]; }
 
@@ -87,10 +86,10 @@ int CCardList::GetTopCardVal() const
 int CCardList::GetBottomCardVal() const 
 	{ VERIFY(m_numCards > 0); VERIFY(m_bSorted); return m_cards[m_numCards-1]->GetFaceValue(); }
 
-int CCardList::GetNumCardsAbove(const CCard* pCard) const 
+int CCardList::GetNumCardsAbove(const DisplayCard* pCard) const 
 	{ return GetNumCardsAbove(pCard->GetFaceValue()); }
 
-int CCardList::GetNumCardsBelow(const CCard* pCard) const 
+int CCardList::GetNumCardsBelow(const DisplayCard* pCard) const 
 	{ return GetNumCardsBelow(pCard->GetFaceValue()); }
 	
 
@@ -112,7 +111,7 @@ void CCardList::Init()
 //
 // SetCard()
 //
-void CCardList::SetCard(const int nIndex, CCard* pCard) 
+void CCardList::SetCard(const int nIndex, DisplayCard* pCard) 
 { 
 	m_cards[nIndex] = pCard; 
 }
@@ -135,7 +134,7 @@ void CCardList::Clear()
 
 
 //
-void CCardList::Add(CCard* pCard, const BOOL bSort)
+void CCardList::Add(DisplayCard* pCard, const BOOL bSort)
 {
 	// check for duplicates
 	ASSERT(!HasCard(pCard));
@@ -257,11 +256,11 @@ void CCardList::TurnCardsFaceUp(const BOOL bCode)
 // this is the main removal routine,c alled by all others
 // derived classes should only redefine this version of the operation
 //
-CCard* CCardList::RemoveByIndex(const int nIndex)
+DisplayCard* CCardList::RemoveByIndex(const int nIndex)
 {
 	if ((nIndex < 0) || (nIndex >= m_numCards))
 		return NULL;
-	CCard* pCard = m_cards[nIndex];
+	DisplayCard* pCard = m_cards[nIndex];
 	// update count
 	m_numCards--;
 	// move other cards over
@@ -279,7 +278,7 @@ CCard* CCardList::RemoveByIndex(const int nIndex)
 
 
 //
-CCard* CCardList::RemoveByValue(const int nDeckValue)
+DisplayCard* CCardList::RemoveByValue(const int nDeckValue)
 {
 	VERIFY((nDeckValue >= 0) && (nDeckValue <= 51));
 	if (m_numCards <= 0)
@@ -291,7 +290,7 @@ CCard* CCardList::RemoveByValue(const int nDeckValue)
 
 
 //
-void CCardList::Remove(const CCard* pCard)
+void CCardList::Remove(const DisplayCard* pCard)
 {
 	VERIFY(pCard != NULL);
 	if (m_numCards <= 0)
@@ -309,7 +308,7 @@ void CCardList::Sort()
 	if (m_bSorted)
 		return;
 	//
-	CCard* pTemp;
+	DisplayCard* pTemp;
 	int i,j;
 	for(i=0;i<m_numCards-1;i++) 
 	{
@@ -340,7 +339,7 @@ BOOL CCardList::RangeCovers(const int nFaceValue) const
 
 
 //
-BOOL CCardList::RangeCovers(const CCard* pCard) const 
+BOOL CCardList::RangeCovers(const DisplayCard* pCard) const 
 { 
 	return ((pCard->GetFaceValue() >= m_cards[m_numCards-1]->GetFaceValue()) && 
     (pCard->GetFaceValue() <= m_cards[0]->GetFaceValue()))? TRUE : FALSE; 
@@ -383,7 +382,7 @@ BOOL CCardList::operator!=(const CCardList& srcList) const
 
 
 //
-CCard* CCardList::FindCard(const int nSuit, const int nFaceValue) const
+DisplayCard* CCardList::FindCard(const int nSuit, const int nFaceValue) const
 {
 	//
 	return FindCardByDeckValue(MAKEDECKVALUE(nSuit, nFaceValue));
@@ -391,7 +390,7 @@ CCard* CCardList::FindCard(const int nSuit, const int nFaceValue) const
 
 
 //
-CCard* CCardList::FindCardByDeckValue(const int nDeckValue) const
+DisplayCard* CCardList::FindCardByDeckValue(const int nDeckValue) const
 {
 	// searches for a card of a specific suit and face value
 	if (m_numCards == 0) return NULL;
@@ -418,7 +417,7 @@ CCard* CCardList::FindCardByDeckValue(const int nDeckValue) const
 }
 
 //
-CCard* CCardList::FindCardByFaceValue(const int nFaceValue) const
+DisplayCard* CCardList::FindCardByFaceValue(const int nFaceValue) const
 {
 	// searches for a card of the face value, any suit
 	if (m_numCards == 0) return FALSE;
@@ -447,7 +446,7 @@ CCard* CCardList::FindCardByFaceValue(const int nFaceValue) const
 
 
 //
-BOOL CCardList::HasCard(const CCard* pCard) const
+BOOL CCardList::HasCard(const DisplayCard* pCard) const
 {
 	VERIFY(pCard != NULL);
 	return HasCard(pCard->GetDeckValue());
@@ -534,7 +533,7 @@ int CCardList::GetCardIndex(const int nDeckValue) const
 }
 
 //
-int CCardList::GetCardIndex(const CCard* pCard) const
+int CCardList::GetCardIndex(const DisplayCard* pCard) const
 {
 	VERIFY(pCard != NULL);
 	return GetCardIndex(pCard->GetDeckValue());
@@ -587,7 +586,7 @@ int CCardList::GetNumCardsBelow(const int nFaceValue) const
 //
 // GetLowestCardAbove()
 //
-CCard* CCardList::GetLowestCardAbove(const int nFaceValue) const
+DisplayCard* CCardList::GetLowestCardAbove(const int nFaceValue) const
 {
 	int numCardsAbove = GetNumCardsAbove(nFaceValue);
 	if (numCardsAbove == 0)
@@ -601,7 +600,7 @@ CCard* CCardList::GetLowestCardAbove(const int nFaceValue) const
 //
 // GetHighestCardBelow()
 //
-CCard* CCardList::GetHighestCardBelow(const int nFaceValue) const
+DisplayCard* CCardList::GetHighestCardBelow(const int nFaceValue) const
 {
 	int numCardsBelow = GetNumCardsBelow(nFaceValue);
 	if (numCardsBelow == 0)
@@ -616,7 +615,7 @@ CCard* CCardList::GetHighestCardBelow(const int nFaceValue) const
 //
 // GetLowestCardAbove()
 //
-CCard* CCardList::GetLowestCardAbove(const CCard* pCard) const
+DisplayCard* CCardList::GetLowestCardAbove(const DisplayCard* pCard) const
 {
 	ASSERT(pCard != NULL);
 	return GetLowestCardAbove(pCard->GetFaceValue());
@@ -627,7 +626,7 @@ CCard* CCardList::GetLowestCardAbove(const CCard* pCard) const
 //
 // GetHighestCardBelow()
 //
-CCard* CCardList::GetHighestCardBelow(const CCard* pCard) const
+DisplayCard* CCardList::GetHighestCardBelow(const DisplayCard* pCard) const
 {
 	ASSERT(pCard != NULL);
 	return GetHighestCardBelow(pCard->GetFaceValue());
@@ -674,7 +673,7 @@ int CCardList::GetAllCardsBelow(const int nFaceValue, CCardList& cards) const
 //
 // GetAllCardsAbove()
 //
-int CCardList::GetAllCardsAbove(const CCard* pCard, CCardList& cards) const
+int CCardList::GetAllCardsAbove(const DisplayCard* pCard, CCardList& cards) const
 {
 	ASSERT(pCard != NULL);
 	return GetAllCardsAbove(pCard->GetFaceValue(), cards);
@@ -684,7 +683,7 @@ int CCardList::GetAllCardsAbove(const CCard* pCard, CCardList& cards) const
 //
 // GetAllCardsBelow()
 //
-int CCardList::GetAllCardsBelow(const CCard* pCard, CCardList& cards) const
+int CCardList::GetAllCardsBelow(const DisplayCard* pCard, CCardList& cards) const
 {
 	ASSERT(pCard != NULL);
 	return GetAllCardsBelow(pCard->GetFaceValue(), cards);
@@ -696,7 +695,7 @@ int CCardList::GetAllCardsBelow(const CCard* pCard, CCardList& cards) const
 //
 // - returns a list of touching cards
 //
-int CCardList::GetEquivalentCards(CCard* pCard, CCardList& cardList, const BOOL bIncludeCard)
+int CCardList::GetEquivalentCards(DisplayCard* pCard, CCardList& cardList, const BOOL bIncludeCard)
 {
 	ASSERT(pCard != NULL);
 	ASSERT(HasCard(pCard));
@@ -744,7 +743,7 @@ int CCardList::GetEquivalentCards(CCard* pCard, CCardList& cardList, const BOOL 
 // i.e., if we have continuous sequence covering the two cards
 // assume the cards are of the same suit
 //
-BOOL CCardList::AreEquivalentCards(CCard* pCard1, CCard* pCard2)
+BOOL CCardList::AreEquivalentCards(DisplayCard* pCard1, DisplayCard* pCard2)
 {
 	int nIndex1 = GetCardIndex(pCard1);
 	int nIndex2 = GetCardIndex(pCard2);
@@ -769,7 +768,7 @@ BOOL CCardList::AreEquivalentCards(CCard* pCard1, CCard* pCard2)
 // - returns the highest touching card
 //   assume the cards are of the same suit
 //
-CCard* CCardList::GetHighestEquivalentCard(CCard* pCard)
+DisplayCard* CCardList::GetHighestEquivalentCard(DisplayCard* pCard)
 {
 	ASSERT(pCard != NULL);
 	ASSERT(HasCard(pCard));
@@ -797,7 +796,7 @@ CCard* CCardList::GetHighestEquivalentCard(CCard* pCard)
 //
 // - returns the lowest card of the sequence this card belongs to
 //
-CCard* CCardList::GetLowestEquivalentCard(CCard* pCard)
+DisplayCard* CCardList::GetLowestEquivalentCard(DisplayCard* pCard)
 {
 	ASSERT(pCard != NULL);
 	ASSERT(HasCard(pCard));

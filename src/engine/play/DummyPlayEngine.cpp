@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../HandHoldings.h"
-#include "Card.h"
+#include "display_card.h"
 #include "../bidding/BidEngine.h"
 #include "DummyPlayEngine.h"
 
@@ -146,7 +146,7 @@ void CDummyPlayEngine::AssessPosition()
 //
 // adjust card count and analysis after a card is played
 //
-void CDummyPlayEngine::AdjustCardCount(int nPos, CCard* pCard)
+void CDummyPlayEngine::AdjustCardCount(int nPos, DisplayCard*  pCard)
 {
 	// do nothing for now
 //	if ((nPos != m_pPlayer->GetPosition() && (nPos != m_pPartner->GetPosition())
@@ -163,7 +163,7 @@ void CDummyPlayEngine::AdjustCardCount(int nPos, CCard* pCard)
 //
 // called to adjust analysis of holdings after a round of play
 //
-void CDummyPlayEngine::AdjustHoldingsCount(CCard* pCard)
+void CDummyPlayEngine::AdjustHoldingsCount(DisplayCard*  pCard)
 {
 	// do nothing for now
 	CPlayEngine::AdjustHoldingsCount(pCard);
@@ -174,7 +174,7 @@ void CDummyPlayEngine::AdjustHoldingsCount(CCard* pCard)
 //
 // GetLeadCard()
 //
-CCard* CDummyPlayEngine::GetLeadCard()
+DisplayCard*  CDummyPlayEngine::GetLeadCard()
 {
 	// shouldn't call this routine!
 //	ASSERT(FALSE);
@@ -191,13 +191,13 @@ CCard* CDummyPlayEngine::GetLeadCard()
 //
 // select a card to play
 // 
-CCard* CDummyPlayEngine::PlayCard()
+DisplayCard*  CDummyPlayEngine::PlayCard()
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	AssessPosition();
 
 	// pass control over to declarer
-	CCard* pCard = m_pPartner->PlayForDummy();
+	DisplayCard*  pCard = m_pPartner->PlayForDummy();
 	VERIFY(pCard->IsValid());
 	return pCard;
 }
@@ -211,7 +211,7 @@ CCard* CDummyPlayEngine::PlayCard()
 //
 // let the dummy play for himself
 // 
-CCard* CDummyPlayEngine::PlayForSelf()
+DisplayCard*  CDummyPlayEngine::PlayForSelf()
 {
 	// call default
 	return CPlayEngine::PlayCard();
@@ -223,7 +223,7 @@ CCard* CDummyPlayEngine::PlayForSelf()
 //
 // GetPlayHint()
 //
-CCard* CDummyPlayEngine::GetPlayHint()
+DisplayCard*  CDummyPlayEngine::GetPlayHint()
 {
 	return m_pPartner->GetPlayHintForDummy();
 }

@@ -19,7 +19,7 @@
 #include "filecode.h"
 #include "progopts.h"
 #include "deck.h"
-#include "card.h"
+#include "display_card.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -156,7 +156,7 @@ BOOL CEasyBDoc::ReadFile(CArchive& ar)
 	int nPlayOffset, nPos;
 	int nBidIndex = 0;
 	CString strMessage,string,partString;
-	CCard* pCard;
+	DisplayCard*  pCard;
 	double fValue;
 	BOOL bValue;
 	BOOL bFileInfoFound = FALSE;
@@ -495,7 +495,7 @@ next:		if (nRtnCode == EOF)
 							nPos = m_nTrickLead[nIndex];
 							for(i=0;i<4;i++)
 							{
-								CCard* pCard = m_pGameTrick[nIndex][nPos];
+								DisplayCard*  pCard = m_pGameTrick[nIndex][nPos];
 								if (pCard)
 									m_nPlayRecord[nPlayOffset+i] = pCard->GetDeckValue();
 								nPos = GetNextPlayer(nPos);
@@ -736,7 +736,7 @@ void CEasyBDoc::AssignCards(CString& str, int nPosition, BOOL bInitialHand)
 	int i,nOffset=0;
 	int nLen = str.GetLength();
 	BOOL bError = FALSE;
-	CCard* pCard;
+	DisplayCard*  pCard;
 	//
 	for(i=0;i<13;i++) 
 	{

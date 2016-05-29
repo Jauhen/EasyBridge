@@ -35,28 +35,28 @@ public:
 	virtual void InitSwappedHand();
 	virtual void Clear();
 	//
-	virtual CCard*  PlayCard();
-	virtual CCard*	PlayFirst();
-	virtual CCard*	PlaySecond();
-	virtual CCard*	PlayThird();
-	virtual CCard*	PlayFourth();
+	virtual DisplayCard*   PlayCard();
+	virtual DisplayCard* 	PlayFirst();
+	virtual DisplayCard* 	PlaySecond();
+	virtual DisplayCard* 	PlayThird();
+	virtual DisplayCard* 	PlayFourth();
 	//
-	virtual CCard*  GetLeadCard();
-	virtual CCard*  GetDiscard();
+	virtual DisplayCard*   GetLeadCard();
+	virtual DisplayCard*   GetDiscard();
 	virtual int		PickFinalDiscardSuit(CHandHoldings& hand);
-	virtual CCard*	GetPlayHint() { return NULL; }
+	virtual DisplayCard* 	GetPlayHint() { return NULL; }
 
 	// basic routines, overridable
-	virtual void RecordCardPlay(int nPos, CCard* pCard);
-	virtual void RecordCardUndo(int nPos, CCard* pCard);
+	virtual void RecordCardPlay(int nPos, DisplayCard*  pCard);
+	virtual void RecordCardUndo(int nPos, DisplayCard*  pCard);
 	virtual void RecordTrickUndo();
-	virtual void RecordRoundComplete(int nPos, CCard* pCard);
+	virtual void RecordRoundComplete(int nPos, DisplayCard*  pCard);
 	virtual void RecordHandComplete(int nResult);
 	virtual void RecordSpecialEvent(int nCode, int nParam1=0, int nParam2=0, int nParam3=0);
 	//
-	virtual void AdjustCardCountFromPlay(int nPos, CCard* pCard);
-	virtual void AdjustCardCountFromUndo(int nPos, CCard* pCard);
-	virtual void AdjustHoldingsCount(CCard* pCard);
+	virtual void AdjustCardCountFromPlay(int nPos, DisplayCard*  pCard);
+	virtual void AdjustCardCountFromUndo(int nPos, DisplayCard*  pCard);
+	virtual void AdjustHoldingsCount(DisplayCard*  pCard);
 	virtual void RestartPlay();
 	virtual int  GetNumClaimableTricks() { return 0; }
 	virtual int  GetPrioritySuit() { return m_nPrioritySuit; }
@@ -67,9 +67,9 @@ public:
 
 	// analysis & counting routines
 	virtual int		GetOutstandingCards(int nSuit, CCardList& cardList, bool bCountDummy=false) const;
-	virtual CCard*	GetHighestOutstandingCard(int nSuit) const;
+	virtual DisplayCard* 	GetHighestOutstandingCard(int nSuit) const;
 	virtual int		GetNumOutstandingCards(int nSuit) const;
-	virtual BOOL	IsCardOutstanding(CCard* pCard) const;
+	virtual BOOL	IsCardOutstanding(DisplayCard*  pCard) const;
 	virtual BOOL	IsCardOutstanding(int nSuit, int nFaceValue) const;
 	virtual int		GetNumCardsPlayedInSuit(int nPlayer, int nSuit) const;
 	virtual int		GetMinCardsInSuit(int nPlayer, int nSuit) const;
@@ -103,7 +103,7 @@ public:
 protected:
 	//
 	virtual void	AssessPosition();
-	virtual CCard*	PlayBestCard(int nPosition);
+	virtual DisplayCard* 	PlayBestCard(int nPosition);
 	// 
 	virtual CHandHoldings&  GetDummyHand();
 	virtual CSuitHoldings&  GetDummySuit(int nSuit);
@@ -150,12 +150,12 @@ protected:
 	int		m_nRound;
 	int		m_numCardsPlayed;
 	int		m_nRoundLead;
-	CCard*	m_pLeadCard;
+	DisplayCard* 	m_pLeadCard;
 	int		m_nLeadSuit;
 	int		m_nLeadFaceValue;
-	CCard*	m_pPreviousCard;	// card played last round
-	CCard*	m_pPartnersCard;	// pard's card this round
-	CCard*	m_pPartnersPrevCard;// pard's card last round
+	DisplayCard* 	m_pPreviousCard;	// card played last round
+	DisplayCard* 	m_pPartnersCard;	// pard's card this round
+	DisplayCard* 	m_pPartnersPrevCard;// pard's card last round
 
 //
 // construction/destruction

@@ -29,7 +29,7 @@ public:
 	virtual CString GetFullDescription();
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
 
 // protected routines
 protected:
@@ -42,7 +42,7 @@ protected:
 // construction/destruction
 public:
 	CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal);	
-	CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard);
+	CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, DisplayCard*  pCard);
 	virtual ~CTypeAFinesse();
 };
 

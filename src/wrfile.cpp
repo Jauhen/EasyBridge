@@ -19,7 +19,7 @@
 #include "engine/playeropts.h"
 #include "filecode.h"
 #include "engine/Player.h"
-#include "Card.h"
+#include "display_card.h"
 #include "MainFrameOpts.h"
 
 #ifdef _DEBUG
@@ -239,7 +239,7 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 				strTemp += " ";
 				for(j=0;j<4;j++) 
 				{
-					CCard* pCard = NULL;
+					DisplayCard*  pCard = NULL;
 					if (i < m_numTricksPlayed)
 						pCard = m_pGameTrick[i][j];
 					else

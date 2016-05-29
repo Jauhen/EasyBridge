@@ -15,7 +15,6 @@
 
 #include "Play.h"
 
-
 //
 // The CCash class
 //
@@ -29,7 +28,7 @@ public:
 	virtual CString GetFullDescription();
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
 	//
 	virtual int		UsesUpEntry();
 
@@ -45,7 +44,7 @@ protected:
 // construction/destruction
 public:
 	CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit=NONE, int nCardVal=NONE, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
-	CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
+	CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, DisplayCard* pCard, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
 	CCash(CCash& srcPlay);
 	virtual ~CCash();
 };

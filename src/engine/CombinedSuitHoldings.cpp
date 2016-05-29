@@ -18,7 +18,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "Card.h"
+#include "display_card.h"
 #include "Deck.h"
 #include "Player.h"
 #include "CombinedSuitHoldings.h"
@@ -158,7 +158,7 @@ void CCombinedSuitHoldings::FormatHoldingsString()
 
 
 //
-void CCombinedSuitHoldings::Add(CCard* pCard, const BOOL bSort)
+void CCombinedSuitHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
 {
 	// shouldn't be using this version of the add operation
 	// with this class!!!
@@ -172,7 +172,7 @@ void CCombinedSuitHoldings::Add(CCard* pCard, const BOOL bSort)
 // - this is called upon a card/trick undo to add the card to both
 //   the combined suit and the proper declarer/dummy card lists
 //
-void CCombinedSuitHoldings::AddFromSource(CCard* pCard, const BOOL bPlayerCard, const BOOL bSort)
+void CCombinedSuitHoldings::AddFromSource(DisplayCard*  pCard, const BOOL bPlayerCard, const BOOL bSort)
 {
 	CSuitHoldings::Add(pCard, bSort);
 	if (bPlayerCard)
@@ -196,7 +196,7 @@ void CCombinedSuitHoldings::AddFromSource(CCard* pCard, const BOOL bPlayerCard, 
 //
 // - this is called when a card is pulled form the combined hand for a play
 //
-void CCombinedSuitHoldings::RemoveFromSource(CCard* pCard, const BOOL bPlayerCard)
+void CCombinedSuitHoldings::RemoveFromSource(DisplayCard*  pCard, const BOOL bPlayerCard)
 {
 	CSuitHoldings::Remove(pCard);
 	if (bPlayerCard)
@@ -217,10 +217,10 @@ void CCombinedSuitHoldings::RemoveFromSource(CCard* pCard, const BOOL bPlayerCar
 
 
 //
-CCard* CCombinedSuitHoldings::RemoveByIndex(int nIndex)
+DisplayCard*  CCombinedSuitHoldings::RemoveByIndex(int nIndex)
 {
 	// call base class operation
-	CCard* pCard = CSuitHoldings::RemoveByIndex(nIndex);
+	DisplayCard*  pCard = CSuitHoldings::RemoveByIndex(nIndex);
 
 	// perform additional processing
 	if (m_declarerCards.HasCard(pCard))
@@ -679,7 +679,7 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 //
 // called to re-evaluate the suit after a card has been played
 //
-void CCombinedSuitHoldings::ReevaluateHoldings(const CCard* pCard)
+void CCombinedSuitHoldings::ReevaluateHoldings(const DisplayCard*  pCard)
 {
 	// first call base class
 	CSuitHoldings::ReevaluateHoldings(pCard);

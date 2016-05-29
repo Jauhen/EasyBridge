@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "PlayerStatusDialog.h"
-#include "Card.h"
+#include "display_card.h"
 #include "../HandHoldings.h"
 #include "../bidding/BidEngine.h"
 #include "GIB.h"
@@ -119,7 +119,7 @@ void CDefenderPlayEngine::InitNewHand()
 //
 // note that a card has been played
 //
-void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard) 
+void CDefenderPlayEngine::RecordCardPlay(int nPos, DisplayCard*  pCard) 
 { 
 	// first call the base class
 	CPlayEngine::RecordCardPlay(nPos, pCard);
@@ -142,8 +142,8 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 	// see if partner is trying to signal with his discard
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nRoundLead = pDOC->GetRoundLead();
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
-	CCard* pTopCard = pDOC->GetCurrentTrickHighCard(0);
+	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	DisplayCard*  pTopCard = pDOC->GetCurrentTrickHighCard(0);
 	int nSuitLed = pCardLed->GetSuit();
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	int nCurrPlayer = pCard->GetOwner();
@@ -179,13 +179,13 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 			// see if we led the previous trick in the same suit, and 
 			// partner discarded high or low
 			int nPrevRound = nRound - 1;
-			CCard* nPrevCardLed = pDOC->GetGameTrickCard(nPrevRound, nPlayerPos);
+			DisplayCard*  nPrevCardLed = pDOC->GetGameTrickCard(nPrevRound, nPlayerPos);
 			if ( (pDOC->GetGameTrickLead(nPrevRound) == nPlayerPos) &&
 				 (pDOC->GetGameTrickWinner(nPrevRound) != nPartnerPos) &&
 				 (nPrevCardLed->GetSuit() == nSuitLed) )
 			{
 				// then check partner's discards from last round
-				CCard* pPrevCard = pDOC->GetGameTrickCard(nPrevRound, nPartnerPos);
+				DisplayCard*  pPrevCard = pDOC->GetGameTrickCard(nPrevRound, nPartnerPos);
 				int nPrevCardVal = pPrevCard->GetFaceValue();
 				if ( (m_nPartnerSuitPreference[nSuitLed] == 1) &&
 								(pCard->GetFaceValue() < nPrevCardVal) )
@@ -250,7 +250,7 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 //
 // note that a card has been undone
 //
-void CDefenderPlayEngine::RecordCardUndo(int nPos, CCard* pCard)
+void CDefenderPlayEngine::RecordCardUndo(int nPos, DisplayCard*  pCard)
 {
 	// call the base class
 	CPlayEngine::RecordCardUndo(nPos, pCard);
@@ -275,7 +275,7 @@ void CDefenderPlayEngine::RecordTrickUndo()
 //
 // RecordRoundComplete()
 //
-void CDefenderPlayEngine::RecordRoundComplete(int nPos, CCard* pCard) 
+void CDefenderPlayEngine::RecordRoundComplete(int nPos, DisplayCard*  pCard) 
 { 
 	// call the base class
 	CPlayEngine::RecordRoundComplete(nPos, pCard);
@@ -398,14 +398,14 @@ void CDefenderPlayEngine::AssessPosition()
 //
 // - returns a card to lead
 //
-CCard* CDefenderPlayEngine::GetLeadCard()
+DisplayCard*  CDefenderPlayEngine::GetLeadCard()
 {
 	// get basic info
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nRound = pDOC->GetPlayRound();
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	int nContractLevel = pDOC->GetContractLevel();
-	CCard* pLeadCard = NULL;
+	DisplayCard*  pLeadCard = NULL;
 	int nPlayerPos = GetPlayerPosition();
 	int nPartnerPos = GetPartnerPosition();
 	int nPartnersSuit = NONE;
@@ -590,7 +590,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 			else
 			{
 				// lead fourth-best from this suit OR our longest suit
-				CCard* pLeadCard = Get4thBestLeadCard();
+				DisplayCard*  pLeadCard = Get4thBestLeadCard();
 				m_nPrioritySuit = pLeadCard->GetSuit();
 				return pLeadCard;
 			}
@@ -654,7 +654,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 
 		// if we're leading in the second or later round after winning 
 		// the prior round which partner led, return partner's suit
-		CCard* pPartnersLastCard = pDOC->GetGameTrickCard(nRound-1, nPartnerPos);
+		DisplayCard*  pPartnersLastCard = pDOC->GetGameTrickCard(nRound-1, nPartnerPos);
 		int nSuit = pPartnersLastCard->GetSuit();
 		int nLead = pDOC->GetGameTrickLead(nRound-1);
 		if ( (pDOC->GetGameTrickWinner(nRound-1) == nPlayerPos) &&
@@ -1001,12 +1001,12 @@ int CDefenderPlayEngine::ReviewBiddingHistory()
 // - see if partner expressed a suit preference, and if so, see whether
 //   we can lead a card in the suit
 //
-CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
+DisplayCard*  CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	int nDummy = pDOC->GetDummyPosition();
-	CCard* pLeadCard = NULL;
+	DisplayCard*  pLeadCard = NULL;
 
 	//
 	for(int i=0;i<4;i++)
@@ -1108,12 +1108,12 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 //
 // Get4thBestLeadCard()
 //
-CCard* CDefenderPlayEngine::Get4thBestLeadCard()
+DisplayCard*  CDefenderPlayEngine::Get4thBestLeadCard()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	CSuitHoldings& suit = m_pHand->GetSuit(m_pHand->GetSuitsByPreference(0));
 	int nTrumpSuit = pDOC->GetTrumpSuit();
-	CCard* pLeadCard = NULL;
+	DisplayCard*  pLeadCard = NULL;
 
 	// see if we have 4+ cards in our best suit 
 	if (suit.GetNumCards() >= 4)
@@ -1170,11 +1170,11 @@ CCard* CDefenderPlayEngine::Get4thBestLeadCard()
 // - lead a winner card if we have one
 // - called _after_ the first round
 //
-CCard* CDefenderPlayEngine::CashWinners()
+DisplayCard*  CDefenderPlayEngine::CashWinners()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nTrumpSuit = pDOC->GetTrumpSuit();
-	CCard* pLeadCard = NULL;
+	DisplayCard*  pLeadCard = NULL;
 
 	// check to see if we even have any winners
 	if (m_pHand->GetNumWinners() == 0)
@@ -1267,14 +1267,14 @@ CCard* CDefenderPlayEngine::CashWinners()
 //
 // GetDiscard()
 //
-CCard* CDefenderPlayEngine::GetDiscard()
+DisplayCard*  CDefenderPlayEngine::GetDiscard()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	CCard* pDiscard = NULL;
+	DisplayCard*  pDiscard = NULL;
 
 	//
 	int nTrumpSuit = pDOC->GetTrumpSuit();
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed->GetSuit();
 	CHandHoldings& hand = *m_pHand;
 	CSuitHoldings& suit = hand.GetSuit(nSuitLed);
@@ -1371,9 +1371,9 @@ CCard* CDefenderPlayEngine::GetDiscard()
 		// exception: with trumps, echo hi/lo with odd, lo/hi with even
 		BOOL bEvenCount = ((numOrigSuitCards %2 ) == 0);
 		// find a decent high card to drop
-		CCard* pHighCard = GetHighDiscard(suit);
+		DisplayCard*  pHighCard = GetHighDiscard(suit);
 		//
-		CCard* pLowCard = suit[numCards-1];
+		DisplayCard*  pLowCard = suit[numCards-1];
 		//
 		if ((m_nEchoedSuit == NONE) && !m_bSuitEchoed[nSuitLed])
 		{
@@ -1527,7 +1527,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 		if (m_pHand->GetNumCardsInSuit(nSuitLed) == 0)
 		{
 			// return the first card in the discard list
-			CCard* pCard = m_priorityDiscards[0];
+			DisplayCard*  pCard = m_priorityDiscards[0];
 			status << "PLDIS50! Use this opportunity to discard the " & pCard->GetName() & ".\n";
 			return pCard;
 		}
@@ -1540,7 +1540,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 				if (m_priorityDiscards[i]->GetSuit() == nSuitLed)
 				{
 					// return the first card in the discard list
-					CCard* pCard = m_priorityDiscards[i];
+					DisplayCard*  pCard = m_priorityDiscards[i];
 					CSuitHoldings& suit = m_pHand->GetSuit(pCard->GetSuit());
 					if (suit.GetNumCards() > 1)
 						status << "PLDIS51! Use this opportunity to discard the " & pCard->GetName() & ".\n";
@@ -1724,10 +1724,10 @@ CCard* CDefenderPlayEngine::GetDiscard()
 //
 // select a discard that's high but not too high
 // 
-CCard* CDefenderPlayEngine::GetHighDiscard(CSuitHoldings& suit)
+DisplayCard*  CDefenderPlayEngine::GetHighDiscard(CSuitHoldings& suit)
 { 
 	// first see if the suit has a lot of high cards
-	CCard* pHighCard = NULL;
+	DisplayCard*  pHighCard = NULL;
 	if (suit.GetNumCardsAbove(6) > 1)
 	{
 		// multiple high cards -- see if we have one that's not a winner
@@ -1765,13 +1765,13 @@ CCard* CDefenderPlayEngine::GetHighDiscard(CSuitHoldings& suit)
 //
 // select a card to play
 // 
-CCard* CDefenderPlayEngine::PlayCard()
+DisplayCard*  CDefenderPlayEngine::PlayCard()
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	AssessPosition();
 
 	// see if we're using GIB
-	CCard* pCard;
+	DisplayCard*  pCard;
 /*
 	if (m_bUsingGIB)
 	{
@@ -1831,7 +1831,7 @@ CCard* CDefenderPlayEngine::PlayCard()
 //
 // PlayFirst()
 //
-CCard* CDefenderPlayEngine::PlayFirst()
+DisplayCard*  CDefenderPlayEngine::PlayFirst()
 {
 	return CPlayEngine::PlayFirst();
 /*
@@ -1850,7 +1850,7 @@ CCard* CDefenderPlayEngine::PlayFirst()
 //
 // - play second hand as defender
 //
-CCard* CDefenderPlayEngine::PlaySecond()
+DisplayCard*  CDefenderPlayEngine::PlaySecond()
 {
 //	return CPlayEngine::PlaySecond();
 
@@ -1861,18 +1861,18 @@ CCard* CDefenderPlayEngine::PlaySecond()
 	int nDeclarerPos = pDOC->GetDeclarerPosition();
 	int nDummyPos = pDOC->GetDummyPosition();
 	CPlayer* pDummy = pDOC->GetDummyPlayer();
-	CCard* pCardLed = pDOC->GetCurrentTrickCardLed();
+	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
-	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard();
+	DisplayCard*  pCurrTopCard = pDOC->GetCurrentTrickHighCard();
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	CSuitHoldings& suit = m_pHand->GetSuit(nSuitLed);
 	// card to play
-	CCard* pCard = NULL;
+	DisplayCard*  pCard = NULL;
 
 	// determine the top card -- it's either the one led by declarer 
 	// or dummy's top holding in the suit, if dummy is to our left
-	CCard* pTopCard;
+	DisplayCard*  pTopCard;
 	CHandHoldings& dummyHand = GetDummyHand();
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(nSuitLed);
 	int numDummySuitCards = dummySuit.GetNumCards();
@@ -1910,7 +1910,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 			// see if we have cards higher than the top card
 			if (suit.GetNumCardsAbove(pTopCard) > 0)
 			{
-				CCard* pCard = suit.GetLowestCardAbove(pTopCard);
+				DisplayCard*  pCard = suit.GetLowestCardAbove(pTopCard);
 				if ((nTrumpSuit != NOTRUMP) && (dummyHand.GetNumTrumps() == 0))
 				{
 					// suit play, and dummy is out of trumps
@@ -2096,7 +2096,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 				{
 					// dummy is also void in the suit led, 
 					// so trump only if we have a trump higher than dummy's
-					CCard* pDummyTopTrump = dummyHand.GetSuit(nTrumpSuit).GetTopCard();
+					DisplayCard*  pDummyTopTrump = dummyHand.GetSuit(nTrumpSuit).GetTopCard();
 					if (trumpSuit.GetNumCardsAbove(pDummyTopTrump->GetFaceValue()) > 0)
 					{
 						// go ahead and ruff
@@ -2155,7 +2155,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 //
 // PlayThird()
 //
-CCard* CDefenderPlayEngine::PlayThird()
+DisplayCard*  CDefenderPlayEngine::PlayThird()
 {
 //	return CPlayEngine::PlayThird();
 	CPlayerStatusDialog& status = *m_pStatusDlg;
@@ -2166,11 +2166,11 @@ CCard* CDefenderPlayEngine::PlayThird()
 	//
 
 	// get play info
-	CCard* pCurrentCard = pDOC->GetCurrentTrickCardLed();
+	DisplayCard*  pCurrentCard = pDOC->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	CPlayer* pDummy = pDOC->GetDummyPlayer();
 	int nTopPos;
-	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
+	DisplayCard*  pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
 	int nCurrentRound = pDOC->GetPlayRound();
@@ -2178,15 +2178,15 @@ CCard* CDefenderPlayEngine::PlayThird()
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	int numCardsInSuitLed = m_pHand->GetNumCardsInSuit(nSuitLed);
 	// card to play
-	CCard* pCard = NULL;
+	DisplayCard*  pCard = NULL;
 	//
-	CCard* pPartnersCard = pDOC->GetCurrentTrickCard(m_pPartner->GetPosition());
+	DisplayCard*  pPartnersCard = pDOC->GetCurrentTrickCard(m_pPartner->GetPosition());
 	if (pPartnersCard == pCurrTopCard)
 		bPartnerHigh = TRUE;
 
 	// determine the actual top opponent card -- it's either the highest one played
 	// or dummy's top holding in the suit, if dummy is to our left
-	CCard* pActualTopCard = pCurrTopCard;
+	DisplayCard*  pActualTopCard = pCurrTopCard;
 	CHandHoldings& dummyHand = GetDummyHand();
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(nSuitLed);
 	int numDummySuitCards = dummySuit.GetNumCards();
@@ -2210,7 +2210,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 		// (in third seat, partner can't have trumps)
 		// see if we can overtrump
 		CSuitHoldings& trumpSuit = m_pHand->GetSuit(nTrumpSuit);
-		CCard* pTopTrump = NULL;
+		DisplayCard*  pTopTrump = NULL;
 		if (trumpSuit.GetNumCards() > 0)
 			pTopTrump = trumpSuit.GetTopCard();
 		if ((numCardsInSuitLed == 0) && pTopTrump && (*pTopTrump > *pCurrTopCard))
@@ -2302,8 +2302,8 @@ CCard* CDefenderPlayEngine::PlayThird()
 							// playing in third seat -- decide whether to 
 							// let partner's card ride
 							// do so if if partner's card beats all outstanding cards
-							CCard* pTopOutstandingCard = GetHighestOutstandingCard(nSuitLed);
-							CCard* pOurCard = suit.GetTopSequence().GetBottomCard();
+							DisplayCard*  pTopOutstandingCard = GetHighestOutstandingCard(nSuitLed);
+							DisplayCard*  pOurCard = suit.GetTopSequence().GetBottomCard();
 							if ( (pTopOutstandingCard == NULL) || (*pCurrTopCard > *pTopOutstandingCard) ||
 								 (pOurCard->GetFaceValue() <= pCurrTopCard->GetFaceValue() + 1) )
 							{
@@ -2468,7 +2468,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 //
 // PlayFourth()
 //
-CCard* CDefenderPlayEngine::PlayFourth()
+DisplayCard*  CDefenderPlayEngine::PlayFourth()
 {
 	return CPlayEngine::PlayFourth();
 }
@@ -2480,7 +2480,7 @@ CCard* CDefenderPlayEngine::PlayFourth()
 //
 // GetPlayHint()
 //
-CCard* CDefenderPlayEngine::GetPlayHint()
+DisplayCard*  CDefenderPlayEngine::GetPlayHint()
 {
 	return PlayCard();
 }

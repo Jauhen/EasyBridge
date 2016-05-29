@@ -20,7 +20,7 @@
 #include "MainFrameOpts.h"
 #include "myfildlg.h"
 #include "deck.h"
-#include "card.h"
+#include "display_card.h"
 #include "RoundFinishedDialog.h"
 #include "BidDialog.h"
 #include "NeuralNet.h"
@@ -423,7 +423,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName)
 					if (nDeckVal < 0)
 						break;
 					//
-					CCard* pCard = deck.GetSortedCard(nDeckVal);
+					DisplayCard*  pCard = deck.GetSortedCard(nDeckVal);
 					if (pCard == NULL)
 						break;	// reached end of play record
 
@@ -655,7 +655,7 @@ BOOL CEasyBDoc::WasTrumpPlayed() const
 	//
 	for(int i=0;i<m_numCardsPlayedInRound;i++)
 	{
-		CCard* pCard = m_pCurrTrick[nIndex];
+		DisplayCard*  pCard = m_pCurrTrick[nIndex];
 		if ((pCard) && (pCard->GetSuit() == m_nTrumpSuit))
 			return TRUE;
 		nIndex = GetNextPlayer(nIndex);
@@ -665,7 +665,7 @@ BOOL CEasyBDoc::WasTrumpPlayed() const
 
 
 //
-CCard* CEasyBDoc::GetCurrentTrickCardByOrder(int nOrder) const
+DisplayCard*  CEasyBDoc::GetCurrentTrickCardByOrder(int nOrder) const
 {
 	if ((nOrder < 0) || (nOrder >= m_numCardsPlayedInRound))
 		return NULL;
@@ -683,11 +683,11 @@ CCard* CEasyBDoc::GetCurrentTrickCardByOrder(int nOrder) const
 //
 // returns the current high card for the trick
 //
-CCard* CEasyBDoc::GetCurrentTrickHighCard(int* nPos) const
+DisplayCard*  CEasyBDoc::GetCurrentTrickHighCard(int* nPos) const
 {
 	// set the round lead as the initial high card
 	int nHighPos = m_nRoundLead;
-	CCard* pHighCard = m_pCurrTrick[m_nRoundLead];
+	DisplayCard*  pHighCard = m_pCurrTrick[m_nRoundLead];
 	if (pHighCard == NULL)
 		return NULL;
 	int nSuit = pHighCard->GetSuit();
@@ -698,7 +698,7 @@ CCard* CEasyBDoc::GetCurrentTrickHighCard(int* nPos) const
 	//
 	for(int i=0;i<m_numCardsPlayedInRound-1;i++)
 	{
-		CCard* pCard = m_pCurrTrick[nIndex];
+		DisplayCard*  pCard = m_pCurrTrick[nIndex];
 		if (!bTrumpPlayed)
 		{
 			// no trump played so far in this round, 
@@ -1330,7 +1330,7 @@ void CEasyBDoc::GetGameHint(BOOL bAutoHintRequest)
 			if (!bAutoHintRequest && (theApp.GetValue(tnAutoHintMode) > 0))
 				return;
 			// get the hint
-			CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint();
+			DisplayCard*  pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint();
 			if (pCard)
 			{
 				CWindowDC dc(pVIEW);
@@ -1421,7 +1421,7 @@ void CEasyBDoc::ShowAutoHint()
 	else if (theApp.IsGameInProgress())
 	{
 		// get the play hint
-		CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint(TRUE);
+		DisplayCard*  pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint(TRUE);
 		if (pCard)
 		{
 			pHintDlg->EnableHintAccept(TRUE);
@@ -2007,7 +2007,7 @@ void CEasyBDoc::ExposeDummy(BOOL bExpose, BOOL bRedraw)
 //
 // called to see if a play is valid
 //
-BOOL CEasyBDoc::TestPlayValidity(Position nPos, CCard* pCard, BOOL bAlert)
+BOOL CEasyBDoc::TestPlayValidity(Position nPos, DisplayCard*  pCard, BOOL bAlert)
 {
 	// see if it's from the proper hand
 	if ((pCard->GetOwner() != nPos) || (nPos != m_nCurrPlayer))
@@ -2039,7 +2039,7 @@ BOOL CEasyBDoc::TestPlayValidity(Position nPos, CCard* pCard, BOOL bAlert)
 //
 // called when a card is played onto the table
 //
-void CEasyBDoc::EnterCardPlay(Position nPos, CCard* pCard) 
+void CEasyBDoc::EnterCardPlay(Position nPos, DisplayCard*  pCard) 
 {	
 	// sanity check
 	if (m_numCardsPlayedInRound > 0)
@@ -2111,7 +2111,7 @@ void CEasyBDoc::InvokeNextPlayer()
 	}
 
 	// now call the card play function
-	CCard* pCard;
+	DisplayCard*  pCard;
 	try 
 	{
 		pCard = pCurrPlayer->PlayCard();
@@ -2167,7 +2167,7 @@ void CEasyBDoc::UndoLastCardPlayed()
 		return;
 	int nPos = GetPrevPlayer(m_nCurrPlayer);
 
-	CCard* pCard = m_pCurrTrick[nPos];
+	DisplayCard*  pCard = m_pCurrTrick[nPos];
 	// turn card back over if necessary -- i.e., if all cards are face up, 
 	// or if the card belongs to South, or to dummy, or to North when South is dummy
 	if ((nPos == SOUTH) || (nPos == m_nDummy) || ((nPos == NORTH) && (m_nDummy == SOUTH)) )
@@ -2251,7 +2251,7 @@ void CEasyBDoc::UndoPreviousTrick()
 	for(int i=0;i<4;i++)
 	{
 		// retrieve the card and turn face up or down
-		CCard* pCard = m_pGameTrick[nRound][nPos];
+		DisplayCard*  pCard = m_pGameTrick[nRound][nPos];
 		if ((nPos == SOUTH) || (nPos == m_nDummy) || ((nPos == NORTH) && (m_nDummy == SOUTH)) )
 //				((nPos == NORTH) && (m_nDummy == SOUTH) && (m_numTricksPlayed > 1)) )
 			pCard->SetFaceUp();
@@ -2337,7 +2337,7 @@ void CEasyBDoc::ClearHands()
 //
 void CEasyBDoc::EvaluateTrick(BOOL bQuietMode) 	
 {
-	CCard *pCard;
+	DisplayCard* pCard;
 	// evalaute winner
 	int nPos;
 	m_nHighVal = 0;
@@ -3566,7 +3566,7 @@ int CEasyBDoc::DealCards()
 	{
 		for(j=0;j<4;j++)
 		{
-			CCard* pCard = deck[nCount++];
+			DisplayCard*  pCard = deck[nCount++];
 			m_pPlayer[j]->AddCardToHand(pCard);
 		}
 	}
@@ -3609,7 +3609,7 @@ void CEasyBDoc::DealHands(BOOL bUseDealNumber, int nDealNumber)
 	{
 		for(j=0;j<4;j++)
 		{
-			CCard* pCard = deck[nCount++];
+			DisplayCard*  pCard = deck[nCount++];
 			m_pPlayer[j]->AddCardToHand(pCard);
 		}
 	}
@@ -3780,7 +3780,7 @@ void CEasyBDoc::RotatePartialHands(int numPositions)
 		SwapPartialHands(SOUTH, EAST);
 
 		// rotate round play history
-		CCard* pTemp = m_pCurrTrick[SOUTH];
+		DisplayCard*  pTemp = m_pCurrTrick[SOUTH];
 		m_pCurrTrick[SOUTH] = m_pCurrTrick[WEST];
 		m_pCurrTrick[WEST] = pTemp;
 		//
@@ -3860,7 +3860,7 @@ void CEasyBDoc::RotatePartialHands(int numPositions)
 		// rotate play record
 		for(int j=0;j<numPositions;j++)
 		{
-			CCard* pTemp = m_pGameTrick[i][SOUTH];
+			DisplayCard*  pTemp = m_pGameTrick[i][SOUTH];
 			m_pGameTrick[i][SOUTH] = m_pGameTrick[i][WEST];
 			m_pGameTrick[i][WEST] = pTemp;
 			//
@@ -5295,7 +5295,7 @@ BOOL CEasyBDoc::SwapPlayersHands(Position player1, Position player2, BOOL bRefre
 		return FALSE;
 	}
 	//
-	CCard *pTempCard[13];
+	DisplayCard *pTempCard[13];
 	int i, numCards = m_pPlayer[player1]->GetNumCards();
 
 	// first remove player 1's cards
@@ -5922,7 +5922,7 @@ int CEasyBDoc::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			m_nPlayRecord[nIndex1] = nVal;
 			break;
 		case tpcGameTrick:		// [13][4]
-			m_pGameTrick[nIndex1][nIndex2] = (CCard*) value;
+			m_pGameTrick[nIndex1][nIndex2] = (DisplayCard* ) value;
 			break;
 		case tnTrickLead:		// [13]
 			m_nTrickLead[nIndex1] = nVal;
@@ -5931,7 +5931,7 @@ int CEasyBDoc::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			m_nTrickWinner[nIndex1] = nVal;
 			break;
 		case tpcCurrentTrick:	// [4] 
-			m_pCurrTrick[nIndex1] = (CCard*) value;
+			m_pCurrTrick[nIndex1] = (DisplayCard* ) value;
 			break;
 		case tnumTricksPlayed:
 			m_numTricksPlayed = nVal;
@@ -5969,7 +5969,7 @@ int CEasyBDoc::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			m_nHighTrumpVal = nVal;
 			break;
 		case tpvHighCard:
-			m_pHighCard = (CCard*) value;
+			m_pHighCard = (DisplayCard* ) value;
 			break;
 		case tnHighPos:
 			m_nHighPos = nVal;

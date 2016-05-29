@@ -28,14 +28,14 @@ public:
 	virtual void InitNewHand();
 	virtual void InitSwappedHand();
 	virtual void ClearHand(BOOL bClearInitialHand=TRUE);
-	virtual void Add(CCard* pCard, const BOOL bSort=FALSE);
-	virtual void AddToInitialHand(CCard* pCard, const BOOL bSort=FALSE);
-	virtual CCard* RemoveByIndex(const int nIndex);
+	virtual void Add(DisplayCard*  pCard, const BOOL bSort=FALSE);
+	virtual void AddToInitialHand(DisplayCard*  pCard, const BOOL bSort=FALSE);
+	virtual DisplayCard*  RemoveByIndex(const int nIndex);
 	virtual void Sort();
 	//
 	virtual double CountPoints(const BOOL bForceCount=FALSE);
 	virtual void EvaluateHoldings();
-	virtual void ReevaluateHoldings(const CCard* pCard=NULL);
+	virtual void ReevaluateHoldings(const DisplayCard*  pCard=NULL);
 	virtual void FormatHoldingsString();
 	//
 	virtual void CountCards();
@@ -48,13 +48,13 @@ public:
 	int SetValue(int nItem, double fValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
 	int SetValue(int nItem, int nValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
 	void SetInitialHand(const CCardHoldings& srcCards) { m_initialHand.Clear(); m_initialHand << srcCards; };
-	void SetInitialHandCard(int nIndex, CCard* pCard) { m_initialHand.SetCard(nIndex, pCard); };
+	void SetInitialHandCard(int nIndex, DisplayCard* pCard) { m_initialHand.SetCard(nIndex, pCard); };
 	void RestoreInitialHand();
 	void RestartBidding();
 	//
-	CCard* GetCardInSuit(int nSuit, int nIndex) const { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit][nIndex]; }
-	CCard* GetInitialHandCard(int nIndex) const { return m_initialHand[nIndex]; }
-	CCard* GetDisplayedCard(int nIndex) const { return m_displayHand[nIndex]; }
+	DisplayCard*  GetCardInSuit(int nSuit, int nIndex) const { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit][nIndex]; }
+	DisplayCard*  GetInitialHandCard(int nIndex) const { return m_initialHand[nIndex]; }
+	DisplayCard*  GetDisplayedCard(int nIndex) const { return m_displayHand[nIndex]; }
 	CCardHoldings& GetInitialHand() { return m_initialHand; }
 	double RevalueHand(int nMode, int nSuit, BOOL bTrace, BOOL bForceRevalue=FALSE);
 	//
@@ -65,14 +65,14 @@ public:
 	//
 	int RankSuits(int numSuits, int nArbitrate, int nSuit1, int nSuit2, 
 								int nSuit3=NONE, int nSuit4=NONE, int* pOrder=NULL);
-	CCard* GetDiscard();
+	DisplayCard*  GetDiscard();
 
 	//
 	// inline functions
 	//
-	CCard* GetCardByPosition(int nSuit, int nPos) const { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit][nPos]; }
-	CCard* GetCardByValue(int nSuit, int nFaceValue) const { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit].FindCardByFaceValue(nFaceValue); }
-	CCard* GetCardByValue(int nCardValue) const { return GetCardByValue(CARDSUIT(nCardValue), FACEVAL(nCardValue)); }
+	DisplayCard*  GetCardByPosition(int nSuit, int nPos) const { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit][nPos]; }
+	DisplayCard*  GetCardByValue(int nSuit, int nFaceValue) const { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit].FindCardByFaceValue(nFaceValue); }
+	DisplayCard*  GetCardByValue(int nCardValue) const { return GetCardByValue(CARDSUIT(nCardValue), FACEVAL(nCardValue)); }
 	CSuitHoldings& GetSuit(int nSuit) { VERIFY((nSuit>=0)&&(nSuit<=3)); return m_suit[nSuit]; }
 	BOOL AreCardsExposed() const { return m_bCardsExposed; }
 	void ExposeCards(BOOL bExposed);

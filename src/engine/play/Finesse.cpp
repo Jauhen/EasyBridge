@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "Deck.h"
-#include "Card.h"
+#include "display_card.h"
 #include "../CardList.h"
 //#include "CardList.h"
 #include "Finesse.h"
@@ -35,7 +35,7 @@ CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList
 	Init();
 }
 
-CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic) :
+CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, DisplayCard*  pCard, BOOL bOpportunistic) :
 					CPlay(FINESSE, nTargetHand, NONE, PP_SPECULATIVE, bOpportunistic),
 					m_nSubType(nSubType),
 					m_nPlayerPosition(nPlayerPosition),

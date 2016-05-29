@@ -14,7 +14,7 @@
 #include "mainfrm.h"
 #include "engine/Player.h"
 #include "deck.h"
-#include "card.h"
+#include "display_card.h"
 #include "progopts.h"
 #include "docopts.h"
 #include "DrawParameters.h"
@@ -371,7 +371,7 @@ void CEasyBView::DrawTableCards(CDC* pDC, BOOL bFullDraw)
 
 	// and any trick cards on the table
 	int numCards = pDOC->GetNumCardsPlayedInRound();
-	CCard* pCard;
+	DisplayCard*  pCard;
 	// gotta stretch the clipping region to make sure table 
 	// cards are visible
 	CDC* pNewDC = GetDC();
@@ -405,7 +405,7 @@ void CEasyBView::DrawCardLayoutMode(CDC* pDC, BOOL bDrawPile, BOOL bDrawHands)
 	ASSERT_VALID(pDoc);
 
 	int i,j,nSuit;
-	CCard* pCard;
+	DisplayCard*  pCard;
 	CDC cacheDC;
    	CBitmap tempBitmap,*pOldBitmap;
 
@@ -511,7 +511,7 @@ BOOL CEasyBView::EnableCardAnimation(BOOL bEnable)
 //
 // Throw a card down -- i.e., play a card on the table
 //
-void CEasyBView::ThrowCard(Position nPos, CCard* pCard) 
+void CEasyBView::ThrowCard(Position nPos, DisplayCard*  pCard) 
 {
 	CDC *pDC = GetDC();
 	int x,y;
@@ -524,7 +524,7 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 	strLine = "Tricks: ";
 	for(int i=0;i<pDOC->GetNumCardsPlayedInRound();i++) 
 	{
-		CCard* pCard = pDOC->GetCurrentTrickCard(i);
+		DisplayCard*  pCard = pDOC->GetCurrentTrickCard(i);
 		if (pCard)
 			strTemp = pCard->GetName();
 		strLine += strTemp;
@@ -589,7 +589,7 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 //
 // Draw a played card without doing anything else
 //
-void CEasyBView::DrawPlayedCard(Position nPos, CCard* pCard, BOOL bShowAtEnd) 
+void CEasyBView::DrawPlayedCard(Position nPos, DisplayCard*  pCard, BOOL bShowAtEnd) 
 {
 	CDC *pDC = GetDC();
 	int x,y;
@@ -724,7 +724,7 @@ void CEasyBView::ClearTable()
 		CDC *pDC = GetDC();
 		for(int i=0;i<4;i++) 
 		{
-			CCard* pCard = pDOC->GetCurrentTrickCard(i);
+			DisplayCard*  pCard = pDOC->GetCurrentTrickCard(i);
 			ASSERT(pCard != NULL);
 			pCard->RestoreBackground(pDC);
 		}
@@ -900,7 +900,7 @@ void CEasyBView::DoOpeningSequence()
 	// avoid repetition of the opening sequence
 	if (m_bOpeningSequenceDone)
 		return;
-	CCard *pCard;
+	DisplayCard *pCard;
 	CDC* pDC = GetDC();
 	RECT rect;
 	GetClientRect(&rect);
@@ -1344,7 +1344,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		int nPos = pDOC->GetRoundLead();
 		for(int i=0;i<numCards;i++) 
 		{
-			CCard* pCard = pDOC->GetCurrentTrickCard(nPos);
+			DisplayCard*  pCard = pDOC->GetCurrentTrickCard(nPos);
 			if (pCard)
 				pCard->MoveTo(NULL, m_cardDest[nPos].x, m_cardDest[nPos].y, FALSE);
 			nPos = GetNextPlayer(nPos);

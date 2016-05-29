@@ -19,7 +19,7 @@
 #include "engine/playeropts.h"
 #include "filecodePBN.h"
 #include "engine/Player.h"
-#include "Card.h"
+#include "display_card.h"
 #include "MainFrameOpts.h"
 #include "engine/HandHoldings.h"
 #include "engine/CardHoldings.h"
@@ -177,7 +177,7 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 		int nPos = m_nGameLead;
 		for(int j=0;j<4;j++)
 		{
-			CCard* pCard = m_pGameTrick[i][nPos];
+			DisplayCard*  pCard = m_pGameTrick[i][nPos];
 			if (pCard == NULL)
 				strPlays += "-  ";
 			else

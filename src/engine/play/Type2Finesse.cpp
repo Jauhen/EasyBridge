@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "../Player.h"
-#include "Card.h"
+#include "display_card.h"
 #include "../CardList.h"
 #include "Type2Finesse.h"
 #include "PlayEngine.h"
@@ -43,7 +43,7 @@ CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pG
 	Init();
 }
 
-CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard) :
+CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, DisplayCard*  pCard) :
 		CFinesse(CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pCoverCards(pCoverCards)
 
@@ -119,7 +119,7 @@ CString CType2Finesse::GetFullDescription()
 //
 PlayResult CType2Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 						   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-	 					   CPlayerStatusDialog& status, CCard*& pPlayCard)
+	 					   CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
 {
 	// Type II Finesse
 	// - lead of the finesse card, when a lower card is held in the same hand, 
@@ -135,7 +135,7 @@ PlayResult CType2Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
@@ -144,7 +144,7 @@ PlayResult CType2Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
-	CCard* pOppCard = NULL;
+	DisplayCard*  pOppCard = NULL;
 	BOOL bLeading = TRUE;
 	CString strRHO = bPlayingInHand? playEngine.szRHO : playEngine.szLHO;
 

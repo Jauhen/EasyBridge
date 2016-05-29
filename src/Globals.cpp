@@ -22,7 +22,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "deck.h"
-#include "card.h"
+#include "display_card.h"
 #include "engine/bidding/ConventionSet.h"
 
 

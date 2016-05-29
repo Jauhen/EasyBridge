@@ -1,28 +1,9 @@
-//----------------------------------------------------------------------------------------
-//
-// This file and all other Easy Bridge source files are copyright (C) 2002 by Steven Han.
-// Use of this file is governed by the GNU General Public License.
-// See the files COPYING and COPYRIGHT for details.
-//
-//----------------------------------------------------------------------------------------
+#ifndef EZ_DISPLAY_CARD_H_
+#define EZ_DISPLAY_CARD_H_
 
-//
-// Card.h
-//
+#include "card.h"
 
-// TODO(kutsuk): method to extract
-//Used in CardList:
-//SetAssigned
-//SetOwner
-//GetSuit
-//GetFaceValue
-//GetDeskValue
-//GetName
-//SetFaceUp
-
-#ifndef __CARD__
-#define __CARD__
-
+//namespace easy_bridge {
 
 // file constants
 extern const TCHAR cSuit[];
@@ -33,7 +14,7 @@ extern const LPCTSTR szFaceValueName[];
 class CDeck;
 
 
-class CCard {
+class DisplayCard {
 
   friend class CDeck;
 
@@ -83,11 +64,11 @@ public:
   int GetDummyDisplayValue() const;
 
   // overloaded operators
-  BOOL operator>(CCard& compareCard) { return (m_nDeckValue > compareCard.GetDeckValue()) ? TRUE : FALSE; }
-  BOOL operator<(CCard& compareCard) { return (m_nDeckValue < compareCard.GetDeckValue()) ? TRUE : FALSE; }
-  BOOL operator==(CCard& compareCard) { return (m_nDeckValue == compareCard.GetDeckValue()) ? TRUE : FALSE; }
-  BOOL operator>=(CCard& compareCard) { return (m_nDeckValue >= compareCard.GetDeckValue()) ? TRUE : FALSE; }
-  BOOL operator<=(CCard& compareCard) { return (m_nDeckValue <= compareCard.GetDeckValue()) ? TRUE : FALSE; }
+  BOOL operator>(DisplayCard& compareCard) { return (m_nDeckValue > compareCard.GetDeckValue()) ? TRUE : FALSE; }
+  BOOL operator<(DisplayCard& compareCard) { return (m_nDeckValue < compareCard.GetDeckValue()) ? TRUE : FALSE; }
+  BOOL operator==(DisplayCard& compareCard) { return (m_nDeckValue == compareCard.GetDeckValue()) ? TRUE : FALSE; }
+  BOOL operator>=(DisplayCard& compareCard) { return (m_nDeckValue >= compareCard.GetDeckValue()) ? TRUE : FALSE; }
+  BOOL operator<=(DisplayCard& compareCard) { return (m_nDeckValue <= compareCard.GetDeckValue()) ? TRUE : FALSE; }
   BOOL operator>(int nFaceValue) { VERIFY(nFaceValue <= ACE); return (m_nFaceValue > nFaceValue) ? TRUE : FALSE; }
   BOOL operator<(int nFaceValue) { VERIFY(nFaceValue <= ACE); return (m_nFaceValue < nFaceValue) ? TRUE : FALSE; }
   BOOL operator==(int nFaceValue) { VERIFY(nFaceValue <= ACE); return (m_nFaceValue == nFaceValue) ? TRUE : FALSE; }
@@ -95,8 +76,8 @@ public:
   BOOL operator<=(int nFaceValue) { VERIFY(nFaceValue <= ACE); return (m_nFaceValue <= nFaceValue) ? TRUE : FALSE; }
   int operator+(int nVal) { return (m_nFaceValue + nVal); }
   int operator-(int nVal) { return (m_nFaceValue - nVal); }
-  int operator+(CCard& card) { return (m_nFaceValue + card.GetFaceValue()); }
-  int operator-(CCard& card) { return (m_nFaceValue - card.GetFaceValue()); }
+  int operator+(DisplayCard& card) { return (m_nFaceValue + card.GetFaceValue()); }
+  int operator-(DisplayCard& card) { return (m_nFaceValue - card.GetFaceValue()); }
 
   // inline functions
   int GetFaceValue() const { return m_nFaceValue; }
@@ -148,12 +129,15 @@ private:
 
   // routines
 private:
-  CCard();
-  ~CCard();
+  DisplayCard();
+  ~DisplayCard();
 
 private:
-  void operator=(CCard*  pSource);
-  void operator=(CCard& cSource);
+  void operator=(DisplayCard* pSource);
+  void operator=(DisplayCard& cSource);
+
+  DisplayCard*  card_;
 };
 
-#endif
+//} // namespace easy_bridge
+#endif // !EZ_DISPLAY_CARD_H_

@@ -35,7 +35,7 @@ public:
 	virtual CString GetFullDescription();
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
 
 // protected routines
 protected:
@@ -48,7 +48,7 @@ protected:
 // construction/destruction
 public:
 	CDiscard(int nTargetHand, int nSuit=NONE, int nCardVal=NONE);
-	CDiscard(int nTargetHand, CCard* pCard);
+	CDiscard(int nTargetHand, DisplayCard*  pCard);
 	CDiscard(CDiscard& srcPlay);
 	virtual ~CDiscard();
 };

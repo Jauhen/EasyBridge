@@ -20,13 +20,12 @@
 #include "progopts.h"
 #include "engine/GameRecord.h"
 #include "deck.h"
-#include "card.h"
+#include "display_card.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
 static char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
-
 
 //
 // PBN File Format codes
@@ -790,7 +789,7 @@ void CEasyBDoc::AssignCardsPBN(const CString& str)
 			{
 				int nValue = CharToFaceValue(strSuit[j]);
 				int nIndex = MAKEDECKVALUE(nSuit, nValue);
-				CCard* pCard = deck.GetSortedCard(nIndex);
+				DisplayCard* pCard = deck.GetSortedCard(nIndex);
 				ASSERT(pCard);
 				m_pPlayer[nPlayer]->AddCardToHand(pCard,FALSE);
 				m_pPlayer[nPlayer]->AddCardToInitialHand(pCard);

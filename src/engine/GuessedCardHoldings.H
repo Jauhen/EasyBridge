@@ -30,11 +30,11 @@ public:
 	virtual CGuessedCard* RemoveByIndex(int nIndex);	// the main routine
 	virtual CGuessedCard* RemoveByValue(int nDeckValue);
 	virtual void Remove(CGuessedCard* pCard);
-	virtual CGuessedCard* Remove(CCard* pCard);
+	virtual CGuessedCard* Remove(DisplayCard*  pCard);
 	virtual void DeleteByIndex(int nIndex);
 	virtual void DeleteByValue(int nDeckValue);
 	virtual void Delete(CGuessedCard* pCard);
-	virtual BOOL Delete(CCard* pCard);
+	virtual BOOL Delete(DisplayCard*  pCard);
 	virtual void Sort();
 	virtual void ReverseSortOrder(BOOL bReverse) { m_bReverseSort = bReverse; }
 	virtual BOOL HasCard(CGuessedCard* pCard) const;
@@ -42,7 +42,7 @@ public:
 	virtual BOOL HasCardOfFaceValue(int nFaceValue) const;
 	virtual int GetCardIndex(int nDeckValue) const;
 	virtual int GetCardIndex(CGuessedCard* pCard) const;
-	virtual int GetCardIndex(CCard* pCard) const;
+	virtual int GetCardIndex(DisplayCard*  pCard) const;
 	//
 	virtual void FormatHoldingsString();
 

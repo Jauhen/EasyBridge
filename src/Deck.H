@@ -15,7 +15,8 @@
 #define __DECK__
 
 #include "ObjectWithProperties.h"
-class CCard;
+
+class DisplayCard;
 
 // default card bitmap dimensions
 const int DEFCARDWIDTH 		= 71;
@@ -42,12 +43,12 @@ public:
 	void	ClearCardBackgrounds();
 	int		Shuffle(int nSeed=0, bool bSuppressSeed=false);
 	//
-	CCard*	GetCard(int nDeckValue);
-	CCard*	GetCard(LPCTSTR pszName);
-	CCard*	GetCard(int nSuit, int nFaceValue);
+	DisplayCard* 	GetCard(int nDeckValue);
+	DisplayCard* 	GetCard(LPCTSTR pszName);
+	DisplayCard* 	GetCard(int nSuit, int nFaceValue);
 	// inline operations
-	CCard*	  operator[](int nIndex) { return m_cards[nIndex]; }
-	CCard*    GetSortedCard(int nIndex) { return m_sortedCards[nIndex]; }
+	DisplayCard* 	  operator[](int nIndex) { return m_cards[nIndex]; }
+	DisplayCard*     GetSortedCard(int nIndex) { return m_sortedCards[nIndex]; }
 	int		  GetCardWidth() const;
 	int		  GetCardHeight() const;
 	CBitmap*  GetMaskBitmap() { return &m_maskBitmap; }
@@ -62,8 +63,8 @@ public:
 
 // data
 private:
-	CCard*		m_cards[52];
-	CCard*		m_sortedCards[52];
+	DisplayCard* 		m_cards[52];
+	DisplayCard* 		m_sortedCards[52];
 	CBitmap		m_cardBitmap[52];
 	CImageList	m_imageListCardBacks;
 	CBitmap		m_cardBackImageListBitmap[MAX_CARDBACKS];

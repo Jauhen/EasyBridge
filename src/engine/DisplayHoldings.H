@@ -22,8 +22,8 @@ class CDisplayHoldings : public CCardHoldings {
 public:
 	virtual void Init();
 	virtual void Clear();
-	virtual void Add(CCard* pCard, const BOOL bSort=FALSE);
-	virtual CCard* RemoveByIndex(const int nIndex);
+	virtual void Add(DisplayCard*  pCard, const BOOL bSort=FALSE);
+	virtual DisplayCard*  RemoveByIndex(const int nIndex);
 	virtual void Sort();
 
 	//

@@ -29,30 +29,30 @@ public:
 	virtual void InitNewHand();
 	virtual void Clear();
 	//
-	virtual CCard*  PlayCard();
-	virtual CCard*	PlayFirst();
-	virtual CCard*	PlaySecond();
-	virtual CCard*	PlayThird();
-	virtual CCard*	PlayFourth();
+	virtual DisplayCard*   PlayCard();
+	virtual DisplayCard* 	PlayFirst();
+	virtual DisplayCard* 	PlaySecond();
+	virtual DisplayCard* 	PlayThird();
+	virtual DisplayCard* 	PlayFourth();
 	//
-	virtual CCard*  GetLeadCard();
-	virtual CCard*  GetDiscard();
-	virtual CCard*	GetPlayHint();
+	virtual DisplayCard*   GetLeadCard();
+	virtual DisplayCard*   GetDiscard();
+	virtual DisplayCard* 	GetPlayHint();
 	//
 	virtual int  GetNumClaimableTricks();
 	//
-	virtual void RecordCardPlay(int nPos, CCard* pCard);
-	virtual void RecordCardUndo(int nPos, CCard* pCard);
+	virtual void RecordCardPlay(int nPos, DisplayCard*  pCard);
+	virtual void RecordCardUndo(int nPos, DisplayCard*  pCard);
 	virtual void RecordTrickUndo();
-	virtual void RecordRoundComplete(int nPos, CCard* pCard);
+	virtual void RecordRoundComplete(int nPos, DisplayCard*  pCard);
 	virtual void RestartPlay();
 
 	// class-specific functions
 	virtual int		ReviewBiddingHistory();
-	virtual CCard*	FindLeadCardFromPartnerPreference();
-	virtual CCard*	Get4thBestLeadCard();
-	virtual CCard*  GetHighDiscard(CSuitHoldings& suit);
-	virtual CCard*	CashWinners();
+	virtual DisplayCard* 	FindLeadCardFromPartnerPreference();
+	virtual DisplayCard* 	Get4thBestLeadCard();
+	virtual DisplayCard*   GetHighDiscard(CSuitHoldings& suit);
+	virtual DisplayCard* 	CashWinners();
 
 //
 // private routines

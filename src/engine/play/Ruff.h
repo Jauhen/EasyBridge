@@ -32,7 +32,7 @@ public:
 	virtual CString GetFullDescription();
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
 	//
 	virtual int		UsesUpEntry();
 	virtual int		GetNumDiscardsRequired() const { return m_numDiscardsRequired; }
@@ -49,7 +49,7 @@ protected:
 // construction/destruction
 public:
 	CRuff(int nTargetHand, int numDiscardsRequired, int nSuit=NONE, PlayProspect=PP_LIKELY_WINNER);
-	CRuff(int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect=PP_LIKELY_WINNER);
+	CRuff(int nTargetHand, int numDiscardsRequired, DisplayCard*  pCard, PlayProspect nPlayProspect=PP_LIKELY_WINNER);
 	CRuff(CRuff& srcPlay);
 	virtual ~CRuff();
 };
