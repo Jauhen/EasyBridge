@@ -121,7 +121,6 @@ void CDeck::Initialize()
 			// create card
 			pCard = new DisplayCard();
 			pCard->Initialize(nSuit,nValue,&m_cardBitmap[nCount],pDC);
-			sprintf(pCard->m_szValue,pCard->GetName());
 			m_cards[nCount] = pCard;
 			m_sortedCards[nCount] = pCard;
 			m_nDeckIndex[nSuit][nValue] = nCount;
@@ -312,11 +311,11 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
 				nRand = GetRandomValue(51);	// try again	
 			//
 			pTempCard = m_cards[i];
-			nTempSuit = pTempCard->m_nSuit;
-			nTempVal = pTempCard->m_nFaceValue;
+			nTempSuit = pTempCard->GetSuit();
+			nTempVal = pTempCard->GetFaceValue();
 			//
 			m_cards[i] = m_cards[nRand];
-			m_nDeckIndex[m_cards[nRand]->m_nSuit][m_cards[nRand]->m_nFaceValue] = i;
+			m_nDeckIndex[m_cards[nRand]->GetSuit()][m_cards[nRand]->GetFaceValue()] = i;
 			//
 			m_cards[nRand] = pTempCard;
 			m_nDeckIndex[nTempSuit][nTempVal] = nRand;

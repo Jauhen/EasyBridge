@@ -14,6 +14,8 @@
 #ifndef __GLOBALS__
 #define __GLOBALS__
 
+#include <string>
+
 //extern const LPCTSTR szSuitName[];
 
 // utility templates
