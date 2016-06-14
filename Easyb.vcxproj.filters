@@ -198,9 +198,6 @@
     <ClCompile Include="src\engine\DisplayHoldings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AnalysisDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\AutoHintDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -351,9 +348,6 @@
     <ClCompile Include="src\StatusWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\subclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -381,6 +375,12 @@
     <ClCompile Include="src\engine\play\HoldUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafxEB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnalysisDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyB.rc">
@@ -388,15 +388,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FEEDBACK.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OptimizerThread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sluff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\bidding\4thSuitForcingConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -572,9 +563,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\DisplayHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\AnalysisDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\AutoHintDialog.h">
@@ -770,6 +758,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\HoldUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AnalysisDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1718,5 +1709,9 @@
     <CustomBuild Include="Res\play_west.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

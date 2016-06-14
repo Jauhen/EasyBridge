@@ -207,7 +207,7 @@ BOOL CGameReviewDialog::OnInitDialog()
 
 	// subclass listbox
 	CListBox* pList = (CListBox*) GetDlgItem(IDC_GAME_INDEX);
-	wpOrigListBoxProc = (WNDPROC) SetWindowLong(pList->GetSafeHwnd(), GWL_WNDPROC, (LONG) ListBoxSubclassProc);
+	wpOrigListBoxProc = (WNDPROC)SetWindowLong(pList->GetSafeHwnd(), GWLP_WNDPROC, (LONG) ListBoxSubclassProc);
 
 	// get the full width
 	CRect windowRect;

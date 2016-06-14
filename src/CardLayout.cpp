@@ -86,7 +86,7 @@ BOOL CCardLayoutDialog::OnInitDialog()
 	{
 	 	pWnd = GetDlgItem(i);
 		ASSERT(pWnd != NULL);
-		wpOrigCheckBoxProc = (WNDPROC) SetWindowLong(pWnd->m_hWnd, GWL_WNDPROC, (LONG) CheckBoxSubclassProc);
+		wpOrigCheckBoxProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) CheckBoxSubclassProc);
 	}
 
 	// then the radiobuttons
@@ -94,16 +94,16 @@ BOOL CCardLayoutDialog::OnInitDialog()
 	{
 	 	pWnd = GetDlgItem(i);
 		ASSERT(pWnd != NULL);
-		wpOrigRadioProc = (WNDPROC) SetWindowLong(pWnd->m_hWnd, GWL_WNDPROC, (LONG) RadioSubclassProc);
+		wpOrigRadioProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) RadioSubclassProc);
 	}
 
 	// then the pushbuttons
  	pWnd = GetDlgItem(IDOK);
 	ASSERT(pWnd != NULL);
-	wpOrigButtonProc = (WNDPROC) SetWindowLong(pWnd->m_hWnd, GWL_WNDPROC, (LONG) ButtonSubclassProc);
+	wpOrigButtonProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) ButtonSubclassProc);
  	pWnd = GetDlgItem(IDC_CLEAR);
 	ASSERT(pWnd != NULL);
-	SetWindowLong(pWnd->m_hWnd, GWL_WNDPROC, (LONG) ButtonSubclassProc);
+  SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) ButtonSubclassProc);
 
 	//
 	// housekeeping

@@ -1581,7 +1581,7 @@ BOOL CEasyBApp::InitInstance()
 	Initialize();
 
 	// show splash window
-	if ((m_lpCmdLine[0] == 0) && (m_bShowSplashWindow) && !m_bShowStartupAnimation) 
+	if (false && (m_lpCmdLine[0] == 0) && (m_bShowSplashWindow) && !m_bShowStartupAnimation) 
 //			&& (!m_bFirstTimeRunning)) 
 	{
 		m_pSplash = new CSplashWnd;

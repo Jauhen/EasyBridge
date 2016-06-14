@@ -121,7 +121,7 @@ BOOL CAnalysisDialog::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	// subclass the RTF edit control
-	wpOrigRichEditProc = (WNDPROC) SetWindowLong(m_pEdit->m_hWnd, GWL_WNDPROC, (LONG) RichEditSubclassProc);
+	wpOrigRichEditProc = (WNDPROC)SetWindowLong(m_pEdit->m_hWnd, GWLP_WNDPROC, (LONG) RichEditSubclassProc);
 	// load the icon
 //	m_hIcon = LoadIcon(theApp.m_hInstance,
 //					   MAKEINTRESOURCE(IDR_ANALYSIS_SMALL));

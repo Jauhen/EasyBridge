@@ -65,7 +65,7 @@ BOOL CEditDialog::OnInitDialog()
 	// subclass the edit control
 	CWnd* pWnd = GetDlgItem(IDC_EDIT);
 	ASSERT(pWnd != NULL);
-	wpOrigEditProc = (WNDPROC) SetWindowLong(pWnd->m_hWnd, GWL_WNDPROC, (LONG) EditSubclassProc);
+	wpOrigEditProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) EditSubclassProc);
 	// set the window title
 //	SetWindowText((LPCTSTR)m_strTitle);
 	// set the edit control's font

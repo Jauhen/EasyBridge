@@ -65,9 +65,9 @@ BOOL CScoreDialog::OnInitDialog()
 
 	// subclass edit boxes to make them read-only without graying them
 	// (kind of a hack)
-	wpOrigEditROProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_BONUS_POINTS)->m_hWnd, GWL_WNDPROC, (LONG) EditROSubclassProc);
-	SetWindowLong(GetDlgItem(IDC_TRICK_POINTS)->m_hWnd, GWL_WNDPROC, (LONG) EditROSubclassProc);
-	SetWindowLong(GetDlgItem(IDC_TOTAL_POINTS)->m_hWnd, GWL_WNDPROC, (LONG) EditROSubclassProc);
+	wpOrigEditROProc = (WNDPROC)SetWindowLong(GetDlgItem(IDC_BONUS_POINTS)->m_hWnd, GWLP_WNDPROC, (LONG) EditROSubclassProc);
+  SetWindowLong(GetDlgItem(IDC_TRICK_POINTS)->m_hWnd, GWLP_WNDPROC, (LONG) EditROSubclassProc);
+  SetWindowLong(GetDlgItem(IDC_TOTAL_POINTS)->m_hWnd, GWLP_WNDPROC, (LONG) EditROSubclassProc);
 
 /*
 	//
