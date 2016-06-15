@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "JacobyTransferConvention.h"
 #include "ConventionSet.h"
 

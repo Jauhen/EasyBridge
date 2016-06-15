@@ -19,7 +19,7 @@
 #include "MainFrameOpts.h"
 #include "progopts.h"
 #include "PlayerStatusDialog.h"
-#include "AutoHintDialog.h"
+#include "dialogs/AutoHintDialog.h"
 
 //#define _STRIP_HEADERS_
 
