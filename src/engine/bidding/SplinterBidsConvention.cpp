@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 #include "SplinterBidsConvention.h"
 
 

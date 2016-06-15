@@ -13,8 +13,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "PlayerStatusDialog.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 #include "GerberConvention.h"
 #include "ConventionSet.h"
 

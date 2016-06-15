@@ -15,7 +15,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "bidengine.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 #include "ConventionSet.h"
 #include "Bidparams.h"
 

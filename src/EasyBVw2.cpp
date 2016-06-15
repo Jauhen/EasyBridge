@@ -18,7 +18,7 @@
 #include "progopts.h"
 #include "docopts.h"
 #include "DrawParameters.h"
-#include "ScreenSizeWarningDlg.h"
+#include "dialogs/ScreenSizeWarningDlg.h"
 #include <limits.h>
 #include <math.h>
 

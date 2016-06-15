@@ -23,7 +23,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "DeclarerPlayEngine.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 
 
 

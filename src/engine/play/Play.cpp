@@ -18,7 +18,7 @@
 #include "Card.h"
 #include "../CardList.h"
 #include "../Player.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
 #include "DeclarerPlayEngine.h"

@@ -18,7 +18,7 @@
 #include "engine/HandHoldings.h"
 #include "progopts.h"
 #include "mainfrm.h"
-#include "GIBDialog.h"
+#include "dialogs/GIBDialog.h"
 #include "MyException.h"
 //#include "GIBMonitorThread.h"
 

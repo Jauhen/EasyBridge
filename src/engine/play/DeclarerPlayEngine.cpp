@@ -47,7 +47,7 @@
 #include "../CombinedHoldings.h"
 #include "../CombinedSuitHoldings.h"
 #include "StatusWnd.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 
 
 

@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../Player.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 #include "UnusualNTConvention.h"
 #include "OvercallsConvention.h"
 #include "ConventionSet.h"

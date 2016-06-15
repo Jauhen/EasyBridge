@@ -15,7 +15,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "PlayerStatusDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
 #include "bidengine.h"
 #include "BlackwoodConvention.h"
 #include "CueBidConvention.h"

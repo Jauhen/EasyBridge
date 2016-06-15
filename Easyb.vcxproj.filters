@@ -198,34 +198,13 @@
     <ClCompile Include="src\engine\DisplayHoldings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AutoHintDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BidDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BiddingFinishedDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BidDlgLarge.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BidDlgSmall.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\card.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CardLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ConfigData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\deal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DealNumberDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Deck.cpp">
@@ -246,25 +225,10 @@
     <ClCompile Include="src\EasyBVw2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\editdlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\EventProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\FileComments.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FilePropertiesDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameReviewDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\GIB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GIBDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GIBMonitorThread.cpp">
@@ -276,30 +240,6 @@
     <ClCompile Include="src\mainfrm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MyCustomDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\myfildlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\NNetAutotrainStatusDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\NNetConfigDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\NNetOutputDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PassedHandDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PassedHandSimpleDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PlayerStatusDialog.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -307,21 +247,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RdFilePBN.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RoundFinishedDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\saveopts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ScoreDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ScreenSizeWarningDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SelectHandDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\StatusAnalysesPage.cpp">
@@ -348,9 +273,6 @@
     <ClCompile Include="src\StatusWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TestPlayDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\wrfile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -375,7 +297,85 @@
     <ClCompile Include="src\stdafxEB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AnalysisDialog.cpp">
+    <ClCompile Include="src\dialogs\AnalysisDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\AutoHintDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\BidDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\BiddingFinishedDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\BidDlgLarge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\BidDlgSmall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\CardLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\DealNumberDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\FileComments.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\FilePropertiesDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\GameReviewDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\editdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\NNetAutotrainStatusDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\NNetConfigDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\NNetOutputDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\MyCustomDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\PassedHandDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\PassedHandSimpleDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\PlayerStatusDialog.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\RoundFinishedDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\ScoreDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\ScreenSizeWarningDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\SelectHandDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\TestPlayDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\GIBDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\myfildlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dialogs\saveopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -562,31 +562,10 @@
     <ClInclude Include="src\engine\DisplayHoldings.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\AutoHintDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BidDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BiddingFinishedDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BidDlgLarge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BidDlgSmall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\CARD.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CardLayout.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ConfigData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DealNumberDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DEALPARM.H">
@@ -616,9 +595,6 @@
     <ClInclude Include="src\EasyBvw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\editdlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\EventProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -628,19 +604,7 @@
     <ClInclude Include="src\FileCodePBN.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\FileComments.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FilePropertiesDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameReviewDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\GIB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GIBDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GIBMonitorThread.h">
@@ -655,52 +619,13 @@
     <ClInclude Include="src\mainfrm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\MyCustomDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\MyException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\MYFILDLG.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\NNetAutotrainStatusDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\NNetConfigDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\NNetOutputDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ObjectWithProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PassedHandDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PassedHandSimpleDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PlayerStatusDialog.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\progopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\roundfinisheddialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\saveopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ScoreDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ScreenSizeWarningDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SelectHandDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\StatusAnalysesPage.h">
@@ -730,9 +655,6 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TestPlayDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\viewopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -754,7 +676,85 @@
     <ClInclude Include="src\engine\play\HoldUp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\AnalysisDialog.h">
+    <ClInclude Include="src\dialogs\AnalysisDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\AutoHintDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\BidDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\BiddingFinishedDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\BidDlgLarge.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\BidDlgSmall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\CardLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\DealNumberDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\GameReviewDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\FileComments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\FilePropertiesDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\editdlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\NNetOutputDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\NNetAutotrainStatusDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\NNetConfigDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\MyCustomDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\PassedHandDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\PassedHandSimpleDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\PlayerStatusDialog.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\roundfinisheddialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\ScoreDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\ScreenSizeWarningDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\SelectHandDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\TestPlayDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\GIBDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\MYFILDLG.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dialogs\saveopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

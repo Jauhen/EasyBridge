@@ -20,11 +20,11 @@
 #include "progopts.h"
 #include "viewopts.h"
 #include "docopts.h"
-#include "BidDialog.h"
-#include "GameReviewDialog.h"
+#include "dialogs/BidDialog.h"
+#include "dialogs/GameReviewDialog.h"
 #include "MainframeOpts.h"
-#include "CardLayout.h"
-#include "SelectHandDialog.h"
+#include "dialogs/CardLayout.h"
+#include "dialogs/SelectHandDialog.h"
 #include "DrawParameters.h"
 
 #ifdef _DEBUG

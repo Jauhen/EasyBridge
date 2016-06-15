@@ -33,8 +33,8 @@
 #include "player.h"
 #include "handopts.h"
 #include "MainFrameOpts.h"
-#include "PlayerStatusDialog.h"
-#include "AutoHintDialog.h"
+#include "dialogs/PlayerStatusDialog.h"
+#include "dialogs/AutoHintDialog.h"
 
 
 extern int nSuitDisplaySequence[];
