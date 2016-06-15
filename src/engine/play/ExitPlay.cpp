@@ -20,7 +20,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "../CombinedSuitHoldings.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "DeclarerPlayEngine.h"
 
 

@@ -39,7 +39,7 @@
 #include "dialogs/BidDlgLarge.h"
 #include "dialogs/BidDlgSmall.h"
 #include "DailyTipDialog.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "engine/PlayerStatusDialog.h"
 #include "dialogs/AutoHintDialog.h"
 #include "WelcomeWnd.h"
 #include "dialogs/NNetOutputDialog.h"

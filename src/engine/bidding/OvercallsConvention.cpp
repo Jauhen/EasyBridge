@@ -13,7 +13,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "OvercallsConvention.h"
 #include "../HandHoldings.h"
 #include "TakeoutDoublesConvention.h"

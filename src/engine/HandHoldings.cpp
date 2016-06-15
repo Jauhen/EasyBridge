@@ -18,7 +18,7 @@
 #include "HandHoldings.h"
 #include "Player.h"
 #include "play/PlayEngine.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "PlayerStatusDialog.h"
 #include "bidding/ConventionSet.h"
 #include "bidding/bidparams.h"
 #include "handopts.h"

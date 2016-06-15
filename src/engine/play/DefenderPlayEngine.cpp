@@ -18,7 +18,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "Card.h"
 #include "../HandHoldings.h"
 #include "../bidding/BidEngine.h"

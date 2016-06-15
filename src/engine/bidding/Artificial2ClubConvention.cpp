@@ -13,7 +13,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "Artificial2ClubConvention.h"
 #include "ConventionSet.h"
 

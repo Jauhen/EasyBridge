@@ -33,7 +33,7 @@
 #include "player.h"
 #include "handopts.h"
 #include "MainFrameOpts.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "PlayerStatusDialog.h"
 #include "dialogs/AutoHintDialog.h"
 
 

@@ -351,9 +351,6 @@
     <ClCompile Include="src\dialogs\PassedHandSimpleDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dialogs\PlayerStatusDialog.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\dialogs\RoundFinishedDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -376,6 +373,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dialogs\saveopts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\PlayerStatusDialog.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -730,9 +730,6 @@
     <ClInclude Include="src\dialogs\PassedHandSimpleDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dialogs\PlayerStatusDialog.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\dialogs\roundfinisheddialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -755,6 +752,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dialogs\saveopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\PlayerStatusDialog.H">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

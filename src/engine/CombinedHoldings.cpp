@@ -17,7 +17,7 @@
 #include "Card.h"
 #include "CombinedSuitHoldings.h"
 #include "CombinedHoldings.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "PlayerStatusDialog.h"
 #include "handopts.h"
 
 

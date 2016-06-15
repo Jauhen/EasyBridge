@@ -15,7 +15,7 @@
 #include "Mainfrm.h"
 #include "MainFrameOpts.h"
 #include "AutoHintDialog.h"
-#include "PlayerStatusDialog.h"
+#include "engine/PlayerStatusDialog.h"
 #include "progopts.h"
 
 #ifdef _DEBUG

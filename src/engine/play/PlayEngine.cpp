@@ -21,7 +21,7 @@
 #include "../HandHoldings.h"
 #include "../bidding/BidEngine.h"
 #include "../Player.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "Card.h"
 #include "deck.h"
 /*

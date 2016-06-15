@@ -15,7 +15,7 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/player.h"
-#include "dialogs/PlayerStatusDialog.h"
+#include "engine/PlayerStatusDialog.h"
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "dialogs/myfildlg.h"
