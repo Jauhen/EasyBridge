@@ -77,34 +77,6 @@ END_MESSAGE_MAP()
 //
 BOOL CCardLayoutDialog::OnInitDialog() 
 {
-	// gotta subclass all the controls
-	int i;
- 	CWnd* pWnd;
-
-	// first the checkboxes
-	for(i=IDC_CHECK1;i<=IDC_CHECK52;i++) 
-	{
-	 	pWnd = GetDlgItem(i);
-		ASSERT(pWnd != NULL);
-		wpOrigCheckBoxProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) CheckBoxSubclassProc);
-	}
-
-	// then the radiobuttons
-	for(i=IDC_RADIO1;i<=IDC_RADIO4;i++) 
-	{
-	 	pWnd = GetDlgItem(i);
-		ASSERT(pWnd != NULL);
-		wpOrigRadioProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) RadioSubclassProc);
-	}
-
-	// then the pushbuttons
- 	pWnd = GetDlgItem(IDOK);
-	ASSERT(pWnd != NULL);
-	wpOrigButtonProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) ButtonSubclassProc);
- 	pWnd = GetDlgItem(IDC_CLEAR);
-	ASSERT(pWnd != NULL);
-  SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) ButtonSubclassProc);
-
 	//
 	// housekeeping
 	//

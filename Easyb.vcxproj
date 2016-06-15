@@ -135,7 +135,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Bin\Release\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Bin\Release\Easyb.pch</PrecompiledHeaderOutputFile>
@@ -365,7 +365,6 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\engine\bidding\StrongTwoBidsConvention.cpp" />
-    <ClCompile Include="src\subclass.cpp" />
     <ClCompile Include="src\engine\SuitHoldings.cpp" />
     <ClCompile Include="src\engine\bidding\TakeoutDoublesConvention.cpp" />
     <ClCompile Include="src\TestPlayDialog.cpp" />
@@ -496,7 +495,6 @@
     <ClInclude Include="src\engine\bidding\StaymanConvention.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\engine\bidding\StrongTwoBidsConvention.h" />
-    <ClInclude Include="src\SUBCLASS.H" />
     <ClInclude Include="src\engine\SuitHoldings.H" />
     <ClInclude Include="src\engine\bidding\TakeoutDoublesConvention.h" />
     <ClInclude Include="src\TestPlayDialog.h" />

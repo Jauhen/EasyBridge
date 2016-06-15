@@ -109,9 +109,6 @@ BOOL CStatusPlayPlanPage::OnInitDialog()
 	for(int i=0;i<numCols;i++)
 		m_listPlayPlan.InsertColumn(i, tszColumnName[i], LVCFMT_LEFT, m_listPlayPlan.GetStringWidth(tszColumnName[i]) + tnColSpacer, i);
 
-	// subclass the list control
-	wpOrigListCtrlProc = (WNDPROC)SetWindowLong(m_listPlayPlan.GetSafeHwnd(), GWLP_WNDPROC, (LONG) ListCtrlSubclassProc);
-
 	// record initial window characterisitcs
 	CRect winRect, listRect;
 	GetClientRect(&winRect);

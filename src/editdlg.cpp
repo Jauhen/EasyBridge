@@ -62,12 +62,9 @@ END_MESSAGE_MAP()
 BOOL CEditDialog::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
-	// subclass the edit control
-	CWnd* pWnd = GetDlgItem(IDC_EDIT);
-	ASSERT(pWnd != NULL);
-	wpOrigEditProc = (WNDPROC)SetWindowLong(pWnd->m_hWnd, GWLP_WNDPROC, (LONG) EditSubclassProc);
-	// set the window title
-//	SetWindowText((LPCTSTR)m_strTitle);
+
+  // set the window title
+  //	SetWindowText((LPCTSTR)m_strTitle);
 	// set the edit control's font
 	CFont* pFont = (CFont*) pMAINFRAME->GetValuePV(tpFontFixed);
 	SendDlgItemMessage(IDC_EDIT, 

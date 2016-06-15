@@ -15,7 +15,6 @@
 #include "Mainfrm.h"
 #include "MainFrameOpts.h"
 #include "AutoHintDialog.h"
-#include "subclass.h"
 #include "PlayerStatusDialog.h"
 #include "progopts.h"
 
@@ -88,14 +87,9 @@ BOOL CAutoHintDialog::OnInitDialog()
 	m_flatButtons[0].SubclassDlgItem(IDC_ACCEPT, this);
 	m_flatButtons[1].SubclassDlgItem(IDCANCEL, this);
 
-	// subclass listbox
-	CListBox* pList = (CListBox*) GetDlgItem(IDC_COMBO_LEVEL);
-	wpOrigListBoxProc = (WNDPROC)SetWindowLong(pList->GetSafeHwnd(), GWLP_WNDPROC, (LONG) ListBoxSubclassProc);
-
 	// init the rich edit control
 	m_edit.Create(ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL, CRect(0,0,0,0), this, IDC_EDIT);
 	m_edit.HideSelection(TRUE, TRUE);
-	wpOrigRichEditProc = (WNDPROC)SetWindowLong(m_edit.GetSafeHwnd(), GWLP_WNDPROC, (LONG) RichEditSubclassProc);
 
 	// set its font
 	m_pFont = (CFont*) pMAINFRAME->GetValuePV(tpFontAutoHint);

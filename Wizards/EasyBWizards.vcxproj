@@ -159,7 +159,7 @@
       <Optimization>MaxSpeed</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>..;..\Help;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\src;..;..\Help;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_AFXEXT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\..\Bin\Release\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\..\Bin\Release\EasyBWizards.pch</PrecompiledHeaderOutputFile>
@@ -283,7 +283,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="../src/Globals.cpp" />
+    <ClCompile Include="..\src\Globals.cpp" />
     <ClCompile Include="BidOptionsPropSheet.cpp" />
     <ClCompile Include="BidOptsConfigPage.cpp" />
     <ClCompile Include="BidOptsGeneralPage.cpp" />
@@ -324,7 +324,7 @@
     <ClCompile Include="ProgConfigViewSettingsPage.cpp" />
     <ClCompile Include="ProgConfigWizardData.cpp" />
     <ClCompile Include="ProgramConfigWizard.cpp" />
-    <ClCompile Include="StdAfx.cpp">
+    <ClCompile Include="StdAfxW.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>

@@ -348,9 +348,6 @@
     <ClCompile Include="src\StatusWnd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\subclass.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\TestPlayDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -731,9 +728,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SUBCLASS.H">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\TestPlayDialog.h">

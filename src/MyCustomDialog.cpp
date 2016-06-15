@@ -171,14 +171,7 @@ BOOL CMyCustomDialog::OnInitDialog()
 			pButton = (CButton*) GetDlgItem(m_pControlInfo[i].nControlID);
 			pButton->ModifyStyle(NULL, BS_ICON);
 		}
-
-		// subclass button
-		wpOrigButtonProc = (WNDPROC)SetWindowLong(GetDlgItem(m_pControlInfo[i].nControlID)->m_hWnd, GWLP_WNDPROC, (LONG) ButtonSubclassProc);
 	}
-
-	// subclass listbox
-	if (m_pListControl)
-		wpOrigListCtrlProc = (WNDPROC)SetWindowLong(m_pListControl->m_hWnd, GWLP_WNDPROC, (LONG) ListCtrlSubclassProc);
 
 	// populate the control ID -> index map
 	for(int i=0;i<m_numControls;i++)
