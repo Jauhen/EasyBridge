@@ -244,7 +244,7 @@
       <OutputFile>x64/Debug/EasyB.exe</OutputFile>
       <AdditionalLibraryDirectories>Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>version.lib;winmm.lib;EasyBUtilsD.lib;EasyBWizardsD.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions> /SUBSYSTEM:windows,4.0</AdditionalOptions>
+      <AdditionalOptions> /SUBSYSTEM:windows,6.0</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -383,6 +383,8 @@
     <ResourceCompile Include="EasyB.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AppImpl.h" />
+    <ClInclude Include="src\app_interface.h" />
     <ClInclude Include="src\engine\bidding\4thSuitForcingConvention.h" />
     <ClInclude Include="src\dialogs\AnalysisDialog.h" />
     <ClInclude Include="src\engine\bidding\Artificial2ClubConvention.h" />

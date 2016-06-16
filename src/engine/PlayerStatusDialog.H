@@ -15,6 +15,7 @@
 #ifndef __CPLAYERSTATUSDLG__
 #define __CPLAYERSTATUSDLG__
 
+class AppInterface;
 
 //
 class CPlayerStatusDialog {
@@ -85,9 +86,11 @@ private:
 	static int		m_nSuspendHints;
 	static CString	m_strHintBlock;
 
+  AppInterface* app_;
+
 // construction/destruction 
 public:
-	CPlayerStatusDialog();
+	CPlayerStatusDialog(AppInterface* app);
 	~CPlayerStatusDialog();
 };
 

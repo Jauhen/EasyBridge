@@ -13,13 +13,9 @@
 //
 
 #include "stdafx.h"
+#include "app_interface.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
-#include "mainfrm.h"
-#include "MainFrameOpts.h"
-#include "progopts.h"
 #include "PlayerStatusDialog.h"
-#include "dialogs/AutoHintDialog.h"
 
 //#define _STRIP_HEADERS_
 
@@ -42,7 +38,7 @@ CString	CPlayerStatusDialog::m_strHintBlock;
 
 
 // constructor
-CPlayerStatusDialog::CPlayerStatusDialog()
+CPlayerStatusDialog::CPlayerStatusDialog(AppInterface* app) : app_(app)
 {
 	m_nOverrideOutputLevel = 0;
 	m_nSuppressCode = 1;
@@ -86,7 +82,7 @@ void CPlayerStatusDialog::EnableTrace(BOOL bEnable)
 void CPlayerStatusDialog::OutputText()
 {
 	// show all text in the mainframe status window
-	pMAINFRAME->SetAnalysisText(m_nPosition, m_strAnalysis);
+  app_->SetAnalysisText(m_nPosition, m_strAnalysis);
 }
 
 
@@ -110,8 +106,7 @@ void CPlayerStatusDialog::ClearHint()
 {
 	m_bCopyHintBlock = FALSE;
 	m_strHintBlock.Empty();
-	CAutoHintDialog* pHintDlg = (CAutoHintDialog*) pMAINFRAME->GetDialog(twAutoHintDialog);
-	pHintDlg->SetHintText(m_strHintBlock);
+  app_->SetAutoHintDialogHintText(m_strHintBlock);
 }
 
 
@@ -124,10 +119,11 @@ void CPlayerStatusDialog::ResetRequiredHintTraceLevel()
 //
 void CPlayerStatusDialog::Show(BOOL bShow)
 {
-	if (bShow)
-		pMAINFRAME->MakeDialogVisible(twAnalysisDialog, m_nPosition);
-	else
-		pMAINFRAME->HideDialog(twAnalysisDialog, m_nPosition);
+  if (bShow) {
+    app_->ShowAnalysisDialog(m_nPosition);
+  } else {
+    app_->HideAnalysisDialog(m_nPosition);
+  }
 }
 
 
@@ -178,16 +174,16 @@ void CPlayerStatusDialog::Trace(const CString& strText)
 	if (m_bSuppressOutput)
 		return;
 #else
-	if (theApp.InExpressAutoPlay() || m_bSuppressOutput)
+	if (app_->InExpressAutoPlay() || m_bSuppressOutput)
 		return;
 #endif
 
 	// need to be either printing analysis or providing a hint
-	if (!theApp.GetValue(tbEnableAnalysisTracing) && !m_bCopyHintBlock)
+	if (!app_->IsEnableAnalysisTracing() && !m_bCopyHintBlock)
 		return;
 
 	// get and test the trace level
-	int nTraceLevelLimit = theApp.GetValue(tnAnalysisTraceLevel);
+  int nTraceLevelLimit = app_->AnalysisTraceLevel();
 	m_nCurrentOutputLevel = 0;
 
 	// see if a verbosity escape code is present
@@ -237,7 +233,7 @@ void CPlayerStatusDialog::Trace(const CString& strText)
 	BOOL bOutputText = ConvertNewlines(strNewText, strOutput);
 
 	// show analysis notes
-	if (theApp.GetValue(tbEnableAnalysisTracing))
+	if (app_->IsEnableAnalysisTracing())
 	{
 		m_strAnalysis += strNewText;
 		if (bOutputText)
@@ -251,8 +247,7 @@ void CPlayerStatusDialog::Trace(const CString& strText)
 	{
 		// route to the autohint window
 		m_strHintBlock += strNewText;
-		CAutoHintDialog* pHintDlg = (CAutoHintDialog*) pMAINFRAME->GetDialog(twAutoHintDialog);
-		pHintDlg->SetHintText(m_strHintBlock);
+    app_->SetAutoHintDialogHintText(m_strHintBlock);
 	}
 }
 
@@ -271,12 +266,12 @@ void CPlayerStatusDialog::AddTrace(const CString& strText)
 	if (m_bSuppressOutput)
 		return;
 #else
-	if (theApp.InExpressAutoPlay() || m_bSuppressOutput)
+	if (app_->InExpressAutoPlay() || m_bSuppressOutput)
 		return;
 #endif
 
 	// need to be either printing analysis or providing a hint
-	if (!theApp.GetValue(tbEnableAnalysisTracing) && !m_bCopyHintBlock)
+	if (!app_->IsEnableAnalysisTracing() && !m_bCopyHintBlock)
 		return;
 
 	//
@@ -290,7 +285,7 @@ void CPlayerStatusDialog::AddTrace(const CString& strText)
 	else
 	{
 		// show analysis notes if enabled
-		if (theApp.GetValue(tbEnableAnalysisTracing))
+		if (app_->IsEnableAnalysisTracing())
 		{
 			m_strAnalysis += strNewText;
 			if (bOutputText)
@@ -304,8 +299,7 @@ void CPlayerStatusDialog::AddTrace(const CString& strText)
 		{
 			// route to the autohint window
 			m_strHintBlock += strNewText;
-			CAutoHintDialog* pHintDlg = (CAutoHintDialog*) pMAINFRAME->GetDialog(twAutoHintDialog);
-			pHintDlg->SetHintText(m_strHintBlock);
+      app_->SetAutoHintDialogHintText(m_strHintBlock);
 		}
 	}
 }
@@ -321,8 +315,7 @@ void CPlayerStatusDialog::ClearHints(BOOL bRefresh)
 	m_strHintBlock = _T("");
 //	if (bRefresh)
 	{
-		CAutoHintDialog* pHintDlg = (CAutoHintDialog*) pMAINFRAME->GetDialog(twAutoHintDialog);
-		pHintDlg->SetHintText(m_strHintBlock);
+    app_->SetAutoHintDialogHintText(m_strHintBlock);
 	}
 }
 
@@ -413,7 +406,7 @@ BOOL CPlayerStatusDialog::ConvertNewlines(CString& strOutput, LPCTSTR szInput)
 	}
 */
 	// if in debug, strip header if desired
-	if (!theApp.GetValue(tbShowCommentIdentifiers))
+	if (!app_->IsShowCommentIdentifiers())
 	{
 		const TCHAR* pcToken = NULL;
 		if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)

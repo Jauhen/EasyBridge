@@ -35,6 +35,7 @@
 #include "MainFrameOpts.h"
 #include "PlayerStatusDialog.h"
 #include "dialogs/AutoHintDialog.h"
+#include "AppImpl.h"
 
 
 extern int nSuitDisplaySequence[];
@@ -50,7 +51,7 @@ CPlayer::CPlayer()
 	m_pDummy = new CDummyPlayEngine;
 	m_pDefender = new CDefenderPlayEngine;
 	m_pCardLocation = new CCardLocation;
-	m_pStatusDlg = new CPlayerStatusDialog;
+	m_pStatusDlg = new CPlayerStatusDialog(new AppImpl);
 	// 
 	for(int i=0;i<4;i++)
 		m_pGuessedHands[i] = new CGuessedHandHoldings;

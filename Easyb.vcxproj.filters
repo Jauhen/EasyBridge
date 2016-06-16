@@ -757,6 +757,12 @@
     <ClInclude Include="src\engine\PlayerStatusDialog.H">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\app_interface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AppImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\1.BMP">
