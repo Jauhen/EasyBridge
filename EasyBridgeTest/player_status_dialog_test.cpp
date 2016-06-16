@@ -1,26 +1,20 @@
 #include "stdafx.h"
+#include <memory>
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+
 #include "mock_app.h"
 #include "../src/engine/PlayerStatusDialog.h"
 
-using ::testing::AtLeast;
-using ::testing::Return;
-using ::testing::_;
+using namespace ::testing;
+using namespace std;
 
 namespace UnitTests {   
 
-class PlayerStatusDialogTests : public ::testing::Test {
+class PlayerStatusDialogTests : public Test {
 protected:
-  PlayerStatusDialogTests() {
-    p = new CPlayerStatusDialog((AppInterface*)&app);
-  }
-
-  virtual ~PlayerStatusDialogTests() {
-    delete p;
-  }
-
-  CPlayerStatusDialog* p;
+  CPlayerStatusDialog p = 
+    CPlayerStatusDialog(dynamic_cast<AppInterface*>(&app));
   MockApp app;
 };
 
@@ -32,7 +26,7 @@ TEST_F(PlayerStatusDialogTests, Init) {
   EXPECT_CALL(app, SetAnalysisText(_, _)).Times(1);
   EXPECT_CALL(app, SetAutoHintDialogHintText(_)).Times(0);
 
-  *p << "!Hello\nWorld";  
+  p << "!Hello\nWorld";  
 }
 
 } // namespace UnitTests
