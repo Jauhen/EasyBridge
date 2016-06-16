@@ -5,13 +5,16 @@
 #include "mock_app.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using ::testing::AtLeast;
+using ::testing::Return;
+using ::testing::_;
 
 namespace UnitTests {		
 
 TEST_CLASS(PlayerStatusDialogTests) {
 public:
   CPlayerStatusDialog* p;
-  AppInterface* app = new MockApp;
+  MockApp app;
 
   TEST_CLASS_INITIALIZE(classSetupOnce) {
     int argc = 0;
@@ -21,7 +24,7 @@ public:
   }
 
   TEST_METHOD_INITIALIZE(SetUp) {
-    p = new CPlayerStatusDialog(app);
+    p = new CPlayerStatusDialog((AppInterface*) &app);
   }
 
   TEST_METHOD_CLEANUP(TearDown) {
@@ -29,11 +32,13 @@ public:
   }
 		
 	TEST_METHOD(Init) {
+    EXPECT_CALL(app, IsEnableAnalysisTracing()).WillRepeatedly(Return(true));
+    EXPECT_CALL(app, AnalysisTraceLevel()).WillOnce(Return(5));
+    EXPECT_CALL(app, SetAnalysisText(_, _)).Times(1);
+    EXPECT_CALL(app, SetAutoHintDialogHintText(_)).Times(0);
 
-    *p << "Hello";
-
-    Assert::AreEqual("123", "123");
-	}
+    *p << "!Hello\nWorld";  
+  }
 };
 
 } // namespace UnitTests
