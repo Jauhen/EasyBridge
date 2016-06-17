@@ -8,6 +8,12 @@ public:
   MOCK_METHOD0(AnalysisTraceLevel, int());
   MOCK_METHOD0(InExpressAutoPlay, bool());
   MOCK_METHOD0(IsShowCommentIdentifiers, bool());
+  MOCK_METHOD0(IsEnableAnalysisDuringHints, bool());
+  MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
+  MOCK_METHOD1(DisplayHand, void(Position pos));
+  MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
+  MOCK_METHOD0(RestoreMode, void());
+  MOCK_METHOD1(SuitToSingularString, const char*(int suit));
 
   MOCK_METHOD1(SetAutoHintDialogHintText, void(CString text));
   MOCK_METHOD1(ShowAnalysisDialog, void(Position position));

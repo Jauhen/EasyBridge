@@ -14,7 +14,7 @@
 #include "easybDoc.h"
 #include "mainfrm.h"
 #include "StatusHoldingsPage.h"
-#include "card.h"
+#include "engine/card.h"
 #include "engine/cardlist.h"
 #include "engine/player.h"
 #include "engine/play/DeclarerPlayEngine.h"

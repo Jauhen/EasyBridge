@@ -198,16 +198,10 @@
     <ClCompile Include="src\engine\DisplayHoldings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\card.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ConfigData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\deal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Deck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\drawhand.cpp">
@@ -376,6 +370,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\PlayerStatusDialog.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\Deck.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -562,16 +562,10 @@
     <ClInclude Include="src\engine\DisplayHoldings.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CARD.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ConfigData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DEALPARM.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Deck.H">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\deckopts.h">
@@ -761,6 +755,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\AppImpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\CARD.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Deck.H">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

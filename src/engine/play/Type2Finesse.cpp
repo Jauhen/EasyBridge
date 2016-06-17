@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "../Player.h"
-#include "Card.h"
+#include "../Card.h"
 #include "../CardList.h"
 #include "Type2Finesse.h"
 #include "PlayEngine.h"

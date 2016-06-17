@@ -264,7 +264,7 @@
     <ClCompile Include="src\dialogs\BidDlgSmall.cpp" />
     <ClCompile Include="src\engine\bidding\BidEngine.cpp" />
     <ClCompile Include="src\engine\bidding\BlackwoodConvention.cpp" />
-    <ClCompile Include="src\card.cpp" />
+    <ClCompile Include="src\engine\card.cpp" />
     <ClCompile Include="src\engine\CardHoldings.cpp" />
     <ClCompile Include="src\dialogs\CardLayout.cpp" />
     <ClCompile Include="src\engine\CardList.cpp" />
@@ -278,7 +278,7 @@
     <ClCompile Include="src\engine\bidding\CueBidConvention.cpp" />
     <ClCompile Include="src\deal.cpp" />
     <ClCompile Include="src\dialogs\DealNumberDialog.cpp" />
-    <ClCompile Include="src\Deck.cpp" />
+    <ClCompile Include="src\engine\Deck.cpp" />
     <ClCompile Include="src\engine\play\DeclarerPlayEngine.cpp" />
     <ClCompile Include="src\engine\play\DefenderPlayEngine.cpp" />
     <ClCompile Include="src\engine\play\Discard.cpp" />
@@ -397,7 +397,7 @@
     <ClInclude Include="src\engine\bidding\Bidopts.h" />
     <ClInclude Include="src\engine\bidding\Bidparams.H" />
     <ClInclude Include="src\engine\bidding\BlackwoodConvention.h" />
-    <ClInclude Include="src\CARD.H" />
+    <ClInclude Include="src\engine\CARD.H" />
     <ClInclude Include="src\engine\CardHoldings.H" />
     <ClInclude Include="src\dialogs\CardLayout.h" />
     <ClInclude Include="src\engine\CardList.H" />
@@ -413,7 +413,7 @@
     <ClInclude Include="src\engine\bidding\CueBidConvention.h" />
     <ClInclude Include="src\dialogs\DealNumberDialog.h" />
     <ClInclude Include="src\DEALPARM.H" />
-    <ClInclude Include="src\Deck.H" />
+    <ClInclude Include="src\engine\Deck.H" />
     <ClInclude Include="src\deckopts.h" />
     <ClInclude Include="src\engine\play\DeclarerPlayEngine.H" />
     <ClInclude Include="src\engine\play\DefenderPlayEngine.H" />

@@ -20,7 +20,7 @@
 #include "engine/Player.h"
 #include "engine/bidding/BidEngine.H"
 #include "BidDialog.h"
-#include "Deck.h"
+#include "engine/Deck.h"
 #include "subclass.h"
 #include "PassedHandDialog.h"
 #include "PassedHandSimpleDialog.h"

@@ -13,10 +13,9 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "Deck.h"
-#include "Card.h"
+#include "../Deck.h"
+#include "../Card.h"
 #include "../CardList.h"
-//#include "CardList.h"
 #include "Finesse.h"
 
 

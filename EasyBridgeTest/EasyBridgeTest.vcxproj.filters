@@ -29,6 +29,18 @@
     <ClInclude Include="..\src\engine\PlayerStatusDialog.H">
       <Filter>sources</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\PLAYER.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CardList.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\HandHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\DeclarerPlayEngine.H">
+      <Filter>sources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -45,6 +57,18 @@
     </ClCompile>
     <ClCompile Include="player_test.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\player.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CardList.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\HandHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\DeclarerPlayEngine.cpp">
+      <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

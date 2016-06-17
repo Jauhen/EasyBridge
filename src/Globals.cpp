@@ -21,8 +21,8 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "deck.h"
-#include "card.h"
+#include "engine/deck.h"
+#include "engine/card.h"
 #include "engine/bidding/ConventionSet.h"
 
 

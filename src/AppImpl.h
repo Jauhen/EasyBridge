@@ -26,6 +26,9 @@ public:
     return theApp.InExpressAutoPlay() == TRUE;
   }
 
+  virtual bool IsEnableAnalysisDuringHints() {
+    return theApp.GetValue(tbEnableAnalysisDuringHints) == TRUE;
+  }
   virtual bool IsShowCommentIdentifiers() {
     return theApp.GetValue(tbShowCommentIdentifiers) == TRUE;
   }
@@ -56,6 +59,36 @@ public:
 
   //////////////////////////////////////////////////////////////////////////
   //
+  // pDOC
+  //
+  //////////////////////////////////////////////////////////////////////////
+
+  virtual CCard* GetCurrentTrickCardLed() {
+    return pDOC->GetCurrentTrickCardLed();
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  // pVIEW
+  //
+  //////////////////////////////////////////////////////////////////////////
+
+  virtual void DisplayHand(Position pos) {
+    pVIEW->DisplayHand(pos);
+  }
+
+  virtual void SetCurrentModeTemp(int mode) {
+    pVIEW->SetCurrentModeTemp(mode);
+  }
+
+  virtual void RestoreMode() {
+    pVIEW->RestoreMode();
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////
+  //
   // Global
   //
   //////////////////////////////////////////////////////////////////////////
@@ -66,6 +99,10 @@ public:
 
   virtual const char* PositionToString(int pos) {
     return ::PositionToString(pos);
+  }
+
+  virtual const char* SuitToSingularString(int suit) {
+    return ::SuitToSingularString(suit);
   }
 };
 

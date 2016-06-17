@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../PlayerStatusDialog.h"
-#include "Card.h"
+#include "../Card.h"
 #include "../HandHoldings.h"
 #include "../bidding/BidEngine.h"
 #include "GIB.h"

@@ -11,8 +11,8 @@
 //
 #include "stdafx.h"
 #include "EasyB.h"
-#include "Deck.h"
-#include "Card.h"
+#include "../Deck.h"
+#include "../Card.h"
 #include "Discard.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"

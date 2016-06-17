@@ -206,17 +206,17 @@ int CPlayer::GetNumSuitsStopped() const
 int CPlayer::GetBiddingHint(BOOL bAutoHintMode) 
 { 
 //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode);
-	if (!theApp.GetValue(tbEnableAnalysisDuringHints) && !bAutoHintMode)
+	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	//
-	pVIEW->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
+	app_->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
 	m_pStatusDlg->ClearHints();
 	m_pStatusDlg->BeginHintBlock();
 	int nBiddingHint = m_pBidder->GetBiddingHint(); 
 	m_pStatusDlg->EndHintBlock();
-	pVIEW->RestoreMode();
+	app_->RestoreMode();
 	//
-	if (!theApp.GetValue(tbEnableAnalysisDuringHints) && !bAutoHintMode)
+	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
 		ResumeTrace();
 //	if (bAutoHintMode)
 //		m_pStatusDlg->SetAutoHintMode(FALSE);
@@ -274,7 +274,7 @@ CCard* CPlayer::PlayCard()
 		CCard* pPlayCard = m_pPlayEngine->PlayCard();
 		if (pDOC->GetNumCardsPlayedInRound() > 0)
 		{
-			CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
+			CCard* pLeadCard = app_->GetCurrentTrickCardLed();
 			if (pPlayCard->GetSuit() != pLeadCard->GetSuit())
 			{
 				if (m_pHand->GetNumCardsInSuit(pLeadCard->GetSuit()) > 0)
@@ -570,7 +570,7 @@ void CPlayer::ExposeCards(BOOL bCode, BOOL bRedraw)
 //
 void CPlayer::RedrawHand() const
 {
-	pVIEW->DisplayHand(m_nPosition);
+	app_->DisplayHand(m_nPosition);
 }
 
 
@@ -714,11 +714,11 @@ int CPlayer::GetPriorBid(int nIndex)
 CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode) 
 { 
 //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode); 
-	if (!theApp.GetValue(tbEnableAnalysisDuringHints) && !bAutoHintMode)
+	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	CCard* pCard = NULL;
 	//
-	pVIEW->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
+	app_->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
 	m_pStatusDlg->ClearHints();
 	m_pStatusDlg->BeginHintBlock();
 	try
@@ -744,9 +744,9 @@ CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode)
 	else
 		m_pPlayEngine->SetHintMode(false);
 	m_pStatusDlg->EndHintBlock();
-	pVIEW->RestoreMode();
+	app_->RestoreMode();
 	//
-	if (!theApp.GetValue(tbEnableAnalysisDuringHints) && !bAutoHintMode)
+	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
 		ResumeTrace();
 //	if (bAutoHintMode)
 //		m_pStatusDlg->SetAutoHintMode(FALSE); 
@@ -771,7 +771,7 @@ CCard* CPlayer::GetPlayHintForDummy()
 BOOL CPlayer::TestForAutoPlayLastCard()
 {
 	int nSuitLed = NONE;
-	CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
 	if (pLeadCard)
 		nSuitLed = pLeadCard->GetSuit();
 	if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1))
@@ -791,7 +791,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
-			*m_pStatusDlg << "Follow with our only " & STSS(nSuitLed) & ", the " & pPlayCard->GetFaceName() & ".\n";
+			*m_pStatusDlg << "Follow with our only " & app_->SuitToSingularString(nSuitLed) & ", the " & pPlayCard->GetFaceName() & ".\n";
 			m_pStatusDlg->EndHintBlock();
 		}
 		// done

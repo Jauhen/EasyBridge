@@ -18,7 +18,7 @@
 #include "viewopts.h"
 #include "engine/Player.h"
 #include "BidDlgLarge.h"
-#include "Deck.h"
+#include "engine/Deck.h"
 #include "subclass.h"
 #include "../Help/Helpcode.h"
 

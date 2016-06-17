@@ -19,8 +19,8 @@
 #include "filecodePBN.h"
 #include "progopts.h"
 #include "engine/GameRecord.h"
-#include "deck.h"
-#include "card.h"
+#include "engine/deck.h"
+#include "engine/card.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

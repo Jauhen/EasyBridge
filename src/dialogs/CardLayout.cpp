@@ -16,7 +16,7 @@
 #include "EasyBvw.h"
 #include "engine/player.h"
 #include "subclass.h"
-#include "card.h"
+#include "engine/card.h"
 #include "CardLayout.h"
 #include "progopts.h"
 #include "../Help/HelpCode.h"

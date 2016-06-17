@@ -19,7 +19,7 @@
 #include "MainFrameopts.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "Deck.h"
+#include "engine/Deck.h"
 #include "progopts.h"
 #include "docopts.h"
 #include "viewopts.h"

@@ -15,7 +15,7 @@
 #include "mainfrm.h"
 #include "StatusPlayPlanPage.h"
 #include "subclass.h"
-#include "card.h"
+#include "engine/card.h"
 #include "engine/cardlist.h"
 #include "engine/player.h"
 #include "engine/play/play.h"

@@ -23,7 +23,7 @@
 #include "MainFrm.h"
 #include "MainFrameOpts.h"
 #include "../Player.h"
-#include "Card.h"
+#include "../Card.h"
 #include "bidparams.h"
 #include "bidengine.h"
 #include "progopts.h"

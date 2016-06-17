@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../PlayerStatusDialog.h"
-#include "Card.h"
+#include "../Card.h"
 #include "WeakTwoBidsConvention.h"
 #include "../HandHoldings.h"
 #include "ConventionSet.h"

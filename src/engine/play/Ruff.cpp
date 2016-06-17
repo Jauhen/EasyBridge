@@ -12,7 +12,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "card.h"
+#include "../card.h"
 #include "Ruff.h"
 #include "../Player.h"
 #include "PlayEngine.h"

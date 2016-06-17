@@ -15,7 +15,7 @@
 #include "EasyBDoc.h"
 #include "Play.h"
 #include "PlayList.h"
-#include "Card.h"
+#include "../Card.h"
 #include "../CardList.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"

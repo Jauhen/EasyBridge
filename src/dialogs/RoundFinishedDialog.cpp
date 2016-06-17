@@ -14,7 +14,7 @@
 #include "EasyBDoc.h"
 #include "EasyBVw.h"
 #include "viewopts.h"
-#include "deck.h"
+#include "engine/deck.h"
 #include "RoundFinishedDialog.h"
 #include "../Help/Helpcode.h"
 

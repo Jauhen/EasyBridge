@@ -19,7 +19,7 @@
 #include "engine/playeropts.h"
 #include "filecodePBN.h"
 #include "engine/Player.h"
-#include "Card.h"
+#include "engine/Card.h"
 #include "MainFrameOpts.h"
 #include "engine/HandHoldings.h"
 #include "engine/CardHoldings.h"
