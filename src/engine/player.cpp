@@ -42,8 +42,7 @@ extern int nSuitDisplaySequence[];
 
 
 // constructor
-CPlayer::CPlayer()
-{
+CPlayer::CPlayer(std::shared_ptr<AppInterface> app) : app_(app) {
 	// allocate memory for member objects
 	m_pHand = new CHandHoldings;
 	m_pBidder = new CBidEngine;
@@ -51,7 +50,7 @@ CPlayer::CPlayer()
 	m_pDummy = new CDummyPlayEngine;
 	m_pDefender = new CDefenderPlayEngine;
 	m_pCardLocation = new CCardLocation;
-	m_pStatusDlg = new CPlayerStatusDialog(new AppImpl);
+	m_pStatusDlg = new CPlayerStatusDialog(app_);
 	// 
 	for(int i=0;i<4;i++)
 		m_pGuessedHands[i] = new CGuessedHandHoldings;
@@ -466,9 +465,9 @@ void CPlayer::InitializeRestoredHand()
 	int nModifier = pDOC->GetContractModifier();
 	if (ISBID(nContract))
 	{
-		*m_pStatusDlg << "4The contract is " & ContractToFullString(nContract,nModifier) & 
-					   " by " & PositionToString(pDOC->GetDeclarerPosition()) & ".\n";
-		*m_pStatusDlg << "4" & PositionToString(pDOC->GetRoundLead()) & " leads.\n";
+		*m_pStatusDlg << "4The contract is " & app_->ContractToFullString(nContract,nModifier) & 
+					   " by " & app_->PositionToString(pDOC->GetDeclarerPosition()) & ".\n";
+		*m_pStatusDlg << "4" & app_->PositionToString(pDOC->GetRoundLead()) & " leads.\n";
 		*m_pStatusDlg << "4====================\n";
 	}
 

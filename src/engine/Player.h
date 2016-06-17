@@ -13,6 +13,8 @@
 #ifndef __CPLAYER__
 #define __CPLAYER__
 
+#include <memory>
+
 class CCard;
 class CHandHoldings;
 class CCombinedHoldings;
@@ -25,6 +27,8 @@ class CCardLocation;
 class CGuessedHandHoldings;
 class CConvention;
 class CPlayerStatusDialog;
+
+class AppInterface;
 
 //
 class CPlayer {
@@ -198,10 +202,11 @@ private:
 	//
 	CPlayerStatusDialog*	m_pStatusDlg;
 
+  std::shared_ptr<AppInterface> app_;
 
 // construction/destruction 
 public:
-	CPlayer();
+	CPlayer(std::shared_ptr<AppInterface> app);
 	~CPlayer();
 };
 

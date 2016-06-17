@@ -25,4 +25,6 @@
 //#include <CJ60Lib.h>
 #include <CJLibrary.h>
 
+#include <memory>
+
 #pragma warning( disable : 4786) 

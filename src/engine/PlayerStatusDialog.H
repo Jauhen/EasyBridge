@@ -15,6 +15,8 @@
 #ifndef __CPLAYERSTATUSDLG__
 #define __CPLAYERSTATUSDLG__
 
+#include <memory>
+
 class AppInterface;
 
 //
@@ -86,11 +88,11 @@ private:
 	static int		m_nSuspendHints;
 	static CString	m_strHintBlock;
 
-  AppInterface* app_;
+  std::shared_ptr<AppInterface> app_;
 
 // construction/destruction 
 public:
-	CPlayerStatusDialog(AppInterface* app);
+	CPlayerStatusDialog(std::shared_ptr<AppInterface> app);
 	~CPlayerStatusDialog();
 };
 

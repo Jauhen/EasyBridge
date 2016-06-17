@@ -38,7 +38,7 @@ CString	CPlayerStatusDialog::m_strHintBlock;
 
 
 // constructor
-CPlayerStatusDialog::CPlayerStatusDialog(AppInterface* app) : app_(app)
+CPlayerStatusDialog::CPlayerStatusDialog(std::shared_ptr<AppInterface> app) : app_(app)
 {
 	m_nOverrideOutputLevel = 0;
 	m_nSuppressCode = 1;

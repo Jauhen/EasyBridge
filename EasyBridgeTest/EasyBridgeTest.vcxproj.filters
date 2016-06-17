@@ -43,5 +43,8 @@
     <ClCompile Include="player_status_dialog_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="player_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

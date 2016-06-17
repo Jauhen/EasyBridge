@@ -39,6 +39,7 @@
 #include "dialogs/AutoHintDialog.h"
 #include "dialogs/TestPlayDialog.h"
 #include "mmsystem.h"
+#include "AppImpl.h"
 //#include "MessageDisplay.h"
 
 #ifdef _DEBUG
@@ -193,8 +194,9 @@ CEasyBDoc::CEasyBDoc()
 	m_nPrevFileFormat = m_nFileFormat;
 
 	// create the players
+  std::shared_ptr<AppInterface> app (new AppImpl);
 	for(int i=0;i<4;i++)
-		m_pPlayer[i] = new CPlayer;
+		m_pPlayer[i] = new CPlayer(app);
 
 	// and init each player's info
 	for(int i=0;i<4;i++)

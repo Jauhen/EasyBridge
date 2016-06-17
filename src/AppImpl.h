@@ -5,10 +5,14 @@
 
 class AppImpl : public AppInterface {
 public:
-
   AppImpl() {}
-
   virtual ~AppImpl() {}
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  // The App
+  //
+  //////////////////////////////////////////////////////////////////////////
 
   virtual bool IsEnableAnalysisTracing() {
     return theApp.GetValue(tbEnableAnalysisTracing) == TRUE;
@@ -26,6 +30,13 @@ public:
     return theApp.GetValue(tbShowCommentIdentifiers) == TRUE;
   }
 
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  // pMAINFRAME
+  //
+  //////////////////////////////////////////////////////////////////////////
+
   virtual void SetAutoHintDialogHintText(CString text) {
     ((CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog))->SetHintText(text);
   }
@@ -40,6 +51,21 @@ public:
 
   virtual void SetAnalysisText(Position position, CString analysis) {
     pMAINFRAME->SetAnalysisText(position, analysis);
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////
+  //
+  // Global
+  //
+  //////////////////////////////////////////////////////////////////////////
+
+  virtual const CString ContractToFullString(int contract, int modifier) {
+    return ::ContractToFullString(contract, modifier);
+  }
+
+  virtual const char* PositionToString(int pos) {
+    return ::PositionToString(pos);
   }
 };
 
