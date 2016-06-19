@@ -15,7 +15,7 @@
 #include "cardholdings.h"
 #include "engine/bidding/bidparams.h"
 
-class DisplayCard;
+class CCard;
 class CGuessedCardHoldings;
 
 //
@@ -25,21 +25,21 @@ class CSuitHoldings : public CCardHoldings {
 public:
 	virtual void Init();
 	virtual void Clear();
-	virtual void Add(DisplayCard*  pCard, const BOOL bSort=FALSE);
-	virtual DisplayCard*  RemoveByIndex(const int nIndex);
+	virtual void Add(CCard* pCard, const BOOL bSort=FALSE);
+	virtual CCard* RemoveByIndex(const int nIndex);
 	virtual void Sort();
 	//
 	virtual double CountPoints(const BOOL bForceCount=FALSE);
 	virtual void EvaluateHoldings();
-	virtual void ReevaluateHoldings(const DisplayCard*  pCard=NULL);
+	virtual void ReevaluateHoldings(const CCard* pCard=NULL);
 	virtual void FormatHoldingsString();
 	//
 	virtual void CountCards();
 
 	// class-specific functions
 	virtual int	   CheckKeyHoldings();
-	virtual DisplayCard*  GetLowestCardAbove(const int nFaceValue) const;
-	virtual DisplayCard*  GetLowestCardAbove(DisplayCard*  pCard) const;
+	virtual CCard* GetLowestCardAbove(const int nFaceValue) const;
+	virtual CCard* GetLowestCardAbove(CCard* pCard) const;
 	virtual void   EnableSuitSorting(BOOL bValue=TRUE) { m_bEnableSuitSorting = bValue; }
 	//
 	// inline functions
@@ -68,8 +68,8 @@ public:
 	int GetNumMissingTopHonors() const { return m_numMissingTopHonors; }
 	int GetNumMissingInternalHonors() const { return m_numMissingInternalHonors; }
 	int GetNumMissingBottomHonors() const { return m_numMissingBottomHonors; }
-	DisplayCard*  GetLowestTopHonor() const { return (m_numTopHonors > 0)? m_cards[m_numTopHonors-1] : NULL; }
-	DisplayCard*  GetHighestSecondaryHonor() const { return (m_numTopHonors > 0)? m_cards[m_numTopHonors] : NULL; }
+	CCard* GetLowestTopHonor() const { return (m_numTopHonors > 0)? m_cards[m_numTopHonors-1] : NULL; }
+	CCard* GetHighestSecondaryHonor() const { return (m_numTopHonors > 0)? m_cards[m_numTopHonors] : NULL; }
 
 	// sequence operations
 	virtual int GetNumSequences() const { return m_numSequences; }

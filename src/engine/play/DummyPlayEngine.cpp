@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../HandHoldings.h"
-#include "display_card.h"
+#include "Card.h"
 #include "../bidding/BidEngine.h"
 #include "DummyPlayEngine.h"
 
@@ -146,7 +146,7 @@ void CDummyPlayEngine::AssessPosition()
 //
 // adjust card count and analysis after a card is played
 //
-void CDummyPlayEngine::AdjustCardCount(int nPos, DisplayCard*  pCard)
+void CDummyPlayEngine::AdjustCardCount(int nPos, CCard* pCard)
 {
 	// do nothing for now
 //	if ((nPos != m_pPlayer->GetPosition() && (nPos != m_pPartner->GetPosition())
@@ -163,7 +163,7 @@ void CDummyPlayEngine::AdjustCardCount(int nPos, DisplayCard*  pCard)
 //
 // called to adjust analysis of holdings after a round of play
 //
-void CDummyPlayEngine::AdjustHoldingsCount(DisplayCard*  pCard)
+void CDummyPlayEngine::AdjustHoldingsCount(CCard* pCard)
 {
 	// do nothing for now
 	CPlayEngine::AdjustHoldingsCount(pCard);
@@ -174,7 +174,7 @@ void CDummyPlayEngine::AdjustHoldingsCount(DisplayCard*  pCard)
 //
 // GetLeadCard()
 //
-DisplayCard*  CDummyPlayEngine::GetLeadCard()
+CCard* CDummyPlayEngine::GetLeadCard()
 {
 	// shouldn't call this routine!
 //	ASSERT(FALSE);
@@ -191,13 +191,13 @@ DisplayCard*  CDummyPlayEngine::GetLeadCard()
 //
 // select a card to play
 // 
-DisplayCard*  CDummyPlayEngine::PlayCard()
+CCard* CDummyPlayEngine::PlayCard()
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	AssessPosition();
 
 	// pass control over to declarer
-	DisplayCard*  pCard = m_pPartner->PlayForDummy();
+	CCard* pCard = m_pPartner->PlayForDummy();
 	VERIFY(pCard->IsValid());
 	return pCard;
 }
@@ -211,7 +211,7 @@ DisplayCard*  CDummyPlayEngine::PlayCard()
 //
 // let the dummy play for himself
 // 
-DisplayCard*  CDummyPlayEngine::PlayForSelf()
+CCard* CDummyPlayEngine::PlayForSelf()
 {
 	// call default
 	return CPlayEngine::PlayCard();
@@ -223,7 +223,7 @@ DisplayCard*  CDummyPlayEngine::PlayForSelf()
 //
 // GetPlayHint()
 //
-DisplayCard*  CDummyPlayEngine::GetPlayHint()
+CCard* CDummyPlayEngine::GetPlayHint()
 {
 	return m_pPartner->GetPlayHintForDummy();
 }

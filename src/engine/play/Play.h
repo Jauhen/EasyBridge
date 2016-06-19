@@ -27,7 +27,7 @@
 
 class CPlayList;
 class CPlayEngine;
-class DisplayCard;
+class CCard;
 class CCardList;
 class CCombinedHoldings;
 class CGuessedHandHoldings;
@@ -123,7 +123,7 @@ public:
 	// basic functions
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
+								CPlayerStatusDialog& status, CCard*& pPlayCard);
 	virtual void		Init();
 	virtual BOOL		IsGuranteedWinner() { return (m_nPlayProspect == PP_GUARANTEED_WINNER); }
 	virtual BOOL		IsWinner() { return (m_nPlayProspect >= PP_LIKELY_WINNER); }
@@ -139,9 +139,9 @@ public:
 	virtual CPlay*		GetPostrerequisite() { return m_pPostrequisite; }
 	virtual CPlayList*  GetPrerequisiteList() { return m_pPrerequisiteList; }
 	virtual CPlayList*  GetPostrerequisiteList() { return m_pPostrequisiteList; }
-	virtual BOOL		RequiresCard(DisplayCard*  pCard);
-	virtual int			LookupORCard(DisplayCard*  pCard);
-	virtual int			LookupORCard2(DisplayCard*  pCard);
+	virtual BOOL		RequiresCard(CCard* pCard);
+	virtual int			LookupORCard(CCard* pCard);
+	virtual int			LookupORCard2(CCard* pCard);
 	//
 	virtual int			GetNumKeyCards();
 	virtual int			GetNumOrKeyCards();
@@ -151,8 +151,8 @@ public:
 	virtual CCardList*	GetOrKeyCardsList2() { return m_pOrKeyCardsList2; }
 	virtual CCardList*	GetEnemyKeyCardsList() { return m_pEnemyKeyCardsList; }
 	virtual CCardList*	GetEnemyOrKeyCardsList() { return m_pEnemyOrKeyCardsList; }
-	virtual DisplayCard* 		GetConsumedCard() { return m_pConsumedCard; }
-	virtual DisplayCard* 		GetTargetCard() { return m_pTargetCard; }
+	virtual CCard*		GetConsumedCard() { return m_pConsumedCard; }
+	virtual CCard*		GetTargetCard() { return m_pTargetCard; }
 	virtual CCardList*	GetTargetCardsList() { return m_pTargetCardsList; }
 	virtual CCardList*	GetRequiredPlayedCardsList() { return m_pRequiredPlayedCardsList; }
 	virtual LPCTSTR		GetName() { return m_strName; }
@@ -191,8 +191,8 @@ protected:
 	CPlayList*  m_pPrerequisiteList;	// list of required antecendents
 	CPlayList*  m_pPostrequisiteList;	// list of required postcedents
 	//
-	DisplayCard* 		m_pConsumedCard;		// card that will be used up, if any
-	DisplayCard* 		m_pTargetCard;			// enemy card that is the target of the play
+	CCard*		m_pConsumedCard;		// card that will be used up, if any
+	CCard*		m_pTargetCard;			// enemy card that is the target of the play
 	CCardList*	m_pTargetCardsList;		// enemy target cards 
 	CCardList*	m_pKeyCardsList;		// key cards required for the play
 	CCardList*	m_pOrKeyCardsList;		// one or more of these key cards are rq'd

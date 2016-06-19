@@ -381,9 +381,6 @@
     <ClCompile Include="src\engine\play\HoldUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\display_card.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyB.rc">
@@ -391,6 +388,15 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FEEDBACK.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OptimizerThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sluff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\engine\bidding\4thSuitForcingConvention.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -764,9 +770,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\HoldUp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\display_card.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1715,9 +1718,5 @@
     <CustomBuild Include="Res\play_west.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

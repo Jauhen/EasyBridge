@@ -5,19 +5,19 @@ Program Minor Version = 0
 Program Incremental Version = 2
 Program Build Number = 0
 Program Build Date = 2002
-File Date =  Fri May 27 23:43:44 2016
+File Date =  Thu May 26 01:02:27 2016
 
 [[File Description]]
 
 [[Hand Information]]
-Current Hand(South) = S9 S5 S3 S2 HK HT H6 DK DJ D3 CK C4 C2 
-Current Hand(West) = SK SQ SJ S8 HA H3 DA DT D4 D2 CQ C7 C3 
-Current Hand(North) = SA ST S7 S6 S4 HQ H9 D9 D6 D5 CA CJ C5 
-Current Hand(East) = HJ H8 H7 H5 H4 H2 DQ D8 D7 CT C9 C8 C6 
-Original Hand(South) = S9 S5 S3 S2 HK HT H6 DK DJ D3 CK C4 C2 
-Original Hand(West) = SK SQ SJ S8 HA H3 DA DT D4 D2 CQ C7 C3 
-Original Hand(North) = SA ST S7 S6 S4 HQ H9 D9 D6 D5 CA CJ C5 
-Original Hand(East) = HJ H8 H7 H5 H4 H2 DQ D8 D7 CT C9 C8 C6 
+Current Hand(South) = SQ S7 S3 H5 H4 DA DK D6 D3 CA CT C9 C2 
+Current Hand(West) = S6 S5 HA H8 H3 H2 DT D9 D8 D7 D4 D2 C5 
+Current Hand(North) = SK ST S9 HK HJ HT H9 H7 H6 DQ D5 CQ CJ 
+Current Hand(East) = SA SJ S8 S4 S2 HQ DJ CK C8 C7 C6 C4 C3 
+Original Hand(South) = SQ S7 S3 H5 H4 DA DK D6 D3 CA CT C9 C2 
+Original Hand(West) = S6 S5 HA H8 H3 H2 DT D9 D8 D7 D4 D2 C5 
+Original Hand(North) = SK ST S9 HK HJ HT H9 H7 H6 DQ D5 CQ CJ 
+Original Hand(East) = SA SJ S8 S4 S2 HQ DJ CK C8 C7 C6 C4 C3 
 
 [[Round Information]]
 
@@ -30,7 +30,7 @@ Was Hand Dealt? = Yes
 Contract Suit = No Trump
 Contract Level = 0
 Contract Modifier = 0
-Dealer = North
+Dealer = West
 Number of Bids Made = 0
 Declarer = ????
 Bidding History = Pass 

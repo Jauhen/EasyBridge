@@ -14,7 +14,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "display_card.h"
+#include "Card.h"
 #include "DisplayHoldings.h"
 
 
@@ -57,7 +57,7 @@ void CDisplayHoldings::Clear()
 
 
 //
-void CDisplayHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
+void CDisplayHoldings::Add(CCard* pCard, const BOOL bSort)
 {
 	if (m_numCards >= MAXHOLDING)
 		return;
@@ -103,11 +103,11 @@ void CDisplayHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
 
 
 //
-DisplayCard*  CDisplayHoldings::RemoveByIndex(const int nIndex)
+CCard* CDisplayHoldings::RemoveByIndex(const int nIndex)
 {
 	if ((nIndex < 0) || (nIndex >= m_numCards))
 		return NULL;
-	DisplayCard*  pCard = m_cards[nIndex];
+	CCard* pCard = m_cards[nIndex];
 	// update count
 	m_numCards--;
 	// move other cards over and update display indices
@@ -130,7 +130,7 @@ void CDisplayHoldings::Sort()
 	if (m_bSorted)
 		return;
 	//
-	DisplayCard*  pTemp;
+	CCard* pTemp;
 	int i,j;
 	for(i=0;i<m_numCards-1;i++) 
 	{

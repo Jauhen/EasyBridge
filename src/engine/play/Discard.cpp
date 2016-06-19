@@ -12,7 +12,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Discard.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
@@ -32,7 +32,7 @@ CDiscard::CDiscard(int nTargetHand, int nSuit, int nCardVal) :
 	m_nCardVal = nCardVal;
 }
 
-CDiscard::CDiscard(int nTargetHand, DisplayCard*  pCard) :
+CDiscard::CDiscard(int nTargetHand, CCard* pCard) :
 			CPlay(CPlay::DISCARD, nTargetHand, NONE, PP_LOSER)
 {
 	VERIFY(pCard);
@@ -91,7 +91,7 @@ CString CDiscard::GetFullDescription()
 //
 PlayResult CDiscard::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 						      CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-						      CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+						      CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// not written yet
 	return PLAY_NOT_VIABLE;

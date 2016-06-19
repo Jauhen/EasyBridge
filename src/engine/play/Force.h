@@ -32,7 +32,7 @@ public:
 	virtual CString GetFullDescription();
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
+								CPlayerStatusDialog& status, CCard*& pPlayCard);
 
 // protected routines
 protected:
@@ -46,7 +46,7 @@ protected:
 // construction/destruction
 public:
 	CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal);
-	CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, DisplayCard*  pCard);
+	CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard);
 	virtual ~CForce();
 };
 

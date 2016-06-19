@@ -13,8 +13,7 @@
 #ifndef EZ_ENGINE_PLAYER_H_
 #define EZ_ENGINE_PLAYER_H_
 
-
-class DisplayCard;
+class CCard;
 class CHandHoldings;
 class CCombinedHoldings;
 class CDeclarerPlayEngine;
@@ -59,15 +58,15 @@ public:
 	void RestoreInitialHand();
 	void InitializeRestoredHand();
 	void InitializeSwappedHand();
-	void AddCardToHand(DisplayCard*  pCard, BOOL bSort=FALSE);
-	void AddCardToInitialHand(DisplayCard*  pCard, BOOL bSort=FALSE);
-	void RemoveCardFromHand(DisplayCard*  pCard);
-	DisplayCard*  RemoveCardFromHand(int nIndex);
-	void RemoveCardFromInitialHand(DisplayCard*  pCard);
-	DisplayCard*  RemoveCardFromInitialHand(int nIndex);
+	void AddCardToHand(CCard* pCard, BOOL bSort=FALSE);
+	void AddCardToInitialHand(CCard* pCard, BOOL bSort=FALSE);
+	void RemoveCardFromHand(CCard* pCard);
+	CCard* RemoveCardFromHand(int nIndex);
+	void RemoveCardFromInitialHand(CCard* pCard);
+	CCard* RemoveCardFromInitialHand(int nIndex);
 	void RemoveAllCardsFromHand();
-	void SetCard(int nIndex, DisplayCard*  pCard);
-	void SetInitialHandCard(int nIndex, DisplayCard*  pCard);
+	void SetCard(int nIndex, CCard* pCard);
+	void SetInitialHandCard(int nIndex, CCard* pCard);
 	void SortHand();
 	void InitialEvaluateHand();
 	void CountCards();
@@ -75,13 +74,13 @@ public:
 	int	GetNumCards() const;
 	int GetNumCardsInSuit(int nSuit) const;
 	int GetSuitLength(int nSuit) const;
-	BOOL HasCard(const DisplayCard*  pCard) const;
+	BOOL HasCard(const CCard* pCard) const;
 	BOOL HasCard(int nDeckValue) const;
-	DisplayCard*  GetCardByValue(int nVal) const;
-	DisplayCard*  GetCardByPosition(int nIndex) const;
-	DisplayCard*  GetCardInSuit(int nSuit, int nIndex) const;
-	DisplayCard*  GetDisplayedCard(int nIndex) const;
-	DisplayCard*  GetInitialHandCard(int nIndex) const;
+	CCard* GetCardByValue(int nVal) const;
+	CCard* GetCardByPosition(int nIndex) const;
+	CCard* GetCardInSuit(int nSuit, int nIndex) const;
+	CCard* GetDisplayedCard(int nIndex) const;
+	CCard* GetInitialHandCard(int nIndex) const;
 	BOOL AreCardsExposed() const;
 	int GetNumCardsOf(int nValue) const;
 	BOOL SuitHasCard(int nSuit, int nCardFaceValue) const;
@@ -118,16 +117,16 @@ public:
 	// play-related routines
 	// (mostly delegated to the m_pPlayEngine object)
 	//
-	DisplayCard*  PlayCard();
-	DisplayCard*  PlayForDummy();
-	DisplayCard*  PlayForDummy(int nPosition);
-	DisplayCard*  GetPlayHint(BOOL bAutoHintMode=FALSE);
-	DisplayCard*  GetPlayHintForDummy();
+	CCard* PlayCard();
+	CCard* PlayForDummy();
+	CCard* PlayForDummy(int nPosition);
+	CCard* GetPlayHint(BOOL bAutoHintMode=FALSE);
+	CCard* GetPlayHintForDummy();
 	void RestartPlay();
-	void RecordCardPlay(int nPos, DisplayCard*  pCard);
-	void RecordCardUndo(int nPos, DisplayCard*  pCard);
+	void RecordCardPlay(int nPos, CCard* pCard);
+	void RecordCardUndo(int nPos, CCard* pCard);
 	void RecordTrickUndo();
-	void RecordRoundComplete(int nPos, DisplayCard*  pCard);
+	void RecordRoundComplete(int nPos, CCard* pCard);
 	void RecordHandComplete(int nResult);
 	void RecordSpecialEvent(int nCode, int nParam1=0, int nParam2=0, int nParam3=0);
 	int GetNumClaimableTricks();
@@ -206,4 +205,4 @@ public:
 	~CPlayer();
 };
 
-#endif  // !EZ_ENGINE_PLAYER_H_
+#endif  // EZ_ENGINE_PLAYER_H_

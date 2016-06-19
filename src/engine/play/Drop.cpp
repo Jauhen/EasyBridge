@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Drop.h"
 #include "../Player.h"
 #include "PlayEngine.h"
@@ -38,7 +38,7 @@ CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, int n
 	m_pEnemyOrKeyCardsList = pEnemyCards;
 }
 
-CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, DisplayCard*  pCard) :
+CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, CCard* pCard) :
 			CPlay(CPlay::DROP, nTargetHand, NONE, PP_LIKELY_WINNER),
 			m_nTargetOpponent(nTargetOpponent)
 {
@@ -112,7 +112,7 @@ CString CDrop::GetFullDescription()
 //
 PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 				   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-			       CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+			       CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// this code is almost, but not quite, the same as a cash
 
@@ -125,7 +125,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
@@ -134,7 +134,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	pPlayCard = NULL;
 	BOOL bDropSucceeded = FALSE;
 	BOOL bLHODropped = FALSE;
-	DisplayCard *pRHOCard, *pLHOCard;
+	CCard *pRHOCard, *pLHOCard;
 	//
 	CString strLHO = bPlayingInHand? playEngine.szLHO : playEngine.szRHO;
 	CString strRHO = bPlayingInHand? playEngine.szRHO : playEngine.szLHO;

@@ -14,9 +14,8 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Cash.h"
-#include "display_card.h"
 #include "../Player.h"
 #include "PlayEngine.h"
 #include "../CardList.h"
@@ -26,6 +25,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "PlayerStatusDialog.h"
+
 
 //
 //==================================================================
@@ -40,7 +40,7 @@ CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, DisplayCard* pCard, PlayProspect nProspect, BOOL bOpportunistic) :
+CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect, BOOL bOpportunistic) :
 		CPlay(CPlay::CASH, nTargetHand, NONE, nProspect, bOpportunistic)
 {
 	VERIFY(pCard);
@@ -112,7 +112,7 @@ int	CCash::UsesUpEntry()
 //
 PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 				   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-				   CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
 	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
@@ -123,7 +123,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	CSuitHoldings& declarerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	DisplayCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	CDeclarerPlayEngine& declarerEngine = (CDeclarerPlayEngine&) playEngine;
 	
@@ -135,10 +135,10 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	pPlayCard = NULL;
 
 	// see what the top card in the round is
-	DisplayCard* pTopCard = pDOC->GetCurrentTrickHighCard();
-	DisplayCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	DisplayCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
-	DisplayCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
+	CCard* pTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pTopCard == pPartnersCard);
 
 	//
@@ -602,7 +602,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					// BUT see if we have a lower card which would win!
 					if (declarerSuit.GetNumCardsAbove(pTopCard) > 1)
 					{
-						DisplayCard* pCard = declarerSuit.GetLowestCardAbove(pTopCard);
+						CCard* pCard = declarerSuit.GetLowestCardAbove(pTopCard);
 						status << "3PLCSH85! We can actually play the " & pCard->GetFaceName() &
 								  " to win this trick, so postpone the cash of the " &
 								  m_pConsumedCard->GetFaceName() & ".\n";
@@ -652,7 +652,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					// BUT see if we have a lower card which would win!
 					if (dummySuit.GetNumCardsAbove(pTopCard) > 1)
 					{
-						DisplayCard* pCard = dummySuit.GetLowestCardAbove(pTopCard);
+						CCard* pCard = dummySuit.GetLowestCardAbove(pTopCard);
 						status << "3PLCSH89! We can actually play the " & pCard->GetFaceName() &
 								  " to win this trick, so postpone the cash of the " &
 								  m_pConsumedCard->GetFaceName() & ".\n";

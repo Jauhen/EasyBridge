@@ -18,7 +18,7 @@
 #include "GameReviewDialog.h"
 #include "engine/GameRecord.h"
 #include "MyToolTipWnd.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Deck.h"
 #include "engine/Player.h"
 #include "Subclass.h"
@@ -608,7 +608,7 @@ void CGameReviewDialog::OnNext()
 		//
 		m_nPlayerPosition = nPos;
 		int nCardPlayed = pGameRecord->m_nGameTrick[m_nPlayRound][m_nPlayerPosition];
-		DisplayCard*  pCard = deck.GetSortedCard(nCardPlayed);
+		CCard* pCard = deck.GetSortedCard(nCardPlayed);
 		if (!pCard)
 		{
 			AfxMessageBox("Invalid Play Record!");
@@ -698,7 +698,7 @@ void CGameReviewDialog::OnLast()
 			//
 			m_nPlayerPosition = nPos;
 			int nCardPlayed = pGameRecord->m_nGameTrick[m_nPlayRound][m_nPlayerPosition];
-			DisplayCard*  pCard = deck.GetSortedCard(nCardPlayed);
+			CCard* pCard = deck.GetSortedCard(nCardPlayed);
 			if (!pCard)
 			{
 				AfxMessageBox("Invalid Play Record!");

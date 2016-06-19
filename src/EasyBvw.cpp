@@ -15,7 +15,7 @@
 #include "engine/Player.h"
 #include "mainfrm.h"
 #include "deck.h"
-#include "display_card.h"
+#include "card.h"
 #include "EasyBvw.h"
 #include "progopts.h"
 #include "viewopts.h"
@@ -858,27 +858,27 @@ BOOL CEasyBView::OnCommand(WPARAM wParam, LPARAM lParam)
 
 		case WMS_CARD_PLAY:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )lParam);
+			HandleCardPlay((CCard*)lParam);
 			return TRUE;
 
 		case WMS_CARD_PLAY + 1000:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )lParam);
+			HandleCardPlay((CCard*)lParam);
 			return TRUE;
 
 		case WMS_CARD_PLAY + 1001:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )lParam);
+			HandleCardPlay((CCard*)lParam);
 			return TRUE;
 
 		case WMS_CARD_PLAY + 1002:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )lParam);
+			HandleCardPlay((CCard*)lParam);
 			return TRUE;
 
 		case WMS_CARD_PLAY + 1003:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )lParam);
+			HandleCardPlay((CCard*)lParam);
 			return TRUE;
 
 		case WMS_PLAY_RESTART:
@@ -999,27 +999,27 @@ bool CEasyBView::Notify(long lCode, long param1, long param2, long param3)
 
 		case WMS_CARD_PLAY:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )param2);
+			HandleCardPlay((CCard*)param2);
 			return true;
 
 		case WMS_CARD_PLAY + 1000:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )param2);
+			HandleCardPlay((CCard*)param2);
 			return true;
 
 		case WMS_CARD_PLAY + 1001:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )param2);
+			HandleCardPlay((CCard*)param2);
 			return true;
 
 		case WMS_CARD_PLAY + 1002:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )param2);
+			HandleCardPlay((CCard*)param2);
 			return true;
 
 		case WMS_CARD_PLAY + 1003:
 			// a computer(?) player has picked a card to play
-			HandleCardPlay((DisplayCard* )param2);
+			HandleCardPlay((CCard*)param2);
 			return true;
 
 		case WMS_PLAY_RESTART:
@@ -1138,7 +1138,7 @@ void CEasyBView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 
 //
-BOOL inline CEasyBView::InRect(CPoint point, DisplayCard*  pCard)
+BOOL inline CEasyBView::InRect(CPoint point, CCard* pCard)
 {
 	CRect rect(pCard->GetXPosition(),pCard->GetYPosition(),
 				pCard->GetXPosition() + m_nCardWidth,
@@ -1152,7 +1152,7 @@ void CEasyBView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	int i,j,nSuit;
 	CString strTemp;
-	DisplayCard*  pCard = NULL;
+	CCard* pCard = NULL;
 	Position nNext,nOrigin;
 	int nState = GetKeyState(VK_CONTROL);
 	BOOL bFound = FALSE;
@@ -1426,7 +1426,7 @@ void CEasyBView::OnLButtonDown(UINT nFlags, CPoint point)
 //
 // GetCardUnderPoint()
 //
-BOOL CEasyBView::GetCardUnderPoint(int& nPlayer, DisplayCard* & pCard, CPoint* pTargetPoint)
+BOOL CEasyBView::GetCardUnderPoint(int& nPlayer, CCard*& pCard, CPoint* pTargetPoint)
 {
 	BOOL bFound = FALSE;
 	//
@@ -1501,7 +1501,7 @@ void CEasyBView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 
 		//
-		DisplayCard*  pCard = m_pLayoutCard;
+		CCard* pCard = m_pLayoutCard;
 		CDC *pDC = GetDC();
 		BOOL bDirectionSet = FALSE;
 		// first see if we're returning a card to the stack
@@ -1623,7 +1623,7 @@ void CEasyBView::OnMouseMove(UINT nFlags, CPoint point)
 				else
 				{
 					// player must follow suit if possible
-					DisplayCard*  pLeadCard = pDOC->GetCurrentTrickCardLed();
+					CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
 					ASSERT(pLeadCard);
 					nSuitLed = pLeadCard->GetSuit();				
 					if (pPlayer->GetNumCardsInSuit(nSuitLed) == 0)
@@ -1639,7 +1639,7 @@ void CEasyBView::OnMouseMove(UINT nFlags, CPoint point)
 				{
 					// only the suit led is OK
 					// search for the card the cursor is currently over
-					DisplayCard*  pCard;
+					CCard* pCard;
 					int nPlayer;
 					if (GetCardUnderPoint(nPlayer, pCard, &point))
 					{
@@ -1686,7 +1686,7 @@ void CEasyBView::OnLButtonUp(UINT nFlags, CPoint point)
 		// first restore cursor
 		SetWindowCursor();
 		// assign card
-		DisplayCard*  pCard = m_pLayoutCard;
+		CCard* pCard = m_pLayoutCard;
 		ASSERT(pCard != NULL);
 		pCard->RestoreBackground(pDC);
 		// clear the following now for correct operation of 
@@ -1806,7 +1806,7 @@ void CEasyBView::OnRButtonDown(UINT nFlags, CPoint point)
 
 	int i,j,nSuit;
 	CString strTemp;
-	DisplayCard*  pCard = NULL;
+	CCard* pCard = NULL;
 	BOOL bFound = FALSE;
 	int minX,maxX,minY,maxY;
 	Position nNext,nPlayer,nDummy,nEast,nWest,nOrigin;
@@ -2286,7 +2286,7 @@ void CEasyBView::OnFilePrintPreview()
 // called after a card is selected for play in the curent round, either 
 // manually or by a computer player
 //
-void CEasyBView::HandleCardPlay(DisplayCard*  pCard) 
+void CEasyBView::HandleCardPlay(CCard* pCard) 
 {
 	numCardsProcessed++;
 	//
@@ -2332,7 +2332,7 @@ void CEasyBView::OnUndoCard()
 {
 	int nPos = GetPrevPlayer(pDOC->GetCurrentPlayerPosition());
 	//
-	DisplayCard*  pCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pCard = pDOC->GetCurrentTrickCard(nPos);
 	if (pCard == NULL)
 		return;
 
@@ -2391,7 +2391,7 @@ void CEasyBView::OnUndoTrick()
 		for(int i=0;i<numCardsPlayed;i++) 
 		{
 			// get the card played
-			DisplayCard*  pCard = pDOC->GetCurrentTrickCard(nPos);
+			CCard* pCard = pDOC->GetCurrentTrickCard(nPos);
 			ASSERT(pCard != NULL);
 			// clear its background
 			pCard->RestoreBackground(pDC);
@@ -2407,7 +2407,7 @@ void CEasyBView::OnUndoTrick()
 		for(int i=0;i<numCardsPlayed;i++) 
 		{
 			// get the card played
-			DisplayCard*  pCard = pDOC->GetCurrentTrickCard(nPos);
+			CCard* pCard = pDOC->GetCurrentTrickCard(nPos);
 			ASSERT(pCard != NULL);
 			// clear its background
 			pCard->RestoreBackground(pDC);
@@ -2875,7 +2875,7 @@ void CEasyBView::OnDistributeRandom()
 		return;
 	// first look for any remaining cards
 	int i,j,numCardsRemaining = 0;
-	DisplayCard *pCard, *remainingStack[52];
+	CCard *pCard, *remainingStack[52];
 	for(i=0;i<52;i++) 
 	{
 		if (m_layoutDeck[i]) 

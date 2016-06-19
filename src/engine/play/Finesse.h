@@ -44,7 +44,7 @@ public:
 	virtual CString GetFullDescription() = 0;
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, DisplayCard* & pPlayCard) = 0;
+								CPlayerStatusDialog& status, CCard*& pPlayCard) = 0;
 	//
 	virtual int			GetTargetPos() { return m_nTargetPos; }
 	virtual int			GetDepth() { return m_nGapSize; }
@@ -69,7 +69,7 @@ protected:
 // construction/destruction
 public:
 	CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic=FALSE);
-	CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, DisplayCard*  pCard, BOOL bOpportunistic=FALSE);
+	CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic=FALSE);
 	virtual ~CFinesse();
 };
 

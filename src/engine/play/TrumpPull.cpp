@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "TrumpPull.h"
 #include "../Player.h"
 #include "PlayEngine.h"
@@ -41,7 +41,7 @@ CPlay(CPlay::TRUMP_PULL, nTargetHand, nSuit, bWinner? PP_GUARANTEED_WINNER : PP_
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CTrumpPull::CTrumpPull(int nTargetHand, DisplayCard*  pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner, BOOL bOptional) :
+CTrumpPull::CTrumpPull(int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner, BOOL bOptional) :
 			CPlay(CPlay::TRUMP_PULL, nTargetHand, NONE, bWinner? PP_GUARANTEED_WINNER : PP_LOSER),
 			m_pOutstandingCards(pOutstandingCards),
 			m_bOptional(bOptional)
@@ -111,7 +111,7 @@ int	CTrumpPull::UsesUpEntry()
 //
 PlayResult CTrumpPull::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 					    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-					    CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+					    CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// trumps can only be pulled if we're leading (???)
 	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
@@ -132,17 +132,17 @@ PlayResult CTrumpPull::Perform(CPlayEngine& playEngine, CCombinedHoldings& combi
 	CSuitHoldings& playerTrumps = playerHand.GetSuit(nTrumpSuit);
 	CSuitHoldings& dummyTrumps = dummyHand.GetSuit(nTrumpSuit);
 	CCombinedSuitHoldings& combinedTrumps = combinedHand.GetSuit(nTrumpSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	// see what the top card in the round is
-	DisplayCard*  pTopCard = pDOC->GetCurrentTrickHighCard();
-	DisplayCard*  pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	DisplayCard*  pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
-	DisplayCard*  pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
+	CCard* pTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pTopCard == pPartnersCard);
 	//
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	pPlayCard = NULL;
-	DisplayCard*  pOutstandingCard = NULL;
+	CCard* pOutstandingCard = NULL;
 
 	//
 	if (!CPlay::IsPlayUsable(combinedHand, playEngine))

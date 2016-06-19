@@ -15,9 +15,8 @@
 
 #include "ObjectWithProperties.h"
 #include "EventProcessor.h"
-
 class CPlayer;
-class DisplayCard;
+class CCard;
 class CGameRecord;
 
 
@@ -68,8 +67,8 @@ public:
 	void UpdateBiddingHistory();
 	void UpdatePlayHistory();
 	void BeginRound();
-	BOOL TestPlayValidity(Position nOrigin, DisplayCard*  pCard, BOOL bAlert=TRUE);
-	void EnterCardPlay(Position nPos, DisplayCard*  pCard);
+	BOOL TestPlayValidity(Position nOrigin, CCard* pCard, BOOL bAlert=TRUE);
+	void EnterCardPlay(Position nPos, CCard* pCard);
 	void ClaimTricks(int nPos, int numTricks=0);
 	void ConcedeTricks(int nPos);
 	void InvokeNextPlayer();
@@ -134,12 +133,12 @@ public:
 	BOOL WasTrumpPlayed() const;
 	int    GetGameTrickLead(int nRound) const { return m_nTrickLead[nRound]; }
 	int    GetGameTrickWinner(int nRound) const { return m_nTrickWinner[nRound]; }
-	DisplayCard*  GetGameTrickCard(int nRound, int nPlayer) const { return m_pGameTrick[nRound][nPlayer]; }
-	DisplayCard*  GetCurrentTrickCardByOrder(int nOrder) const;
-	DisplayCard*  GetCurrentTrickCard(int nPos) const { return m_pCurrTrick[nPos]; }
-	DisplayCard*  GetCurrentTrickCardLed() const { return GetCurrentTrickCardByOrder(0); }
-	DisplayCard*  GetCurrentTrickHighCard(int* nPos=NULL)  const;
-	void SetCurrentTrickCard(int nPos, DisplayCard*  pCard) { m_pCurrTrick[nPos] = pCard; }
+	CCard* GetGameTrickCard(int nRound, int nPlayer) const { return m_pGameTrick[nRound][nPlayer]; }
+	CCard* GetCurrentTrickCardByOrder(int nOrder) const;
+	CCard* GetCurrentTrickCard(int nPos) const { return m_pCurrTrick[nPos]; }
+	CCard* GetCurrentTrickCardLed() const { return GetCurrentTrickCardByOrder(0); }
+	CCard* GetCurrentTrickHighCard(int* nPos=NULL)  const;
+	void SetCurrentTrickCard(int nPos, CCard* pCard) { m_pCurrTrick[nPos] = pCard; }
 	int	GetCurrentPlayerPosition() const { return m_nCurrPlayer; }
 	CPlayer* GetCurrentPlayer() const { return m_pPlayer[m_nCurrPlayer]; }
 	void SetCurrentPlayer(int nPlayer) { m_nCurrPlayer = nPlayer; }
@@ -243,10 +242,10 @@ private:
 	int			m_nPlayRound;		// current play round
 	int			m_nCurrPlayer;		// next person to play
 	int			m_nPlayRecord[52];	// record of cards played
-	DisplayCard* 		m_pGameTrick[13][4]; // history of tricks
+	CCard*		m_pGameTrick[13][4]; // history of tricks
 	int			m_nTrickLead[13];	// history of lead players
 	int			m_nTrickWinner[13];	// history of winners
-	DisplayCard* 		m_pCurrTrick[4];			// cards so far in trick
+	CCard*		m_pCurrTrick[4];			// cards so far in trick
 	int			m_numTricksPlayed;			// total # tricks played
 	int			m_numActualTricksPlayed;	// actual # tricks played (w/ claim/concede)
 	int			m_numCardsPlayedInRound; // # played in current trick
@@ -255,13 +254,13 @@ private:
 	int			m_numActualTricksWon;	// saves # tricks won before auto replay
 	//
 	int			m_nLastBiddingHint;
-	DisplayCard* 		m_pLastPlayHint;
+	CCard*		m_pLastPlayHint;
 	BOOL		m_bHintFollowed;
 	// results info
 	int			m_nSuitLed;
 	int			m_nHighVal;
 	int			m_nHighTrumpVal;
-	DisplayCard* 		m_pHighCard;
+	CCard*		m_pHighCard;
 	int			m_nHighPos;
 	int			m_nRoundWinner;
 	Team 		m_nRoundWinningTeam;		

@@ -33,30 +33,30 @@ public:
 	virtual void InitSwappedHand();
 	virtual void Clear();
 	//
-	virtual DisplayCard*   PlayCard();
-	virtual DisplayCard* 	PlayFirst();
-	virtual DisplayCard* 	PlaySecond();
-	virtual DisplayCard* 	PlayThird();
-	virtual DisplayCard* 	PlayFourth();
+	virtual CCard*  PlayCard();
+	virtual CCard*	PlayFirst();
+	virtual CCard*	PlaySecond();
+	virtual CCard*	PlayThird();
+	virtual CCard*	PlayFourth();
 	//
-	virtual DisplayCard*   GetLeadCard();
-	virtual DisplayCard*   GetDiscard();
+	virtual CCard*  GetLeadCard();
+	virtual CCard*  GetDiscard();
 
-	virtual DisplayCard* 	GetPlayHint();
-	virtual DisplayCard*   GetPlayHintForDummy();
+	virtual CCard*	GetPlayHint();
+	virtual CCard*  GetPlayHintForDummy();
 	//
-	virtual void RecordCardPlay(int nPos, DisplayCard*  pCard);
-	virtual void RecordCardUndo(int nPos, DisplayCard*  pCard);
+	virtual void RecordCardPlay(int nPos, CCard* pCard);
+	virtual void RecordCardUndo(int nPos, CCard* pCard);
 	virtual void RecordTrickUndo();
-	virtual void RecordRoundComplete(int nPos, DisplayCard*  pCard);
-	virtual void AdjustCardCountFromPlay(int nPos, DisplayCard*  pCard);
-	virtual void AdjustCardCountFromUndo(int nPos, DisplayCard*  pCard);
-	virtual void AdjustHoldingsCount(DisplayCard*  pCard);
+	virtual void RecordRoundComplete(int nPos, CCard* pCard);
+	virtual void AdjustCardCountFromPlay(int nPos, CCard* pCard);
+	virtual void AdjustCardCountFromUndo(int nPos, CCard* pCard);
+	virtual void AdjustHoldingsCount(CCard* pCard);
 	virtual void RestartPlay();
 	virtual int  GetNumClaimableTricks();
 	//
-	virtual void AddCardToCombinedHand(DisplayCard*  pCard, BOOL bPlayerCard, BOOL bSort=FALSE);
-	virtual void RemoveCardFromCombinedHand(DisplayCard*  pCard);
+	virtual void AddCardToCombinedHand(CCard* pCard, BOOL bPlayerCard, BOOL bSort=FALSE);
+	virtual void RemoveCardFromCombinedHand(CCard* pCard);
 
 	// analysis routines
 	virtual int	 GetOutstandingCards(int nSuit, CCardList& cardList) const;
@@ -76,7 +76,7 @@ public:
 	virtual const CPlay* GetCurrentPlay();
 
 	// class-specific functions
-	DisplayCard*  PlayForDummy();
+	CCard* PlayForDummy();
 	LPCTSTR GetFailedPlayName() const { return m_strFailedPlay; }
 
 
@@ -85,8 +85,8 @@ public:
 //
 protected:
 	//
-	virtual DisplayCard* 	PlayBestCard(int nPosition);
-	virtual DisplayCard*   GetFinalDiscard();
+	virtual CCard*	PlayBestCard(int nPosition);
+	virtual CCard*  GetFinalDiscard();
 
 
 //
@@ -121,11 +121,11 @@ private:
 	int		ScreenIneligiblePlays();
 	void	AdjustPlayCountForDeletedPlay(CPlay* pPlay);
 	int		GetNumGapCardsOutstanding(int nSuit, CCardList*& pGapCards) const;
-	DisplayCard* 	TrySelectedPlays();
+	CCard*	TrySelectedPlays();
 	BOOL	IsPlayUsable(CPlay& play);
 	void	TestForClaim();
 	//
-	int		GetCardOwner(DisplayCard*  pCard) const;
+	int		GetCardOwner(CCard* pCard) const;
 
 
 // public data

@@ -14,7 +14,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "display_card.h"
+#include "card.h"
 #include "HoldUp.h"
 #include "../Player.h"
 #include "PlayEngine.h"
@@ -78,7 +78,7 @@ CString CHoldUp::GetFullDescription()
 //
 PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 				    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-				    CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+				    CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
 	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
@@ -88,7 +88,7 @@ PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combined
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
@@ -98,12 +98,12 @@ PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combined
 	if ((nSuitLed != nTrumpSuit) && (pDOC->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
-	DisplayCard*  pOppCard = NULL;
+	CCard* pOppCard = NULL;
 	// 
-	DisplayCard*  pRoundTopCard = pDOC->GetCurrentTrickHighCard();
-	DisplayCard*  pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	DisplayCard*  pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
-	DisplayCard*  pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
+	CCard* pRoundTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pRoundTopCard == pPartnersCard);
 	//
 	BOOL bValid = FALSE;

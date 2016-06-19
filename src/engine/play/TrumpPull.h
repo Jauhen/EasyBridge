@@ -32,7 +32,7 @@ public:
 	virtual CString GetFullDescription();
 	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, DisplayCard* & pPlayCard);
+								CPlayerStatusDialog& status, CCard*& pPlayCard);
 	//
 	virtual int		UsesUpEntry();
 	//
@@ -51,7 +51,7 @@ protected:
 // construction/destruction
 public:
 	CTrumpPull(int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
-	CTrumpPull(int nTargetHand, DisplayCard*  pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
+	CTrumpPull(int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
 	virtual ~CTrumpPull();
 };
 

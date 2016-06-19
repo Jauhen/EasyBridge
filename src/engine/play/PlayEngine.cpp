@@ -22,7 +22,7 @@
 #include "../bidding/BidEngine.h"
 #include "../Player.h"
 #include "PlayerStatusDialog.h"
-#include "display_card.h"
+#include "Card.h"
 #include "deck.h"
 /*
 #include "Play.h"
@@ -232,7 +232,7 @@ CSuitHoldings& CPlayEngine::GetDummySuit(int nSuit)
 //
 // record that a card has been played
 //
-void CPlayEngine::RecordCardPlay(int nPos, DisplayCard*  pCard) 
+void CPlayEngine::RecordCardPlay(int nPos, CCard* pCard) 
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 /*
@@ -271,7 +271,7 @@ void CPlayEngine::RecordCardPlay(int nPos, DisplayCard*  pCard)
 //
 // note that a card has been undone
 //
-void CPlayEngine::RecordCardUndo(int nPos, DisplayCard*  pCard)
+void CPlayEngine::RecordCardUndo(int nPos, CCard* pCard)
 {
 	// remove the card from the observed list (i.e., "forget" that it was played)
 	VERIFY(ISPLAYER(nPos) && (pCard != NULL));
@@ -310,7 +310,7 @@ void CPlayEngine::RecordTrickUndo()
 // nPos = winner
 // pCard = winning card
 //
-void CPlayEngine::RecordRoundComplete(int nPos, DisplayCard*  pCard) 
+void CPlayEngine::RecordRoundComplete(int nPos, CCard* pCard) 
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	status << "4PLAY! " & PositionToString(nPos) & 
@@ -387,7 +387,7 @@ void CPlayEngine::RecordCardsPlayed()
 	for(int i=0;i<4;i++)
 	{
 		// record the card played by this player
-		DisplayCard*  pPlayedCard = pDOC->GetCurrentTrickCard(i);
+		CCard* pPlayedCard = pDOC->GetCurrentTrickCard(i);
 		CGuessedHandHoldings* pHand = m_ppGuessedHands[i];
 		CGuessedCard* pCard = new CGuessedCard(pPlayedCard,	// card
 											   FALSE,		// not outstanding
@@ -405,7 +405,7 @@ void CPlayEngine::RecordCardsPlayed()
 //
 // adjust card count and analysis after a card is played
 //
-void CPlayEngine::AdjustCardCountFromPlay(int nPos, DisplayCard*  pCard)
+void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 {
 	// default code
 //	if (nPos != m_pPlayer->GetPosition())
@@ -420,7 +420,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, DisplayCard*  pCard)
 
 		// see if the player showed out
 		CPlayerStatusDialog& status = *m_pStatusDlg;
-		DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+		CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 		if (pCard)
 		{
 			int nSuitLed = pCardLed->GetSuit();
@@ -542,7 +542,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, DisplayCard*  pCard)
 //
 // adjust card count and analysis after a card play is undone
 //
-void CPlayEngine::AdjustCardCountFromUndo(int nPos, DisplayCard*  pCard)
+void CPlayEngine::AdjustCardCountFromUndo(int nPos, CCard* pCard)
 {
 	// default code
 //	if (nPos != m_pPlayer->GetPosition())
@@ -561,7 +561,7 @@ void CPlayEngine::AdjustCardCountFromUndo(int nPos, DisplayCard*  pCard)
 //
 // called to adjust analysis of holdings after a round of play
 //
-void CPlayEngine::AdjustHoldingsCount(DisplayCard*  pCard)
+void CPlayEngine::AdjustHoldingsCount(CCard* pCard)
 {
 	// adjust our own holdings
 	m_pHand->ReevaluateHoldings(pCard);
@@ -586,10 +586,10 @@ void CPlayEngine::AdjustHoldingsCount(DisplayCard*  pCard)
 //
 // default implementation
 //
-DisplayCard*  CPlayEngine::PlayCard()
+CCard* CPlayEngine::PlayCard()
 {
 	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
-	DisplayCard*  pCard = NULL;
+	CCard* pCard = NULL;
 	switch(nOrdinal)
 	{
 		case 0:
@@ -635,13 +635,13 @@ DisplayCard*  CPlayEngine::PlayCard()
 //
 // default implementation
 //
-DisplayCard*  CPlayEngine::PlayFirst()
+CCard* CPlayEngine::PlayFirst()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	status << "5PLAY1! Leading card, using default player logic.\n";
 
 	// lead a card
-	DisplayCard*  pLeadCard = GetLeadCard();
+	CCard* pLeadCard = GetLeadCard();
 	ASSERT(m_pHand->HasCard(pLeadCard));
 	return pLeadCard;
 }
@@ -654,21 +654,21 @@ DisplayCard*  CPlayEngine::PlayFirst()
 //
 // default implementation, generally should be overridden in derived classes
 //
-DisplayCard*  CPlayEngine::PlaySecond()
+CCard* CPlayEngine::PlaySecond()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	status << "5PLAY2! Playing second, using default player logic.\n";
 
 	// get play info
 	int nDummyPos = pDOC->GetDummyPosition();
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardLed();
+	CCard* pCardLed = pDOC->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
-	DisplayCard*  pCurrTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard();
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	CSuitHoldings& suit = m_pHand->GetSuit(nSuitLed);
 	// card to play
-	DisplayCard*  pCard = NULL;
+	CCard* pCard = NULL;
 
 	// second hand low
 	int numCardsInSuit = suit.GetNumCards();
@@ -760,13 +760,13 @@ DisplayCard*  CPlayEngine::PlaySecond()
 //
 // default implementation
 //
-DisplayCard*  CPlayEngine::PlayThird()
+CCard* CPlayEngine::PlayThird()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	status << "5PLAY3! Playing third, using default player logic.\n";
 
 	// use common code
-	DisplayCard*  pCard = PlayBestCard(3);
+	CCard* pCard = PlayBestCard(3);
 	//
 	ASSERT(pCard->IsValid());
 	return pCard;
@@ -779,13 +779,13 @@ DisplayCard*  CPlayEngine::PlayThird()
 //
 // default implementation
 //
-DisplayCard*  CPlayEngine::PlayFourth()
+CCard* CPlayEngine::PlayFourth()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	status << "5PLAY4! Playing fourth, using default player logic.\n";
 
 	// use common code
-	DisplayCard*  pCard = PlayBestCard(4);
+	CCard* pCard = PlayBestCard(4);
 	//
 	ASSERT(pCard->IsValid());
 	return pCard;
@@ -799,28 +799,28 @@ DisplayCard*  CPlayEngine::PlayFourth()
 //
 // called on the third and fourth hand plays to try to win the trick
 //
-DisplayCard*  CPlayEngine::PlayBestCard(int nPosition)
+CCard* CPlayEngine::PlayBestCard(int nPosition)
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 //	status << "2PLAY3! Playing best card.\n";
 
 	// get play info
-	DisplayCard*  pCurrentCard = pDOC->GetCurrentTrickCardLed();
+	CCard* pCurrentCard = pDOC->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
-	DisplayCard*  pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
+	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
 	int nCurrentRound = pDOC->GetPlayRound();
 	int nCurrentSeat = pDOC->GetNumCardsPlayedInRound() + 1;
-	DisplayCard*  pPartnersCard = pDOC->GetCurrentTrickCard(m_pPartner->GetPosition());
+	CCard* pPartnersCard = pDOC->GetCurrentTrickCard(m_pPartner->GetPosition());
 	if (pPartnersCard == pCurrTopCard)
 		bPartnerHigh = TRUE;
 	// 
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	int numCardsInSuitLed = m_pHand->GetNumCardsInSuit(nSuitLed);
 	// card to play
-	DisplayCard*  pCard = NULL;
+	CCard* pCard = NULL;
 
 	// 
 	// first see if somebody trumped in this hand
@@ -841,7 +841,7 @@ DisplayCard*  CPlayEngine::PlayBestCard(int nPosition)
 			// it was an opponent that did the trumping
 			// see if we can overtrump
 			CSuitHoldings& trumpSuit = m_pHand->GetSuit(nTrumpSuit);
-			DisplayCard*  pTopTrump = NULL;
+			CCard* pTopTrump = NULL;
 			if (trumpSuit.GetNumCards() > 0)
 				pTopTrump = trumpSuit.GetTopCard();
 			if ((numCardsInSuitLed == 0) && (pTopTrump) && (*pTopTrump > *pCurrTopCard))
@@ -905,7 +905,7 @@ DisplayCard*  CPlayEngine::PlayBestCard(int nPosition)
 							// playing in third position -- decide whether to 
 							// let partner's card ride
 							// do so if if partner's card beats all outstanding cards
-							DisplayCard*  pTopOutstandingCard = GetHighestOutstandingCard(nSuitLed);
+							CCard* pTopOutstandingCard = GetHighestOutstandingCard(nSuitLed);
 							if ((pTopOutstandingCard == NULL) || (*pCurrTopCard > *pTopOutstandingCard))
 							{
 								// let partner's card ride
@@ -1035,11 +1035,11 @@ DisplayCard*  CPlayEngine::PlayBestCard(int nPosition)
 //
 // GetLeadCard()
 //
-DisplayCard*  CPlayEngine::GetLeadCard()
+CCard* CPlayEngine::GetLeadCard()
 {
 	// default implementation 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	DisplayCard*  pLeadCard = NULL;
+	CCard* pLeadCard = NULL;
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	
 	// look to see if we have any winners
@@ -1165,7 +1165,7 @@ DisplayCard*  CPlayEngine::GetLeadCard()
 //
 // GetDiscard()
 //
-DisplayCard*  CPlayEngine::GetDiscard()
+CCard* CPlayEngine::GetDiscard()
 {
 	return m_pHand->GetDiscard();
 }
@@ -1309,7 +1309,7 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 //
 // GetHighestOutstandingCard()
 //
-DisplayCard*  CPlayEngine::GetHighestOutstandingCard(int nSuit) const
+CCard* CPlayEngine::GetHighestOutstandingCard(int nSuit) const
 {
 	CCardList cardList;
 	int nCount = GetOutstandingCards(nSuit, cardList);
@@ -1337,7 +1337,7 @@ int CPlayEngine::GetNumOutstandingCards(int nSuit) const
 //
 // determine whether a card is still outstanding
 //
-BOOL CPlayEngine::IsCardOutstanding(DisplayCard*  pCard) const
+BOOL CPlayEngine::IsCardOutstanding(CCard* pCard) const
 {
 	VERIFY(pCard->IsValid());
 	// get the list of outstanding cards in this suit
@@ -1356,7 +1356,7 @@ BOOL CPlayEngine::IsCardOutstanding(int nSuit, int nFaceValue) const
 {
 	int nDeckValue = MAKEDECKVALUE(nSuit, nFaceValue);
 	ASSERT(ISDECKVAL(nDeckValue));
-	DisplayCard*  pCard = deck.GetSortedCard(nDeckValue);
+	CCard* pCard = deck.GetSortedCard(nDeckValue);
 	return IsCardOutstanding(pCard);
 }
 

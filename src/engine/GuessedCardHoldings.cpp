@@ -15,7 +15,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "GuessedCardHoldings.h"
-#include "display_card.h"
+#include "Card.h"
 #include "CardList.h"
 
 
@@ -301,7 +301,7 @@ void CGuessedCardHoldings::Remove(CGuessedCard* pCard)
 
 
 //
-CGuessedCard* CGuessedCardHoldings::Remove(DisplayCard*  pCard)
+CGuessedCard* CGuessedCardHoldings::Remove(CCard* pCard)
 {
 	VERIFY(pCard != NULL);
 	if (m_numTotalCards <= 0)
@@ -347,7 +347,7 @@ void CGuessedCardHoldings::Delete(CGuessedCard* pCard)
 
 
 //
-BOOL CGuessedCardHoldings::Delete(DisplayCard*  pCard)
+BOOL CGuessedCardHoldings::Delete(CCard* pCard)
 {
 	CGuessedCard* pGuessedCard = Remove(pCard);
 	if (pCard)
@@ -501,7 +501,7 @@ int CGuessedCardHoldings::GetCardIndex(CGuessedCard* pCard) const
 }
 
 //
-int CGuessedCardHoldings::GetCardIndex(DisplayCard*  pCard) const
+int CGuessedCardHoldings::GetCardIndex(CCard* pCard) const
 {
 	VERIFY(pCard != NULL);
 	return GetCardIndex(pCard->GetDeckValue());

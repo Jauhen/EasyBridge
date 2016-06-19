@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Force.h"
 #include "../Player.h"
 #include "PlayEngine.h"
@@ -39,7 +39,7 @@ CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, i
 	Init();
 }
 
-CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, DisplayCard*  pCard) :
+CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard) :
 			CPlay(CPlay::FORCE, nTargetHand, NONE, PP_LOSER),
 			m_nTargetCardVal(nTargetCardVal)
 {
@@ -99,7 +99,7 @@ CString CForce::GetFullDescription()
 //
 PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 				    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-				    CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+				    CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// a "force" is a play of the lowest possible card that will force out
 	// a key enemy card
@@ -112,7 +112,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
@@ -138,7 +138,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 		// are still outstanding
 		for(int i=0;i<m_pRequiredPlayedCardsList->GetNumCards();i++)
 		{
-			DisplayCard*  pCard = (*m_pRequiredPlayedCardsList)[i];
+			CCard* pCard = (*m_pRequiredPlayedCardsList)[i];
 			if (playEngine.IsCardOutstanding(pCard))
 			{
 				status << "5PLFRCA! The force play of the " & m_pConsumedCard->GetFaceName() &
@@ -306,7 +306,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 				 (!bPlayingInHand && (m_nTargetHand == IN_DUMMY)) )
 			{
 				// see if RHO played the target card
-				DisplayCard*  pRHOCard = pDOC->GetCurrentTrickCardByOrder(1);
+				CCard* pRHOCard = pDOC->GetCurrentTrickCardByOrder(1);
 				if (pRHOCard->GetFaceValue() >= m_nTargetCardVal)
 				{
 					status << "5PLFR50! RHO played the " & CardValToString(m_nTargetCardVal) &

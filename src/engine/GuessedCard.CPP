@@ -12,7 +12,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 //#include "EasyBDoc.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Deck.h"
 #include "GuessedCard.h"
 
@@ -33,7 +33,7 @@ CGuessedCard::CGuessedCard(int nSuit, int nFaceValue, BOOL bOutstanding, int nLo
 	strcpy(m_szName, m_pCard->GetName());
 }
 
-CGuessedCard::CGuessedCard(DisplayCard*  pCard, BOOL bOutstanding, int nLocation, float fFixProbability) :
+CGuessedCard::CGuessedCard(CCard* pCard, BOOL bOutstanding, int nLocation, float fFixProbability) :
 			m_pCard(pCard),
 			m_bOutstanding(bOutstanding), 
 			m_nLocation(nLocation), 

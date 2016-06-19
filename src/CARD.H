@@ -152,7 +152,7 @@ private:
   ~CCard();
 
 private:
-  void operator=(CCard*  pSource);
+  void operator=(CCard* pSource);
   void operator=(CCard& cSource);
 };
 

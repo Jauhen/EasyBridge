@@ -36,7 +36,7 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/player.h"
-#include "display_card.h"
+#include "card.h"
 #include "deck.h"
 #include "DrawParameters.h"
 
@@ -51,7 +51,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 //
 // local functions
 //
-DisplayCard*  GetPlayerBottomCard(CPlayer& player);
+CCard* GetPlayerBottomCard(CPlayer& player);
 void DrawCardBack(CDC* pDC, int x, int y);
 
 
@@ -351,7 +351,7 @@ void CEasyBView::DrawHoriz(CDC* pDC, Position nPos, int nDisplaySuit,
 		//
 		for(j=0;j<PLAYER(nPos).GetNumCardsInSuit(nSuit);j++) 
 		{
-			DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+			CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 			ASSERT(pCard != NULL);
 			pCard->MoveTo(pDC, x, y);
 			x += m_nCardXGap;
@@ -385,7 +385,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 		//
 		// clear area under bottom card
 		int numCards = PLAYER(nPos).GetNumCards();
-		DisplayCard*  pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
+		CCard* pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
 		cy = y + m_nCardHeight;
 		if (numCards > 0) 
 		{
@@ -410,7 +410,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 		//
 		// since cards are face up, redraw starting 
 		// from card after the one last played
-		DisplayCard*  pOldCard = pDOC->GetCurrentTrickCard(nPos);
+		CCard* pOldCard = pDOC->GetCurrentTrickCard(nPos);
 		// restore the played card's background
 		pOldCard->RestoreBackground(pDC);
 		// and then restore remaining cards
@@ -423,8 +423,8 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 		// else clear the area to the right of the 
 		// played card -- grab the card right 
 		// after the card played
-		DisplayCard*  pCard1 = PLAYER(nPos).GetDisplayedCard(nStart);
-		DisplayCard*  pCard2 = PLAYER(nPos).GetDisplayedCard(nEnd-1);
+		CCard* pCard1 = PLAYER(nPos).GetDisplayedCard(nStart);
+		CCard* pCard2 = PLAYER(nPos).GetDisplayedCard(nEnd-1);
 		RECT eraseRect;
 		eraseRect.left = pCard1->GetXPosition() + m_nCardWidth - m_nCardXGap;
 		eraseRect.top = pCard1->GetYPosition();
@@ -438,7 +438,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 		int i;
 		for(i=nStart;i<nEnd;i++) 
 		{
-			DisplayCard*  pCard = PLAYER(nPos).GetDisplayedCard(i);
+			CCard* pCard = PLAYER(nPos).GetDisplayedCard(i);
 			ASSERT(pCard != NULL);
 			pCard->MoveTo(pDC, x, y);
 			x += m_nCardXGap;
@@ -502,7 +502,7 @@ void CEasyBView::DrawHorizGrouped(CDC* pDC, Position nPos, int nDisplaySuit,
 		{
 			for(j=0;j<PLAYER(nPos).GetNumCardsInSuit(nSuit);j++) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				x += m_nCardXGap;
@@ -534,7 +534,7 @@ void CEasyBView::PartialDrawHorizGrouped(CDC* pDC, Position nPos)
 	//
 	// since cards are face up, redraw starting 
 	// from card after the one last played
-	DisplayCard*  pOldCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pOldCard = pDOC->GetCurrentTrickCard(nPos);
 
 	// restore the played card's background
 	pOldCard->RestoreBackground(pDC);
@@ -557,8 +557,8 @@ void CEasyBView::PartialDrawHorizGrouped(CDC* pDC, Position nPos)
 
 	// clear the suit area to the right of the played card -- 
 	// grab the card right after the card played
-	DisplayCard*  pCard1 = PLAYER(nPos).GetCardInSuit(nSuit,nStart);
-	DisplayCard*  pCard2 = PLAYER(nPos).GetCardInSuit(nSuit,nEnd-1);
+	CCard* pCard1 = PLAYER(nPos).GetCardInSuit(nSuit,nStart);
+	CCard* pCard2 = PLAYER(nPos).GetCardInSuit(nSuit,nEnd-1);
 	RECT eraseRect;
 	eraseRect.left = pCard1->GetXPosition() + m_nCardWidth - m_nCardXGap;
 	eraseRect.top = pCard1->GetYPosition();
@@ -572,7 +572,7 @@ void CEasyBView::PartialDrawHorizGrouped(CDC* pDC, Position nPos)
 	y = pOldCard->GetYPosition();
 	for(i=nStart;i<nEnd;i++) 
 	{
-		DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,i);
+		CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,i);
 		ASSERT(pCard != NULL);
 		pCard->MoveTo(pDC, x, y);
 		x += m_nCardXGap;
@@ -636,7 +636,7 @@ void CEasyBView::DrawHorizDummy(CDC* pDC, Position nPos, int nDisplaySuit,
 		{
 			for(j=0;j<numInSuit;j++) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				y += m_nCardYGap;
@@ -651,7 +651,7 @@ void CEasyBView::DrawHorizDummy(CDC* pDC, Position nPos, int nDisplaySuit,
 			m_rectSuitOffset[nPos][i].top = y;
 			for(j=numInSuit-1;j>=0;j--) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				y += m_nCardYGap;
@@ -682,7 +682,7 @@ void CEasyBView::PartialDrawHorizDummy(CDC* pDC, Position nPos)
 	RECT eraseRect;
 
 	// first grab played card
-	DisplayCard*  pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
 	nSuit = pPlayedCard->GetSuit();
 
 	// first get the played card's posititon
@@ -717,7 +717,7 @@ void CEasyBView::PartialDrawHorizDummy(CDC* pDC, Position nPos)
 		else 
 		{
 			// else need to clear area under the bottom card
-			DisplayCard*  pCard2 = PLAYER(nPos).GetCardInSuit(nSuit,nEnd-1);
+			CCard* pCard2 = PLAYER(nPos).GetCardInSuit(nSuit,nEnd-1);
 			eraseRect.left = pPlayedCard->GetXPosition();
 			eraseRect.top = pPlayedCard->GetYPosition() + m_nCardHeight - m_nCardYGap;
 			eraseRect.right = pPlayedCard->GetXPosition() + m_nCardWidth;
@@ -739,7 +739,7 @@ void CEasyBView::PartialDrawHorizDummy(CDC* pDC, Position nPos)
 			// then redraw remaining suit stack
 			for(i=nStart;i<nEnd;i++) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,i);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,i);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				y += m_nCardYGap;
@@ -774,7 +774,7 @@ void CEasyBView::PartialDrawHorizDummy(CDC* pDC, Position nPos)
 		//
 		for(j=PLAYER(nPos).GetNumCardsInSuit(nSuit)-1;j>=0;j--) 
 		{
-			DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+			CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 			ASSERT(pCard != NULL);
 			pCard->MoveTo(pDC, x, y);
 			y += m_nCardYGap;
@@ -846,7 +846,7 @@ void CEasyBView::DrawVert(CDC* pDC, Position nPos, int nDisplaySuit,
 		//
 		for(j=0;j<PLAYER(nPos).GetNumCardsInSuit(nSuit);j++) 
 		{
-			DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+			CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 			ASSERT(pCard != NULL);
 			pCard->MoveTo(pDC, xx, y);
 			y += m_nCardYGap;
@@ -912,7 +912,7 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 		// non-dummy east-west, face up, partial draw
 		//
 		// redraw starting from card after the one last played
-		DisplayCard*  pOldCard = pDOC->GetCurrentTrickCard(nPos);
+		CCard* pOldCard = pDOC->GetCurrentTrickCard(nPos);
 		// restore the played card's background
 		pOldCard->RestoreBackground(pDC);
 		// and then restore remaining cards
@@ -932,8 +932,8 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 			return;
 		// else clear the area under the bottom card
 		// grab the card right after the card played
-		DisplayCard*  pCard1 = PLAYER(nPos).GetDisplayedCard(nStart);
-		DisplayCard*  pCard2 = PLAYER(nPos).GetDisplayedCard(nEnd-1);
+		CCard* pCard1 = PLAYER(nPos).GetDisplayedCard(nStart);
+		CCard* pCard2 = PLAYER(nPos).GetDisplayedCard(nEnd-1);
 		RECT eraseRect;
 		eraseRect.left = pCard1->GetXPosition();
 		eraseRect.top = pCard1->GetYPosition() + m_nCardHeight - m_nCardYGap;
@@ -953,7 +953,7 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 		int i;
 		for(i=nStart;i<nEnd;i++) 
 		{
-			DisplayCard*  pCard = PLAYER(nPos).GetDisplayedCard(i);
+			CCard* pCard = PLAYER(nPos).GetDisplayedCard(i);
 			ASSERT(pCard != NULL);
 			x = pCard->GetXPosition();
 			pCard->MoveTo(pDC, x, y);
@@ -1001,7 +1001,7 @@ void CEasyBView::DrawVertDummy(CDC* pDC, Position nPos, int nDisplaySuit,
 		{
 			for(j=0;j<numInSuit;j++) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				x += m_nCardXGap;
@@ -1015,7 +1015,7 @@ void CEasyBView::DrawVertDummy(CDC* pDC, Position nPos, int nDisplaySuit,
 			m_rectSuitOffset[nPos][i].left = x;
 			for(j=numInSuit-1;j>=0;j--) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nSuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				x += m_nCardXGap;
@@ -1043,7 +1043,7 @@ void CEasyBView::PartialDrawVertDummy(CDC* pDC, Position nPos)
 	//
 
 	// redrawing after a card was pulled from a stack
-	DisplayCard*  pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
 	int nSuit = pPlayedCard->GetSuit();
 	int nStartSuit = m_nDummySuitToScreenIndex[nSuit];
 
@@ -1096,7 +1096,7 @@ void CEasyBView::PartialDrawVertDummy(CDC* pDC, Position nPos)
 			x = m_rectSuitOffset[nPos][i].left;
 			for(j=0;j<numInSuit;j++) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nDisplaySuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nDisplaySuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				x += m_nCardXGap;
@@ -1108,7 +1108,7 @@ void CEasyBView::PartialDrawVertDummy(CDC* pDC, Position nPos)
 			x = m_drawPoint[nPos].x - ((numInSuit-1)*m_nCardXGap);
 			for(j=numInSuit-1;j>=0;j--) 
 			{
-				DisplayCard*  pCard = PLAYER(nPos).GetCardInSuit(nDisplaySuit,j);
+				CCard* pCard = PLAYER(nPos).GetCardInSuit(nDisplaySuit,j);
 				ASSERT(pCard != NULL);
 				pCard->MoveTo(pDC, x, y);
 				x += m_nCardXGap;
@@ -1144,7 +1144,7 @@ BOOL CEasyBView::OffsetRectValid(Position nPos)
 //
 // - check for overlap of the specified rect with the current trick cards
 //
-void CEasyBView::CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, DisplayCard*  pPlayedCard, BOOL bRedraw)
+void CEasyBView::CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, CCard* pPlayedCard, BOOL bRedraw)
 {
 	CRect overlapRect;
 	//
@@ -1156,7 +1156,7 @@ void CEasyBView::CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, DisplayCar
 	{
 		// check that we're not comparing the card being played against itself
 		// before it's moved onto the table
-		DisplayCard*  pCard = pDOC->GetCurrentTrickCard(i); 
+		CCard* pCard = pDOC->GetCurrentTrickCard(i); 
 		if (!pCard || (pCard == pPlayedCard))
 			continue;
 		//
@@ -1177,7 +1177,7 @@ void CEasyBView::CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, DisplayCar
 	for(i=0;i<pDOC->m_numCardsPlayed;i++) 
 	{
 		// 
-		DisplayCard*  pCard = pDOC->GetCurrentTrickCard(i); 
+		CCard* pCard = pDOC->GetCurrentTrickCard(i); 
 		if (!pCard || (pCard == pPlayedCard))
 			continue;
 		//
@@ -1198,7 +1198,7 @@ void CEasyBView::CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, DisplayCar
 void CEasyBView::AnimateTrick(int nWinner)
 {
 	int i;
-	DisplayCard*  pCard;
+	CCard* pCard;
 	CDC* pDC = GetDC();
 /*
 	// start animation with first card to winner's left
@@ -1227,7 +1227,7 @@ void CEasyBView::AnimateTrick(int nWinner)
 		pCard->Animate(pDC, m_cardDest[nWinner].x, m_cardDest[nWinner].y, FALSE, nGranularity);
 	}
 	// then clear and anmiate the winning card
-	DisplayCard*  pWinningCard = pDOC->GetCurrentTrickCard(nWinner);
+	CCard* pWinningCard = pDOC->GetCurrentTrickCard(nWinner);
 /*
 	ClearDisplayArea(pWinningCard->GetXPosition(),
 					 pWinningCard->GetYPosition(),
@@ -1252,7 +1252,7 @@ void CEasyBView::AnimateTrick(int nWinner)
 void CEasyBView::ClearPartialTrickCards()
 {
 	int i;
-	DisplayCard*  pCard;
+	CCard* pCard;
 	CDC* pDC = GetDC();
 
 	int nPos = pDOC->GetRoundLead();
@@ -1279,7 +1279,7 @@ void CEasyBView::ClearPartialTrickCards()
 // return the bottommost card in the player's current
 // displayed hand
 //
-DisplayCard*  CEasyBView::GetPlayerBottomCard(CPlayer& player)
+CCard* CEasyBView::GetPlayerBottomCard(CPlayer& player)
 {
 	int i,nSuit,nBottomSuit;
 	// first find bottom suit
@@ -1295,7 +1295,7 @@ DisplayCard*  CEasyBView::GetPlayerBottomCard(CPlayer& player)
 	nBottomSuit = nSuit;
 	//
 	i = player.GetNumCardsInSuit(nBottomSuit);
-	DisplayCard*  pCard = player.GetCardInSuit(nBottomSuit,i-1);
+	CCard* pCard = player.GetCardInSuit(nBottomSuit,i-1);
 	return pCard;
 }
 

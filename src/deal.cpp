@@ -17,7 +17,7 @@
 #include "mainfrm.h"
 #include "progopts.h"
 #include "deck.h"
-#include "display_card.h"
+#include "Card.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -706,7 +706,7 @@ double CEasyBDoc::SwapPoints(int nDest, int nSource, double fMax,
 	//
 	double fSrcPoints = PLAYER(nSource).CountCardPoints();
 	double fDestPoints = PLAYER(nDest).CountCardPoints();
-	DisplayCard *pSrcCard,*pDestCard;
+	CCard *pSrcCard,*pDestCard;
 	double fDiff, fTotalLeft = fMax;
 	int i,nSrcCard,nDestCard,nSrcVal,nDestVal;
 	int nSuit,nOuterLoopCount,nInnerLoopCount;
@@ -859,7 +859,7 @@ BOOL CEasyBDoc::SwapPlayersCards(int nPlayer1, int nPlayer2,
 								int nCard1, int nCard2,
 								BOOL bResetCounts)
 {
-	DisplayCard *pCard1,*pCard2;
+	CCard *pCard1,*pCard2;
 
 	if ((PLAYER(nPlayer1).GetNumCardsInSuit(nSuit1) == 0) ||
 		(PLAYER(nPlayer2).GetNumCardsInSuit(nSuit2) == 0))

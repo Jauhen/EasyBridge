@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "../Player.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Type3Finesse.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
@@ -40,7 +40,7 @@ CType3Finesse::CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pG
 	Init();
 }
 
-CType3Finesse::CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, DisplayCard*  pCard) :
+CType3Finesse::CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, CCard* pCard) :
 		CFinesse(CFinesse::TYPE_III, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pLeadCards(pLeadCards)
 {
@@ -101,7 +101,7 @@ CString CType3Finesse::GetFullDescription()
 //
 PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 						   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-						   CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+						   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// Type III Finesse
 	// - lead of a low card towards a higher card in the opposite hand, which 
@@ -117,7 +117,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
@@ -126,8 +126,8 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
-	DisplayCard*  pOppCard = NULL;
-	DisplayCard*  pTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pOppCard = NULL;
+	CCard* pTopCard = pDOC->GetCurrentTrickHighCard();
 	CString strRHO = bPlayingInHand? playEngine.szRHO : playEngine.szLHO;
 
 	// test preconditions

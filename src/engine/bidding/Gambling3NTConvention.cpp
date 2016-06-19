@@ -18,7 +18,7 @@
 #include "Gambling3NTConvention.h"
 #include "OvercallsConvention.h"
 #include "ConventionSet.h"
-#include "display_card.h"
+#include "Card.h"
 
 
 

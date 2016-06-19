@@ -15,7 +15,7 @@
 #include "mainfrm.h"
 #include "StatusPlayPlanPage.h"
 #include "subclass.h"
-#include "display_card.h"
+#include "card.h"
 #include "engine/cardlist.h"
 #include "engine/player.h"
 #include "engine/play/play.h"
@@ -425,10 +425,10 @@ void CStatusPlayPlanPage::Update()
 		int nProspect = pPlay->GetPlayProspect();
 		m_listPlayPlan.SetItem(i, 3, LVIF_TEXT, szProspectDescription[nProspect], 0, 0, 0, 0L);
 		// add consumed card
-		DisplayCard*  pConsumedCard = pPlay->GetConsumedCard();
+		CCard* pConsumedCard = pPlay->GetConsumedCard();
 		m_listPlayPlan.SetItem(i, 4, LVIF_TEXT, (pConsumedCard? pConsumedCard->GetName() : ""), 0, 0, 0, 0L);
 		// add target card
-		DisplayCard*  pTargetCard = pPlay->GetTargetCard();
+		CCard* pTargetCard = pPlay->GetTargetCard();
 		m_listPlayPlan.SetItem(i, 5, LVIF_TEXT, (pTargetCard? pTargetCard->GetName() : ""), 0, 0, 0, 0L);
 		// add key cards
 		CCardList* pKeyCards = pPlay->GetKeyCardsList();

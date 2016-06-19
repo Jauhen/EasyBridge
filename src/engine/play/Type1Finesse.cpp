@@ -18,7 +18,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "../Player.h"
-#include "display_card.h"
+#include "Card.h"
 #include "../CardList.h"
 #include "Type1Finesse.h"
 #include "PlayEngine.h"
@@ -41,7 +41,7 @@ CType1Finesse::CType1Finesse(int nPlayerPosition, int nTargetHand, CCardList* pG
 	Init();
 }
 
-CType1Finesse::CType1Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCardList* pLeadCards, DisplayCard*  pCard) :
+CType1Finesse::CType1Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCardList* pLeadCards, CCard* pCard) :
 		CFinesse(CFinesse::TYPE_I, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pCoverCards(pCoverCards),
 		m_pLeadCards(pLeadCards)
@@ -109,7 +109,7 @@ CString CType1Finesse::GetFullDescription()
 //
 PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 						   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-						   CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+						   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// Type I Finesse 
 	// - lead of a low card towards a higher card in the opposite hand, 
@@ -124,7 +124,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
@@ -133,7 +133,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
-	DisplayCard*  pOppCard = NULL;
+	CCard* pOppCard = NULL;
 //	BOOL bLeading = TRUE;
 	CString strRHO = bPlayingInHand? playEngine.szRHO : playEngine.szLHO;
 
@@ -245,7 +245,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				return PLAY_POSTPONE;
 			}
 			// see if RHO showed out
-			DisplayCard*  pLHOCard = pDOC->GetCurrentTrickCardByOrder(1);
+			CCard* pLHOCard = pDOC->GetCurrentTrickCardByOrder(1);
 			if (pLHOCard->GetSuit() != nSuitLed)
 			{
 				// oops! RHO showed out! the finesse can't win!

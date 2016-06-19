@@ -16,7 +16,7 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "mainfrm.h"
-#include "display_card.h"
+#include "Card.h"
 #include "progopts.h"
 #include "playeropts.h"
 #include "engine/bidding/bidopts.h"
@@ -88,29 +88,29 @@ void CPlayer::RestoreInitialHand() {
   m_pHand->RestoreInitialHand();
 }
 
-void CPlayer::AddCardToHand(DisplayCard*  pCard, BOOL bSort) {
+void CPlayer::AddCardToHand(CCard* pCard, BOOL bSort) {
   m_pHand->Add(pCard, bSort);
 }
 
-void CPlayer::AddCardToInitialHand(DisplayCard*  pCard, BOOL bSort) {
+void CPlayer::AddCardToInitialHand(CCard* pCard, BOOL bSort) {
   m_pHand->AddToInitialHand(pCard, bSort);
 }
 
-void CPlayer::RemoveCardFromHand(DisplayCard*  pCard) {
+void CPlayer::RemoveCardFromHand(CCard* pCard) {
   m_pHand->Remove(pCard);
 }
 
-DisplayCard*  CPlayer::RemoveCardFromHand(int nIndex) {
-  DisplayCard*  pCard = m_pHand->RemoveByIndex(nIndex);
+CCard* CPlayer::RemoveCardFromHand(int nIndex) {
+  CCard* pCard = m_pHand->RemoveByIndex(nIndex);
   return pCard;
 }
 
-void CPlayer::RemoveCardFromInitialHand(DisplayCard*  pCard) {
+void CPlayer::RemoveCardFromInitialHand(CCard* pCard) {
   m_pHand->GetInitialHand().Remove(pCard);
 }
 
-DisplayCard*  CPlayer::RemoveCardFromInitialHand(int nIndex) {
-  DisplayCard*  pCard = m_pHand->GetInitialHand().RemoveByIndex(nIndex);
+CCard* CPlayer::RemoveCardFromInitialHand(int nIndex) {
+  CCard* pCard = m_pHand->GetInitialHand().RemoveByIndex(nIndex);
   return pCard;
 }
 
@@ -119,11 +119,11 @@ void CPlayer::RemoveAllCardsFromHand() {
   m_pHand->ClearHand(FALSE);
 }
 
-void CPlayer::SetCard(int nIndex, DisplayCard*  pCard) {
+void CPlayer::SetCard(int nIndex, CCard* pCard) {
   m_pHand->SetCard(nIndex, pCard);
 }
 
-void CPlayer::SetInitialHandCard(int nIndex, DisplayCard*  pCard) {
+void CPlayer::SetInitialHandCard(int nIndex, CCard* pCard) {
   m_pHand->SetInitialHandCard(nIndex, pCard);
 }
 
@@ -155,7 +155,7 @@ int CPlayer::GetSuitLength(int nSuit) const {
   return GetNumCardsInSuit(nSuit);
 }
 
-BOOL CPlayer::HasCard(const DisplayCard*  pCard) const {
+BOOL CPlayer::HasCard(const CCard* pCard) const {
   return m_pHand->HasCard(pCard);
 }
 
@@ -163,23 +163,23 @@ BOOL CPlayer::HasCard(int nDeckValue) const {
   return m_pHand->HasCard(nDeckValue);
 }
 
-DisplayCard*  CPlayer::GetCardByValue(int nVal) const {
+CCard* CPlayer::GetCardByValue(int nVal) const {
   return m_pHand->GetCardByValue(nVal);
 }
 
-DisplayCard*  CPlayer::GetCardByPosition(int nIndex) const {
+CCard* CPlayer::GetCardByPosition(int nIndex) const {
   return m_pHand->GetAt(nIndex);
 }
 
-DisplayCard*  CPlayer::GetCardInSuit(int nSuit, int nIndex) const {
+CCard* CPlayer::GetCardInSuit(int nSuit, int nIndex) const {
   return m_pHand->GetCardInSuit(nSuit, nIndex);
 }
 
-DisplayCard*  CPlayer::GetDisplayedCard(int nIndex) const {
+CCard* CPlayer::GetDisplayedCard(int nIndex) const {
   return m_pHand->GetDisplayedCard(nIndex);
 }
 
-DisplayCard*  CPlayer::GetInitialHandCard(int nIndex) const {
+CCard* CPlayer::GetInitialHandCard(int nIndex) const {
   return m_pHand->GetInitialHandCard(nIndex);
 }
 
@@ -294,14 +294,14 @@ void CPlayer::SetDummyFlag(BOOL bValue) {
   m_pHand->SetDummyFlag(bValue);
 }
 
-DisplayCard*  CPlayer::PlayCard() {
+CCard* CPlayer::PlayCard() {
 #ifndef _DEBUG
   return m_pPlayEngine->PlayCard();
 #else
   // do a sanity check
-  DisplayCard*  pPlayCard = m_pPlayEngine->PlayCard();
+  CCard* pPlayCard = m_pPlayEngine->PlayCard();
   if (pDOC->GetNumCardsPlayedInRound() > 0) {
-    DisplayCard*  pLeadCard = pDOC->GetCurrentTrickCardLed();
+    CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
     if (pPlayCard->GetSuit() != pLeadCard->GetSuit()) {
       if (m_pHand->GetNumCardsInSuit(pLeadCard->GetSuit()) > 0) {
         ASSERT(FALSE);
@@ -313,15 +313,15 @@ DisplayCard*  CPlayer::PlayCard() {
 #endif
 }
 
-DisplayCard*  CPlayer::PlayForDummy() {
+CCard* CPlayer::PlayForDummy() {
   return m_pDeclarer->PlayForDummy();
 }
 
-void CPlayer::RecordCardPlay(int nPos, DisplayCard*  pCard) {
+void CPlayer::RecordCardPlay(int nPos, CCard* pCard) {
   m_pPlayEngine->RecordCardPlay(nPos, pCard);
 }
 
-void CPlayer::RecordCardUndo(int nPos, DisplayCard*  pCard) {
+void CPlayer::RecordCardUndo(int nPos, CCard* pCard) {
   m_pPlayEngine->RecordCardUndo(nPos, pCard);
 }
 
@@ -329,7 +329,7 @@ void CPlayer::RecordTrickUndo() {
   m_pPlayEngine->RecordTrickUndo();
 }
 
-void CPlayer::RecordRoundComplete(int nPos, DisplayCard*  pCard) {
+void CPlayer::RecordRoundComplete(int nPos, CCard* pCard) {
   m_pPlayEngine->RecordRoundComplete(nPos, pCard);
 }
 
@@ -737,12 +737,12 @@ int CPlayer::GetPriorBid(int nIndex) {
 //
 // GetPlayHint() 
 //
-DisplayCard*  CPlayer::GetPlayHint(BOOL bAutoHintMode) {
+CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode) {
   //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode); 
   if (!theApp.GetValue(tbEnableAnalysisDuringHints) && !bAutoHintMode) {
     SuspendTrace();
   }
-  DisplayCard*  pCard = NULL;
+  CCard* pCard = NULL;
   //
   pVIEW->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
   m_pStatusDlg->ClearHints();
@@ -779,8 +779,8 @@ DisplayCard*  CPlayer::GetPlayHint(BOOL bAutoHintMode) {
 //
 // GetPlayHintForDummy()
 //
-DisplayCard*  CPlayer::GetPlayHintForDummy() {
-  DisplayCard*  pCard = m_pDeclarer->GetPlayHintForDummy();
+CCard* CPlayer::GetPlayHintForDummy() {
+  CCard* pCard = m_pDeclarer->GetPlayHintForDummy();
   return pCard;
 }
 
@@ -791,7 +791,7 @@ DisplayCard*  CPlayer::GetPlayHintForDummy() {
 //
 BOOL CPlayer::TestForAutoPlayLastCard() {
   int nSuitLed = NONE;
-  DisplayCard*  pLeadCard = pDOC->GetCurrentTrickCardLed();
+  CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
   if (pLeadCard)
     nSuitLed = pLeadCard->GetSuit();
   if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1)) {
@@ -800,7 +800,7 @@ BOOL CPlayer::TestForAutoPlayLastCard() {
       Sleep(theApp.GetValue(tnPlayPauseLength) * 100);
 
     // auto play last card in suit
-    DisplayCard*  pPlayCard = GetCardInSuit(nSuitLed, 0);
+    CCard* pPlayCard = GetCardInSuit(nSuitLed, 0);
     ASSERT(pPlayCard);
     ASSERT((Position)pPlayCard->GetOwner() == m_nPosition);
     pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + 1002, (int)pPlayCard);
@@ -820,7 +820,7 @@ BOOL CPlayer::TestForAutoPlayLastCard() {
       Sleep(theApp.GetValue(tnPlayPauseLength) * 100);
 
     // auto play last card in hand
-    DisplayCard*  pPlayCard = GetCardByPosition(0);
+    CCard* pPlayCard = GetCardByPosition(0);
     ASSERT(pPlayCard);
     ASSERT((Position)pPlayCard->GetOwner() == m_nPosition);
     pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + 1003, (int)pPlayCard);

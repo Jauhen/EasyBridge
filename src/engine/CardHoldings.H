@@ -15,7 +15,7 @@
 #define __CARDHOLDINGS__
 
 #include "CardList.h"
-class DisplayCard;
+class CCard;
 class CPlayer;
 
 //

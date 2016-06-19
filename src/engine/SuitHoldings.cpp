@@ -15,7 +15,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "SuitHoldings.h"
 #include "engine/bidding/ConventionSet.h"
 #include "GuessedHandHoldings.h"
@@ -175,7 +175,7 @@ void CSuitHoldings::FormatHoldingsString()
 
 
 //
-void CSuitHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
+void CSuitHoldings::Add(CCard* pCard, const BOOL bSort)
 {
 	CCardHoldings::Add(pCard, bSort);
 	if ((bSort) || (m_bAutoSort))
@@ -192,10 +192,10 @@ void CSuitHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
 
 
 //
-DisplayCard*  CSuitHoldings::RemoveByIndex(const int nIndex)
+CCard* CSuitHoldings::RemoveByIndex(const int nIndex)
 {
 	// call base class operation
-	DisplayCard*  pCard = CCardHoldings::RemoveByIndex(nIndex);
+	CCard* pCard = CCardHoldings::RemoveByIndex(nIndex);
 	// then reset suit indices
 	if (m_bEnableSuitSorting)
 	{
@@ -240,7 +240,7 @@ void CSuitHoldings::Sort()
 //
 // returns the lowest card in the suit above the specified card
 //
-DisplayCard*  CSuitHoldings::GetLowestCardAbove(const int nFaceValue) const
+CCard* CSuitHoldings::GetLowestCardAbove(const int nFaceValue) const
 {
 	if (GetNumCardsAbove(nFaceValue) == 0)
 		return NULL;
@@ -259,7 +259,7 @@ DisplayCard*  CSuitHoldings::GetLowestCardAbove(const int nFaceValue) const
 //
 // GetLowestCardAbove()
 //
-DisplayCard*  CSuitHoldings::GetLowestCardAbove(DisplayCard*  pCard) const
+CCard* CSuitHoldings::GetLowestCardAbove(CCard* pCard) const
 { 
 	ASSERT(pCard); 
 	ASSERT(pCard->GetSuit() == m_nSuit);
@@ -989,7 +989,7 @@ void CSuitHoldings::EvaluateHoldings()
 //
 // called to re-evaluate the suit after a card has been played from our hand
 //
-void CSuitHoldings::ReevaluateHoldings(const DisplayCard*  pCard)
+void CSuitHoldings::ReevaluateHoldings(const CCard* pCard)
 {
 	// reset key holdings
 	CheckKeyHoldings();

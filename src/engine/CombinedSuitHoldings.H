@@ -23,16 +23,16 @@ class CCombinedSuitHoldings : public CSuitHoldings {
 public:
 	virtual void Init();
 	virtual void Clear();
-	virtual void Add(DisplayCard*  pCard, const BOOL bSort=FALSE);
-	virtual void AddFromSource(DisplayCard*  pCard, const BOOL bPlayerCard, const BOOL bSort=FALSE);
-	virtual void RemoveFromSource(DisplayCard*  pCard, const BOOL bPlayerCard);
-	virtual DisplayCard*  RemoveByIndex(const int nIndex);
+	virtual void Add(CCard* pCard, const BOOL bSort=FALSE);
+	virtual void AddFromSource(CCard* pCard, const BOOL bPlayerCard, const BOOL bSort=FALSE);
+	virtual void RemoveFromSource(CCard* pCard, const BOOL bPlayerCard);
+	virtual CCard* RemoveByIndex(const int nIndex);
 	virtual void Sort();
 	//
 	virtual double CountPoints(const BOOL bForceCount=FALSE);
 	virtual int CheckKeyHoldings();
 	virtual void EvaluateHoldings();
-	virtual void ReevaluateHoldings(const DisplayCard*  pCard=NULL);
+	virtual void ReevaluateHoldings(const CCard* pCard=NULL);
 	virtual void FormatHoldingsString();
 	virtual void SetSuit(int nSuit);
 	//
@@ -40,8 +40,8 @@ public:
 	virtual int GetNumDummyEntries() { return m_numDummyEntries; }
 
 	// inline functions
-	virtual DisplayCard*  GetDeclarerCard(int nIndex) const { return m_declarerCards[nIndex]; }
-	virtual DisplayCard*  GetDummyCard(int nIndex) const { return m_dummyCards[nIndex]; }
+	virtual CCard* GetDeclarerCard(int nIndex) const { return m_declarerCards[nIndex]; }
+	virtual CCard* GetDummyCard(int nIndex) const { return m_dummyCards[nIndex]; }
 	CSuitHoldings& GetDeclarerSuit() { return m_declarerCards; }
 	CSuitHoldings& GetDummySuit() { return m_dummyCards; }
 	virtual int GetNumDeclarerCards() const { return m_nDeclarerLength; }

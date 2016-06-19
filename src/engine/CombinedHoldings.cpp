@@ -14,11 +14,12 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "display_card.h"
+#include "Card.h"
 #include "CombinedSuitHoldings.h"
 #include "CombinedHoldings.h"
 #include "PlayerStatusDialog.h"
 #include "handopts.h"
+
 
 //
 //=================================================================
@@ -68,10 +69,10 @@ void CCombinedHoldings::Initialize(CPlayer* pPlayer, CPlayerStatusDialog* pStatu
 //
 
 //
-DisplayCard* CCombinedHoldings::GetCard(int nSuit, int nPos) const 
+CCard* CCombinedHoldings::GetCard(int nSuit, int nPos) const 
 	{ VERIFY((nSuit>=0)&&(nSuit<=3)); return m_pSuit[nSuit]->GetAt(nPos); }
 
-DisplayCard* CCombinedHoldings::GetCard(int nCardValue) const 
+CCard* CCombinedHoldings::GetCard(int nCardValue) const 
 	{ return GetCard(CARDSUIT(nCardValue), FACEVAL(nCardValue)); }
 
 CCombinedSuitHoldings& CCombinedHoldings::GetSuit(int nSuit) 
@@ -290,7 +291,7 @@ void CCombinedHoldings::FormatHoldingsString()
 
 
 //
-void CCombinedHoldings::Add(DisplayCard* pCard, const BOOL bSort)
+void CCombinedHoldings::Add(CCard* pCard, const BOOL bSort)
 {
 	// shouldn't call this function on this class
 	ASSERT(FALSE);
@@ -298,7 +299,7 @@ void CCombinedHoldings::Add(DisplayCard* pCard, const BOOL bSort)
 
 
 //
-void CCombinedHoldings::AddFromSource(DisplayCard* pCard, const BOOL bPlayerCard, const BOOL bSort)
+void CCombinedHoldings::AddFromSource(CCard* pCard, const BOOL bPlayerCard, const BOOL bSort)
 {
 	CCardHoldings::Add(pCard, bSort);
 	m_pSuit[pCard->GetSuit()]->AddFromSource(pCard, bPlayerCard, bSort);
@@ -307,7 +308,7 @@ void CCombinedHoldings::AddFromSource(DisplayCard* pCard, const BOOL bPlayerCard
 
 
 //
-void CCombinedHoldings::RemoveFromSource(DisplayCard* pCard, const BOOL bPlayerCard)
+void CCombinedHoldings::RemoveFromSource(CCard* pCard, const BOOL bPlayerCard)
 {
 	CCardHoldings::Remove(pCard);
 	m_pSuit[pCard->GetSuit()]->RemoveFromSource(pCard, bPlayerCard);
@@ -317,9 +318,9 @@ void CCombinedHoldings::RemoveFromSource(DisplayCard* pCard, const BOOL bPlayerC
 
 
 //
-DisplayCard* CCombinedHoldings::RemoveByIndex(const int nIndex)
+CCard* CCombinedHoldings::RemoveByIndex(const int nIndex)
 {
-	DisplayCard* pCard = CCardHoldings::RemoveByIndex(nIndex);
+	CCard* pCard = CCardHoldings::RemoveByIndex(nIndex);
 
 	// reorganize ordered suit holding
 	int i;
@@ -787,7 +788,7 @@ void CCombinedHoldings::EvaluateHoldings()
 //
 // called after a card has been played in the round
 //
-void CCombinedHoldings::ReevaluateHoldings(const DisplayCard* pCard)
+void CCombinedHoldings::ReevaluateHoldings(const CCard* pCard)
 {
 	// re-evaluate the suit
 	if (pCard)

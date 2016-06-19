@@ -192,7 +192,7 @@ void CCard::SetBitmap(CBitmap* pBitmap, CDC* pDC) {
 
 
 // duplicate
-void CCard::operator=(CCard*  pSource) {
+void CCard::operator=(CCard* pSource) {
   //
   m_nSuit = pSource->m_nSuit;
   m_nFaceValue = pSource->m_nFaceValue;

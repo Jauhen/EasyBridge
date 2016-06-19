@@ -14,7 +14,7 @@
 #include "stdafx.h"
 #include "../EasyB.h"
 #include "../EasyBdoc.h"
-#include "display_card.h"
+#include "Card.h"
 #include "CardHoldings.h"
 #include "engine/bidding/BidParams.h"
 

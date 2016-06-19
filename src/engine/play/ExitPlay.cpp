@@ -13,7 +13,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "Deck.h"
-#include "display_card.h"
+#include "Card.h"
 #include "ExitPlay.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
@@ -84,7 +84,7 @@ CString CExitPlay::GetFullDescription()
 //
 PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 						      CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-						      CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+						      CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// exit with a card of the specified suit, or with one of the two
 	// specified suits
@@ -95,7 +95,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CString strRHO = PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//
 	BOOL bPlayViable = FALSE;

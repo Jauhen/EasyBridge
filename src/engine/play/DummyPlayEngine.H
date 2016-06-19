@@ -29,25 +29,25 @@ public:
 	virtual void InitNewHand();
 	virtual void Clear();
 	//
-	virtual DisplayCard*   PlayCard();
+	virtual CCard*  PlayCard();
 	//
-	virtual DisplayCard*   GetLeadCard();
-	virtual DisplayCard* 	GetPlayHint();
+	virtual CCard*  GetLeadCard();
+	virtual CCard*	GetPlayHint();
 	//
 /*
-	virtual DisplayCard* 	PlayFirst() { return m_pPartner->PlayForDummy(0); }
-	virtual DisplayCard* 	PlaySecond() { return m_pPartner->PlayForDummy(1); }
-	virtual DisplayCard* 	PlayThird() { return m_pPartner->PlayForDummy(2); }
-	virtual DisplayCard* 	PlayFourth() { return m_pPartner->PlayForDummy(3); }
+	virtual CCard*	PlayFirst() { return m_pPartner->PlayForDummy(0); }
+	virtual CCard*	PlaySecond() { return m_pPartner->PlayForDummy(1); }
+	virtual CCard*	PlayThird() { return m_pPartner->PlayForDummy(2); }
+	virtual CCard*	PlayFourth() { return m_pPartner->PlayForDummy(3); }
 */
 	virtual int  GetNumClaimableTricks();
 	//
-	virtual void AdjustCardCount(int nPos, DisplayCard*  pCard);
-	virtual void AdjustHoldingsCount(DisplayCard*  pCard);
+	virtual void AdjustCardCount(int nPos, CCard* pCard);
+	virtual void AdjustHoldingsCount(CCard* pCard);
 	virtual void RestartPlay();
 
 	// class-specific functions
-	virtual DisplayCard*  PlayForSelf();
+	virtual CCard* PlayForSelf();
 
 //
 // protected routines

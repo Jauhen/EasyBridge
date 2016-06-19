@@ -16,7 +16,7 @@
 #include "EasyBvw.h"
 #include "engine/player.h"
 #include "subclass.h"
-#include "display_card.h"
+#include "card.h"
 #include "CardLayout.h"
 #include "progopts.h"
 #include "../Help/HelpCode.h"
@@ -27,6 +27,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
 extern char* szLayoutDonePrompt;
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CCardLayoutDialog dialog
@@ -142,7 +143,7 @@ BOOL CCardLayoutDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 	int nID = LOWORD(wParam);
 	int nCode = HIWORD(wParam);
 	int nMessageType = wParam;
-	DisplayCard* pCard;
+	CCard* pCard;
 	int nScreenSuit,nSuit,nValue,nIndex;
 
 	// process command
@@ -245,7 +246,7 @@ void CCardLayoutDialog::Reset(BOOL bForceRefresh)
 	// and fill in the checkboxes
 	int nCards = PLAYER(m_nPlayer).GetNumCards();
 	int nSuit,nValue,nItem;
-	DisplayCard* pCard;
+	CCard* pCard;
 	for(i=0;i<nCards;i++) 
 	{
 		pCard = PLAYER(m_nPlayer).GetCardByPosition(i);	
@@ -358,7 +359,7 @@ void CCardLayoutDialog::OnClear()
 		return;
 	//
 	int i,nIndex;
-	DisplayCard* pCard;
+	CCard* pCard;
 	int nCount = PLAYER(m_nPlayer).GetNumCards();
 	for(i=0;i<nCount;i++) 
 	{

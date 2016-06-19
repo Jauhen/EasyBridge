@@ -13,8 +13,7 @@
 #ifndef __GUESSEDCARD__
 #define __GUESSEDCARD__
 
-
-class DisplayCard;
+class CCard;
 
 
 class CGuessedCard {
@@ -24,7 +23,7 @@ public:
 	void Init(int nSuit, int nFaceValue);
 	void Clear();
 	// inline functions
-	DisplayCard*  GetCard() { return m_pCard; }
+	CCard* GetCard() { return m_pCard; }
 	int GetSuit() { return m_nSuit; }
 	char GetCardLetter() { return ::GetCardLetter(m_nFaceValue); }
 	char GetSuitLetter() { return ::GetSuitLetter(m_nSuit); }
@@ -62,12 +61,12 @@ private:
 	BOOL	m_bOutstanding;
 	int		m_nLocation;
 	float	m_fFixProbability;
-	DisplayCard*   m_pCard;
+	CCard*  m_pCard;
 
 // construction / destruction
 public:
 	CGuessedCard(int nSuit, int nFaceValue, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
-	CGuessedCard(DisplayCard*  pCard, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
+	CGuessedCard(CCard* pCard, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
 	CGuessedCard();
 	~CGuessedCard();
 };

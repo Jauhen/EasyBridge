@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "mainfrm.h"
-#include "display_card.h"
+#include "Card.h"
 #include "Deck.h"
 #include "MyBitmap.h"
 #include "progopts.h"
@@ -111,7 +111,7 @@ void CDeck::Initialize()
 
 	// init the deck
 	CDC *pDC = pMAINFRAME->GetDC();
-	DisplayCard*  pCard;
+	CCard* pCard;
 	int nCount = 0;
 	//
 	for (int nSuit=CLUBS;nSuit<=SPADES;nSuit++) 
@@ -119,7 +119,7 @@ void CDeck::Initialize()
 		for(int nValue=2;nValue<=ACE;nValue++,nCount++) 
 		{
 			// create card
-			pCard = new DisplayCard();
+			pCard = new CCard();
 			pCard->Initialize(nSuit,nValue,&m_cardBitmap[nCount],pDC);
 			sprintf(pCard->m_szValue,pCard->GetName());
 			m_cards[nCount] = pCard;
@@ -301,7 +301,7 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
 
 	//
 	int nRand,nTempSuit,nTempVal;
-	DisplayCard*  pTempCard;
+	CCard* pTempCard;
    	for(int x=0;x<10;x++) 
 	{
    		for(int i=0;i<52;i++) 
@@ -331,7 +331,7 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
 //
 // return a pointer to the specified value card
 //
-DisplayCard*  CDeck::GetCard(int nDeckValue)
+CCard* CDeck::GetCard(int nDeckValue)
 {
 	if ((nDeckValue < 0) || (nDeckValue > 51))
 		return NULL;
@@ -339,14 +339,14 @@ DisplayCard*  CDeck::GetCard(int nDeckValue)
 }
 
 //
-DisplayCard*  CDeck::GetCard(LPCTSTR pszName)
+CCard* CDeck::GetCard(LPCTSTR pszName)
 {
 	int nValue = StringToDeckValue(pszName);
 	return GetCard(nValue);
 }
 
 //
-DisplayCard*  CDeck::GetCard(int nSuit, int nFaceValue)
+CCard* CDeck::GetCard(int nSuit, int nFaceValue)
 {
 	int nDeckValue = MAKEDECKVALUE(nSuit, nFaceValue);
 	return GetCard(nDeckValue);

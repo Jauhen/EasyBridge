@@ -17,7 +17,7 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "../Player.h"
-#include "display_card.h"
+#include "Card.h"
 #include "TypeAFinesse.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
@@ -37,7 +37,7 @@ CTypeAFinesse::CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pG
 	Init();
 }
 
-CTypeAFinesse::CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, DisplayCard*  pCard) :
+CTypeAFinesse::CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard) :
 		CFinesse(CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, pCard, TRUE)
 {
 	VERIFY(pCard);
@@ -96,7 +96,7 @@ CString CTypeAFinesse::GetFullDescription()
 //
 PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 						   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-						   CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+						   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// Type A Finesse
 	// - opportunistic play of a non-top card in second position to
@@ -110,7 +110,7 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	DisplayCard*  pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
@@ -118,9 +118,9 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	BOOL bTrumped = FALSE;
 	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
 		bTrumped = TRUE;
-	DisplayCard*  pTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pTopCard = pDOC->GetCurrentTrickHighCard();
 	pPlayCard = NULL;
-	DisplayCard*  pOppCard = NULL;
+	CCard* pOppCard = NULL;
 
 	// test preconditions
 	if (!CPlay::IsPlayUsable(combinedHand, playEngine))

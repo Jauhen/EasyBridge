@@ -15,7 +15,7 @@
 #include "EasyBDoc.h"
 #include "Play.h"
 #include "PlayList.h"
-#include "display_card.h"
+#include "Card.h"
 #include "../CardList.h"
 #include "../Player.h"
 #include "PlayerStatusDialog.h"
@@ -237,7 +237,7 @@ BOOL CPlay::IsPlayUsable(const CCombinedHoldings& combinedHand, const CPlayEngin
 		// are still outstanding
 		for(int i=0;i<m_pRequiredPlayedCardsList->GetNumCards();i++)
 		{
-			DisplayCard*  pCard = (*m_pRequiredPlayedCardsList)[i];
+			CCard* pCard = (*m_pRequiredPlayedCardsList)[i];
 			if (playEngine.IsCardOutstanding(pCard))
 			{
 				status << "5PLYTST8! The play <" & m_strName & 
@@ -296,7 +296,7 @@ BOOL CPlay::IsPlayUsable(const CCombinedHoldings& combinedHand, const CPlayEngin
 //
 PlayResult CPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
 				   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-				   CPlayerStatusDialog& status, DisplayCard* & pPlayCard)
+				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// this "play" is empty
 	status << "3PLYXX! Play base class default play routine called.\n";
@@ -389,7 +389,7 @@ int	CPlay::GetNumOrKeyCards2()
 //
 // returns whether a card is requried for the play to be performed
 //
-BOOL CPlay::RequiresCard(DisplayCard*  pCard) 
+BOOL CPlay::RequiresCard(CCard* pCard) 
 { 
 	// sanity check
 	if (pCard == NULL)
@@ -412,7 +412,7 @@ BOOL CPlay::RequiresCard(DisplayCard*  pCard)
 // returns the index of a card in the OR-Key cards list, or 
 // -1 if not found
 //
-int	CPlay::LookupORCard(DisplayCard*  pCard)
+int	CPlay::LookupORCard(CCard* pCard)
 {
 	if (m_pOrKeyCardsList == NULL)
 		return -1;
@@ -437,7 +437,7 @@ int	CPlay::LookupORCard(DisplayCard*  pCard)
 // returns the index of a card in the second OR-cards list, or 
 // -1 if not found
 //
-int	CPlay::LookupORCard2(DisplayCard*  pCard)
+int	CPlay::LookupORCard2(CCard* pCard)
 {
 	if (m_pOrKeyCardsList2 == NULL)
 		return -1;

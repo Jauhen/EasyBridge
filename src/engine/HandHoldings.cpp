@@ -14,7 +14,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "display_card.h"
+#include "Card.h"
 #include "HandHoldings.h"
 #include "Player.h"
 #include "play/PlayEngine.h"
@@ -252,7 +252,7 @@ void CHandHoldings::FormatHoldingsString()
 
 
 //
-void CHandHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
+void CHandHoldings::Add(CCard* pCard, const BOOL bSort)
 {
 	CCardHoldings::Add(pCard, bSort);
 	// mark the card as ours
@@ -267,17 +267,17 @@ void CHandHoldings::Add(DisplayCard*  pCard, const BOOL bSort)
 
 
 //
-void CHandHoldings::AddToInitialHand(DisplayCard*  pCard, const BOOL bSort)
+void CHandHoldings::AddToInitialHand(CCard* pCard, const BOOL bSort)
 {
 	m_initialHand.Add(pCard, bSort);
 }
 
 
 //
-DisplayCard*  CHandHoldings::RemoveByIndex(const int nIndex)
+CCard* CHandHoldings::RemoveByIndex(const int nIndex)
 {
 	ASSERT(nIndex >= 0);
-	DisplayCard*  pCard = CCardHoldings::RemoveByIndex(nIndex);
+	CCard* pCard = CCardHoldings::RemoveByIndex(nIndex);
 	m_displayHand.Remove(pCard);
 
 	// reorganize ordered suit holding
@@ -1086,7 +1086,7 @@ void CHandHoldings::EvaluateHoldings()
 //
 // called after one a cards has been played
 //
-void CHandHoldings::ReevaluateHoldings(const DisplayCard*  pCard)
+void CHandHoldings::ReevaluateHoldings(const CCard* pCard)
 {
 	if (pCard)
 	{
@@ -1719,13 +1719,13 @@ int	CHandHoldings::GetLongestSuit(int nType) const
 //
 // GetDiscard()
 //
-DisplayCard*  CHandHoldings::GetDiscard()
+CCard* CHandHoldings::GetDiscard()
 {
 	CSuitHoldings* pDiscardSuit = NULL;
-	DisplayCard*  pCard;
+	CCard* pCard;
 
 	// determine the lead suit and the trump suit
-	DisplayCard*  pLeadCard = pDOC->GetCurrentTrickCardLed();
+	CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
 	ASSERT(pLeadCard);
 	int nSuitLed = pLeadCard->GetSuit();
 	int nTrumpSuit = pDOC->GetTrumpSuit();
@@ -2131,13 +2131,13 @@ int CHandHoldings::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2,
 	{
 		// card info
 		case tInitialHand:	// [13]
-//			m_initialHand[nIndex1] = (DisplayCard* ) value;
+//			m_initialHand[nIndex1] = (CCard*) value;
 			break;
 		case tHand:			// [13]
-//			m_hand[nIndex1] = (DisplayCard* ) value;
+//			m_hand[nIndex1] = (CCard*) value;
 			break;
 		case tDisplayHand:	// [13]
-//			m_displayHand[nIndex1] = (DisplayCard* ) value;
+//			m_displayHand[nIndex1] = (CCard*) value;
 			break;
 		case tstrHoldings:		
 			m_strHolding = sVal;
