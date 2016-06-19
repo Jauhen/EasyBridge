@@ -82,7 +82,7 @@ private:
 // private routines
 //
 private:
-	CDefenderPlayEngine();
+	CDefenderPlayEngine(std::shared_ptr<AppInterface> app);
 	virtual ~CDefenderPlayEngine();
 };
 

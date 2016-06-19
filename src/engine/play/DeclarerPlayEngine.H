@@ -206,7 +206,7 @@ private:
 // private routines
 //
 private:
-	CDeclarerPlayEngine();
+	CDeclarerPlayEngine(std::shared_ptr<AppInterface> app);
 	virtual ~CDeclarerPlayEngine();
 };
 

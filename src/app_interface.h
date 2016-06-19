@@ -53,6 +53,7 @@ public:
 
   virtual CCard* GetCurrentTrickCardLed() = 0;
   virtual int GetValidBidRecord(int index) const = 0;
+  virtual int	GetLastValidBid() const = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -76,4 +77,6 @@ public:
   virtual const char* PositionToString(int pos) = 0;
   virtual const char* SuitToSingularString(int suit) = 0;
   virtual const CString BidToFullString(int bid) = 0;
+  virtual char GetCardLetter(int i) = 0;
+  virtual char GetSuitLetter(int i) = 0;
 };

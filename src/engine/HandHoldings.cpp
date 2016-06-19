@@ -33,7 +33,11 @@
 //
 
 // constructor
-CHandHoldings::CHandHoldings(std::shared_ptr<AppInterface> app) : app_(app) {
+CHandHoldings::CHandHoldings(std::shared_ptr<AppInterface> app) 
+  : CCardHoldings(app),
+    m_initialHand(app),
+    m_displayHand(app),
+    m_suit{ {app}, {app}, {app}, {app} } {
 	// clear all variables
 }
 

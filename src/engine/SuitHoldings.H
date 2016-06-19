@@ -183,7 +183,7 @@ protected:
 
 // construction/destruction
 public:
-	CSuitHoldings();
+	CSuitHoldings(std::shared_ptr<AppInterface> app);
 	~CSuitHoldings();
 };
 

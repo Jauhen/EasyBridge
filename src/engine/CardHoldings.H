@@ -53,7 +53,7 @@ protected:
 
 // construction/destruction
 public:
-	CCardHoldings();
+	CCardHoldings(std::shared_ptr<AppInterface> app);
 	~CCardHoldings();
 };
 

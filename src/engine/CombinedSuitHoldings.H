@@ -40,10 +40,10 @@ public:
 	virtual int GetNumDummyEntries() { return m_numDummyEntries; }
 
 	// inline functions
-	virtual CCard* GetDeclarerCard(int nIndex) const { return m_declarerCards[nIndex]; }
-	virtual CCard* GetDummyCard(int nIndex) const { return m_dummyCards[nIndex]; }
-	CSuitHoldings& GetDeclarerSuit() { return m_declarerCards; }
-	CSuitHoldings& GetDummySuit() { return m_dummyCards; }
+	virtual CCard* GetDeclarerCard(int nIndex) const { return (*m_declarerCards)[nIndex]; }
+	virtual CCard* GetDummyCard(int nIndex) const { return (*m_dummyCards)[nIndex]; }
+	CSuitHoldings& GetDeclarerSuit() { return *m_declarerCards; }
+	CSuitHoldings& GetDummySuit() { return *m_dummyCards; }
 	virtual int GetNumDeclarerCards() const { return m_nDeclarerLength; }
 	virtual int GetNumDummyCards() const { return m_nDummyLength; }
 	virtual int GetDeclarerLength() const { return m_nDeclarerLength; }
@@ -68,12 +68,12 @@ public:
 	virtual int GetTopCardsDiff() const { return m_numDeclarerTopCards - m_numDummyTopCards; }
 	virtual int GetWinnersDiff() const { return m_numDeclarerWinners - m_numDummyLosers; }
 	//
-	virtual const CCardList& GetWinners() const { return m_winners; }
-	virtual const CCardList& GetLosers() const { return m_losers; }
-	virtual const CCardList& GetDeclarerWinners() const { return m_declarerWinners; }
-	virtual const CCardList& GetDummyWinners() const { return m_dummyWinners; }
-	virtual const CCardList& GetDeclarerLosers() const { return m_declarerLosers; }
-	virtual const CCardList& GetDummyLosers() const { return m_dummyLosers; }
+	virtual const CCardList& GetWinners() const { return *m_winners; }
+	virtual const CCardList& GetLosers() const { return *m_losers; }
+	virtual const CCardList& GetDeclarerWinners() const { return *m_declarerWinners; }
+	virtual const CCardList& GetDummyWinners() const { return *m_dummyWinners; }
+	virtual const CCardList& GetDeclarerLosers() const { return *m_declarerLosers; }
+	virtual const CCardList& GetDummyLosers() const { return *m_dummyLosers; }
 	//
 	int	GetMissingCardVal(int nIndex) { VERIFY(nIndex <= m_numOutstandingCards); return m_nMissingCards[nIndex]; }
 
@@ -83,15 +83,15 @@ private:
 
 // private data
 private:
-	CSuitHoldings	m_declarerCards;
-	CSuitHoldings	m_dummyCards;
+	std::shared_ptr<CSuitHoldings>	m_declarerCards;
+  std::shared_ptr<CSuitHoldings>	m_dummyCards;
 	//
 	int		m_nDeclarerLength;
 	int		m_nDummyLength;
 	int		m_nMinLength;
 	int		m_nMaxLength;
 	int		m_nLongHand;		// 0 = declarer, 1 = dummy
-	CSuitHoldings* m_pLongHand;
+  std::shared_ptr<CSuitHoldings> m_pLongHand;
 	int		m_numMaxWinners;
 	int		m_numMaxLikelyWinners;
 	int		m_numMaxTopCards;
@@ -110,16 +110,16 @@ private:
 	int		m_numDeclarerEntries;
 	int		m_numDummyEntries;
 	//
-	CCardList	m_winners;
-	CCardList	m_losers;
-	CCardList	m_declarerWinners;
-	CCardList	m_declarerLosers;
-	CCardList	m_dummyWinners;
-	CCardList	m_dummyLosers;
+  std::shared_ptr<CCardList>	m_winners;
+  std::shared_ptr<CCardList>	m_losers;
+  std::shared_ptr<CCardList>	m_declarerWinners;
+  std::shared_ptr<CCardList>	m_declarerLosers;
+  std::shared_ptr<CCardList>	m_dummyWinners;
+  std::shared_ptr<CCardList>	m_dummyLosers;
 
 // construction/destruction
 public:
-	CCombinedSuitHoldings();
+	CCombinedSuitHoldings(std::shared_ptr<AppInterface> app);
 	~CCombinedSuitHoldings();
 };
 

@@ -102,10 +102,12 @@ protected:
 	BOOL m_bReverseSort;
 	CString m_strHoldings;
 
+  std::shared_ptr<AppInterface> app_;
+
 // construction/destruction
 public:
-	CCardList();
-	CCardList(const CCardList& srcList);
+	CCardList(std::shared_ptr<AppInterface> app);
+	CCardList(std::shared_ptr<AppInterface> app, const CCardList& srcList);
 	~CCardList();
 };
 

@@ -13,8 +13,6 @@
 // General routines for bidding
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
 #include "../PlayerStatusDialog.h"
 #include "../card_constants.h"
 #include "bidengine.h"
@@ -742,7 +740,7 @@ BOOL CBidEngine::RebidSuit(int nSuitType,  RebidLevel enShiftLevel,
 		nBid = MAKEBID(nSuit,-nShiftLevel);
 
 	// see if bid is legal
-	if (nBid <= pDOC->GetLastValidBid())
+	if (nBid <= app_->GetLastValidBid())
 		return FALSE;
 	else
 		m_nBid = nBid;

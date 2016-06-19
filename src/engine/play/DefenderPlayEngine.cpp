@@ -37,8 +37,8 @@
 // Initialization routines
 //
 //
-CDefenderPlayEngine::CDefenderPlayEngine()
-{
+CDefenderPlayEngine::CDefenderPlayEngine(std::shared_ptr<AppInterface> app) 
+  : CPlayEngine(app) {
 }
 
 CDefenderPlayEngine::~CDefenderPlayEngine()
@@ -676,7 +676,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 			// also don't bother returning the suit if this is a suit contract 
 			// and dummy has the top cards outstanding -- i.e., if dummy's 
 			// top card is higher than any outstanding cards
-			CCardList outstandingCards;
+      CCardList outstandingCards{ app_ };
 			int numOutstandingCards = GetOutstandingCards(nSuit, outstandingCards); 
 			if ((ISSUIT(nTrumpSuit)) && (dummyHand.GetNumCardsInSuit(nSuit) > 0) &&
 					(numOutstandingCards > 0) &&
@@ -1063,7 +1063,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 				CSuitHoldings& dummySuit = dummyHand.GetSuit(i);
 				// get the # of outstanding cards in the suit
 				// (in partner's or declarer's hands)
-				CCardList outstandingCards;
+				CCardList outstandingCards{ app_ };
 				int numOutstandingCards = GetOutstandingCards(i, outstandingCards);
 				if (numOutstandingCards == 0)
 					continue;	// partner has no cards in this suit
@@ -1997,7 +1997,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 
 		// if there are no more outstanding cards in the suit and we can play high,
 		// do so here
-		CCardList outstandingCards;
+		CCardList outstandingCards{ app_ };
 		// get the outstanding cards (also count dummy)
 		int numOutstandingCards = GetOutstandingCards(nSuitLed, outstandingCards, true);
 //		CHandHoldings& dummyHand = GetDummyHand();
@@ -2046,7 +2046,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 
 			// see if partner would win the suit otherwise
 			CGuessedSuitHoldings& partnerSuit = m_pPlayer->GetGuessedHand(m_nPartnerPosition)->GetSuit(nSuitLed);
-			CCardList outstandingCards;
+			CCardList outstandingCards{ app_ };
 			GetOutstandingCards(nSuitLed, outstandingCards);
 
 			// partner can win the trick if he has an outstanding card higher than the top card

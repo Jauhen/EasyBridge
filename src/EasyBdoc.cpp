@@ -3901,7 +3901,7 @@ void CEasyBDoc::SwapPartialHands(int nPos1, int nPos2)
 	CPlayer* pPlayer2 = m_pPlayer[nPos2];
 
 	// first remove player 1's cards
-	CCardList tempCards;
+  CCardList tempCards{appImpl};
 	int numCards1 = pPlayer1->GetNumCards();
 	for(int i=0;i<numCards1;i++) 
 		tempCards << pPlayer1->RemoveCardFromHand(0);
@@ -3918,7 +3918,7 @@ void CEasyBDoc::SwapPartialHands(int nPos1, int nPos2)
 	//
 	// now swap initial cards
 	//
-	CCardList tempInitialCards;
+  CCardList tempInitialCards{appImpl};
 	for(int i=0;i<13;i++) 
 		tempInitialCards << pPlayer1->RemoveCardFromInitialHand(0);
 

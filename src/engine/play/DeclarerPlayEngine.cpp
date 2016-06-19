@@ -59,10 +59,18 @@
 // Initialization routines
 //
 //
-CDeclarerPlayEngine::CDeclarerPlayEngine()
-{
-	m_pCombinedHand = new CCombinedHoldings;
-	m_pInitialCombinedHand = new CCombinedHoldings;
+CDeclarerPlayEngine::CDeclarerPlayEngine(std::shared_ptr<AppInterface> app) 
+    : CPlayEngine(app),
+    m_dummyPriorityDiscards(app),
+    m_declarerPriorityDiscards(app),
+    m_declarerDiscardedPriorityDiscards(app),
+    m_dummyDiscardedPriorityDiscards(app),
+    m_declarerEntries(app),
+    m_dummyEntries(app),
+    m_declarerRuffingEntries(app),
+    m_dummyRuffingEntries(app)  {
+	m_pCombinedHand = new CCombinedHoldings(app);
+	m_pInitialCombinedHand = new CCombinedHoldings(app);
 	m_declarerPriorityDiscards.ReverseSortOrder();
 	m_dummyPriorityDiscards.ReverseSortOrder();
 }
@@ -1590,7 +1598,7 @@ CCard* CDeclarerPlayEngine::PlaySecond()
 		// we have multipl cards in the suit led
 		// play high if we can win the trick, whether in dummy or hand
 		// but need to check first if a winner is in the proper hand
-		CCardList winnersList, oppositeWinnersList;
+    CCardList winnersList{ app_ }, oppositeWinnersList{ app_ };
 		BOOL bHaveHighCard = FALSE, bHaveOppositeHighCard = FALSE;
 		if (bPlayingInHand)
 		{
@@ -1772,7 +1780,7 @@ CCard* CDeclarerPlayEngine::PlayThird()
 	if (bPartnerHigh)
 	{
 		// see if partner's card will carry the day
-		CCardList outstandingCards;
+    CCardList outstandingCards{ app_ };
 		GetOutstandingCards(nSuitLed, outstandingCards);
 		if (outstandingCards.GetNumCardsAbove(pPartnersCard->GetFaceValue()) > 0)
 			bPartnerHigh = FALSE;
@@ -1838,7 +1846,7 @@ CCard* CDeclarerPlayEngine::PlayThird()
 				// beat the opponents' card w/ highest card affordable
 				// but check if player 2 has showed out of the suit, 
 				// and thereare higher cards outstanding
-				CCardList outstandingCards;
+        CCardList outstandingCards{ app_ };
 				int numOutstandingCards = GetOutstandingCards(nSuitLed, outstandingCards);
 				CCard* pTopOutstandingCard = (numOutstandingCards > 0) ? outstandingCards[0] : NULL;
 				CGuessedSuitHoldings& Player2Suit = bPlayingInHand? m_ppGuessedHands[m_pRHOpponent->GetPosition()]->GetSuit(nSuitLed) : m_ppGuessedHands[m_pLHOpponent->GetPosition()]->GetSuit(nSuitLed);
@@ -4734,7 +4742,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 
 		// note that "top cards" may not be instant winners; i.e., they may
 		// require that previous cashes / force plays remove enemy top cards
-		CCardList outstandingCards;
+    CCardList outstandingCards{ app_ };
 		GetOutstandingCards(nSuit, outstandingCards);
 
 		// so add the plays and their requirements
@@ -4745,7 +4753,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 			CCardList* pRequiredPlayedList = NULL;
 			if (numHigherCards > 0)
 			{
-				pRequiredPlayedList = new CCardList;
+        pRequiredPlayedList = new CCardList{ app_ };
 				for(int k=0;k<numHigherCards;k++)
 					*pRequiredPlayedList << outstandingCards[k];
 			}
@@ -4907,7 +4915,7 @@ int CDeclarerPlayEngine::FormTrumpPullingPlan(CPlayList& mainPlayList, CPlayList
 	status << "4PLNTRMP! Evaluating the trumps situation...\n";
 
 	// get the formal list of outstanding trumps
-	CCardList missingTrumps;
+	CCardList missingTrumps{ app_ };
 	GetOutstandingCards(m_nTrumpSuit, missingTrumps);
 	m_numOutstandingTrumps = missingTrumps.GetNumCards();
 
@@ -5067,7 +5075,7 @@ int CDeclarerPlayEngine::FormTrumpPullingPlan(CPlayList& mainPlayList, CPlayList
 		CCardList* pRequiredPlayedList = NULL;
 		if (numHigherTrumps > 0)
 		{
-			pRequiredPlayedList = new CCardList;
+			pRequiredPlayedList = new CCardList{ app_ };
 			for(int k=0;k<numHigherTrumps ;k++)
 				*pRequiredPlayedList << missingTrumps[k];
 		}
@@ -5572,7 +5580,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 		// for a force, we need to be able to drive out the opponents' cards
 		// we need to have more "extra" cards than outstanding high cards
 		// in order to drive out all the opponents' winners
-		CCardList outstandingCards;
+		CCardList outstandingCards{ app_ };
 		int numOutstandingCards = GetOutstandingCards(nSuit, outstandingCards);
 
 		// first adjust the oppoenents' cards for the cashes we can perform here
@@ -5695,7 +5703,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 		//
 		if (numForces > 0)
 		{		
-			CCardList outstandingCards;
+			CCardList outstandingCards{ app_ };
 			int numOutstandingCards = GetOutstandingCards(nSuit, outstandingCards);
 
 			// start with the first non-winner card
@@ -5737,7 +5745,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 				CCardList* pRequiredPlayedList = NULL;
 				if (numHigherCards > 0)
 				{
-					pRequiredPlayedList = new CCardList;
+					pRequiredPlayedList = new CCardList{ app_ };
 					for(int k=0;k<numHigherCards;k++)
 						*pRequiredPlayedList << outstandingCards[k];
 				}
@@ -5843,7 +5851,7 @@ int CDeclarerPlayEngine::FindDropPlays(CPlayList& playList)
 			continue;
 
 		// check limits on the missing cards
-		CCardList missingCards;
+		CCardList missingCards{ app_ };
 		int numOutstandingCards = GetOutstandingCards(nSuit, missingCards);
 		// there should be no more than 1/3 or 2/5 cards held/outstanding 
 		// X = the number of top cards we hold in the suit
@@ -5862,7 +5870,7 @@ int CDeclarerPlayEngine::FindDropPlays(CPlayList& playList)
 		for(int j=0;j<numPlays;j++)
 		{
 			// form the enemy Or-cards list
-			CCardList* pEnemyOrCards = new CCardList;
+			CCardList* pEnemyOrCards = new CCardList{ app_ };
 			for(int k=0;k<numMissingHonors;k++)
 			{
 				int nIndex = nBottomTopCard - 1 - k;
@@ -6071,7 +6079,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			{
 				// add as many finesses as there cards in dummy's hand below the
 				// top sequence, _AND_ low cards in declarer's hand
-				CCardList seq;
+				CCardList seq{ app_ };
 				int numCandidates = dummy.GetAllCardsBelow(dummy.GetTopSequence().GetBottomCard(), seq);
 				int numMaxFinesses = MIN(numCandidates, numDeclarerLosers);
 				for(i=numMaxFinesses-1;i>=0;i--)
@@ -6084,7 +6092,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 
 					// form the list of OR-cards needed by the defenders for this
 					// play to have any meaning
-					CCardList* pGapCards = new CCardList;
+					CCardList* pGapCards = new CCardList{ app_ };
 					int nIndex = pFinesseCard->GetDeckValue() + 1;
 					for(int j=0;j<nGap;j++)
 					{
@@ -6110,7 +6118,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					CCardList* pCoverCards = new CCardList(*pDummyCoverCards);
 
 					// form the list of possible lead cards (low cards) from hand
-					CCardList* pLeadCards = new CCardList;
+					CCardList* pLeadCards = new CCardList{ app_ };
 					nIndex = declarer.GetNumCards() - numDeclarerLosers;
 					for(int k=0;k<numDeclarerLosers;k++)
 					{
@@ -6159,7 +6167,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 		{
 			// add as many finesses as there cards in declarer hand below the 
 			// top sequence, _AND_ low cards in dummy's hand
-			CCardList seq;
+			CCardList seq{ app_ };
 			int numCandidates = declarer.GetAllCardsBelow(declarer.GetTopSequence().GetBottomCard(), seq);
 			int numMaxFinesses = MIN(numCandidates, numDummyLosers);
 			for(i=numMaxFinesses-1;i>=0;i--)
@@ -6170,7 +6178,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				nGap = (*(pDeclarerCoverCards->GetBottomCard()) - *pFinesseCard) - 1;
 
 				// form the enemy OR-cards list
-				CCardList* pGapCards = new CCardList;
+				CCardList* pGapCards = new CCardList(app_);
 				int nIndex = pFinesseCard->GetDeckValue() + 1;
 				for(int j=0;j<nGap;j++)
 				{
@@ -6194,7 +6202,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				CCardList* pCoverCards = new CCardList(*pDeclarerCoverCards);
 
 				// form the list of possible lead cards (low cards) from dummy
-				CCardList* pLeadCards = new CCardList;
+				CCardList* pLeadCards = new CCardList(app_);
 				nIndex = dummy.GetNumCards() - numDummyLosers;
 				for(int k=0;k<numDummyLosers;k++)
 				{
@@ -6286,7 +6294,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					CCard* pTopEquivCard = suit.GetHighestEquivalentCard(pFinesseCard);
 					nGap = (*(pDummyCoverCards->GetBottomCard()) - *pTopEquivCard) - 1;
 					// form the enemy OR-cards list
-					CCardList* pGapCards = new CCardList;
+					CCardList* pGapCards = new CCardList(app_);
 					int nIndex = pTopEquivCard->GetDeckValue() + 1;
 					for(int j=0;j<nGap;j++)
 					{
@@ -6355,7 +6363,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					CCard* pTopEquivCard = suit.GetHighestEquivalentCard(pFinesseCard);
 					nGap = (*(pDeclarerCoverCards->GetBottomCard()) - *pTopEquivCard) - 1;
 					// form the enemy OR-cards list
-					CCardList* pGapCards = new CCardList;
+					CCardList* pGapCards = new CCardList(app_);
 					int nIndex = pTopEquivCard->GetDeckValue() + 1;
 					for(int j=0;j<nGap;j++)
 					{
@@ -6412,7 +6420,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 
 			// form the enemy OR-cards list
 			// the gap card may not be the one immediately above this one
-			CCardList* pGapCards = new CCardList;
+			CCardList* pGapCards = new CCardList(app_);
 			CCard* pTopEqivCard = suit.GetHighestEquivalentCard(pFinesseCard);
 			int nIndex = pTopEqivCard->GetDeckValue() + 1;
 			int nGap = 0;
@@ -6436,7 +6444,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				break;
 
 			// form the list of possible lead cards (low cards) from hand
-			CCardList* pLeadCards = new CCardList;
+			CCardList* pLeadCards = new CCardList(app_);
 			nIndex = declarer.GetNumCards() - numDeclarerLosers;
 			for(int k=0;k<numDeclarerLosers;k++)
 			{
@@ -6486,7 +6494,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 
 			// form the enemy OR-cards list
 			// the gap card may not be the one immediately above this one
-			CCardList* pGapCards = new CCardList;
+			CCardList* pGapCards = new CCardList(app_);
 			CCard* pTopEqivCard = suit.GetHighestEquivalentCard(pFinesseCard);
 			int nIndex = pTopEqivCard->GetDeckValue() + 1;
 			int nGap = 0;
@@ -6509,7 +6517,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				break;
 
 			// form the list of possible lead cards (low cards) from dummy
-			CCardList* pLeadCards = new CCardList;
+			CCardList* pLeadCards = new CCardList(app_);
 			nIndex = dummy.GetNumCards() - numDummyLosers;
 			for(int k=0;k<numDummyLosers;k++)
 			{
@@ -6615,7 +6623,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 		if (pFinesseCard && (*pFinesseCard > *pCardLed) && !bOppositeHigherCard && !bOppositeEquivSingleton)
 		{
 			// form the enemy OR-cards list
-			CCardList* pGapCards = new CCardList;
+			CCardList* pGapCards = new CCardList(app_);
 			int nIndex = pTopEquivCard->GetDeckValue() + 1;
 			int nMax = ACE - pTopEquivCard->GetFaceValue();
 			for(int j=0;j<nMax;j++)
@@ -6716,7 +6724,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 		if (pFinesseCard && (*pFinesseCard > *pCardLed) && !bOppositeHigherCard && !bOppositeEquivSingleton)
 		{
 			// form the enemy OR-cards list
-			CCardList* pGapCards = new CCardList;
+			CCardList* pGapCards = new CCardList(app_);
 			int nIndex = pTopEquivCard->GetDeckValue() + 1;
 			int nMax = ACE - pTopEquivCard->GetFaceValue();
 			for(int j=0;j<nMax;j++)
@@ -6784,7 +6792,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 int CDeclarerPlayEngine::GetNumGapCardsOutstanding(int nSuit, CCardList*& pGapCards) const
 {
 	// get the list of outstanding cards
-	CCardList outstandingCards;
+	CCardList outstandingCards(app_);
 	GetOutstandingCards(nSuit, outstandingCards);
 	for(int i=0,nIndex=0;i<pGapCards->GetNumCards();i++)
 	{

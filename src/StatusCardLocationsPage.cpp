@@ -190,7 +190,7 @@ void CStatusCardLocationsPage::Update()
 	m_listHoldings.DeleteAllItems();
 
 	//
-	CGuessedSuitHoldings playedCards, remainingCards, identifiedCards;
+  CGuessedSuitHoldings playedCards{ appImpl }, remainingCards{ appImpl }, identifiedCards{ appImpl };
 	CGuessedHandHoldings* pHand = pDOC->GetPlayer(nObserver)->GetGuessedHand(nTarget);
 	CPlayEngine* pPlayEngine = pDOC->GetPlayer(nObserver)->GetPlayEngine();
 	//
@@ -208,7 +208,7 @@ void CStatusCardLocationsPage::Update()
 		// first show the list of played cards
 		m_listHoldings.InsertItem(nIndex, "", nSuit);
 		// then set played cards field
-		CGuessedSuitHoldings playedCards;
+    CGuessedSuitHoldings playedCards{ appImpl };
 		int numPlayedCards = pHand->GetSuit(nSuit).GetPlayedCardsList(playedCards);
 		if (numPlayedCards == 0)
 			m_listHoldings.SetItem(nIndex, 1, LVIF_TEXT, 
@@ -301,7 +301,7 @@ void CStatusCardLocationsPage::Update()
 
 			// set starting cards field (also known)
 			CCardHoldings& initialHand = hand.GetInitialHand();
-			CSuitHoldings initialSuit;
+      CSuitHoldings initialSuit{ appImpl };
 			initialHand.GetCardsOfSuit(nSuit, &initialSuit);
 			int numOriginalCards = initialSuit.GetNumCards();
 			m_listHoldings.SetItem(nIndex, 5, LVIF_TEXT, 

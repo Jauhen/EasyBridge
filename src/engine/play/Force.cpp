@@ -323,7 +323,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 
 				// see if we played a card from the other hand that's equivalent 
 				// to this card; if so, discard low
-				CSuitHoldings testSuit;
+        CSuitHoldings testSuit{appImpl}; // TODO(Jauhen): inject!
 				testSuit << combinedSuit;
 				testSuit << pCardLed;	// needed for valid test
 				//

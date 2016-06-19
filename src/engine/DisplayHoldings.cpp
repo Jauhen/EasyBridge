@@ -26,7 +26,8 @@
 //
 
 // constructor
-CDisplayHoldings::CDisplayHoldings()
+CDisplayHoldings::CDisplayHoldings(std::shared_ptr<AppInterface> app) 
+  : CCardHoldings(app)
 {
 }
 // destructor

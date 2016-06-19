@@ -35,8 +35,17 @@
 //
 
 // constructor
-CCombinedSuitHoldings::CCombinedSuitHoldings()
-{
+CCombinedSuitHoldings::CCombinedSuitHoldings(std::shared_ptr<AppInterface> app)
+  : CSuitHoldings(app) {
+  m_declarerCards = std::make_shared<CSuitHoldings>(app);
+  m_dummyCards = std::make_shared<CSuitHoldings>(app);
+
+  m_winners = std::make_shared<CCardList>(app);
+  m_losers = std::make_shared<CCardList>(app);
+  m_declarerWinners = std::make_shared<CCardList>(app);
+  m_declarerLosers = std::make_shared<CCardList>(app);
+  m_dummyWinners = std::make_shared<CCardList>(app);
+  m_dummyLosers = std::make_shared<CCardList>(app);
 }
 
 // destructor
@@ -63,8 +72,8 @@ void CCombinedSuitHoldings::Clear()
 {
 	CSuitHoldings::Clear();
 	//
-	m_declarerCards.Clear();
-	m_dummyCards.Clear();
+	m_declarerCards->Clear();
+	m_dummyCards->Clear();
 
 	// clear variables
 	m_nDeclarerLength = 0;
@@ -87,12 +96,12 @@ void CCombinedSuitHoldings::Clear()
 	m_numDummyTopCards = 0;
 	m_numOutstandingCards = 0;
 	//
-	m_winners.Clear();
-	m_losers.Clear();
-	m_declarerWinners.Clear();
-	m_declarerLosers.Clear();
-	m_dummyWinners.Clear();
-	m_dummyLosers.Clear();
+	m_winners->Clear();
+	m_losers->Clear();
+	m_declarerWinners->Clear();
+	m_declarerLosers->Clear();
+	m_dummyWinners->Clear();
+	m_dummyLosers->Clear();
 
 	// set base class flag
 	m_bEnableSuitSorting = FALSE;
@@ -111,8 +120,8 @@ void CCombinedSuitHoldings::Clear()
 void CCombinedSuitHoldings::SetSuit(int nSuit) 
 { 
 	CSuitHoldings::SetSuit(nSuit);
-	m_declarerCards.SetSuit(nSuit); 
-	m_dummyCards.SetSuit(nSuit);
+	m_declarerCards->SetSuit(nSuit);
+	m_dummyCards->SetSuit(nSuit);
 }
 
 
@@ -134,15 +143,15 @@ void CCombinedSuitHoldings::FormatHoldingsString()
 		}
 		// then the dummy's & player's respective holdings
 		m_strHoldings += " (";
-		for(int i=0;i<m_dummyCards.GetLength();i++) 
+		for(int i=0;i<m_dummyCards->GetLength();i++)
 		{
-			wsprintf(sz1,"%c",m_dummyCards[i]->GetCardLetter());
+			wsprintf(sz1,"%c",(*m_dummyCards)[i]->GetCardLetter());
 			m_strHoldings += sz1;
 		}
 		m_strHoldings += "/";
-		for(i=0;i<m_declarerCards.GetLength();i++) 
+		for(i=0;i<m_declarerCards->GetLength();i++)
 		{
-			wsprintf(sz1,"%c",m_declarerCards[i]->GetCardLetter());
+			wsprintf(sz1,"%c",(*m_declarerCards)[i]->GetCardLetter());
 			m_strHoldings += sz1;
 		}
 		m_strHoldings += ")";
@@ -177,13 +186,13 @@ void CCombinedSuitHoldings::AddFromSource(CCard* pCard, const BOOL bPlayerCard, 
 	CSuitHoldings::Add(pCard, bSort);
 	if (bPlayerCard)
 	{
-		m_declarerCards.Add(pCard, bSort);
-		m_nDeclarerLength = m_declarerCards.GetLength();
+		m_declarerCards->Add(pCard, bSort);
+		m_nDeclarerLength = m_declarerCards->GetLength();
 	}
 	else
 	{
-		m_dummyCards.Add(pCard, bSort);
-		m_nDummyLength = m_dummyCards.GetLength();
+		m_dummyCards->Add(pCard, bSort);
+		m_nDummyLength = m_dummyCards->GetLength();
 	}
 	//
 	CompareHands();
@@ -201,13 +210,13 @@ void CCombinedSuitHoldings::RemoveFromSource(CCard* pCard, const BOOL bPlayerCar
 	CSuitHoldings::Remove(pCard);
 	if (bPlayerCard)
 	{
-		m_declarerCards.Remove(pCard);
-		m_nDeclarerLength = m_declarerCards.GetLength();
+		m_declarerCards->Remove(pCard);
+		m_nDeclarerLength = m_declarerCards->GetLength();
 	}
 	else
 	{
-		m_dummyCards.Remove(pCard);
-		m_nDummyLength = m_dummyCards.GetLength();
+		m_dummyCards->Remove(pCard);
+		m_nDummyLength = m_dummyCards->GetLength();
 	}
 	//
 	CompareHands();
@@ -223,15 +232,15 @@ CCard* CCombinedSuitHoldings::RemoveByIndex(int nIndex)
 	CCard* pCard = CSuitHoldings::RemoveByIndex(nIndex);
 
 	// perform additional processing
-	if (m_declarerCards.HasCard(pCard))
+	if (m_declarerCards->HasCard(pCard))
 	{
-		m_declarerCards.Remove(pCard);
-		m_nDeclarerLength = m_declarerCards.GetLength();
+		m_declarerCards->Remove(pCard);
+		m_nDeclarerLength = m_declarerCards->GetLength();
 	}
 	else 
 	{
-		m_dummyCards.Remove(pCard);
-		m_nDummyLength = m_dummyCards.GetLength();
+		m_dummyCards->Remove(pCard);
+		m_nDummyLength = m_dummyCards->GetLength();
 	}
 	//
 	CompareHands();
@@ -249,12 +258,12 @@ void CCombinedSuitHoldings::CompareHands()
 	if (m_nDeclarerLength >= m_nDummyLength)
 	{
 		m_nLongHand = 0;
-		m_pLongHand = &m_declarerCards;
+		m_pLongHand = m_declarerCards;
 	}
 	else
 	{
 		m_nLongHand = 1;
-		m_pLongHand = &m_dummyCards;
+		m_pLongHand = m_dummyCards;
 	}
 }
 
@@ -263,8 +272,8 @@ void CCombinedSuitHoldings::CompareHands()
 void CCombinedSuitHoldings::Sort()
 {
 	CSuitHoldings::Sort();
-	m_declarerCards.Sort();
-	m_dummyCards.Sort();
+	m_declarerCards->Sort();
+	m_dummyCards->Sort();
 }
 
 
@@ -297,8 +306,8 @@ double CCombinedSuitHoldings::CountPoints(const BOOL bForceCount)
 	// first call the base class
 	//
 	CSuitHoldings::CountPoints(bForceCount);
-	m_declarerCards.CountPoints(bForceCount);
-	m_dummyCards.CountPoints(bForceCount);
+	m_declarerCards->CountPoints(bForceCount);
+	m_dummyCards->CountPoints(bForceCount);
 
 	// now erase certain inappropriate variables
 	m_nStrength = SS_NONE;
@@ -334,11 +343,11 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	CSuitHoldings::CheckKeyHoldings();
 
 	// then for the members
-	m_declarerCards.CheckKeyHoldings();
-	m_dummyCards.CheckKeyHoldings();
+	m_declarerCards->CheckKeyHoldings();
+	m_dummyCards->CheckKeyHoldings();
 
 	// get the list of cards played in this suit
-	CGuessedCardHoldings playedCardsList;
+  CGuessedCardHoldings playedCardsList{ app_ };
 	int numCardsPlayed = GetCardsPlayedInSuit(playedCardsList);
 
 	// reset count of outstanding cards
@@ -399,28 +408,28 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	m_numMaxLikelyWinners = Min(m_numLikelyWinners, m_nMaxLength);
 
 	// clear lists
-	m_winners.Clear();
-	m_losers.Clear();
-	m_declarerWinners.Clear();
-	m_declarerLosers.Clear();
-	m_dummyWinners.Clear();
-	m_dummyLosers.Clear();
+	m_winners->Clear();
+	m_losers->Clear();
+	m_declarerWinners->Clear();
+	m_declarerLosers->Clear();
+	m_dummyWinners->Clear();
+	m_dummyLosers->Clear();
 
 	// determine declarer's & dummy's winners & losers
 	m_numDeclarerWinners = 0;
 	m_numDummyWinners = 0;
 	for(int i=0;i<m_numWinners;i++)
 	{
-		m_winners << m_cards[i];
-		if (m_declarerCards.HasCard(m_cards[i]))
+		*m_winners << m_cards[i];
+		if (m_declarerCards->HasCard(m_cards[i]))
 		{
 			m_numDeclarerWinners++;
-			m_declarerWinners << m_cards[i];
+			*m_declarerWinners << m_cards[i];
 		}
 		else
 		{
 			m_numDummyWinners++;
-			m_dummyWinners << m_cards[i];
+			*m_dummyWinners << m_cards[i];
 		}
 	}
 	m_numDeclarerLosers = m_nDeclarerLength - m_numDeclarerWinners;
@@ -447,7 +456,7 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	m_numDummyTopCards = 0;
 	for(int i=0;i<m_numTopCards;i++)
 	{
-		if (m_declarerCards.HasCard(m_cards[i]))
+		if (m_declarerCards->HasCard(m_cards[i]))
 			m_numDeclarerTopCards++;
 		else
 			m_numDummyTopCards++;
@@ -457,17 +466,17 @@ int CCombinedSuitHoldings::CheckKeyHoldings()
 	int nIndex = m_numWinners;
 	for(int i=0;i<m_numLosers;i++,nIndex++)
 	{
-		m_losers << m_cards[nIndex];
-		if (m_declarerCards.HasCard(m_cards[nIndex]))
-			m_declarerLosers << m_cards[nIndex];
+		*m_losers << m_cards[nIndex];
+		if (m_declarerCards->HasCard(m_cards[nIndex]))
+			*m_declarerLosers << m_cards[nIndex];
 		else
-			m_dummyLosers << m_cards[nIndex];
+			*m_dummyLosers << m_cards[nIndex];
 	}
 
 	// check entries
 	// improve this code later
-	m_numDeclarerEntries = m_declarerCards.GetNumWinners();
-	m_numDummyEntries = m_dummyCards.GetNumWinners();
+	m_numDeclarerEntries = m_declarerCards->GetNumWinners();
+	m_numDummyEntries = m_dummyCards->GetNumWinners();
 
 	// done
 	playedCardsList.Clear(FALSE);
@@ -491,8 +500,8 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 	// first call the base class 
 	//
 //	CSuitHoldings::EvaluateHoldings();
-	m_declarerCards.EvaluateHoldings();
-	m_dummyCards.EvaluateHoldings();
+	m_declarerCards->EvaluateHoldings();
+	m_dummyCards->EvaluateHoldings();
 
 	// first count the number of likely winners
 	// adjusted for a combined holding
@@ -600,28 +609,28 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 	m_numMaxLikelyWinners = Min(m_numLikelyWinners, m_nMaxLength);
 
 	// clear lists
-	m_winners.Clear();
-	m_losers.Clear();
-	m_declarerWinners.Clear();
-	m_declarerLosers.Clear();
-	m_dummyWinners.Clear();
-	m_dummyLosers.Clear();
+	m_winners->Clear();
+	m_losers->Clear();
+	m_declarerWinners->Clear();
+	m_declarerLosers->Clear();
+	m_dummyWinners->Clear();
+	m_dummyLosers->Clear();
 
 	// determine declarer's & dummy's winners & losers
 	m_numDeclarerWinners = 0;
 	m_numDummyWinners = 0;
 	for(int i=0;i<m_numWinners;i++)
 	{
-		m_winners << m_cards[i];
-		if (m_declarerCards.HasCard(m_cards[i]))
+		*m_winners << m_cards[i];
+		if (m_declarerCards->HasCard(m_cards[i]))
 		{
 			m_numDeclarerWinners++;
-			m_declarerWinners << m_cards[i];
+			*m_declarerWinners << m_cards[i];
 		}
 		else
 		{
 			m_numDummyWinners++;
-			m_dummyWinners << m_cards[i];
+			*m_dummyWinners << m_cards[i];
 		}
 	}
 	m_numDeclarerLosers = m_nDeclarerLength - m_numDeclarerWinners;
@@ -648,7 +657,7 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 	m_numDummyTopCards = 0;
 	for(int i=0;i<m_numTopCards;i++)
 	{
-		if (m_declarerCards.HasCard(m_cards[i]))
+		if (m_declarerCards->HasCard(m_cards[i]))
 			m_numDeclarerTopCards++;
 		else
 			m_numDummyTopCards++;
@@ -658,11 +667,11 @@ void CCombinedSuitHoldings::EvaluateHoldings()
 	int nIndex = m_numWinners;
 	for(int i=0;i<m_numLosers;i++,nIndex++)
 	{
-		m_losers << m_cards[nIndex];
-		if (m_declarerCards.HasCard(m_cards[nIndex]))
-			m_declarerLosers << m_cards[nIndex];
+		*m_losers << m_cards[nIndex];
+		if (m_declarerCards->HasCard(m_cards[nIndex]))
+			*m_declarerLosers << m_cards[nIndex];
 		else
-			m_dummyLosers << m_cards[nIndex];
+			*m_dummyLosers << m_cards[nIndex];
 	}
 
 }
@@ -685,8 +694,8 @@ void CCombinedSuitHoldings::ReevaluateHoldings(const CCard* pCard)
 	CSuitHoldings::ReevaluateHoldings(pCard);
 
 	// then for the members
-	m_declarerCards.ReevaluateHoldings(pCard);
-	m_dummyCards.ReevaluateHoldings(pCard);
+	m_declarerCards->ReevaluateHoldings(pCard);
+	m_dummyCards->ReevaluateHoldings(pCard);
 
 	// and re-count
 	CountPoints(TRUE);

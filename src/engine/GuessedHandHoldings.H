@@ -31,16 +31,16 @@ public:
 	virtual void Sort();
 	virtual void FormatHoldingsString();
 	//
-	virtual void MarkSuitShownOut(int nSuit, BOOL bCode=TRUE) { VERIFY(ISSUIT(nSuit)); m_suit[nSuit].MarkSuitShownOut(bCode); }
-	virtual BOOL IsSuitShownOut(int nSuit) { VERIFY(ISSUIT(nSuit)); return m_suit[nSuit].IsSuitShownOut(); }
-	virtual BOOL WasSuitVoid(int nSuit) { VERIFY(ISSUIT(nSuit)); return m_suit[nSuit].WasSuitVoid(); }
+	virtual void MarkSuitShownOut(int nSuit, BOOL bCode=TRUE) { VERIFY(ISSUIT(nSuit)); m_suit[nSuit]->MarkSuitShownOut(bCode); }
+	virtual BOOL IsSuitShownOut(int nSuit) { VERIFY(ISSUIT(nSuit)); return m_suit[nSuit]->IsSuitShownOut(); }
+	virtual BOOL WasSuitVoid(int nSuit) { VERIFY(ISSUIT(nSuit)); return m_suit[nSuit]->WasSuitVoid(); }
 	//
 	virtual void MarkAllCardsIdentified(BOOL bCode=TRUE) { m_bAllCardsIdentified = bCode; }
 	virtual BOOL AreAllCardsIdentified() { return m_bAllCardsIdentified; }
 	virtual int  GetNumSuitsFullyIdentified();
 
 	//
-	CGuessedSuitHoldings& GetSuit(int nSuit) { VERIFY(ISSUIT(nSuit)); return m_suit[nSuit]; }
+	CGuessedSuitHoldings& GetSuit(int nSuit) { VERIFY(ISSUIT(nSuit)); return *m_suit[nSuit]; }
 
 	//
 	// inline functions
@@ -51,12 +51,12 @@ public:
 
 // private data
 protected:
-	CGuessedSuitHoldings m_suit[4];
+	std::vector<std::shared_ptr<CGuessedSuitHoldings>> m_suit;
 	BOOL	m_bAllCardsIdentified;
 
 // construction/destruction
 public:
-	CGuessedHandHoldings();
+	CGuessedHandHoldings(std::shared_ptr<AppInterface> app);
 	~CGuessedHandHoldings();
 };
 

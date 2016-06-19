@@ -26,8 +26,7 @@
 //
 
 // constructor
-CCardList::CCardList()
-{
+CCardList::CCardList(std::shared_ptr<AppInterface> app) : app_(app) {
 	// clear all variables
 	Clear();
 	m_bAutoSort = TRUE;
@@ -35,8 +34,8 @@ CCardList::CCardList()
 }
 
 // copy constructor
-CCardList::CCardList(const CCardList& srcList)
-{
+CCardList::CCardList(std::shared_ptr<AppInterface> app, const CCardList& srcList) 
+  : CCardList(app) {
 	// clear all variables
 	Clear();
 	m_bAutoSort = TRUE;

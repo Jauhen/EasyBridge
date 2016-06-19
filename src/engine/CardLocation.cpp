@@ -18,8 +18,10 @@
 //
 // construction / destruction
 //
-CCardLocation::CCardLocation() 
-{ 
+CCardLocation::CCardLocation(std::shared_ptr<AppInterface> app) : app_(app) {
+  for (int i = 0; i < 52; i++) {
+    m_cards.push_back(std::make_shared<CGuessedCard>(app));
+  }
 }
 
 CCardLocation::~CCardLocation()
@@ -46,6 +48,6 @@ CCardLocation::~CCardLocation()
 //
 void CCardLocation::Clear() 
 {
-	for(int i=0;i<52;i++) m_cards[i].Clear(); 
+	for(int i=0;i<52;i++) m_cards[i]->Clear(); 
 }
 

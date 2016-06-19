@@ -50,12 +50,9 @@
 //
 //
 
-CPlayEngine::CPlayEngine()
-{
-}
+CPlayEngine::CPlayEngine(std::shared_ptr<AppInterface> app) : app_(app) {}
 
-CPlayEngine::~CPlayEngine()
-{
+CPlayEngine::~CPlayEngine(){
 	Clear();
 }
 
@@ -253,7 +250,7 @@ void CPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 
 	// record the card played by the specified player
 	CGuessedHandHoldings* pHand = m_ppGuessedHands[nPos];
-	CGuessedCard* pGuessedCard = new CGuessedCard(pCard, // card
+	CGuessedCard* pGuessedCard = new CGuessedCard(app_, pCard, // card
 												  FALSE, // not outstanding
 												  nPos,	 // location
 												  1.0);	 // known with certainty
@@ -389,7 +386,7 @@ void CPlayEngine::RecordCardsPlayed()
 		// record the card played by this player
 		CCard* pPlayedCard = pDOC->GetCurrentTrickCard(i);
 		CGuessedHandHoldings* pHand = m_ppGuessedHands[i];
-		CGuessedCard* pCard = new CGuessedCard(pPlayedCard,	// card
+		CGuessedCard* pCard = new CGuessedCard(app_, pPlayedCard,	// card
 											   FALSE,		// not outstanding
 											   i,			// location
 											   1.0);		// known with certainty
@@ -412,7 +409,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 //	{
 		// note the card that was played
 		CGuessedHandHoldings* pPlayerHoldings = m_ppGuessedHands[nPos];
-		CGuessedCard* pGuessedCard = new CGuessedCard(pCard,	// card
+		CGuessedCard* pGuessedCard = new CGuessedCard(app_, pCard,	// card
 													  FALSE,	// no longer outstanding
 													  nPos,		// location
 													  1.0);		// known with certainty
@@ -699,7 +696,7 @@ CCard* CPlayEngine::PlaySecond()
 
 			// see if partner would win the suit otherwise
 			CGuessedSuitHoldings& partnerSuit = m_pPlayer->GetGuessedHand(m_nPartnerPosition)->GetSuit(nSuitLed);
-			CCardList outstandingCards;
+      CCardList outstandingCards{ app_ };
 			GetOutstandingCards(nSuitLed, outstandingCards);
 			if (partnerSuit.AreAllCardsIdentified() && partnerSuit.HasCard(outstandingCards[0]->GetFaceValue()))
 			{
@@ -1311,7 +1308,7 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 //
 CCard* CPlayEngine::GetHighestOutstandingCard(int nSuit) const
 {
-	CCardList cardList;
+	CCardList cardList{ app_ };
 	int nCount = GetOutstandingCards(nSuit, cardList);
 	if (nCount > 0)
 		return cardList[0];
@@ -1326,7 +1323,7 @@ CCard* CPlayEngine::GetHighestOutstandingCard(int nSuit) const
 //
 int CPlayEngine::GetNumOutstandingCards(int nSuit) const
 {
-	CCardList cardList;
+	CCardList cardList{ app_ };
 	return GetOutstandingCards(nSuit, cardList);
 }
 
@@ -1341,7 +1338,7 @@ BOOL CPlayEngine::IsCardOutstanding(CCard* pCard) const
 {
 	VERIFY(pCard->IsValid());
 	// get the list of outstanding cards in this suit
-	CCardList cardList;
+	CCardList cardList{ app_ };
 	return GetOutstandingCards(pCard->GetSuit(), cardList);
 	// and see if the card is among them
 	return cardList.HasCard(pCard);
@@ -1430,13 +1427,13 @@ int CPlayEngine::GetMinCardsInSuit(int nPlayer, int nSuit) const
 			nMin = 13 - numCardsPlayed;
 			// take this opportunity to update the player's info
 			// mark the player as having the missing cards
-			CSuitHoldings  missingCards;
+			CSuitHoldings  missingCards{ app_ };
 			int nCount = GetOutstandingCards(nSuit, missingCards);
 			VERIFY(nCount == nMin);
 			CGuessedHandHoldings* pHand = m_ppGuessedHands[nPlayer];
 			for(int j=0;j<nCount;j++)
 			{
-				CGuessedCard* pGuessedCard = new CGuessedCard(missingCards[j],	// card
+				CGuessedCard* pGuessedCard = new CGuessedCard(app_, missingCards[j],	// card
 															  TRUE,				// still outstanding
 															  nPlayer,			// location
 															  1.0);				// known with certainty

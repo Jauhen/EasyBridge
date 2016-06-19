@@ -30,8 +30,12 @@
 //
 
 // constructor
-CSuitHoldings::CSuitHoldings()
-{
+CSuitHoldings::CSuitHoldings(std::shared_ptr<AppInterface> app) 
+  : CCardHoldings(app),
+    m_honors(app),
+    m_bodyCards(app),
+    m_likelyWinners(app),
+    m_likelyLosers(app) {
 	// clear all variables
 	Clear();
 }
@@ -517,7 +521,7 @@ int CSuitHoldings::GetCardsPlayedInSuit(CGuessedCardHoldings& playedCardsList)
 	// can't use any arbitrary player's info since that may not have been cleared
 	// yet by the time this routines is called (a player's guessed hands are cleared,
 	// then his hands are initialized using this info, before the next player is processed)
-	CGuessedCardHoldings  tempList;
+  CGuessedCardHoldings  tempList{app_};
 	CPlayer* pPlayer = pDOC->GetPlayer(SOUTH);
 	if (pPlayer)
 	{
@@ -592,7 +596,7 @@ int CSuitHoldings::CheckKeyHoldings()
 	}
 
 	// get the list of cards played in this suit
-	CGuessedCardHoldings playedCardsList;
+  CGuessedCardHoldings playedCardsList{ app_ };
 	GetCardsPlayedInSuit(playedCardsList);
 
 	// check for cards missing from an AKQJT sequence 
@@ -645,7 +649,7 @@ int CSuitHoldings::CheckKeyHoldings()
 	// build the sequence list
 	for(int i=0;i<m_numCards;)
 	{
-		CCardList* pList = new CCardList;
+		CCardList* pList = new CCardList(app_);
 		m_sequenceList.Add(pList);
 		m_numSequences++;
 		do {
@@ -662,7 +666,7 @@ int CSuitHoldings::CheckKeyHoldings()
 		if ( (!HasCardOfFaceValue(i)) && 
 			 (!playedCardsList.HasCardOfFaceValue(i)) )
 		{
-			CCardList* pList = new CCardList;
+			CCardList* pList = new CCardList(app_);
 			m_missingSequenceList.Add(pList);
 			m_numMissingSequences++;
 			while ((i>=2) && (!HasCardOfFaceValue(i)))

@@ -122,6 +122,9 @@ public:
     return pDOC->GetValidBidRecord(index);
   }
 
+  virtual int	GetLastValidBid() const {
+    return pDOC->GetLastValidBid();
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -162,6 +165,14 @@ public:
 
   virtual const CString BidToFullString(int bid) {
     return ::BidToFullString(bid);
+  }
+
+  virtual char GetCardLetter(int i) {
+    return ::GetCardLetter(i);
+  }
+
+  virtual char GetSuitLetter(int i) {
+    return ::GetSuitLetter(i);
   }
 };
 

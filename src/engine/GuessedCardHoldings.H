@@ -112,9 +112,12 @@ protected:
 	CString m_strHoldings;
 	//
 
+protected:
+  std::shared_ptr<AppInterface> app_;
+
 // construction/destruction
 public:
-	CGuessedCardHoldings();
+	CGuessedCardHoldings(std::shared_ptr<AppInterface> app);
 	~CGuessedCardHoldings();
 };
 

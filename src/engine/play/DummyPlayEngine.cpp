@@ -34,8 +34,8 @@
 // Initialization routines
 //
 //
-CDummyPlayEngine::CDummyPlayEngine()
-{
+CDummyPlayEngine::CDummyPlayEngine(std::shared_ptr<AppInterface> app)
+  : CPlayEngine(app) {
 }
 
 CDummyPlayEngine::~CDummyPlayEngine()
