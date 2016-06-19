@@ -18,6 +18,7 @@
 #include <memory>
 
 class AppInterface;
+enum Position;
 
 //
 class CPlayerStatusDialog {

@@ -16,7 +16,7 @@
 #include "../PlayerStatusDialog.h"
 #include "GerberConvention.h"
 #include "ConventionSet.h"
-
+#include "app_interface.h"
 
 
 //
@@ -40,7 +40,7 @@ BOOL CGerberConvention::ApplyTest(const CPlayer& player,
 								  CPlayerStatusDialog& status)
 {
 	// basic test
-//	if (!pCurrConvSet->IsConventionEnabled(tidGerber))
+//	if (!app_->GetCurrentConventionSet()->IsConventionEnabled(tidGerber))
 //		return FALSE;
 
 	// see if another convention is active
@@ -90,7 +90,7 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 	//
 	// if Gerber is not enabled, just bid slam directly
 	//
-	if (!pCurrConvSet->IsConventionEnabled(tidGerber))
+	if (!app_->GetCurrentConventionSet()->IsConventionEnabled(tidGerber))
 	{
 		// no Gerber? go ahead and bid slam directly
 		status << "2GERBX! we have " & fCardPts & "/" & fPts & "/" & fAdjPts &
@@ -101,23 +101,23 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 		// bid a grand slam if we have 37+ pts and the trump ace
 		// or a small slam with 32+ points
 		// or make the cheapest shift bid otherwise (D'oh!)
-		if ((fMinTPPoints >= PTS_GRAND_SLAM+1) && (hand.SuitHasCard(nEventualSuit, ACE)))
+		if ((fMinTPPoints >= app_->GrandSlamPts() +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
 		{
 			nBid = MAKEBID(nEventualSuit, 7);
 			status << "2GERBX1! but since we have the points for a grand slam and we hold the trump ace, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
-		else if (fMinTPPoints >= PTS_SLAM)
+		else if (fMinTPPoints >= app_->SlamPts() )
 		{
 			nBid = MAKEBID(nEventualSuit, 6);
 			status << "2GERBX2! but since we have the points for a small slam, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
 			// get cheapest shift bid
 			nBid = bidState.GetCheapestShiftBid(nEventualSuit);
-			status << "2GERBX3! so we just bid " & BTS(nBid) & ".\n";
+			status << "2GERBX3! so we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -135,22 +135,22 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 		// bid a grand slam if we have 37+ pts and the trump ace
 		// or a small slam with 32+ points
 		// or make the cheapest shift bid otherwise (D'oh!)
-		if ((fMinTPPoints >= PTS_SLAM+1) && (hand.SuitHasCard(nEventualSuit, ACE)))
+		if ((fMinTPPoints >= app_->SlamPts() +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
 		{
 			nBid = MAKEBID(nEventualSuit, 7);
 			status << "2GERBY1! so since we have the points for a grand slam, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
-		else if (fMinTPPoints >= PTS_SLAM)
+		else if (fMinTPPoints >= app_->SlamPts() )
 		{
 			nBid = MAKEBID(nEventualSuit, 6);
 			status << "2GERBY2! so since we have the points for a small slam, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
 			nBid = bidState.GetCheapestShiftBid(nEventualSuit, pDOC->GetLastValidBid());
-			status << "2GERBY3! so without quite enough points for a slam, we just bid " & BTS(nBid) & ".\n";
+			status << "2GERBY3! so without quite enough points for a slam, we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -171,7 +171,7 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 				  fMinTPCPoints & "-" & fMaxTPCPoints & " / " &
 				  fMinTPPoints & "-" & fMaxTPPoints & 
 				  " pts in the partnership, explore slam possibilities with Gerber at " &
-				  BTS(nBid) & ".\n";
+				  app_->BidToFullString(nBid) & ".\n";
 	}
 	else
 	{
@@ -237,7 +237,7 @@ BOOL CGerberConvention::RespondToConvention(const CPlayer& player,
 			nBid = BID_5NT;
 		//
 		status << "GRB10! With " & numAces & " Ace" & ((numAces > 1)? "s," : ",") &
-				  " respond to partner's Gerber inquiry with " & BTS(nBid) & ".\n";
+				  " respond to partner's Gerber inquiry with " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND1);	// answered Aces, ready for Kings
 		return TRUE;
@@ -258,7 +258,7 @@ BOOL CGerberConvention::RespondToConvention(const CPlayer& player,
 			nBid = BID_5NT;
 		//
 		status << "GRB12! With " & numKings & " King" & ((numKings > 1)? "s," : ",") &
-				  " respond to partner's Gerber inquiry with " & BTS(nBid) & ".\n";
+				  " respond to partner's Gerber inquiry with " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);	// Gerber complete
 		return TRUE;
@@ -342,13 +342,13 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 		if (nPartnersBid <= BID_4NT) 
 		{
 			status << "GRB20! Partner responded to our 4C Gerber inquiry with " & 
-					  BTS(nPartnersBid) & ", indicating " & 
+					  app_->BidToFullString(nPartnersBid) & ", indicating " & 
 					  bidState.m_numPartnersAces & 
 					  (((bidState.m_numPartnersAces == 0) || (bidState.m_numPartnersAces > 1))? " Aces" : " Ace") & ".\n";
 		} 
 		else 
 		{
-			status << "GRB22! Partner made an illegal " & BTS(bidState.nPartnersBid) & 
+			status << "GRB22! Partner made an illegal " & app_->BidToFullString(bidState.nPartnersBid) & 
 					  " response to 4C Gerber; assuming zero Aces in partner's hand.\n";
 			bidState.SetConventionStatus(this, CONV_ERROR);	// Gerber complete
 			return TRUE;
@@ -364,7 +364,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 		if (numTotalAces == 4)
 		{
 			// if we're close to a grand slam, go for it
-			if (fMinTPPoints >= PTS_GRAND_SLAM-1)
+			if (fMinTPPoints >= app_->GrandSlamPts() -1)
 			{
 				nBid = BID_5NT;
 				status << "GRB32! Our team holds all four aces, so proceed to 5NT to ask for kings.\n";
@@ -375,7 +375,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = MAKEBID(nAgreedSuit, 6);
 				status << "GRB32! Our team holds all four aces, but with an estimated " & 
 						  fMinTPPoints & "-" & fMaxTPPoints &
-					      " total partnership points, we lack the points for a grand slam, so settle for a contract of " & BTS(nBid) & ".\n";
+					      " total partnership points, we lack the points for a grand slam, so settle for a contract of " & app_->BidToFullString(nBid) & ".\n";
 				nGerberStatus = CONV_FINISHED;	// Gerber finished
 			}
 		}
@@ -383,7 +383,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// oops, we don't have all 4 aces, so we gotta stop
 			// if we have 3 or fewer aces and less than 32 pts. then really panic
-			if ((numTotalAces <= 3) && (bidState.m_fMinTPPoints < PTS_SLAM))
+			if ((numTotalAces <= 3) && (bidState.m_fMinTPPoints < app_->SlamPts() ))
 			{
 				int nTestBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 				if (nTestBid <= BID_5NT)
@@ -405,7 +405,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = MAKEBID(nAgreedSuit, 6);
 			}
 			status << "GRB38! Without all four aces we can't proceed to a grand slam, so stop at " & 
-			BTS(nBid) & ".\n";
+			app_->BidToFullString(nBid) & ".\n";
 			nGerberStatus = CONV_FINISHED;	// Gerber finished
 		}
 	
@@ -459,14 +459,14 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 		if (nPartnersBid <= BID_5NT) 
 		{
 			status << "GRB40! Partner responded to our 4C Gerber inquiry with " & 
-					  BTS(nPartnersBid) & ", indicating " & 
+					  app_->BidToFullString(nPartnersBid) & ", indicating " & 
 					  bidState.m_numPartnersKings & 
 					  ((bidState.m_numPartnersKings > 1)? " Kings" : " King") &
 					  ".\n";
 		} 
 		else 
 		{
-			status << "GRB44! Partner made an illegal " & BTS(nPartnersBid) & 
+			status << "GRB44! Partner made an illegal " & app_->BidToFullString(nPartnersBid) & 
 					  " response to 4C Gerber inquiry; assuming zero Kings in partner's hand.\n";
 			nBid = BID_PASS;
 			bidState.SetConventionStatus(this, CONV_ERROR);
@@ -487,23 +487,23 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 			status << "GRB45! We have all the aces and kings, plus a total of " &
 					  fMinTPPoints & "-" & fMaxTPPoints & 
 					  " points in the partnership, so go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
-		else if ((numTotalKings == 3) && (fMinTPPoints >= PTS_GRAND_SLAM))
+		else if ((numTotalKings == 3) && (fMinTPPoints >= app_->GrandSlamPts() ))
 		{
 			// we're missing a king but have good pts, so go for a grand
 			nBid = MAKEBID(nAgreedSuit, 7);
 			status << "GRB46! We're missing one King, but with a total of " & 
 					  fMinTPPoints & "-" & fMaxTPPoints & 
-					  " points in the partnership, we can go ahead and bid " & BTS(nBid) & ".\n";
+					  " points in the partnership, we can go ahead and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
-		else if ((numTotalKings >= 3) && (fMinTPPoints >= PTS_GRAND_SLAM+1))
+		else if ((numTotalKings >= 3) && (fMinTPPoints >= app_->GrandSlamPts() +1))
 		{
 			// we're missing two kings but have good pts, so go for a grand
 			nBid = MAKEBID(nAgreedSuit, 7);
 			status << "GRB47! We may not have all the kings, but with a total of " & 
 					  fMinTPPoints & "-" & fMaxTPPoints & 
-					  " points in the partnership, go ahead and bid " & BTS(nBid) & ".\n";
+					  " points in the partnership, go ahead and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -515,7 +515,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 				status << "GRB48! Since we're missing " & (4 - numTotalKings) & 
 						  " Kings and have a total of only " & fMinTPPoints & "-" & fMaxTPPoints & 
 						  " pts in the partnership, we lack sufficient strength for a grand slam and have to settle for a small slam at " &
-						  BTS(nBid) & ".\n";
+						  app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -524,7 +524,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 				status << "GRB49! Since we're missing " & (4 - numTotalKings) & 
 						  " Kings and have a total of only " & fMinTPCPoints & "-" & fMaxTPCPoints & 
 						  " HCPs in the partnership, we lack sufficient strength for a grand slam and have to settle for a small slam at " &
-						  BTS(nBid) & ".\n";
+						  app_->BidToFullString(nBid) & ".\n";
 			}
 		}
 		// update status and return

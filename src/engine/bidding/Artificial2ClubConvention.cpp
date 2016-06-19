@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "app_interface.h"
 #include "../PlayerStatusDialog.h"
 #include "Artificial2ClubConvention.h"
 #include "ConventionSet.h"
@@ -42,13 +41,13 @@ BOOL CArtificial2ClubConvention::TryConvention(const CPlayer& player,
 
 	// check for a really strong hand with 23+ high card points 
 	// or 10+ playing tricks 
-	double fMinPts = pCurrConvSet->GetValue(tn2ClubOpeningPoints);
+	double fMinPts = app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints);
 	if ((bidState.fCardPts >= fMinPts) || (bidState.numLikelyWinners >= 10)) 
 	{
 		int nBid = BID_2C;
 		status << "STR2C! Have " & bidState.fCardPts & "/" & 
 				   bidState.fPts &" points and " & bidState.numLikelyWinners & 
-				   " playing tricks, so bid an artificial strong " & BTS(nBid) & ".\n";
+				   " playing tricks, so bid an artificial strong " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_INVOKED_ROUND1);
 		return TRUE;
@@ -111,7 +110,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 			bidState.m_fMaxTPCPoints = fCardPts + bidState.m_fPartnersMax;
 
 			//
-			if (bidState.m_fMinTPPoints <= PTS_GAME-2)
+			if (bidState.m_fMinTPPoints <= app_->GamePts() -2)
 			{
 				nBid = BID_PASS;
 				status << "R2CLR10! But with only " & bidState.m_fMinTPPoints & " points in the partnership, we have to pass.\n";
@@ -123,7 +122,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 				{
 					nBid = bidState.GetGameBid(nPartnersSuit);
 					status << "R2CLR20! Raise partner's & " & bidState.szPS &
-							  " to game at "& BTS(nBid) & ".\n";
+							  " to game at "& app_->BidToFullString(nBid) & ".\n";
 				}
 				else if (bidState.IsSuitOpenable(bidState.nPrefSuit) && (nPartnersBidLevel <= 3))
 				{
@@ -163,7 +162,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	//
 	if ((nPartnersBid == BID_2C) && (bidState.m_bPartnerOpenedForTeam) &&
 					(numPartnerBidsMade == 1) &&
-					(nPartnersBid == pDOC->GetValidBidRecord(0)))
+					(nPartnersBid == app_->GetValidBidRecord(0)))
 	{
 		// condition valid
 		// record that we responded
@@ -176,7 +175,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 
 	// state expectations
 	status << "R2CLUB! Partner made an artificial bid of 2 Clubs, showing either a game suit or " &
-			  pCurrConvSet->GetValue(tn2ClubOpeningPoints) &
+			  app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints) &
 			  "+ points.  We want to respond positively if interested in a slam.\n";
 
 	// the bid is forcing to game
@@ -190,14 +189,14 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	int nPrefSuitStrength = bidState.nPrefSuitStrength;
 
 	//
-	bidState.AdjustPartnershipPoints(pCurrConvSet->GetValue(tn2ClubOpeningPoints), 40 - fCardPts);
+	bidState.AdjustPartnershipPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints), 40 - fCardPts);
 
 	// respond negatively (2D) with < 33 points
-	if (bidState.m_fMinTPPoints < PTS_SLAM) 
+	if (bidState.m_fMinTPPoints < app_->SlamPts() ) 
 	{
 		nBid = BID_2D;
 		status << "R2C04! With only " & fCardPts & "/" & fPts &
-				  " points, we deny interest in slam by making the negative response of " & BTS(nBid) & ".\n";
+				  " points, we deny interest in slam by making the negative response of " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -219,7 +218,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 		status << "R2C14! With  " & fCardPts & "/" & fPts & " points in hand, and a total of " &
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
 				  " points in the partnership, we express possible interest in slam by showing our best suit (" &
-				  bidState.szPrefS & ") with a bid of " & BTS(nBid) & ".\n";
+				  bidState.szPrefS & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -234,7 +233,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 		status << "R2C18! With " & fCardPts & "/" & fPts & " points in hand and a total of " &
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
 				  " points in the partnership, we express interest in a slam by showing our solid " &
-				  bidState.szPrefSS & " suit in a jump bid of " & BTS(nBid) & ".\n";
+				  bidState.szPrefSS & " suit in a jump bid of " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -244,14 +243,14 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	// with < 26 total HCPs, 2NT
 	if (bidState.bBalanced) 
 	{
-		if (bidState.m_fMinTPCPoints >= PTS_NT_GAME)
+		if (bidState.m_fMinTPCPoints >= app_->NTGamePts() )
 			nBid = BID_3NT;
 		else
 			nBid = BID_2NT;
 		status << "R2C22! With " & fCardPts & 
 				  " HCPs and a balanced hand, and a total of " & 
 				  bidState.m_fMinTPCPoints & 
-				  "+ HCPs in the partnership, we respond with " & BTS(nBid) & ".\n";
+				  "+ HCPs in the partnership, we respond with " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -260,7 +259,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	nBid = bidState.GetCheapestShiftBid(nPrefSuit, BID_2C);
 	status << "R2C26! With " & fCardPts & "/" & fPts & 
 			  " points but with no strong suit and an unbalanced hand, we have to respond with our best suit of " & 
-			  bidState.szPrefS & " by bidding " & BTS(nBid) & ".\n";
+			  bidState.szPrefS & " by bidding " & app_->BidToFullString(nBid) & ".\n";
 	bidState.SetBid(nBid);
 	return TRUE;
 
@@ -336,51 +335,51 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			bidState.m_fMaxTPCPoints = fCardPts + bidState.m_fPartnersMax;
 
 			// bid game or slam with 26+ pts
-			if ((bidState.m_fMinTPCPoints >= PTS_NT_GAME) && (bidState.m_fMinTPCPoints < PTS_SMALL_SLAM))
+			if ((bidState.m_fMinTPCPoints >= app_->NTGamePts() ) && (bidState.m_fMinTPCPoints < app_->SmallSlamPts() ))
 			{
 				if (bBalanced || bSemiBalanced)
 				{
 					nBid = BID_3NT;
 					status << "CRB1! With a balanced distribution and " &
-							  fCardPts & " HCPs in hand, rebid " & BTS(nBid) & ".\n";
+							  fCardPts & " HCPs in hand, rebid " & app_->BidToFullString(nBid) & ".\n";
 				}
-				else if ( (ISMAJOR(nPrefSuit) && (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME)) ||
-						  (ISMINOR(nPrefSuit) && (bidState.m_fMinTPPoints >= PTS_MINOR_GAME)) )
+				else if ( (ISMAJOR(nPrefSuit) && (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )) ||
+						  (ISMINOR(nPrefSuit) && (bidState.m_fMinTPPoints >= app_->MinorSuitGamePts() )) )
 				{
 					nBid = bidState.GetGameBid(nPrefSuit);
-					status << "CRB2! With no help from partner, we have to unilaterally push on to game at " & BTS(nBid) & ".\n";
+					status << "CRB2! With no help from partner, we have to unilaterally push on to game at " & app_->BidToFullString(nBid) & ".\n";
 				}
 				bidState.SetConventionStatus(this, CONV_FINISHED);
 			}
-			else if ((bidState.m_fMinTPCPoints >= PTS_SMALL_SLAM) && (bidState.m_fMinTPCPoints < PTS_GRAND_SLAM))
+			else if ((bidState.m_fMinTPCPoints >= app_->SmallSlamPts() ) && (bidState.m_fMinTPCPoints < app_->GrandSlamPts() ))
 			{
 				if (bBalanced || bSemiBalanced)
 				{
 					nBid = BID_6NT;
 					status << "CRB4! With a balanced distribution and " &
-							  fCardPts & " HCPs in hand, bid a slam at " & BTS(nBid) & ".\n";
+							  fCardPts & " HCPs in hand, bid a slam at " & app_->BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
 					nBid = MAKEBID(nPrefSuit, 6);
 					status << "CRB5! With no help from partner but with a total of " & bidState.m_fMinTPPoints &
-							  " points in the partnership, we have to unilaterally push on to a slam at " & BTS(nBid) & ".\n";
+							  " points in the partnership, we have to unilaterally push on to a slam at " & app_->BidToFullString(nBid) & ".\n";
 				}
 				bidState.SetConventionStatus(this, CONV_FINISHED);
 			}
-			else if (bidState.m_fMinTPCPoints >= PTS_GRAND_SLAM)
+			else if (bidState.m_fMinTPCPoints >= app_->GrandSlamPts() )
 			{
 				if (bBalanced || bSemiBalanced)
 				{
 					nBid = BID_7NT;
 					status << "CRB6! With a balanced distribution and " &
-							  fCardPts & " HCPs in hand, bid a grand slam at " & BTS(nBid) & ".\n";
+							  fCardPts & " HCPs in hand, bid a grand slam at " & app_->BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
 					nBid = MAKEBID(nPrefSuit, 7);
 					status << "CRB5! With no help from partner but with a total of " & bidState.m_fMinTPPoints &
-							  " points in the partnership, we have to unilaterally push on to a grand slam at " & BTS(nBid) & ".\n";
+							  " points in the partnership, we have to unilaterally push on to a grand slam at " & app_->BidToFullString(nBid) & ".\n";
 				}
 				bidState.SetConventionStatus(this, CONV_FINISHED);
 			}
@@ -389,7 +388,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 				// else show our preferred suit and see if partner bids again
 				nBid = bidState.GetCheapestShiftBid(nPrefSuit);
 				status << "CRB8! Show our strongest suit (" & bidState.szPrefS &
-						  ") with a bid of " & BTS(nBid) & ".\n";
+						  ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 				bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
 			}
 			//
@@ -420,7 +419,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			if ( bidState.bSemiBalanced ||
 				 ((nPartnersSuitSupport <= SS_WEAK_SUPPORT) && (bBalanced)) )
 			{
-				if (bidState.m_fMinTPCPoints >= PTS_SLAM)
+				if (bidState.m_fMinTPCPoints >= app_->SlamPts() )
 					nBid = BID_6NT;
 				else
 					nBid = BID_3NT;
@@ -429,20 +428,20 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 							  bidState.SLTS(nPartnersSuit) & " support for partner's " & bidState.szPS &
 							  ", plus a total of " & bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 							  " HCPs in the partnership, move to Notrump and bid " & 
-							  ((BID_LEVEL(nBid) >= 6)? "slam" : "game") & " at " & BTS(nBid) & ".\n";
+							  ((BID_LEVEL(nBid) >= 6)? "slam" : "game") & " at " & app_->BidToFullString(nBid) & ".\n";
 				else
 					status << "CRB22! With a " & (!bBalanced? "semi-" : "") &
 							  "balanced hand and a total of " & 
 							  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 							  " HCPs in the partnership, raise partner to " & ((BID_LEVEL(nBid) >= 6)? "slam" : "game") &
-							  " at " & BTS(nBid) & ".\n";
+							  " at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
 				// we're not balanced, so show our preferred suit if possible
 				nBid = bidState.GetCheapestShiftBid(nPrefSuit);
 				status << "CRB25! We don't like Notrump, so so bid our " & 
-						  bidState.szPrefS & " suit at " & BTS(nBid) & ".\n";
+						  bidState.szPrefS & " suit at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			//
 			bidState.SetBid(nBid);
@@ -463,7 +462,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 						  " support for partner's " & bidState.szPS & 
 						  " (holding " & bidState.szHP & 
 						  "), go ahead and " & (bJumped? "jump" : "") & 
-						  " raise to " & BTS(nBid) & ".\n";
+						  " raise to " & app_->BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 			}
 			else
@@ -481,7 +480,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 		nBid = bidState.GetCheapestShiftBid(nPrefSuit);
 		status << "CRB44! But we don't like partner's " & bidState.szPSS & 
 				  " suit (holding " & bidState.szHP & "), so bid our own " & 
-				  bidState.szPrefS & " suit at " & BTS(nBid) & ".\n";
+				  bidState.szPrefS & " suit at " & app_->BidToFullString(nBid) & ".\n";
 
 		// done
 		bidState.SetBid(nBid);
@@ -514,19 +513,19 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 				{
 					nBid = bidState.GetGameBid(nPartnersSuit);
 					status << "CRB62! So with " & bidState.SLTS(nPartnersSuitSupport) & " support for partner's " &
-							   bidState.szPS & ", raise to game at " & BTS(nBid) & ".\n";
+							   bidState.szPS & ", raise to game at " & app_->BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
 					nBid = bidState.GetCheapestShiftBid(bidState.nPreviousSuit);
 					status << "CRB62! But with only " & bidState.SLTS(nPartnersSuitSupport) & " support for partner's " &
-							   bidState.szPS & ", return to our own suit at " & BTS(nBid) & ".\n";
+							   bidState.szPS & ", return to our own suit at " & app_->BidToFullString(nBid) & ".\n";
 				}
 			}
 			else
 			{
 				// partner bid game!
-				if (bidState.m_fMinTPPoints < PTS_SLAM)
+				if (bidState.m_fMinTPPoints < app_->SlamPts() )
 				{
 					// we don't have points for a slam, so pass
 					nBid = BID_PASS;
@@ -542,7 +541,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 					{
 						nBid = BID_6NT;
 						status << "CRB72! While we do not have suit agreement, we have the points for a slam, so bid " & 
-								  BTS(nBid) & ".\n";
+								  app_->BidToFullString(nBid) & ".\n";
 					}
 					else
 					{
@@ -559,7 +558,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			if ( bidState.bSemiBalanced ||
 				 ((nPartnersSuitSupport <= SS_WEAK_SUPPORT) && (bBalanced)) )
 			{
-				if (bidState.m_fMinTPCPoints >= PTS_SLAM)
+				if (bidState.m_fMinTPCPoints >= app_->SlamPts() )
 					nBid = BID_6NT;
 				else
 					nBid = BID_3NT;
@@ -567,20 +566,20 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 					status << "CRB76! With a balanced hand and " & 
 							  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 							  " HCPs in the partnership, respond at " & 
-							  ((BID_LEVEL(nBid) >= 6)? "slam" : "game") & " with a bid of " & BTS(nBid) & ".\n";
+							  ((BID_LEVEL(nBid) >= 6)? "slam" : "game") & " with a bid of " & app_->BidToFullString(nBid) & ".\n";
 				else
 					status << "CRB77! With a " & (!bBalanced? "semi-" : "") &
 							  "balanced hand and a total of " & 
 							  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 							  " HCPs in the partnership, raise partner to " & ((BID_LEVEL(nBid) >= 6)? "slam" : "game") &
-							  " at " & BTS(nBid) & ".\n";
+							  " at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
 				// we're not balanced, so show our preferred suit if possible
 				nBid = bidState.GetCheapestShiftBid(nPrefSuit);
 				status << "CRB78! We don't like Notrump, so so bid our " & 
-						  bidState.szPrefS & " suit at " & BTS(nBid) & ".\n";
+						  bidState.szPrefS & " suit at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			//
 			bidState.SetBid(nBid);

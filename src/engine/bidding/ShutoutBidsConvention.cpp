@@ -15,8 +15,7 @@
 #include "EasyBdoc.h"
 #include "../PlayerStatusDialog.h"
 #include "ShutoutBidsConvention.h"
-
-
+#include "app_interface.h"
 
 
 //
@@ -96,7 +95,7 @@ BOOL CShutoutBidsConvention::TryConvention(const CPlayer& player,
 		status << "D00! Have a " & bidState.numCardsInSuit[nSuit] & 
 				  "-card " & STSS(nSuit) & 
 				  " suit with no tricks outside the suit, so make a shutout bid of " & 
-				  BTS(nBid) & ".\n";
+				  app_->BidToFullString(nBid) & ".\n";
 	} 
 	else if (bidState.numCardsInSuit[nSuit] >= 7) 
 	{
@@ -104,7 +103,7 @@ BOOL CShutoutBidsConvention::TryConvention(const CPlayer& player,
 		status << "D04! Have a " & bidState.numCardsInSuit[nSuit] & 
 				  "-card " & STSS(nSuit) & 
 				  " suit with no tricks outside the suit, so make a shutout bid of " & 
-				  BTS(nBid) & ".\n";
+				  app_->BidToFullString(nBid) & ".\n";
 	}
 	bidState.SetBid(nBid);
 	bidState.SetConventionStatus(this, CONV_INVOKED);
@@ -199,7 +198,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	//
 	if ((nPartnersBidLevel == 3) && (ISMAJOR(nPartnersSuit)) &&
 		(numSupportCards >= 4) && (numQuickTricks >= 2) && 
-		(numLikelyWinners >= 5) && (fMinTPPoints >= PTS_GAME)) 
+		(numLikelyWinners >= 5) && (fMinTPPoints >= app_->GamePts() )) 
 	{
 		nBid = MAKEBID(nPartnersSuit,4);
 		status << "SHUTR2! We have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
@@ -207,7 +206,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 				  " points in the partnership, strong support for partner's long " &
 				  bidState.szPSS & " suit (holding " & bidState.szHP & 
 				  "), plus " & numQuickTricks & " QTs and " & numLikelyWinners & 
-				  " likely winners, so we can safely bid game at " & BTS(nBid) & ".\n";
+				  " likely winners, so we can safely bid game at " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -216,7 +215,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	// support && 6+ winners && 28+ TPs
 	if ((nPartnersBidLevel <= 4)  && (ISMINOR(nPartnersSuit)) &&
 		(numSupportCards >= 5) && (numQuickTricks >= 2) && 
-		(numLikelyWinners >= 6) && (fMinTPPoints >= PTS_MINOR_GAME)) 
+		(numLikelyWinners >= 6) && (fMinTPPoints >= app_->MinorSuitGamePts() )) 
 	{
 		nBid = MAKEBID(nPartnersSuit,5);
 		status << "SHUTR4! We have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
@@ -224,7 +223,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 				  " points in the partnership, strong support for partner's long " &
 				  bidState.szPSS & " suit (holding " & bidState.szHP & 
 				  "), plus " & numQuickTricks & " QTs and " & numLikelyWinners & 
-				  " likely winners, so we can safely bid a minor game at " & BTS(nBid) & ".\n";
+				  " likely winners, so we can safely bid a minor game at " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -232,7 +231,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	// raise a 3 or 4 bid to slam with strong support,
 	// >= 32 TPs, and 4 QTs
 	if ((nPartnersBidLevel < 5) && (nPartnersSuitSupport >= SS_GOOD_SUPPORT) &&
-		(numQuickTricks >= 4) && (fMinTPPoints >= PTS_SLAM)) 
+		(numQuickTricks >= 4) && (fMinTPPoints >= app_->SlamPts() )) 
 	{
 		nBid = MAKEBID(nPartnersSuit,6);
 		status << "SHUTR6! We have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
@@ -240,7 +239,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 				  " points in the partnership, " & bidState.SLTS(nPartnersSuit) &
 				  " support for partner's long " & bidState.szPSS & 
 				  " suit (holding " & bidState.szHP & "), plus " & numQuickTricks & 
-				  " QTs, so we can safely bid a slam at " & BTS(nBid) & ".\n";
+				  " QTs, so we can safely bid a slam at " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}

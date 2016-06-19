@@ -44,13 +44,13 @@ extern int nSuitDisplaySequence[];
 // constructor
 CPlayer::CPlayer(std::shared_ptr<AppInterface> app) : app_(app) {
 	// allocate memory for member objects
-	m_pHand = new CHandHoldings;
+	m_pHand = new CHandHoldings(app);
 	m_pBidder = new CBidEngine(app);
 	m_pDeclarer = new CDeclarerPlayEngine;
 	m_pDummy = new CDummyPlayEngine;
 	m_pDefender = new CDefenderPlayEngine;
 	m_pCardLocation = new CCardLocation;
-	m_pStatusDlg = new CPlayerStatusDialog(app_);
+	m_pStatusDlg = new CPlayerStatusDialog(app);
 	// 
 	for(int i=0;i<4;i++)
 		m_pGuessedHands[i] = new CGuessedHandHoldings;

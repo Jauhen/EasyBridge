@@ -769,6 +769,9 @@
     <ClInclude Include="src\engine\bidding\convention_pool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\card_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Res\1.BMP">

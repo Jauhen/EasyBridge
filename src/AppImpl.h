@@ -40,6 +40,50 @@ public:
     return theApp.GetConventionPool();
   }
 
+  virtual double GamePts() {
+    return CEasyBApp::m_fNTGamePts;
+  }
+
+  virtual double MajorSuitGamePts() {
+    return CEasyBApp::m_fMajorSuitGamePts;
+  }
+
+  virtual double MinorSuitGamePts() {
+    return CEasyBApp::m_fMinorSuitGamePts;
+  }
+
+  virtual double NTGamePts() {
+    return CEasyBApp::m_fNTGamePts;
+  }
+
+  virtual double FourthLevelPts() {
+    return CEasyBApp::m_f4LevelPts;
+  }
+
+  virtual double ThirdLevelPts() {
+    return CEasyBApp::m_f3LevelPts;
+  }
+
+  virtual double SecondLevelPts() {
+    return CEasyBApp::m_f2LevelPts;
+  }
+
+  virtual double SlamPts() {
+    return CEasyBApp::m_fSlamPts;
+  }
+
+  virtual double SmallSlamPts() {
+    return CEasyBApp::m_fSlamPts;
+  }
+
+  virtual double GrandSlamPts() {
+    return CEasyBApp::m_fGrandSlamPts;
+  }
+
+  virtual CConventionSet* GetCurrentConventionSet() {
+    return pCurrConvSet;
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -72,6 +116,10 @@ public:
 
   virtual CCard* GetCurrentTrickCardLed() {
     return pDOC->GetCurrentTrickCardLed();
+  }
+
+  virtual int GetValidBidRecord(int index) const {
+    return pDOC->GetValidBidRecord(index);
   }
 
 

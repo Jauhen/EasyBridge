@@ -49,10 +49,10 @@
 */
 
 // game points macros
-#define PTS_GAME			CEasyBApp::m_fNTGamePts
+#define PTS_GAME 			CEasyBApp::m_fNTGamePts
 #define PTS_MAJOR_GAME		CEasyBApp::m_fMajorSuitGamePts
 #define PTS_MINOR_GAME		CEasyBApp::m_fMinorSuitGamePts
-#define PTS_NT_GAME			CEasyBApp::m_fNTGamePts
+#define PTS_NT_GAME 			CEasyBApp::m_fNTGamePts
 #define PTS_4LEVEL			CEasyBApp::m_f4LevelPts
 #define PTS_3LEVEL			CEasyBApp::m_f3LevelPts
 #define PTS_2LEVEL			CEasyBApp::m_f2LevelPts

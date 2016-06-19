@@ -18,6 +18,7 @@
 #include "DruryConvention.h"
 #include "OvercallsConvention.h"
 #include "ConventionSet.h"
+#include "app_interface.h"
 
 
 
@@ -74,7 +75,7 @@ BOOL CDruryConvention::TryConvention(const CPlayer& player,
 	}
 	
 	//
-	status << "DRUR1! Partner opened " & BTS(nPartnersBid) & " in " &
+	status << "DRUR1! Partner opened " & app_->BidToFullString(nPartnersBid) & " in " &
 			  ((numTotalBidTurns == 4) ? "3rd" : "4th") & " position after our initial pass, so with " &
 			  fPts & " pts and " & bidState.numSupportCards & 
 			  "-card trump support, we can bid Drury at 2C.\n";
@@ -164,7 +165,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 			nBid = MAKEBID(nSuit, 2);
 			status << "DRUR12! But since we opened light with only " & fCardPts & 
 					  " HCPs, we have to respond in the original " & STSS(nSuit) & 
-					  " suit at the 2-level and bid " & BTS(nBid) & ".\n";
+					  " suit at the 2-level and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -236,24 +237,24 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 
 			// revalue hand
 			double fPts = bidState.fAdjPts = hand.RevalueHand(REVALUE_DUMMY, nSuit, TRUE);
-			bidState.AdjustPartnershipPoints(12, pCurrConvSet->GetValue(tn2ClubOpeningPoints));
+			bidState.AdjustPartnershipPoints(12, app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints));
 			
 			//
-			if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME)
+			if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )
 			{
 				nBid = MAKEBID(nSuit, 4);
 				status << "DRUR42! And with an adjusted count of " & 
 						  " pts in hand, for a total in the partnership of " &
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
-						  " pts, we can go ahead and bid game at " & BTS(nBid) & ".\n";
+						  " pts, we can go ahead and bid game at " & app_->BidToFullString(nBid) & ".\n";
 			}
-			else if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME - 3)
+			else if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts()  - 3)
 			{
 				nBid = MAKEBID(nSuit, 3);
 				status << "DRUR43! With an adjusted point of " & 
 						  " pts in hand, for a total in the partnership of " &
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
-						  " pts, we can push to a bid of " & BTS(nBid) & ".\n";
+						  " pts, we can push to a bid of " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -261,7 +262,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 				status << "DRUR44! But with an adjusted count of only " & 
 						  " pts in hand, for a total in the partnership of " &
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
-						  " pts, we have to stop at " & BTS(nBid) & ".\n";
+						  " pts, we have to stop at " & app_->BidToFullString(nBid) & ".\n";
 			}
 		}
 		else if (bidState.nPartnersBid == MAKEBID(nSuit, 2))

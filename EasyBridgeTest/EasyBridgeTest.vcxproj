@@ -161,6 +161,7 @@
     <ClInclude Include="..\src\engine\bidding\ConvCodes.h" />
     <ClInclude Include="..\src\engine\bidding\Convention.h" />
     <ClInclude Include="..\src\engine\bidding\ConventionSet.h" />
+    <ClInclude Include="..\src\engine\bidding\convention_pool.h" />
     <ClInclude Include="..\src\engine\bidding\CueBidConvention.h" />
     <ClInclude Include="..\src\engine\bidding\DruryConvention.h" />
     <ClInclude Include="..\src\engine\bidding\Gambling3NTConvention.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="..\src\engine\bidding\BlackwoodConvention.cpp" />
     <ClCompile Include="..\src\engine\bidding\Convention.cpp" />
     <ClCompile Include="..\src\engine\bidding\ConventionSet.cpp" />
+    <ClCompile Include="..\src\engine\bidding\convention_pool.cpp" />
     <ClCompile Include="..\src\engine\bidding\CueBidConvention.cpp" />
     <ClCompile Include="..\src\engine\bidding\DruryConvention.cpp" />
     <ClCompile Include="..\src\engine\bidding\Gambling3NTConvention.cpp" />

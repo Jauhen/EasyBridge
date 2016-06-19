@@ -230,6 +230,9 @@
     <ClInclude Include="..\src\engine\play\TypeBFinesse.h">
       <Filter>sources\play</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\convention_pool.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -441,6 +444,9 @@
     </ClCompile>
     <ClCompile Include="..\src\engine\play\TypeBFinesse.cpp">
       <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\convention_pool.cpp">
+      <Filter>sources\bidding</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

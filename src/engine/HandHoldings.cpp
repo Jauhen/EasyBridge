@@ -33,8 +33,7 @@
 //
 
 // constructor
-CHandHoldings::CHandHoldings()
-{
+CHandHoldings::CHandHoldings(std::shared_ptr<AppInterface> app) : app_(app) {
 	// clear all variables
 }
 

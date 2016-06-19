@@ -20,6 +20,17 @@ public:
   virtual bool IsShowCommentIdentifiers() = 0;
   virtual bool IsEnableAnalysisDuringHints() = 0;
   virtual std::shared_ptr<ConventionPool> GetConventionPool() = 0;
+  virtual double GamePts() = 0;
+  virtual double MajorSuitGamePts() = 0;
+  virtual double MinorSuitGamePts() = 0;
+  virtual double NTGamePts() = 0;
+  virtual double FourthLevelPts() = 0;
+  virtual double ThirdLevelPts() = 0;
+  virtual double SecondLevelPts() = 0;
+  virtual double SlamPts() = 0;
+  virtual double SmallSlamPts() = 0;
+  virtual double GrandSlamPts() = 0;
+  virtual CConventionSet* GetCurrentConventionSet() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -41,6 +52,7 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual CCard* GetCurrentTrickCardLed() = 0;
+  virtual int GetValidBidRecord(int index) const = 0;
 
 
   //////////////////////////////////////////////////////////////////////////

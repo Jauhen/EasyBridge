@@ -405,6 +405,7 @@
     <ClInclude Include="src\engine\CardList.H" />
     <ClInclude Include="src\engine\CardLocation.H" />
     <ClInclude Include="src\engine\cardopts.h" />
+    <ClInclude Include="src\engine\card_constants.h" />
     <ClInclude Include="src\engine\play\Cash.h" />
     <ClInclude Include="src\engine\CombinedHoldings.H" />
     <ClInclude Include="src\engine\CombinedSuitHoldings.H" />

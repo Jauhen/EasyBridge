@@ -16,6 +16,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../PlayerStatusDialog.h"
+#include "../card_constants.h"
 #include "bidengine.h"
 #include "BlackwoodConvention.h"
 #include "CueBidConvention.h"
@@ -63,7 +64,7 @@ int CBidEngine::RespondToTripleRaise()
 	//
 	// < 3 TPs:  pass
 	//		
-	if (m_fMinTPPoints < PTS_SLAM)
+	if (m_fMinTPPoints < app_->SlamPts() )
 	{
 		m_nBid = BID_PASS;
 		status << "Q10! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
@@ -82,19 +83,19 @@ int CBidEngine::RespondToTripleRaise()
 	else 
 	{
 		// oops, too high -- bid slam directly
-		if ((m_fMinTPPoints >= PTS_GRAND_SLAM) && (nPartnersBidLevel <= 6))
+		if ((m_fMinTPPoints >= app_->GrandSlamPts() ) && (nPartnersBidLevel <= 6))
 		{
 			m_nBid = MAKEBID(m_nAgreedSuit, 7);
 			status << "Q20! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 				" total partnership points, we can bid a grand slam at " & 
-				BTS(m_nBid) & ".\n";
+				app_->BidToFullString(m_nBid) & ".\n";
 		}
 		else if (nPartnersBidLevel < 6)
 		{
 			m_nBid = MAKEBID(m_nAgreedSuit, 6);
 			status << "Q21! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 				" total partnership points, we can bid a small slam at " & 
-				BTS(m_nBid) & ".\n";
+				app_->BidToFullString(m_nBid) & ".\n";
 		}
 		else
 		{
@@ -155,7 +156,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	//
 	// 18-22 pts:  pass
 	//		
-	if (m_fMinTPPoints <= PTS_GAME-4) 
+	if (m_fMinTPPoints <= app_->GamePts() -4) 
 	{
 		m_nBid = BID_PASS;
 		if (nPartnersBid > nOpponentsBid)
@@ -172,7 +173,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	// with 23-25 pts and 6-7 playing tricks, bid a support suit
 	// with 24-25 pts and 7+ playing tricks, bid 3 of the suit to invite game
 	//		
-	if ((m_fMinTPPoints >= PTS_GAME-4) && (m_fMinTPPoints < PTS_GAME)) 
+	if ((m_fMinTPPoints >= app_->GamePts() -4) && (m_fMinTPPoints < app_->GamePts() )) 
 	{
 		//
 		// first see if partner has already made a game-level bid
@@ -198,7 +199,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			m_nBid = BID_PASS;
 			status << "RDR5! With a total of only " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
 					  " points in the partnership, we have to pass partners's  " & 
-					  BTS(nPartnersBid) & " bid.\n";
+					  app_->BidToFullString(nPartnersBid) & " bid.\n";
 			return ValidateBid(m_nBid);
 		}
 		
@@ -225,7 +226,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 					  " playing tricks in hand and a total of " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " points in the partnership, so show the " & STSS(nSuit) &
-					  " support suit in a bid of " & BTS(m_nBid) & ".\n";
+					  " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		} 
 		else if (ISMAJOR(m_nAgreedSuit)) 
@@ -234,7 +235,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			m_nBid = MAKEBID(m_nAgreedSuit,3);
 			status << "R18! Using the modified trick count, we have " & nTricks &
 					  " playing tricks in hand and a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  "points in the partnership, so invite game with a bid of " & BTS(m_nBid) & ".\n";
+					  "points in the partnership, so invite game with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 /*
@@ -243,14 +244,14 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 
 			// else w/ 6-7 playing tricks, look at point count
 			// bid 3 with only 22 TPs
-			if (m_fMinTPPoints == PTS_GAME-3) 
+			if (m_fMinTPPoints == app_->GamePts() -3) 
 			{
 				m_nBid = MAKEBID(m_nAgreedSuit,3);
 				status << "R12! Using the modified trick count, we have " & nTricks & 
 						  " playing tricks in hand and a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership, so make an invitation towards game with a bid of " &
-						  BTS(m_nBid) & ".\n";
+						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 			// else with 23-24 TPs, bid a support suit
@@ -260,7 +261,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 					  " playing tricks in hand and a total of " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " points in the partnership, so show the " & STSS(nSuit) &
-					  " support suit in a bid of " & BTS(m_nBid) & ".\n";
+					  " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		} 
 		else if (ISMAJOR(m_nAgreedSuit)) 
@@ -272,7 +273,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  "points in the partnership, so " &
 					  ((nPartnersBidLevel == 2)? "jump to a game bid of " : "bid game at ") &
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 */
@@ -283,7 +284,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	//  with a major suit, bid game
 	//  with a minor, bid a support suit or game
 	//		
-	if ((m_fMinTPPoints >= PTS_GAME) && (m_fMinTPPoints < PTS_SLAM)) 
+	if ((m_fMinTPPoints >= app_->GamePts() ) && (m_fMinTPPoints < app_->SlamPts() )) 
 	{
 		if (IsGameBid(nPartnersBid)) 
 		{
@@ -300,7 +301,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			status << "R22! We have a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " points in the partnership, which should be enough for game, so " &
 					  ((nPartnersBidLevel == 2)? "jump to " : "bid ") &
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -312,20 +313,20 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 		//
 		// first see if we can play in notrumps (need 26+ HCPs)
 		//
-		if ((m_fMinTPCPoints >= PTS_NT_GAME) && (nPartnersBidLevel <= 3) &&
+		if ((m_fMinTPCPoints >= app_->NTGamePts() ) && (nPartnersBidLevel <= 3) &&
 					(m_pHand->AllOtherSuitsStopped(m_nAgreedSuit))) 
 		{
 			// jump to 3NT
 			m_nBid = BID_3NT;
 			status << "R24! We have a total of approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
 				      " HCPs in the partnership and all unbid suits stopped, we can bid game at " &
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
 		// otherwise try for a game in minors; 
 		// show a support suit with < 29 TPs
-		if (m_fMinTPPoints < PTS_MINOR_GAME)
+		if (m_fMinTPPoints < app_->MinorSuitGamePts() )
 		{
 			// find a support suit, if appropriate
 			if (nPartnersBidLevel < 3)
@@ -334,7 +335,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 				m_nBid = GetCheapestShiftBid(nSuit);
 				status << "R26! We have a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership for a minor suit, so show the " & 
-						  STSS(nSuit) & " support suit in a bid of " & BTS(m_nBid) & ".\n";
+						  STSS(nSuit) & " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{
@@ -351,7 +352,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 		status << "R30! We have a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 				  " points in the partnership for a minor suit, so " &
 				  ((nPartnersBidLevel <= 3)? "jump to a game bid of " : "bid game at ") &
-				  BTS(m_nBid) & ".\n";
+				  app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 
 	}
@@ -381,7 +382,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 		// cue bids not available, so make direct slam try
 		m_nBid = MAKEBID(m_nAgreedSuit,5);
 		status << "R60! But since we cannot make a cue bid, make a slam invitation at " &
-				  BTS(m_nBid) & ".\n";
+				  app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 
@@ -458,7 +459,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 	//
 	// 24-30 total min pts:  move towards game
 	//		
-	if (m_fMinTPPoints <= PTS_MINOR_GAME+1) 
+	if (m_fMinTPPoints <= app_->MinorSuitGamePts() +1) 
 	{
 		//
 		// first see if partner has already made a game-level bid
@@ -492,12 +493,12 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			if (ISMAJOR(m_nAgreedSuit)) 
 			{
 				// bid at the 3-level or straight to game
-				if ((m_fMinTPPoints >= PTS_GAME) && (nPartnersBidLevel < 4))
+				if ((m_fMinTPPoints >= app_->GamePts() ) && (nPartnersBidLevel < 4))
 				{
 					m_nBid = MAKEBID(m_nAgreedSuit,4);
 					status << "S10! We have " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " total points in the partnership, so bid" &
-							  ((m_fMinTPPoints >= PTS_GAME)? " game at " :  " ") & BTS(m_nBid) & ".\n";
+							  ((m_fMinTPPoints >= app_->GamePts() )? " game at " :  " ") & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -513,18 +514,18 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			// need zero voids and singletons, 26 HCPs,
 			// & all suits stopped
 			if ((numVoids == 0) && (numSingletons == 0) &&
-						(m_fMinTPCPoints >= PTS_NT_GAME) && (nPartnersBidLevel <= 3) &&
+						(m_fMinTPCPoints >= app_->NTGamePts() ) && (nPartnersBidLevel <= 3) &&
 						m_pHand->AllOtherSuitsStopped(m_nAgreedSuit)) 
 			{
 				m_nBid = BID_3NT;
 				status << "S14! With approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
 						  " HCPs in the partnership and all unbid suits stopped, bid " &
-						  BTS(m_nBid) & " over the raised minor " & STSS(m_nAgreedSuit) & " suit.\n";
+						  app_->BidToFullString(m_nBid) & " over the raised minor " & STSS(m_nAgreedSuit) & " suit.\n";
 				return ValidateBid(m_nBid);
 			}
 
 			// with a minor and < 26 pts, pass
-			if (m_fMinTPPoints < PTS_MINOR_GAME-3) 
+			if (m_fMinTPPoints < app_->MinorSuitGamePts() -3) 
 			{
 				// find a support suit
 				m_nBid = BID_PASS;
@@ -534,7 +535,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			}
 
 			// else with 26-28 pts, steer towards a minor game
-			if (m_fMinTPPoints < PTS_MINOR_GAME) 
+			if (m_fMinTPPoints < app_->MinorSuitGamePts() ) 
 			{
 				// bid a support suit if possible
 				if (nPartnersBidLevel < 4)
@@ -544,7 +545,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 					m_nBid = GetCheapestShiftBid(nSuit);
 					status << "S18! We have " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " total points in the partnership for a minor suit, so show the " &
-							  STSS(nSuit) & " support suit in a bid of " & BTS(m_nBid) & ".\n";
+							  STSS(nSuit) & " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -557,7 +558,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 
 			// here, we have a minor suit with 29-30 total pts;
 			// try for a game at the 5-level
-			if (m_fMinTPPoints >= PTS_MINOR_GAME) 
+			if (m_fMinTPPoints >= app_->MinorSuitGamePts() ) 
 			{
 				if (nPartnersBidLevel <= 4)
 				{
@@ -565,7 +566,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 					status << "S22! We have " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " total points in the partnership for a minor suit, so " &
 	  						  ((nPartnersBidLevel <= 3)? "jump to a game bid of " : "bid game at ") &
-							  BTS(m_nBid) & ".\n";
+							  app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -616,7 +617,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 		// cue bids not available, so make direct slam try
 		m_nBid = MAKEBID(m_nAgreedSuit,5);
 		status << "S60! But since we cannot make a cue bid, make a slam invitation at " &
-			      BTS(m_nBid) & ".\n";
+			      app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 
@@ -750,13 +751,13 @@ BOOL CBidEngine::RebidSuit(int nSuitType,  RebidLevel enShiftLevel,
 	if (nPartnersSuit == nSuit) 
 		status << "YR1! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & " total points and a " &
 				  SSTS(nSuit) & " " & numCardsInSuit[nSuit] & "-card " & STSS(nSuit) & 
-				  " suit (holding " & SHTS(nSuit) & "), re-raise it to " & BTS(m_nBid)  & ".\n";
+				  " suit (holding " & SHTS(nSuit) & "), re-raise it to " & app_->BidToFullString(m_nBid)  & ".\n";
 	else
 		status << "YR2! With With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & " total points and a " &
 				  SSTS(nSuit) & " " & numCardsInSuit[nSuit] & "-card " & STSS(nSuit) &
 				  " suit (holding " & SHTS(nSuit) & "), " & 
 				  ((nShiftLevel > 0)? "jump rebid" :  "rebid") &
-				  " it at " & BTS(m_nBid) & ".\n";
+				  " it at " & app_->BidToFullString(m_nBid) & ".\n";
 
 	// no suit agreement
 	m_nAgreedSuit = NONE;
@@ -868,7 +869,7 @@ BOOL CBidEngine::BidNextBestSuit(int nSuitType, RebidLevel enShiftLevel,
 		status << "YR4! Rebid the" & ((nPreviousSuit == NOTRUMP)? " " :  " next ") &
 				  "best suit of " & STS(nSuit) & " in a " &
 				  ((nShiftLevel > 0)? "jump bid":  "bid") &
-				  " of " & BTS(m_nBid) & ".\n";
+				  " of " & app_->BidToFullString(m_nBid) & ".\n";
 		// mark lack of suit agreement
 		m_nAgreedSuit = NONE;
 		return TRUE;
@@ -1084,7 +1085,7 @@ BOOL CBidEngine::RaisePartnersSuit(int nSuitType, RaiseLevel enLevel,
 				  ((nSuitType == SUIT_PREV)? " earlier " : " ") &
 				  ((ISMAJOR(nTargetSuit))? "major " :  " ") & STSS(nTargetSuit) &
 				  " suit (holding " & SHTS(nTargetSuit) & "), " & 
-				  ((nLevel <= 1)? "raise" :  "jump raise") & " to " & BTS(m_nBid) & ".\n";
+				  ((nLevel <= 1)? "raise" :  "jump raise") & " to " & app_->BidToFullString(m_nBid) & ".\n";
 	}
 	else
 	{
@@ -1095,7 +1096,7 @@ BOOL CBidEngine::RaisePartnersSuit(int nSuitType, RaiseLevel enLevel,
 				  ((nSuitType == SUIT_PREV)? " earlier " : " ") &
 				  ((ISMAJOR(nTargetSuit))? "major " :  " ") & STSS(nTargetSuit) &
 				  " suit (holding " & SHTS(nTargetSuit) & "), " & 
-				  ((nLevel <= 1)? "raise" :  "jump raise") & " to " & BTS(m_nBid) & ".\n";
+				  ((nLevel <= 1)? "raise" :  "jump raise") & " to " & app_->BidToFullString(m_nBid) & ".\n";
 	}
 	// done
 	m_nAgreedSuit = nTargetSuit;
@@ -1221,7 +1222,7 @@ BOOL CBidEngine::BidNoTrump(int nLevel, double fMinPts, double fMaxPts,
 				   ((numSuitsStopped == 4)? "and all suits stopped," : 
 				   (nCode == STOPPED_UNBID)? "and all unbid suits stopped," :
 				   "though without stoppers in all suits,") & 
-				   " bid " & BTS(m_nBid) & ".\n";
+				   " bid " & app_->BidToFullString(m_nBid) & ".\n";
 	}
 	else
 	{
@@ -1232,7 +1233,7 @@ BOOL CBidEngine::BidNoTrump(int nLevel, double fMinPts, double fMaxPts,
 				  ((numSuitsStopped == 4)? "and all suits stopped," : 
 				   (nCode == STOPPED_UNBID)? "and all unbid suits stopped," : 
 				   "though without stoppers in all suits,") & 
-				   " bid " & BTS(m_nBid) & ".\n";
+				   " bid " & app_->BidToFullString(m_nBid) & ".\n";
 	}
 	return TRUE;
 }
@@ -1252,22 +1253,22 @@ BOOL CBidEngine::BidNoTrump(int nLevel, double fMinPts, double fMaxPts,
 BOOL CBidEngine::BidNoTrumpAsAppropriate(bool bMustBeBalanced, StoppedCode enCode, int nSuit)
 {
 	// bid 2NT with 23-25 HCPs
-	if (BidNoTrump(2,PTS_NT_GAME-3,PTS_NT_GAME-1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(2,app_->NTGamePts() -3,app_->NTGamePts() -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// or 3NT with 26-31 HCPs
-	if (BidNoTrump(3,PTS_NT_GAME,PTS_SLAM-1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(3,app_->NTGamePts() ,app_->SlamPts() -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// a bid of 4NT is invitational to a small slam
-	if (BidNoTrump(4,PTS_SLAM-2,PTS_SLAM-1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(4,app_->SlamPts() -2,app_->SlamPts() -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// bid 6NT directly with with 33-34 pts
-	if (BidNoTrump(6,PTS_SLAM,PTS_SLAM+1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(6,app_->SlamPts() ,app_->SlamPts() +1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// a bid of 5NT is invitational to a grand slam
-	if (BidNoTrump(5,PTS_GRAND_SLAM-2,PTS_GRAND_SLAM-1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(5,app_->GrandSlamPts() -2,app_->GrandSlamPts() -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// bid 7NT directly with 37+ pts
-	if (BidNoTrump(7,PTS_GRAND_SLAM,0,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(7,app_->GrandSlamPts() ,0,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	//
 	return FALSE;
@@ -1473,7 +1474,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 //
 BOOL CBidEngine::PlayingConvention(int nConventionID)
 {
-	return pCurrConvSet->IsConventionEnabled(nConventionID);
+	return app_->GetCurrentConventionSet()->IsConventionEnabled(nConventionID);
 }
 
 

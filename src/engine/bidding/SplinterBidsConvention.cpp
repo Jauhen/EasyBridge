@@ -14,6 +14,7 @@
 #include "EasyB.h"
 #include "../PlayerStatusDialog.h"
 #include "SplinterBidsConvention.h"
+#include "app_interface.h"
 
 
 
@@ -97,7 +98,7 @@ BOOL CSplinterBidsConvention::TryConvention(const CPlayer& player,
 	nBid = bidState.GetJumpShiftBid(nSuit, nPartnersBid, JUMP_SHIFT_2);
 	status << "SPLINT! With " & bidState.fCardPts & "/" & bidState.fPts & "/" & bidState.fAdjPts &
 			  " points and " & bidState.numSupportCards & "-card trump support " &
-			  " (holding " & bidState.szHP & "), bid a splinter at " & BTS(nBid) &
+			  " (holding " & bidState.szHP & "), bid a splinter at " & app_->BidToFullString(nBid) &
 			  " to show possible interest in slam.\n";
 	//
 	bidState.m_nAgreedSuit = nPartnersSuit;	// record suit agreement
@@ -188,13 +189,13 @@ BOOL CSplinterBidsConvention::RespondToConvention(const CPlayer& player,
 
 
 	// with a bare minimum holding, stop at game
-	if (bidState.m_fMaxTPPoints < PTS_SLAM)
+	if (bidState.m_fMaxTPPoints < app_->SlamPts() )
 	{
 		// can't hope to make a slam, so stop at game
 		int nBid = bidState.GetGameBid(bidState.nPreviousSuit);
 		status << "SPLNTR10! But with our weak hand, the maximum adjusted point count for both hands is " & 
 				  fMinTPPoints & "-" & fMaxTPPoints &
-				  " points, so stop at a game bid of " & BTS(nBid) & ".\n";
+				  " points, so stop at a game bid of " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 	}
 	else

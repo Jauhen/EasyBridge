@@ -15,7 +15,7 @@
 //#include "EasyBdoc.h"
 #include "Convention.h"
 #include "../PlayerStatusDialog.h"
-
+#include "app_interface.h"
 
 
 //

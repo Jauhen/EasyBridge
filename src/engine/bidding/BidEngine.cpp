@@ -137,7 +137,7 @@ void CBidEngine::Clear()
 	m_mapConventionStatus.RemoveAll();
 	m_mapConventionParameters.RemoveAll();
   
-  std::vector<std::shared_ptr<CConvention>> conventions = pCurrConvSet->GetConventions();
+  std::vector<std::shared_ptr<CConvention>> conventions = app_->GetCurrentConventionSet()->GetConventions();
   for (auto conv : conventions) {
     CConvention* pConv = conv.get();
     m_mapConventionStatus.SetAt(pConv, CONV_INACTIVE);
@@ -715,7 +715,7 @@ void CBidEngine::AssessPosition()
 	}
 	// special handling!!! see if partner opened a strong 2C
 	if ((nPartnersPrevBid == BID_2C) &&
-		(pCurrConvSet->IsConventionEnabled(tidArtificial2ClubConvention)) &&
+		(app_->GetCurrentConventionSet()->IsConventionEnabled(tidArtificial2ClubConvention)) &&
 		(GetConventionStatus(tidArtificial2ClubConvention) != CONV_INACTIVE))
 	{
 		// replace suit with a fake to prevent responder from trying to raise it
@@ -765,7 +765,7 @@ void CBidEngine::AssessPosition()
 	strcpy(szRHO, PositionToString(m_pRHOpponent->GetPosition()));
 
 	//
-	strcpy(szPB,BTS(nPartnersBid));			// partner's bid
+	strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
 	strcpy(szPS,STS(nPartnersSuit));		// partner's suit
 	strcpy(szPSS,STSS(nPartnersSuit));		// partner's suit, singular
 	strcpy(szHP,SHTS(nPartnersSuit));		// our holding in partner's suit
@@ -774,7 +774,7 @@ void CBidEngine::AssessPosition()
 	{
 		if (nPartnersBid != BID_PASS)
 		{
-			strcpy(szPB,BTS(nPartnersBid));			// partner's bid
+			strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
 			strcpy(szPS,STS(nPartnersSuit));		// partner's suit
 			strcpy(szPSS,STSS(nPartnersSuit));		// partner's suit, singular
 			if ((nPartnersBid != BID_PASS) && (nPartnersSuit != NOTRUMP))
@@ -789,7 +789,7 @@ void CBidEngine::AssessPosition()
 	}
 */
 
-	strcpy(szPPB,BTS(nPartnersPrevBid));	// partner's prev bid
+	strcpy(szPPB,app_->BidToFullString(nPartnersPrevBid));	// partner's prev bid
 	strcpy(szPPS,STS(nPartnersPrevSuit));	// partner's prev suit
 	strcpy(szPPSS,STSS(nPartnersPrevSuit));	// partner's prev suit, singular
 	strcpy(szHPP,SHTS(nPartnersPrevSuit));	// our holding in partner's prev suit
@@ -797,7 +797,7 @@ void CBidEngine::AssessPosition()
 	//
 	if ((m_numPartnerBidsMade > 1) && (nPartnersPrevBid != BID_PASS))
 	{
-		strcpy(szPPB,BTS(nPartnersPrevBid));		// partner's prev bid
+		strcpy(szPPB,app_->BidToFullString(nPartnersPrevBid));		// partner's prev bid
 		strcpy(szPPS,STS(nPartnersPrevSuit));	// partner's prev suit
 		strcpy(szPPSS,STSS(nPartnersPrevSuit));	// partner's prev suit, singular
 		if ((nPartnersPrevBid != BID_PASS) && (nPartnersPrevSuit != NOTRUMP))
@@ -819,7 +819,7 @@ void CBidEngine::AssessPosition()
 
 //	if ((m_numBidsMade > 0) && (nPreviousSuit != NONE))
 //	{
-		strcpy(szPVB,BTS(nPreviousBid));		// our previous bid 
+		strcpy(szPVB,app_->BidToFullString(nPreviousBid));		// our previous bid 
 		strcpy(szPVS,STS(nPreviousSuit));		// our previously bid suit
 		strcpy(szPVSS,STSS(nPreviousSuit));		// prev bid suit, singular
 		if (nPreviousSuit != NOTRUMP)
@@ -836,7 +836,7 @@ void CBidEngine::AssessPosition()
 
 //	if (nNextPrevSuit != NONE)
 //	{
-		strcpy(szNPB,BTS(nNextPrevBid));		// our bid 2 turns ago
+		strcpy(szNPB,app_->BidToFullString(nNextPrevBid));		// our bid 2 turns ago
 		strcpy(szNPS,STS(nNextPrevSuit));	
 		strcpy(szNPSS,STSS(nNextPrevSuit));	
 		if (nNextPrevSuit != NOTRUMP)
@@ -1457,7 +1457,7 @@ BOOL CBidEngine::IsSuitOpenable(int nSuit, int nMinStrength)
 		return FALSE;	
 	//
 	int numCardsRequired;
-	if (pCurrConvSet->IsConventionEnabled(tid5CardMajors))
+	if (app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors))
 		numCardsRequired = 5;
 	else
 		numCardsRequired = 4;
@@ -1518,7 +1518,7 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 		else
 		{
 			strTemp.Format("But the bid is too low vs. the last bid of of %s, so we have to pass.",
-							BTS(pDOC->GetLastValidBid()));
+							app_->BidToFullString(pDOC->GetLastValidBid()));
 			Trace(strTemp);
 			return BID_PASS;
 		}
@@ -1544,10 +1544,10 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 		//
 		if (nBid == nLVBid)
 			strTemp.Format("But %s has already been bid, so we have to pass.",
-							BTS(nBid));
+							app_->BidToFullString(nBid));
 		else if (nBid != BID_PASS)
 			strTemp.Format("But our bid is too low vs. the last bid of of %s, so we have to pass.",
-							BTS(pDOC->GetLastValidBid()));
+							app_->BidToFullString(pDOC->GetLastValidBid()));
 		Trace(strTemp);
 		nBid = BID_PASS;
 	}
@@ -1632,11 +1632,11 @@ BOOL CBidEngine::PlayerOpenedSuit(int nSuit)
 double CBidEngine::GetGamePoints(int nSuit)
 {
 	if (ISMAJOR(nSuit))
-		return PTS_MAJOR_GAME;
+		return app_->MajorSuitGamePts() ;
 	else if (ISMINOR(nSuit))
-		return PTS_MINOR_GAME;
+		return app_->MinorSuitGamePts() ;
 	else
-		return PTS_NT_GAME;
+		return app_->NTGamePts() ;
 }
 
 
@@ -2049,7 +2049,7 @@ int CBidEngine::GetBestOpeningSuit()
 	int nSuit = nPrefSuit;
 
 	// see if we're playing 5-card majors
-	if (pCurrConvSet->IsConventionEnabled(tid5CardMajors)) 
+	if (app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors)) 
 	{
 
 		// a major suit needs 5 cards to be openable
@@ -2244,7 +2244,7 @@ int CBidEngine::GetFourthSuit(int nSuit1, int nSuit2, int nSuit3)
 BOOL CBidEngine::TestReverseRules(int& nSuit)
 {
 	// are structured reversed enabled?
-	if (pCurrConvSet->IsOptionEnabled(tbStructuredReverses))
+	if (app_->GetCurrentConventionSet()->IsOptionEnabled(tbStructuredReverses))
 	{
 		// if so, we need 17+ pts to reverse
 		if ((nSuit > nPreviousSuit) && (fPts < 17))
@@ -2526,8 +2526,8 @@ void CBidEngine::CalcNoTrumpPoints()
 	int nPartnersBid = m_pPartner->InquireLastBid();
 	//
 	char szPB[12],szPVB[12];
-	strcpy(szPB,BTS(nPartnersBid));			// partner's bid
-	strcpy(szPVB,BTS(nPreviousBid));		// our previous bid 
+	strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
+	strcpy(szPVB,app_->BidToFullString(nPreviousBid));		// our previous bid 
 	//
 	double fPts = m_pHand->m_numTotalPoints;
 	double fCardPts = m_pHand->m_numHCPoints;
@@ -2565,16 +2565,16 @@ void CBidEngine::CalcNoTrumpPoints()
 		switch(nPreviousBid) 
 		{
 			case BID_1NT:
-				fMin = pCurrConvSet->GetNTRangeMin(1);
-				fMax = pCurrConvSet->GetNTRangeMax(1);
+				fMin = app_->GetCurrentConventionSet()->GetNTRangeMin(1);
+				fMax = app_->GetCurrentConventionSet()->GetNTRangeMax(1);
 				break;
 			case BID_2NT:
-				fMin = pCurrConvSet->GetNTRangeMin(2);
-				fMax = pCurrConvSet->GetNTRangeMax(2);
+				fMin = app_->GetCurrentConventionSet()->GetNTRangeMin(2);
+				fMax = app_->GetCurrentConventionSet()->GetNTRangeMax(2);
 				break;
 			case BID_3NT:
-				fMin = pCurrConvSet->GetNTRangeMin(3);
-				fMax = pCurrConvSet->GetNTRangeMin(3);
+				fMin = app_->GetCurrentConventionSet()->GetNTRangeMin(3);
+				fMax = app_->GetCurrentConventionSet()->GetNTRangeMin(3);
 				break;
 			case BID_4NT:
 			case BID_5NT:
@@ -2601,15 +2601,15 @@ void CBidEngine::CalcNoTrumpPoints()
 		{
 			case BID_2NT:
 				// invitational towards game, 24 HCPs min.
-				m_fPartnersMin = (PTS_NT_GAME-2) - fMin;
-				m_fPartnersMax = (PTS_NT_GAME-1) - fMin;
+				m_fPartnersMin = (app_->NTGamePts() -2) - fMin;
+				m_fPartnersMax = (app_->NTGamePts() -1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
 				break;
 
 			case BID_3NT:
 				// game bid, 25 HCPs min
-				m_fPartnersMin = PTS_NT_GAME - fMin;
+				m_fPartnersMin = app_->NTGamePts()  - fMin;
 				m_fPartnersMax = 30 - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
@@ -2618,8 +2618,8 @@ void CBidEngine::CalcNoTrumpPoints()
 			case BID_4NT:
 				// invitational towards a small slam
 				m_bInvitedToSlam = TRUE;
-				m_fPartnersMin = (PTS_SMALL_SLAM-2) - fMin;
-				m_fPartnersMax = (PTS_SMALL_SLAM-1) - fMin;
+				m_fPartnersMin = (app_->SmallSlamPts() -2) - fMin;
+				m_fPartnersMax = (app_->SmallSlamPts() -1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
 				break;
@@ -2627,21 +2627,21 @@ void CBidEngine::CalcNoTrumpPoints()
 			case BID_5NT:
 				// invitational towards a grand slam
 				m_bInvitedToSlam = TRUE;
-				m_fPartnersMin = (PTS_GRAND_SLAM-2) - fMin;
-				m_fPartnersMax = (PTS_GRAND_SLAM-1) - fMin;
+				m_fPartnersMin = (app_->GrandSlamPts() -2) - fMin;
+				m_fPartnersMax = (app_->GrandSlamPts() -1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
 				break;
 
 			case BID_6NT:
-				m_fPartnersMin = PTS_SMALL_SLAM - fMin;
-				m_fPartnersMax = (PTS_SMALL_SLAM+1) - fMin;
+				m_fPartnersMin = app_->SmallSlamPts()  - fMin;
+				m_fPartnersMax = (app_->SmallSlamPts() +1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;
 				break;
 
 			case BID_7NT:
-				m_fPartnersMin = PTS_GRAND_SLAM - fMin;
+				m_fPartnersMin = app_->GrandSlamPts()  - fMin;
 				m_fPartnersMax = 40 - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;
@@ -2832,11 +2832,11 @@ BOOL CBidEngine::IsBidSafe(int nBid, double fAdjustment)
 		fPoints = m_fMinTPCPoints + fAdjustment;
 		if ( ((nLevel == 1) && (fPoints < 16)) || 
 			 ((nLevel == 2) && (fPoints < 20)) || 
-			 ((nLevel == 3) && (fPoints < PTS_GAME-2+1)) || 
-			 ((nLevel == 4) && (fPoints < PTS_MAJOR_GAME+1)) || 
-			 ((nLevel == 5) && (fPoints < PTS_MINOR_GAME+1)) || 
-			 ((nLevel == 6) && (fPoints < PTS_SMALL_SLAM+1)) ||
-			 ((nLevel == 7) && (fPoints < PTS_GRAND_SLAM+1)) )
+			 ((nLevel == 3) && (fPoints < app_->GamePts() -2+1)) || 
+			 ((nLevel == 4) && (fPoints < app_->MajorSuitGamePts() +1)) || 
+			 ((nLevel == 5) && (fPoints < app_->MinorSuitGamePts() +1)) || 
+			 ((nLevel == 6) && (fPoints < app_->SmallSlamPts() +1)) ||
+			 ((nLevel == 7) && (fPoints < app_->GrandSlamPts() +1)) )
 			return FALSE;
 		else
 			return TRUE;
@@ -2847,11 +2847,11 @@ BOOL CBidEngine::IsBidSafe(int nBid, double fAdjustment)
 		fPoints = m_fMinTPPoints + fAdjustment;
 		if ( ((nLevel == 1) && (fPoints < 16)) || 
 			 ((nLevel == 2) && (fPoints < 20)) || 
-			 ((nLevel == 3) && (fPoints < PTS_GAME-2)) || 
-			 ((nLevel == 4) && (fPoints < PTS_MAJOR_GAME)) || 
-			 ((nLevel == 5) && (fPoints < PTS_MINOR_GAME)) || 
-			 ((nLevel == 6) && (fPoints < PTS_SMALL_SLAM)) ||
-			 ((nLevel == 7) && (fPoints < PTS_GRAND_SLAM)) )
+			 ((nLevel == 3) && (fPoints < app_->GamePts() -2)) || 
+			 ((nLevel == 4) && (fPoints < app_->MajorSuitGamePts() )) || 
+			 ((nLevel == 5) && (fPoints < app_->MinorSuitGamePts() )) || 
+			 ((nLevel == 6) && (fPoints < app_->SmallSlamPts() )) ||
+			 ((nLevel == 7) && (fPoints < app_->GrandSlamPts() )) )
 			return FALSE;
 		else
 			return TRUE;
