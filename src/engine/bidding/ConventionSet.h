@@ -13,7 +13,9 @@
 #define __CCONVENTIONSET__
 
 #include "ConvCodes.h"
+#include <memory>
 
+class AppInterface;
 class CConvention;
 class CBidEngine;
 class CHandHoldings;
@@ -56,8 +58,13 @@ public:
 //	int GetOpeningRangeMax(int nBid);
 	int GetNTRangeMin(int nLevel);
 	int GetNTRangeMax(int nLevel);
-	CConvention* GetNextConvention(POSITION& pos);
-	//
+  //
+  // GetConventions()
+  //
+  std::vector<std::shared_ptr<CConvention>> CConventionSet::GetConventions() {
+    return m_listConventions;
+  }
+  //
 	CConventionSet& operator=(CConventionSet& src);
 
 // private routines
@@ -66,7 +73,7 @@ private:
 // data
 private:
 	// list of convention objects
-	CTypedPtrList<CPtrList, CConvention*> m_listConventions;
+	std::vector<std::shared_ptr<CConvention>> m_listConventions;
 
 	// Bidding convention info
 	// description
@@ -117,9 +124,10 @@ private:
 	BOOL	m_bCueBids;
 	BOOL	m_bGerber;
 
+  std::shared_ptr<AppInterface> app_;
 //
 public:
-	CConventionSet();
+	CConventionSet(std::shared_ptr<AppInterface> app);
 	~CConventionSet();
 };
 

@@ -299,8 +299,8 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CDruryConvention::CDruryConvention() 
-{
+CDruryConvention::CDruryConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidDrury;
 }

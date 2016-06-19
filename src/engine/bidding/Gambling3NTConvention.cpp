@@ -359,8 +359,8 @@ BOOL CGambling3NTConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CGambling3NTConvention::CGambling3NTConvention() 
-{
+CGambling3NTConvention::CGambling3NTConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidGambling3NT;
 }

@@ -743,8 +743,8 @@ int CCueBidConvention::GetCheapestKingOrVoid(CHandHoldings& hand, int nBaseSuit,
 //==================================================================
 // construction & destruction
 //
-CCueBidConvention::CCueBidConvention() 
-{
+CCueBidConvention::CCueBidConvention(std::shared_ptr<AppInterface> app)
+  : CSlamConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidCueBids;
 }

@@ -449,8 +449,8 @@ BOOL CStrongTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CStrongTwoBidsConvention::CStrongTwoBidsConvention() 
-{
+CStrongTwoBidsConvention::CStrongTwoBidsConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidStrongTwoBids;
 }

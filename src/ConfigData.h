@@ -36,7 +36,7 @@ private:
 public:
 
 private:
-	CConventionSet	m_conventionSet;
+  CConventionSet	m_conventionSet{ appImpl };
 
 
 // construction/destruction

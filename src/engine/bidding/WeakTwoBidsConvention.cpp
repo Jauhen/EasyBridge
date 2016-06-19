@@ -782,8 +782,8 @@ int CWeakTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CWeakTwoBidsConvention::CWeakTwoBidsConvention() 
-{
+CWeakTwoBidsConvention::CWeakTwoBidsConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidWeakTwoBids;
 }

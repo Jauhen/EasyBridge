@@ -21,8 +21,8 @@
 #include "CueBidConvention.h"
 #include "Convention.h"
 #include "ConventionSet.h"
-
-
+#include "app_interface.h"
+#include "convention_pool.h"
 
 
 //
@@ -1485,7 +1485,8 @@ BOOL CBidEngine::PlayingConvention(int nConventionID)
 BOOL CBidEngine::InvokeBlackwood(int nEventualSuit)
 {
 	ASSERT(ISSUIT(nEventualSuit));
-	return blackwoodConvention.InvokeBlackwood(*m_pHand, *this, *m_pStatusDlg, nEventualSuit);
+	return app_->GetConventionPool()->blackwoodConvention->InvokeBlackwood(
+    *m_pHand, *this, *m_pStatusDlg, nEventualSuit);
 }
 
 
@@ -1498,7 +1499,8 @@ BOOL CBidEngine::InvokeBlackwood(int nEventualSuit)
 //
 BOOL CBidEngine::TryCueBid()
 {
-	return cueBidConvention.TryCueBid(*m_pHand, *this, *m_pStatusDlg);
+	return app_->GetConventionPool()->cueBidConvention->TryCueBid(
+    *m_pHand, *this, *m_pStatusDlg);
 }
 
 

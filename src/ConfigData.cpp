@@ -24,9 +24,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CConfigData::CConfigData()
-{
-
+CConfigData::CConfigData(){
 }
 
 CConfigData::~CConfigData()

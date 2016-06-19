@@ -169,8 +169,8 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-C4thSuitForcingConvention::C4thSuitForcingConvention() 
-{
+C4thSuitForcingConvention::C4thSuitForcingConvention(std::shared_ptr<AppInterface> app) 
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidWeakTwoBids;
 }

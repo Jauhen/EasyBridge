@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CGambling3NTConvention();
+	CGambling3NTConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CGambling3NTConvention();
 };
 
 
 #endif
-
-extern CGambling3NTConvention gambling3NTConvention;

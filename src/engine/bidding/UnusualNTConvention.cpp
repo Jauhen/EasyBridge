@@ -563,8 +563,8 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CUnusualNTConvention::CUnusualNTConvention() 
-{
+CUnusualNTConvention::CUnusualNTConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidUnusualNT;
 }

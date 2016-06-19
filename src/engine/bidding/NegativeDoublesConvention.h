@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CNegativeDoublesConvention();
+	CNegativeDoublesConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CNegativeDoublesConvention();
 };
 
 
 #endif
-
-extern CNegativeDoublesConvention NegativeDoubleConvention;

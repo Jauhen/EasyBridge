@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "app_interface.h"
 #include "EasyB.h"
+#include "dialogs/AutoHintDialog.h"
+#include "MainFrameopts.h"
 
 class AppImpl : public AppInterface {
 public:
@@ -29,8 +31,13 @@ public:
   virtual bool IsEnableAnalysisDuringHints() {
     return theApp.GetValue(tbEnableAnalysisDuringHints) == TRUE;
   }
+
   virtual bool IsShowCommentIdentifiers() {
     return theApp.GetValue(tbShowCommentIdentifiers) == TRUE;
+  }
+
+  virtual std::shared_ptr<ConventionPool> GetConventionPool() {
+    return theApp.GetConventionPool();
   }
 
 
@@ -103,6 +110,10 @@ public:
 
   virtual const char* SuitToSingularString(int suit) {
     return ::SuitToSingularString(suit);
+  }
+
+  virtual const CString BidToFullString(int bid) {
+    return ::BidToFullString(bid);
   }
 };
 

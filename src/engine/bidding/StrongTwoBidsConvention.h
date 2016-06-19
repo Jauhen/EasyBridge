@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CStrongTwoBidsConvention();
+	CStrongTwoBidsConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CStrongTwoBidsConvention();
 };
 
 
 #endif
-
-extern CStrongTwoBidsConvention StrongTwoBidsConvention;

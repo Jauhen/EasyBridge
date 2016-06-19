@@ -32,7 +32,7 @@ private:
 
 // 
 public:
-	CStaymanConvention();
+	CStaymanConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CStaymanConvention();
 };
 

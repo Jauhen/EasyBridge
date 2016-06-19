@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CDruryConvention();
+	CDruryConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CDruryConvention();
 };
 
 
 #endif
-
-extern CDruryConvention druryConvention;

@@ -20,7 +20,10 @@
 #include "globals.h"
 #include "ObjectWithProperties.h"
 #include "EventProcessor.h"
+#include <memory>
 
+class AppInterface;
+class ConventionPool;
 class CPlayer;
 class CGIB;
 class CConventionSet;
@@ -92,6 +95,9 @@ public:
 	void SetNumKingsRequiredForSlam(int nIndex, int nCount) { m_numKingsForSlam[nIndex] = nCount; }
 	double GetHonorValue() const;
 	CGIB* GetGIB() { return m_pGIBWrapper; }
+  std::shared_ptr<ConventionPool> GetConventionPool() {
+    return conventionPool_;
+  };
 //	CNeuralNet* GetNeuralNet() { return m_pNeuralNet; }
 
 // static data
@@ -278,10 +284,11 @@ private:
 	CSplashWnd*	m_pSplash;
 	DWORD 		m_dwSplashTime;
 
+  std::shared_ptr<ConventionPool> conventionPool_;
 
 // internal routines
 public:
-	CEasyBApp();
+	CEasyBApp(std::shared_ptr<AppInterface> app);
 private:
 	void Initialize();
 	void Terminate();
@@ -312,8 +319,8 @@ private:
 /////////////////////////////////////////////////////////////////////////////
 
 extern CEasyBApp theApp;
+extern std::shared_ptr<AppInterface> appImpl;
 extern CConventionSet* pConventionSet[];
 extern CConventionSet* pCurrConvSet;
-
 
 #endif

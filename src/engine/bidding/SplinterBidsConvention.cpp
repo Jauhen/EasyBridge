@@ -287,8 +287,8 @@ BOOL CSplinterBidsConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CSplinterBidsConvention::CSplinterBidsConvention() 
-{
+CSplinterBidsConvention::CSplinterBidsConvention(std::shared_ptr<AppInterface> app)
+  : CSlamConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidSplinterBids;
 }

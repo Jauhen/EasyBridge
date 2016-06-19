@@ -622,8 +622,8 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CArtificial2ClubConvention::CArtificial2ClubConvention() 
-{
+CArtificial2ClubConvention::CArtificial2ClubConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidArtificial2ClubConvention;
 }

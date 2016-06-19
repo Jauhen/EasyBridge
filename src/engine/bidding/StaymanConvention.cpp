@@ -577,8 +577,8 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CStaymanConvention::CStaymanConvention() 
-{
+CStaymanConvention::CStaymanConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidStayman;
 }

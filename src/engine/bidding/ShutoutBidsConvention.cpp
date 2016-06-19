@@ -296,8 +296,8 @@ BOOL CShutoutBidsConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CShutoutBidsConvention::CShutoutBidsConvention() 
-{
+CShutoutBidsConvention::CShutoutBidsConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidShutoutBids;
 }

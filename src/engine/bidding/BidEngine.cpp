@@ -29,6 +29,7 @@
 #include "progopts.h"
 #include "bidopts.h"
 #include "ConventionSet.h"
+#include "app_interface.h"
 //#include "NeuralNet.h"
 //#include "NNetOutputDialog.h"
 
@@ -45,8 +46,7 @@ int CBidEngine::m_numDefaultBiddingOutputs = 608;
 //
 
 // constructor
-CBidEngine::CBidEngine()
-{
+CBidEngine::CBidEngine(std::shared_ptr<AppInterface> app) : app_(app) {
 	// clear all variables
 	m_pHand = NULL;
 }
@@ -136,16 +136,13 @@ void CBidEngine::Clear()
 	m_pActiveConvention = NULL;
 	m_mapConventionStatus.RemoveAll();
 	m_mapConventionParameters.RemoveAll();
-	POSITION pos = NULL;
-	do 
-	{
-		CConvention* pConvention = pCurrConvSet->GetNextConvention(pos);
-		if (pConvention)
-		{
-			m_mapConventionStatus.SetAt(pConvention, CONV_INACTIVE);
-			m_mapConventionParameters.SetAt(pConvention, 0);
-		}
-	} while (pos);
+  
+  std::vector<std::shared_ptr<CConvention>> conventions = pCurrConvSet->GetConventions();
+  for (auto conv : conventions) {
+    CConvention* pConv = conv.get();
+    m_mapConventionStatus.SetAt(pConv, CONV_INACTIVE);
+    m_mapConventionParameters.SetAt(pConv, 0);
+  }
 }
 
 

@@ -19,9 +19,8 @@
 #include "TakeoutDoublesConvention.h"
 #include "ConventionSet.h"
 #include "ConvCodes.h"
-
-extern CTakeoutDoublesConvention takeoutDoublesConvention;
-
+#include "app_interface.h"
+#include "convention_pool.h"
 
 
 //
@@ -212,7 +211,7 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 			bidState.SetBid(BID_DOUBLE);
 			// foreign invocation is kludgy, but hey...
 			bidState.SetConventionStatus(this, CONV_SUBSUMED);
-			bidState.SetConventionStatus(&takeoutDoublesConvention, CONV_INVOKED);
+			bidState.SetConventionStatus(app_->GetConventionPool()->takeoutDoublesConvention.get(), CONV_INVOKED);
 			return TRUE;
 		}
 		else
@@ -935,8 +934,8 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-COvercallsConvention::COvercallsConvention() 
-{
+COvercallsConvention::COvercallsConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidOvercalls;
 }

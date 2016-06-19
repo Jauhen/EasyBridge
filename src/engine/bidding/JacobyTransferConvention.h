@@ -31,7 +31,7 @@ private:
 	
 // 
 public:
-	CJacobyTransferConvention();
+	CJacobyTransferConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CJacobyTransferConvention();
 };
 

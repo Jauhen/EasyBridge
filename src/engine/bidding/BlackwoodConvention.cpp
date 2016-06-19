@@ -555,8 +555,8 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CBlackwoodConvention::CBlackwoodConvention() 
-{
+CBlackwoodConvention::CBlackwoodConvention(std::shared_ptr<AppInterface> app)
+  : CSlamConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidBlackwood;
 }

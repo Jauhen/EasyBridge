@@ -843,8 +843,8 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CMichaelsCueBidConvention::CMichaelsCueBidConvention() 
-{
+CMichaelsCueBidConvention::CMichaelsCueBidConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidMichaels;
 }

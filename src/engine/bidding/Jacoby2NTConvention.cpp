@@ -410,8 +410,8 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CJacoby2NTConvention::CJacoby2NTConvention() 
-{
+CJacoby2NTConvention::CJacoby2NTConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidJacoby2NT;
 }

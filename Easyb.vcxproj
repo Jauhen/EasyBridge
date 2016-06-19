@@ -248,6 +248,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\bidding\convention_pool.cpp" />
     <ClCompile Include="src\engine\bidding\4thSuitForcingConvention.cpp" />
     <ClCompile Include="src\dialogs\AnalysisDialog.cpp" />
     <ClCompile Include="src\engine\bidding\Artificial2ClubConvention.cpp" />
@@ -383,6 +384,7 @@
     <ResourceCompile Include="EasyB.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\bidding\convention_pool.h" />
     <ClInclude Include="src\AppImpl.h" />
     <ClInclude Include="src\app_interface.h" />
     <ClInclude Include="src\engine\bidding\4thSuitForcingConvention.h" />

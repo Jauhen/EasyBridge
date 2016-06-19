@@ -13,6 +13,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
+#include "Convention.h"
 #include "4thSuitForcingConvention.h"
 #include "StrongTwoBidsConvention.h"
 #include "WeakTwoBidsConvention.h"
@@ -36,7 +37,9 @@
 #include "Bidparams.h"
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
-
+#include "app_interface.h"
+#include <memory>
+#include "convention_pool.h"
 
 
 // default bidding settings
@@ -48,34 +51,6 @@ MINMAX	tnNTRangeTable[3][3] = {
 };
 // default bidding settings
 int tn2ClubOpenTable[4] = { 20, 21, 22, 23, };
-
-
-// central repository for global convention objects
-// only one copy of each convention object exists
-//CNaturalConvention			naturalConvention;
-//CNoTrumpConvention			noTrumpConvention;
-//CFiveCardMajorsConvention	fiveCardMajorsConvention;
-CStrongTwoBidsConvention	strongTwoBidsConvention;
-CWeakTwoBidsConvention		weakTwoBidsConvention;
-CShutoutBidsConvention		shutoutBidsConvention;
-CArtificial2ClubConvention	artificial2ClubConvention;
-C4thSuitForcingConvention	fourthSuitForcingConvention;
-CStaymanConvention			staymanConvention;
-CJacobyTransferConvention	jacobyTransferConvention;
-CBlackwoodConvention		blackwoodConvention;
-CGerberConvention			gerberConvention;
-CCueBidConvention			cueBidConvention;
-CSplinterBidsConvention		splinterBidsConvention;
-CMichaelsCueBidConvention	michaelsCueBidConvention;
-CJacoby2NTConvention		jacoby2NTConvention;
-CUnusualNTConvention		unusualNTConvention;
-CGambling3NTConvention		gambling3NTConvention;
-CDruryConvention			druryConvention;
-COvercallsConvention		overcallsConvention;
-CNegativeDoublesConvention	negativeDoublesConvention;
-CTakeoutDoublesConvention	takeoutDoublesConvention;
-
-
 
 
 //
@@ -93,10 +68,7 @@ CTakeoutDoublesConvention	takeoutDoublesConvention;
 CConventionSet& CConventionSet::operator=(CConventionSet& src)
 {
 	// do a shallow copy of the convention objects
-	m_listConventions.RemoveAll();
-	POSITION pos = src.m_listConventions.GetHeadPosition();
-	while(pos)
-		m_listConventions.AddTail(src.m_listConventions.GetNext(pos));
+  m_listConventions = src.m_listConventions;
 	
 	// and set the opter variables
 	m_strName						= src.m_strName;
@@ -145,22 +117,15 @@ CConventionSet& CConventionSet::operator=(CConventionSet& src)
 //
 // ApplyConventionTests()
 //
-BOOL CConventionSet::ApplyConventionTests(const CPlayer& player, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) 
-{
-	if (m_listConventions.IsEmpty()) 
+BOOL CConventionSet::ApplyConventionTests(const CPlayer& player, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) {
+	if (m_listConventions.empty()) 
 		return FALSE;
-	//
-	POSITION pos = m_listConventions.GetHeadPosition();
-	CConvention* pConvention = m_listConventions.GetNext(pos);
-	while(pConvention)
-	{
-		if (pConvention->ApplyTest(player, *this, hand, cardLocation, ppGuessedHands, bidState, status))
-			return TRUE;
-		if (pos)
-			pConvention = m_listConventions.GetNext(pos);
-		else
-			pConvention = NULL;
-	}
+
+  for (auto it = m_listConventions.begin(); it != m_listConventions.end(); it++) {
+    if ((*it)->ApplyTest(player, *this, hand, cardLocation, ppGuessedHands, bidState, status)) {
+      return TRUE;
+    }
+  }
 	//
 	return FALSE;
 }
@@ -174,45 +139,24 @@ BOOL CConventionSet::ApplyConventionTests(const CPlayer& player, CHandHoldings& 
 //
 void CConventionSet::ClearState()
 {
-	if (m_listConventions.IsEmpty()) 
+	if (m_listConventions.empty()) 
 		return;
 	//
-	POSITION pos = m_listConventions.GetHeadPosition();
-	CConvention* pConvention = m_listConventions.GetNext(pos);
-	while(pConvention)
-	{
-		pConvention->ClearState();
-		pConvention = m_listConventions.GetNext(pos);
-	}
+  for (auto it = m_listConventions.begin(); it != m_listConventions.end(); it++) {
+    (*it)->ClearState();
+  }
 }
 
 
-
-//
-// GetConvention()
-//
-CConvention* CConventionSet::GetNextConvention(POSITION& pos)
-{
-	if (this == NULL)	// just in case
-		return NULL;
-	if (pos == NULL)
-		pos = m_listConventions.GetHeadPosition();
-	if (pos)
-		return m_listConventions.GetNext(pos);
-	else
-		return NULL;
-}
 
 //
 //==================================================================
 //
-// constructon & destruction
-CConventionSet::CConventionSet() 
-{
-}
+// constructor & destruction
+CConventionSet::CConventionSet(std::shared_ptr<AppInterface> app)
+  : app_(app) {}
 
-CConventionSet::~CConventionSet() 
-{
+CConventionSet::~CConventionSet() {
 }
 
 
@@ -379,7 +323,7 @@ void CConventionSet::InitConventions()
 {
 	// clear existing set
 //	while(m_listConventions.GetHead())
-	m_listConventions.RemoveAll();
+	m_listConventions.clear();
 
 	//
 	// add the conventions to the list
@@ -389,63 +333,63 @@ void CConventionSet::InitConventions()
 
 	// in general, put the most esoteric conventions first
 	if (m_bCueBids)
-		m_listConventions.AddTail(&cueBidConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->cueBidConvention);
 	//
-	if (m_bBlackwood && !m_bRKCB)
-		m_listConventions.AddTail(&blackwoodConvention);
+	if (m_bBlackwood)// && !m_bRKCB)
+		m_listConventions.push_back(app_->GetConventionPool()->blackwoodConvention);
 
 	if (m_bGerber)
-		m_listConventions.AddTail(&gerberConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->gerberConvention);
 
 	//
 	if (m_bSplinterBids)
-		m_listConventions.AddTail(&splinterBidsConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->splinterBidsConvention);
 	//
 	if (m_bUnusualNT)
-		m_listConventions.AddTail(&unusualNTConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->unusualNTConvention);
 	//
 	if (m_bJacoby2NT)
-		m_listConventions.AddTail(&jacoby2NTConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->jacoby2NTConvention);
 	//
 	if (m_bGambling3NT)
-		m_listConventions.AddTail(&gambling3NTConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->gambling3NTConvention);
 	//
 	if (m_bJacobyTransfers)
-		m_listConventions.AddTail(&jacobyTransferConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->jacobyTransferConvention);
 	//
 	if (m_bStayman)
-		m_listConventions.AddTail(&staymanConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->staymanConvention);
 	//
 	if (m_bArtificial2ClubConvention)
-		m_listConventions.AddTail(&artificial2ClubConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->artificial2ClubConvention);
 	//
 	if (m_bShutoutBids)
-		m_listConventions.AddTail(&shutoutBidsConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->shutoutBidsConvention);
 	//
 	if (m_b4thSuitForcing)
-		m_listConventions.AddTail(&fourthSuitForcingConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->fourthSuitForcingConvention);
 	//
 	if (m_bMichaels)
-		m_listConventions.AddTail(&michaelsCueBidConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->michaelsCueBidConvention);
 	//
 	if (m_bDrury)
-		m_listConventions.AddTail(&druryConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->druryConvention);
 
 	// simple overcalls are always used
-	m_listConventions.AddTail(&overcallsConvention);
+	m_listConventions.push_back(app_->GetConventionPool()->overcallsConvention);
 
 	//
 	if (m_bNegativeDoubles)
-		m_listConventions.AddTail(&negativeDoublesConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->negativeDoublesConvention);
 	//
 	if (m_bTakeoutDoubles)
-		m_listConventions.AddTail(&takeoutDoublesConvention);
+		m_listConventions.push_back(app_->GetConventionPool()->takeoutDoublesConvention);
 
 	// only one of weak twos or strong twos can be active
 	if (m_bWeakTwoBids)
-		m_listConventions.AddTail(&weakTwoBidsConvention); // weak twos
+		m_listConventions.push_back(app_->GetConventionPool()->weakTwoBidsConvention); // weak twos
 	else
-		m_listConventions.AddTail(&strongTwoBidsConvention); // strong twos
+		m_listConventions.push_back(app_->GetConventionPool()->strongTwoBidsConvention); // strong twos
 
 	//
 //	if (m_bFiveCardMajors)
@@ -480,21 +424,14 @@ BOOL CConventionSet::IsConventionEnabled(int nConventionID) const
 	// individual member variables (i.e., case tbBlackwood: return m_bBlackwood),
 	// but is simpler and doesn't need to change when new conventions
 	// are added
-	if (m_listConventions.IsEmpty()) return FALSE;
+	if (m_listConventions.empty()) return FALSE;
 
 	// look in the conventions list
-	POSITION pos = m_listConventions.GetHeadPosition();
-	CConvention* pConvention = m_listConventions.GetNext(pos);
-	while(pConvention)
-	{
-//		ASSERT(pConvention->GetID() != -1);	// make sure it's initialized
-		if (pConvention->GetID() == nConventionID)
-			return TRUE;
-		if (pos)
-			pConvention = m_listConventions.GetNext(pos);
-		else
-			pConvention = NULL;
-	}
+  for (auto it = m_listConventions.begin(); it != m_listConventions.end(); it++) {
+    if ((*it)->GetID() == nConventionID) {
+      return TRUE;
+    }
+  }
 
 	// see if it's a convention that's currently not implemented in the list
 	switch(nConventionID)
@@ -513,9 +450,6 @@ BOOL CConventionSet::IsConventionEnabled(int nConventionID) const
 			return m_bStructuredReverses;
 		case tb3LevelTakeouts:
 			return m_b3LevelTakeouts;
-		//
-//		case tbGerber:
-//			return m_bGerber;
 	}
 	
 

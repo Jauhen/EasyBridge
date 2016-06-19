@@ -19,6 +19,7 @@ public:
   virtual bool InExpressAutoPlay() = 0;
   virtual bool IsShowCommentIdentifiers() = 0;
   virtual bool IsEnableAnalysisDuringHints() = 0;
+  virtual std::shared_ptr<ConventionPool> GetConventionPool() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -62,4 +63,5 @@ public:
   virtual const CString ContractToFullString(int contract, int modifier) = 0;
   virtual const char* PositionToString(int pos) = 0;
   virtual const char* SuitToSingularString(int suit) = 0;
+  virtual const CString BidToFullString(int bid) = 0;
 };

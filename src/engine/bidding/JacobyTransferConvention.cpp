@@ -536,8 +536,8 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CJacobyTransferConvention::CJacobyTransferConvention() 
-{
+CJacobyTransferConvention::CJacobyTransferConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidJacobyTransfers;
 }

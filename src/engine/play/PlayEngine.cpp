@@ -22,8 +22,8 @@
 #include "../bidding/BidEngine.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
-#include "Card.h"
-#include "deck.h"
+#include "../Card.h"
+#include "../deck.h"
 /*
 #include "Play.h"
 #include "Cash.h"

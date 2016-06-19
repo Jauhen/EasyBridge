@@ -553,8 +553,8 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CGerberConvention::CGerberConvention() 
-{
+CGerberConvention::CGerberConvention(std::shared_ptr<AppInterface> app)
+  : CSlamConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidGerber;
 }

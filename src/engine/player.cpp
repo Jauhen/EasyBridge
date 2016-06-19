@@ -35,7 +35,7 @@
 #include "MainFrameOpts.h"
 #include "PlayerStatusDialog.h"
 #include "dialogs/AutoHintDialog.h"
-#include "AppImpl.h"
+#include "app_interface.h"
 
 
 extern int nSuitDisplaySequence[];
@@ -45,7 +45,7 @@ extern int nSuitDisplaySequence[];
 CPlayer::CPlayer(std::shared_ptr<AppInterface> app) : app_(app) {
 	// allocate memory for member objects
 	m_pHand = new CHandHoldings;
-	m_pBidder = new CBidEngine;
+	m_pBidder = new CBidEngine(app);
 	m_pDeclarer = new CDeclarerPlayEngine;
 	m_pDummy = new CDummyPlayEngine;
 	m_pDefender = new CDefenderPlayEngine;

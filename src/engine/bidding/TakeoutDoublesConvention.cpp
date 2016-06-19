@@ -18,9 +18,8 @@
 #include "TakeoutDoublesConvention.h"
 #include "OvercallsConvention.h"
 #include "ConventionSet.h"
-
-
-extern COvercallsConvention	overcallsConvention;
+#include "app_interface.h"
+#include "convention_pool.h"
 
 
 
@@ -973,7 +972,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner bid a suit
 			// see if we really intended to overcall last time
-			if (bidState.GetConventionStatus(&overcallsConvention) == CONV_SUBSUMED)
+			if (bidState.GetConventionStatus(app_->GetConventionPool()->overcallsConvention.get()) == CONV_SUBSUMED)
 				bWantedToOvercall = TRUE;
 			//
 			if (nPartnersSuit == nEnemySuit)
@@ -1378,8 +1377,8 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CTakeoutDoublesConvention::CTakeoutDoublesConvention() 
-{
+CTakeoutDoublesConvention::CTakeoutDoublesConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidTakeoutDoubles;
 }
