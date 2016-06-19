@@ -126,6 +126,58 @@ public:
     return pDOC->GetLastValidBid();
   }
 
+  virtual int GetBiddingRound() const {
+    return pDOC->GetBiddingRound();
+  }
+
+  virtual int GetNumBidsMade() const {
+    return pDOC->GetNumBidsMade();
+  }
+
+  virtual int GetBidByPlayer(int position, int round) const {
+    return pDOC->GetBidByPlayer(position, round);
+  }
+
+  virtual int GetBidByPlayer(CPlayer* player, int round) const {
+    return pDOC->GetBidByPlayer(player, round);
+  }
+
+  virtual int	GetDealer() const {
+    return pDOC->GetDealer();
+  }
+
+  virtual bool IsBidValid(int bid) {
+    return pDOC->IsBidValid(bid) == TRUE;
+  }
+
+  virtual int GetBidByIndex(int index) const {
+    return pDOC->GetBidByIndex(index);
+  }
+
+  virtual CPlayer* GetPlayer(int position) const {
+    return pDOC->GetPlayer(position);
+  }
+
+  virtual int	GetContract() const {
+    return pDOC->GetContract();
+  }
+
+  virtual int GetContractModifier() const {
+    return pDOC->GetContractModifier();
+  }
+
+  virtual int	GetDeclarerPosition() const {
+    return pDOC->GetDeclarerPosition();
+  }
+
+  virtual int	GetRoundLead() const {
+    return pDOC->GetRoundLead();
+  }
+
+  virtual int	GetLastValidBidTeam() const {
+    return pDOC->GetLastValidBidTeam();
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW

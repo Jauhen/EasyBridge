@@ -12,8 +12,7 @@
 // Extended rebidding routines
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "bidengine.h"
 #include "ConventionSet.h"

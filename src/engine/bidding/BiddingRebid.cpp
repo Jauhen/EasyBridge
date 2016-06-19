@@ -12,8 +12,7 @@
 // Rebidding routines
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "bidengine.h"
 #include "../PlayerStatusDialog.h"
 #include "ConventionSet.h"
@@ -1671,7 +1670,7 @@ int CBidEngine::MakeRebidAsOpener()
 				if (nPartnersBid < GetGameBid(nPartnersSuit))
 				{
 					// raise partner's suit
-					m_nBid = GetCheapestShiftBid(nPartnersSuit, pDOC->GetLastValidBid());
+					m_nBid = GetCheapestShiftBid(nPartnersSuit, app_->GetLastValidBid());
 					status << "B3Y40! With a total of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " pts in the partnership, move towards slam in partner's " &
@@ -1710,7 +1709,7 @@ int CBidEngine::MakeRebidAsOpener()
 			else if (bPreviousSuitIsSelfSupporting)
 			{
 				// pick our own self-supporting suit
-				m_nBid = GetCheapestShiftBid(nPreviousSuit, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(nPreviousSuit, app_->GetLastValidBid());
 				status << "B3Y41! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, move towards slam in our own self-supporting " &
@@ -1719,7 +1718,7 @@ int CBidEngine::MakeRebidAsOpener()
 			else if (IsSuitOpenable(nextBestSuit))
 			{
 				// bid our next-best suit
-				m_nBid = GetCheapestShiftBid(nextBestSuit, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(nextBestSuit, app_->GetLastValidBid());
 				status << "B3Y42! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, bid our next best suit of " &
@@ -1728,7 +1727,7 @@ int CBidEngine::MakeRebidAsOpener()
 			else if (bSemiBalanced)
 			{
 				// go notrumps
-				m_nBid = GetCheapestShiftBid(NOTRUMP, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(NOTRUMP, app_->GetLastValidBid());
 				status << "B3Y43! With a total of " &
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " HCPs in the partnership, a " & (bBalanced? " " : "reasonably ") &
@@ -1738,7 +1737,7 @@ int CBidEngine::MakeRebidAsOpener()
 			else if (bPreviousSuitIsRebiddable)
 			{
 				// rebid previous suit
-				m_nBid = GetCheapestShiftBid(nPreviousSuit, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(nPreviousSuit, app_->GetLastValidBid());
 				status << "B3Y44! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, move towards slam in our own " &
@@ -1747,7 +1746,7 @@ int CBidEngine::MakeRebidAsOpener()
 			else
 			{
 				// go notrumps
-				m_nBid = GetCheapestShiftBid(NOTRUMP, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(NOTRUMP, app_->GetLastValidBid());
 				status << "B3Y45! With a total of " &
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " HCPs in the partnership but poor support for partner's suits, and no strong suit of our own, push towards a slam in notrumps with a bid of " &

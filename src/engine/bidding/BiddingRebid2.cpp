@@ -12,8 +12,7 @@
 // Responder's rebidding routines
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "bidengine.h"
 #include "ConventionSet.h"
@@ -1803,7 +1802,7 @@ int CBidEngine::MakeRebidAsResponder()
 			if (RebidSuit(MakeDirectSuit(m_nAgreedSuit),REBID_AT_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() ,LENGTH_ANY,SS_MARGINAL_OPENER))
 				return ValidateBid(m_nBid);
 			// if here, we're somehow stuck with a weak suit, so correct to NT
-			if (pDOC->GetLastValidBid() < BID_3NT)
+			if (app_->GetLastValidBid() < BID_3NT)
 			{
 				m_nBid = BID_3NT;
 				status << "B4M20! Somehow partner raised our weak suit, so correct to " & 
