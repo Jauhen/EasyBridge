@@ -10,8 +10,8 @@
 // CPlayer
 //
 
-#ifndef EZ_ENGINE_PLAYER_H_
-#define EZ_ENGINE_PLAYER_H_
+#ifndef __CPLAYER__
+#define __CPLAYER__
 
 class CCard;
 class CHandHoldings;
@@ -205,4 +205,4 @@ public:
 	~CPlayer();
 };
 
-#endif  // EZ_ENGINE_PLAYER_H_
+#endif
