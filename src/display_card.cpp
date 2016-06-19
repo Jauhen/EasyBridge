@@ -3,6 +3,7 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/cardopts.h"
+#include "display_card.h"
 #include "deck.h"
 #include "viewopts.h"
 #include "math.h"
@@ -18,7 +19,6 @@ int DisplayCard::m_nCardHeight = -1;
 // constructor
 DisplayCard::DisplayCard() {
   m_pBitmap = NULL;
-  card_ = new easybridge::engine::Card();
 }
 
 // destructor
@@ -31,13 +31,15 @@ DisplayCard::~DisplayCard() {
 
 //
 void DisplayCard::Clear() {
+  m_bAssigned = FALSE;
   m_bBackgroundSet = FALSE;
   m_bHLBackgroundSet = FALSE;
+  m_bFaceUp = FALSE;
+  m_nOwner = -1;
   m_nDisplayPosition = -1;
   m_nSuitPosition = -1;
   m_nHandIndex = -1;
   m_nPosX = m_nPosY = 0;
-  card_->Clear();
 }
 
 
@@ -45,6 +47,75 @@ void DisplayCard::Clear() {
 void DisplayCard::ClearBackground() {
   m_bBackgroundSet = FALSE;
   m_bHLBackgroundSet = FALSE;
+}
+
+
+//
+// GetProgramOption() and SetProgramOption() are 
+// generic property get/set routines
+//
+
+//
+LPVOID DisplayCard::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+  switch (nItem) {
+  case tcCard:
+    return (LPVOID)cCard[nIndex1];
+  case tcFaceCard:
+    return (LPVOID)cFaceCard[nIndex1];
+  case tcSuit:
+    return (LPVOID)cSuit[nIndex1];
+  default:
+    AfxMessageBox("Unhandled Call to DisplayCard::GetValuePV()");
+    return (LPVOID)NULL;
+  }
+  return NULL;
+}
+
+//
+int DisplayCard::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3) {
+  int nVal = (int)value;
+  BOOL bVal = (BOOL)value;
+  LPCTSTR sVal = (LPCTSTR)value;
+  //
+  //
+  switch (nItem) {
+    // card chars are constants
+  case tcCard:
+    break;
+  case tcFaceCard:
+    break;
+  case tcSuit:
+    break;
+  default:
+    AfxMessageBox("Unhandled Call to DisplayCard::SetValuePV()");
+    return 1;
+  }
+  return 0;
+}
+
+// conversion functions
+int DisplayCard::GetValueInt(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+  return (int)GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
+}
+
+LPCTSTR DisplayCard::GetValueString(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+  return (LPCTSTR)GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
+}
+
+int DisplayCard::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3) const {
+  return (int)GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
+}
+
+int DisplayCard::SetValueInt(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3) {
+  return SetValuePV(nItem, (LPVOID)nValue, nIndex1, nIndex2, nIndex3);
+}
+
+int DisplayCard::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3) {
+  return SetValuePV(nItem, (LPVOID)szValue, nIndex1, nIndex2, nIndex3);
+}
+
+int DisplayCard::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3) {
+  return SetValuePV(nItem, (LPVOID)nValue, nIndex1, nIndex2, nIndex3);
 }
 
 
@@ -69,11 +140,15 @@ void DisplayCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC) 
   // init the card's bitmap
   SetBitmap(pBitmap, pDC);
 
-  card_->Initialize(easybridge::engine::Suit(nSuit), easybridge::engine::CardValue(nValue));
-  m_strName = CardToShortString(card_->GetDeckValue());
-  m_strFaceName = GetCardName(nValue);
-  m_strFullName = CardToString(card_->GetDeckValue());
-  m_strReverseFullName = CardToReverseString(card_->GetDeckValue());
+  //
+  m_nSuit = nSuit;
+  m_nFaceValue = nValue;
+  m_nDeckValue = MAKEDECKVALUE(m_nSuit, m_nFaceValue);
+  m_strName = CardToShortString(m_nDeckValue);
+  m_strFaceName = GetCardName(m_nFaceValue);
+  m_strFullName = CardToString(m_nDeckValue);
+  m_strReverseFullName = CardToReverseString(m_nDeckValue);
+  m_bAssigned = FALSE;
 }
 
 
@@ -92,7 +167,7 @@ void DisplayCard::SetBitmap(CBitmap* pBitmap, CDC* pDC) {
   // set the new bitmap
   m_pBitmap = pBitmap;
   if (m_pBitmap == NULL) {
-    AfxMessageBox(FormString("Failed to find card bitmap, suit %s, value %s", card_->GetSuitLetter(), card_->GetCardLetter()));
+    AfxMessageBox(FormString("Failed to find card bitmap, suit %d, value %d", m_nSuit, m_nFaceValue));
   } else {
     // create background bitmap
     m_prevBitmap.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
@@ -110,19 +185,25 @@ void DisplayCard::SetBitmap(CBitmap* pBitmap, CDC* pDC) {
 // duplicate
 void DisplayCard::operator=(DisplayCard* pSource) {
   //
-  card_->Initialize(pSource->card_->GetSuit(), pSource->card_->GetFaceValue());
+  m_nSuit = pSource->m_nSuit;
+  m_nFaceValue = pSource->m_nFaceValue;
   m_pBitmap = pSource->m_pBitmap;
 }
 
 void DisplayCard::operator=(DisplayCard& cSource) {
   //
-  card_->Initialize(cSource.card_->GetSuit(), cSource.card_->GetFaceValue());
+  m_nSuit = cSource.m_nSuit;
+  m_nFaceValue = cSource.m_nFaceValue;
   m_pBitmap = cSource.m_pBitmap;
 }
 
 
 //
 BOOL DisplayCard::IsValid() const {
+  if ((m_nDeckValue < 0) || (m_nDeckValue >= 52))
+    return FALSE;
+  if ((m_nSuit < CLUBS) || (m_nSuit > SPADES))
+    return FALSE;
   //
   return TRUE;
 }
@@ -146,10 +227,8 @@ BOOL DisplayCard::IsValid() const {
 int DisplayCard::GetDisplayValue() const {
   CEasyBView* pView = CEasyBView::GetView();
   // get the suit's actual onscreen suit order
-  easybridge::engine::Suit s = card_->GetSuit();
-  easybridge::engine::CardValue v = card_->GetFaceValue();
-  int nSuitIndex = pView->GetSuitToScreenIndex(static_cast<int>(s));
-  return (nSuitIndex * 13 + (14 - static_cast<int>(v)));
+  int nSuitIndex = pView->GetSuitToScreenIndex(m_nSuit);
+  return (nSuitIndex * 13 + (14 - m_nFaceValue));
 }
 
 
@@ -159,10 +238,8 @@ int DisplayCard::GetDisplayValue() const {
 int DisplayCard::GetDummyDisplayValue() const {
   CEasyBView* pView = CEasyBView::GetView();
   // get the suit's actual (dummy) onscreen suit order
-  easybridge::engine::Suit s = card_->GetSuit();
-  easybridge::engine::CardValue v = card_->GetFaceValue();
-  int nSuitIndex = pView->GetDummySuitToScreenIndex(static_cast<int>(s));
-  return (nSuitIndex * 13 + (14 - static_cast<int>(v)));
+  int nSuitIndex = pView->GetDummySuitToScreenIndex(m_nSuit);
+  return (nSuitIndex * 13 + (14 - m_nFaceValue));
 }
 
 
@@ -177,14 +254,12 @@ void DisplayCard::GetRect(RECT& rect) const {
 
 //
 TCHAR DisplayCard::GetCardLetter() const {
-  easybridge::engine::CardValue v = card_->GetFaceValue();
-  return cCard[static_cast<int>(v)];
+  return cCard[m_nFaceValue];
 }
 
 //
 TCHAR DisplayCard::GetSuitLetter() const {
-  easybridge::engine::Suit s = card_->GetSuit();
-  return cSuit[static_cast<int>(s)];
+  return cSuit[m_nSuit];
 }
 
 
@@ -206,7 +281,7 @@ void DisplayCard::Draw(CDC* pDC) {
   // load bitmaps
   CBitmap* pOldBitmap1;
   //	if ((m_bFaceUp) || (theApp.m_bDebugMode) || (theApp.m_bShowCardsFaceUp))
-  if ((card_->IsCardFaceUp()) || (theApp.AreCardsFaceUp())) {
+  if ((m_bFaceUp) || (theApp.AreCardsFaceUp())) {
     pOldBitmap1 = (CBitmap*)cardDC.SelectObject(m_pBitmap);
   } else {
     pOldBitmap1 = (CBitmap*)cardDC.SelectObject(deck.GetCardBackBitmap());
@@ -373,7 +448,7 @@ void DisplayCard::DragTo(CDC* pDC, int destX, int destY) {
   CBitmap* pOldBitmapOldBk = (CBitmap*)oldBkDC.SelectObject(&m_prevBitmap);
   CBitmap* pOldBitmapCard;
   //	if ((m_bFaceUp) || (theApp.m_bDebugMode) || (theApp.m_bShowCardsFaceUp))
-  if ((card_->IsCardFaceUp()) || (theApp.AreCardsFaceUp()))
+  if ((m_bFaceUp) || (theApp.AreCardsFaceUp()))
     pOldBitmapCard = (CBitmap*)cardDC.SelectObject(m_pBitmap);
   else
     pOldBitmapCard = (CBitmap*)cardDC.SelectObject(deck.GetCardBackBitmap());
@@ -490,11 +565,6 @@ void DisplayCard::Animate(CDC* pDC, int destx, int desty, BOOL bClearAtEnd, int 
   RestoreBackground(pDC);
   if (!bClearAtEnd)
     MoveTo(pDC, destx, desty);
-}
-
-
-void DisplayCard::SetOwner(int nPlayer) {
-  card_->SetOwner(nPlayer);
 }
 
 //} // namespace easy_bridge

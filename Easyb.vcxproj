@@ -24,7 +24,6 @@
     <SccLocalPath />
     <Keyword>MFCProj</Keyword>
     <ProjectGuid>{99EFFB11-F62E-4DBB-94F5-603B828F8BAE}</ProjectGuid>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -175,8 +174,8 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <MinimalRebuild>true</MinimalRebuild>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>src;Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Bin\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Bin\Debug\Easyb.pch</PrecompiledHeaderOutputFile>
@@ -218,7 +217,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>src;Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\x64\Debug\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\x64\Debug\Easyb.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -266,11 +265,7 @@
     <ClCompile Include="src\BidDlgSmall.cpp" />
     <ClCompile Include="src\engine\bidding\BidEngine.cpp" />
     <ClCompile Include="src\engine\bidding\BlackwoodConvention.cpp" />
-    <ClCompile Include="src\engine\card\card.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeaderFile>
-    </ClCompile>
+    <ClCompile Include="src\card.cpp" />
     <ClCompile Include="src\engine\CardHoldings.cpp" />
     <ClCompile Include="src\CardLayout.cpp" />
     <ClCompile Include="src\engine\CardList.cpp" />
@@ -403,13 +398,12 @@
     <ClInclude Include="src\engine\bidding\Bidopts.h" />
     <ClInclude Include="src\engine\bidding\Bidparams.H" />
     <ClInclude Include="src\engine\bidding\BlackwoodConvention.h" />
-    <ClInclude Include="src\engine\card\card.h" />
+    <ClInclude Include="src\card.h" />
     <ClInclude Include="src\engine\CardHoldings.H" />
     <ClInclude Include="src\CardLayout.h" />
     <ClInclude Include="src\engine\CardList.H" />
     <ClInclude Include="src\engine\CardLocation.H" />
     <ClInclude Include="src\engine\cardopts.h" />
-    <ClInclude Include="src\engine\card\card_enums.h" />
     <ClInclude Include="src\engine\play\Cash.h" />
     <ClInclude Include="src\engine\CombinedHoldings.H" />
     <ClInclude Include="src\engine\CombinedSuitHoldings.H" />
@@ -836,6 +830,21 @@
     <CustomBuild Include="Res\play_south.cur" />
     <CustomBuild Include="Res\play_west.cur" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Utils\EasyBUtils.vcxproj">
+      <Project>{f9d5d161-37d5-46d5-8cea-44c22fa16b28}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Wizards\EasyBWizards.vcxproj">
+      <Project>{65031f56-61ba-4e8c-af27-53e9c48bed5b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
 </Project>

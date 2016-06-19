@@ -13,13 +13,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CJLibrary", "CLibrary\CJLib
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CJStaticLibrary", "CLibrary\CJStaticLibrary.vcxproj", "{BCE4B9FA-9032-4330-B87D-64161DD98069}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tests", "Tests\Tests\Tests.vcxproj", "{A3E4DBBB-495A-4089-83A1-AD0D33F57793}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestRun", "TestRun\TestRun.vcxproj", "{5C1A4E23-9C39-442A-9829-1A68790AB723}"
-	ProjectSection(ProjectDependencies) = postProject
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793} = {A3E4DBBB-495A-4089-83A1-AD0D33F57793}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -134,46 +127,6 @@ Global
 		{BCE4B9FA-9032-4330-B87D-64161DD98069}.Unicode Release|x64.Build.0 = Unicode Release|x64
 		{BCE4B9FA-9032-4330-B87D-64161DD98069}.Unicode Release|x86.ActiveCfg = Unicode Release|Win32
 		{BCE4B9FA-9032-4330-B87D-64161DD98069}.Unicode Release|x86.Build.0 = Unicode Release|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Debug|x64.ActiveCfg = Debug|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Debug|x64.Build.0 = Debug|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Debug|x86.ActiveCfg = Debug|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Debug|x86.Build.0 = Debug|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Release|x64.ActiveCfg = Release|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Release|x64.Build.0 = Release|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Release|x86.ActiveCfg = Release|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Release|x86.Build.0 = Release|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Template|x64.ActiveCfg = Release|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Template|x64.Build.0 = Release|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Template|x86.ActiveCfg = Release|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Template|x86.Build.0 = Release|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Debug|x64.ActiveCfg = Debug|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Debug|x64.Build.0 = Debug|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Debug|x86.ActiveCfg = Debug|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Debug|x86.Build.0 = Debug|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Release|x64.ActiveCfg = Release|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Release|x64.Build.0 = Release|x64
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Release|x86.ActiveCfg = Release|Win32
-		{A3E4DBBB-495A-4089-83A1-AD0D33F57793}.Unicode Release|x86.Build.0 = Release|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Debug|x64.ActiveCfg = Debug|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Debug|x64.Build.0 = Debug|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Debug|x86.ActiveCfg = Debug|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Debug|x86.Build.0 = Debug|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Release|x64.ActiveCfg = Release|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Release|x64.Build.0 = Release|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Release|x86.ActiveCfg = Release|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Release|x86.Build.0 = Release|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Template|x64.ActiveCfg = Release|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Template|x64.Build.0 = Release|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Template|x86.ActiveCfg = Release|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Template|x86.Build.0 = Release|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Debug|x64.ActiveCfg = Debug|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Debug|x64.Build.0 = Debug|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Debug|x86.ActiveCfg = Debug|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Debug|x86.Build.0 = Debug|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Release|x64.ActiveCfg = Release|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Release|x64.Build.0 = Release|x64
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Release|x86.ActiveCfg = Release|Win32
-		{5C1A4E23-9C39-442A-9829-1A68790AB723}.Unicode Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

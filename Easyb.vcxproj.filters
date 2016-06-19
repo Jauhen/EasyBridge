@@ -216,6 +216,9 @@
     <ClCompile Include="src\BidDlgSmall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\card.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\CardLayout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -379,9 +382,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\display_card.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\card\card.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -586,6 +586,9 @@
     <ClInclude Include="src\BidDlgSmall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\CARD.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\CardLayout.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -764,12 +767,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\display_card.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\card\card.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\card\card_enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1718,5 +1715,9 @@
     <CustomBuild Include="Res\play_west.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
