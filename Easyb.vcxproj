@@ -396,7 +396,7 @@
     <ClInclude Include="src\engine\bidding\Bidopts.h" />
     <ClInclude Include="src\engine\bidding\Bidparams.H" />
     <ClInclude Include="src\engine\bidding\BlackwoodConvention.h" />
-    <ClInclude Include="src\card.h" />
+    <ClInclude Include="src\CARD.H" />
     <ClInclude Include="src\engine\CardHoldings.H" />
     <ClInclude Include="src\CardLayout.h" />
     <ClInclude Include="src\engine\CardList.H" />

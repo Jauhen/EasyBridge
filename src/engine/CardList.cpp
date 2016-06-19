@@ -334,16 +334,14 @@ void CCardList::Sort()
 //
 BOOL CCardList::RangeCovers(const int nFaceValue) const 
 { 
-	return ((nFaceValue >= m_cards[m_numCards-1]->GetFaceValue()) && 
-    (nFaceValue <= m_cards[0]->GetFaceValue()))? TRUE : FALSE; 
+	return ((nFaceValue >= m_cards[m_numCards-1]->GetFaceValue()) && (nFaceValue <= m_cards[0]->GetFaceValue()))? TRUE : FALSE; 
 }
 
 
 //
 BOOL CCardList::RangeCovers(const CCard* pCard) const 
 { 
-	return ((pCard->GetFaceValue() >= m_cards[m_numCards-1]->GetFaceValue()) && 
-    (pCard->GetFaceValue() <= m_cards[0]->GetFaceValue()))? TRUE : FALSE; 
+	return ((pCard->GetFaceValue() >= m_cards[m_numCards-1]->GetFaceValue()) && (pCard->GetFaceValue() <= m_cards[0]->GetFaceValue()))? TRUE : FALSE; 
 }
 
 
@@ -815,3 +813,4 @@ CCard* CCardList::GetLowestEquivalentCard(CCard* pCard)
 	}
 	return m_cards[i-1];
 }
+
