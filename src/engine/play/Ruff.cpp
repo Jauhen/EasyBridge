@@ -12,7 +12,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "card.h"
+#include "../card.h"
 #include "Ruff.h"
 #include "../Player.h"
 #include "PlayEngine.h"
@@ -20,7 +20,7 @@
 #include "../CombinedSuitHoldings.h"
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 
 
 

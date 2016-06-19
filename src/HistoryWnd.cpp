@@ -92,10 +92,6 @@ int CHistoryWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	m_editPlay.ModifyStyleEx(0, WS_EX_CLIENTEDGE);
 
-	// subclass the edit controls
-	wpOrigRichEditProc = (WNDPROC) SetWindowLong(m_editBidding.m_hWnd, GWL_WNDPROC, (LONG) RichEditSubclassProc);
-	SetWindowLong(m_editPlay.m_hWnd, GWL_WNDPROC, (LONG) RichEditSubclassProc);
-
 	// set font
 	CFont* pFont = (CFont*) pMAINFRAME->GetValuePV(tpFontHistory);
 	m_editBidding.SendMessage(WM_SETFONT, (LONG)pFont->m_hObject, FALSE);

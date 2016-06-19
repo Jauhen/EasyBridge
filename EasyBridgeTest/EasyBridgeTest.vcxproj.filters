@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="sources">
+      <UniqueIdentifier>{78b204b9-7711-44e1-afb3-8efdd5dbc733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\bidding">
+      <UniqueIdentifier>{68ae39de-19b0-4c1e-8e2b-cd73ba92b289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sources\play">
+      <UniqueIdentifier>{5328664f-6194-4e9b-a658-5fba746f3e6e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mock_app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CARD.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CardHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CardList.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CardLocation.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\cardopts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CombinedHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CombinedSuitHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\Deck.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\DisplayHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\GameRecord.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\GuessedCard.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\GuessedCardHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\GuessedHandHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\GuessedSuitHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\HandHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\Handopts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\PLAYER.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\playeropts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\PlayerStatusDialog.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\SuitHoldings.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\4thSuitForcingConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\Artificial2ClubConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\BidEngine.H">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\Bidopts.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\Bidparams.H">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\BlackwoodConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\ConvCodes.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\Convention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\ConventionSet.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\CueBidConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\DruryConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\Gambling3NTConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\GerberConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\Jacoby2NTConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\JacobyTransferConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\MichaelsCueBidConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\NegativeDoublesConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\OvercallsConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\ShutoutBidsConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\SlamConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\SplinterBidsConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\StaymanConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\StrongTwoBidsConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\TakeoutDoublesConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\UnusualNTConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\WeakTwoBidsConvention.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Cash.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\DeclarerPlayEngine.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\DefenderPlayEngine.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Discard.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Drop.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\DummyPlayEngine.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\ExitPlay.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Finesse.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Force.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\HoldUp.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Play.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\PlayEngine.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\PlayList.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Ruff.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\TrumpPull.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Type1Finesse.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Type2Finesse.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\Type3Finesse.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\TypeAFinesse.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\TypeBFinesse.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\convention_pool.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player_status_dialog_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="player_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\card.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CardHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CardList.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CardLocation.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CombinedHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CombinedSuitHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\Deck.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\DisplayHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\GameRecord.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\GuessedCard.CPP">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\GuessedCardHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\GuessedHandHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\GuessedSuitHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\HandHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\player.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\PlayerStatusDialog.CPP">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\SuitHoldings.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\4thSuitForcingConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\Artificial2ClubConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BiddingGeneral.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BiddingOpen.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BiddingRebid.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BiddingRebid2.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BiddingRebidExtended.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BiddingResponse.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BidEngine.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\BlackwoodConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\Convention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\ConventionSet.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\CueBidConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\DruryConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\Gambling3NTConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\GerberConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\Jacoby2NTConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\JacobyTransferConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\MichaelsCueBidConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\NegativeDoublesConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\OvercallsConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\ShutoutBidsConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\SlamConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\SplinterBidsConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\StaymanConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\StrongTwoBidsConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\TakeoutDoublesConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\UnusualNTConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\WeakTwoBidsConvention.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Cash.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\DeclarerPlayEngine.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\DefenderPlayEngine.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Discard.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Drop.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\DummyPlayEngine.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\ExitPlay.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Finesse.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Force.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\HoldUp.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Play.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\PlayEngine.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\PlayList.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Ruff.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\TrumpPull.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Type1Finesse.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Type2Finesse.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\Type3Finesse.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\TypeAFinesse.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\TypeBFinesse.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\convention_pool.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -35,11 +35,9 @@ private:
 	
 // 
 public:
-	C4thSuitForcingConvention();
+	C4thSuitForcingConvention(std::shared_ptr<AppInterface> app);
 	virtual ~C4thSuitForcingConvention();
 };
 
 
 #endif
-
-extern C4thSuitForcingConvention fourthSuitForcingConvention;

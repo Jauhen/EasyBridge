@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CJacoby2NTConvention();
+	CJacoby2NTConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CJacoby2NTConvention();
 };
 
 
 #endif
-
-extern CJacoby2NTConvention jacoby2NTConvention;

@@ -41,11 +41,9 @@ private:
 	
 // 
 public:
-	CGerberConvention();
+	CGerberConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CGerberConvention();
 };
 
 
 #endif
-
-extern CGerberConvention gerberConvention;

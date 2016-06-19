@@ -36,7 +36,7 @@ private:
 	
 // 
 public:
-	CSlamConvention();
+	CSlamConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CSlamConvention();
 };
 

@@ -36,11 +36,9 @@ private:
 	
 // 
 public:
-	CArtificial2ClubConvention();
+	CArtificial2ClubConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CArtificial2ClubConvention();
 };
 
 
 #endif
-
-extern CArtificial2ClubConvention Artificial2ClubConvention;

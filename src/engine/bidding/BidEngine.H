@@ -48,7 +48,9 @@ class CBidEngine {
 // public routines
 public:
 	//
-	void Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent, CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, CPlayerStatusDialog* pStatusDlg);
+	void Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent, 
+    CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, 
+    CPlayerStatusDialog* pStatusDlg);
 	void Clear();
 	//
 	LPVOID GetValuePV(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
@@ -353,10 +355,11 @@ public:
 	BOOL bSemiBalanced;
 	BOOL bAllSuitsStopped;
 
+  std::shared_ptr<AppInterface> app_;
 //
 //private:
 public:
-	CBidEngine();
+	CBidEngine(std::shared_ptr<AppInterface> app);
 	~CBidEngine();
 };
 

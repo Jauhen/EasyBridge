@@ -41,11 +41,9 @@ private:
 	
 // 
 public:
-	CBlackwoodConvention();
+	CBlackwoodConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CBlackwoodConvention();
 };
 
 
 #endif
-
-extern CBlackwoodConvention blackwoodConvention;

@@ -13,9 +13,9 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "CueBidConvention.h"
-
+#include "app_interface.h"
 
 
 //
@@ -31,7 +31,7 @@ BOOL CCueBidConvention::ApplyTest(const CPlayer& player,
 								  CPlayerStatusDialog& status)
 {
 	// basic test
-//	if (!pCurrConvSet->IsConventionEnabled(tidCueBids))
+//	if (!app_->GetCurrentConventionSet()->IsConventionEnabled(tidCueBids))
 //		return FALSE;
 
 	// see if another convention is active
@@ -137,7 +137,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 				return FALSE;
 			status << "CUET10! With " & bidState.m_fMinTPPoints & 
 					  "+ pts and possible slam aspirations, make a cue bid, showing the cheapest ace (" & 
-					  STS(nSuit) & ") with a bid of " & BTS(nBid) & ".\n";
+					  STS(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND1);
 			return TRUE;
@@ -165,7 +165,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 			int nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "CUET20! Make a second-round cue bid, showing the cheapest " &
 					  ((hand.GetSuitLength(nSuit) == 0)? "void suit" : "king") &
-					  " (in " & STS(nSuit) & ") with a bid of " & BTS(nBid) & ".\n";
+					  " (in " & STS(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
 			return TRUE;
@@ -176,7 +176,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 			// so stop cue bidding and return to the trump suit
 			int nBid = bidState.GetCheapestShiftBid(bidState.m_nAgreedSuit);
 			status << "CUET24! With no second-round controls to cue bid, we have to return to the trump suit at a bid of " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
 			return TRUE;
@@ -242,7 +242,7 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 		((nPartnersBid > MAKEBID(nAgreedSuit,3)) && (nPartnersBid < bidState.GetGameBid(nAgreedSuit))))
 	{
 		// met the requirements
-		status << "CUR0! Partner made a cue bid of " & BTS(nPartnersBid) &
+		status << "CUR0! Partner made a cue bid of " & app_->BidToFullString(nPartnersBid) &
 				  ", hinting at slam prospects.\n";
 	}
 	else
@@ -281,7 +281,7 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 		status << "CUR4! But we don't have the points (only " & 
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 				  " pts in the partnership) or the excellent trump support needed for a marginal slam, so we decline by returning to the agreed suit at a bid of " &
-				  BTS(nBid) & ".\n";
+				  app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_FINISHED);
 		return TRUE;
@@ -300,7 +300,7 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			// found a suit to cue bid
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "CUR20! Respond to partner's cue bid, showing our cheapest ace (" &
-					  STS(nSuit) & ") with a bid of " & BTS(nBid) & ".\n";
+					  STS(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND1);
 			return TRUE;
@@ -312,10 +312,10 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 			if (hand.SuitHasCard(nSuit, ACE))
 				status << "CUR22! But our only Ace is in the trump suit of " &
-						  STSS(nAgreedSuit) & ", so sign off at a bid of " & BTS(nBid) & ".\n";
+						  STSS(nAgreedSuit) & ", so sign off at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			else
 				status << "CUR24! We have no other Aces to offer, so sign off with the agreed " &
-						  STSS(nAgreedSuit) & " suit at a bid of " & BTS(nBid) & ".\n";
+						  STSS(nAgreedSuit) & " suit at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
@@ -333,7 +333,7 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "CUR30! Respond to partner's cue bid, showing our cheapest " &
 					  ((hand.GetSuitLength(nSuit) > 0)? "King" : "void suit") &
-					  " (in " & STS(nSuit) & ") with a bid of " & BTS(nBid) & ".\n";
+					  " (in " & STS(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 //			bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
@@ -346,10 +346,10 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 			if (hand.SuitHasCard(nSuit, KING))
 				status << "CUR32! But our only Ace is in the trump suit of " &
-						  STSS(nAgreedSuit) & ", so sign off at a bid of " & BTS(nBid) & ".\n";
+						  STSS(nAgreedSuit) & ", so sign off at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			else
 				status << "CUR34 We have no other Kings or void suits to offer, so sign off with the agreed " &
-						  STSS(nAgreedSuit) & " suit at a bid of " & BTS(nBid) & ".\n";
+						  STSS(nAgreedSuit) & " suit at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
@@ -414,7 +414,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		if (nPartnersBidLevel >= 6)
 		{
 			status << "HRCB0! In response to our cue bid, partner returned to the agreed " & STSS(nAgreedSuit) &
-					  " trump suit with a slam bid at " & BTS(nPartnersBid) & ".\n";
+					  " trump suit with a slam bid at " & app_->BidToFullString(nPartnersBid) & ".\n";
 			// raise to a grand slam if possible
 			if ((nPartnersBidLevel == 6) && (bidState.m_fMinTPPoints >= 37))
 			{
@@ -422,7 +422,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				status << "HRCB1! And with " &
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						  " points in the partnership, go ahead and raise to " &
-						  BTS(nBid) & ".\n";
+						  app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -443,7 +443,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		// a discouraging sign
 		//
 		status << "HRCB5! Partner returned to the agreed " & STSS(nAgreedSuit) &
-				  " trump suit in response to our cue bid of " & BTS(nPreviousBid) &
+				  " trump suit in response to our cue bid of " & app_->BidToFullString(nPreviousBid) &
 				  ", which is a discouraging sign.\n";
 		// pass with < 33 team points
 		if (bidState.m_fMinTPPoints < 33)
@@ -453,7 +453,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "HRCB6! And with only " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership, we have to forget about slam and pass.\n" &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else if (bidState.m_fMinTPPoints < 37)
 		{
@@ -462,7 +462,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "HRCB7! But with " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership, go ahead and bid a small slam anyway at " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -471,7 +471,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "HRCB8! But with " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership, go ahead and bid a grand slam anyway at " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -497,7 +497,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		//
-		status << "HRCB40! Partner responded with a cue bid of " & BTS(nPartnersBid) &
+		status << "HRCB40! Partner responded with a cue bid of " & app_->BidToFullString(nPartnersBid) &
 				  ", showing an Ace in " & STS(nPartnersSuit) & ".\n";
 		//
 		// see if we want to proceed to a second round of cue bidding
@@ -518,7 +518,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		//
-		if ((bidState.m_fMinTPPoints < PTS_SLAM) || (!bAllFourControls))
+		if ((bidState.m_fMinTPPoints < app_->SlamPts() ) || (!bAllFourControls))
 		{
 			// gotta stop below slam
 			nBid = bidState.GetCheapestShiftBid(nAgreedSuit);
@@ -527,7 +527,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 					  " points in the partnership" &
 					  ((bAllFourControls)? "," : "and without clear first round controls,") &
 					  " we can't afford to bid slam, so settle for a contract of " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
@@ -540,7 +540,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "HRCB46! But with only " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership, we have to stop at a small with a contract of " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
@@ -557,7 +557,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "HRCB60! Make a second-round cue bid, showing the cheapest " &
 					  ((hand.GetSuitLength(nSuit) == 0)? "void suit" : "king") &
-					  " (in " & STS(nSuit) & ") with a bid of " & BTS(nBid) & ".\n";
+					  " (in " & STS(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -566,7 +566,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			// so stop cue bidding and return to the trump suit at a small slam
 			nBid = MAKEBID(nAgreedSuit, 6);
 			status << "HRCB80! With no second-round controls to cue bid, we have to return to the trump suit with a small slam at " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -619,7 +619,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 					  " points in the partnership " &
 					  ((bAllFourSecondRoundControls)? "," : "and without clear second round controls,") &
 					  " we can't afford to bid slam, so settle for a contract of " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		// else we have >= 32 pts and all four controls
 		else if (bidState.m_fMinTPPoints < 36)
@@ -629,7 +629,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "HRCBS24! But with only " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership, we have to stop at a small with a contract of " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -640,7 +640,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "HRCBS40! With a total of " &
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership and full first and second-round controls, go head and bid a grand slam at " &
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -743,8 +743,8 @@ int CCueBidConvention::GetCheapestKingOrVoid(CHandHoldings& hand, int nBaseSuit,
 //==================================================================
 // construction & destruction
 //
-CCueBidConvention::CCueBidConvention() 
-{
+CCueBidConvention::CCueBidConvention(std::shared_ptr<AppInterface> app)
+  : CSlamConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidCueBids;
 }

@@ -79,10 +79,11 @@ private:
 protected:
 	BOOL	m_bEnabled;
 	int		m_nID;
+  std::shared_ptr<AppInterface> app_;
 	
 // construction/destruction
 public:
-	CConvention();
+	CConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CConvention();
 };
 

@@ -11,8 +11,6 @@
 //      are changed infrequently
 //
 
-#define GWL_WNDPROC (-4)
-
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
 #include <afxwin.h>         // MFC core and standard components
@@ -26,5 +24,7 @@
 #define MFCX_PROJ
 //#include <CJ60Lib.h>
 #include <CJLibrary.h>
+
+#include <memory>
 
 #pragma warning( disable : 4786) 

@@ -22,13 +22,15 @@
 #include "engine/bidding/bidparams.h"
 #include "dealparm.h"
 #include "engine/bidding/ConventionSet.h"
-#include "deck.h"
-#include "card.h"
+#include "engine/bidding/convention_pool.h"
+#include "engine/deck.h"
+#include "engine/card.h"
 #include "SplashWnd.h"
 #include "GIB.h"
 //#include "NeuralNet.h"
 #include "engine/play/Play.h"
 #include <mmsystem.h>
+#include "AppImpl.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -118,10 +120,9 @@ double CEasyBApp::m_fHonorValue[] = {
 /////////////////////////////////////////////////////////////////////////////
 
 //
-CEasyBApp			theApp;
-CConventionSet*		pConventionSet[100];
-
-
+std::shared_ptr<AppInterface> appImpl = std::make_shared<AppImpl>();
+CEasyBApp theApp{ appImpl };
+CConventionSet* pConventionSet[100];
 
 
 
@@ -146,8 +147,9 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CEasyBApp construction
 
-CEasyBApp::CEasyBApp()
-{
+CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
+  conventionPool_ = std::make_shared<ConventionPool>(app);
+
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
@@ -1581,7 +1583,7 @@ BOOL CEasyBApp::InitInstance()
 	Initialize();
 
 	// show splash window
-	if ((m_lpCmdLine[0] == 0) && (m_bShowSplashWindow) && !m_bShowStartupAnimation) 
+	if (false && (m_lpCmdLine[0] == 0) && (m_bShowSplashWindow) && !m_bShowStartupAnimation) 
 //			&& (!m_bFirstTimeRunning)) 
 	{
 		m_pSplash = new CSplashWnd;
@@ -1765,7 +1767,7 @@ void CEasyBApp::InitSettings()
 	// initialize conventions
 	m_nCurrConventionSet = 0;
 	m_numConventionSets = 1;
-	pConventionSet[0] = new CConventionSet;
+	pConventionSet[0] = new CConventionSet(appImpl);
 	pConventionSet[0]->Initialize("Default");	// read in settings
 	pConventionSet[0]->InitConventions();		// and prepare conventions
 	pCurrConvSet = pConventionSet[0];

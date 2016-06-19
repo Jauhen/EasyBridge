@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CShutoutBidsConvention();
+	CShutoutBidsConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CShutoutBidsConvention();
 };
 
 
 #endif
-
-extern CShutoutBidsConvention ShutoutBidsConvention;

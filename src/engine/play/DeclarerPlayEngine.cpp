@@ -24,8 +24,8 @@
 #include "../HandHoldings.h"
 #include "../bidding/BidEngine.h"
 #include "../Player.h"
-#include "Card.h"
-#include "Deck.h"
+#include "../Card.h"
+#include "../Deck.h"
 #include "Play.h"
 #include "Cash.h"
 #include "TrumpPull.h"
@@ -47,7 +47,7 @@
 #include "../CombinedHoldings.h"
 #include "../CombinedSuitHoldings.h"
 #include "StatusWnd.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 
 
 

@@ -14,33 +14,26 @@
 #include "EasyB.h"
 //#include "EasyBdoc.h"
 #include "Convention.h"
-#include "PlayerStatusDialog.h"
-
+#include "../PlayerStatusDialog.h"
+#include "app_interface.h"
 
 
 //
 //==================================================================
-// constructon & destruction
-CConvention::CConvention() 
-{
+// construction & destruction
+CConvention::CConvention(std::shared_ptr<AppInterface> app) : app_(app) {
 	m_bEnabled = FALSE;
 	m_nID = -1;
 }
 
-CConvention::~CConvention() 
-{
-}
+CConvention::~CConvention() {}
 
 
 //
-void CConvention::Initialize() 
-{
-}
+void CConvention::Initialize() {}
 
 //
-void CConvention::Terminate() 
-{
-}
+void CConvention::Terminate() {}
 
 
 

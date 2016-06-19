@@ -14,7 +14,7 @@
 #include "EasyB.h"
 #include "EasyBvw.h"
 #include "mainfrm.h"
-#include "GIBDialog.h"
+#include "dialogs/GIBDialog.h"
 #include "GIBMonitorThread.h"
 
 

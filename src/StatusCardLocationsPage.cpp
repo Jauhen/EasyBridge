@@ -100,17 +100,6 @@ BOOL CStatusCardLocationsPage::OnInitDialog()
 	for(int i=0;i<numCols;i++)
 		m_listHoldings.InsertColumn(i+1, tszColumnName[i], LVCFMT_LEFT, m_listHoldings.GetStringWidth(tszColumnName[i]) + tnColSpacer, i+1);
 
-	// subclass controls
-	wpOrigListCtrlProc = (WNDPROC) SetWindowLong(m_listHoldings.GetSafeHwnd(), GWL_WNDPROC, (LONG) ListCtrlSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_OBSERVER_SOUTH)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_OBSERVER_WEST)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_OBSERVER_NORTH)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_OBSERVER_EAST)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_TARGET_SOUTH)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_TARGET_WEST)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_TARGET_NORTH)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-	wpOrigRadioProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_TARGET_EAST)->GetSafeHwnd(), GWL_WNDPROC, (LONG) RadioSubclassProc);
-
 	// record initial window characterisitcs
 	CRect winRect, listRect;
 	GetClientRect(&winRect);

@@ -31,8 +31,8 @@ BOOL CSlamConvention::ApplyTest(const CPlayer& player,
 //
 //==================================================================
 // construciton & destruction
-CSlamConvention::CSlamConvention() 
-{
+CSlamConvention::CSlamConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 }
 
 CSlamConvention::~CSlamConvention() 

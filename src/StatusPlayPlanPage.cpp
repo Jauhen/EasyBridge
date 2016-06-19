@@ -15,7 +15,7 @@
 #include "mainfrm.h"
 #include "StatusPlayPlanPage.h"
 #include "subclass.h"
-#include "card.h"
+#include "engine/card.h"
 #include "engine/cardlist.h"
 #include "engine/player.h"
 #include "engine/play/play.h"
@@ -108,9 +108,6 @@ BOOL CStatusPlayPlanPage::OnInitDialog()
 	int numCols = sizeof(tszColumnName) / sizeof(LPCTSTR);
 	for(int i=0;i<numCols;i++)
 		m_listPlayPlan.InsertColumn(i, tszColumnName[i], LVCFMT_LEFT, m_listPlayPlan.GetStringWidth(tszColumnName[i]) + tnColSpacer, i);
-
-	// subclass the list control
-	wpOrigListCtrlProc = (WNDPROC) SetWindowLong(m_listPlayPlan.GetSafeHwnd(), GWL_WNDPROC, (LONG) ListCtrlSubclassProc);
 
 	// record initial window characterisitcs
 	CRect winRect, listRect;

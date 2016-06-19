@@ -118,11 +118,6 @@ BOOL CStatusAnalysesPage::OnInitDialog()
 	{
 		m_edit[i].Create(ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL, rect, this, IDC_EDIT1+i);
 		m_edit[i].HideSelection(TRUE, TRUE);
-		// subclass
-		if (i == 0)
-			wpOrigRichEditProc = (WNDPROC) SetWindowLong(m_edit[i].GetSafeHwnd(), GWL_WNDPROC, (LONG) RichEditSubclassProc);
-		else
-			SetWindowLong(m_edit[i].GetSafeHwnd(), GWL_WNDPROC, (LONG) RichEditSubclassProc);
 		// and set font
 		m_edit[i].SendMessage(WM_SETFONT, (LONG)m_pFont->m_hObject, FALSE);
 	}
@@ -136,13 +131,6 @@ BOOL CStatusAnalysesPage::OnInitDialog()
 	CRect editRect;
 	m_edit[0].GetWindowRect(&editRect);
 	m_numVisibleRows = editRect.Height() / m_nFontHeight;
-
-	// and subclass the buttons
-	wpOrigCheckBoxProc = (WNDPROC) SetWindowLong(GetDlgItem(IDC_WEST)->GetSafeHwnd(), GWL_WNDPROC, (LONG) ButtonSubclassProc);
-	SetWindowLong(GetDlgItem(IDC_NORTH)->GetSafeHwnd(), GWL_WNDPROC, (LONG) ButtonSubclassProc);
-	SetWindowLong(GetDlgItem(IDC_EAST)->GetSafeHwnd(), GWL_WNDPROC, (LONG) ButtonSubclassProc);
-	SetWindowLong(GetDlgItem(IDC_SOUTH)->GetSafeHwnd(), GWL_WNDPROC, (LONG) ButtonSubclassProc);
-	SetWindowLong(GetDlgItem(IDC_ALL)->GetSafeHwnd(), GWL_WNDPROC, (LONG) ButtonSubclassProc);
 
 	// record initial window characterisitcs
 	CRect winRect, itemRect;

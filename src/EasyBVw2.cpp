@@ -13,12 +13,12 @@
 #include "EasyBvw.h"
 #include "mainfrm.h"
 #include "engine/Player.h"
-#include "deck.h"
-#include "card.h"
+#include "engine/deck.h"
+#include "engine/card.h"
 #include "progopts.h"
 #include "docopts.h"
 #include "DrawParameters.h"
-#include "ScreenSizeWarningDlg.h"
+#include "dialogs/ScreenSizeWarningDlg.h"
 #include <limits.h>
 #include <math.h>
 

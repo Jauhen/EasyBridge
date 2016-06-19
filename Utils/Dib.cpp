@@ -182,7 +182,7 @@ BOOL CDIB::Load(const CString& strFile)
 		return FALSE;
 
     // Get the current file position.
-    DWORD dwFileStart = file.GetPosition();
+    ULONGLONG dwFileStart = file.GetPosition();
 
     // Read the file header to get the file size and to
     // find out where the bits start in the file.

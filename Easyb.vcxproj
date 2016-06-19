@@ -135,7 +135,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level3</WarningLevel>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>.\Bin\Release\</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Bin\Release\Easyb.pch</PrecompiledHeaderOutputFile>
@@ -162,7 +162,7 @@
       <OutputFile>.Bin\Release/EasyB.exe</OutputFile>
       <AdditionalLibraryDirectories>Lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>version.lib;winmm.lib;EasyBUtils.lib;EasyBWizards.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions> /SUBSYSTEM:windows,4.0</AdditionalOptions>
+      <AdditionalOptions> /SUBSYSTEM:windows,6.0</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -244,29 +244,30 @@
       <OutputFile>x64/Debug/EasyB.exe</OutputFile>
       <AdditionalLibraryDirectories>Lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>version.lib;winmm.lib;EasyBUtilsD.lib;EasyBWizardsD.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions> /SUBSYSTEM:windows,4.0</AdditionalOptions>
+      <AdditionalOptions> /SUBSYSTEM:windows,6.0</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\bidding\convention_pool.cpp" />
     <ClCompile Include="src\engine\bidding\4thSuitForcingConvention.cpp" />
-    <ClCompile Include="src\AnalysisDialog.cpp" />
+    <ClCompile Include="src\dialogs\AnalysisDialog.cpp" />
     <ClCompile Include="src\engine\bidding\Artificial2ClubConvention.cpp" />
-    <ClCompile Include="src\AutoHintDialog.cpp" />
-    <ClCompile Include="src\BidDialog.cpp" />
-    <ClCompile Include="src\BiddingFinishedDialog.cpp" />
+    <ClCompile Include="src\dialogs\AutoHintDialog.cpp" />
+    <ClCompile Include="src\dialogs\BidDialog.cpp" />
+    <ClCompile Include="src\dialogs\BiddingFinishedDialog.cpp" />
     <ClCompile Include="src\engine\bidding\BiddingGeneral.cpp" />
     <ClCompile Include="src\engine\bidding\BiddingOpen.cpp" />
     <ClCompile Include="src\engine\bidding\BiddingRebid.cpp" />
     <ClCompile Include="src\engine\bidding\BiddingRebid2.cpp" />
     <ClCompile Include="src\engine\bidding\BiddingRebidExtended.cpp" />
     <ClCompile Include="src\engine\bidding\BiddingResponse.cpp" />
-    <ClCompile Include="src\BidDlgLarge.cpp" />
-    <ClCompile Include="src\BidDlgSmall.cpp" />
+    <ClCompile Include="src\dialogs\BidDlgLarge.cpp" />
+    <ClCompile Include="src\dialogs\BidDlgSmall.cpp" />
     <ClCompile Include="src\engine\bidding\BidEngine.cpp" />
     <ClCompile Include="src\engine\bidding\BlackwoodConvention.cpp" />
-    <ClCompile Include="src\card.cpp" />
+    <ClCompile Include="src\engine\card.cpp" />
     <ClCompile Include="src\engine\CardHoldings.cpp" />
-    <ClCompile Include="src\CardLayout.cpp" />
+    <ClCompile Include="src\dialogs\CardLayout.cpp" />
     <ClCompile Include="src\engine\CardList.cpp" />
     <ClCompile Include="src\engine\CardLocation.cpp" />
     <ClCompile Include="src\engine\play\Cash.cpp" />
@@ -277,8 +278,8 @@
     <ClCompile Include="src\engine\bidding\ConventionSet.cpp" />
     <ClCompile Include="src\engine\bidding\CueBidConvention.cpp" />
     <ClCompile Include="src\deal.cpp" />
-    <ClCompile Include="src\DealNumberDialog.cpp" />
-    <ClCompile Include="src\Deck.cpp" />
+    <ClCompile Include="src\dialogs\DealNumberDialog.cpp" />
+    <ClCompile Include="src\engine\Deck.cpp" />
     <ClCompile Include="src\engine\play\DeclarerPlayEngine.cpp" />
     <ClCompile Include="src\engine\play\DefenderPlayEngine.cpp" />
     <ClCompile Include="src\engine\play\Discard.cpp" />
@@ -292,19 +293,19 @@
     <ClCompile Include="src\EasyBdoc.cpp" />
     <ClCompile Include="src\EasyBvw.cpp" />
     <ClCompile Include="src\EasyBVw2.cpp" />
-    <ClCompile Include="src\editdlg.cpp" />
+    <ClCompile Include="src\dialogs\editdlg.cpp" />
     <ClCompile Include="src\EventProcessor.cpp" />
     <ClCompile Include="src\engine\play\ExitPlay.cpp" />
-    <ClCompile Include="src\FileComments.cpp" />
-    <ClCompile Include="src\FilePropertiesDialog.cpp" />
+    <ClCompile Include="src\dialogs\FileComments.cpp" />
+    <ClCompile Include="src\dialogs\FilePropertiesDialog.cpp" />
     <ClCompile Include="src\engine\play\Finesse.cpp" />
     <ClCompile Include="src\engine\play\Force.cpp" />
     <ClCompile Include="src\engine\bidding\Gambling3NTConvention.cpp" />
     <ClCompile Include="src\engine\GameRecord.cpp" />
-    <ClCompile Include="src\GameReviewDialog.cpp" />
+    <ClCompile Include="src\dialogs\GameReviewDialog.cpp" />
     <ClCompile Include="src\engine\bidding\GerberConvention.cpp" />
     <ClCompile Include="src\GIB.cpp" />
-    <ClCompile Include="src\GIBDialog.cpp" />
+    <ClCompile Include="src\dialogs\GIBDialog.cpp" />
     <ClCompile Include="src\GIBMonitorThread.cpp" />
     <ClCompile Include="src\Globals.cpp" />
     <ClCompile Include="src\engine\GuessedCard.CPP" />
@@ -319,29 +320,29 @@
     <ClCompile Include="src\engine\bidding\JacobyTransferConvention.cpp" />
     <ClCompile Include="src\mainfrm.cpp" />
     <ClCompile Include="src\engine\bidding\MichaelsCueBidConvention.cpp" />
-    <ClCompile Include="src\MyCustomDialog.cpp" />
-    <ClCompile Include="src\myfildlg.cpp" />
+    <ClCompile Include="src\dialogs\MyCustomDialog.cpp" />
+    <ClCompile Include="src\dialogs\myfildlg.cpp" />
     <ClCompile Include="src\engine\bidding\NegativeDoublesConvention.cpp" />
-    <ClCompile Include="src\NNetAutotrainStatusDlg.cpp" />
-    <ClCompile Include="src\NNetConfigDialog.cpp" />
-    <ClCompile Include="src\NNetOutputDialog.cpp" />
+    <ClCompile Include="src\dialogs\NNetAutotrainStatusDlg.cpp" />
+    <ClCompile Include="src\dialogs\NNetConfigDialog.cpp" />
+    <ClCompile Include="src\dialogs\NNetOutputDialog.cpp" />
     <ClCompile Include="src\engine\bidding\OvercallsConvention.cpp" />
-    <ClCompile Include="src\PassedHandDialog.cpp" />
-    <ClCompile Include="src\PassedHandSimpleDialog.cpp" />
+    <ClCompile Include="src\dialogs\PassedHandDialog.cpp" />
+    <ClCompile Include="src\dialogs\PassedHandSimpleDialog.cpp" />
     <ClCompile Include="src\engine\play\Play.cpp" />
     <ClCompile Include="src\engine\play\PlayEngine.cpp" />
     <ClCompile Include="src\engine\player.cpp" />
-    <ClCompile Include="src\PlayerStatusDialog.CPP" />
+    <ClCompile Include="src\engine\PlayerStatusDialog.CPP" />
     <ClCompile Include="src\engine\play\PlayList.cpp" />
     <ClCompile Include="src\print.cpp" />
     <ClCompile Include="src\rdfile.cpp" />
     <ClCompile Include="src\RdFilePBN.cpp" />
-    <ClCompile Include="src\RoundFinishedDialog.cpp" />
+    <ClCompile Include="src\dialogs\RoundFinishedDialog.cpp" />
     <ClCompile Include="src\engine\play\Ruff.cpp" />
-    <ClCompile Include="src\saveopts.cpp" />
-    <ClCompile Include="src\ScoreDialog.cpp" />
-    <ClCompile Include="src\ScreenSizeWarningDlg.cpp" />
-    <ClCompile Include="src\SelectHandDialog.cpp" />
+    <ClCompile Include="src\dialogs\saveopts.cpp" />
+    <ClCompile Include="src\dialogs\ScoreDialog.cpp" />
+    <ClCompile Include="src\dialogs\ScreenSizeWarningDlg.cpp" />
+    <ClCompile Include="src\dialogs\SelectHandDialog.cpp" />
     <ClCompile Include="src\engine\bidding\ShutoutBidsConvention.cpp" />
     <ClCompile Include="src\engine\bidding\SlamConvention.cpp" />
     <ClCompile Include="src\engine\bidding\SplinterBidsConvention.cpp" />
@@ -354,7 +355,7 @@
     <ClCompile Include="src\StatusSheet.cpp" />
     <ClCompile Include="src\StatusWnd.cpp" />
     <ClCompile Include="src\engine\bidding\StaymanConvention.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="src\stdafxEB.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">stdafx.h</PrecompiledHeaderFile>
@@ -365,10 +366,9 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\engine\bidding\StrongTwoBidsConvention.cpp" />
-    <ClCompile Include="src\subclass.cpp" />
     <ClCompile Include="src\engine\SuitHoldings.cpp" />
     <ClCompile Include="src\engine\bidding\TakeoutDoublesConvention.cpp" />
-    <ClCompile Include="src\TestPlayDialog.cpp" />
+    <ClCompile Include="src\dialogs\TestPlayDialog.cpp" />
     <ClCompile Include="src\engine\play\TrumpPull.cpp" />
     <ClCompile Include="src\engine\play\Type1Finesse.cpp" />
     <ClCompile Include="src\engine\play\Type2Finesse.cpp" />
@@ -384,24 +384,28 @@
     <ResourceCompile Include="EasyB.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\bidding\convention_pool.h" />
+    <ClInclude Include="src\AppImpl.h" />
+    <ClInclude Include="src\app_interface.h" />
     <ClInclude Include="src\engine\bidding\4thSuitForcingConvention.h" />
-    <ClInclude Include="src\AnalysisDialog.h" />
+    <ClInclude Include="src\dialogs\AnalysisDialog.h" />
     <ClInclude Include="src\engine\bidding\Artificial2ClubConvention.h" />
-    <ClInclude Include="src\AutoHintDialog.h" />
-    <ClInclude Include="src\BidDialog.h" />
-    <ClInclude Include="src\BiddingFinishedDialog.h" />
-    <ClInclude Include="src\BidDlgLarge.h" />
-    <ClInclude Include="src\BidDlgSmall.h" />
+    <ClInclude Include="src\dialogs\AutoHintDialog.h" />
+    <ClInclude Include="src\dialogs\BidDialog.h" />
+    <ClInclude Include="src\dialogs\BiddingFinishedDialog.h" />
+    <ClInclude Include="src\dialogs\BidDlgLarge.h" />
+    <ClInclude Include="src\dialogs\BidDlgSmall.h" />
     <ClInclude Include="src\engine\bidding\BidEngine.H" />
     <ClInclude Include="src\engine\bidding\Bidopts.h" />
     <ClInclude Include="src\engine\bidding\Bidparams.H" />
     <ClInclude Include="src\engine\bidding\BlackwoodConvention.h" />
-    <ClInclude Include="src\CARD.H" />
+    <ClInclude Include="src\engine\CARD.H" />
     <ClInclude Include="src\engine\CardHoldings.H" />
-    <ClInclude Include="src\CardLayout.h" />
+    <ClInclude Include="src\dialogs\CardLayout.h" />
     <ClInclude Include="src\engine\CardList.H" />
     <ClInclude Include="src\engine\CardLocation.H" />
     <ClInclude Include="src\engine\cardopts.h" />
+    <ClInclude Include="src\engine\card_constants.h" />
     <ClInclude Include="src\engine\play\Cash.h" />
     <ClInclude Include="src\engine\CombinedHoldings.H" />
     <ClInclude Include="src\engine\CombinedSuitHoldings.H" />
@@ -410,9 +414,9 @@
     <ClInclude Include="src\engine\bidding\Convention.h" />
     <ClInclude Include="src\engine\bidding\ConventionSet.h" />
     <ClInclude Include="src\engine\bidding\CueBidConvention.h" />
-    <ClInclude Include="src\DealNumberDialog.h" />
+    <ClInclude Include="src\dialogs\DealNumberDialog.h" />
     <ClInclude Include="src\DEALPARM.H" />
-    <ClInclude Include="src\Deck.H" />
+    <ClInclude Include="src\engine\Deck.H" />
     <ClInclude Include="src\deckopts.h" />
     <ClInclude Include="src\engine\play\DeclarerPlayEngine.H" />
     <ClInclude Include="src\engine\play\DefenderPlayEngine.H" />
@@ -428,21 +432,21 @@
     <ClInclude Include="src\EasyB.h" />
     <ClInclude Include="src\EasyBdoc.h" />
     <ClInclude Include="src\EasyBvw.h" />
-    <ClInclude Include="src\editdlg.h" />
+    <ClInclude Include="src\dialogs\editdlg.h" />
     <ClInclude Include="src\EventProcessor.h" />
     <ClInclude Include="src\engine\play\ExitPlay.h" />
     <ClInclude Include="src\FILECODE.H" />
     <ClInclude Include="src\FileCodePBN.H" />
-    <ClInclude Include="src\FileComments.h" />
-    <ClInclude Include="src\FilePropertiesDialog.h" />
+    <ClInclude Include="src\dialogs\FileComments.h" />
+    <ClInclude Include="src\dialogs\FilePropertiesDialog.h" />
     <ClInclude Include="src\engine\play\Finesse.h" />
     <ClInclude Include="src\engine\play\Force.h" />
     <ClInclude Include="src\engine\bidding\Gambling3NTConvention.h" />
     <ClInclude Include="src\engine\GameRecord.h" />
-    <ClInclude Include="src\GameReviewDialog.h" />
+    <ClInclude Include="src\dialogs\GameReviewDialog.h" />
     <ClInclude Include="src\engine\bidding\GerberConvention.h" />
     <ClInclude Include="src\GIB.h" />
-    <ClInclude Include="src\GIBDialog.h" />
+    <ClInclude Include="src\dialogs\GIBDialog.h" />
     <ClInclude Include="src\GIBMonitorThread.h" />
     <ClInclude Include="src\Globals.h" />
     <ClInclude Include="src\engine\GuessedCard.H" />
@@ -458,30 +462,30 @@
     <ClInclude Include="src\MainFrameopts.h" />
     <ClInclude Include="src\mainfrm.h" />
     <ClInclude Include="src\engine\bidding\MichaelsCueBidConvention.h" />
-    <ClInclude Include="src\MyCustomDialog.h" />
+    <ClInclude Include="src\dialogs\MyCustomDialog.h" />
     <ClInclude Include="src\MyException.h" />
-    <ClInclude Include="src\MYFILDLG.H" />
+    <ClInclude Include="src\dialogs\MYFILDLG.H" />
     <ClInclude Include="src\engine\bidding\NegativeDoublesConvention.h" />
-    <ClInclude Include="src\NNetAutotrainStatusDlg.h" />
-    <ClInclude Include="src\NNetConfigDialog.h" />
-    <ClInclude Include="src\NNetOutputDialog.h" />
+    <ClInclude Include="src\dialogs\NNetAutotrainStatusDlg.h" />
+    <ClInclude Include="src\dialogs\NNetConfigDialog.h" />
+    <ClInclude Include="src\dialogs\NNetOutputDialog.h" />
     <ClInclude Include="src\ObjectWithProperties.h" />
     <ClInclude Include="src\engine\bidding\OvercallsConvention.h" />
-    <ClInclude Include="src\PassedHandDialog.h" />
-    <ClInclude Include="src\PassedHandSimpleDialog.h" />
+    <ClInclude Include="src\dialogs\PassedHandDialog.h" />
+    <ClInclude Include="src\dialogs\PassedHandSimpleDialog.h" />
     <ClInclude Include="src\engine\play\Play.h" />
     <ClInclude Include="src\engine\play\PlayEngine.H" />
     <ClInclude Include="src\engine\PLAYER.H" />
     <ClInclude Include="src\engine\playeropts.h" />
-    <ClInclude Include="src\PlayerStatusDialog.H" />
+    <ClInclude Include="src\engine\PlayerStatusDialog.H" />
     <ClInclude Include="src\engine\play\PlayList.h" />
     <ClInclude Include="src\progopts.h" />
-    <ClInclude Include="src\roundfinisheddialog.h" />
+    <ClInclude Include="src\dialogs\roundfinisheddialog.h" />
     <ClInclude Include="src\engine\play\Ruff.h" />
-    <ClInclude Include="src\saveopts.h" />
-    <ClInclude Include="src\ScoreDialog.h" />
-    <ClInclude Include="src\ScreenSizeWarningDlg.h" />
-    <ClInclude Include="src\SelectHandDialog.h" />
+    <ClInclude Include="src\dialogs\saveopts.h" />
+    <ClInclude Include="src\dialogs\ScoreDialog.h" />
+    <ClInclude Include="src\dialogs\ScreenSizeWarningDlg.h" />
+    <ClInclude Include="src\dialogs\SelectHandDialog.h" />
     <ClInclude Include="src\engine\bidding\ShutoutBidsConvention.h" />
     <ClInclude Include="src\engine\bidding\SlamConvention.h" />
     <ClInclude Include="src\engine\bidding\SplinterBidsConvention.h" />
@@ -496,10 +500,9 @@
     <ClInclude Include="src\engine\bidding\StaymanConvention.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\engine\bidding\StrongTwoBidsConvention.h" />
-    <ClInclude Include="src\SUBCLASS.H" />
     <ClInclude Include="src\engine\SuitHoldings.H" />
     <ClInclude Include="src\engine\bidding\TakeoutDoublesConvention.h" />
-    <ClInclude Include="src\TestPlayDialog.h" />
+    <ClInclude Include="src\dialogs\TestPlayDialog.h" />
     <ClInclude Include="src\engine\play\TrumpPull.h" />
     <ClInclude Include="src\engine\play\Type1Finesse.h" />
     <ClInclude Include="src\engine\play\Type2Finesse.h" />

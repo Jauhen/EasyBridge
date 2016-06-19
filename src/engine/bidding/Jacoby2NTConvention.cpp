@@ -14,11 +14,11 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../Player.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "Jacoby2NTConvention.h"
 #include "OvercallsConvention.h"
 #include "ConventionSet.h"
-
+#include "app_interface.h"
 
 
 
@@ -65,7 +65,7 @@ BOOL CJacoby2NTConvention::TryConvention(const CPlayer& player,
 	bidState.fAdjPts = hand.RevalueHand(REVALUE_DUMMY, nSuit, TRUE);
 
 	//
-	status << "J2N1! Partner opened " & BTS(nPartnersBid) & ", and with " &
+	status << "J2N1! Partner opened " & app_->BidToFullString(nPartnersBid) & ", and with " &
 			  bidState.fAdjPts & " pts in hand and " & bidState.numSupportCards & 
 			  "-card trump support, we can bid Jacoby 2NT to ask for partner's strength.\n";
 	bidState.SetBid(BID_2NT);
@@ -158,7 +158,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 		{
 			nBid = MAKEBID(nSuit, 3);
 			status << "J2N21! With " & fPts & " points in hand, "
-					  "respond to partner's Jacoby 2NT inquiry with a bid of " & BTS(nBid) & ".\n";
+					  "respond to partner's Jacoby 2NT inquiry with a bid of " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else if (fPts >= 15)
 		{
@@ -179,7 +179,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 				nBid = MAKEBID(nSuit, 4);
 				status << "J2N22! With " & fPts & " points in hand and a good " & 
 						  bidState.numCardsInSuit[nSuit] & "-card suit in " & STS(nSuit) & 
-						  ", respond to partner's Jacoby 2NT inquiry with " & BTS(nBid) & ".\n";
+						  ", respond to partner's Jacoby 2NT inquiry with " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else if (bidState.numVoids >= 1)
 			{
@@ -191,7 +191,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 				}
 				nBid = MAKEBID(nSuit, 3);
 				status << "J2N24! With " & fPts & " points in hand and a void suit in " & STS(nSuit) & 
-						  ", respond to partner's Jacoby 2NT inquiry with a bid of " & BTS(nBid) & ".\n";
+						  ", respond to partner's Jacoby 2NT inquiry with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else if (bidState.numSingletons >= 1)
 			{
@@ -203,14 +203,14 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 				}
 				nBid = MAKEBID(nSuit, 3);
 				status << "J2N26! With " & fPts & " points in hand and a singleton in " & STS(nSuit) & 
-						  ", respond to partner's Jacoby 2NT inquiry with a bid of " & BTS(nBid) & ".\n";
+						  ", respond to partner's Jacoby 2NT inquiry with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
 				// bid 3NT
 				nBid = BID_3NT;
 				status << "J2N28! With " & fPts & " points in hand and no short suits, " 
-						  " respond to partner's Jacoby 2NT inquiry with a bid of " & BTS(nBid) & ".\n";
+						  " respond to partner's Jacoby 2NT inquiry with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			}
 		}
 		else
@@ -218,7 +218,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 			// sign off at the 4-level
 			nBid = MAKEBID(nSuit, 4);
 			status << "J2N31! With only " & fPts & " points in hand, sign off in game at " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 
 		// and return
@@ -282,7 +282,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 					   OPEN_PTS(18) & "+ points.\n";
 
 			// revalue partnership totals
-			bidState.AdjustPartnershipPoints(18, pCurrConvSet->GetValue(tn2ClubOpeningPoints));
+			bidState.AdjustPartnershipPoints(18, app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints));
 		}
 		else if ((nPartnersBidLevel == 3) && ISSUIT(nSuit) && (nSuit != nPrevSuit))
 		{
@@ -331,7 +331,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		// now figure out what to do
-		if (bidState.m_fMinTPPoints >= PTS_SLAM)
+		if (bidState.m_fMinTPPoints >= app_->SlamPts() )
 		{
 			// go to Blackwood
 			status << "J2N60! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
@@ -340,7 +340,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
 		}
-		else if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME)
+		else if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )
 		{
 			// we want to bid game
 			if (nPartnersBid < bidState.GetGameBid(nPrevSuit))
@@ -349,7 +349,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = bidState.GetGameBid(nPrevSuit);
 				status << "J2N62! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						  " pts in the partnership, go to game in " & STS(nPrevSuit) &
-						  " with a bid of " & BTS(nBid) & ".\n";
+						  " with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -358,7 +358,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 				{
 					nBid = BID_PASS;
 					status << "J2N64! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-							  " pts in the partnership, pass partner's " & BTS(nPartnersBid) & " bid.\n";
+							  " pts in the partnership, pass partner's " & app_->BidToFullString(nPartnersBid) & " bid.\n";
 				}
 				else
 				{
@@ -366,7 +366,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 					nBid = bidState.GetCheapestShiftBid(nPrevSuit, nPartnersBid);
 					status << "J2N66! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 							  " pts in the partnership, we want to stop at game in " & STS(nPrevSuit) & 
-							  "; correct partner's " & BTS(nPartnersBid) & " bid to " & BTS(nBid) & ".\n";
+							  "; correct partner's " & app_->BidToFullString(nPartnersBid) & " bid to " & app_->BidToFullString(nBid) & ".\n";
 				}
 			}
 		}
@@ -378,7 +378,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				nBid = BID_PASS;
 				status << "J2N70! With a total of only " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-						  " pts in the partnership, we have to stop here at " & BTS(nPartnersBid) &
+						  " pts in the partnership, we have to stop here at " & app_->BidToFullString(nPartnersBid) &
 						  ", so pass.\n";
 			}
 			else
@@ -386,7 +386,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = bidState.GetCheapestShiftBid(nPrevSuit, nPartnersBid);
 				status << "J2N72! With a total of only " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						  " pts in the partnership, we have to return to the " & STSS(nPrevSuit) & 
-						  " and stop at " & BTS(nBid) & ".\n";
+						  " and stop at " & app_->BidToFullString(nBid) & ".\n";
 			}
 		}
 
@@ -410,8 +410,8 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CJacoby2NTConvention::CJacoby2NTConvention() 
-{
+CJacoby2NTConvention::CJacoby2NTConvention(std::shared_ptr<AppInterface> app)
+  : CConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidJacoby2NT;
 }

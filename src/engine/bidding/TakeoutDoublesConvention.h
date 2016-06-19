@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CTakeoutDoublesConvention();
+	CTakeoutDoublesConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CTakeoutDoublesConvention();
 };
 
 
 #endif
-
-extern CTakeoutDoublesConvention takeoutDoublesConvention;

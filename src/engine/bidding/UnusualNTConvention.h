@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CUnusualNTConvention();
+	CUnusualNTConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CUnusualNTConvention();
 };
 
 
 #endif
-
-extern CUnusualNTConvention unusualNTConvention;

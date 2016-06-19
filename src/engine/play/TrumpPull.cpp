@@ -13,8 +13,8 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "Deck.h"
-#include "Card.h"
+#include "../Deck.h"
+#include "../Card.h"
 #include "TrumpPull.h"
 #include "../Player.h"
 #include "PlayEngine.h"
@@ -23,7 +23,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "DeclarerPlayEngine.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 
 
 

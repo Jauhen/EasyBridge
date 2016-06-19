@@ -75,9 +75,7 @@ BOOL CStatusGIBMonitorPage::OnInitDialog()
 		return -1;	// oops!
 	m_edit.SendMessage(WM_SETFONT, (UINT)GetStockObject(ANSI_VAR_FONT), 0L);
 	m_edit.HideSelection(TRUE, TRUE);
-	// and subclass it
-	wpOrigRichEditProc = (WNDPROC) SetWindowLong(m_edit.GetSafeHwnd(), GWL_WNDPROC, (LONG) RichEditSubclassProc);
-
+	
 	// set flags
 	m_bInitialized = TRUE;
 	Update();

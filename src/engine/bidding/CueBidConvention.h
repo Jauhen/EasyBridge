@@ -41,11 +41,9 @@ private:
 	
 // 
 public:
-	CCueBidConvention();
+	CCueBidConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CCueBidConvention();
 };
 
 
 #endif
-
-extern CCueBidConvention cueBidConvention;

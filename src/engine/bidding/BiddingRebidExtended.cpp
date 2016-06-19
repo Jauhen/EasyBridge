@@ -14,10 +14,10 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "bidengine.h"
 #include "ConventionSet.h"
-
+#include "app_interface.h"
 
 
 //
@@ -73,7 +73,7 @@ int CBidEngine::MakeRebidExtended()
 	//  - later round of Jacoby
 	//  handle each accordingly
 	//
-	if (pCurrConvSet->ApplyConventionTests(*m_pPlayer, *m_pHand, *m_pCardLocation, m_ppGuessedHands, *this, *m_pStatusDlg))
+	if (app_->GetCurrentConventionSet()->ApplyConventionTests(*m_pPlayer, *m_pHand, *m_pCardLocation, m_ppGuessedHands, *this, *m_pStatusDlg))
 	{
 		return ValidateBid(m_nBid);
 	}
@@ -124,7 +124,7 @@ int CBidEngine::MakeRebidExtended()
 				status << "BXA10! Partner has bid " & ((nPartnersBidLevel < 6)? "game" : "a slam") &
 						  " in the " & szPVSS & " suit, which we really didn't intend.\n";
 				// bid on only if we have aspirations to slam
-				if (m_fMinTPPoints >= PTS_SLAM)
+				if (m_fMinTPPoints >= app_->SlamPts() )
 				{
 					status << "BXA20! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " pts in the partnership, try for a slam in partner's original " & 
@@ -151,23 +151,23 @@ int CBidEngine::MakeRebidExtended()
 					  STSS(m_nAgreedSuit) & " suit.\n";
 
 			// raise to the 3-level if possible
-			if (RaisePartnersSuit(SUIT_PREV, RAISE_TO_3, PTS_GAME-3, PTS_GAME-1, SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV, RAISE_TO_3, app_->GamePts() -3, app_->GamePts() -1, SUPLEN_3))
 				return ValidateBid(m_nBid);
 			
 			// raise a major to game with 3-card support & 26 pts
-			if (RaisePartnersSuit(SUIT_PREV_MAJOR, RAISE_TO_GAME, PTS_GAME, 99, SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV_MAJOR, RAISE_TO_GAME, app_->GamePts() , 99, SUPLEN_3))
 				return ValidateBid(m_nBid);
 
 			// raise a minor to the 4-level if possible
-			if (RaisePartnersSuit(SUIT_PREV_MINOR, RAISE_TO_4, PTS_MINOR_GAME-3, PTS_MINOR_GAME-1, SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV_MINOR, RAISE_TO_4, app_->MinorSuitGamePts() -3, app_->MinorSuitGamePts() -1, SUPLEN_3))
 				return ValidateBid(m_nBid);
 
 			// raise a minor to game with 4-card support & 29 pts
-			if (RaisePartnersSuit(SUIT_PREV_MINOR, RAISE_TO_GAME, PTS_MINOR_GAME, 99, SUPLEN_4))
+			if (RaisePartnersSuit(SUIT_PREV_MINOR, RAISE_TO_GAME, app_->MinorSuitGamePts() , 99, SUPLEN_4))
 				return ValidateBid(m_nBid);
 
 			// or raise a minor to game with 3-card support & 30 pts
-			if (RaisePartnersSuit(SUIT_PREV_MINOR, RAISE_TO_GAME, PTS_MINOR_GAME+1, 99, SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV_MINOR, RAISE_TO_GAME, app_->MinorSuitGamePts() +1, 99, SUPLEN_3))
 				return ValidateBid(m_nBid);
 
 			// else pass
@@ -185,12 +185,12 @@ int CBidEngine::MakeRebidExtended()
 			// see if partner bid slam in the suit
 			if (nPartnersBidLevel >= 6)
 			{
-				if ((nPartnersBidLevel == 6) && (m_fMinTPPoints >= PTS_GRAND_SLAM))
+				if ((nPartnersBidLevel == 6) && (m_fMinTPPoints >= app_->GrandSlamPts() ))
 				{
 					m_nBid = MAKEBID(m_nAgreedSuit, 7);
 					status << "BXA90! Partner has returned to our suit at a small slam level, and with a total of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
-							  " pts in the partnership, push on to a grand slam at " & BTS(m_nBid) & ".\n";
+							  " pts in the partnership, push on to a grand slam at " & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -203,7 +203,7 @@ int CBidEngine::MakeRebidExtended()
 			else if (nPartnersBid >= GetGameBid(m_nAgreedSuit))
 			{
 				// bid on only if we have aspirations to slam
-				if (m_fMinTPPoints >= PTS_SLAM)
+				if (m_fMinTPPoints >= app_->SlamPts() )
 				{
 					InvokeBlackwood(m_nAgreedSuit);
 					return ValidateBid(m_nBid);
@@ -272,7 +272,7 @@ int CBidEngine::MakeRebidExtended()
 		m_nAgreedSuit = nFirstRoundSuit;
 		int numCards = numCardsInSuit[m_nAgreedSuit];
 		status << "BXC00! Partner has returned to our first suit, raising it to " & 
-				  BTS(nPartnersBid) & ".\n";
+				  app_->BidToFullString(nPartnersBid) & ".\n";
 		// adjust points as declarer
 		fAdjPts = m_pHand->RevalueHand(REVALUE_DECLARER, nPartnersSuit, TRUE);
 		m_fMinTPPoints = fAdjPts + m_fPartnersMin;
@@ -281,7 +281,7 @@ int CBidEngine::MakeRebidExtended()
 		m_fMaxTPCPoints = fCardPts + m_fPartnersMax;
 
 		// see if we have the points for a slam
-		if (m_fMinTPPoints < PTS_SLAM) 
+		if (m_fMinTPPoints < app_->SlamPts() ) 
 		{
 			// no slam, but maybe we can still raise the bid further			
 			if (nPartnersBid < GetGameBid(m_nAgreedSuit))
@@ -290,51 +290,51 @@ int CBidEngine::MakeRebidExtended()
 				if (ISMAJOR(m_nAgreedSuit) && (numCards >= 4))
 				{
 					// in majors
-					if (m_fMinTPPoints >= PTS_GAME)
+					if (m_fMinTPPoints >= app_->GamePts() )
 					{
 						m_nBid = GetGameBid(m_nAgreedSuit);
 						status << "BXC02! And with " & numPrefSuitCards & " trump cards and " &
 								  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-								  " team points, push on to game at " & BTS(m_nBid) & ".\n";
+								  " team points, push on to game at " & app_->BidToFullString(m_nBid) & ".\n";
 						return ValidateBid(m_nBid);
 					}
-					else if ((m_fMinTPPoints >= PTS_GAME-3) && (nPartnersBidLevel == 2))
+					else if ((m_fMinTPPoints >= app_->GamePts() -3) && (nPartnersBidLevel == 2))
 					{
 						m_nBid = MAKEBID(m_nAgreedSuit, 3);
 						status << "BXC03! But with only " &
 								  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-								  " team points, we don't have quite enough for game, so raise only to " & BTS(m_nBid) & ".\n";
+								  " team points, we don't have quite enough for game, so raise only to " & app_->BidToFullString(m_nBid) & ".\n";
 						return ValidateBid(m_nBid);
 					}
 				}
 				else if (numCards >= 4)
 				{
 					// in minors with 4+ trumps
-					if (m_fMinTPPoints >= PTS_MINOR_GAME)
+					if (m_fMinTPPoints >= app_->MinorSuitGamePts() )
 					{
 						m_nBid = GetGameBid(m_nAgreedSuit);
 						status << "BXC06! And with " & numPrefSuitCards & " trump cards and " &
 								  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-								  " team points, push on to a minor game at " & BTS(m_nBid) & ".\n";
+								  " team points, push on to a minor game at " & app_->BidToFullString(m_nBid) & ".\n";
 						return ValidateBid(m_nBid);
 					}
 					else
 					{
 						// raise to 3 or 4 of the minor if possible
-						if ((m_fMinTPPoints >= PTS_MINOR_GAME-3) && (nPartnersBidLevel <= 3))
+						if ((m_fMinTPPoints >= app_->MinorSuitGamePts() -3) && (nPartnersBidLevel <= 3))
 						{
 							m_nBid = MAKEBID(m_nAgreedSuit, 4);
 							status << "BXC07! But with only " &
 									  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-									  " team points, we don't have quite enough for game, so raise only to " & BTS(m_nBid) & ".\n";
+									  " team points, we don't have quite enough for game, so raise only to " & app_->BidToFullString(m_nBid) & ".\n";
 							return ValidateBid(m_nBid);
 						}
-						else if ((m_fMinTPPoints >= PTS_MINOR_GAME-6) && (nPartnersBidLevel == 2))
+						else if ((m_fMinTPPoints >= app_->MinorSuitGamePts() -6) && (nPartnersBidLevel == 2))
 						{
 							m_nBid = MAKEBID(m_nAgreedSuit, 3);
 							status << "BXC08! But with only " &
 									  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-									  " team points, we don't have quite enough for game, so raise only to " & BTS(m_nBid) & ".\n";
+									  " team points, we don't have quite enough for game, so raise only to " & app_->BidToFullString(m_nBid) & ".\n";
 							return ValidateBid(m_nBid);
 						}
 					}
@@ -369,21 +369,21 @@ int CBidEngine::MakeRebidExtended()
 		}
 
 		// if we have the points for a slam, bid on past game and to a slam
-		if ((m_fMinTPPoints <= PTS_GRAND_SLAM) && (nPartnersBidLevel < 6))
+		if ((m_fMinTPPoints <= app_->GrandSlamPts() ) && (nPartnersBidLevel < 6))
 		{
 			m_nBid = MAKEBID(nPartnersSuit, 6);
 			status << "BXC40! With an agreed suit of " & STS(nPartnersSuit) & 
 				      " and " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  " total partnership points, bid on to slam at " & BTS(m_nBid) & ".\n";
+					  " total partnership points, bid on to slam at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 		// here, we have 37+ pts (whoopee!), so bid 7 of the suit
-		if ((m_fMinTPPoints >= PTS_GRAND_SLAM) && (nPartnersBidLevel < 7))
+		if ((m_fMinTPPoints >= app_->GrandSlamPts() ) && (nPartnersBidLevel < 7))
 		{
 			m_nBid = MAKEBID(nPartnersSuit, 7);
 			status << "BXC44! With an agreed suit of " & STS(nPartnersSuit) & 
 				      " and " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  " total partnership points, bid on to slam at " & BTS(m_nBid) & ".\n";
+					  " total partnership points, bid on to slam at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 		// otherwise accept the slam contract & pass
@@ -414,28 +414,28 @@ int CBidEngine::MakeRebidExtended()
 								   (nPartnersSuit != NOTRUMP))
 	{
 		status << "2BXU00! Partner returned to our agreed " & STSS(m_nAgreedSuit) &
-				  " at a bid of " & BTS(nPartnersBid) & 
+				  " at a bid of " & app_->BidToFullString(nPartnersBid) & 
 				  " after we showed the " & STSS(nPreviousSuit) & 
 				  " side suit.\n";
 		//
 		// either pass or return to the agreed suit at game or slam
 		//
-		if (m_fMinTPPoints < PTS_SLAM)
+		if (m_fMinTPPoints < app_->SlamPts() )
 		{
 			//
 			// bid on to game with 26+ pts, otherwise pass
 			//
 			if (nPartnersBid < GetGameBid(m_nAgreedSuit))
 			{
-				if ( (ISMAJOR(m_nAgreedSuit) && (m_fMinTPPoints >= PTS_GAME)) ||
-					 (ISMINOR(m_nAgreedSuit) && (m_fMinTPPoints >= PTS_MINOR_GAME)) )
+				if ( (ISMAJOR(m_nAgreedSuit) && (m_fMinTPPoints >= app_->GamePts() )) ||
+					 (ISMINOR(m_nAgreedSuit) && (m_fMinTPPoints >= app_->MinorSuitGamePts() )) )
 				{
 					// bid on to game
 					m_nBid = GetGameBid(m_nAgreedSuit);
 					status << "BXU20! With a total of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " points in the partnership, go ahead and bid game at " &
-							  BTS(m_nBid) & ".\n";
+							  app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -464,7 +464,7 @@ int CBidEngine::MakeRebidExtended()
 			else if (nPartnersBidLevel == 6)
 			{
 				// partner bid a small slam
-				if (m_fMinTPPoints <= PTS_GRAND_SLAM)
+				if (m_fMinTPPoints <= app_->GrandSlamPts() )
 				{
 					m_nBid = BID_PASS;
 					status << "BXU50! Partner has bid a small slam, and with " &
@@ -477,7 +477,7 @@ int CBidEngine::MakeRebidExtended()
 					status << "BXU55! Partner has bid a small slam, and with " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						      " points in the partnership, we boldly raise to " &
-							  BTS(m_nBid) & ".\n";
+							  app_->BidToFullString(m_nBid) & ".\n";
 				}
 			}
 			else
@@ -566,7 +566,7 @@ int CBidEngine::MakeRebidExtended()
 			{
 				// with <= 6 cards, pass if above game in own suit
 				if ((nPartnersBid >= GetGameBid(nPrefSuit)) &&
-											(m_fMaxTPPoints < PTS_SLAM))
+											(m_fMaxTPPoints < app_->SlamPts() ))
 				{
 					m_nBid = BID_PASS;
 					status << "BXF10! At this point, the partnership has " &
@@ -579,16 +579,16 @@ int CBidEngine::MakeRebidExtended()
 				// support partner if holding 2+ cards in support
 				// bid towards game with 26 - 32 TP points
 				if (nPartnersBidLevel < 4)
-					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,PTS_GAME,PTS_SLAM-1,SUPLEN_2))
+					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_2))
 						return ValidateBid(m_nBid);
 
 				// or towards slam with 33+ pts and 2+ card support
-				if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,PTS_SLAM,99,SUPLEN_2))
+				if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,app_->SlamPts() ,99,SUPLEN_2))
 					return ValidateBid(m_nBid);
 
 				// else we lack 2+ card support for partner, so
 				// rebid our own strong suit with 26+ TP's
-				if (RebidSuit(SUIT_MAJOR,REBID_CHEAPEST,PTS_GAME,PTS_SLAM-1,LENGTH_6,SS_STRONG))
+				if (RebidSuit(SUIT_MAJOR,REBID_CHEAPEST,app_->GamePts() ,app_->SlamPts() -1,LENGTH_6,SS_STRONG))
 					return ValidateBid(m_nBid);
 
 				// else pass
@@ -608,18 +608,18 @@ int CBidEngine::MakeRebidExtended()
 					m_nBid = GetCheapestShiftBid(nPrefSuit);
 					status << "BXF20! With " & numPrefSuitCards & 
 							  " cards in our preferred " & szPrefS & 
-							  " suit, rebid it again at " & BTS(m_nBid) & ".\n";
+							  " suit, rebid it again at " & app_->BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 
 				// support partner if holding 2+ cards in support
 				// bid towards game with 26 - 32 TP points
 				if (nPartnersBidLevel < 4)
-					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,PTS_GAME,PTS_SLAM-1,SUPLEN_2))
+					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_2))
 						return ValidateBid(m_nBid);
 
 				// else just pass with <= 32 total points
-				if (m_fMaxTPPoints < PTS_SLAM)
+				if (m_fMaxTPPoints < app_->SlamPts() )
 				{
 					m_nBid = BID_PASS;
 					status << "BXF24! Despite having " & numPrefSuitCards & 
@@ -631,11 +631,11 @@ int CBidEngine::MakeRebidExtended()
 
 				// with 33+ points, explore slam somehow
 				// with 2+ card support, bid 6 of partner's suit
-				if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_6,PTS_SLAM,99,SUPLEN_2))
+				if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_6,app_->SlamPts() ,99,SUPLEN_2))
 					return ValidateBid(m_nBid);
 
 				// else with a solid 8+ card suit, bid 6 of our suit
-				if (RebidSuit(SUIT_MAJOR,REBID_AT_6,PTS_SLAM,99,LENGTH_8,SS_STRONG|SS_SOLID))
+				if (RebidSuit(SUIT_MAJOR,REBID_AT_6,app_->SlamPts() ,99,LENGTH_8,SS_STRONG|SS_SOLID))
 					return ValidateBid(m_nBid);
 
 				// else plan on 6/7NT and invoke Blackwood
@@ -661,7 +661,7 @@ int CBidEngine::MakeRebidExtended()
 
 				// pass if above game in our own suit		
 				if (nPartnersBid >= GetGameBid(nPrefSuit) &&
-											(m_fMaxTPPoints < PTS_SLAM))
+											(m_fMaxTPPoints < app_->SlamPts() ))
 				{
 					m_nBid = BID_PASS;
 					status << "BXG10! At this point, the partnership has " &
@@ -674,7 +674,7 @@ int CBidEngine::MakeRebidExtended()
 				// support partner if holding 2+ cards in support
 				// bid towards game with 26 - 32 TP points
 				if (nPartnersBidLevel < 4)
-					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,PTS_GAME,PTS_SLAM-1,SUPLEN_2))
+					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_2))
 						return ValidateBid(m_nBid);
 			
 				// otherwise rebid with 6 or 7 cards
@@ -704,7 +704,7 @@ int CBidEngine::MakeRebidExtended()
 				// support partner if holding 2+ cards in support
 				// bid towards game with 26 - 32 TP points
 				if (nPartnersBidLevel < 4)
-					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,PTS_GAME,PTS_SLAM-1,SUPLEN_2))
+					if (RaisePartnersSuit(SUIT_MAJOR,RAISE_ONE,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_2))
 						return ValidateBid(m_nBid);
 			
 				// else pass
@@ -742,18 +742,18 @@ int CBidEngine::MakeRebidExtended()
 					m_nBid = BID_3NT;
 					status << "BXH10! With a " & numPrefSuitCards & 
 							  "-card minor and all other suits stopped, bid " & 
-							  BTS(m_nBid) & ".\n";
+							  app_->BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 
 				// support partner with 3+ card support and 22+ pts
 				if (nPartnersBidLevel < 5)
-					if (RaisePartnersSuit(SUIT_MINOR,RAISE_ONE,PTS_MINOR_GAME-7,99,SUPLEN_3))
+					if (RaisePartnersSuit(SUIT_MINOR,RAISE_ONE,app_->MinorSuitGamePts() -7,99,SUPLEN_3))
 						return ValidateBid(m_nBid);
 
 				// pass if above game in own suit
 				if (nPartnersBid >= GetGameBid(nPrefSuit) &&
-											(m_fMaxTPPoints < PTS_SLAM))
+											(m_fMaxTPPoints < app_->SlamPts() ))
 				{
 					m_nBid = BID_PASS;
 					status << "BXH14! At this point, the partnership has " &
@@ -768,7 +768,7 @@ int CBidEngine::MakeRebidExtended()
 					return ValidateBid(m_nBid);
 				
 				// or with 33+ points and 4+ cards
-				if (RebidSuit(SUIT_MINOR,REBID_CHEAPEST,PTS_SLAM,99,LENGTH_4,SS_STRONG))
+				if (RebidSuit(SUIT_MINOR,REBID_CHEAPEST,app_->SlamPts() ,99,LENGTH_4,SS_STRONG))
 					return ValidateBid(m_nBid);
 
 				// else pass
@@ -797,7 +797,7 @@ int CBidEngine::MakeRebidExtended()
 					m_nBid = BID_3NT;
 					status << "BXI10! With a " & numPrefSuitCards &
 							  "-card minor and all other suits stopped, bid " & 
-							  BTS(m_nBid) & ".\n";
+							  app_->BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 
@@ -850,7 +850,7 @@ int CBidEngine::MakeRebidExtended()
 		// see if partner rebid at the game level
 		int nPartnersGameBid = GetGameBid(nPartnersSuit);
 		if ((nPartnersBidLevel >= nPartnersGameBid) &&
-									(m_fMinTPPoints < PTS_SLAM))
+									(m_fMinTPPoints < app_->SlamPts() ))
 		{
 			m_nBid = BID_PASS;
 			status << "BXK05! Partner has rebid his suit at " &
@@ -873,11 +873,11 @@ int CBidEngine::MakeRebidExtended()
 		if (nPartnersBid < nPartnersGameBid)
 		{
 			// 26-32 pts
-			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_4,PTS_GAME,PTS_SLAM-1,
+			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_4,app_->GamePts() ,app_->SlamPts() -1,
 								  (bRebidTwice)? SUPLEN_2:SUPLEN_3,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
 			// 23-32 pts
-			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,PTS_GAME-3,PTS_SLAM-1,
+			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,app_->GamePts() -3,app_->SlamPts() -1,
 								  (bRebidTwice)? SUPLEN_2:SUPLEN_3,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
 		}
@@ -894,7 +894,7 @@ int CBidEngine::MakeRebidExtended()
 				m_nBid = nBid;
 				status << "BXK10! With only " & numSupportCards & 
 						  "-card support for partner's " & szPS & 
-						  ", bid our self-supporting " & szPrefSS & " suit at " & BTS(m_nBid) & ".\n";
+						  ", bid our self-supporting " & szPrefSS & " suit at " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -907,10 +907,10 @@ int CBidEngine::MakeRebidExtended()
 					(nPartnersBid < nPartnersGameBid))
 		{
 			// 27-32: raise to 4
-			if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_GAME+1,PTS_SLAM-1,SUPLEN_2,STRENGTH_ANY))
+			if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->GamePts() +1,app_->SlamPts() -1,SUPLEN_2,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
 			// 24-32: raise to 3
-			if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,PTS_GAME-2,PTS_SLAM-1,SUPLEN_2,STRENGTH_ANY))
+			if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,app_->GamePts() -2,app_->SlamPts() -1,SUPLEN_2,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
 		}
 
@@ -919,11 +919,11 @@ int CBidEngine::MakeRebidExtended()
 		//
 		if ((m_pHand->AllOtherSuitsStopped(nPrefSuit, nPartnersSuit)) &&
 					(nPartnersBid < BID_3NT) && 
-					(m_fMinTPCPoints >= PTS_GAME) && (m_fMinTPCPoints < PTS_SLAM))
+					(m_fMinTPCPoints >= app_->GamePts() ) && (m_fMinTPCPoints < app_->SlamPts() ))
 		{
 			m_nBid = BID_3NT;
 			status << "BXK20! With no agreement in suits, and all other suits stopped, bid " & 
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -936,13 +936,13 @@ int CBidEngine::MakeRebidExtended()
 		if (ISMINOR(nPartnersSuit) && (nPartnersSuit < nPartnersPrevSuit) &&
 					(nPartnersBid < nPartnersGameBid))
 		{
-			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,PTS_GAME-1,PTS_GAME,
+			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,app_->GamePts() -1,app_->GamePts() ,
 								  (bRebidTwice)? SUPLEN_2:SUPLEN_3,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
-			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_4,PTS_GAME+1,PTS_SLAM-1,
+			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_4,app_->GamePts() +1,app_->SlamPts() -1,
 								  (bRebidTwice)? SUPLEN_2:SUPLEN_3,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
-			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_5,PTS_MINOR_GAME+1,PTS_SLAM-1,
+			if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_5,app_->MinorSuitGamePts() +1,app_->SlamPts() -1,
 								  (bRebidTwice)? SUPLEN_2:SUPLEN_3,STRENGTH_ANY))
 				return ValidateBid(m_nBid);
 		}
@@ -951,37 +951,37 @@ int CBidEngine::MakeRebidExtended()
 		// rebid a strong 6-card suit w/ 23+ pts
 		//
 		if (nPartnersBid < nPartnersGameBid)
-			if (RebidSuit(SUIT_ANY,SHIFT_CHEAPEST,PTS_GAME-3,99,LENGTH_6,SS_STRONG))
+			if (RebidSuit(SUIT_ANY,SHIFT_CHEAPEST,app_->GamePts() -3,99,LENGTH_6,SS_STRONG))
 				return ValidateBid(m_nBid);
 
 		//
 		// raise partner's _rebid_ suit to game or slam with exceptional strength
 		// need 2 cards and 33/37 pts for slam, or 1 card and 28/31 pts for game
 		//
-		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_7,PTS_GRAND_SLAM+1,0,SUPLEN_2,STRENGTH_ANY))
+		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_7,app_->GrandSlamPts() +1,0,SUPLEN_2,STRENGTH_ANY))
 			return ValidateBid(m_nBid);
-		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_6,PTS_SLAM+1,0,SUPLEN_2,STRENGTH_ANY))
+		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_6,app_->SlamPts() +1,0,SUPLEN_2,STRENGTH_ANY))
 			return ValidateBid(m_nBid);
-		if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_GAME,PTS_GAME+2,0,
+		if (RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_GAME,app_->GamePts() +2,0,
 							  (bRebidTwice)? SUPLEN_1:SUPLEN_2,STRENGTH_ANY))
 			return ValidateBid(m_nBid);
-		if (RaisePartnersSuit(SUIT_MINOR,RAISE_TO_GAME,PTS_MINOR_GAME+2,0,
+		if (RaisePartnersSuit(SUIT_MINOR,RAISE_TO_GAME,app_->MinorSuitGamePts() +2,0,
 							  (bRebidTwice)? SUPLEN_1:SUPLEN_2,STRENGTH_ANY))
 			return ValidateBid(m_nBid);
 
 		//
 		// with slam points and no suit agreement, bid notrump
 		//
-		if ((m_fMinTPCPoints >= PTS_SLAM) && (bSemiBalanced))
+		if ((m_fMinTPCPoints >= app_->SlamPts() ) && (bSemiBalanced))
 		{
-			if (m_fMinTPCPoints >= PTS_GRAND_SLAM)
+			if (m_fMinTPCPoints >= app_->GrandSlamPts() )
 				m_nBid = BID_7NT;
 			else 
 				m_nBid = BID_6NT;
 			status << "BXK30! With no agreement in suits but with " & 
 					  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 					  " HCPs in the partnership, go ahead and bid slam at " & 
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -991,11 +991,11 @@ int CBidEngine::MakeRebidExtended()
 		//
 		if ((nPartnersBidLevel == 3) && (nPartnersSuit != NOTRUMP) && 
 					(numSupportCards == 0) &&
-					((m_fMinTPCPoints >= PTS_GAME) || (m_fMinTPPoints >= PTS_GAME+1)) )
+					((m_fMinTPCPoints >= app_->GamePts() ) || (m_fMinTPPoints >= app_->GamePts() +1)) )
 		{
 			m_nBid = BID_3NT;
 			status << "BXK36! With no agreement in suits and zero trump support for partner's " & szPS &
-					  ", bail out at " & BTS(m_nBid) & ".\n";
+					  ", bail out at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1072,7 +1072,7 @@ int CBidEngine::MakeRebidExtended()
 		// rebid a strong major, if it's our preferred suit, with 22+ pts
 		//
 		if ((ISMAJOR(nPrefSuit)) && (nPrefSuitStrength >= SS_STRONG) &&
-						(nPartnersBidLevel <= 2) && (m_fMinTPPoints >= PTS_GAME-3))
+						(nPartnersBidLevel <= 2) && (m_fMinTPPoints >= app_->GamePts() -3))
 		{
 			m_nBid = GetCheapestShiftBid(nPrefSuit);
 			// see if the bid is low enough
@@ -1081,7 +1081,7 @@ int CBidEngine::MakeRebidExtended()
 				status << "BXL10! With no agreement in suits, but with " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " partnership points, return to our preferred " & szPrefSS &
-						  " suit at " & BTS(m_nBid) & ".\n";
+						  " suit at " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -1090,13 +1090,13 @@ int CBidEngine::MakeRebidExtended()
 		// bid 3NT with no voids and 26+ HCPs
 		//
 		if ((numVoids == 0) && (nPartnersBidLevel <= 3) && 
-										(m_fMinTPCPoints >= PTS_GAME))
+										(m_fMinTPCPoints >= app_->GamePts() ))
 		{
 			m_nBid = BID_3NT;
 			status << "BXL20! With 4 suits bid and no agreement, but with " & 
 					  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 					  " high card points in the partnership and no void suits, bid " &
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1138,13 +1138,13 @@ int CBidEngine::MakeRebidExtended()
 		if (IsGameBid(nPartnersBid))
 		{
 			// push on to slam if we have the pts
-			if ((m_fMinTPPoints >= PTS_SLAM) && (nPartnersBidLevel < 6))
+			if ((m_fMinTPPoints >= app_->SlamPts() ) && (nPartnersBidLevel < 6))
 			{
 				// we want to play slam, so pick a suit, even if it's NT
 				if (!ISSUIT(m_nAgreedSuit))
 					m_nAgreedSuit = NOTRUMP;
 				//
-				if (m_fMinTPPoints >= PTS_GRAND_SLAM)
+				if (m_fMinTPPoints >= app_->GrandSlamPts() )
 					m_nBid = MAKEBID(m_nAgreedSuit, 7);
 				else
 					m_nBid = MAKEBID(m_nAgreedSuit, 6);
@@ -1155,12 +1155,12 @@ int CBidEngine::MakeRebidExtended()
 							  ((m_nAgreedSuit == nPartnersPrevSuit)? "previous " : "") &
 							  STSS(m_nAgreedSuit) & " suit to " & 
 							  ((BID_LEVEL(m_nBid) == 7)? "a grand slam" : "slam") & 
-							  " at " & BTS(m_nBid) & ".\n";
+							  " at " & app_->BidToFullString(m_nBid) & ".\n";
 				else
 					status << "BXL35! With a total of " & m_fMinTPPoints & 
 							  "+ pts in the partnership and no suit agreement, push on to " &
 							  ((BID_LEVEL(m_nBid) == 7)? "a grand slam" : "slam") & 
-							  " at " & BTS(m_nBid) & ".\n";
+							  " at " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else if (nPartnersBidLevel < 6)
 			{
@@ -1169,7 +1169,7 @@ int CBidEngine::MakeRebidExtended()
 				status << "BXL36! Without the strength to push further at " &
 						   m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						   " total team points, pass and accept the contract of " & 
-						   BTS(nPartnersBid) & ".\n";
+						   app_->BidToFullString(nPartnersBid) & ".\n";
 			}
 			else
 			{
@@ -1187,7 +1187,7 @@ int CBidEngine::MakeRebidExtended()
 			status << "BXL38! Support partner's " & STSS(m_nAgreedSuit) & 
 					  " suit with " & numCardsInSuit[m_nAgreedSuit] & "-card support and " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints &
-					  " total team pts by bidding " & BTS(m_nBid) & ".\n";
+					  " total team pts by bidding " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1195,18 +1195,18 @@ int CBidEngine::MakeRebidExtended()
 		// bid 3NT (or higher) with no voids and 23+ HCPs
 		if (numVoids == 0)
 		{
-			if ((m_fMinTPCPoints >= PTS_SLAM) && (nPartnersBid < BID_6NT))
+			if ((m_fMinTPCPoints >= app_->SlamPts() ) && (nPartnersBid < BID_6NT))
 			{
 				m_nBid = BID_6NT;
 				status << "BXL42! With no agreement in suits but with partner showing strength with is jump shift, and with a total of " &
-						  m_fMinTPCPoints & "+ HCPs in the partnership, bid " & BTS(m_nBid) & ".\n";
+						  m_fMinTPCPoints & "+ HCPs in the partnership, bid " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
-			else if ((m_fMinTPCPoints >= PTS_GAME-1) && (nPartnersBid < BID_3NT))
+			else if ((m_fMinTPCPoints >= app_->GamePts() -1) && (nPartnersBid < BID_3NT))
 			{
 				m_nBid = BID_3NT;
 				status << "BXL45! With no agreement in suits but with partner showing strength with is jump shift, bid " & 
-						  BTS(m_nBid) & ".\n";
+						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -1221,10 +1221,10 @@ int CBidEngine::MakeRebidExtended()
 			nSuit = SUIT_ANY;
 
 		// raise to 4-level with 26+ total pts
-		if (RaisePartnersSuit(nSuit,RAISE_TO_4,PTS_GAME,99,SUPLEN_2))
+		if (RaisePartnersSuit(nSuit,RAISE_TO_4,app_->GamePts() ,99,SUPLEN_2))
 			return ValidateBid(m_nBid);
 		// raise to 3-level with 24 pts
-		if (RaisePartnersSuit(nSuit,RAISE_TO_3,PTS_GAME-2,99,SUPLEN_2))
+		if (RaisePartnersSuit(nSuit,RAISE_TO_3,app_->GamePts() -2,99,SUPLEN_2))
 			return ValidateBid(m_nBid);
 
 		//
@@ -1270,28 +1270,28 @@ int CBidEngine::MakeRebidExtended()
 			double fAllowance;
 			int nEarlierSuit = m_pPlayer->GetPriorSuit(1);
 			// see how we bid earlier
-			if ((pCurrConvSet->IsOptionEnabled(tbStructuredReverses)) &&
+			if ((app_->GetCurrentConventionSet()->IsOptionEnabled(tbStructuredReverses)) &&
 						(ISSUIT(nPreviousSuit)) && (ISSUIT(nEarlierSuit)) && 
 						(nPreviousSuit > nEarlierSuit) &&
 						(nPreviousBidLevel == 2))
 			{
 				// see if we reversed last time
-				fAllowance = PTS_GAME - 17;		// 26 pts - what partner expects, 17 for a reverse
+				fAllowance = app_->GamePts()  - 17;		// 26 pts - what partner expects, 17 for a reverse
 			}
 			else if (nFirstRoundBidLevel == 2)
 			{
 				if ((nFirstRoundBid == BID_2C) && 
-					(pCurrConvSet->IsConventionEnabled(tidArtificial2ClubConvention)))
-					fAllowance = PTS_GAME - pCurrConvSet->GetValue(tn2ClubOpeningPoints);
-				else if (pCurrConvSet->IsConventionEnabled(tidWeakTwoBids))
-					fAllowance = PTS_GAME - 6;	// 26 pts - 6 for a weak 2 opening
+					(app_->GetCurrentConventionSet()->IsConventionEnabled(tidArtificial2ClubConvention)))
+					fAllowance = app_->GamePts()  - app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints);
+				else if (app_->GetCurrentConventionSet()->IsConventionEnabled(tidWeakTwoBids))
+					fAllowance = app_->GamePts()  - 6;	// 26 pts - 6 for a weak 2 opening
 				else
-					fAllowance = PTS_GAME - pCurrConvSet->GetValue(tn2ClubOpeningPoints);
+					fAllowance = app_->GamePts()  - app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints);
 					// 26 pts - 22 for a strong 2 opening
 			}
 			else
 			{
-				fAllowance = PTS_GAME - 12;	// 26 pts - 12 for standard 1 opening
+				fAllowance = app_->GamePts()  - 12;	// 26 pts - 12 for standard 1 opening
 			}
 			m_fPartnersMin = MAX(m_fPartnersMin, fAllowance);
 			m_fPartnersMax = MAX(22, 31 - fAllowance);
@@ -1311,22 +1311,22 @@ int CBidEngine::MakeRebidExtended()
 					  STSS(nPrefSuit) & " suit.\n";
 			// rebid our self-supporting suit, or invoke 
 			// Blackwood with slam values
-			if (m_fMinTPPoints < PTS_SLAM)
+			if (m_fMinTPPoints < app_->SlamPts() )
 			{
 				// jump to game with enough points
-				if (ISMAJOR(nPrefSuit) && (m_fMinTPPoints >= PTS_GAME+1) &&
+				if (ISMAJOR(nPrefSuit) && (m_fMinTPPoints >= app_->GamePts() +1) &&
 							(nPartnersBid < GetGameBid(nPrefSuit)))
 				{
 					// jumping in our preferred suit (a major)
 					m_nBid = GetGameBid(nPrefSuit);
-					status << "BXPNT1! So we jump with it to game at " & BTS(m_nBid) & ".\n";
+					status << "BXPNT1! So we jump with it to game at " & app_->BidToFullString(m_nBid) & ".\n";
 				}
-				else if ( ((nPartnersBidLevel == 2) && (m_fMinTPPoints >= PTS_GAME-3)) ||
-						  ((nPartnersBidLevel == 3) && (m_fMinTPPoints >= PTS_GAME)) )
+				else if ( ((nPartnersBidLevel == 2) && (m_fMinTPPoints >= app_->GamePts() -3)) ||
+						  ((nPartnersBidLevel == 3) && (m_fMinTPPoints >= app_->GamePts() )) )
 				{
 					// else shift back to our suit, if we have the points
 					m_nBid = GetCheapestShiftBid(nPrefSuit);
-					status << "BXPNT2! So we rebid it at " & BTS(m_nBid) & ".\n";
+					status << "BXPNT2! So we rebid it at " & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else 
 				{
@@ -1359,7 +1359,7 @@ int CBidEngine::MakeRebidExtended()
 						  ", inviting us to" &
 						  ((nPartnersBidLevel == 4)? " " : " a grand ") &
 						  "slam with a maximum.\n";
-				if (m_fMinTPCPoints >= PTS_SLAM)
+				if (m_fMinTPCPoints >= app_->SlamPts() )
 				{
 					// got enough points
 					if (nPartnersBidLevel == 5)
@@ -1404,7 +1404,7 @@ int CBidEngine::MakeRebidExtended()
 
 			// else partner made a simple NT bid or raise
 			// accept partner's contract with < 33 pts and a balanced hand
-			if ((bBalanced) && (m_fMinTPCPoints < PTS_SLAM))
+			if ((bBalanced) && (m_fMinTPCPoints < app_->SlamPts() ))
 			{
 				status << "BXPNTK! With a balanced hand and " &
 						   m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
@@ -1418,18 +1418,18 @@ int CBidEngine::MakeRebidExtended()
 				status << "BXPNT4! Partner's " & szPB & " bid indicates a preference for NoTrump.\n";
 
 			// respond at the 2-level with 23-25 HCPs
-			if (BidNoTrump(2,PTS_GAME-3,PTS_GAME-1,TRUE,STOPPED_DONTCARE))
+			if (BidNoTrump(2,app_->GamePts() -3,app_->GamePts() -1,TRUE,STOPPED_DONTCARE))
 				return ValidateBid(m_nBid);
 
 			// or at the 3-level with 26-32 HCPs
 			// presumably partner sees that all suits are stopped
-			if (BidNoTrump(3,PTS_GAME,PTS_SLAM-1,TRUE,STOPPED_DONTCARE))
+			if (BidNoTrump(3,app_->GamePts() ,app_->SlamPts() -1,TRUE,STOPPED_DONTCARE))
 				return ValidateBid(m_nBid);
 
 			// or try a slam with more points
-			if (BidNoTrump(6,PTS_SLAM,PTS_GRAND_SLAM,TRUE,STOPPED_DONTCARE))
+			if (BidNoTrump(6,app_->SlamPts() ,app_->GrandSlamPts() ,TRUE,STOPPED_DONTCARE))
 				return ValidateBid(m_nBid);
-			if (BidNoTrump(7,PTS_GRAND_SLAM,0,TRUE,STOPPED_DONTCARE))
+			if (BidNoTrump(7,app_->GrandSlamPts() ,0,TRUE,STOPPED_DONTCARE))
 				return ValidateBid(m_nBid);
 
 			// alas, we lack the necessary strength to raise further
@@ -1449,21 +1449,21 @@ int CBidEngine::MakeRebidExtended()
 		if (numPrefSuitCards >= 6)
 		{
 			// rebid a strong 6-card suit at the 3-level with 23-25 pts
-			if (RebidSuit(SUIT_PREFERRED,REBID_AT_3,PTS_GAME-3,PTS_GAME-1,LENGTH_6,SS_STRONG))
+			if (RebidSuit(SUIT_PREFERRED,REBID_AT_3,app_->GamePts() -3,app_->GamePts() -1,LENGTH_6,SS_STRONG))
 				return ValidateBid(m_nBid);
 			// rebid a _solid_ 6-card major at the 4-level with 26-32 pts
-			if (RebidSuit(SUIT_MAJOR,REBID_AT_4,PTS_GAME,PTS_SLAM-1,LENGTH_6,SS_STRONG|SS_SOLID))
+			if (RebidSuit(SUIT_MAJOR,REBID_AT_4,app_->GamePts() ,app_->SlamPts() -1,LENGTH_6,SS_STRONG|SS_SOLID))
 				return ValidateBid(m_nBid);
 			// rebid a _solid_ 7-card minor at the 4-level with 26-29 pts, 
-			if (RebidSuit(SUIT_MINOR,REBID_AT_4,PTS_MINOR_GAME-3,PTS_MINOR_GAME,LENGTH_7,SS_STRONG|SS_SOLID))
+			if (RebidSuit(SUIT_MINOR,REBID_AT_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() ,LENGTH_7,SS_STRONG|SS_SOLID))
 				return ValidateBid(m_nBid);
 			// or at game with 30-32 pts
-			if (RebidSuit(SUIT_MINOR,REBID_AT_5,PTS_MINOR_GAME+1,PTS_SLAM-1,LENGTH_7,SS_STRONG|SS_SOLID))
+			if (RebidSuit(SUIT_MINOR,REBID_AT_5,app_->MinorSuitGamePts() +1,app_->SlamPts() -1,LENGTH_7,SS_STRONG|SS_SOLID))
 				return ValidateBid(m_nBid);
 			// or bid slam with a solid suit, if we have the points
-			if (RebidSuit(SUIT_PREFERRED,REBID_AT_6,PTS_SLAM,PTS_GRAND_SLAM-1,LENGTH_6,SS_STRONG|SS_SOLID))
+			if (RebidSuit(SUIT_PREFERRED,REBID_AT_6,app_->SlamPts() ,app_->GrandSlamPts() -1,LENGTH_6,SS_STRONG|SS_SOLID))
 				return ValidateBid(m_nBid);
-			if (RebidSuit(SUIT_PREFERRED,REBID_AT_7,PTS_GRAND_SLAM,0,LENGTH_6,SS_STRONG|SS_SOLID))
+			if (RebidSuit(SUIT_PREFERRED,REBID_AT_7,app_->GrandSlamPts() ,0,LENGTH_6,SS_STRONG|SS_SOLID))
 				return ValidateBid(m_nBid);
 		}
 
@@ -1474,21 +1474,21 @@ int CBidEngine::MakeRebidExtended()
 		if (nPartnersPrevSuit != NOTRUMP)
 		{
 			// raise to the 3-level with 23-25 pts & 3 trumps
-			if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_3,PTS_GAME-3,PTS_GAME-1,SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_3,app_->GamePts() -3,app_->GamePts() -1,SUPLEN_3))
 				return ValidateBid(m_nBid);
 			// raise a major to game with 26-32 pts
-			if (RaisePartnersSuit(SUIT_PREV_MAJOR,RAISE_TO_GAME,PTS_GAME,PTS_SLAM-1,SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV_MAJOR,RAISE_TO_GAME,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_3))
 				return ValidateBid(m_nBid);
 			// raise a minor to the 4-level with 26-28 pts
-			if (RaisePartnersSuit(SUIT_PREV_MINOR,RAISE_TO_4,PTS_MINOR_GAME-3,PTS_MINOR_GAME-1,SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV_MINOR,RAISE_TO_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() -1,SUPLEN_3))
 				return ValidateBid(m_nBid);
 			// or to game with 29-32 pts & 4 support cards
-			if (RaisePartnersSuit(SUIT_PREV_MINOR,RAISE_TO_GAME,PTS_MINOR_GAME,PTS_SLAM-1,SUPLEN_4))
+			if (RaisePartnersSuit(SUIT_PREV_MINOR,RAISE_TO_GAME,app_->MinorSuitGamePts() ,app_->SlamPts() -1,SUPLEN_4))
 				return ValidateBid(m_nBid);
 			// or bid a slam otherwise
-			if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_6,PTS_SLAM,PTS_GRAND_SLAM-1,SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_6,app_->SlamPts() ,app_->GrandSlamPts() -1,SUPLEN_3))
 				return ValidateBid(m_nBid);
-			if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_7,PTS_GRAND_SLAM,0,SUPLEN_3))
+			if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_7,app_->GrandSlamPts() ,0,SUPLEN_3))
 				return ValidateBid(m_nBid);
 		}
 
@@ -1498,12 +1498,12 @@ int CBidEngine::MakeRebidExtended()
 		//
 
 		// raise to 2NT with 24-26 HCPs, even with bad distribution
-		if (BidNoTrump(2,PTS_NT_GAME-2,PTS_NT_GAME,FALSE,STOPPED_DONTCARE,NONE,FALSE))
+		if (BidNoTrump(2,app_->NTGamePts() -2,app_->NTGamePts() ,FALSE,STOPPED_DONTCARE,NONE,FALSE))
 			return ValidateBid(m_nBid);
 
 		// likewise, raise to 3NT 27-32 HCPs
 		// presumably partner sees that all suits are stopped
-		if (BidNoTrump(3,PTS_NT_GAME+1,PTS_SLAM-1,FALSE,STOPPED_DONTCARE,NONE,FALSE))
+		if (BidNoTrump(3,app_->NTGamePts() +1,app_->SlamPts() -1,FALSE,STOPPED_DONTCARE,NONE,FALSE))
 			return ValidateBid(m_nBid);
 		
 		//
@@ -1561,7 +1561,7 @@ int CBidEngine::MakeRebidExtended()
 		//
 		// with > 33 points, drive towards a slam
 		//
-		if (m_fMinTPPoints >= PTS_SLAM)
+		if (m_fMinTPPoints >= app_->SlamPts() )
 		{
 			// first figure out the proper suit
 			if (nPartnersSuit == nPreviousSuit)
@@ -1616,24 +1616,24 @@ int CBidEngine::MakeRebidExtended()
 			else if (nPartnersBidLevel < 6)
 			{
 				// too high to bid Blackwood? bid slam directly
-				if (m_fMinTPPoints >= PTS_GRAND_SLAM)
+				if (m_fMinTPPoints >= app_->GrandSlamPts() )
 					m_nBid = MAKEBID(nSuit,7);
 				else
 					m_nBid = MAKEBID(nSuit,6);
 				status << "BXM18! We would like a slam, but since the bidding has gotten too high for Blackwood, bid slam directly at " &
-					      BTS(m_nBid) & ".\n";
+					      app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else if (nPartnersBidLevel == 6)
 			{
 				// partner bid a small slam
-				if (m_fMinTPPoints <= PTS_GRAND_SLAM)
+				if (m_fMinTPPoints <= app_->GrandSlamPts() )
 				{
 					// correct the suit if necessary
 					if (nSuit > nPartnersSuit)
 					{
 						m_nBid = MAKEBID(nSuit,6);
 						status << "BXM20! Partner has bid a small slam in " & szPS &
-								  ", but it's the wrong suit for us, so we correct it to the desired " & BTS(m_nBid) & ".\n";
+								  ", but it's the wrong suit for us, so we correct it to the desired " & app_->BidToFullString(m_nBid) & ".\n";
 					}
 					else
 					{
@@ -1649,7 +1649,7 @@ int CBidEngine::MakeRebidExtended()
 					status << "BXM24! Partner has bid a small slam, and with " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						      " points in the partnership, we boldly raise to " &
-							  BTS(m_nBid) & ".\n";
+							  app_->BidToFullString(m_nBid) & ".\n";
 				}
 			}
 			else
@@ -1660,7 +1660,7 @@ int CBidEngine::MakeRebidExtended()
 				{
 					m_nBid = MAKEBID(nSuit,7);
 					status << "BXM26! Partner has bid a grand slam in " & szPS &
-							  ", but it's the wrong suit for us, so we correct it to the desired " & BTS(m_nBid) & ".\n";
+							  ", but it's the wrong suit for us, so we correct it to the desired " & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -1687,24 +1687,24 @@ int CBidEngine::MakeRebidExtended()
 				nSuit = nNextPrevSuit;
 			else
 				nSuit = nPreviousSuit;
-			if (ISMAJOR(nSuit) && (m_fMinTPPoints >= PTS_GAME) && (nPartnersBidLevel < 4))
+			if (ISMAJOR(nSuit) && (m_fMinTPPoints >= app_->GamePts() ) && (nPartnersBidLevel < 4))
 			{
 				m_nBid = MAKEBID(nSuit,4);
 				status << "BXM30! Since partner raised our major " & szPrefSS & 
 						  " suit, and we have a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " points in the partnership, we can go to game at " &
-						  BTS(m_nBid) & ".\n";
+						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
-			else if (ISMINOR(nSuit) && (m_fMinTPPoints >= PTS_MINOR_GAME) && (nPartnersBidLevel < 5))
+			else if (ISMINOR(nSuit) && (m_fMinTPPoints >= app_->MinorSuitGamePts() ) && (nPartnersBidLevel < 5))
 			{
 				m_nBid = MAKEBID(nSuit,5);
 				status << "BXM32! Since partner raised our major " & szPrefSS & 
 						  " suit, and we have a total of " & 
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " points in the partnership, we can go to game at " & 
-						  BTS(m_nBid) & ".\n";
+						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -1713,14 +1713,14 @@ int CBidEngine::MakeRebidExtended()
 		//  - go to game in majors with 27 pts and 6 strong cards
 		//    (partner did not raise)
 		//
-		if (ISMAJOR(nPrefSuit) && (numPrefSuitCards >= 6) && (m_fMinTPPoints >= PTS_GAME+1) && 
+		if (ISMAJOR(nPrefSuit) && (numPrefSuitCards >= 6) && (m_fMinTPPoints >= app_->GamePts() +1) && 
 								(nPartnersBid < MAKEBID(nPrefSuit,4)))
 		{
 			m_nBid = MAKEBID(nPrefSuit,4);
 			status << "BXM36! Regradless of partner's actions, we have " & numPrefSuitCards & 
 					  " strong " & szPrefS & " and " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints &
-					  " points in the partnership, so bid game at " & BTS(m_nBid) & ".\n";
+					  " points in the partnership, so bid game at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1728,14 +1728,14 @@ int CBidEngine::MakeRebidExtended()
 		//  - go to game in minors with 30 pts and 6 strong cards
 		//    (partner did not raise)
 		//
-		if (ISMINOR(nPrefSuit) && (numPrefSuitCards >= 6) && (m_fMinTPPoints >= PTS_MINOR_GAME+1) && 
+		if (ISMINOR(nPrefSuit) && (numPrefSuitCards >= 6) && (m_fMinTPPoints >= app_->MinorSuitGamePts() +1) && 
 								(nPartnersBid < MAKEBID(nPrefSuit,5)))
 		{
 			m_nBid = MAKEBID(nPrefSuit,4);
 			status << "BXM38! Regradless of partner's actions, we have " & numPrefSuitCards & 
 					  "strong " & szPrefS & " and " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints &
-					  " points in the partnership, so bid game at " & BTS(m_nBid) & ".\n";
+					  " points in the partnership, so bid game at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1745,22 +1745,22 @@ int CBidEngine::MakeRebidExtended()
 		//
 		nBid = GetCheapestShiftBid(nPrefSuit);
 		nLevel = BID_LEVEL(nBid);
-		if ((numPrefSuitCards >= 7) && (m_fMinTPPoints >= PTS_GAME-4) && (nLevel <= 3))
+		if ((numPrefSuitCards >= 7) && (m_fMinTPPoints >= app_->GamePts() -4) && (nLevel <= 3))
 		{
 			m_nBid = nBid;
 			status << "BXM40! With a " & numPrefSuitCards & "-card " & szPrefSS & 
-					  " suit, insist on rebidding it at " & BTS(m_nBid) & ".\n";
+					  " suit, insist on rebidding it at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
 		//
 		// - rebid an 8-card suit with 24+ points at the 4-level
 		//
-		if ((numPrefSuitCards >= 8) && (m_fMinTPPoints >= PTS_GAME-2) && (nLevel <= 4))
+		if ((numPrefSuitCards >= 8) && (m_fMinTPPoints >= app_->GamePts() -2) && (nLevel <= 4))
 		{
 			m_nBid = nBid;
 			status << "BXM44! With a " & numPrefSuitCards & "-card " & szPrefSS &
-					  " suit, insist on rebidding it at " & BTS(m_nBid) & ".\n";
+					  " suit, insist on rebidding it at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1768,35 +1768,35 @@ int CBidEngine::MakeRebidExtended()
 		// - support partner's suit (or previous suit) with 2+ trumps and
 		// 22+ points at the 3-level
 		//
-		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,PTS_GAME-4,99,SUPLEN_2))
+		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,app_->GamePts() -4,99,SUPLEN_2))
 		{
 			status << "BXM48! With " & numSupportCards & "-card support for partner's " & 
-					  szPSS & " suit, raise it to the 3-level at " & BTS(m_nBid) & ".\n";
+					  szPSS & " suit, raise it to the 3-level at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
-		if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_3,PTS_GAME-4,99,SUPLEN_2))
+		if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_3,app_->GamePts() -4,99,SUPLEN_2))
 		{
 			status << "BXM52! With " & numSupportCards & 
 					  "-card support for partner's previous suit (" & szPPS & 
-					  "), raise it to the 3-level at " & BTS(m_nBid) & ".\n";
+					  "), raise it to the 3-level at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
 		//
 		// - support partner's suit with 2+ trumps with 26+ points at the 4-level
 		//
-		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_4,PTS_GAME,99,SUPLEN_2))
+		if (RaisePartnersSuit(SUIT_ANY,RAISE_TO_4,app_->GamePts() ,99,SUPLEN_2))
 		{
 			status << "BXM60! With " & numSupportCards & 
 					  "-card support for partner's " & szPSS & 
-					  " suit, raise it to the 4-level at " & BTS(m_nBid) & ".\n";
+					  " suit, raise it to the 4-level at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
-		if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_4,PTS_GAME,99,SUPLEN_2))
+		if (RaisePartnersSuit(SUIT_PREV,RAISE_TO_4,app_->GamePts() ,99,SUPLEN_2))
 		{
 			status << "BXM64! With " & numSupportCards & 
 					  "-card support for partner's previous suit (" & szPPS & 
-					  "), raise it to the 4-level at " & BTS(m_nBid) & ".\n";
+					  "), raise it to the 4-level at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1808,11 +1808,11 @@ int CBidEngine::MakeRebidExtended()
 		{
 			// bid 3NT if possible
 			if ((nPartnersBidLevel <= 3) && (nPartnersSuit != NOTRUMP) &&
-					((m_fMinTPCPoints >= PTS_GAME) || (m_fMinTPPoints >= PTS_GAME+1)) )
+					((m_fMinTPCPoints >= app_->GamePts() ) || (m_fMinTPPoints >= app_->GamePts() +1)) )
 			{
 				m_nBid = BID_3NT;
 				status << "BXM68! With zero trump support for partner's " & szPSS & 
-						  " suit, bail out at " & BTS(m_nBid) & ".\n";
+						  " suit, bail out at " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -1825,7 +1825,7 @@ int CBidEngine::MakeRebidExtended()
 		{
 			m_nBid = BID_3NT;
 			status << "BXM70! Partner switched suits again, which forces us to bid again -- so with no other good options, bid " & 
-					  BTS(m_nBid) & ".\n";
+					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1903,7 +1903,7 @@ int CBidEngine::MakeRebidExtended()
 
 /*
 	status << "BX<<Error>> -- fell out of rebid decision loop.  Initial bid was " & 
-			  BTS(nLastBid) & ", and partner's bid was " & szPB & 
+			  app_->BidToFullString(nLastBid) & ", and partner's bid was " & szPB & 
 			  ".  Points are " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 			  ", preferred suits is " & szPrefSS & " (holding " & szHPref & 
 			  ").  Returning PASS.\n";

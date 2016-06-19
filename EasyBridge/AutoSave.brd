@@ -5,19 +5,19 @@ Program Minor Version = 0
 Program Incremental Version = 2
 Program Build Number = 0
 Program Build Date = 2002
-File Date =  Thu May 26 01:02:27 2016
+File Date =  Tue Jun 14 20:28:05 2016
 
 [[File Description]]
 
 [[Hand Information]]
-Current Hand(South) = SQ S7 S3 H5 H4 DA DK D6 D3 CA CT C9 C2 
-Current Hand(West) = S6 S5 HA H8 H3 H2 DT D9 D8 D7 D4 D2 C5 
-Current Hand(North) = SK ST S9 HK HJ HT H9 H7 H6 DQ D5 CQ CJ 
-Current Hand(East) = SA SJ S8 S4 S2 HQ DJ CK C8 C7 C6 C4 C3 
-Original Hand(South) = SQ S7 S3 H5 H4 DA DK D6 D3 CA CT C9 C2 
-Original Hand(West) = S6 S5 HA H8 H3 H2 DT D9 D8 D7 D4 D2 C5 
-Original Hand(North) = SK ST S9 HK HJ HT H9 H7 H6 DQ D5 CQ CJ 
-Original Hand(East) = SA SJ S8 S4 S2 HQ DJ CK C8 C7 C6 C4 C3 
+Current Hand(South) = SK S8 S6 HJ HT H8 DA DQ CA CT C8 C7 C2 
+Current Hand(West) = ST S9 S4 HQ H7 DJ DT D7 D6 D2 CJ C5 C4 
+Current Hand(North) = SA SQ SJ S5 S3 HK H9 H4 H2 DK D5 D4 CK 
+Current Hand(East) = S7 S2 HA H6 H5 H3 D9 D8 D3 CQ C9 C6 C3 
+Original Hand(South) = SK S8 S6 HJ HT H8 DA DQ CA CT C8 C7 C2 
+Original Hand(West) = ST S9 S4 HQ H7 DJ DT D7 D6 D2 CJ C5 C4 
+Original Hand(North) = SA SQ SJ S5 S3 HK H9 H4 H2 DK D5 D4 CK 
+Original Hand(East) = S7 S2 HA H6 H5 H3 D9 D8 D3 CQ C9 C6 C3 
 
 [[Round Information]]
 

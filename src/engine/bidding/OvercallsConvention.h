@@ -33,11 +33,9 @@ private:
 	
 // 
 public:
-	COvercallsConvention();
+	COvercallsConvention(std::shared_ptr<AppInterface> app);
 	virtual ~COvercallsConvention();
 };
 
 
 #endif
-
-extern COvercallsConvention OvercallsConvention;

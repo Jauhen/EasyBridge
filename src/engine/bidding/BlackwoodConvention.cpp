@@ -13,10 +13,10 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBdoc.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "BlackwoodConvention.h"
 #include "ConventionSet.h"
-
+#include "app_interface.h"
 
 
 //
@@ -40,7 +40,7 @@ BOOL CBlackwoodConvention::ApplyTest(const CPlayer& player,
 								     CPlayerStatusDialog& status)
 {
 	// basic test
-//	if (!pCurrConvSet->IsConventionEnabled(tidBlackwood))
+//	if (!app_->GetCurrentConventionSet()->IsConventionEnabled(tidBlackwood))
 //		return FALSE;
 
 	// see if another convention is active
@@ -90,7 +90,7 @@ BOOL CBlackwoodConvention::InvokeBlackwood(CHandHoldings& hand, CBidEngine& bidS
 	//
 	// if Blackwood is not enabled, just bid slam directly
 	//
-	if (!pCurrConvSet->IsConventionEnabled(tidBlackwood))
+	if (!app_->GetCurrentConventionSet()->IsConventionEnabled(tidBlackwood))
 	{
 		// no Blackwood? go ahead and bid slam directly
 		status << "BKWDX! we have " & fCardPts & "/" & fPts & "/" & fAdjPts &
@@ -101,23 +101,23 @@ BOOL CBlackwoodConvention::InvokeBlackwood(CHandHoldings& hand, CBidEngine& bidS
 		// bid a grand slam if we have 37+ pts and the trump ace
 		// or a small slam with 33+ points
 		// or make the cheapest shift bid otherwise (D'oh!)
-		if ((fMinTPPoints >= PTS_GRAND_SLAM+1) && (hand.SuitHasCard(nEventualSuit, ACE)))
+		if ((fMinTPPoints >= app_->GrandSlamPts() +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
 		{
 			nBid = MAKEBID(nEventualSuit, 7);
 			status << "BKWDX1! but since we have the points for a grand slam and we hold the trump ace, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
-		else if (fMinTPPoints >= PTS_SLAM)
+		else if (fMinTPPoints >= app_->SlamPts() )
 		{
 			nBid = MAKEBID(nEventualSuit, 6);
 			status << "BKWDX2! but since we have the points for a small slam, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
 			// get cheapest shift bid
 			nBid = bidState.GetCheapestShiftBid(nEventualSuit);
-			status << "BKWDX3! so we just bid " & BTS(nBid) & ".\n";
+			status << "BKWDX3! so we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -135,22 +135,22 @@ BOOL CBlackwoodConvention::InvokeBlackwood(CHandHoldings& hand, CBidEngine& bidS
 		// bid a grand slam if we have 37+ pts and the trump ace
 		// or a small slam with 33+ points
 		// or make the cheapest shift bid otherwise (D'oh!)
-		if ((fMinTPPoints >= PTS_SLAM+1) && (hand.SuitHasCard(nEventualSuit, ACE)))
+		if ((fMinTPPoints >= app_->SlamPts() +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
 		{
 			nBid = MAKEBID(nEventualSuit, 7);
 			status << "BKWDY1! so since we have the points for a grand slam, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
-		else if (fMinTPPoints >= PTS_SLAM)
+		else if (fMinTPPoints >= app_->SlamPts() )
 		{
 			nBid = MAKEBID(nEventualSuit, 6);
 			status << "BKWDY2! so since we have the points for a small slam, go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
 			nBid = bidState.GetCheapestShiftBid(nEventualSuit, pDOC->GetLastValidBid());
-			status << "BKWDY3! so without quite enough points for a slam, we just bid " & BTS(nBid) & ".\n";
+			status << "BKWDY3! so without quite enough points for a slam, we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);
@@ -170,7 +170,7 @@ BOOL CBlackwoodConvention::InvokeBlackwood(CHandHoldings& hand, CBidEngine& bidS
 				  fMinTPCPoints & "-" & fMaxTPCPoints & " / " &
 				  fMinTPPoints & "-" & fMaxTPPoints & 
 				  " pts in the partnership, explore slam possibilities with Blackwood at " &
-				  BTS(nBid) & ".\n";
+				  app_->BidToFullString(nBid) & ".\n";
 	}
 	else
 	{
@@ -236,7 +236,7 @@ BOOL CBlackwoodConvention::RespondToConvention(const CPlayer& player,
 			nBid = BID_5S;
 		//
 		status << "BK10! With " & numAces & " Ace" & ((numAces > 1)? "s," : ",") &
-				  " respond to partner's Blackwood inquiry with " & BTS(nBid) & ".\n";
+				  " respond to partner's Blackwood inquiry with " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND1);	// answered Aces, ready for Kings
 		return TRUE;
@@ -257,7 +257,7 @@ BOOL CBlackwoodConvention::RespondToConvention(const CPlayer& player,
 			nBid = BID_6S;
 		//
 		status << "BK12! With " & numKings & " King" & ((numKings > 1)? "s," : ",") &
-				  " respond to partner's Blackwood inquiry with " & BTS(nBid) & ".\n";
+				  " respond to partner's Blackwood inquiry with " & app_->BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);	// Blackwood complete
 		return TRUE;
@@ -341,13 +341,13 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 		if (nPartnersBid <= BID_5S) 
 		{
 			status << "BK20! Partner responded to our 4NT Blackwood inquiry with " & 
-					  BTS(nPartnersBid) & ", indicating " & 
+					  app_->BidToFullString(nPartnersBid) & ", indicating " & 
 					  bidState.m_numPartnersAces & 
 					  (((bidState.m_numPartnersAces == 0) || (bidState.m_numPartnersAces > 1))? " Aces" : " Ace") & ".\n";
 		} 
 		else 
 		{
-			status << "BK22! Partner made an illegal " & BTS(bidState.nPartnersBid) & 
+			status << "BK22! Partner made an illegal " & app_->BidToFullString(bidState.nPartnersBid) & 
 					  " response to 4NT Blackwood; assuming zero Aces in partner's hand.\n";
 			bidState.SetConventionStatus(this, CONV_ERROR);	// Blackwood complete
 			return TRUE;
@@ -363,7 +363,7 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 		if (numTotalAces == 4)
 		{
 			// if we're close to a grand slam, go for it
-			if (fMinTPPoints >= PTS_GRAND_SLAM-1)
+			if (fMinTPPoints >= app_->GrandSlamPts() -1)
 			{
 				nBid = BID_5NT;
 				status << "BK32! Our team holds all four aces, so proceed to 5NT to ask for kings.\n";
@@ -374,7 +374,7 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = MAKEBID(nAgreedSuit, 6);
 				status << "BK32! Our team holds all four aces, but with an estimated " & 
 						  fMinTPPoints & "-" & fMaxTPPoints &
-					      " total partnership points, we lack the points for a grand slam, so settle for a contract of " & BTS(nBid) & ".\n";
+					      " total partnership points, we lack the points for a grand slam, so settle for a contract of " & app_->BidToFullString(nBid) & ".\n";
 				nBlackwoodStatus = CONV_FINISHED;	// Blackwood finished
 			}
 		}
@@ -382,7 +382,7 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// oops, we don't have all 4 aces, so we gotta stop
 			// if we have fewer then 3 aces or less than 33 pts. then really panic
-			if ((numTotalAces < 3) || (bidState.m_fMinTPPoints < PTS_SLAM))
+			if ((numTotalAces < 3) || (bidState.m_fMinTPPoints < app_->SlamPts() ))
 			{
 				int nTestBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 				if (nTestBid <= BID_5NT)
@@ -407,7 +407,7 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = MAKEBID(nAgreedSuit, 6);
 			}
 			status << "BK38! Without all four aces we can't proceed to a grand slam, so stop at " & 
-						BTS(nBid) & ".\n";
+						app_->BidToFullString(nBid) & ".\n";
 			nBlackwoodStatus = CONV_FINISHED;	// Blackwood finished
 		}
 	
@@ -461,14 +461,14 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 		if (nPartnersBid <= BID_6S) 
 		{
 			status << "BK40! Partner responded to our 4NT Blackwood inquiry with " & 
-					  BTS(nPartnersBid) & ", indicating " & 
+					  app_->BidToFullString(nPartnersBid) & ", indicating " & 
 					  bidState.m_numPartnersKings & 
 					  ((bidState.m_numPartnersKings > 1)? " Kings" : " King") &
 					  ".\n";
 		} 
 		else 
 		{
-			status << "BK44! Partner made an illegal " & BTS(nPartnersBid) & 
+			status << "BK44! Partner made an illegal " & app_->BidToFullString(nPartnersBid) & 
 					  " response to 4NT Blackwood inquiry; assuming zero Kings in partner's hand.\n";
 			nBid = BID_PASS;
 			bidState.SetConventionStatus(this, CONV_ERROR);
@@ -489,23 +489,23 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 			status << "BK45! We have all the aces and kings, plus a total of " &
 					  fMinTPPoints & "-" & fMaxTPPoints & 
 					  " points in the partnership, so go ahead and bid " & 
-					  BTS(nBid) & ".\n";
+					  app_->BidToFullString(nBid) & ".\n";
 		}
-		else if ((numTotalKings == 3) && (fMinTPPoints >= PTS_GRAND_SLAM))
+		else if ((numTotalKings == 3) && (fMinTPPoints >= app_->GrandSlamPts() ))
 		{
 			// we're missing a king but have good pts, so go for a grand
 			nBid = MAKEBID(nAgreedSuit, 7);
 			status << "BK46! We're missing one King, but with a total of " & 
 					  fMinTPPoints & "-" & fMaxTPPoints & 
-					  " points in the partnership, we can go ahead and bid " & BTS(nBid) & ".\n";
+					  " points in the partnership, we can go ahead and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
-		else if ((numTotalKings >= 3) && (fMinTPPoints >= PTS_GRAND_SLAM+1))
+		else if ((numTotalKings >= 3) && (fMinTPPoints >= app_->GrandSlamPts() +1))
 		{
 			// we're missing two kings but have good pts, so go for a grand
 			nBid = MAKEBID(nAgreedSuit, 7);
 			status << "BK47! We may not have all the kings, but with a total of " & 
 					  fMinTPPoints & "-" & fMaxTPPoints & 
-					  " points in the partnership, go ahead and bid " & BTS(nBid) & ".\n";
+					  " points in the partnership, go ahead and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -517,7 +517,7 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 				status << "BK48! Since we're missing " & (4 - numTotalKings) & 
 						  " Kings and have a total of only " & fMinTPPoints & "-" & fMaxTPPoints & 
 						  " pts in the partnership, we lack sufficient strength for a grand slam and have to settle for a small slam at " &
-						  BTS(nBid) & ".\n";
+						  app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -526,7 +526,7 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 				status << "BK49! Since we're missing " & (4 - numTotalKings) & 
 						  " Kings and have a total of only " & fMinTPCPoints & "-" & fMaxTPCPoints & 
 						  " HCPs in the partnership, we lack sufficient strength for a grand slam and have to settle for a small slam at " &
-						  BTS(nBid) & ".\n";
+						  app_->BidToFullString(nBid) & ".\n";
 			}
 		}
 		// update status and return
@@ -555,8 +555,8 @@ BOOL CBlackwoodConvention::HandleConventionResponse(const CPlayer& player,
 //==================================================================
 // construction & destruction
 //
-CBlackwoodConvention::CBlackwoodConvention() 
-{
+CBlackwoodConvention::CBlackwoodConvention(std::shared_ptr<AppInterface> app)
+  : CSlamConvention(app) {
 	// from ConvCodes.h
 	m_nID = tidBlackwood;
 }

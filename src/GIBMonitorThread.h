@@ -12,7 +12,7 @@
 #ifndef __GIBMONITORTHREAD__
 #define __GIBMONITORTHREAD__
 
-#include "GIBDialog.h"
+#include "dialogs/GIBDialog.h"
 class CGIBDialog;
 
 /////////////////////////////////////////////////////////////////////////////

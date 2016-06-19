@@ -19,7 +19,7 @@
 #include "engine/playeropts.h"
 #include "filecode.h"
 #include "engine/Player.h"
-#include "Card.h"
+#include "engine/Card.h"
 #include "MainFrameOpts.h"
 
 #ifdef _DEBUG

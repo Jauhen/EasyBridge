@@ -19,14 +19,14 @@
 #include "EasyB.h"
 #include "EasyBDoc.h"
 #include "../Player.h"
-#include "Card.h"
+#include "../Card.h"
 #include "../CardList.h"
 #include "Type2Finesse.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 
 
 

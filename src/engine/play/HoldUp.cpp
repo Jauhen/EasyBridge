@@ -14,14 +14,14 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "card.h"
+#include "../card.h"
 #include "HoldUp.h"
 #include "../Player.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 
 
 

@@ -36,8 +36,8 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/player.h"
-#include "card.h"
-#include "deck.h"
+#include "engine/card.h"
+#include "engine/deck.h"
 #include "DrawParameters.h"
 
 #ifdef _DEBUG

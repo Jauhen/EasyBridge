@@ -18,8 +18,8 @@
 #include "MainFrameOpts.h"
 #include "filecode.h"
 #include "progopts.h"
-#include "deck.h"
-#include "card.h"
+#include "engine/deck.h"
+#include "engine/card.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

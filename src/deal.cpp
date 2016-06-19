@@ -16,8 +16,8 @@
 #include "engine/Player.h"
 #include "mainfrm.h"
 #include "progopts.h"
-#include "deck.h"
-#include "Card.h"
+#include "engine/deck.h"
+#include "engine/Card.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

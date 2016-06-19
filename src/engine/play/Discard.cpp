@@ -11,14 +11,14 @@
 //
 #include "stdafx.h"
 #include "EasyB.h"
-#include "Deck.h"
-#include "Card.h"
+#include "../Deck.h"
+#include "../Card.h"
 #include "Discard.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 
 
 

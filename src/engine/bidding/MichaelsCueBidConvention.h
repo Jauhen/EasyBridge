@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CMichaelsCueBidConvention();
+	CMichaelsCueBidConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CMichaelsCueBidConvention();
 };
 
 
 #endif
-
-extern CMichaelsCueBidConvention michaelsCueBidConvention;

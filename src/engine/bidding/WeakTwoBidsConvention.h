@@ -31,11 +31,9 @@ private:
 	
 // 
 public:
-	CWeakTwoBidsConvention();
+	CWeakTwoBidsConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CWeakTwoBidsConvention();
 };
 
 
 #endif
-
-extern CWeakTwoBidsConvention WeakTwoBidsConvention;

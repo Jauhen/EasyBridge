@@ -19,7 +19,7 @@
 #include "EasyB.h"
 #include "EasyBdoc.h"
 #include "../HandHoldings.h"
-#include "Card.h"
+#include "../Card.h"
 #include "../bidding/BidEngine.h"
 #include "DummyPlayEngine.h"
 

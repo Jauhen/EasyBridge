@@ -31,7 +31,7 @@ private:
 	
 // 
 public:
-	CSplinterBidsConvention();
+	CSplinterBidsConvention(std::shared_ptr<AppInterface> app);
 	virtual ~CSplinterBidsConvention();
 };
 

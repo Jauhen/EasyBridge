@@ -12,15 +12,15 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "EasyBDoc.h"
-#include "Deck.h"
-#include "Card.h"
+#include "../Deck.h"
+#include "../Card.h"
 #include "ExitPlay.h"
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "../CombinedSuitHoldings.h"
-#include "PlayerStatusDialog.h"
+#include "../PlayerStatusDialog.h"
 #include "DeclarerPlayEngine.h"
 
 

@@ -15,16 +15,16 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/player.h"
-#include "PlayerStatusDialog.h"
+#include "engine/PlayerStatusDialog.h"
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
-#include "myfildlg.h"
-#include "deck.h"
-#include "card.h"
-#include "RoundFinishedDialog.h"
-#include "BidDialog.h"
+#include "dialogs/myfildlg.h"
+#include "engine/deck.h"
+#include "engine/card.h"
+#include "dialogs/RoundFinishedDialog.h"
+#include "dialogs/BidDialog.h"
 #include "NeuralNet.h"
-#include "scoredialog.h"
+#include "dialogs/scoredialog.h"
 #include "progopts.h"
 #include "docopts.h"
 #include "viewopts.h"
@@ -33,12 +33,13 @@
 #include "engine/HandHoldings.h"
 #include "engine/CombinedHoldings.h"
 #include "engine/play/DeclarerPlayEngine.h"
-#include "SelectHandDialog.h"
-#include "FilePropertiesDialog.h"
-#include "DealNumberDialog.h"
-#include "AutoHintDialog.h"
-#include "TestPlayDialog.h"
+#include "dialogs/SelectHandDialog.h"
+#include "dialogs/FilePropertiesDialog.h"
+#include "dialogs/DealNumberDialog.h"
+#include "dialogs/AutoHintDialog.h"
+#include "dialogs/TestPlayDialog.h"
 #include "mmsystem.h"
+#include "AppImpl.h"
 //#include "MessageDisplay.h"
 
 #ifdef _DEBUG
@@ -193,8 +194,9 @@ CEasyBDoc::CEasyBDoc()
 	m_nPrevFileFormat = m_nFileFormat;
 
 	// create the players
+  std::shared_ptr<AppInterface> app (new AppImpl);
 	for(int i=0;i<4;i++)
-		m_pPlayer[i] = new CPlayer;
+		m_pPlayer[i] = new CPlayer(app);
 
 	// and init each player's info
 	for(int i=0;i<4;i++)
