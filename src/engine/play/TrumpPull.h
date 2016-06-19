@@ -50,8 +50,8 @@ protected:
 
 // construction/destruction
 public:
-	CTrumpPull(int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
-	CTrumpPull(int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
+	CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
+	CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
 	virtual ~CTrumpPull();
 };
 

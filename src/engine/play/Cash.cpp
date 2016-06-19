@@ -31,8 +31,8 @@
 //==================================================================
 // constructon & destruction
 
-CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit, int nCardVal, PlayProspect nProspect, BOOL bOpportunistic) :
-		CPlay(CPlay::CASH, nTargetHand, nSuit, nProspect, bOpportunistic),
+CCash::CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit, int nCardVal, PlayProspect nProspect, BOOL bOpportunistic) :
+		CPlay(app, CPlay::CASH, nTargetHand, nSuit, nProspect, bOpportunistic),
 		m_nCardVal(nCardVal)
 {
 	Init();
@@ -40,8 +40,8 @@ CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect, BOOL bOpportunistic) :
-		CPlay(CPlay::CASH, nTargetHand, NONE, nProspect, bOpportunistic)
+CCash::CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect, BOOL bOpportunistic) :
+		CPlay(app, CPlay::CASH, nTargetHand, NONE, nProspect, bOpportunistic)
 {
 	VERIFY(pCard);
 	m_nStartingHand = nStartingHand;
@@ -51,8 +51,8 @@ CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CCash::CCash(CCash& srcPlay) :
-		CPlay(srcPlay.m_nPlayType)
+CCash::CCash(std::shared_ptr<AppInterface> app, CCash& srcPlay) :
+		CPlay(app, srcPlay.m_nPlayType)
 {
 	m_nTargetHand = srcPlay.m_nTargetHand;
 	m_nSuit = srcPlay.m_nSuit;

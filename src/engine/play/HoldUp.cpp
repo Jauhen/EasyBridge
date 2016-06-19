@@ -29,14 +29,14 @@
 //==================================================================
 // constructon & destruction
 
-CHoldUp::CHoldUp(int nSuit) :
-			CPlay(CPlay::HOLDUP, IN_EITHER, nSuit, PP_LOSER)
+CHoldUp::CHoldUp(std::shared_ptr<AppInterface> app, int nSuit) :
+			CPlay(app, CPlay::HOLDUP, IN_EITHER, nSuit, PP_LOSER)
 {
 	Init();
 }
 
-CHoldUp::CHoldUp(CHoldUp& srcPlay) :
-			CPlay(srcPlay.m_nPlayType, IN_EITHER, NONE, PP_LOSER)
+CHoldUp::CHoldUp(std::shared_ptr<AppInterface> app, CHoldUp& srcPlay) :
+			CPlay(app, srcPlay.m_nPlayType, IN_EITHER, NONE, PP_LOSER)
 {
 	m_nSuit = srcPlay.m_nSuit;
 }

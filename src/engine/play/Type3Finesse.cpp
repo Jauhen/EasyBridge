@@ -33,15 +33,15 @@
 //==================================================================
 // constructon & destruction
 
-CType3Finesse::CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, int nSuit, int nCardVal) :
-		CFinesse(CFinesse::TYPE_III, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
+CType3Finesse::CType3Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, int nSuit, int nCardVal) :
+		CFinesse(app, CFinesse::TYPE_III, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
 		m_pLeadCards(pLeadCards)
 {
 	Init();
 }
 
-CType3Finesse::CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, CCard* pCard) :
-		CFinesse(CFinesse::TYPE_III, nTargetHand, nPlayerPosition, pGapCards, pCard),
+CType3Finesse::CType3Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, CCard* pCard) :
+		CFinesse(app, CFinesse::TYPE_III, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pLeadCards(pLeadCards)
 {
 	VERIFY(pCard);

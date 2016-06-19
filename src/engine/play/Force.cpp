@@ -30,8 +30,8 @@
 //==================================================================
 // constructon & destruction
 
-CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal) :
-			CPlay(CPlay::FORCE, nTargetHand, nSuit, PP_LOSER),
+CForce::CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal) :
+			CPlay(app, CPlay::FORCE, nTargetHand, nSuit, PP_LOSER),
 			m_nTargetCardVal(nTargetCardVal),
 			m_nCardVal(nCardVal)
 {
@@ -39,8 +39,8 @@ CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, i
 	Init();
 }
 
-CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard) :
-			CPlay(CPlay::FORCE, nTargetHand, NONE, PP_LOSER),
+CForce::CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard) :
+			CPlay(app, CPlay::FORCE, nTargetHand, NONE, PP_LOSER),
 			m_nTargetCardVal(nTargetCardVal)
 {
 	VERIFY(pCard);
@@ -323,7 +323,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 
 				// see if we played a card from the other hand that's equivalent 
 				// to this card; if so, discard low
-        CSuitHoldings testSuit{appImpl}; // TODO(Jauhen): inject!
+        CSuitHoldings testSuit{app_};
 				testSuit << combinedSuit;
 				testSuit << pCardLed;	// needed for valid test
 				//

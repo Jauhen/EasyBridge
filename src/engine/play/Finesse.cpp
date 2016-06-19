@@ -24,8 +24,8 @@
 //==================================================================
 // constructon & destruction
 
-CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic) :
-					CPlay(FINESSE, nTargetHand, nSuit, PP_SPECULATIVE, bOpportunistic),
+CFinesse::CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic) :
+					CPlay(app, FINESSE, nTargetHand, nSuit, PP_SPECULATIVE, bOpportunistic),
 					m_nSubType(nSubType),
 					m_nPlayerPosition(nPlayerPosition),
 					m_pGapCards(pGapCards),
@@ -34,8 +34,8 @@ CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList
 	Init();
 }
 
-CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic) :
-					CPlay(FINESSE, nTargetHand, NONE, PP_SPECULATIVE, bOpportunistic),
+CFinesse::CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic) :
+					CPlay(app, FINESSE, nTargetHand, NONE, PP_SPECULATIVE, bOpportunistic),
 					m_nSubType(nSubType),
 					m_nPlayerPosition(nPlayerPosition),
 					m_pGapCards(pGapCards)

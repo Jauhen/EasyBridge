@@ -44,8 +44,8 @@ protected:
 
 // construction/destruction
 public:
-	CHoldUp(int nSuit=NONE);
-	CHoldUp(CHoldUp& srcPlay);
+	CHoldUp(std::shared_ptr<AppInterface> app, int nSuit=NONE);
+	CHoldUp(std::shared_ptr<AppInterface> app, CHoldUp& srcPlay);
 	virtual ~CHoldUp();
 };
 

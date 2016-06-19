@@ -34,8 +34,8 @@
 //==================================================================
 // constructon & destruction
 
-CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, int nSuit, int nCardVal) :
-		CFinesse(CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
+CType2Finesse::CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, int nSuit, int nCardVal) :
+		CFinesse(app, CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
 		m_pCoverCards(pCoverCards)
 
 {
@@ -43,8 +43,8 @@ CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pG
 	Init();
 }
 
-CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard) :
-		CFinesse(CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, pCard),
+CType2Finesse::CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard) :
+		CFinesse(app, CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pCoverCards(pCoverCards)
 
 {

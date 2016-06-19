@@ -47,9 +47,9 @@ protected:
 
 // construction/destruction
 public:
-	CDiscard(int nTargetHand, int nSuit=NONE, int nCardVal=NONE);
-	CDiscard(int nTargetHand, CCard* pCard);
-	CDiscard(CDiscard& srcPlay);
+	CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit=NONE, int nCardVal=NONE);
+	CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard);
+	CDiscard(std::shared_ptr<AppInterface> app, CDiscard& srcPlay);
 	virtual ~CDiscard();
 };
 

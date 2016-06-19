@@ -3915,7 +3915,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 			}
 
 			// then insert an exit play
-			CExitPlay* pPlay = new CExitPlay(pPrerequisites,
+			CExitPlay* pPlay = new CExitPlay(app_, pPrerequisites,
 											 arrayExitSuits[0],
 											 ((numExitSuits == 2)? arrayExitSuits[1] : ANY));
 			m_playPlan.AddPlay(nPos, pPlay);
@@ -4669,7 +4669,7 @@ int CDeclarerPlayEngine::FindHoldUpPlays(CPlayList& playList, BOOL bExcludeTrump
 	// and add the plays
 	for(int i=0;i<numHoldUps;i++)
 	{
-		CHoldUp* pPlay = new CHoldUp(nSuitLed);
+		CHoldUp* pPlay = new CHoldUp(app_, nSuitLed);
 		playList << pPlay;
 	}
 
@@ -4764,7 +4764,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 			else if ((suit.GetNumDummyCards() > 0) && (suit.GetNumDeclarerCards() == 0))
 				nStartingHand = CPlay::IN_DUMMY;
 			// and add
-			CCash* pPlay = new CCash(GetCardOwner(suit[j]), nStartingHand, pRequiredPlayedList, suit[j], nPlayProspect);
+			CCash* pPlay = new CCash(app_, GetCardOwner(suit[j]), nStartingHand, pRequiredPlayedList, suit[j], nPlayProspect);
 			localPlayList << pPlay;
 			nTricksCount++;
 		}
@@ -4842,7 +4842,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 					CCardList* pRequiredPlayList = NULL;
 //					CCardList* pRequiredPlayList = new CCardList;
 //					pRequiredPlayList->Add(missingTopCards[0]);
-					CCash* pPlay = new CCash(CPlay::IN_HAND, CPlay::IN_DUMMY, pRequiredPlayList, declarer[0], CPlay::PP_LIKELY_WINNER, TRUE);
+					CCash* pPlay = new CCash(app_, CPlay::IN_HAND, CPlay::IN_DUMMY, pRequiredPlayList, declarer[0], CPlay::PP_LIKELY_WINNER, TRUE);
 					playList << pPlay;
 					// advance the count
 					nDelayedTricksCount++;
@@ -4867,7 +4867,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 					CCardList* pRequiredPlayList = NULL;
 //					CCardList* pRequiredPlayList = new CCardList;
 //					pRequiredPlayList->Add(pCashCard);
-					CCash* pPlay = new CCash(CPlay::IN_DUMMY, CPlay::IN_HAND, pRequiredPlayList, dummy[0], CPlay::PP_LIKELY_WINNER, TRUE);
+					CCash* pPlay = new CCash(app_, CPlay::IN_DUMMY, CPlay::IN_HAND, pRequiredPlayList, dummy[0], CPlay::PP_LIKELY_WINNER, TRUE);
 					playList << pPlay;
 					// advance the count
 					nDelayedTricksCount++;
@@ -5084,7 +5084,7 @@ int CDeclarerPlayEngine::FormTrumpPullingPlan(CPlayList& mainPlayList, CPlayList
 		// add the list of trumps that must be outstanding for a 
 		// trump pull to be used
 		CCardList* pNewMissingTrumps = new CCardList(missingTrumps);
-		CTrumpPull* pPlay = new CTrumpPull(GetCardOwner(pCard), 
+		CTrumpPull* pPlay = new CTrumpPull(app_, GetCardOwner(pCard), 
 										   pCard, 
 										   pRequiredPlayedList,
 										   pNewMissingTrumps,
@@ -5465,7 +5465,7 @@ int CDeclarerPlayEngine::FindRuffingPlays(CPlayList& playList)
 		// insert the ruffs in this suit into the provided play list
 		for(j=0;j<nMaxRuffs;j++)
 		{
-			CRuff* pRuff = new CRuff(ruffCandidates[i].nDirection, ruffCandidates[i].numDiscardsRequired, ruffCandidates[i].nSuit, nPlayProspect);
+			CRuff* pRuff = new CRuff(app_, ruffCandidates[i].nDirection, ruffCandidates[i].numDiscardsRequired, ruffCandidates[i].nSuit, nPlayProspect);
 			playList << pRuff;
 		}
 		//
@@ -5718,7 +5718,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 				// play the next highest card from our hand
 				CCard* pCard = suit.GetHighestCardBelow(pLastCard);
 				ASSERT(pCard != NULL);
-				CForce* pForce = new CForce(GetCardOwner(pCard), 
+				CForce* pForce = new CForce(app_, GetCardOwner(pCard), 
 										    pTargetCard->GetFaceValue(), 
 //											pReqPlayedCardsList,
 											NULL,
@@ -5754,7 +5754,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 
 				// and create
 				CCard* pCard = suit[j];
-				CCash* pCash = new CCash(GetCardOwner(pCard), CPlay::IN_EITHER, pRequiredPlayedList, pCard, nPlayProspect);
+				CCash* pCash = new CCash(app_, GetCardOwner(pCard), CPlay::IN_EITHER, pRequiredPlayedList, pCard, nPlayProspect);
 				secondaryCashList << pCash;
 				numSecondaryCashes++;
 				m_numPlannedSecondaryCashPlays++;
@@ -5880,7 +5880,7 @@ int CDeclarerPlayEngine::FindDropPlays(CPlayList& playList)
 			// and create the play
 			CCard* pConsumedCard = suit[j];
 			int nTargetHand = declarer.HasCard(pConsumedCard)? CPlay::IN_HAND : CPlay::IN_DUMMY;
-			CDrop* pDrop = new CDrop(nTargetHand, 
+			CDrop* pDrop = new CDrop(app_, nTargetHand, 
 									 CDrop::AGAINST_EITHER,
 									 pEnemyOrCards,
 									 pConsumedCard);
@@ -6141,7 +6141,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					}
 
 					// and create the finesse play object
-					CType1Finesse* pFinesse = new CType1Finesse(m_nPosition,
+					CType1Finesse* pFinesse = new CType1Finesse(app_, m_nPosition,
 																CFinesse::IN_DUMMY, 
 																pGapCards,
 																pCoverCards,
@@ -6225,7 +6225,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				}
 				
 				// and create the finesse
-				CType1Finesse* pFinesse = new CType1Finesse(m_nPosition,
+				CType1Finesse* pFinesse = new CType1Finesse(app_, m_nPosition,
 															CFinesse::IN_HAND, 
 															pGapCards,
 															pCoverCards,
@@ -6307,7 +6307,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					// form the list of cover cards
 					CCardList* pCoverCards = new CCardList(*pDummyCoverCards);
 					// and create the play object
-					CType2Finesse* pFinesse = new CType2Finesse(m_nPosition,
+					CType2Finesse* pFinesse = new CType2Finesse(app_, m_nPosition,
 																CFinesse::IN_HAND, 
 																pGapCards,
 																pCoverCards,
@@ -6376,7 +6376,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					// form the list of cover cards
 					CCardList* pCoverCards = new CCardList(*pDeclarerCoverCards);
 					// and create the finesse play object
-					CType2Finesse* pFinesse = new CType2Finesse(m_nPosition,
+					CType2Finesse* pFinesse = new CType2Finesse(app_, m_nPosition,
 																CFinesse::IN_DUMMY, 
 																pGapCards,
 																pCoverCards,
@@ -6466,7 +6466,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			}
 
 			// and create the play object
-			CType3Finesse* pFinesse = new CType3Finesse(m_nPosition,
+			CType3Finesse* pFinesse = new CType3Finesse(app_, m_nPosition,
 														CFinesse::IN_DUMMY, 
 														pGapCards,
 														pLeadCards,
@@ -6539,7 +6539,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			}
 
 			// and create the play object
-			CType3Finesse* pFinesse = new CType3Finesse(m_nPosition,
+			CType3Finesse* pFinesse = new CType3Finesse(app_, m_nPosition,
 														CFinesse::IN_HAND, 
 														pGapCards,
 														pLeadCards,
@@ -6650,7 +6650,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				else
 				{
 					// proceed and create the play object
-					CTypeAFinesse* pFinesse = new CTypeAFinesse(m_nPosition,
+					CTypeAFinesse* pFinesse = new CTypeAFinesse(app_, m_nPosition,
 																CFinesse::IN_DUMMY, 
 																pGapCards,
 																pFinesseCard);
@@ -6749,7 +6749,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				else
 				{
 					// proceed and create the play object
-					CTypeAFinesse* pFinesse = new CTypeAFinesse(m_nPosition,
+					CTypeAFinesse* pFinesse = new CTypeAFinesse(app_, m_nPosition,
 																CFinesse::IN_HAND, 
 																pGapCards,
 																pFinesseCard);

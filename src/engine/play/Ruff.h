@@ -48,9 +48,9 @@ protected:
 
 // construction/destruction
 public:
-	CRuff(int nTargetHand, int numDiscardsRequired, int nSuit=NONE, PlayProspect=PP_LIKELY_WINNER);
-	CRuff(int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect=PP_LIKELY_WINNER);
-	CRuff(CRuff& srcPlay);
+	CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, int nSuit=NONE, PlayProspect=PP_LIKELY_WINNER);
+	CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect=PP_LIKELY_WINNER);
+	CRuff(std::shared_ptr<AppInterface> app, CRuff& srcPlay);
 	virtual ~CRuff();
 };
 

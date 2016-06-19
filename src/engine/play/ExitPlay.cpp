@@ -28,8 +28,8 @@
 //==================================================================
 // constructon & destruction
 
-CExitPlay::CExitPlay(CPlayList* pPrerequisites, int nSuit1, int nSuit2) :
-CPlay(CPlay::EXIT, CPlay::IN_EITHER, nSuit1, CPlay::PP_LOSER)
+CExitPlay::CExitPlay(std::shared_ptr<AppInterface> app, CPlayList* pPrerequisites, int nSuit1, int nSuit2) :
+CPlay(app, CPlay::EXIT, CPlay::IN_EITHER, nSuit1, CPlay::PP_LOSER)
 {
 	m_nSuit2 = nSuit2;
 	m_pPrerequisiteList = pPrerequisites;

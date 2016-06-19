@@ -28,15 +28,15 @@
 //==================================================================
 // constructon & destruction
 
-CRuff::CRuff(int nTargetHand, int numDiscardsRequired, int nSuit, PlayProspect nPlayProspect) :
-		CPlay(CPlay::RUFF, nTargetHand, nSuit, nPlayProspect),
+CRuff::CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, int nSuit, PlayProspect nPlayProspect) :
+		CPlay(app, CPlay::RUFF, nTargetHand, nSuit, nPlayProspect),
 		m_numDiscardsRequired(numDiscardsRequired)
 {
 	Init();
 }
 
-CRuff::CRuff(int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect) :
-		CPlay(CPlay::RUFF, nTargetHand, NONE, nPlayProspect),
+CRuff::CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect) :
+		CPlay(app, CPlay::RUFF, nTargetHand, NONE, nPlayProspect),
 		m_numDiscardsRequired(numDiscardsRequired)
 {
 	VERIFY(pCard);
@@ -44,8 +44,8 @@ CRuff::CRuff(int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspec
 	Init();
 }
 
-CRuff::CRuff(CRuff& srcPlay) :
-		CPlay(srcPlay.m_nPlayType)
+CRuff::CRuff(std::shared_ptr<AppInterface> app, CRuff& srcPlay) :
+		CPlay(app, srcPlay.m_nPlayType)
 {
 	m_nTargetHand = srcPlay.m_nTargetHand;
 	m_nStartingHand = srcPlay.m_nStartingHand;

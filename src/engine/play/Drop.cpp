@@ -29,8 +29,8 @@
 //==================================================================
 // constructon & destruction
 
-CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, int nSuit, int nCardVal) :
-			CPlay(CPlay::DROP, nTargetHand, nSuit, PP_LIKELY_WINNER),
+CDrop::CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, int nSuit, int nCardVal) :
+			CPlay(app, CPlay::DROP, nTargetHand, nSuit, PP_LIKELY_WINNER),
 			m_nTargetOpponent(nTargetOpponent),
 			m_nCardVal(nCardVal)
 {
@@ -38,8 +38,8 @@ CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, int n
 	m_pEnemyOrKeyCardsList = pEnemyCards;
 }
 
-CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, CCard* pCard) :
-			CPlay(CPlay::DROP, nTargetHand, NONE, PP_LIKELY_WINNER),
+CDrop::CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, CCard* pCard) :
+			CPlay(app, CPlay::DROP, nTargetHand, NONE, PP_LIKELY_WINNER),
 			m_nTargetOpponent(nTargetOpponent)
 {
 	VERIFY(pCard);
@@ -49,8 +49,8 @@ CDrop::CDrop(int nTargetHand, int nTargetOpponent, CCardList* pEnemyCards, CCard
 	Init();
 }
 
-CDrop::CDrop(CDrop& srcPlay) :
-		CPlay(srcPlay.m_nPlayType, srcPlay.m_nTargetHand)
+CDrop::CDrop(std::shared_ptr<AppInterface> app, CDrop& srcPlay) :
+		CPlay(app, srcPlay.m_nPlayType, srcPlay.m_nTargetHand)
 {
 	m_nTargetHand = srcPlay.m_nTargetHand;
 	m_nTargetOpponent = AGAINST_EITHER;

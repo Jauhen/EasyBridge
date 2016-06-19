@@ -45,8 +45,8 @@ protected:
 
 // construction/destruction
 public:
-	CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal);
-	CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard);
+	CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal);
+	CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard);
 	virtual ~CForce();
 };
 
