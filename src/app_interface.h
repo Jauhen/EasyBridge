@@ -46,7 +46,8 @@ public:
   virtual void ShowAnalysisDialog(Position position) = 0;
   virtual void HideAnalysisDialog(Position position) = 0;
   virtual void SetAnalysisText(Position position, CString analysis) = 0;
-
+  virtual void SuspendHints() = 0;
+  virtual void ResumeHints() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //

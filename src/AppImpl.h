@@ -118,6 +118,13 @@ public:
     pMAINFRAME->SetAnalysisText(position, analysis);
   }
 
+  virtual void SuspendHints() {
+    pMAINFRAME->SuspendHints();
+  }
+
+  virtual void ResumeHints() {
+    pMAINFRAME->ResumeHints();
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //

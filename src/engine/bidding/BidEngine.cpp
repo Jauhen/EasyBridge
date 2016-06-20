@@ -19,13 +19,10 @@
 #include "stdafx.h"
 #include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
-#include "MainFrm.h"
-#include "MainFrameOpts.h"
 #include "../Player.h"
 #include "../Card.h"
 #include "bidparams.h"
 #include "bidengine.h"
-#include "progopts.h"
 #include "bidopts.h"
 #include "ConventionSet.h"
 #include "app_interface.h"
@@ -262,9 +259,9 @@ void CBidEngine::Trace(const CString& strText)
 //
 void CBidEngine::TraceNH(const CString& strText) 
 { 
-	pMAINFRAME->SuspendHints();
+	app_->SuspendHints();
 	m_pPlayer->Trace(strText); 
-	pMAINFRAME->ResumeHints();
+	app_->ResumeHints();
 }
 
 
@@ -278,7 +275,7 @@ void CBidEngine::TraceNH(const CString& strText)
 void CBidEngine::AddTrace(CString& strMessage, CString& strTemp)
 {
 	// return if trace disabled
-	if (!theApp.GetValue(tbEnableAnalysisTracing))
+	if (!app_->IsEnableAnalysisTracing())
 		return;
 	//
 	strMessage += strTemp;
@@ -292,7 +289,7 @@ void CBidEngine::AddTrace(CString& strMessage, CString& strTemp)
 void CBidEngine::AddTrace(CString& strMessage, LPCTSTR szTemp)
 {
 	// return if trace disabled
-	if (!theApp.GetValue(tbEnableAnalysisTracing))
+	if (!app_->IsEnableAnalysisTracing())
 		return;
 	//
 	strMessage += szTemp;
@@ -1698,7 +1695,7 @@ void CBidEngine::RecordBid(int nPos, int nBid)
 //
 void CBidEngine::BiddingFinished()
 {
-	pMAINFRAME->SuspendHints();
+	app_->SuspendHints();
 	CString strLine;
 	strLine.Format("Bidding finished; contract is %s.  Declarer is %s; %s leads.",
 					ContractToFullString(app_->GetContract(), app_->GetContractModifier()),
@@ -1706,7 +1703,7 @@ void CBidEngine::BiddingFinished()
 					PositionToString(app_->GetRoundLead()));
 	strLine += "\n=======================";
 	TraceNH(strLine);
-	pMAINFRAME->ResumeHints();
+	app_->ResumeHints();
 }
 
 
