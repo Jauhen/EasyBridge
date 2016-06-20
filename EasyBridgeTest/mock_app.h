@@ -52,4 +52,7 @@ public:
   MOCK_METHOD2(ContractToFullString, const CString(int contract, int modifier));
   MOCK_METHOD1(PositionToString, const char* (int pos));
   MOCK_METHOD1(BidToFullString, const CString(int bid));
+  MOCK_METHOD1(GetCardLetter, char(int i));
+  MOCK_METHOD1(GetSuitLetter, char(int i));
+  MOCK_METHOD1(SuitToString, const char* (int suit));
 };

@@ -164,7 +164,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 			// we opened with <= 11 pts (actual, before adjusting for trump fit)
 			nBid = MAKEBID(nSuit, 2);
 			status << "DRUR12! But since we opened light with only " & fCardPts & 
-					  " HCPs, we have to respond in the original " & STSS(nSuit) & 
+					  " HCPs, we have to respond in the original " & app_->SuitToSingularString(nSuit) & 
 					  " suit at the 2-level and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
@@ -269,7 +269,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner bid 2 of the original suit
 			nBid = BID_PASS;
-			status << "DRUR46! Partner did his original " & STSS(nSuit) & 
+			status << "DRUR46! Partner did his original " & app_->SuitToSingularString(nSuit) & 
 					  " at the 2-level, indicating subpar opening values, so we have to pass.\n";
 		}
 		else

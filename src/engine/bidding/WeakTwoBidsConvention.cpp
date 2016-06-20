@@ -63,7 +63,7 @@ BOOL CWeakTwoBidsConvention::TryConvention(const CPlayer& player,
 		int nSuit = bidState.nPrefSuit;
 		int nBid = MAKEBID(nSuit,2);
 		status << "WEAK2! Have a good " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & STSS(nSuit) & " suit with " & 
+				  "-card " & app_->SuitToSingularString(nSuit) & " suit with " & 
 				  bidState.fCardPts & "/" & bidState.fPts & 
 				  " points (less than normal opening requirements), so bid a weak " &
           app_->BidToFullString(nBid) & ".\n";
@@ -143,7 +143,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					// raise to game
 					nBid = bidState.GetGameBid(nPartnersPrevSuit);
 					status << "RWKT2B1! Partner has shown an outside Ace or King in the " &
-							  STSS(nPartnersSuit) & " suit, so with strength in " & STS(nPartnersSuit) & ", " & 
+							  app_->SuitToSingularString(nPartnersSuit) & " suit, so with strength in " & app_->SuitToString(nPartnersSuit) & ", " & 
 							  bidState.numSupportCards & "-card trump support, and a total of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 							  " points in the partnership, raise to " & app_->BidToFullString(nBid) & ".\n";
@@ -153,7 +153,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					// return to partner's suit
 					nBid = bidState.GetCheapestShiftBid(nPartnersPrevSuit);
 					status << "RWKT2B2! Partner has shown an outside Ace or King in the " &
-							  STSS(nPartnersSuit) & " suit, but with a total of " &
+							  app_->SuitToSingularString(nPartnersSuit) & " suit, but with a total of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 							  " pts in the partnership we lack the strength to raise further, so return to partner's suit at " &
 							  app_->BidToFullString(nBid) & ".\n";
@@ -163,7 +163,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			{
 				// partner returned to his old suit
 				nBid = BID_PASS;
-				status << "RWKT2B5! Partner has returned to his original " & STSS(nPartnersPrevSuit) &
+				status << "RWKT2B5! Partner has returned to his original " & app_->SuitToSingularString(nPartnersPrevSuit) &
 						  " suit, indicating no interest in game, so we pass.\n";
 			}
 			bidState.SetBid(nBid);

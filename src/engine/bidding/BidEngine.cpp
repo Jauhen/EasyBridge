@@ -149,7 +149,7 @@ void CBidEngine::Clear()
 //
 // SuitHoldingsToString()
 //
-// - also called by STS()
+// - also called by app_->SuitToString()
 //
 LPCTSTR CBidEngine::SuitHoldingsToString(int nSuit)
 {
@@ -163,7 +163,7 @@ LPCTSTR CBidEngine::SuitHoldingsToString(int nSuit)
 //
 // SuitStrengthToString()
 //
-// - also called by SSTS()
+// - also called by app_->SuitStrengthToString()
 //
 LPCTSTR CBidEngine::SuitStrengthToString(int nSuit)
 {
@@ -765,8 +765,8 @@ void CBidEngine::AssessPosition()
 
 	//
 	strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
-	strcpy(szPS,STS(nPartnersSuit));		// partner's suit
-	strcpy(szPSS,STSS(nPartnersSuit));		// partner's suit, singular
+	strcpy(szPS,app_->SuitToString(nPartnersSuit));		// partner's suit
+	strcpy(szPSS,app_->SuitToSingularString(nPartnersSuit));		// partner's suit, singular
 	strcpy(szHP,SHTS(nPartnersSuit));		// our holding in partner's suit
 /*
 	if (m_numPartnerBidsMade > 0)
@@ -774,8 +774,8 @@ void CBidEngine::AssessPosition()
 		if (nPartnersBid != BID_PASS)
 		{
 			strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
-			strcpy(szPS,STS(nPartnersSuit));		// partner's suit
-			strcpy(szPSS,STSS(nPartnersSuit));		// partner's suit, singular
+			strcpy(szPS,app_->SuitToString(nPartnersSuit));		// partner's suit
+			strcpy(szPSS,app_->SuitToSingularString(nPartnersSuit));		// partner's suit, singular
 			if ((nPartnersBid != BID_PASS) && (nPartnersSuit != NOTRUMP))
 				strcpy(szHP,SHTS(nPartnersSuit));	// our holding in partner's suit
 			else
@@ -789,16 +789,16 @@ void CBidEngine::AssessPosition()
 */
 
 	strcpy(szPPB,app_->BidToFullString(nPartnersPrevBid));	// partner's prev bid
-	strcpy(szPPS,STS(nPartnersPrevSuit));	// partner's prev suit
-	strcpy(szPPSS,STSS(nPartnersPrevSuit));	// partner's prev suit, singular
+	strcpy(szPPS,app_->SuitToString(nPartnersPrevSuit));	// partner's prev suit
+	strcpy(szPPSS,app_->SuitToSingularString(nPartnersPrevSuit));	// partner's prev suit, singular
 	strcpy(szHPP,SHTS(nPartnersPrevSuit));	// our holding in partner's prev suit
 /*
 	//
 	if ((m_numPartnerBidsMade > 1) && (nPartnersPrevBid != BID_PASS))
 	{
 		strcpy(szPPB,app_->BidToFullString(nPartnersPrevBid));		// partner's prev bid
-		strcpy(szPPS,STS(nPartnersPrevSuit));	// partner's prev suit
-		strcpy(szPPSS,STSS(nPartnersPrevSuit));	// partner's prev suit, singular
+		strcpy(szPPS,app_->SuitToString(nPartnersPrevSuit));	// partner's prev suit
+		strcpy(szPPSS,app_->SuitToSingularString(nPartnersPrevSuit));	// partner's prev suit, singular
 		if ((nPartnersPrevBid != BID_PASS) && (nPartnersPrevSuit != NOTRUMP))
 			strcpy(szHPP,SHTS(nPartnersPrevSuit));	// our holding in partner's prev suit
 		else
@@ -810,8 +810,8 @@ void CBidEngine::AssessPosition()
 	}
 */
 	//
-	strcpy(szPrefS,STS(nPrefSuit));		// our preferred suit
-	strcpy(szPrefSS,STSS(nPrefSuit));	// our preferred suit, singular
+	strcpy(szPrefS,app_->SuitToString(nPrefSuit));		// our preferred suit
+	strcpy(szPrefSS,app_->SuitToSingularString(nPrefSuit));	// our preferred suit, singular
 	strcpy(szHPref,SHTS(nPrefSuit));	// holdings in our preferred suit
 
 	// record our own bid info in strings
@@ -819,8 +819,8 @@ void CBidEngine::AssessPosition()
 //	if ((m_numBidsMade > 0) && (nPreviousSuit != NONE))
 //	{
 		strcpy(szPVB,app_->BidToFullString(nPreviousBid));		// our previous bid 
-		strcpy(szPVS,STS(nPreviousSuit));		// our previously bid suit
-		strcpy(szPVSS,STSS(nPreviousSuit));		// prev bid suit, singular
+		strcpy(szPVS,app_->SuitToString(nPreviousSuit));		// our previously bid suit
+		strcpy(szPVSS,app_->SuitToSingularString(nPreviousSuit));		// prev bid suit, singular
 		if (nPreviousSuit != NOTRUMP)
 			strcpy(szHPV,SHTS(nPreviousSuit));	// holdings in our prev bid suit
 		else
@@ -836,8 +836,8 @@ void CBidEngine::AssessPosition()
 //	if (nNextPrevSuit != NONE)
 //	{
 		strcpy(szNPB,app_->BidToFullString(nNextPrevBid));		// our bid 2 turns ago
-		strcpy(szNPS,STS(nNextPrevSuit));	
-		strcpy(szNPSS,STSS(nNextPrevSuit));	
+		strcpy(szNPS,app_->SuitToString(nNextPrevSuit));	
+		strcpy(szNPSS,app_->SuitToSingularString(nNextPrevSuit));	
 		if (nNextPrevSuit != NOTRUMP)
 			strcpy(szHNPS,SHTS(nNextPrevSuit));
 		else
@@ -2105,9 +2105,9 @@ int CBidEngine::GetBestOpeningSuit()
 			// bid the middle suit
 			strTemp.Format("BPK1! With %d good suits (%s, %s, and %s), bid the middle suit.",
 							m_pHand->GetNumPreferredSuits(),
-							STS(m_pHand->GetSuitsByPreference(2)),
-							STS(m_pHand->GetSuitsByPreference(1)),
-							STS(m_pHand->GetSuitsByPreference(0)));
+							app_->SuitToString(m_pHand->GetSuitsByPreference(2)),
+							app_->SuitToString(m_pHand->GetSuitsByPreference(1)),
+							app_->SuitToString(m_pHand->GetSuitsByPreference(0)));
 			Trace(strTemp);
 			return m_pHand->GetSuitsByPreference(1);
 		} 
@@ -2115,8 +2115,8 @@ int CBidEngine::GetBestOpeningSuit()
 		{
 			// bid the higher of 2 preferred suits
 			strTemp.Format("BPK2! With 2 good suits (%s and %s), bid the higher suit.",
-							STS(m_pHand->GetSuitsByPreference(1)),
-							STS(m_pHand->GetSuitsByPreference(0)));
+							app_->SuitToString(m_pHand->GetSuitsByPreference(1)),
+							app_->SuitToString(m_pHand->GetSuitsByPreference(0)));
 			Trace(strTemp);
 			return m_pHand->GetSuitsByPreference(0);
 		} 
@@ -2249,7 +2249,7 @@ BOOL CBidEngine::TestReverseRules(int& nSuit)
 		if ((nSuit > nPreviousSuit) && (fPts < 17))
 		{
 			// oops, reversing violation -- gotta find another suit (the 3rd one) 
-			*m_pStatusDlg << "2RevV0! We'd like to bid the " & STSS(nSuit) &
+			*m_pStatusDlg << "2RevV0! We'd like to bid the " & app_->SuitToSingularString(nSuit) &
 							 " suit, but we can't reverse with less than 17 points.\n";
 			int newSuit = GetNextBestSuit(nSuit, nPreviousSuit);
 			// if this suit is also higher than the original suit, 
@@ -2267,9 +2267,9 @@ BOOL CBidEngine::TestReverseRules(int& nSuit)
 			if (nSuitStrength[newSuit] < SS_OPENABLE)
 			{
 				// new suit not biddable? have to rebid original suit
-				*m_pStatusDlg << "2RevV2! And since the 3rd best suit (" & STS(newSuit) &
+				*m_pStatusDlg << "2RevV2! And since the 3rd best suit (" & app_->SuitToString(newSuit) &
 								 ") is not strong enough to bid, we have to rebid the original " & 
-								 STSS(nPreviousSuit) & " suit.\n";
+								 app_->SuitToSingularString(nPreviousSuit) & " suit.\n";
 				newSuit = nPreviousSuit;
 			}
 			//

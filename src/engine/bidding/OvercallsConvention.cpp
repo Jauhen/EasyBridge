@@ -153,7 +153,7 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 			{
 				// yup, it does
 				status << "OVRCW1! With " & bidState.fPts & " pts and a " & bidState.numCardsInSuit[nSuit] &
-						  "-card " & STSS(nSuit) & " suit, make a weak jump overcall to " & app_->BidToFullString(nBid) & ".\n";
+						  "-card " & app_->SuitToSingularString(nSuit) & " suit, make a weak jump overcall to " & app_->BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED);
 				bidState.SetConventionParameter(this, 1);	// indicate that we jump shifted
@@ -170,7 +170,7 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 			{
 				// yup, it does
 				status << "OVRCS1! With " & bidState.fPts & " pts, a " & bidState.numCardsInSuit[nSuit] &
-						  "-card " & STSS(nSuit) & " suit, and " & bidState.numLikelyWinners & 
+						  "-card " & app_->SuitToSingularString(nSuit) & " suit, and " & bidState.numLikelyWinners & 
 						  " likely winners in the hand, make a strong jump overcall to " & app_->BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED);
@@ -225,7 +225,7 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 	//
 	CString strOppBid = app_->BidToFullString(nOppBid);
 	status << "OVERCL8! Have a good " & bidState.numCardsInSuit[nSuit] & 
-			  "-card " & STSS(nSuit) & " suit with " & 
+			  "-card " & app_->SuitToSingularString(nSuit) & " suit with " & 
 			  bidState.fPts & "/" & bidState.fPts & 
 			  " points and " & bidState.numLikelyWinners & " playing tricks, so overcall the opponents' " & 
 			  (LPCTSTR)strOppBid & " with a bid of " & app_->BidToFullString(nBid) & ".\n";
@@ -337,7 +337,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 		bidState.m_fPartnersMin = OPEN_PTS(8);
 		bidState.m_fPartnersMax = OPEN_PTS(15);
 		status << "ROVRC1! Partner overcalled at the 1-level, indicating a good 5+ card "
-				  & STSS(nPartnersSuit) & " suit, 8-15 points, and probably 5+ playing tricks.\n";
+				  & app_->SuitToSingularString(nPartnersSuit) & " suit, 8-15 points, and probably 5+ playing tricks.\n";
 	}
 	else if (nPartnersBidLevel == 2)
 	{
@@ -353,7 +353,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 				bidState.m_fPartnersMax = OPEN_PTS(10);
 				status << "ROVRC3! Partner made a weak jump overcall of " & bidState.szPB & 
 						  ", indicating " & bidState.m_fPartnersMin & "-" & bidState.m_fPartnersMax & 
-						  " pts and a good 6+ card " & STSS(nPartnersSuit) & " suit.\n";
+						  " pts and a good 6+ card " & app_->SuitToSingularString(nPartnersSuit) & " suit.\n";
 			}
 			else
 			{
@@ -362,7 +362,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 				bidState.m_fPartnersMax = OPEN_PTS(18);
 				status << "ROVRC5! Partner made a strong jump overcall of " & bidState.szPB & 
 						  ", indicating " & bidState.m_fPartnersMin & "-" & bidState.m_fPartnersMax & 
-						  " pts, a good 6+ card " & STSS(nPartnersSuit) & " suit, and probably 6+ playing tricks.\n";
+						  " pts, a good 6+ card " & app_->SuitToSingularString(nPartnersSuit) & " suit, and probably 6+ playing tricks.\n";
 			}
 		}
 		else
@@ -371,7 +371,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 			bidState.m_fPartnersMin = OPEN_PTS(10);
 			bidState.m_fPartnersMax = OPEN_PTS(15);
 			status << "ROVRC5! Partner overcalled at the 2-level, indicating a good 5+ card "				  
-					  & STSS(nPartnersSuit) & " suit, " & bidState.m_fPartnersMin & "-" & bidState.m_fPartnersMax & 
+					  & app_->SuitToSingularString(nPartnersSuit) & " suit, " & bidState.m_fPartnersMin & "-" & bidState.m_fPartnersMax & 
 					  " points, and probably 6+ playing tricks.\n";
 		}
 	}
@@ -477,7 +477,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 		{
 			// cant' do it
 			status << "ROVRC20! And although we want to bid our own " & 
-					  bidState.numPrefSuitCards & "-card " & STSS(nPrefSuit) &
+					  bidState.numPrefSuitCards & "-card " & app_->SuitToSingularString(nPrefSuit) &
 					  " suit, we can't bid it at the " & BID_LEVEL(nBid) & 
 					  " with only " & fPts & " points, so pass.\n";
 			bidState.SetBid(BID_PASS);
@@ -487,13 +487,13 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 			// else make the bid
 			if (!bJumped)
 				status << "ROVRC24! With a " & bidState.numPrefSuitCards & "-card " & 
-						  STSS(nPrefSuit) & " suit, we bid it in preference to partner's " 
-						  & STS(nPartnersSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  app_->SuitToSingularString(nPrefSuit) & " suit, we bid it in preference to partner's " 
+						  & app_->SuitToString(nPartnersSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			else
 				status << "ROVRC26! With a " & bidState.numPrefSuitCards & "-card " & 
-						  STSS(nPrefSuit) & " suit and " & fPts & 
+						  app_->SuitToSingularString(nPrefSuit) & " suit and " & fPts & 
 						  " points, we jump in it in preference to partner's " 
-						  & STS(nPartnersSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  & app_->SuitToString(nPartnersSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 		}
 		return TRUE;
@@ -531,10 +531,10 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 		if (nOppSuit == NONE)
 			nOppSuit = bidState.nRHOSuit;
 		nBid = bidState.GetCheapestShiftBid(nOppSuit, nLastBid);
-		status << "ROVRC60! With poor support for partner's " & STS(nPartnersSuit) &
+		status << "ROVRC60! With poor support for partner's " & app_->SuitToString(nPartnersSuit) &
 				  " (holding " & bidState.szHP & 
 				  "), no good 6-card suit of our own to bid, and a hand unsuited for NT, cue bid the opponents' " &
-				  STSS(nOppSuit) & " suit at " & app_->BidToFullString(nBid) & ".  This bid is forcing.\n";
+				  app_->SuitToSingularString(nOppSuit) & " suit at " & app_->BidToFullString(nBid) & ".  This bid is forcing.\n";
 	}
 
 	

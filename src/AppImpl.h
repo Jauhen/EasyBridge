@@ -226,5 +226,9 @@ public:
   virtual char GetSuitLetter(int i) {
     return ::GetSuitLetter(i);
   }
+
+  virtual const char* SuitToString(int suit) {
+    return ::SuitToString(suit);
+  }
 };
 

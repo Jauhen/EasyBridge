@@ -23,7 +23,7 @@
 #include "bidding/bidparams.h"
 #include "handopts.h"
 #include "progopts.h"
-
+#include "app_interface.h"
 
 
 //
@@ -1004,14 +1004,14 @@ void CHandHoldings::EvaluateHoldings()
 		if (m_numAbsoluteSuits == 1) 
 		{
 			strTemp.Format("Have a powerful suit in %s.",
-								STS(m_nAbsoluteSuitList[0]));
+								app_->SuitToString(m_nAbsoluteSuitList[0]));
 		} 
 		else 
 		{
 			strTemp = "Have powerful suits in ";
 			for(int i=0;i<m_numAbsoluteSuits;i++) 
 			{
-				strTemp += STS(m_nAbsoluteSuitList[i]);
+				strTemp += app_->SuitToString(m_nAbsoluteSuitList[i]);
 				if (i < m_numAbsoluteSuits-1)
 					strTemp += ", ";
 			}
@@ -1037,14 +1037,14 @@ void CHandHoldings::EvaluateHoldings()
 	{
 		if (nStrongCount == 1) 
 		{
-			strTemp.Format("Have a strong suit in %s.",STS(nStrong[0]));
+			strTemp.Format("Have a strong suit in %s.",app_->SuitToString(nStrong[0]));
 		} 
 		else 
 		{
 			strTemp = "Have strong suits in ";
 			for(int i=0;i<nStrongCount;i++) 
 			{
-				strTemp += STS(nStrong[i]);
+				strTemp += app_->SuitToString(nStrong[i]);
 				if (i < nStrongCount-1)
 					strTemp += ", ";
 			}
@@ -1055,7 +1055,7 @@ void CHandHoldings::EvaluateHoldings()
 	//
 	if (m_numPreferredSuits == 1) 
 	{
-		strTemp.Format("Preferred suit is %s.",STS(m_nPreferredSuitList[0]));
+		strTemp.Format("Preferred suit is %s.",app_->SuitToString(m_nPreferredSuitList[0]));
 	} 
 	else 
 	{
@@ -1063,13 +1063,13 @@ void CHandHoldings::EvaluateHoldings()
 		strTemp = "Preferred suits are  ";
 		for(int i=0;i<m_numPreferredSuits;i++) 
 		{
-			strTemp += STS(m_nPreferredSuitList[i]);
+			strTemp += app_->SuitToString(m_nPreferredSuitList[i]);
 			if (i < m_numPreferredSuits-1)
 				strTemp += ", ";
 		}
 		strTemp += "\n";
 		strLine += strTemp;
-		strTemp.Format("The best suit is %s.",STS(m_nPreferredSuit));
+		strTemp.Format("The best suit is %s.",app_->SuitToString(m_nPreferredSuit));
 	}
 	strLine += strTemp;
 	strLine += "\n====================\n";
@@ -1264,7 +1264,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 			else if (m_suit[i].GetLength() == 5)
 				nSolidPts = 1;
 			//
-			strTemp.Format("3REVAL7: Adding %d point(s) for the solid %s suit.\n", nSolidPts, STSS(i));
+			strTemp.Format("3REVAL7: Adding %d point(s) for the solid %s suit.\n", nSolidPts, app_->SuitToSingularString(i));
 			strMessage += strTemp;
 			m_numLongPoints += nSolidPts;
 		}
@@ -1306,12 +1306,12 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 			// long trumps?
 			if ((nTrumpSuit > NONE) && (numTrumps > nMinTrumpLength)) 
 			{
-				strMessage.Format("2REVAL10: (with a %d-card trump suit in %s,", numTrumps, STS(nTrumpSuit));
+				strMessage.Format("2REVAL10: (with a %d-card trump suit in %s,", numTrumps, app_->SuitToString(nTrumpSuit));
 				// with long side suits?
 				if (numLongSuits == 1) 
 				{
 					strTemp.Format(" plus a solid %d-card second suit in %s,",
-									m_suit[nLongSuit[0]].GetLength(), STS(nLongSuit[0]));
+									m_suit[nLongSuit[0]].GetLength(), app_->SuitToString(nLongSuit[0]));
 					strMessage += strTemp;
 				} 
 				else if (numLongSuits > 1) 
@@ -1331,7 +1331,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 			{
 				// trumps aren't long, but do we have a long side suit?
 				strTemp.Format("2REVAL12: (with a solid %d-card second suit in %s,",
-								m_suit[nLongSuit[0]].GetLength(), STS(nLongSuit[0]));
+								m_suit[nLongSuit[0]].GetLength(), app_->SuitToString(nLongSuit[0]));
 				strMessage += strTemp;
 			} 
 			else if (numLongSuits > 1) 
@@ -1401,7 +1401,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 			// and comment if there's a change in pts
 			if (fAdjPts > m_numTotalPoints) 
 			{
-				strMessage.Format("2REVAL38! (with %d-card %s trump support", numTrumps, STSS(nTrumpSuit));
+				strMessage.Format("2REVAL38! (with %d-card %s trump support", numTrumps, app_->SuitToSingularString(nTrumpSuit));
 				if (m_suit[nTrumpSuit].GetHCPoints() > 0)
 					strMessage += " including a trump honor";
 
@@ -1413,7 +1413,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 						strMessage += " & doubletons in ";
 						for(int i=0;i<m_numDoubletons;i++) 
 						{
-							strMessage += STS(m_nDoubletonSuits[i]);
+							strMessage += app_->SuitToString(m_nDoubletonSuits[i]);
 							if (i < m_numDoubletons-1)
 								strMessage += " and ";
 						}
@@ -1421,7 +1421,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 					else 
 					{
 						strTemp.Format(" & a doubleton in %s",
-											STS(m_nDoubletonSuits[0]));
+											app_->SuitToString(m_nDoubletonSuits[0]));
 						strMessage += strTemp;
 					}
 					if ((m_numSingletons > 0) || (m_numVoids > 0))
@@ -1436,14 +1436,14 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 						strMessage += " & singletons in ";
 						for(i=0;i<m_numSingletons;i++) 
 						{
-							strMessage += STS(m_nSingletonSuits[i]);
+							strMessage += app_->SuitToString(m_nSingletonSuits[i]);
 							if (i < m_numSingletons-1)
 								strMessage += " and ";
 						}
 					} 
 					else 
 					{
-						strTemp.Format(" & a singleton in %s", STS(m_nSingletonSuits[0]));
+						strTemp.Format(" & a singleton in %s", app_->SuitToString(m_nSingletonSuits[0]));
 						strMessage += strTemp;
 					}
 					if (m_numVoids > 0)
@@ -1458,14 +1458,14 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 						strMessage += " & voids in ";
 						for(i=0;i<m_numVoids;i++) 
 						{
-							strMessage += STS(m_nVoidSuits[i]);
+							strMessage += app_->SuitToString(m_nVoidSuits[i]);
 							if (i<m_numVoids-1)
 								strMessage += " and ";
 						}
 					} 
 					else 
 					{
-						strTemp.Format(" & a void in %s",STS(m_nVoidSuits[0]));
+						strTemp.Format(" & a void in %s",app_->SuitToString(m_nVoidSuits[0]));
 						strMessage += strTemp;
 					}
 				}

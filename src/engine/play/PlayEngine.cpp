@@ -426,7 +426,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 			if ((pCard->GetSuit() != nSuitLed) && (!suit.IsSuitShownOut()))
 			{
 				status << "4RCP10! " & PositionToString(nPos) & 
-						  " shows out of " & STS(nSuitLed) & ".\n";
+						  " shows out of " & app_->SuitToString(nSuitLed) & ".\n";
 				suit.MarkSuitShownOut();
 				if (pPlayerHoldings->GetNumSuitsFullyIdentified() > 1)
 				{
@@ -445,7 +445,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 							CGuessedSuitHoldings& currSuit = pPlayerHoldings->GetSuit(i);
 							status < ((numIdentifiedSuits > 0)? " and " : " ") &
 									  currSuit.GetNumOriginalCards() & " " & 
-									  ((suit.GetNumOriginalCards() > 1)? STS(i) : STSS(i));
+									  ((suit.GetNumOriginalCards() > 1)? app_->SuitToString(i) : app_->SuitToSingularString(i));
 							nIdentifiedSuits[numIdentifiedSuits] = i;
 							numIdentifiedSuits++;
 							numTotalIdentifiedCards += currSuit.GetNumDefiniteCards();
@@ -485,7 +485,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 						fourthSuit.SetNumRemainingCards(numRemainingCards);
 						//
 						status << "4RCP1B! Therefore, " & PositionToString(nPos) &
-								  " started with " & numOriginalCards & " " & STS(nFourthSuit) &
+								  " started with " & numOriginalCards & " " & app_->SuitToString(nFourthSuit) &
 								  " and has " & numRemainingCards & " left.\n";
 					}
 				}
@@ -494,7 +494,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 					status < "RCP5A! " & PositionToString(nPos) & 
 							  " is now known to have started with " &
 							  suit.GetNumOriginalCards() & " " & 
-							  ((suit.GetNumOriginalCards() == 1)? STSS(nSuitLed) : STS(nSuitLed)) & ".\n";
+							  ((suit.GetNumOriginalCards() == 1)? app_->SuitToSingularString(nSuitLed) : app_->SuitToString(nSuitLed)) & ".\n";
 				}
 			}
 
@@ -507,7 +507,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 					(pDummy->GetHand().GetNumCardsInSuit(nSuitLed) == 0) &&
 					(!pPlayerHoldings->IsSuitShownOut(nSuitLed)))
 				{
-					status << "3RCP20! Dummy is now out of " & STS(nSuitLed) & ".\n";
+					status << "3RCP20! Dummy is now out of " & app_->SuitToString(nSuitLed) & ".\n";
 					pPlayerHoldings->MarkSuitShownOut(nSuitLed);
 				}
 			}
@@ -525,7 +525,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 		{
 			if (dummy.GetNumCardsInSuit(i) == 0) 
 			{
-				status << "3RCP25! Dummy is shown to be void in " & STS(i) & ".\n";
+				status << "3RCP25! Dummy is shown to be void in " & app_->SuitToString(i) & ".\n";
 				pPlayerHoldings->MarkSuitShownOut(i);
 			}
 		}
@@ -682,7 +682,7 @@ CCard* CPlayEngine::PlaySecond()
 		}
 		else
 		{
-			status << "PLY2C4! Play our only " & STSS(nSuitLed) & ", the " & pCard->GetFaceName() & ".\n";
+			status << "PLY2C4! Play our only " & app_->SuitToSingularString(nSuitLed) & ", the " & pCard->GetFaceName() & ".\n";
 		}
 	}
 	else
@@ -1075,7 +1075,7 @@ CCard* CPlayEngine::GetLeadCard()
 		{
 			pLeadCard = suit.GetBottomCard();
 			status << "PLYLDB! With no other clear plays available, lead a card from the unbid " &
-					  STSS(pLeadCard->GetSuit()) & " suit.\n";
+					  app_->SuitToSingularString(pLeadCard->GetSuit()) & " suit.\n";
 			ASSERT(m_pHand->HasCard(pLeadCard));
 			return pLeadCard;
 		}
@@ -1444,7 +1444,7 @@ int CPlayEngine::GetMinCardsInSuit(int nPlayer, int nSuit) const
 			CPlayerStatusDialog& status = *m_pStatusDlg;
 			status << "4PLEMN5! " & PositionToString(nPlayer) &
 					  " is now known to hold the remaining " & 
-					  missingCards.GetNumCards() & " " & STS(nSuit) & 
+					  missingCards.GetNumCards() & " " & app_->SuitToString(nSuit) & 
 					  " (" & missingCards.GetHoldingsString() & ").\n";
 			// and update counts
 			suit.SetNumOriginalCards(nMin + m_ppGuessedHands[nPlayer]->GetSuit(nSuit).GetNumCardsPlayed());

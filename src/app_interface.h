@@ -92,4 +92,5 @@ public:
   virtual const CString BidToFullString(int bid) = 0;
   virtual char GetCardLetter(int i) = 0;
   virtual char GetSuitLetter(int i) = 0;
+  virtual const char* SuitToString(int suit) = 0;
 };

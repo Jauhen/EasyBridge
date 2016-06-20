@@ -235,7 +235,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nSuit,4);
 				status << "C02! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card " &
-						  STSS(nSuit) & " suit, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
+						  app_->SuitToSingularString(nSuit) & " suit, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -250,7 +250,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_3NT;
 				status << "C04! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card " &
-						  STSS(nSuit) & " (minor) suit, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
+						  app_->SuitToSingularString(nSuit) & " (minor) suit, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -270,7 +270,7 @@ int CBidEngine::MakeRespondingBid()
 					nSuit = nPrefSuit;					
 					m_nBid = MAKEBID(nSuit,2);
 					status << "C12! Have " & fCardPts & "/" & fPts &
-							  " points with a " & SSTS(nSuit) & " " & STSS(nSuit) &
+							  " points with a " & SuitStrengthToString(nSuit) & " " & app_->SuitToSingularString(nSuit) &
 							  " suit (holding " & SHTS(nSuit) & "), so bid " & 
 							  app_->BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
@@ -281,7 +281,7 @@ int CBidEngine::MakeRespondingBid()
 					nSuit = GetBestSuitofAtLeast(HEARTS,SPADES,4,SP_FIRST);
 					status << "C16! Have " & fCardPts & "/" & fPts &
 							  " points with a " & LEN(nSuit) & "-card " &
-							  STSS(nSuit) & " suit (holding " & SHTS(nSuit) & 
+							  app_->SuitToSingularString(nSuit) & " suit (holding " & SHTS(nSuit) & 
 							  "), so bid " & app_->BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
 				}
@@ -322,7 +322,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nSuit,4);
 				status << "E00! Have " & fCardPts & "/" & fPts &
 					      " points with a " & LEN(nSuit) & "-card " &
-						  STSS(nSuit) & " suit, so jump to game at " & app_->BidToFullString(m_nBid) & ".\n";
+						  app_->SuitToSingularString(nSuit) & " suit, so jump to game at " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -334,7 +334,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_3NT;
 				status << "E04! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card " &
-						  STSS(nSuit) & " (minor) suit, so " &
+						  app_->SuitToSingularString(nSuit) & " (minor) suit, so " &
 						  ((nPartnersBid == BID_1NT)? "jump to" :  "bid") &
 						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
@@ -347,7 +347,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nPrefSuit,3);
 				status << "E08! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card major " &
-						  STSS(nSuit) & " suit, so " &
+						  app_->SuitToSingularString(nSuit) & " suit, so " &
 						  ((nPartnersBid == BID_1NT)? "jump to " :  "bid ") &
 						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
@@ -360,7 +360,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nPrefSuit,3);
 				status << "E12! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card minor " &
-						  STSS(nSuit) & " suit, so " & 
+						  app_->SuitToSingularString(nSuit) & " suit, so " & 
 						  ((nPartnersBid == BID_1NT)? "jump to" :  "bid") &
 						  app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
@@ -377,7 +377,7 @@ int CBidEngine::MakeRespondingBid()
 					nSuit = nPrefSuit;					
 					m_nBid = MAKEBID(nSuit,2);
 					status << "E16! Have " & fCardPts & "/" & fPts &
-						      " points with a " & SSTS(nSuit) & " " & STSS(nSuit) & 
+						      " points with a " & SuitStrengthToString(nSuit) & " " & app_->SuitToSingularString(nSuit) & 
 							  " suit (holding " & SHTS(nSuit) & "), so bid " & 
 							  app_->BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
@@ -389,7 +389,7 @@ int CBidEngine::MakeRespondingBid()
 					m_nBid = MAKEBID(nSuit,2);
 					status << "E20! Have " & fCardPts & "/" & fPts &
 							  " points with a " & LEN(nSuit) & "-card " &
-							  STSS(nSuit) & " suit (holding " & SHTS(nSuit) & 
+							  app_->SuitToSingularString(nSuit) & " suit (holding " & SHTS(nSuit) & 
 							  "), so bid " & app_->BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
 				}
@@ -420,7 +420,7 @@ int CBidEngine::MakeRespondingBid()
 			nSuit = nPrefSuit;
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "E30! With " & fCardPts & "/" & fPts &
-					  " points and a solid " & STSS(nSuit) & " suit (holding " &
+					  " points and a solid " & app_->SuitToSingularString(nSuit) & " suit (holding " &
 					  SHTS(nSuit) & "), jump shift to " & app_->BidToFullString(m_nBid) & 
 					  " to show slam prospects.\n";
 			return ValidateBid(m_nBid);
@@ -571,7 +571,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "G3! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 							  " points with " & SLTS(nPartnersSuit) & 
 							  " (" & szHP & ") support for partner's " & szPSS & 
-							  " suit but hold a " & SSTS(SPADES) & " " & numCardsInSuit[SPADES] & 
+							  " suit but hold a " & SuitStrengthToString(SPADES) & " " & numCardsInSuit[SPADES] & 
 							  "-card Spade suit, so bid " & app_->BidToFullString(m_nBid) & " instead.\n";
 					return ValidateBid(m_nBid);
 				}
@@ -612,7 +612,7 @@ int CBidEngine::MakeRespondingBid()
 						status << "G13! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 								  " points with " & SLTS(nPartnersSuit) & 
 								  " (" & szHP & ") support for partner's " & szPSS & 
-								  " suit but hold a " & SSTS(SPADES) & " Spade suit, so bid " &
+								  " suit but hold a " & SuitStrengthToString(SPADES) & " Spade suit, so bid " &
 								  app_->BidToFullString(m_nBid) & " instead.\n";
 					return ValidateBid(m_nBid);
 				}
@@ -642,7 +642,7 @@ int CBidEngine::MakeRespondingBid()
 						m_nBid = MAKEBID(nSuit,1);
 						status << "G28! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 								  " pts with an available " & LEN(nSuit) & 
-								  "-card major " & STSS(nSuit) & " suit, so bid " &
+								  "-card major " & app_->SuitToSingularString(nSuit) & " suit, so bid " &
 								  app_->BidToFullString(m_nBid) & " over partner's minor suit " &
 								  szPB & " bid.\n";
 						return ValidateBid(m_nBid);
@@ -821,7 +821,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nSuit, 1);
 				status << "H03! We have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points and a " & numCardsInSuit[nSuit] & 
-						  "-card " & STSS(nSuit) & " suit, so respond with " &
+						  "-card " & app_->SuitToSingularString(nSuit) & " suit, so respond with " &
 						  app_->BidToFullString(m_nBid) & " in preference to partner's minor.\n";
 				return ValidateBid(m_nBid);
 			}
@@ -908,13 +908,13 @@ int CBidEngine::MakeRespondingBid()
 					if (nPartnersSuitSupport < SS_GOOD_SUPPORT)
 						status << "H28! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							      " points but prefer not to raise a minor, so bid our " & LEN(nSuit) & 
-								  "-card major " & STSS(nSuit) & " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
+								  "-card major " & app_->SuitToSingularString(nSuit) & " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
 					else
 						status << "H30! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 								  " points and " & SLTS(nPartnersSuit) & 
 								  " support for partner's " & szPS &
 								  " (holding " & szHP & "), but prefer not to raise a minor, so bid our " &
-								  LEN(nSuit) & "-card major " & STSS(nSuit) & " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
+								  LEN(nSuit) & "-card major " & app_->SuitToSingularString(nSuit) & " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 			}
@@ -1037,7 +1037,7 @@ int CBidEngine::MakeRespondingBid()
 				status << "I08! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 						  " points with " & numSupportCards & 
 						  "-card support for partner's " & szPS & " (holding " & szHP & 
-						  "), which is too strong for a limit raise, so we have to temporarily shift to " & STS(nSuit) & 
+						  "), which is too strong for a limit raise, so we have to temporarily shift to " & app_->SuitToString(nSuit) & 
 						  " with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
@@ -1088,7 +1088,7 @@ int CBidEngine::MakeRespondingBid()
 					m_nBid = GetCheapestShiftBid(nSuit);
 					status << "I18! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							  " points but prefer not to raise a minor, so bid our " &
-							  LEN(nSuit) & "-card major " & STSS(nSuit) & 
+							  LEN(nSuit) & "-card major " & app_->SuitToSingularString(nSuit) & 
 							  " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}

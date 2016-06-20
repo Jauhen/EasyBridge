@@ -163,7 +163,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 			int nBid, nSuit = bidState.nPartnersSuit;
 			status << "STYRR0! Partner bid " & bidState.szPB & " after our " & bidState.szPVB & 
 					  " response to his Stayman.  This is an invitational bid indicating 5+ " &
-					  STS(nSuit) & ".\n";
+					  app_->SuitToString(nSuit) & ".\n";
 
 			// look at our trump support & pt count
 			if ((bidState.numSupportCards >= 4) || (bidState.fCardPts >= 17))
@@ -173,7 +173,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 				if (nBid > bidState.nPartnersBid)
 				{
 					status << "STYRR2! And with " & bidState.numCardsInSuit[nSuit] &  " " &
-							   STS(nSuit) & " and " & bidState.fCardPts & 
+							   app_->SuitToString(nSuit) & " and " & bidState.fCardPts & 
 							   " HCPs, raise partner to " & app_->BidToFullString(nBid) & ".\n";
 				}
 				else
@@ -192,7 +192,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 					// raise!
 					if (bidState.numSupportCards >= 3)
 						status << "STYRR10! And with " & bidState.numCardsInSuit[nSuit] & " " &
-								   STS(nSuit) & " and " & bidState.fCardPts & 
+								   app_->SuitToString(nSuit) & " and " & bidState.fCardPts & 
 								   " HCPs, raise partner to " & app_->BidToFullString(nBid) & ".\n";
 					else
 						status << "STYRR11! And with " & bidState.fCardPts & 
@@ -203,7 +203,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 					// can't go any higher
 					nBid = BID_PASS;
 					status << "STYRR16! But with " & bidState.numCardsInSuit[nSuit] &  " " &
-							   STS(nSuit) & " and " & bidState.fCardPts & 
+							   app_->SuitToString(nSuit) & " and " & bidState.fCardPts & 
 							   " HCPs, we cannot raise partner any further, so pass.\n";
 				}
 			}
@@ -212,7 +212,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 				// pass with only 2 trumps and 15 pts
 				nBid = BID_PASS;
 				status << "STYRR20! But with only " & bidState.numCardsInSuit[nSuit] &  " " &
-						   STS(nSuit) & " and " & bidState.fCardPts & 
+						   app_->SuitToString(nSuit) & " and " & bidState.fCardPts & 
 						   " HCPs, we have to pass.\n";
 			}
 			// done
@@ -280,7 +280,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 		// if holding two 4-card majors, bid hearts
 		nSuit = HEARTS;
 		nBid = bidState.GetCheapestShiftBid(nSuit);
-		status << "STYR10! With a "& bidState.numCardsInSuit[nSuit] & "-card " & STSS(nSuit) & 
+		status << "STYR10! With a "& bidState.numCardsInSuit[nSuit] & "-card " & app_->SuitToSingularString(nSuit) & 
 				  " suit, reply to partner's Stayman inquiry with a " & 
 				  app_->BidToFullString(nBid) & " bid.\n";
 	} 
@@ -292,7 +292,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 		else
 			nSuit = SPADES;
 		nBid = bidState.GetCheapestShiftBid(nSuit);
-		status << "STYR11! With a "& bidState.numCardsInSuit[nSuit] & "-card " & STSS(nSuit) & 
+		status << "STYR11! With a "& bidState.numCardsInSuit[nSuit] & "-card " & app_->SuitToSingularString(nSuit) & 
 				  " suit, reply to partner's Stayman inquiry with a " & 
 				  app_->BidToFullString(nBid) & " bid.\n";
 	} 
@@ -390,7 +390,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 		status << "STYX14! Partner replied " & app_->BidToFullString(nPartnersBid) & 
 				" to our Stayman query, indicating a " &
 				((nPartnersBidLevel == 3)? "strong" : "") &
-				"4+ card " & STSS(nSuit)& " suit.\n";
+				"4+ card " & app_->SuitToSingularString(nSuit)& " suit.\n";
 	} 
 		
 	//
@@ -438,8 +438,8 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 			// bid 2H/2S or 3H/3S
 			nBid = MAKEBID(nSuit, nPartnersBidLevel);
 			status << "STYX21! Partner has no 4-card major suit, but with a " & 
-					  bidState.numCardsInSuit[nSuit] & "-card " & STSS(nSuit) &
-					  " suit and an unbalanced hand, invite towards a contract in " & STS(nSuit) &
+					  bidState.numCardsInSuit[nSuit] & "-card " & app_->SuitToSingularString(nSuit) &
+					  " suit and an unbalanced hand, invite towards a contract in " & app_->SuitToString(nSuit) &
 					  " with a bid of " & app_->BidToFullString(nBid) & ".\n";
 		}
 
