@@ -46,14 +46,14 @@ CPlayer::CPlayer(std::shared_ptr<AppInterface> app) : app_(app) {
 	// allocate memory for member objects
 	m_pHand = new CHandHoldings(app);
 	m_pBidder = new CBidEngine(app);
-	m_pDeclarer = new CDeclarerPlayEngine;
-	m_pDummy = new CDummyPlayEngine;
-	m_pDefender = new CDefenderPlayEngine;
-	m_pCardLocation = new CCardLocation;
+	m_pDeclarer = new CDeclarerPlayEngine(app);
+	m_pDummy = new CDummyPlayEngine(app);
+	m_pDefender = new CDefenderPlayEngine(app);
+	m_pCardLocation = new CCardLocation(app);
 	m_pStatusDlg = new CPlayerStatusDialog(app);
 	// 
 	for(int i=0;i<4;i++)
-		m_pGuessedHands[i] = new CGuessedHandHoldings;
+		m_pGuessedHands[i] = new CGuessedHandHoldings(app);
 }
 
 // destructor

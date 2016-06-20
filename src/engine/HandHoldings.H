@@ -262,7 +262,6 @@ private:
 	int			m_numTopCards;			// top cards
 	//
 	BOOL		m_bRevaluedForSuit[4];
-  std::shared_ptr<AppInterface> app_;
 
 public:
 	CHandHoldings(std::shared_ptr<AppInterface> app);

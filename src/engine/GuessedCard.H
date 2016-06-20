@@ -13,6 +13,8 @@
 #ifndef __GUESSEDCARD__
 #define __GUESSEDCARD__
 
+#include "app_interface.h"
+
 class CCard;
 
 
@@ -25,8 +27,8 @@ public:
 	// inline functions
 	CCard* GetCard() { return m_pCard; }
 	int GetSuit() { return m_nSuit; }
-	char GetCardLetter() { return ::GetCardLetter(m_nFaceValue); }
-	char GetSuitLetter() { return ::GetSuitLetter(m_nSuit); }
+	char GetCardLetter() { return app_->GetCardLetter(m_nFaceValue); }
+	char GetSuitLetter() { return app_->GetSuitLetter(m_nSuit); }
 	LPCTSTR GetName() { return (LPCTSTR) m_szName; }
 	LPCTSTR GetFullName() { return CardToString(MAKEDECKVALUE(m_nSuit, m_nFaceValue)); }
 	LPCTSTR GetReverseFullName() { return CardToReverseString(MAKEDECKVALUE(m_nSuit, m_nFaceValue)); }
@@ -62,12 +64,13 @@ private:
 	int		m_nLocation;
 	float	m_fFixProbability;
 	CCard*  m_pCard;
+  std::shared_ptr<AppInterface> app_;
 
 // construction / destruction
 public:
-	CGuessedCard(int nSuit, int nFaceValue, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
-	CGuessedCard(CCard* pCard, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
-	CGuessedCard();
+	CGuessedCard(std::shared_ptr<AppInterface> app, int nSuit, int nFaceValue, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
+	CGuessedCard(std::shared_ptr<AppInterface> app, CCard* pCard, BOOL bOutstanding=TRUE, int nLocation=UNKNOWN, float fFixProbability=0.0);
+	CGuessedCard(std::shared_ptr<AppInterface> app);
 	~CGuessedCard();
 };
 

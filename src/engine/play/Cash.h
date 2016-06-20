@@ -44,9 +44,9 @@ protected:
 
 // construction/destruction
 public:
-	CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit=NONE, int nCardVal=NONE, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
-	CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
-	CCash(CCash& srcPlay);
+	CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit=NONE, int nCardVal=NONE, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
+	CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
+	CCash(std::shared_ptr<AppInterface> app, CCash& srcPlay);
 	virtual ~CCash();
 };
 

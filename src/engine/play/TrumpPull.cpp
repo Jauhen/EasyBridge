@@ -31,8 +31,8 @@
 //==================================================================
 // constructon & destruction
 
-CTrumpPull::CTrumpPull(int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner, BOOL bOptional) :
-CPlay(CPlay::TRUMP_PULL, nTargetHand, nSuit, bWinner? PP_GUARANTEED_WINNER : PP_LOSER),
+CTrumpPull::CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner, BOOL bOptional) :
+CPlay(app, CPlay::TRUMP_PULL, nTargetHand, nSuit, bWinner? PP_GUARANTEED_WINNER : PP_LOSER),
 			m_nCardVal(nCardVal),
 			m_pOutstandingCards(pOutstandingCards),
 			m_bOptional(bOptional)
@@ -41,8 +41,8 @@ CPlay(CPlay::TRUMP_PULL, nTargetHand, nSuit, bWinner? PP_GUARANTEED_WINNER : PP_
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CTrumpPull::CTrumpPull(int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner, BOOL bOptional) :
-			CPlay(CPlay::TRUMP_PULL, nTargetHand, NONE, bWinner? PP_GUARANTEED_WINNER : PP_LOSER),
+CTrumpPull::CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner, BOOL bOptional) :
+			CPlay(app, CPlay::TRUMP_PULL, nTargetHand, NONE, bWinner? PP_GUARANTEED_WINNER : PP_LOSER),
 			m_pOutstandingCards(pOutstandingCards),
 			m_bOptional(bOptional)
 {
@@ -127,7 +127,7 @@ PlayResult CTrumpPull::Perform(CPlayEngine& playEngine, CCombinedHoldings& combi
 	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
-	CString strRHO = PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
+	CString strRHO = app_->PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	CSuitHoldings& playerTrumps = playerHand.GetSuit(nTrumpSuit);
 	CSuitHoldings& dummyTrumps = dummyHand.GetSuit(nTrumpSuit);

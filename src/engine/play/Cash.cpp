@@ -31,8 +31,8 @@
 //==================================================================
 // constructon & destruction
 
-CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit, int nCardVal, PlayProspect nProspect, BOOL bOpportunistic) :
-		CPlay(CPlay::CASH, nTargetHand, nSuit, nProspect, bOpportunistic),
+CCash::CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit, int nCardVal, PlayProspect nProspect, BOOL bOpportunistic) :
+		CPlay(app, CPlay::CASH, nTargetHand, nSuit, nProspect, bOpportunistic),
 		m_nCardVal(nCardVal)
 {
 	Init();
@@ -40,8 +40,8 @@ CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect, BOOL bOpportunistic) :
-		CPlay(CPlay::CASH, nTargetHand, NONE, nProspect, bOpportunistic)
+CCash::CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect, BOOL bOpportunistic) :
+		CPlay(app, CPlay::CASH, nTargetHand, NONE, nProspect, bOpportunistic)
 {
 	VERIFY(pCard);
 	m_nStartingHand = nStartingHand;
@@ -51,8 +51,8 @@ CCash::CCash(int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards
 	m_pRequiredPlayedCardsList = pRequiredPlayedCards;
 }
 
-CCash::CCash(CCash& srcPlay) :
-		CPlay(srcPlay.m_nPlayType)
+CCash::CCash(std::shared_ptr<AppInterface> app, CCash& srcPlay) :
+		CPlay(app, srcPlay.m_nPlayType)
 {
 	m_nTargetHand = srcPlay.m_nTargetHand;
 	m_nSuit = srcPlay.m_nSuit;
@@ -248,7 +248,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 							}
 							else
 							{
-								status << "PLCSH20! Lead a low " & STSS(m_nSuit) & 
+								status << "PLCSH20! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 										  " (the " & pPlayCard->GetFaceName() &
 										  ") from hand in order to cash the " & 
 										  m_pConsumedCard->GetFaceName() & " in dummy.\n";
@@ -257,8 +257,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 						else 
 						{
 							// oops, we have no low cards in hand to lead!
-							status << "4PLCSH21! Oops, we wanted to cash a " & STSS(m_nSuit) & 
-									  " in dummy, but we have no low " & STS(m_nSuit) & 
+							status << "4PLCSH21! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
+									  " in dummy, but we have no low " & app_->SuitToString(m_nSuit) & 
 									  " in hand to lead, so we have to abandon that play.\n";
 							m_nStatusCode = PLAY_INACTIVE;
 							return PLAY_POSTPONE;
@@ -267,8 +267,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLCSH22! Oops, we wanted to cash a " & STSS(m_nSuit) & 
-								  " in dummy, but we have no " & STS(m_nSuit) & 
+						status << "4PLCSH22! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & app_->SuitToString(m_nSuit) & 
 								  " in hand to lead, so we have to abandon that play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -327,7 +327,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 							}
 							else
 							{
-								status << "PLCSH40! Lead a low " & STSS(m_nSuit) & 
+								status << "PLCSH40! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 										  " (the " & pPlayCard->GetFaceName() &
 										  ") from dummy in order to cash the " & 
 										  m_pConsumedCard->GetFaceName() & " in hand.\n";
@@ -336,8 +336,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 						else
 						{
 							// oops, we have no low cards in dummy to lead!
-							status << "4PLCSH41! Oops, we wanted to cash a " & STSS(m_nSuit) & 
-									  " in hand, but we have no low " & STS(m_nSuit) & 
+							status << "4PLCSH41! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
+									  " in hand, but we have no low " & app_->SuitToString(m_nSuit) & 
 									  " in dummy to lead, so we have to abandon that play.\n";
 							m_nStatusCode = PLAY_INACTIVE;
 							return PLAY_POSTPONE;
@@ -346,8 +346,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLCSH42! Oops, we wanted to cash a " & STSS(m_nSuit) & 
-								  " in hand, but we have no " & STS(m_nSuit) & 
+						status << "4PLCSH42! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
 								  " in dummy to lead, so we have to abandon that play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -404,7 +404,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 						return PLAY_POSTPONE;
 					}
 					pPlayCard = m_pConsumedCard;
-					status << "PLCSH55! The opponents led a " & STSS(m_nSuit) & 
+					status << "PLCSH55! The opponents led a " & app_->SuitToSingularString(m_nSuit) & 
 							  ", so cash the " & pPlayCard->GetFaceName() & " now.\n";
 				}
 				else
@@ -432,7 +432,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 
 					// else go ahead and discard
 					pPlayCard = playEngine.GetDiscard();
-					status << "PLCSH56! Discard a " & STSS(m_nSuit) & " from " &
+					status << "PLCSH56! Discard a " & app_->SuitToSingularString(m_nSuit) & " from " &
 							  (bPlayingInHand? "hand" : "dummy") &
 							  " in anticipation of cashing the " & 
 							  m_pConsumedCard->GetFaceName() & " in " &
@@ -566,7 +566,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 			if (m_nStatusCode != PLAY_IN_PROGRESS)
 				return PLAY_INACTIVE;
 			// since opponent led the suit, we are still trying to cash
-			status << "3PLCSH80! the opponents led a " & STSS(nSuitLed) & 
+			status << "3PLCSH80! the opponents led a " & app_->SuitToSingularString(nSuitLed) & 
 					  ", so see if we can finish up the cash play here.\n";
 			// see if RHO (or partner) has trumped
 			if (bTrumped)

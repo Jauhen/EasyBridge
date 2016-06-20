@@ -205,10 +205,12 @@ protected:
 	static CRITICAL_SECTION	m_csPlayIDLock;
 	static int				m_nPlayIDCounter;
 
+protected:
+  std::shared_ptr<AppInterface> app_;
 
 // construction/destruction
 public:
-	CPlay(PlayType nPlayType, int nTargetHand=IN_EITHER, int nSuit=NONE, PlayProspect nPlayProspect=PP_UNKNOWN, BOOL bOpportunistic=FALSE);
+	CPlay(std::shared_ptr<AppInterface> app, PlayType nPlayType, int nTargetHand=IN_EITHER, int nSuit=NONE, PlayProspect nPlayProspect=PP_UNKNOWN, BOOL bOpportunistic=FALSE);
 	virtual ~CPlay();
 };
 

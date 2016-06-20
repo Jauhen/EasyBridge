@@ -33,14 +33,14 @@
 //==================================================================
 // constructon & destruction
 
-CTypeBFinesse::CTypeBFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal) :
-		CFinesse(CFinesse::TYPE_B, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal, TRUE)
+CTypeBFinesse::CTypeBFinesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal) :
+		CFinesse(app, CFinesse::TYPE_B, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal, TRUE)
 {
 	Init();
 }
 
-CTypeBFinesse::CTypeBFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard) :
-		CFinesse(CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, pCard, TRUE)
+CTypeBFinesse::CTypeBFinesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard) :
+		CFinesse(app, CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, pCard, TRUE)
 {
 	VERIFY(pCard);
 	Init();
@@ -68,7 +68,7 @@ void CTypeBFinesse::Init()
 	// check the enemy and location
 	m_nTarget = (m_nEndingHand == CFinesse::IN_DUMMY)? AGAINST_LHO: AGAINST_RHO;
 	if (m_nTarget == AGAINST_LHO)
-		m_nTargetPos = GetNextPlayer(m_nPlayerPosition);
+		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
 	else
 		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
 
@@ -85,7 +85,7 @@ CString CTypeBFinesse::GetFullDescription()
 	return FormString("Opportunistically play the %s from %s to finesse against %s.",
 					   m_pConsumedCard->GetFaceName(),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
-					   PositionToString(m_nTargetPos));
+    app_->PositionToString(m_nTargetPos));
 	// done
 	return strText;
 }

@@ -51,7 +51,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 	// test conditions 1,2, 3, & 4
 	if ( ((bidState.nLHOBid > BID_PASS) || (bidState.nRHOBid > BID_PASS)) &&
 		 (bidState.nPartnersBid <= BID_PASS) &&
-		 (bidState.fCardPts >= OPEN_PTS(12)) &&
+		 (bidState.fCardPts >= app_->OpenPoints(12)) &&
  		 ((bidState.m_numBidTurns == 0) ||
 		  ((bidState.m_numBidTurns == 1) && (bidState.m_nBid == BID_DOUBLE))) )
 	{
@@ -111,7 +111,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 		return FALSE;
 
 	// if the opponents bid at the 3-level, we need 13+ pts
-	if ((nOppBidLevel == 3) && (bidState.fCardPts < OPEN_PTS(13)))
+	if ((nOppBidLevel == 3) && (bidState.fCardPts < app_->OpenPoints(13)))
 		return FALSE;
 
 	// test condition #6
@@ -124,7 +124,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 		 (bidState.GetConventionStatus(this) == CONV_INVOKED))
 	{
 		 // need 14+ HPCs
-		 if (bidState.fCardPts < OPEN_PTS(14))
+		 if (bidState.fCardPts < app_->OpenPoints(14))
 		 {
 			 // spout a message here?
 			return FALSE;
@@ -143,9 +143,9 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 	int n3NTMax = app_->GetCurrentConventionSet()->GetNTRangeMax(3);
 	double fCardPts = bidState.fCardPts;
 	if ((bidState.bBalanced) && 
-		(((fCardPts >= OPEN_PTS(n1NTMin)) && (fCardPts <= n1NTMax) && (nOppBidLevel == 1)) ||
-		 ((fCardPts >= OPEN_PTS(n2NTMin)) && (fCardPts <= n2NTMax) && (nOppBidLevel <= 2)) ||
-		 ((fCardPts >= OPEN_PTS(n3NTMin)) && (fCardPts <= n3NTMax) && (nOppBidLevel <= 3))) )
+		(((fCardPts >= app_->OpenPoints(n1NTMin)) && (fCardPts <= n1NTMax) && (nOppBidLevel == 1)) ||
+		 ((fCardPts >= app_->OpenPoints(n2NTMin)) && (fCardPts <= n2NTMax) && (nOppBidLevel <= 2)) ||
+		 ((fCardPts >= app_->OpenPoints(n3NTMin)) && (fCardPts <= n3NTMax) && (nOppBidLevel <= 3))) )
 		return FALSE;
 
 	//
@@ -254,8 +254,8 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			nPartnersPoints += 2;
 		}
 
-		bidState.m_fPartnersMin = OPEN_PTS(nPartnersPoints);
-		bidState.m_fPartnersMax = Min(OPEN_PTS(22),40 - bidState.fCardPts);
+		bidState.m_fPartnersMin = app_->OpenPoints(nPartnersPoints);
+		bidState.m_fPartnersMax = Min(app_->OpenPoints(22),40 - bidState.fCardPts);
 		bidState.m_fMinTPPoints = bidState.fPts + bidState.m_fPartnersMin;
 		bidState.m_fMaxTPPoints = bidState.fPts + bidState.m_fPartnersMax;
 		bidState.m_fMinTPCPoints = bidState.fCardPts + bidState.m_fPartnersMin;
@@ -323,7 +323,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		//
 		// with 6-9.5 pts and a balanced hand, bid 1NT
 		//
-		if ((bidState.bBalanced) && (fCardPts >= OPEN_PTS(6)) && (fCardPts < OPEN_PTS(10)))
+		if ((bidState.bBalanced) && (fCardPts >= app_->OpenPoints(6)) && (fCardPts < app_->OpenPoints(10)))
 		{
 			nBid = BID_1NT;
 			status << "TKOTR20! With " & fCardPts & " HCPs and a balanced hand, respond with " &
@@ -337,7 +337,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		//
 		// else with 0-9.5 pts, bid the longest suit (or a reasonably long major)
 		//
-		if (fPts < OPEN_PTS(10))
+		if (fPts < app_->OpenPoints(10))
 		{
 			// get the longest suit
 			nSuit = hand.GetLongestSuit();
@@ -349,16 +349,16 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 				// make sure it's got at least 4 cards
 				if (hand.GetSuitLength(nAltSuit) >= 4)
 				{
-					status << "TKOTR20a! Our longest suit of " & STS(nSuit) & 
+					status << "TKOTR20a! Our longest suit of " & app_->SuitToString(nSuit) & 
 							  " happens to be the enemy suit, so respond in the next-longest suit of " &
-							  STS(nAltSuit) & ".\n";
+							  app_->SuitToString(nAltSuit) & ".\n";
 					nSuit = nAltSuit;
 				}
 				else
 				{
 					// can't bid at all, with only 9 pts
 					nBid = BID_PASS;
-					status << "TKOTR20c! Our longest suit of " & STS(nSuit) & 
+					status << "TKOTR20c! Our longest suit of " & app_->SuitToString(nSuit) & 
 							  " happens to be the enemy suit, and we don't have a decent alternate suit, nor do we have the 13+ pts required to cue-bid the enemy suit, so we have to pass.\n";
 					bidState.SetConventionStatus(this, CONV_FINISHED);
 					return TRUE;
@@ -400,12 +400,12 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 						(bidState.numCardsInSuit[nSuit] < bidState.numCardsInSuit[nOrigSuit]))
 				{
 					status << "TKOTR21! With " & fCardPts & "/" & fPts & " pts, respond in the major suit of " & 
-							  STS(nSuit) & " (even though it's not our longest suit) at a bid of " & app_->BidToFullString(nBid) & ".\n";
+							  app_->SuitToString(nSuit) & " (even though it's not our longest suit) at a bid of " & app_->BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
 					status << "TKOTR22! With " & fCardPts & "/" & fPts & " pts, respond with our longest suit of " & 
-							  STS(nSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+							  app_->SuitToString(nSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
 				}
 			}
 			// done
@@ -445,18 +445,18 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		if (nSuit != NONE)
 		{
 			// jump to game with 13+ pts, or bid at the 3-level with less
-			if (fPts >= OPEN_PTS(13))
+			if (fPts >= app_->OpenPoints(13))
 			{
 				nBid = bidState.GetGameBid(nSuit);
 				status << "TKOTR20! With " & fCardPts & "/" & fPts & 
-						  " pts and a " & nLength & "-card " & STSS(nSuit) & 
+						  " pts and a " & nLength & "-card " & app_->SuitToSingularString(nSuit) & 
 						  " suit, jump to game at " & app_->BidToFullString(nBid)  & ".\n";
 			}
 			else
 			{
 				nBid = MAKEBID(nSuit, 3);
 				status << "TKOTR22! With " & fCardPts & "/" & fPts & 
-						  " pts and a " & nLength & "-card " & STSS(nSuit) & " suit, " & 
+						  " pts and a " & nLength & "-card " & app_->SuitToSingularString(nSuit) & " suit, " & 
 						  ((nEnemyBidLevel < BID_1NT)? " jump to " : " bid ") &
 						  app_->BidToFullString(nBid) & ".\n";
 			}
@@ -471,13 +471,13 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		if (bidState.bBalanced)
 		{
 			// bid 3NT with >= 13 HCPS and all suits stopped, or 2NT otherwise
-			if (fCardPts >= OPEN_PTS(13)) 
+			if (fCardPts >= app_->OpenPoints(13)) 
 			{
 				if (hand.IsSuitStopped(nEnemySuit) && (nEnemySuit != NOTRUMP))
 				{
 					nBid = BID_3NT;
 					status << "TKOTR30! With " & fCardPts & 
-							  " HCPs, a balanced hand, and the opponents' " & STSS(nEnemySuit) & 
+							  " HCPs, a balanced hand, and the opponents' " & app_->SuitToSingularString(nEnemySuit) & 
 							  " stopped, respond with a bid of " & app_->BidToFullString(nBid) & ".\n";
 				}
 				else if (nEnemySuit == NOTRUMP)
@@ -491,7 +491,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 					nBid = BID_2NT;
 					status << "TKOTR32! We have " & fCardPts & 
 							  " HCPs and a balanced hand, which would be enough for a response of 3NT, but the opponents' " 
-							  & STSS(nEnemySuit) & " is not securely stopped, so just bid " & app_->BidToFullString(nBid) & ".\n";
+							  & app_->SuitToSingularString(nEnemySuit) & " is not securely stopped, so just bid " & app_->BidToFullString(nBid) & ".\n";
 				}
 			}
 			else
@@ -511,7 +511,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		// here, we don't have a good major or a hand worthy of a NT response
 		// with >= 13 pts, bid the enemy suit; with less (10-13), jump in the suit
 		//
-		if ((fPts >= OPEN_PTS(13)) && (nEnemySuit != NOTRUMP))
+		if ((fPts >= app_->OpenPoints(13)) && (nEnemySuit != NOTRUMP))
 		{
 			nBid = MAKEBID(nEnemySuit, nEnemyBidLevel+1);
 			status << "TKOTR50! With " & fCardPts & "/" & fPts & 
@@ -581,7 +581,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		//
 		//
 		// pass with < 20 total minimum pts
-		if (fMinTPPoints < OPEN_PTS(20)) 
+		if (fMinTPPoints < app_->OpenPoints(20)) 
 		{
 			status << "TKOTR62! With a total of only " & 
 					  fMinTPPoints & "-" & fMaxTPPoints &
@@ -690,7 +690,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 					status << "TKOTR68! With " & fMinTPPoints & "-" & fMaxTPPoints &
 							  " points in the partnership and " & bidState.SLTS(bidState.nPartnersSuit) &
 							  " support for partner's " & bidState.szPS & 
-							  ", we shift to " & STS(nSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+							  ", we shift to " & app_->SuitToString(nSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
 					bidState.SetBid(nBid);
 					bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				}
@@ -986,7 +986,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			else if (bPartnerJumpedToGame)
 			{
 				// partner had 13+ pts & a 5-card major
-				status << "TKORb41! Partner has jumped to game in " & STS(nPartnersSuit) &
+				status << "TKORb41! Partner has jumped to game in " & app_->SuitToString(nPartnersSuit) &
 						  ", indicating 13+ pts and a 5+ card suit.\n";
 				bidState.m_fPartnersMin = 30;
 				bidState.m_fPartnersMax = MIN(22, 40 - bidState.fCardPts);
@@ -1168,11 +1168,11 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				if (bWantedToOvercall)
 					status << "TKRb90! Partner's forced response of " & bidState.szPB & 
 							 " not withstanding, we can now show the " & 
-							  STSS(nPrefSuit) & " suit that we wanted to overcall with last round by bidding " &
+							  app_->SuitToSingularString(nPrefSuit) & " suit that we wanted to overcall with last round by bidding " &
 							  app_->BidToFullString(nBid) & ".\n";
 				else
 					status << "TKRb91! Without clear suit agreement, we bid our " &
-							  bidState.numPrefSuitCards & "-card " & STSS(bidState.nPrefSuit) &
+							  bidState.numPrefSuitCards & "-card " & app_->SuitToSingularString(bidState.nPrefSuit) &
 							  " suit at " & app_->BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
@@ -1341,7 +1341,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				status << "TKRc40! With a total of " & 
 						  fMinTPPoints & "-" & fMaxTPPoints & 
 						  " pts in the partnership and no suit agreement, bid another suit (" &
-						  STS(nSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
+						  app_->SuitToString(nSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{

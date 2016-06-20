@@ -12,8 +12,7 @@
 // Rebidding routines
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "bidengine.h"
 #include "../PlayerStatusDialog.h"
 #include "ConventionSet.h"
@@ -166,8 +165,8 @@ int CBidEngine::MakeRebidAsOpener()
 	{
 
 		//
-		m_fPartnersMin = OPEN_PTS(6);
-		m_fPartnersMax = OPEN_PTS(10);
+		m_fPartnersMin = app_->OpenPoints(6);
+		m_fPartnersMax = app_->OpenPoints(10);
 		//
 		status << "B3J00! With a 1NT response, partner is showing " &
 				  m_fPartnersMin & "-" & m_fPartnersMax & 
@@ -327,7 +326,7 @@ int CBidEngine::MakeRebidAsOpener()
 			// jump rebid our own suit
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "B3K30a! With " & fCardPts & "/" & fPts & 
-					  " points and no other good suits, jump rebid the " & STSS(nSuit) &
+					  " points and no other good suits, jump rebid the " & app_->SuitToSingularString(nSuit) &
 					  " suit at " & app_->BidToFullString(m_nBid) & ".\n";
 		}
 		return ValidateBid(m_nBid);
@@ -811,12 +810,12 @@ int CBidEngine::MakeRebidAsOpener()
 	{
 
 		//
-		m_fPartnersMin = OPEN_PTS(6);
-		m_fPartnersMax = OPEN_PTS(18);
+		m_fPartnersMin = app_->OpenPoints(6);
+		m_fPartnersMax = app_->OpenPoints(18);
 		// adjust max downwards if partner previously passed
 		if (nPartnersPrevBid == BID_PASS)
 		{
-			m_fPartnersMax = OPEN_PTS(12);
+			m_fPartnersMax = app_->OpenPoints(12);
 			status << "2B3U00a! Partner has made a 1 over 1 bid after an earlier pass, " & szPS & " over " & szPVS & 
 					  ", which shows " & m_fPartnersMin & "-" & m_fPartnersMax & 
 					  " points and is forcing for one round.\n";
@@ -866,7 +865,7 @@ int CBidEngine::MakeRebidAsOpener()
 					status << "B3U18! With " & SLTS(nPartnersSuit) & 
 							  " support for partner's " & szPSS &
 							  " suit (holding " & szHP & "), and a second openable suit in " & 
-							  STS(nSuit) & " (holding " & SHTS(nSuit) & "), show it in a " & 
+							  app_->SuitToString(nSuit) & " (holding " & SHTS(nSuit) & "), show it in a " & 
 							  app_->BidToFullString(m_nBid) & " bid.\n";
 				else
 					status << "B3U18a! With " & SLTS(nPartnersSuit) & 
@@ -965,7 +964,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3U54! With weak support for partner's " & szPSS &
 						  " suit (holding " & szHP & "), " &
 						  fCardPts & "/" & fPts & "/" & fAdjPts &
-						  " points, and a second openable suit in " & STS(nSuit) & 
+						  " points, and a second openable suit in " & app_->SuitToString(nSuit) & 
 						  " (holding " & SHTS(nSuit) & "), show it in a " & 
 						  app_->BidToFullString(m_nBid) & " bid.\n";
 				return ValidateBid(m_nBid);
@@ -1072,7 +1071,7 @@ int CBidEngine::MakeRebidAsOpener()
 			status << "B3U74! With less than game-level support for partner's " & szPSS & 
 					  " suit (holding " & szHP & "), but with " &
 					  fCardPts & "/" & fPts & "/" & fAdjPts &
-					  " points and a second suit in " & STS(nSuit) & 
+					  " points and a second suit in " & app_->SuitToString(nSuit) & 
 					  " (holding " & SHTS(nSuit) & "), show it by jump shifting to " & 
 					  app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
@@ -1242,12 +1241,12 @@ int CBidEngine::MakeRebidAsOpener()
 	{
 
 		//
-		m_fPartnersMin = OPEN_PTS(10);
-		m_fPartnersMax = OPEN_PTS(18);
+		m_fPartnersMin = app_->OpenPoints(10);
+		m_fPartnersMax = app_->OpenPoints(18);
 		// adjust max downwards if partner previously passed
 		if (nPartnersPrevBid == BID_PASS)
 		{
-			m_fPartnersMax = OPEN_PTS(12);
+			m_fPartnersMax = app_->OpenPoints(12);
 			status << "2B3W00a! Partner has made a 2 over 1 bid following an earlier pass, " & szPS & " over " & szPVS & 
 					  ", which shows " & m_fPartnersMin & "-" & m_fPartnersMax & 
 					  " points and is forcing for one round.\n";
@@ -1353,7 +1352,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3W28! With weak " & numSupportCards & 
 						  "-card support for partner's " & szPS & 
 						  " (holding " & szHP & 
-						  ") and a " & SSTS(nSuit) & " second suit in " & STS(nSuit) & 
+						  ") and a " & SuitStrengthToString(nSuit) & " second suit in " & app_->SuitToString(nSuit) & 
 						  " (holding " & SHTS(nSuit) & "), show it in a " & 
 						  app_->BidToFullString(m_nBid) & " bid.\n";
 				return ValidateBid(m_nBid);
@@ -1495,7 +1494,7 @@ int CBidEngine::MakeRebidAsOpener()
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "B3W58! With weak support for partner's " & szPS & 
 					  " (holding " & szHP & 
-					  "), an unbalanced hand, and a " & SSTS(nSuit) & " second " & STSS(nSuit) & 
+					  "), an unbalanced hand, and a " & SuitStrengthToString(nSuit) & " second " & app_->SuitToSingularString(nSuit) & 
 					  " suit (holding " & SHTS(nSuit) & 
 					  "), show it by jump shifting to " & app_->BidToFullString(m_nBid) & ".\n";
 		}
@@ -1543,8 +1542,8 @@ int CBidEngine::MakeRebidAsOpener()
 		}
 		else
 		{
-			m_fPartnersMin = OPEN_PTS(19);
-			m_fPartnersMax = MIN(OPEN_PTS(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)), 40 - fCardPts);
+			m_fPartnersMin = app_->OpenPoints(19);
+			m_fPartnersMax = MIN(app_->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)), 40 - fCardPts);
 		}
 		status << "2B3Y00! Partner has made a jump shift to " & szPB & " after our opening " &
 				   szPVB & " bid, which indicates " & m_fPartnersMin  &
@@ -1671,7 +1670,7 @@ int CBidEngine::MakeRebidAsOpener()
 				if (nPartnersBid < GetGameBid(nPartnersSuit))
 				{
 					// raise partner's suit
-					m_nBid = GetCheapestShiftBid(nPartnersSuit, pDOC->GetLastValidBid());
+					m_nBid = GetCheapestShiftBid(nPartnersSuit, app_->GetLastValidBid());
 					status << "B3Y40! With a total of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " pts in the partnership, move towards slam in partner's " &
@@ -1710,25 +1709,25 @@ int CBidEngine::MakeRebidAsOpener()
 			else if (bPreviousSuitIsSelfSupporting)
 			{
 				// pick our own self-supporting suit
-				m_nBid = GetCheapestShiftBid(nPreviousSuit, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(nPreviousSuit, app_->GetLastValidBid());
 				status << "B3Y41! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, move towards slam in our own self-supporting " &
-						  STSS(nPreviousSuit) & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+						  app_->SuitToSingularString(nPreviousSuit) & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else if (IsSuitOpenable(nextBestSuit))
 			{
 				// bid our next-best suit
-				m_nBid = GetCheapestShiftBid(nextBestSuit, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(nextBestSuit, app_->GetLastValidBid());
 				status << "B3Y42! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, bid our next best suit of " &
-						  STS(nextBestSuit) & " at " & app_->BidToFullString(m_nBid) & ".\n";
+						  app_->SuitToString(nextBestSuit) & " at " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else if (bSemiBalanced)
 			{
 				// go notrumps
-				m_nBid = GetCheapestShiftBid(NOTRUMP, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(NOTRUMP, app_->GetLastValidBid());
 				status << "B3Y43! With a total of " &
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " HCPs in the partnership, a " & (bBalanced? " " : "reasonably ") &
@@ -1738,16 +1737,16 @@ int CBidEngine::MakeRebidAsOpener()
 			else if (bPreviousSuitIsRebiddable)
 			{
 				// rebid previous suit
-				m_nBid = GetCheapestShiftBid(nPreviousSuit, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(nPreviousSuit, app_->GetLastValidBid());
 				status << "B3Y44! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, move towards slam in our own " &
-						  STSS(nPreviousSuit) & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+						  app_->SuitToSingularString(nPreviousSuit) & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{
 				// go notrumps
-				m_nBid = GetCheapestShiftBid(NOTRUMP, pDOC->GetLastValidBid());
+				m_nBid = GetCheapestShiftBid(NOTRUMP, app_->GetLastValidBid());
 				status << "B3Y45! With a total of " &
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " HCPs in the partnership but poor support for partner's suits, and no strong suit of our own, push towards a slam in notrumps with a bid of " &

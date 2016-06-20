@@ -68,8 +68,8 @@ protected:
 
 // construction/destruction
 public:
-	CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic=FALSE);
-	CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic=FALSE);
+	CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic=FALSE);
+	CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic=FALSE);
 	virtual ~CFinesse();
 };
 

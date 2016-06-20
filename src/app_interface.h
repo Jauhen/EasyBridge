@@ -31,6 +31,9 @@ public:
   virtual double SmallSlamPts() = 0;
   virtual double GrandSlamPts() = 0;
   virtual CConventionSet* GetCurrentConventionSet() = 0;
+  virtual double OpenPoints(double points) = 0;
+  virtual double PointCount(double points) = 0;
+  virtual int GetMinimumOpeningValue(CPlayer* player) const = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -43,7 +46,8 @@ public:
   virtual void ShowAnalysisDialog(Position position) = 0;
   virtual void HideAnalysisDialog(Position position) = 0;
   virtual void SetAnalysisText(Position position, CString analysis) = 0;
-
+  virtual void SuspendHints() = 0;
+  virtual void ResumeHints() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -53,6 +57,20 @@ public:
 
   virtual CCard* GetCurrentTrickCardLed() = 0;
   virtual int GetValidBidRecord(int index) const = 0;
+  virtual int	GetLastValidBid() const = 0;
+  virtual int GetBiddingRound() const = 0;
+  virtual int GetNumBidsMade() const = 0;
+  virtual int GetBidByPlayer(int position, int round) const = 0;
+  virtual int GetBidByPlayer(CPlayer* player, int round) const = 0;
+  virtual int	GetDealer() const = 0;
+  virtual bool IsBidValid(int bid) = 0;
+  virtual int GetBidByIndex(int index) const = 0;
+  virtual CPlayer* GetPlayer(int position) const = 0;
+  virtual int	GetContract() const = 0;
+  virtual int GetContractModifier() const = 0;
+  virtual int	GetDeclarerPosition() const = 0;
+  virtual int	GetRoundLead() const = 0;
+  virtual int	GetLastValidBidTeam() const = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -76,4 +94,10 @@ public:
   virtual const char* PositionToString(int pos) = 0;
   virtual const char* SuitToSingularString(int suit) = 0;
   virtual const CString BidToFullString(int bid) = 0;
+  virtual char GetCardLetter(int i) = 0;
+  virtual char GetSuitLetter(int i) = 0;
+  virtual const char* SuitToString(int suit) = 0;
+  virtual const CString BidToShortString(int bid) = 0;
+  virtual int GetPlayerTeam(int position) = 0;
+  virtual int GetNextPlayer(int position) = 0;
 };

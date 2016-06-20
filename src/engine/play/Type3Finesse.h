@@ -41,8 +41,8 @@ protected:
 
 // construction/destruction
 public:
-	CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, int nSuit, int nCardVal);	
-	CType3Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, CCard* pCard);
+	CType3Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, int nSuit, int nCardVal);
+	CType3Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pLeadCards, CCard* pCard);
 	virtual ~CType3Finesse();
 };
 

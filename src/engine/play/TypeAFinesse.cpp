@@ -31,14 +31,14 @@
 //==================================================================
 // constructon & destruction
 
-CTypeAFinesse::CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal) :
-		CFinesse(CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal, TRUE)
+CTypeAFinesse::CTypeAFinesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal) :
+		CFinesse(app, CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal, TRUE)
 {
 	Init();
 }
 
-CTypeAFinesse::CTypeAFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard) :
-		CFinesse(CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, pCard, TRUE)
+CTypeAFinesse::CTypeAFinesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard) :
+		CFinesse(app, CFinesse::TYPE_A, nTargetHand, nPlayerPosition, pGapCards, pCard, TRUE)
 {
 	VERIFY(pCard);
 	Init();
@@ -66,7 +66,7 @@ void CTypeAFinesse::Init()
 	// check the enemy and location
 	m_nTarget = (m_nEndingHand == CFinesse::IN_DUMMY)? AGAINST_LHO: AGAINST_RHO;
 	if (m_nTarget == AGAINST_LHO)
-		m_nTargetPos = GetNextPlayer(m_nPlayerPosition);
+		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
 	else
 		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
 
@@ -83,7 +83,7 @@ CString CTypeAFinesse::GetFullDescription()
 	return FormString("Opportunistically play the %s from %s to finesse against %s.",
 					   m_pConsumedCard->GetFaceName(),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
-					   PositionToString(m_nTargetPos));
+    app_->PositionToString(m_nTargetPos));
 	// done
 	return strText;
 }
@@ -156,7 +156,7 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					// play the finesse card
 					pPlayCard = m_pConsumedCard;
 					status << "PLAFN20! Opportunistically finesse the " & pPlayCard->GetName() & " from hand in second position against " &
-							  PositionToString(playEngine.GetLHOpponent()->GetPosition()) & ".\n";
+            app_->PositionToString(playEngine.GetLHOpponent()->GetPosition()) & ".\n";
 				}
 				else
 				{
@@ -175,7 +175,7 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					// finesse the card from dummy 
 					pPlayCard = m_pConsumedCard;
 					status << "PLAFN54! Opportunistically finesse the " & pPlayCard->GetName() & " from dummy in second position against " &
-							  PositionToString(playEngine.GetRHOpponent()->GetPosition()) & ".\n";
+            app_->PositionToString(playEngine.GetRHOpponent()->GetPosition()) & ".\n";
 				}
 				else
 				{

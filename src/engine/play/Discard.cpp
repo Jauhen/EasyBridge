@@ -26,22 +26,22 @@
 //==================================================================
 // constructon & destruction
 
-CDiscard::CDiscard(int nTargetHand, int nSuit, int nCardVal) :
-			CPlay(CPlay::DISCARD, nTargetHand, nSuit, PP_LOSER)
+CDiscard::CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit, int nCardVal) :
+			CPlay(app, CPlay::DISCARD, nTargetHand, nSuit, PP_LOSER)
 {
 	m_nCardVal = nCardVal;
 }
 
-CDiscard::CDiscard(int nTargetHand, CCard* pCard) :
-			CPlay(CPlay::DISCARD, nTargetHand, NONE, PP_LOSER)
+CDiscard::CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard) :
+			CPlay(app, CPlay::DISCARD, nTargetHand, NONE, PP_LOSER)
 {
 	VERIFY(pCard);
 	m_nSuit = pCard->GetSuit(); 
 	m_nCardVal = pCard->GetFaceValue(); 
 }
 
-CDiscard::CDiscard(CDiscard& srcPlay) :
-		CPlay(CPlay::m_nPlayType, srcPlay.m_nTargetHand)
+CDiscard::CDiscard(std::shared_ptr<AppInterface> app, CDiscard& srcPlay) :
+		CPlay(app, CPlay::m_nPlayType, srcPlay.m_nTargetHand)
 {
 	m_nTargetHand = srcPlay.m_nTargetHand;
 	m_nSuit = srcPlay.m_nSuit;

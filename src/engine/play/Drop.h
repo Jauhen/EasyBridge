@@ -53,9 +53,9 @@ protected:
 
 // construction/destruction
 public:
-	CDrop(int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, int nSuit, int nCardVal);
-	CDrop(int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, CCard* pCard);
-	CDrop(CDrop& srcPlay);
+	CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, int nSuit, int nCardVal);
+	CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, CCard* pCard);
+	CDrop(std::shared_ptr<AppInterface> app, CDrop& srcPlay);
 	virtual ~CDrop();
 };
 

@@ -161,7 +161,9 @@ protected:
 // construction/destruction
 //
 protected:
-	CPlayEngine();
+  std::shared_ptr<AppInterface> app_;
+  
+  CPlayEngine(std::shared_ptr<AppInterface> app);
 	virtual ~CPlayEngine();
 };
 

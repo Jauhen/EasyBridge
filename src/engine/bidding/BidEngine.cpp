@@ -17,16 +17,12 @@
 
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
-#include "MainFrm.h"
-#include "MainFrameOpts.h"
 #include "../Player.h"
 #include "../Card.h"
 #include "bidparams.h"
 #include "bidengine.h"
-#include "progopts.h"
 #include "bidopts.h"
 #include "ConventionSet.h"
 #include "app_interface.h"
@@ -150,7 +146,7 @@ void CBidEngine::Clear()
 //
 // SuitHoldingsToString()
 //
-// - also called by STS()
+// - also called by app_->SuitToString()
 //
 LPCTSTR CBidEngine::SuitHoldingsToString(int nSuit)
 {
@@ -164,7 +160,7 @@ LPCTSTR CBidEngine::SuitHoldingsToString(int nSuit)
 //
 // SuitStrengthToString()
 //
-// - also called by SSTS()
+// - also called by app_->SuitStrengthToString()
 //
 LPCTSTR CBidEngine::SuitStrengthToString(int nSuit)
 {
@@ -263,9 +259,9 @@ void CBidEngine::Trace(const CString& strText)
 //
 void CBidEngine::TraceNH(const CString& strText) 
 { 
-	pMAINFRAME->SuspendHints();
+	app_->SuspendHints();
 	m_pPlayer->Trace(strText); 
-	pMAINFRAME->ResumeHints();
+	app_->ResumeHints();
 }
 
 
@@ -279,7 +275,7 @@ void CBidEngine::TraceNH(const CString& strText)
 void CBidEngine::AddTrace(CString& strMessage, CString& strTemp)
 {
 	// return if trace disabled
-	if (!theApp.GetValue(tbEnableAnalysisTracing))
+	if (!app_->IsEnableAnalysisTracing())
 		return;
 	//
 	strMessage += strTemp;
@@ -293,7 +289,7 @@ void CBidEngine::AddTrace(CString& strMessage, CString& strTemp)
 void CBidEngine::AddTrace(CString& strMessage, LPCTSTR szTemp)
 {
 	// return if trace disabled
-	if (!theApp.GetValue(tbEnableAnalysisTracing))
+	if (!app_->IsEnableAnalysisTracing())
 		return;
 	//
 	strMessage += szTemp;
@@ -569,11 +565,11 @@ int CBidEngine::GetBiddingHint()
 void CBidEngine::AssessPosition()
 {
 	// 
-	nRound = pDOC->GetBiddingRound();
-	nLastBid = pDOC->GetLastValidBid();
+	nRound = app_->GetBiddingRound();
+	nLastBid = app_->GetLastValidBid();
 	nPosition = m_pPlayer->GetPosition();
-	nBiddingOrder = pDOC->GetNumBidsMade();
-	nLastValidRecordedBid = pDOC->GetLastValidBid();
+	nBiddingOrder = app_->GetNumBidsMade();
+	nLastValidRecordedBid = app_->GetLastValidBid();
 
 	//
 	// retrieve bidding history info
@@ -613,7 +609,7 @@ void CBidEngine::AssessPosition()
 	//
 	if (nRound >= 2)
 	{
-		nNextPrevBid = pDOC->GetBidByPlayer(m_pPlayer->GetPosition(), nRound-2);
+		nNextPrevBid = app_->GetBidByPlayer(m_pPlayer->GetPosition(), nRound-2);
 		if (ISBID(nNextPrevBid))
 			nNextPrevSuit = BID_SUIT(nNextPrevBid);
 		else
@@ -627,7 +623,7 @@ void CBidEngine::AssessPosition()
 
 
 	// get first round bid info
-	nFirstRoundBid = pDOC->GetBidByPlayer(m_pPlayer->GetPosition(), 0);
+	nFirstRoundBid = app_->GetBidByPlayer(m_pPlayer->GetPosition(), 0);
 	if (ISBID(nFirstRoundBid))
 	{
 		nFirstRoundBidLevel = BID_LEVEL(nFirstRoundBid);
@@ -761,13 +757,13 @@ void CBidEngine::AssessPosition()
 	//
 	// record text shortcuts
 	//
-	strcpy(szLHO, PositionToString(m_pLHOpponent->GetPosition()));
-	strcpy(szRHO, PositionToString(m_pRHOpponent->GetPosition()));
+	strcpy(szLHO, app_->PositionToString(m_pLHOpponent->GetPosition()));
+	strcpy(szRHO, app_->PositionToString(m_pRHOpponent->GetPosition()));
 
 	//
 	strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
-	strcpy(szPS,STS(nPartnersSuit));		// partner's suit
-	strcpy(szPSS,STSS(nPartnersSuit));		// partner's suit, singular
+	strcpy(szPS,app_->SuitToString(nPartnersSuit));		// partner's suit
+	strcpy(szPSS,app_->SuitToSingularString(nPartnersSuit));		// partner's suit, singular
 	strcpy(szHP,SHTS(nPartnersSuit));		// our holding in partner's suit
 /*
 	if (m_numPartnerBidsMade > 0)
@@ -775,8 +771,8 @@ void CBidEngine::AssessPosition()
 		if (nPartnersBid != BID_PASS)
 		{
 			strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
-			strcpy(szPS,STS(nPartnersSuit));		// partner's suit
-			strcpy(szPSS,STSS(nPartnersSuit));		// partner's suit, singular
+			strcpy(szPS,app_->SuitToString(nPartnersSuit));		// partner's suit
+			strcpy(szPSS,app_->SuitToSingularString(nPartnersSuit));		// partner's suit, singular
 			if ((nPartnersBid != BID_PASS) && (nPartnersSuit != NOTRUMP))
 				strcpy(szHP,SHTS(nPartnersSuit));	// our holding in partner's suit
 			else
@@ -790,16 +786,16 @@ void CBidEngine::AssessPosition()
 */
 
 	strcpy(szPPB,app_->BidToFullString(nPartnersPrevBid));	// partner's prev bid
-	strcpy(szPPS,STS(nPartnersPrevSuit));	// partner's prev suit
-	strcpy(szPPSS,STSS(nPartnersPrevSuit));	// partner's prev suit, singular
+	strcpy(szPPS,app_->SuitToString(nPartnersPrevSuit));	// partner's prev suit
+	strcpy(szPPSS,app_->SuitToSingularString(nPartnersPrevSuit));	// partner's prev suit, singular
 	strcpy(szHPP,SHTS(nPartnersPrevSuit));	// our holding in partner's prev suit
 /*
 	//
 	if ((m_numPartnerBidsMade > 1) && (nPartnersPrevBid != BID_PASS))
 	{
 		strcpy(szPPB,app_->BidToFullString(nPartnersPrevBid));		// partner's prev bid
-		strcpy(szPPS,STS(nPartnersPrevSuit));	// partner's prev suit
-		strcpy(szPPSS,STSS(nPartnersPrevSuit));	// partner's prev suit, singular
+		strcpy(szPPS,app_->SuitToString(nPartnersPrevSuit));	// partner's prev suit
+		strcpy(szPPSS,app_->SuitToSingularString(nPartnersPrevSuit));	// partner's prev suit, singular
 		if ((nPartnersPrevBid != BID_PASS) && (nPartnersPrevSuit != NOTRUMP))
 			strcpy(szHPP,SHTS(nPartnersPrevSuit));	// our holding in partner's prev suit
 		else
@@ -811,8 +807,8 @@ void CBidEngine::AssessPosition()
 	}
 */
 	//
-	strcpy(szPrefS,STS(nPrefSuit));		// our preferred suit
-	strcpy(szPrefSS,STSS(nPrefSuit));	// our preferred suit, singular
+	strcpy(szPrefS,app_->SuitToString(nPrefSuit));		// our preferred suit
+	strcpy(szPrefSS,app_->SuitToSingularString(nPrefSuit));	// our preferred suit, singular
 	strcpy(szHPref,SHTS(nPrefSuit));	// holdings in our preferred suit
 
 	// record our own bid info in strings
@@ -820,8 +816,8 @@ void CBidEngine::AssessPosition()
 //	if ((m_numBidsMade > 0) && (nPreviousSuit != NONE))
 //	{
 		strcpy(szPVB,app_->BidToFullString(nPreviousBid));		// our previous bid 
-		strcpy(szPVS,STS(nPreviousSuit));		// our previously bid suit
-		strcpy(szPVSS,STSS(nPreviousSuit));		// prev bid suit, singular
+		strcpy(szPVS,app_->SuitToString(nPreviousSuit));		// our previously bid suit
+		strcpy(szPVSS,app_->SuitToSingularString(nPreviousSuit));		// prev bid suit, singular
 		if (nPreviousSuit != NOTRUMP)
 			strcpy(szHPV,SHTS(nPreviousSuit));	// holdings in our prev bid suit
 		else
@@ -837,8 +833,8 @@ void CBidEngine::AssessPosition()
 //	if (nNextPrevSuit != NONE)
 //	{
 		strcpy(szNPB,app_->BidToFullString(nNextPrevBid));		// our bid 2 turns ago
-		strcpy(szNPS,STS(nNextPrevSuit));	
-		strcpy(szNPSS,STSS(nNextPrevSuit));	
+		strcpy(szNPS,app_->SuitToString(nNextPrevSuit));	
+		strcpy(szNPSS,app_->SuitToSingularString(nNextPrevSuit));	
 		if (nNextPrevSuit != NOTRUMP)
 			strcpy(szHNPS,SHTS(nNextPrevSuit));
 		else
@@ -921,8 +917,8 @@ void CBidEngine::AdjustPartnershipPoints(double fPartnersMin, double fPartnersMa
 	{
 		if (bAdjustPoints)
 		{
-			m_fPartnersMin = OPEN_PTS(fPartnersMin);
-			m_fPartnersMax = OPEN_PTS(fPartnersMax);
+			m_fPartnersMin = app_->OpenPoints(fPartnersMin);
+			m_fPartnersMax = app_->OpenPoints(fPartnersMax);
 		}
 		else
 		{
@@ -1409,11 +1405,11 @@ void CBidEngine::FillNeuralNetInputs(NVALUE* fInputs, int numInputs)
 	// bidding history for each position
 	for(int nRound=0;nRound<6;nRound++)
 	{
-		int nPos = pDOC->GetDealer();
+		int nPos = app_->GetDealer();
 		for(int j=0;j<4;j++)
 		{
-			fInputs[nIndex++]		= (NVALUE) pDOC->GetBidByPlayer(nPos, nRound);
-			nPos = GetNextPlayer(nPos);
+			fInputs[nIndex++]		= (NVALUE) app_->GetBidByPlayer(nPos, nRound);
+			nPos = app_->GetNextPlayer(nPos);
 		}
 	}
 
@@ -1503,7 +1499,7 @@ BOOL CBidEngine::IsSuitShiftable(int nSuit, int nMinCards, int nMinStrength)
 int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 {
 	CString strTemp;
-	int nLVBid = pDOC->GetLastValidBid();
+	int nLVBid = app_->GetLastValidBid();
 	int nSuit = (m_nBid-1) % 5;
 	int nPartnersBid = m_pPartner->InquireLastBid();
 	int nPartnersSuit = (nPartnersBid-1) % 5;
@@ -1511,21 +1507,21 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 	// see if this really isn't a bid but rather advice
 	if (m_bHintMode)
 	{
-		if (pDOC->IsBidValid(nBid)) 
+		if (app_->IsBidValid(nBid)) 
 		{
 			return nBid;
 		}
 		else
 		{
 			strTemp.Format("But the bid is too low vs. the last bid of of %s, so we have to pass.",
-							app_->BidToFullString(pDOC->GetLastValidBid()));
+							app_->BidToFullString(app_->GetLastValidBid()));
 			Trace(strTemp);
 			return BID_PASS;
 		}
 	}
 
 	// else this is a real bid
-	if (pDOC->IsBidValid(nBid)) 
+	if (app_->IsBidValid(nBid)) 
 	{
 		// bid is okay; record count
 		if ((nBid > BID_PASS) & (nBid < BID_DOUBLE))
@@ -1547,7 +1543,7 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 							app_->BidToFullString(nBid));
 		else if (nBid != BID_PASS)
 			strTemp.Format("But our bid is too low vs. the last bid of of %s, so we have to pass.",
-							app_->BidToFullString(pDOC->GetLastValidBid()));
+							app_->BidToFullString(app_->GetLastValidBid()));
 		Trace(strTemp);
 		nBid = BID_PASS;
 	}
@@ -1557,7 +1553,7 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 	if ((nBid > BID_PASS) && (nBid < BID_DOUBLE) && 
 		(m_pPlayer->GetNumBidsMade() == 1) && (m_pPartner->GetNumBidsMade() == 0))  
 	{
-		m_nOpeningPosition = pDOC->GetNumBidsMade();
+		m_nOpeningPosition = app_->GetNumBidsMade();
 		m_bOpenedBiddingForTeam = TRUE;
 	}
 	//
@@ -1609,11 +1605,11 @@ BOOL CBidEngine::PlayerOpenedSuit(int nSuit)
 	//
 	int nPlayerPos = m_pPlayer->GetPosition();
 	int nPartnerPos = m_pPartner->GetPosition();
-	int numBidsMade = pDOC->GetNumBidsMade();
-	int nPos = pDOC->GetDealer();
+	int numBidsMade = app_->GetNumBidsMade();
+	int nPos = app_->GetDealer();
 	for(int i=0;i<numBidsMade;i++)
 	{
-		int nBid = pDOC->GetBidByIndex(i);
+		int nBid = app_->GetBidByIndex(i);
 		if (ISBID(nBid) && (BID_SUIT(nBid) == nSuit))
 		{
 			if (nPos == nPlayerPos)
@@ -1621,7 +1617,7 @@ BOOL CBidEngine::PlayerOpenedSuit(int nSuit)
 			else if (nPos == nPartnerPos)
 				return FALSE;
 		}
-		nPos = GetNextPlayer(nPos);
+		nPos = app_->GetNextPlayer(nPos);
 	}
 	//
 	return FALSE;
@@ -1668,18 +1664,18 @@ void CBidEngine::RecordBid(int nPos, int nBid)
 		if (nBid != BID_PASS)
 		{
 			if ((nBid == BID_DOUBLE) || (nBid == BID_REDOUBLE))
-				strTemp.Format("%s %s.",PositionToString(nPos),
+				strTemp.Format("%s %s.", app_->PositionToString(nPos),
 				((nBid == BID_DOUBLE)? "doubles" : "redoubles"));
 			else
-				strTemp.Format("%s bids %s.",PositionToString(nPos),
-										   BidToShortString(nBid));
+				strTemp.Format("%s bids %s.", app_->PositionToString(nPos),
+										   app_->BidToShortString(nBid));
 			// see if this is partner opening the bidding for the team
-			if ((&PLAYER(nPos) == m_pPartner) && (!m_bOpenedBiddingForTeam))
+			if ((app_->GetPlayer(nPos) == m_pPartner) && (!m_bOpenedBiddingForTeam))
 				m_bPartnerOpenedForTeam = TRUE;
 		}
 		else
 		{
-			strTemp.Format("%s passes.",PositionToString(nPos));
+			strTemp.Format("%s passes.", app_->PositionToString(nPos));
 		}
 		TraceNH(strTemp);
 	} 
@@ -1699,15 +1695,15 @@ void CBidEngine::RecordBid(int nPos, int nBid)
 //
 void CBidEngine::BiddingFinished()
 {
-	pMAINFRAME->SuspendHints();
+	app_->SuspendHints();
 	CString strLine;
 	strLine.Format("Bidding finished; contract is %s.  Declarer is %s; %s leads.",
-					ContractToFullString(pDOC->GetContract(), pDOC->GetContractModifier()),
-					PositionToString(pDOC->GetDeclarerPosition()),
-					PositionToString(pDOC->GetRoundLead()));
+					app_->ContractToFullString(app_->GetContract(), app_->GetContractModifier()),
+    app_->PositionToString(app_->GetDeclarerPosition()),
+    app_->PositionToString(app_->GetRoundLead()));
 	strLine += "\n=======================";
 	TraceNH(strLine);
-	pMAINFRAME->ResumeHints();
+	app_->ResumeHints();
 }
 
 
@@ -2106,9 +2102,9 @@ int CBidEngine::GetBestOpeningSuit()
 			// bid the middle suit
 			strTemp.Format("BPK1! With %d good suits (%s, %s, and %s), bid the middle suit.",
 							m_pHand->GetNumPreferredSuits(),
-							STS(m_pHand->GetSuitsByPreference(2)),
-							STS(m_pHand->GetSuitsByPreference(1)),
-							STS(m_pHand->GetSuitsByPreference(0)));
+							app_->SuitToString(m_pHand->GetSuitsByPreference(2)),
+							app_->SuitToString(m_pHand->GetSuitsByPreference(1)),
+							app_->SuitToString(m_pHand->GetSuitsByPreference(0)));
 			Trace(strTemp);
 			return m_pHand->GetSuitsByPreference(1);
 		} 
@@ -2116,8 +2112,8 @@ int CBidEngine::GetBestOpeningSuit()
 		{
 			// bid the higher of 2 preferred suits
 			strTemp.Format("BPK2! With 2 good suits (%s and %s), bid the higher suit.",
-							STS(m_pHand->GetSuitsByPreference(1)),
-							STS(m_pHand->GetSuitsByPreference(0)));
+							app_->SuitToString(m_pHand->GetSuitsByPreference(1)),
+							app_->SuitToString(m_pHand->GetSuitsByPreference(0)));
 			Trace(strTemp);
 			return m_pHand->GetSuitsByPreference(0);
 		} 
@@ -2250,7 +2246,7 @@ BOOL CBidEngine::TestReverseRules(int& nSuit)
 		if ((nSuit > nPreviousSuit) && (fPts < 17))
 		{
 			// oops, reversing violation -- gotta find another suit (the 3rd one) 
-			*m_pStatusDlg << "2RevV0! We'd like to bid the " & STSS(nSuit) &
+			*m_pStatusDlg << "2RevV0! We'd like to bid the " & app_->SuitToSingularString(nSuit) &
 							 " suit, but we can't reverse with less than 17 points.\n";
 			int newSuit = GetNextBestSuit(nSuit, nPreviousSuit);
 			// if this suit is also higher than the original suit, 
@@ -2268,9 +2264,9 @@ BOOL CBidEngine::TestReverseRules(int& nSuit)
 			if (nSuitStrength[newSuit] < SS_OPENABLE)
 			{
 				// new suit not biddable? have to rebid original suit
-				*m_pStatusDlg << "2RevV2! And since the 3rd best suit (" & STS(newSuit) &
+				*m_pStatusDlg << "2RevV2! And since the 3rd best suit (" & app_->SuitToString(newSuit) &
 								 ") is not strong enough to bid, we have to rebid the original " & 
-								 STSS(nPreviousSuit) & " suit.\n";
+								 app_->SuitToSingularString(nPreviousSuit) & " suit.\n";
 				newSuit = nPreviousSuit;
 			}
 			//
@@ -2421,15 +2417,15 @@ BOOL CBidEngine::TestForPenaltyDouble()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// see if contract is already doubled or redoubled
-	if (pDOC->GetContractModifier() != 0)
+	if (app_->GetContractModifier() != 0)
 		return FALSE;
 
 	// see which side made the last bid
-	if (pDOC->GetLastValidBidTeam() == GetPlayerTeam(m_pPlayer->GetPosition()))
+	if (app_->GetLastValidBidTeam() == app_->GetPlayerTeam(m_pPlayer->GetPosition()))
 		return FALSE;	// can't double our own contract
 
 	// make sure a valid bid was indeed made
-	int nBid = pDOC->GetLastValidBid();
+	int nBid = app_->GetLastValidBid();
 	if (!ISBID(nBid))
 		return FALSE;
 
@@ -2495,7 +2491,7 @@ BOOL CBidEngine::TestForPenaltyDouble()
 BOOL CBidEngine::TestForRedouble()
 {
 	// check to make sure the contract is doubled 
-	if (pDOC->GetContractModifier() != 1)
+	if (app_->GetContractModifier() != 1)
 		return FALSE;
 
 	// temp

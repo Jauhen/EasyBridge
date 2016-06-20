@@ -37,7 +37,7 @@ private:
 	BOOL	m_bDummy;
 
 public:
-	CDisplayHoldings::CDisplayHoldings();
+	CDisplayHoldings::CDisplayHoldings(std::shared_ptr<AppInterface> app);
 	CDisplayHoldings::~CDisplayHoldings();
 };
 

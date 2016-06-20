@@ -28,8 +28,8 @@
 //==================================================================
 // constructon & destruction
 
-CExitPlay::CExitPlay(CPlayList* pPrerequisites, int nSuit1, int nSuit2) :
-CPlay(CPlay::EXIT, CPlay::IN_EITHER, nSuit1, CPlay::PP_LOSER)
+CExitPlay::CExitPlay(std::shared_ptr<AppInterface> app, CPlayList* pPrerequisites, int nSuit1, int nSuit2) :
+CPlay(app, CPlay::EXIT, CPlay::IN_EITHER, nSuit1, CPlay::PP_LOSER)
 {
 	m_nSuit2 = nSuit2;
 	m_pPrerequisiteList = pPrerequisites;
@@ -57,9 +57,9 @@ void CExitPlay::Init()
 	m_strName = "Exit Play";
 	// form description
 	if (ISSUIT(m_nSuit2))
-		m_strDescription.Format("Exit with a %s or %s.", STSS(m_nSuit), STS(m_nSuit2));
+		m_strDescription.Format("Exit with a %s or %s.", app_->SuitToSingularString(m_nSuit), app_->SuitToString(m_nSuit2));
 	else
-		m_strDescription.Format("Exit with a %s.", STSS(m_nSuit));
+		m_strDescription.Format("Exit with a %s.", app_->SuitToSingularString(m_nSuit));
 }
 
 
@@ -68,9 +68,9 @@ CString CExitPlay::GetFullDescription()
 {
 	CString strText;
 	if (ISSUIT(m_nSuit2))
-		strText.Format("Exit with a %s or %s and throw the opponents into the lead.", STSS(m_nSuit), STSS(m_nSuit2));
+		strText.Format("Exit with a %s or %s and throw the opponents into the lead.", app_->SuitToSingularString(m_nSuit), app_->SuitToSingularString(m_nSuit2));
 	else
-		strText.Format("Exit with a %s and throw the opponents into the lead.", STSS(m_nSuit));
+		strText.Format("Exit with a %s and throw the opponents into the lead.", app_->SuitToSingularString(m_nSuit));
 
 	// done
 	return strText;
@@ -94,7 +94,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
-	CString strRHO = PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
+	CString strRHO = app_->PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
 	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//
@@ -169,7 +169,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 				else
 				{
 					// we can't lead from hand 
-					status << "4PLEXT5! Oops, want to exit with a " & STS(m_nSuit) &
+					status << "4PLEXT5! Oops, want to exit with a " & app_->SuitToString(m_nSuit) &
 							  " from hand, but we have no losers in the suit, so we have to skip this play.\n";
 					m_nStatusCode = PLAY_INACTIVE;
 					return PLAY_NOT_VIABLE;
@@ -225,7 +225,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 				else
 				{
 					// we can't lead from hand 
-					status << "4PLEXT9! Oops, want to exit with a " & STS(m_nSuit) &
+					status << "4PLEXT9! Oops, want to exit with a " & app_->SuitToString(m_nSuit) &
 							  " from dummy, but we have no losers in the suit, so we have to skip this play.\n";
 					m_nStatusCode = PLAY_INACTIVE;
 					return PLAY_NOT_VIABLE;

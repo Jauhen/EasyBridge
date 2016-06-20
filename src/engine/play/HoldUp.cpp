@@ -29,14 +29,14 @@
 //==================================================================
 // constructon & destruction
 
-CHoldUp::CHoldUp(int nSuit) :
-			CPlay(CPlay::HOLDUP, IN_EITHER, nSuit, PP_LOSER)
+CHoldUp::CHoldUp(std::shared_ptr<AppInterface> app, int nSuit) :
+			CPlay(app, CPlay::HOLDUP, IN_EITHER, nSuit, PP_LOSER)
 {
 	Init();
 }
 
-CHoldUp::CHoldUp(CHoldUp& srcPlay) :
-			CPlay(srcPlay.m_nPlayType, IN_EITHER, NONE, PP_LOSER)
+CHoldUp::CHoldUp(std::shared_ptr<AppInterface> app, CHoldUp& srcPlay) :
+			CPlay(app, srcPlay.m_nPlayType, IN_EITHER, NONE, PP_LOSER)
 {
 	m_nSuit = srcPlay.m_nSuit;
 }
@@ -58,8 +58,8 @@ void CHoldUp::Init()
 {
 	CPlay::Init();
 	// form name & description
-	m_strName.Format("%s Hold up", STSS(m_nSuit));
-	m_strDescription.Format("Hold up a round of %s", STS(m_nSuit));
+	m_strName.Format("%s Hold up", app_->SuitToSingularString(m_nSuit));
+	m_strDescription.Format("Hold up a round of %s", app_->SuitToString(m_nSuit));
 }
 
 
@@ -67,7 +67,7 @@ void CHoldUp::Init()
 //
 CString CHoldUp::GetFullDescription()
 {
-	return FormString("Hold up a round of %s.",STS(m_nSuit));
+	return FormString("Hold up a round of %s.",app_->SuitToString(m_nSuit));
 }
 
 
@@ -128,7 +128,7 @@ PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combined
 				pPlayCard = playerHand.GetDiscard();
 			else
 				pPlayCard = dummyHand.GetDiscard();
-			status << "PLHLD04! Hold up a round of " & STS(m_nSuit) & 
+			status << "PLHLD04! Hold up a round of " & app_->SuitToString(m_nSuit) & 
 					  " and discard the " & pPlayCard->GetFaceName() & " from " &
 					  (bPlayingInHand? "hand" : "dummy") & ".\n";
 			m_nStatusCode = PLAY_IN_PROGRESS;

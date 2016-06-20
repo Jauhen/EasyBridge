@@ -28,11 +28,11 @@
 //
 
 // constructor
-CCombinedHoldings::CCombinedHoldings()
-{
+CCombinedHoldings::CCombinedHoldings(std::shared_ptr<AppInterface> app) 
+  : CCardHoldings(app) {
 	// alloc memory
 	for(int i=0;i<4;i++)
-		m_pSuit[i] = new CCombinedSuitHoldings;
+		m_pSuit[i] = new CCombinedSuitHoldings(app);
 	// clear all variables
 }
 

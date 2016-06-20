@@ -62,13 +62,13 @@ public:
 
 // private data
 private:
-	// class-sepcific data
+	// class-specific data
 
 //
 // private routines
 //
 private:
-	CDummyPlayEngine();
+	CDummyPlayEngine(std::shared_ptr<AppInterface> app);
 	virtual ~CDummyPlayEngine();
 };
 

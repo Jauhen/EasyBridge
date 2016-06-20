@@ -41,8 +41,8 @@ protected:
 
 // construction/destruction
 public:
-	CTypeBFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal);	
-	CTypeBFinesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard);
+	CTypeBFinesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, int nSuit, int nCardVal);
+	CTypeBFinesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCard* pCard);
 	virtual ~CTypeBFinesse();
 };
 

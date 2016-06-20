@@ -84,6 +84,17 @@ public:
     return pCurrConvSet;
   }
 
+  virtual double OpenPoints(double points) {
+    return points - theApp.GetBiddingAgressiveness()*0.5;
+  }
+
+  virtual double PointCount(double points) {
+    return points - theApp.GetBiddingAgressiveness()*0.5;
+  }
+
+  virtual int GetMinimumOpeningValue(CPlayer* player) const {
+    return theApp.GetMinimumOpeningValue(player);
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -107,6 +118,13 @@ public:
     pMAINFRAME->SetAnalysisText(position, analysis);
   }
 
+  virtual void SuspendHints() {
+    pMAINFRAME->SuspendHints();
+  }
+
+  virtual void ResumeHints() {
+    pMAINFRAME->ResumeHints();
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -122,6 +140,61 @@ public:
     return pDOC->GetValidBidRecord(index);
   }
 
+  virtual int	GetLastValidBid() const {
+    return pDOC->GetLastValidBid();
+  }
+
+  virtual int GetBiddingRound() const {
+    return pDOC->GetBiddingRound();
+  }
+
+  virtual int GetNumBidsMade() const {
+    return pDOC->GetNumBidsMade();
+  }
+
+  virtual int GetBidByPlayer(int position, int round) const {
+    return pDOC->GetBidByPlayer(position, round);
+  }
+
+  virtual int GetBidByPlayer(CPlayer* player, int round) const {
+    return pDOC->GetBidByPlayer(player, round);
+  }
+
+  virtual int	GetDealer() const {
+    return pDOC->GetDealer();
+  }
+
+  virtual bool IsBidValid(int bid) {
+    return pDOC->IsBidValid(bid) == TRUE;
+  }
+
+  virtual int GetBidByIndex(int index) const {
+    return pDOC->GetBidByIndex(index);
+  }
+
+  virtual CPlayer* GetPlayer(int position) const {
+    return pDOC->GetPlayer(position);
+  }
+
+  virtual int	GetContract() const {
+    return pDOC->GetContract();
+  }
+
+  virtual int GetContractModifier() const {
+    return pDOC->GetContractModifier();
+  }
+
+  virtual int	GetDeclarerPosition() const {
+    return pDOC->GetDeclarerPosition();
+  }
+
+  virtual int	GetRoundLead() const {
+    return pDOC->GetRoundLead();
+  }
+
+  virtual int	GetLastValidBidTeam() const {
+    return pDOC->GetLastValidBidTeam();
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -162,6 +235,30 @@ public:
 
   virtual const CString BidToFullString(int bid) {
     return ::BidToFullString(bid);
+  }
+
+  virtual char GetCardLetter(int i) {
+    return ::GetCardLetter(i);
+  }
+
+  virtual char GetSuitLetter(int i) {
+    return ::GetSuitLetter(i);
+  }
+
+  virtual const char* SuitToString(int suit) {
+    return ::SuitToString(suit);
+  }
+
+  virtual const CString BidToShortString(int bid) {
+    return ::BidToShortString(bid);
+  }
+
+  virtual int GetPlayerTeam(int position) {
+    return ::GetPlayerTeam(position);
+  }
+
+  virtual int GetNextPlayer(int position) {
+    return ::GetNextPlayer(position);
   }
 };
 

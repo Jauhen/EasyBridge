@@ -30,8 +30,8 @@
 //==================================================================
 // constructon & destruction
 
-CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal) :
-			CPlay(CPlay::FORCE, nTargetHand, nSuit, PP_LOSER),
+CForce::CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal) :
+			CPlay(app, CPlay::FORCE, nTargetHand, nSuit, PP_LOSER),
 			m_nTargetCardVal(nTargetCardVal),
 			m_nCardVal(nCardVal)
 {
@@ -39,8 +39,8 @@ CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, i
 	Init();
 }
 
-CForce::CForce(int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard) :
-			CPlay(CPlay::FORCE, nTargetHand, NONE, PP_LOSER),
+CForce::CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard) :
+			CPlay(app, CPlay::FORCE, nTargetHand, NONE, PP_LOSER),
 			m_nTargetCardVal(nTargetCardVal)
 {
 	VERIFY(pCard);
@@ -181,14 +181,14 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 					if (playerSuit.GetNumCards() > 0)
 					{
 						pPlayCard = playerSuit.GetBottomCard();
-						status << "PLFRC06! Lead a low " & STSS(m_nSuit) & 
+						status << "PLFRC06! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 								  " (" & pPlayCard->GetFaceName() &
 								  ") from hand to trigger a force play in dummy.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLFRC08! Oops, we can't start a force play in the " & STSS(m_nSuit) & 
+						status << "4PLFRC08! Oops, we can't start a force play in the " & app_->SuitToSingularString(m_nSuit) & 
 								  " suit from declarer, since we have no cards in the suit.\n";
 						m_nStatusCode = PLAY_POSTPONE;
 						return m_nStatusCode;
@@ -217,14 +217,14 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 					if (dummySuit.GetNumCards() > 0)
 					{
 						pPlayCard = dummySuit.GetBottomCard();
-						status << "PLFRC14! Lead a low " & STSS(m_nSuit) & 
+						status << "PLFRC14! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 								  " (" & pPlayCard->GetFaceName() &
 								  ") from dummy to trigger a force play in hand.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLFRC16! Oops, we can't start a force play in the " & STSS(m_nSuit) & 
+						status << "4PLFRC16! Oops, we can't start a force play in the " & app_->SuitToSingularString(m_nSuit) & 
 								  " suit from dummy, since we have no cards in the suit.\n";
 						m_nStatusCode = PLAY_POSTPONE;
 						return m_nStatusCode;
@@ -259,7 +259,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 						return m_nStatusCode;
 					}
 					// got the forcing card
-					status << "PLFRC22! The opponents led a " & STSS(m_nSuit) & 
+					status << "PLFRC22! The opponents led a " & app_->SuitToSingularString(m_nSuit) & 
 							  ", so play the " & pPlayCard->GetName() & " from " &
 							  (bPlayingInHand? "hand" : "dummy") & " to try and force out the " & 
 							  CardValToString(m_nTargetCardVal) & " now.\n";
@@ -323,7 +323,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 
 				// see if we played a card from the other hand that's equivalent 
 				// to this card; if so, discard low
-				CSuitHoldings testSuit;
+        CSuitHoldings testSuit{app_};
 				testSuit << combinedSuit;
 				testSuit << pCardLed;	// needed for valid test
 				//

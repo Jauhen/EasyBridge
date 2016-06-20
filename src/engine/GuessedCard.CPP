@@ -20,8 +20,9 @@
 
 
 // constructor
-CGuessedCard::CGuessedCard(int nSuit, int nFaceValue, BOOL bOutstanding, int nLocation, float fFixProbability) :
-			m_nSuit(nSuit),
+CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app, int nSuit, int nFaceValue, BOOL bOutstanding, int nLocation, float fFixProbability) :
+  app_(app), 
+  m_nSuit(nSuit),
 			m_nFaceValue(nFaceValue),
 			m_bOutstanding(bOutstanding), 
 			m_nLocation(nLocation), 
@@ -33,7 +34,8 @@ CGuessedCard::CGuessedCard(int nSuit, int nFaceValue, BOOL bOutstanding, int nLo
 	strcpy(m_szName, m_pCard->GetName());
 }
 
-CGuessedCard::CGuessedCard(CCard* pCard, BOOL bOutstanding, int nLocation, float fFixProbability) :
+CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app, CCard* pCard, BOOL bOutstanding, int nLocation, float fFixProbability) :
+      app_(app),
 			m_pCard(pCard),
 			m_bOutstanding(bOutstanding), 
 			m_nLocation(nLocation), 
@@ -45,8 +47,7 @@ CGuessedCard::CGuessedCard(CCard* pCard, BOOL bOutstanding, int nLocation, float
 	strcpy(m_szName, pCard->GetName());
 }
 
-CGuessedCard::CGuessedCard()
-{
+CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app) : app_(app) {
 	Clear();
 }
 

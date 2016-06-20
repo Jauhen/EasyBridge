@@ -46,8 +46,8 @@ protected:
 
 // construction/destruction
 public:
-	CExitPlay(CPlayList* pPrerequisites, int nSuit1=ANY, int nSuit2=ANY);
-	CExitPlay(CExitPlay& srcPlay);
+	CExitPlay(std::shared_ptr<AppInterface> app, CPlayList* pPrerequisites, int nSuit1=ANY, int nSuit2=ANY);
+	//CExitPlay(CExitPlay& srcPlay);
 	virtual ~CExitPlay();
 };
 

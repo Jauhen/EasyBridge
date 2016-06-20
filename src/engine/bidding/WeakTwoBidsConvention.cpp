@@ -49,7 +49,7 @@ BOOL CWeakTwoBidsConvention::TryConvention(const CPlayer& player,
 	// 4: < 4 cards in the other major, and
 	// 5: no voids, and no more than one singleton
 	//
-	if ( ((bidState.fPts >= OPEN_PTS(6)) && (bidState.fPts <= OPEN_PTS(11))) &&
+	if ( ((bidState.fPts >= app_->OpenPoints(6)) && (bidState.fPts <= app_->OpenPoints(11))) &&
 				(ISMAJOR(bidState.nPrefSuit)) &&
 				(bidState.numPrefSuitCards >= 6) && 
 				(bidState.numHonorsInPrefSuit >= 2) && 
@@ -63,7 +63,7 @@ BOOL CWeakTwoBidsConvention::TryConvention(const CPlayer& player,
 		int nSuit = bidState.nPrefSuit;
 		int nBid = MAKEBID(nSuit,2);
 		status << "WEAK2! Have a good " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & STSS(nSuit) & " suit with " & 
+				  "-card " & app_->SuitToSingularString(nSuit) & " suit with " & 
 				  bidState.fCardPts & "/" & bidState.fPts & 
 				  " points (less than normal opening requirements), so bid a weak " &
           app_->BidToFullString(nBid) & ".\n";
@@ -143,7 +143,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					// raise to game
 					nBid = bidState.GetGameBid(nPartnersPrevSuit);
 					status << "RWKT2B1! Partner has shown an outside Ace or King in the " &
-							  STSS(nPartnersSuit) & " suit, so with strength in " & STS(nPartnersSuit) & ", " & 
+							  app_->SuitToSingularString(nPartnersSuit) & " suit, so with strength in " & app_->SuitToString(nPartnersSuit) & ", " & 
 							  bidState.numSupportCards & "-card trump support, and a total of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 							  " points in the partnership, raise to " & app_->BidToFullString(nBid) & ".\n";
@@ -153,7 +153,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					// return to partner's suit
 					nBid = bidState.GetCheapestShiftBid(nPartnersPrevSuit);
 					status << "RWKT2B2! Partner has shown an outside Ace or King in the " &
-							  STSS(nPartnersSuit) & " suit, but with a total of " &
+							  app_->SuitToSingularString(nPartnersSuit) & " suit, but with a total of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 							  " pts in the partnership we lack the strength to raise further, so return to partner's suit at " &
 							  app_->BidToFullString(nBid) & ".\n";
@@ -163,7 +163,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			{
 				// partner returned to his old suit
 				nBid = BID_PASS;
-				status << "RWKT2B5! Partner has returned to his original " & STSS(nPartnersPrevSuit) &
+				status << "RWKT2B5! Partner has returned to his original " & app_->SuitToSingularString(nPartnersPrevSuit) &
 						  " suit, indicating no interest in game, so we pass.\n";
 			}
 			bidState.SetBid(nBid);
@@ -205,8 +205,8 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 	int nPrefSuit = bidState.nPrefSuit;
 
 	// state expectations
-	bidState.m_fPartnersMin = OPEN_PTS(6);
-	bidState.m_fPartnersMax = OPEN_PTS(11);
+	bidState.m_fPartnersMin = app_->OpenPoints(6);
+	bidState.m_fPartnersMax = app_->OpenPoints(11);
 	status << "RWKT! Partner made a weak 2-bid, showing a a 6+ card suit with " &
 			  bidState.m_fPartnersMin & "-" & bidState.m_fPartnersMax & 
 			  " points, less than 4 cards in the other major, no voids, and no more than one singleton.\n";
@@ -222,9 +222,9 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 	//---------------------------------------------------------------------
 	// < 6 points:  pass, since hand is too weak
 	//
-	if (fAdjPts < OPEN_PTS(6)) 
+	if (fAdjPts < app_->OpenPoints(6)) 
 	{
-		if ((numSupportCards >= 4) && (fPts >= OPEN_PTS(4))) 
+		if ((numSupportCards >= 4) && (fPts >= app_->OpenPoints(4))) 
 		{
 			// make a shutout bid
 			nBid = MAKEBID(bidState.nPartnersSuit,4);
@@ -250,9 +250,9 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 	// not enough points for game, so raise or shift
 	//
 	if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-							(fPts >= OPEN_PTS(6)) && (fPts <= OPEN_PTS(12))) ||
+							(fPts >= app_->OpenPoints(6)) && (fPts <= app_->OpenPoints(12))) ||
 		 ((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && 
-					 		(fAdjPts >= OPEN_PTS(6)) && (fAdjPts <= OPEN_PTS(12))) ) 
+					 		(fAdjPts >= app_->OpenPoints(6)) && (fAdjPts <= app_->OpenPoints(12))) ) 
 	{
 		//
 		status << "RWKT4! We only have " & fCardPts & "/" & fPts & "/" & fAdjPts &
@@ -308,9 +308,9 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 	// try for game
 	//
 	if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-							(fPts >= OPEN_PTS(13)) && (fPts <= app_->GamePts() -6)) ||
+							(fPts >= app_->OpenPoints(13)) && (fPts <= app_->GamePts() -6)) ||
 		 ((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && 
-					 		(fAdjPts >= OPEN_PTS(13)) && (fAdjPts <= app_->GamePts() -6)) ) 
+					 		(fAdjPts >= app_->OpenPoints(13)) && (fAdjPts <= app_->GamePts() -6)) ) 
 	{
 		//
 		status << "We have " & fCardPts & "/" & fPts & "/" & fAdjPts &

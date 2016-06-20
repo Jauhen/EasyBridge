@@ -26,8 +26,8 @@
 //
 
 // constructor
-CGuessedCardHoldings::CGuessedCardHoldings()
-{
+CGuessedCardHoldings::CGuessedCardHoldings(std::shared_ptr<AppInterface> app)
+ : app_(app) {
 	// clear all variables
 	for(int i=0;i<MAXHOLDING;i++)
 		m_cards[i] = NULL;

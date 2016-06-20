@@ -28,15 +28,15 @@
 //==================================================================
 // constructon & destruction
 
-CRuff::CRuff(int nTargetHand, int numDiscardsRequired, int nSuit, PlayProspect nPlayProspect) :
-		CPlay(CPlay::RUFF, nTargetHand, nSuit, nPlayProspect),
+CRuff::CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, int nSuit, PlayProspect nPlayProspect) :
+		CPlay(app, CPlay::RUFF, nTargetHand, nSuit, nPlayProspect),
 		m_numDiscardsRequired(numDiscardsRequired)
 {
 	Init();
 }
 
-CRuff::CRuff(int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect) :
-		CPlay(CPlay::RUFF, nTargetHand, NONE, nPlayProspect),
+CRuff::CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect) :
+		CPlay(app, CPlay::RUFF, nTargetHand, NONE, nPlayProspect),
 		m_numDiscardsRequired(numDiscardsRequired)
 {
 	VERIFY(pCard);
@@ -44,8 +44,8 @@ CRuff::CRuff(int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspec
 	Init();
 }
 
-CRuff::CRuff(CRuff& srcPlay) :
-		CPlay(srcPlay.m_nPlayType)
+CRuff::CRuff(std::shared_ptr<AppInterface> app, CRuff& srcPlay) :
+		CPlay(app, srcPlay.m_nPlayType)
 {
 	m_nTargetHand = srcPlay.m_nTargetHand;
 	m_nStartingHand = srcPlay.m_nStartingHand;
@@ -75,7 +75,7 @@ void CRuff::Init()
 	m_nEndingHand = m_nTargetHand;
 	m_nStartingHand = (m_nEndingHand == IN_HAND)? IN_DUMMY : IN_HAND;
 	// form name & description
-	m_strName.Format("%s Ruff", STSS(m_nSuit));
+	m_strName.Format("%s Ruff", app_->SuitToSingularString(m_nSuit));
 	m_strDescription.Format("Ruff a %s in %s", 
 							SuitToSingularString(m_nSuit),
 							((m_nTargetHand == IN_HAND)? "hand" : "dummy"));
@@ -173,14 +173,14 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					if (combinedSuit.GetNumDeclarerLosers() > 0)
 					{
 						pPlayCard = playerHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PLRUF04! Lead a low " & STSS(m_nSuit) & 
+						status << "PLRUF04! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from hand to ruff in dummy.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLRUF08! Oops, we wanted to ruff a " & STSS(m_nSuit) & 
-								  " in dummy, but we have no " & STSS(m_nSuit) & 
+						status << "4PLRUF08! Oops, we wanted to ruff a " & app_->SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & app_->SuitToSingularString(m_nSuit) & 
 								  " losers in hand to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -210,14 +210,14 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					if (combinedSuit.GetNumDummyLosers() > 0)
 					{
 						pPlayCard = dummyHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PLRUF14! Lead a low " & STSS(m_nSuit) & 
+						status << "PLRUF14! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from dummy to ruff in hand.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLRUF18! Oops, we wanted to ruff a " & STSS(m_nSuit) & 
-								  " in hand, but we have no " & STS(m_nSuit) & 
+						status << "4PLRUF18! Oops, we wanted to ruff a " & app_->SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
 								  " losers in dummy to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;

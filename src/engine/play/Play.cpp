@@ -35,8 +35,9 @@ int					CPlay::m_nPlayIDCounter;
 
 //
 //==================================================================
-// constructon & destruction
-CPlay::CPlay(PlayType nPlayType, int nTargetHand, int nSuit, PlayProspect nPlayProspect, BOOL bOpportunistic) :
+// construction & destruction
+CPlay::CPlay(std::shared_ptr<AppInterface> app, PlayType nPlayType, int nTargetHand, int nSuit, PlayProspect nPlayProspect, BOOL bOpportunistic) :
+    app_(app),
 		m_nPlayType(nPlayType),
 		m_nTargetHand(nTargetHand),
 		m_nSuit(nSuit),

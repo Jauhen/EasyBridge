@@ -34,8 +34,8 @@
 //==================================================================
 // constructon & destruction
 
-CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, int nSuit, int nCardVal) :
-		CFinesse(CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
+CType2Finesse::CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, int nSuit, int nCardVal) :
+		CFinesse(app, CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
 		m_pCoverCards(pCoverCards)
 
 {
@@ -43,8 +43,8 @@ CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pG
 	Init();
 }
 
-CType2Finesse::CType2Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard) :
-		CFinesse(CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, pCard),
+CType2Finesse::CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard) :
+		CFinesse(app, CFinesse::TYPE_II, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pCoverCards(pCoverCards)
 
 {
@@ -93,7 +93,7 @@ CString CType2Finesse::GetFullDescription()
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
 		return FormString("Lead the %s %s from %s and finesses it, with the { %s } in %s as possible cover cards.",
-						   ((m_nSuit == nTrumpSuit)? "trump" : STSS(m_nSuit)),
+						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   m_pConsumedCard->GetFaceName(),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
 						   m_pCoverCards->GetHoldingsString(),
@@ -101,7 +101,7 @@ CString CType2Finesse::GetFullDescription()
 	// done
 	else
 		return FormString("Lead the %s %s from %s and finesse it, with the %s in %s as cover.",
-						   ((m_nSuit == nTrumpSuit)? "trump" : STSS(m_nSuit)),
+						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   m_pConsumedCard->GetFaceName(),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
 						   m_pCoverCards->GetAt(0)->GetFaceName(),
@@ -253,7 +253,7 @@ PlayResult CType2Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 			{
 				// RHO has showed out, so skip the finesse play
 				status << "3PL2FN55! Oops -- RHO (" & strRHO &
-						  ") showed out of " & STS(nSuitLed) & ", meaning that LHO holds the " & 
+						  ") showed out of " & app_->SuitToString(nSuitLed) & ", meaning that LHO holds the " & 
 						  m_pGapCards->GetAt(0)->GetFaceName() & ", so the finesse cannot succeed -- so skip it.\n";
 				m_nStatusCode = PLAY_NOT_VIABLE;
 				return m_nStatusCode;

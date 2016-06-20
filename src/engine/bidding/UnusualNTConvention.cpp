@@ -52,7 +52,7 @@ BOOL CUnusualNTConvention::TryConvention(const CPlayer& player,
 
 	// test conditions 1, 2, & 4
 	if ( ((bidState.nRHOBid >= BID_1C) && (bidState.nRHOBid <= BID_1S)) &&
-		 ( ((bidState.fPts >= OPEN_PTS(6)) && (bidState.fPts <= OPEN_PTS(11))) || ((bidState.fPts >= OPEN_PTS(17))/*&& (bidState.fPts <= 18)*/) ) &&
+		 ( ((bidState.fPts >= app_->OpenPoints(6)) && (bidState.fPts <= app_->OpenPoints(11))) || ((bidState.fPts >= app_->OpenPoints(17))/*&& (bidState.fPts <= 18)*/) ) &&
  		  (bidState.m_numBidTurns == 0) && (bidState.m_numPartnerBidTurns == 0) )
 	{
 		 // passed the test
@@ -90,7 +90,7 @@ BOOL CUnusualNTConvention::TryConvention(const CPlayer& player,
 
 	// OK, go ahead and bid 2NT
 	int nBid = BID_2NT;
-	status << "UNT9! With a 2-suited hand, make an Unusual NT bid over RHO's " & STS(nOppSuit) & 
+	status << "UNT9! With a 2-suited hand, make an Unusual NT bid over RHO's " & app_->SuitToString(nOppSuit) & 
 			  " bid at " & app_->BidToFullString(nBid) & ".\n";
 	bidState.SetBid(nBid);
 	bidState.SetConventionStatus(this, CONV_INVOKED);
@@ -149,7 +149,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		int nOpeningBid = pDOC->GetOpeningBid();
 		int nOpeningBidder = pDOC->GetOpeningBidder();
 		BOOL bOppMajor = ISMAJOR(nOpeningBid);
-		if (ISBID(nOpeningBid) && (GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
+		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&
 			  (nPartnersBid == BID_2NT) && (bidState.m_numBidsMade == 0) )
 		{
@@ -172,7 +172,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		else
 			nSuit = bidState.PickSuperiorSuit(DIAMONDS, CLUBS);
 		//
-		status << "UNTR12! Given a choice, we prefer the " & STSS(nSuit) & " suit.\n";
+		status << "UNTR12! Given a choice, we prefer the " & app_->SuitToSingularString(nSuit) & " suit.\n";
 		// save this information
 //		bidState.SetConventionData(this, nSuit);
 
@@ -194,7 +194,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nLHOSuit, pDOC->GetLastValidBid());
 			status << "UNTR20! With a total of " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-					  " pts in the partnership, cue bid the enemy " & STSS(nLHOSuit) & 
+					  " pts in the partnership, cue bid the enemy " & app_->SuitToSingularString(nLHOSuit) & 
 					  " suit at " & app_->BidToFullString(nBid) & " for a slam try.\n";
 		}
 		else if (bidState.m_fMinTPPoints >= bidState.GetGamePoints(nSuit))
@@ -212,8 +212,8 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nLHOSuit);
 			status << "UNTR26! With a total of " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-					  " pts in the partnership, we may be able to make game in " & STS(nSuit) & 
-					  " if partner has a strong opener, so cue bid the enemy " & STSS(nLHOSuit) & 
+					  " pts in the partnership, we may be able to make game in " & app_->SuitToString(nSuit) & 
+					  " if partner has a strong opener, so cue bid the enemy " & app_->SuitToSingularString(nLHOSuit) & 
 					  " at " & app_->BidToFullString(nBid) & " to inquire about partner's strength..\n";
 		}
 		else
@@ -271,14 +271,14 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 			// if partner bid the lower of his two suits, he is showing a weak hand
 			if (nPartnersSuit == nSuit1)
 			{
-				status << "UNTR40! Partner rebid his lower " & STSS(nSuit1) & 
+				status << "UNTR40! Partner rebid his lower " & app_->SuitToSingularString(nSuit1) & 
 						  " suit, denying a strong opening hand.\n";
 				// partner has a weak hand, so pss or correct
 				if (nSuperiorSuit == nSuit1)
 				{
 					nBid = BID_PASS;
 					status << "UNTR41! As a result, we have to pass his bid of " & app_->BidToFullString(nPartnersBid) &
-							  " to play in the " & STSS(nPartnersSuit) & " suit.\n";
+							  " to play in the " & app_->SuitToSingularString(nPartnersSuit) & " suit.\n";
 				}
 				else
 				{
@@ -297,7 +297,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 				bidState.AdjustPartnershipPoints(17, Min(17,40));
 				//
 				status << "UNTR50! After our cue-bid of the enemy suit, partner has NOT bid the lower of his two suits, "
-						  " indicating a strong opening Unusual NT hand with " & OPEN_PTS(17) & 
+						  " indicating a strong opening Unusual NT hand with " & app_->OpenPoints(17) & 
 						  "+ pts, for a total in the partnership of " & 
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMinTPPoints & " pts.\n";
 				// drop in to later code						  
@@ -320,7 +320,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 			{
 				status << "UNTR60! Partner has made another bid after his opening Unusual NT bid and our response of " & 
 						  app_->BidToFullString(bidState.nPreviousBid) & ", indicate a strong opening Unusual NT hand with " &
-						  OPEN_PTS(17) & "+ pts, for a total in the partnership of " & 
+						  app_->OpenPoints(17) & "+ pts, for a total in the partnership of " & 
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & " pts.\n";
 				// drop in to later code						  
 				bPartnerHasStrongOpener = TRUE;
@@ -452,7 +452,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			status << "UNTRH20! Partner cue bid the enemy suit, which is a game or slam try.\n";
 			int nSuit = NONE;
-			if (bidState.fPts >= PT_COUNT(17))
+			if (bidState.fPts >= app_->PointCount(17))
 			{
 				// we have a strong opener, so respond in the higher suit
 				if ((nEnemySuit == CLUBS) || (nEnemySuit == DIAMONDS))
@@ -461,7 +461,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 					nSuit = DIAMONDS;
 				nBid = bidState.GetCheapestShiftBid(nSuit);
 				status << "UNTRH21! Since we have " & bidState.fPts & " pts in hand (a strong opener), we respond in the higher of our suits (" & 
-						  STS(nSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
+						  app_->SuitToString(nSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -473,7 +473,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 				// 
 				nBid = bidState.GetCheapestShiftBid(nSuit);
 				status << "UNTRH23! But with only " & bidState.fPts & " pts in hand (a weak opener), respond negatively by bidding the lower of our suits (" &
-						  STS(nSuit) & ") suit at " & app_->BidToFullString(nBid) & ".\n";
+						  app_->SuitToString(nSuit) & ") suit at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			//
 			bidState.SetBid(nBid);
@@ -483,7 +483,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 
 		// now see how we should respond
 		// 17+ points calls for a cue bid to show our strength
-		if ((bidState.fPts >= PT_COUNT(17)) && (!bidState.IsGameBid(nPartnersBid)))
+		if ((bidState.fPts >= app_->PointCount(17)) && (!bidState.IsGameBid(nPartnersBid)))
 		{
 			// here we cue bid the enemy suit, and wait for partner to make 
 			// the next move
@@ -513,7 +513,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 			status << "UNTRH40! Partner responded to our Unusual NT bid with a bid of " & 
 					  bidState.szPB & ", a possible invitation to game.\n";
 			// 
-			if (fPts < PT_COUNT(17))
+			if (fPts < app_->PointCount(17))
 			{
 				nBid = BID_PASS;	
 				status << "UNTRH41! But since we opened Unusual NT with a weak hand (" & fPts &

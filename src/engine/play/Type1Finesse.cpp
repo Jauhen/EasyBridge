@@ -33,16 +33,16 @@
 //==================================================================
 // constructon & destruction
 
-CType1Finesse::CType1Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCardList* pLeadCards, int nSuit, int nCardVal) :
-		CFinesse(CFinesse::TYPE_I, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
+CType1Finesse::CType1Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCardList* pLeadCards, int nSuit, int nCardVal) :
+		CFinesse(app, CFinesse::TYPE_I, nTargetHand, nPlayerPosition, pGapCards, nSuit, nCardVal),
 		m_pCoverCards(pCoverCards),
 		m_pLeadCards(pLeadCards)
 {
 	Init();
 }
 
-CType1Finesse::CType1Finesse(int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCardList* pLeadCards, CCard* pCard) :
-		CFinesse(CFinesse::TYPE_I, nTargetHand, nPlayerPosition, pGapCards, pCard),
+CType1Finesse::CType1Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCardList* pLeadCards, CCard* pCard) :
+		CFinesse(app, CFinesse::TYPE_I, nTargetHand, nPlayerPosition, pGapCards, pCard),
 		m_pCoverCards(pCoverCards),
 		m_pLeadCards(pLeadCards)
 {
@@ -82,21 +82,21 @@ CString CType1Finesse::GetFullDescription()
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
 		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the { %s } as possible cover cards.",
-						   ((m_nSuit == nTrumpSuit)? "trump" : STSS(m_nSuit)),
+						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),
-//						   STS(m_nSuit),
+//						   app_->SuitToString(m_nSuit),
 						   ((m_nTargetHand == 0)? "hand" : "dummy"),
-						   PositionToString(m_nTargetPos),
+      app_->PositionToString(m_nTargetPos),
 						   m_pCoverCards->GetHoldingsString());
 	else
 		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
-						   ((m_nSuit == nTrumpSuit)? "trump" : STSS(m_nSuit)),
+						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),
-//						   STS(m_nSuit),
+//						   app_->SuitToString(m_nSuit),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
-						   PositionToString(m_nTargetPos),
+      app_->PositionToString(m_nTargetPos),
 						   m_pCoverCards->GetAt(0)->GetFaceName());
 }
 
@@ -167,7 +167,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					if (playerHand.GetNumCardsInSuit(m_nSuit) > 0)
 					{
 						pPlayCard = playerHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PL1FN12! Leading a low " & STSS(m_nSuit) & 
+						status << "PL1FN12! Leading a low " & app_->SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() &
 								  ") from hand to finesse the " & 
 								  m_pConsumedCard->GetFaceName() & " in dummy.\n";
@@ -175,8 +175,8 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PL1FN14! Oops, we wanted to finesse a " & STSS(m_nSuit) & 
-								  " in dummy, but we have no " & STS(m_nSuit) & 
+						status << "4PL1FN14! Oops, we wanted to finesse a " & app_->SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & app_->SuitToString(m_nSuit) & 
 								  " in hand to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -200,7 +200,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					if (dummyHand.GetNumCardsInSuit(m_nSuit) > 0)
 					{
 						pPlayCard = dummyHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PL1FN22! Lead a low " & STSS(m_nSuit) & 
+						status << "PL1FN22! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() &
 								  ") from dummy to finesse the " & 
 								  m_pConsumedCard->GetFaceName() & " in hand.\n";
@@ -208,8 +208,8 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PL1FN24! Oops, we wanted to finesse a " & STSS(m_nSuit) & 
-								  " in hand, but we have no " & STS(m_nSuit) & 
+						status << "4PL1FN24! Oops, we wanted to finesse a " & app_->SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
 								  " in dummy to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -250,7 +250,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 			{
 				// oops! RHO showed out! the finesse can't win!
 				status << "3PL1FN55! Oops -- RHO (" & strRHO &
-						  ") showed out of " & STS(nSuitLed) & ", meaning that LHO holds the " & 
+						  ") showed out of " & app_->SuitToString(nSuitLed) & ", meaning that LHO holds the " & 
 						  m_pGapCards->GetAt(0)->GetFaceName() & ", so the finesse cannot succeed -- so skip it.\n";
 				m_nStatusCode = PLAY_NOT_VIABLE;
 				return m_nStatusCode;
@@ -258,7 +258,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				// play the cover card
 				pPlayCard = m_pCoverCards->GetBottomCard();
 				ASSERT(pPlayCard->IsValid());
-				status << "3PL1FN55! Oops -- " & playEngine.szLHO & " showed out of " & STS(nSuitLed) & 
+				status << "3PL1FN55! Oops -- " & playEngine.szLHO & " showed out of " & app_->SuitToString(nSuitLed) & 
 						  ", meaning that RHO holds the " & m_pGapCards[0]->GetFaceName() & 
 						  ", so the finesse cannot succeed -- so play the cover card (the " &
 						  pCoverCard->GetFaceName() & ").\n";

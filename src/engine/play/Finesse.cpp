@@ -17,6 +17,7 @@
 #include "../Card.h"
 #include "../CardList.h"
 #include "Finesse.h"
+#include "app_interface.h"
 
 
 
@@ -24,8 +25,8 @@
 //==================================================================
 // constructon & destruction
 
-CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic) :
-					CPlay(FINESSE, nTargetHand, nSuit, PP_SPECULATIVE, bOpportunistic),
+CFinesse::CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic) :
+					CPlay(app, FINESSE, nTargetHand, nSuit, PP_SPECULATIVE, bOpportunistic),
 					m_nSubType(nSubType),
 					m_nPlayerPosition(nPlayerPosition),
 					m_pGapCards(pGapCards),
@@ -34,8 +35,8 @@ CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList
 	Init();
 }
 
-CFinesse::CFinesse(int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic) :
-					CPlay(FINESSE, nTargetHand, NONE, PP_SPECULATIVE, bOpportunistic),
+CFinesse::CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic) :
+					CPlay(app, FINESSE, nTargetHand, NONE, PP_SPECULATIVE, bOpportunistic),
 					m_nSubType(nSubType),
 					m_nPlayerPosition(nPlayerPosition),
 					m_pGapCards(pGapCards)
@@ -85,7 +86,7 @@ void CFinesse::Init()
 	// check the enemy and location
 	m_nTarget = (m_nEndingHand == CFinesse::IN_DUMMY)? AGAINST_RHO: AGAINST_LHO;
 	if (m_nTarget == AGAINST_LHO)
-		m_nTargetPos = GetNextPlayer(m_nPlayerPosition);
+		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
 	else
 		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
 

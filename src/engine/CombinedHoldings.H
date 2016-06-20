@@ -184,7 +184,7 @@ private:
 	int			m_numMissingBottomHonors;
 
 public:
-	CCombinedHoldings();
+	CCombinedHoldings(std::shared_ptr<AppInterface> app);
 	~CCombinedHoldings();
 };
 

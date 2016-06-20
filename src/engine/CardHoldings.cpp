@@ -27,8 +27,7 @@
 //
 
 // constructor
-CCardHoldings::CCardHoldings()
-{
+CCardHoldings::CCardHoldings(std::shared_ptr<AppInterface> app) : CCardList(app) {
 	// clear all variables
 	Clear();
 }

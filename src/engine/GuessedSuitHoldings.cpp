@@ -25,8 +25,8 @@
 //
 
 // constructor
-CGuessedSuitHoldings::CGuessedSuitHoldings()
-{
+CGuessedSuitHoldings::CGuessedSuitHoldings(std::shared_ptr<AppInterface> app)
+  : CGuessedCardHoldings(app) {
 	// clear all variables
 	m_nSuit = NONE;
 	Init();

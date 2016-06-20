@@ -115,7 +115,7 @@ CConventionSet& CConventionSet::operator=(CConventionSet& src)
 
 	
 //
-// ApplyConventionTests()
+// ApplyConventionTeapp_->SuitToString()
 //
 BOOL CConventionSet::ApplyConventionTests(const CPlayer& player, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) {
 	if (m_listConventions.empty()) 

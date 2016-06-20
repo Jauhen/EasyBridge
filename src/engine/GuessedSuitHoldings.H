@@ -53,7 +53,7 @@ protected:
 
 // construction/destruction
 public:
-	CGuessedSuitHoldings();
+	CGuessedSuitHoldings(std::shared_ptr<AppInterface> app);
 	~CGuessedSuitHoldings();
 };
 

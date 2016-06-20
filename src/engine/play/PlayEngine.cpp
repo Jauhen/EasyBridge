@@ -50,12 +50,9 @@
 //
 //
 
-CPlayEngine::CPlayEngine()
-{
-}
+CPlayEngine::CPlayEngine(std::shared_ptr<AppInterface> app) : app_(app) {}
 
-CPlayEngine::~CPlayEngine()
-{
+CPlayEngine::~CPlayEngine(){
 	Clear();
 }
 
@@ -80,8 +77,8 @@ void CPlayEngine::Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOp
 	m_pPartnersHand = &m_pPartner->GetHand();
 	//
 	ASSERT(ISPOSITION(m_nPartnerPosition));
-	strcpy(szLHO, PositionToString(m_pLHOpponent->GetPosition()));
-	strcpy(szRHO, PositionToString(m_pRHOpponent->GetPosition()));
+	strcpy(szLHO, app_->PositionToString(m_pLHOpponent->GetPosition()));
+	strcpy(szRHO, app_->PositionToString(m_pRHOpponent->GetPosition()));
 	//
 	m_pHand = pHoldings; 
 	m_pCardLocation = pCardLocation; 
@@ -247,13 +244,13 @@ void CPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 				  ((pDOC->GetNumCardsPlayedInRound() == 1)? " lead" : " play") &
 				  " the " & pCard->GetName() & ".\n";
 	else
-		status << "4PLAY! " & PositionToString(nPos) & 
+		status << "4PLAY! " & app_->PositionToString(nPos) &
 				  ((pDOC->GetNumCardsPlayedInRound() == 1)? " leads" : " plays") &
 				  " the " & pCard->GetName() & ".\n";
 
 	// record the card played by the specified player
 	CGuessedHandHoldings* pHand = m_ppGuessedHands[nPos];
-	CGuessedCard* pGuessedCard = new CGuessedCard(pCard, // card
+	CGuessedCard* pGuessedCard = new CGuessedCard(app_, pCard, // card
 												  FALSE, // not outstanding
 												  nPos,	 // location
 												  1.0);	 // known with certainty
@@ -313,7 +310,7 @@ void CPlayEngine::RecordTrickUndo()
 void CPlayEngine::RecordRoundComplete(int nPos, CCard* pCard) 
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	status << "4PLAY! " & PositionToString(nPos) & 
+	status << "4PLAY! " & app_->PositionToString(nPos) &
 			  " wins the round.\n--------\n";
 	//
 //	AdjustHoldingsCount(pCard);
@@ -354,20 +351,20 @@ void CPlayEngine::RecordSpecialEvent(int nCode, int nParam1, int nParam2, int nP
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nPlayer = nParam1;
-	int nTeam = GetPlayerTeam(nPlayer);
+	int nTeam = app_->GetPlayerTeam(nPlayer);
 	int numTricks = nParam2;
 	//
 	switch(nCode)
 	{
 		case CEasyBDoc::EVENT_CLAIMED:
 //			status << "3PLAYCL! " & TeamToString(nTeam) & " has claimed the remaining " &
-			status << "3PLAYCL! " & PositionToString(nPlayer) & " has claimed the remaining " &
+			status << "3PLAYCL! " & app_->PositionToString(nPlayer) & " has claimed the remaining " &
 				      numTricks & " tricks.\n";
 			break;
 
 		case CEasyBDoc::EVENT_CONCEDED:
 //			status << "3PLAYCN! " & TeamToString(nTeam) & " has conceded the remaining " &
-			status << "3PLAYCN! " & PositionToString(nPlayer) & " has conceded the remaining " &
+			status << "3PLAYCN! " & app_->PositionToString(nPlayer) & " has conceded the remaining " &
 				      numTricks & " tricks.\n";
 			break;
 	}
@@ -389,7 +386,7 @@ void CPlayEngine::RecordCardsPlayed()
 		// record the card played by this player
 		CCard* pPlayedCard = pDOC->GetCurrentTrickCard(i);
 		CGuessedHandHoldings* pHand = m_ppGuessedHands[i];
-		CGuessedCard* pCard = new CGuessedCard(pPlayedCard,	// card
+		CGuessedCard* pCard = new CGuessedCard(app_, pPlayedCard,	// card
 											   FALSE,		// not outstanding
 											   i,			// location
 											   1.0);		// known with certainty
@@ -412,7 +409,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 //	{
 		// note the card that was played
 		CGuessedHandHoldings* pPlayerHoldings = m_ppGuessedHands[nPos];
-		CGuessedCard* pGuessedCard = new CGuessedCard(pCard,	// card
+		CGuessedCard* pGuessedCard = new CGuessedCard(app_, pCard,	// card
 													  FALSE,	// no longer outstanding
 													  nPos,		// location
 													  1.0);		// known with certainty
@@ -428,13 +425,13 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 			CGuessedSuitHoldings& suit = pPlayerHoldings->GetSuit(nSuitLed);
 			if ((pCard->GetSuit() != nSuitLed) && (!suit.IsSuitShownOut()))
 			{
-				status << "4RCP10! " & PositionToString(nPos) & 
-						  " shows out of " & STS(nSuitLed) & ".\n";
+				status << "4RCP10! " & app_->PositionToString(nPos) &
+						  " shows out of " & app_->SuitToString(nSuitLed) & ".\n";
 				suit.MarkSuitShownOut();
 				if (pPlayerHoldings->GetNumSuitsFullyIdentified() > 1)
 				{
 					// multiple suits identified
-					status << "4RCP1A! " & PositionToString(nPos) & 
+					status << "4RCP1A! " & app_->PositionToString(nPos) &
 							  " is now known to have started with ";
 					int numTotalIdentifiedSuits = pPlayerHoldings->GetNumSuitsFullyIdentified();
 					int numIdentifiedSuits = 0;
@@ -448,7 +445,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 							CGuessedSuitHoldings& currSuit = pPlayerHoldings->GetSuit(i);
 							status < ((numIdentifiedSuits > 0)? " and " : " ") &
 									  currSuit.GetNumOriginalCards() & " " & 
-									  ((suit.GetNumOriginalCards() > 1)? STS(i) : STSS(i));
+									  ((suit.GetNumOriginalCards() > 1)? app_->SuitToString(i) : app_->SuitToSingularString(i));
 							nIdentifiedSuits[numIdentifiedSuits] = i;
 							numIdentifiedSuits++;
 							numTotalIdentifiedCards += currSuit.GetNumDefiniteCards();
@@ -487,17 +484,17 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 	//					fourthSuit.SetNumLikelyCards(numRemainingCards);
 						fourthSuit.SetNumRemainingCards(numRemainingCards);
 						//
-						status << "4RCP1B! Therefore, " & PositionToString(nPos) &
-								  " started with " & numOriginalCards & " " & STS(nFourthSuit) &
+						status << "4RCP1B! Therefore, " & app_->PositionToString(nPos) &
+								  " started with " & numOriginalCards & " " & app_->SuitToString(nFourthSuit) &
 								  " and has " & numRemainingCards & " left.\n";
 					}
 				}
 				else
 				{
-					status < "RCP5A! " & PositionToString(nPos) & 
+					status < "RCP5A! " & app_->PositionToString(nPos) &
 							  " is now known to have started with " &
 							  suit.GetNumOriginalCards() & " " & 
-							  ((suit.GetNumOriginalCards() == 1)? STSS(nSuitLed) : STS(nSuitLed)) & ".\n";
+							  ((suit.GetNumOriginalCards() == 1)? app_->SuitToSingularString(nSuitLed) : app_->SuitToString(nSuitLed)) & ".\n";
 				}
 			}
 
@@ -510,7 +507,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 					(pDummy->GetHand().GetNumCardsInSuit(nSuitLed) == 0) &&
 					(!pPlayerHoldings->IsSuitShownOut(nSuitLed)))
 				{
-					status << "3RCP20! Dummy is now out of " & STS(nSuitLed) & ".\n";
+					status << "3RCP20! Dummy is now out of " & app_->SuitToString(nSuitLed) & ".\n";
 					pPlayerHoldings->MarkSuitShownOut(nSuitLed);
 				}
 			}
@@ -528,7 +525,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 		{
 			if (dummy.GetNumCardsInSuit(i) == 0) 
 			{
-				status << "3RCP25! Dummy is shown to be void in " & STS(i) & ".\n";
+				status << "3RCP25! Dummy is shown to be void in " & app_->SuitToString(i) & ".\n";
 				pPlayerHoldings->MarkSuitShownOut(i);
 			}
 		}
@@ -685,7 +682,7 @@ CCard* CPlayEngine::PlaySecond()
 		}
 		else
 		{
-			status << "PLY2C4! Play our only " & STSS(nSuitLed) & ", the " & pCard->GetFaceName() & ".\n";
+			status << "PLY2C4! Play our only " & app_->SuitToSingularString(nSuitLed) & ", the " & pCard->GetFaceName() & ".\n";
 		}
 	}
 	else
@@ -699,7 +696,7 @@ CCard* CPlayEngine::PlaySecond()
 
 			// see if partner would win the suit otherwise
 			CGuessedSuitHoldings& partnerSuit = m_pPlayer->GetGuessedHand(m_nPartnerPosition)->GetSuit(nSuitLed);
-			CCardList outstandingCards;
+      CCardList outstandingCards{ app_ };
 			GetOutstandingCards(nSuitLed, outstandingCards);
 			if (partnerSuit.AreAllCardsIdentified() && partnerSuit.HasCard(outstandingCards[0]->GetFaceValue()))
 			{
@@ -809,7 +806,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
 	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
-	CString strTopCardPos = PositionToString(nTopPos);
+	CString strTopCardPos = app_->PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
 	int nCurrentRound = pDOC->GetPlayRound();
 	int nCurrentSeat = pDOC->GetNumCardsPlayedInRound() + 1;
@@ -1078,7 +1075,7 @@ CCard* CPlayEngine::GetLeadCard()
 		{
 			pLeadCard = suit.GetBottomCard();
 			status << "PLYLDB! With no other clear plays available, lead a card from the unbid " &
-					  STSS(pLeadCard->GetSuit()) & " suit.\n";
+					  app_->SuitToSingularString(pLeadCard->GetSuit()) & " suit.\n";
 			ASSERT(m_pHand->HasCard(pLeadCard));
 			return pLeadCard;
 		}
@@ -1311,7 +1308,7 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 //
 CCard* CPlayEngine::GetHighestOutstandingCard(int nSuit) const
 {
-	CCardList cardList;
+	CCardList cardList{ app_ };
 	int nCount = GetOutstandingCards(nSuit, cardList);
 	if (nCount > 0)
 		return cardList[0];
@@ -1326,7 +1323,7 @@ CCard* CPlayEngine::GetHighestOutstandingCard(int nSuit) const
 //
 int CPlayEngine::GetNumOutstandingCards(int nSuit) const
 {
-	CCardList cardList;
+	CCardList cardList{ app_ };
 	return GetOutstandingCards(nSuit, cardList);
 }
 
@@ -1341,7 +1338,7 @@ BOOL CPlayEngine::IsCardOutstanding(CCard* pCard) const
 {
 	VERIFY(pCard->IsValid());
 	// get the list of outstanding cards in this suit
-	CCardList cardList;
+	CCardList cardList{ app_ };
 	return GetOutstandingCards(pCard->GetSuit(), cardList);
 	// and see if the card is among them
 	return cardList.HasCard(pCard);
@@ -1430,13 +1427,13 @@ int CPlayEngine::GetMinCardsInSuit(int nPlayer, int nSuit) const
 			nMin = 13 - numCardsPlayed;
 			// take this opportunity to update the player's info
 			// mark the player as having the missing cards
-			CSuitHoldings  missingCards;
+			CSuitHoldings  missingCards{ app_ };
 			int nCount = GetOutstandingCards(nSuit, missingCards);
 			VERIFY(nCount == nMin);
 			CGuessedHandHoldings* pHand = m_ppGuessedHands[nPlayer];
 			for(int j=0;j<nCount;j++)
 			{
-				CGuessedCard* pGuessedCard = new CGuessedCard(missingCards[j],	// card
+				CGuessedCard* pGuessedCard = new CGuessedCard(app_, missingCards[j],	// card
 															  TRUE,				// still outstanding
 															  nPlayer,			// location
 															  1.0);				// known with certainty
@@ -1445,9 +1442,9 @@ int CPlayEngine::GetMinCardsInSuit(int nPlayer, int nSuit) const
 			// update status
 			suit.MarkAllCardsIdentified();
 			CPlayerStatusDialog& status = *m_pStatusDlg;
-			status << "4PLEMN5! " & PositionToString(nPlayer) &
+			status << "4PLEMN5! " & app_->PositionToString(nPlayer) &
 					  " is now known to hold the remaining " & 
-					  missingCards.GetNumCards() & " " & STS(nSuit) & 
+					  missingCards.GetNumCards() & " " & app_->SuitToString(nSuit) & 
 					  " (" & missingCards.GetHoldingsString() & ").\n";
 			// and update counts
 			suit.SetNumOriginalCards(nMin + m_ppGuessedHands[nPlayer]->GetSuit(nSuit).GetNumCardsPlayed());
