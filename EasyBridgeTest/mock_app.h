@@ -42,6 +42,7 @@ public:
   MOCK_CONST_METHOD0(GetDeclarerPosition, int());
   MOCK_CONST_METHOD0(GetRoundLead, int());
   MOCK_CONST_METHOD0(GetLastValidBidTeam, int());
+  MOCK_METHOD0(IsDocInitialized, bool());
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));

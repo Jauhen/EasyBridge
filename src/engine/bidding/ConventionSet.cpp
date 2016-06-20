@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "Convention.h"
 #include "4thSuitForcingConvention.h"
 #include "StrongTwoBidsConvention.h"
@@ -40,6 +39,7 @@
 #include "app_interface.h"
 #include <memory>
 #include "convention_pool.h"
+#include "app_interface.h"
 
 
 // default bidding settings
@@ -401,10 +401,10 @@ void CConventionSet::InitConventions()
 
 
 	// instruct all players to clear their convention status
-	if (pDOC && pDOC->IsInitialized())
+	if (app_->IsDocInitialized())
 	{
 		for(int i=0;i<4;i++)
-			PLAYER(i).ClearConventionStatus();
+			app_->GetPlayer(i)->ClearConventionStatus();
 	}
 }
 

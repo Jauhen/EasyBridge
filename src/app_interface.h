@@ -71,7 +71,7 @@ public:
   virtual int	GetDeclarerPosition() const = 0;
   virtual int	GetRoundLead() const = 0;
   virtual int	GetLastValidBidTeam() const = 0;
-
+  virtual bool IsDocInitialized() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //

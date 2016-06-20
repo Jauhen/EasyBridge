@@ -196,6 +196,10 @@ public:
     return pDOC->GetLastValidBidTeam();
   }
 
+  virtual bool IsDocInitialized() {
+    return pDOC && pDOC->IsInitialized();
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW

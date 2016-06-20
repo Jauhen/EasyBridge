@@ -11,13 +11,11 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "BlackwoodConvention.h"
 #include "ConventionSet.h"
 #include "app_interface.h"
-
 
 //
 //==================================================================
@@ -149,7 +147,7 @@ BOOL CBlackwoodConvention::InvokeBlackwood(CHandHoldings& hand, CBidEngine& bidS
 		}
 		else
 		{
-			nBid = bidState.GetCheapestShiftBid(nEventualSuit, pDOC->GetLastValidBid());
+			nBid = bidState.GetCheapestShiftBid(nEventualSuit, app_->GetLastValidBid());
 			status << "BKWDY3! so without quite enough points for a slam, we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//
