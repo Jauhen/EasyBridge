@@ -127,7 +127,7 @@ PlayResult CTrumpPull::Perform(CPlayEngine& playEngine, CCombinedHoldings& combi
 	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
-	CString strRHO = PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
+	CString strRHO = app_->PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
 	int nTrumpSuit = pDOC->GetTrumpSuit();
 	CSuitHoldings& playerTrumps = playerHand.GetSuit(nTrumpSuit);
 	CSuitHoldings& dummyTrumps = dummyHand.GetSuit(nTrumpSuit);

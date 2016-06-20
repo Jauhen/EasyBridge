@@ -61,4 +61,7 @@ public:
   MOCK_METHOD1(GetCardLetter, char(int i));
   MOCK_METHOD1(GetSuitLetter, char(int i));
   MOCK_METHOD1(SuitToString, const char* (int suit));
+  MOCK_METHOD1(BidToShortString, const CString(int bid));
+  MOCK_METHOD1(GetPlayerTeam, int(int position));
+  MOCK_METHOD1(GetNextPlayer, int(int position));
 };

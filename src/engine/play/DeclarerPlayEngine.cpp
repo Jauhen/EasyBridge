@@ -1007,7 +1007,7 @@ void CDeclarerPlayEngine::TestForClaim()
 		// try to claim the hand -- but first show the hands
 		BOOL bHandsWereExposed = m_pPlayer->AreCardsExposed() || theApp.AreCardsFaceUp();
 		m_pPlayer->ExposeCards(TRUE, !bHandsWereExposed);
-		int nCode = AfxMessageBox(FormString("Declarer (%s) claims the remaining tricks.  Do you agree?", PositionToString(m_pPlayer->GetPosition())), MB_ICONQUESTION | MB_YESNO);
+		int nCode = AfxMessageBox(FormString("Declarer (%s) claims the remaining tricks.  Do you agree?", app_->PositionToString(m_pPlayer->GetPosition())), MB_ICONQUESTION | MB_YESNO);
 		m_pPlayer->ExposeCards(bHandsWereExposed, !bHandsWereExposed);
 		if (nCode == IDYES)
 		{
@@ -1753,7 +1753,7 @@ CCard* CDeclarerPlayEngine::PlayThird()
 	int nSuitLed = pLeadCard->GetSuit();
 	int nTopPos;
 	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
-	CString strTopCardPos = PositionToString(nTopPos);
+	CString strTopCardPos = app_->PositionToString(nTopPos);
 	int nCurrentRound = pDOC->GetPlayRound();
 	int nCurrentSeat = pDOC->GetNumCardsPlayedInRound() + 1;
 	CCard* pDeclarersCard = pDOC->GetCurrentTrickCard(GetPlayerPosition());
@@ -2014,7 +2014,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
 	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
-	CString strTopCardPos = PositionToString(nTopPos);
+	CString strTopCardPos = app_->PositionToString(nTopPos);
 	int nCurrentRound = pDOC->GetPlayRound();
 	int nCurrentSeat = pDOC->GetNumCardsPlayedInRound() + 1;
 	// see what the top card in the round is
@@ -2605,7 +2605,7 @@ void CDeclarerPlayEngine::PlanPlay()
 
 	// starting as declarer
 	status << "2PLN00! Dummy's hand has been laid down; now planning the play with a contract of " & 
-			  ContractToFullString(m_nContract, m_nContractModifier) & ".\n---------------------------\nPlanning the play...\n";
+    app_->ContractToFullString(m_nContract, m_nContractModifier) & ".\n---------------------------\nPlanning the play...\n";
 
 	// first assemble the combined hand
 	// ok to have access to partner's hand cuz he's dummy
@@ -2696,7 +2696,7 @@ void CDeclarerPlayEngine::ReviewPlayPlan()
 	m_pCurrentPlay = NULL;
 
 	//
-	int nTeam = ::GetPlayerTeam(m_pPlayer->GetPosition());
+	int nTeam = app_->GetPlayerTeam(m_pPlayer->GetPosition());
 	m_numTricksMade = pDOC->GetValue(tnumTricksWon, nTeam);
 	m_numTricksLeftToBeMade =  m_numRequiredTricks - m_numTricksMade;
 //	m_numSureTricks = m_pCombinedHand->GetNumMaxWinners();
@@ -3271,7 +3271,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 		{
 			// remark
 			status << "3PLTSTB! The " & pPlay->GetConsumedCard()->GetName() & 
-					  " finesse is targeted against " & PositionToString(pFinesse->GetTargetPos()) &
+					  " finesse is targeted against " & app_->PositionToString(pFinesse->GetTargetPos()) &
 					  ", who had earlier bid the " & app_->SuitToSingularString(pPlay->GetSuit()) & ", so postpone the play.\n";
 			// and push the play to the end of the play list
 			m_playPlan.MovePlayToEnd(i);
@@ -3343,8 +3343,8 @@ void CDeclarerPlayEngine::TestPlaysAgainstPlayHistory()
 				int nOldTarget = pOldFinesse->GetTargetPos();
 				if (nNewTarget != nOldTarget)
 				{
-					status << "!5PLTST1! The [" & pNewFinesse->GetName() & "] targets " & PositionToString(nNewTarget) & 
-							  ", while we successfully finessed against " & PositionToString(nOldTarget) &
+					status << "!5PLTST1! The [" & pNewFinesse->GetName() & "] targets " & app_->PositionToString(nNewTarget) &
+							  ", while we successfully finessed against " & app_->PositionToString(nOldTarget) &
 							  " earlier, so delete this play.\n";
 					AdjustPlayCountForDeletedPlay(m_playPlan[nIndex]);
 					m_playPlan.RemovePlay(nIndex, FALSE);
@@ -3367,14 +3367,14 @@ void CDeclarerPlayEngine::TestPlaysAgainstPlayHistory()
 //		ASSERT(pFinesse);
 		int nOpponent = NONE;
 		if (pFinesse->GetTargetPos() == CPlay::IN_DUMMY)
-			nOpponent = GetNextPlayer(m_pPlayer->GetPosition());	// LHO
+			nOpponent = app_->GetNextPlayer(m_pPlayer->GetPosition());	// LHO
 		else	// finessing in hand
 			nOpponent = GetPrevPlayer(m_pPlayer->GetPosition());	// RHO
 		CGuessedHandHoldings* pOpponentHand = m_ppGuessedHands[nOpponent];
 		if (pOpponentHand->IsSuitShownOut(pFinesse->GetSuit()))
 		{
 			status << "!5PLTST4! The [" & pFinesse->GetName() & "] will not suceed because " & 
-					   PositionToString(nOpponent) & " has shown out of the suit, so delete the play.\n";
+        app_->PositionToString(nOpponent) & " has shown out of the suit, so delete the play.\n";
 			AdjustPlayCountForDeletedPlay(m_playPlan[nIndex]);
 			m_playPlan.RemovePlay(nIndex, FALSE);
 			m_discardedPlays.AppendPlay(pPlay);				
@@ -6073,7 +6073,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 						(declarer.GetNumBodyCards() > 0))
 		{
 			// if LHO has shown out of the suit, the finesse is pointless
-			int nLHO = GetNextPlayer(m_pPlayer->GetPosition());
+			int nLHO = app_->GetNextPlayer(m_pPlayer->GetPosition());
 			CGuessedHandHoldings* pLHOHand = m_ppGuessedHands[nLHO];
 			if (!pLHOHand->IsSuitShownOut(nSuit))
 			{
@@ -6474,7 +6474,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			playList << pFinesse;
 			m_numPlannedFinessesInSuit[nSuit]++;
 			status << "5PSFNS30! Can finesse the " & pFinesseCard->GetFullName() & " by leading it from dummy against " &
-					   PositionToString(GetNextPlayer(m_pPartner->GetPosition())) & ".\n";
+        app_->PositionToString(app_->GetNextPlayer(m_pPartner->GetPosition())) & ".\n";
 			// advance the count
 			numFinesses++;
 		}
@@ -6547,7 +6547,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			playList << pFinesse;
 			m_numPlannedFinessesInSuit[nSuit]++;
 			status << "5PSFNS31! Can finesse the " & pFinesseCard->GetFullName() & " by leading it from hand against " &
-					   PositionToString(GetNextPlayer(m_nPosition)) & ".\n";
+        app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ".\n";
 			// advance the count
 			numFinesses++;
 		}
@@ -6644,7 +6644,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				{
 					// oops!
 					status << "5PSFNS42! We'd like to finesse the " & pFinesseCard->GetFullName() & " in dummy against " &
-							   PositionToString(GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
 					delete pGapCards;
 				}
 				else
@@ -6657,7 +6657,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					playList << pFinesse;
 					m_numPlannedFinessesInSuit[nSuit]++;
 					status << "5PSFNS44! Can opportunistically finesse the " & pFinesseCard->GetFullName() & " in dummy against " &
-							   PositionToString(GetNextPlayer(m_pPartner->GetPosition())) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_pPartner->GetPosition())) & ".\n";
 					// advance the count
 					numFinesses++;
 				}
@@ -6743,7 +6743,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				{
 					// oops!
 					status << "5PSFNS46! We'd like to finesse the " & pFinesseCard->GetFullName() & " in hand against " &
-							   PositionToString(GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
 					delete pGapCards;
 				}
 				else
@@ -6756,7 +6756,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					playList << pFinesse;
 					m_numPlannedFinessesInSuit[nSuit]++;
 					status << "5PSFNS48! Can opportunistically finesse the " & pFinesseCard->GetFullName() & " in hand against " &
-							   PositionToString(GetNextPlayer(m_pPartner->GetPosition())) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_pPartner->GetPosition())) & ".\n";
 					// advance the count
 					numFinesses++;
 				}

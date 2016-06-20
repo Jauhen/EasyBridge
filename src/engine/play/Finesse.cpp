@@ -17,6 +17,7 @@
 #include "../Card.h"
 #include "../CardList.h"
 #include "Finesse.h"
+#include "app_interface.h"
 
 
 
@@ -85,7 +86,7 @@ void CFinesse::Init()
 	// check the enemy and location
 	m_nTarget = (m_nEndingHand == CFinesse::IN_DUMMY)? AGAINST_RHO: AGAINST_LHO;
 	if (m_nTarget == AGAINST_LHO)
-		m_nTargetPos = GetNextPlayer(m_nPlayerPosition);
+		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
 	else
 		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
 

@@ -97,4 +97,7 @@ public:
   virtual char GetCardLetter(int i) = 0;
   virtual char GetSuitLetter(int i) = 0;
   virtual const char* SuitToString(int suit) = 0;
+  virtual const CString BidToShortString(int bid) = 0;
+  virtual int GetPlayerTeam(int position) = 0;
+  virtual int GetNextPlayer(int position) = 0;
 };

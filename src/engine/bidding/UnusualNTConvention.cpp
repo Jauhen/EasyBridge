@@ -149,7 +149,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		int nOpeningBid = pDOC->GetOpeningBid();
 		int nOpeningBidder = pDOC->GetOpeningBidder();
 		BOOL bOppMajor = ISMAJOR(nOpeningBid);
-		if (ISBID(nOpeningBid) && (GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
+		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&
 			  (nPartnersBid == BID_2NT) && (bidState.m_numBidsMade == 0) )
 		{

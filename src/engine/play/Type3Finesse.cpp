@@ -88,7 +88,7 @@ CString CType3Finesse::GetFullDescription()
 					   m_pConsumedCard->GetFaceName(),
 //					   app_->SuitToString(m_nSuit),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
-					   PositionToString(m_nTargetPos));
+    app_->PositionToString(m_nTargetPos));
 	// done
 	return strText;
 }

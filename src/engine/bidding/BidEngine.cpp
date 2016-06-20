@@ -757,8 +757,8 @@ void CBidEngine::AssessPosition()
 	//
 	// record text shortcuts
 	//
-	strcpy(szLHO, PositionToString(m_pLHOpponent->GetPosition()));
-	strcpy(szRHO, PositionToString(m_pRHOpponent->GetPosition()));
+	strcpy(szLHO, app_->PositionToString(m_pLHOpponent->GetPosition()));
+	strcpy(szRHO, app_->PositionToString(m_pRHOpponent->GetPosition()));
 
 	//
 	strcpy(szPB,app_->BidToFullString(nPartnersBid));			// partner's bid
@@ -1409,7 +1409,7 @@ void CBidEngine::FillNeuralNetInputs(NVALUE* fInputs, int numInputs)
 		for(int j=0;j<4;j++)
 		{
 			fInputs[nIndex++]		= (NVALUE) app_->GetBidByPlayer(nPos, nRound);
-			nPos = GetNextPlayer(nPos);
+			nPos = app_->GetNextPlayer(nPos);
 		}
 	}
 
@@ -1617,7 +1617,7 @@ BOOL CBidEngine::PlayerOpenedSuit(int nSuit)
 			else if (nPos == nPartnerPos)
 				return FALSE;
 		}
-		nPos = GetNextPlayer(nPos);
+		nPos = app_->GetNextPlayer(nPos);
 	}
 	//
 	return FALSE;
@@ -1664,18 +1664,18 @@ void CBidEngine::RecordBid(int nPos, int nBid)
 		if (nBid != BID_PASS)
 		{
 			if ((nBid == BID_DOUBLE) || (nBid == BID_REDOUBLE))
-				strTemp.Format("%s %s.",PositionToString(nPos),
+				strTemp.Format("%s %s.", app_->PositionToString(nPos),
 				((nBid == BID_DOUBLE)? "doubles" : "redoubles"));
 			else
-				strTemp.Format("%s bids %s.",PositionToString(nPos),
-										   BidToShortString(nBid));
+				strTemp.Format("%s bids %s.", app_->PositionToString(nPos),
+										   app_->BidToShortString(nBid));
 			// see if this is partner opening the bidding for the team
 			if ((app_->GetPlayer(nPos) == m_pPartner) && (!m_bOpenedBiddingForTeam))
 				m_bPartnerOpenedForTeam = TRUE;
 		}
 		else
 		{
-			strTemp.Format("%s passes.",PositionToString(nPos));
+			strTemp.Format("%s passes.", app_->PositionToString(nPos));
 		}
 		TraceNH(strTemp);
 	} 
@@ -1698,9 +1698,9 @@ void CBidEngine::BiddingFinished()
 	app_->SuspendHints();
 	CString strLine;
 	strLine.Format("Bidding finished; contract is %s.  Declarer is %s; %s leads.",
-					ContractToFullString(app_->GetContract(), app_->GetContractModifier()),
-					PositionToString(app_->GetDeclarerPosition()),
-					PositionToString(app_->GetRoundLead()));
+					app_->ContractToFullString(app_->GetContract(), app_->GetContractModifier()),
+    app_->PositionToString(app_->GetDeclarerPosition()),
+    app_->PositionToString(app_->GetRoundLead()));
 	strLine += "\n=======================";
 	TraceNH(strLine);
 	app_->ResumeHints();
@@ -2421,7 +2421,7 @@ BOOL CBidEngine::TestForPenaltyDouble()
 		return FALSE;
 
 	// see which side made the last bid
-	if (app_->GetLastValidBidTeam() == GetPlayerTeam(m_pPlayer->GetPosition()))
+	if (app_->GetLastValidBidTeam() == app_->GetPlayerTeam(m_pPlayer->GetPosition()))
 		return FALSE;	// can't double our own contract
 
 	// make sure a valid bid was indeed made

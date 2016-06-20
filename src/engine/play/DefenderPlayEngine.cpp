@@ -416,8 +416,8 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 	if (nRound == 0)
 	{
 		// this is the opening lead
-		status << "2PLYLEAD! Making opening lead as " & PositionToString(nPlayerPos) &
-				  " against a contract of " & ContractToFullString(pDOC->GetContract()) & ".\n";
+		status << "2PLYLEAD! Making opening lead as " & app_->PositionToString(nPlayerPos) &
+				  " against a contract of " & app_->ContractToFullString(pDOC->GetContract(), 0) & ".\n";
 		// review partner's bidding history
 		nPartnersSuit = ReviewBiddingHistory();
 
@@ -867,7 +867,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					 // also stop developing the suit if partner and either N/S 
 					 // show out (i.e., the opponents have no entries)
 					 BOOL bPartnerShownOut = m_ppGuessedHands[m_nPartnerPosition]->IsSuitShownOut(m_nPrioritySuit);
-					 BOOL bLHOShowOut = m_ppGuessedHands[GetNextPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
+					 BOOL bLHOShowOut = m_ppGuessedHands[app_->GetNextPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
 					 BOOL bRHOShowOut = m_ppGuessedHands[GetPrevPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
 					 if ( (bPartnerShownOut && bLHOShowOut && !bRHOShowOut) ||
 							(bPartnerShownOut && bLHOShowOut && !bRHOShowOut) )
@@ -2171,7 +2171,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 	CPlayer* pDummy = pDOC->GetDummyPlayer();
 	int nTopPos;
 	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
-	CString strTopCardPos = PositionToString(nTopPos);
+	CString strTopCardPos = app_->PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
 	int nCurrentRound = pDOC->GetPlayRound();
 	int nCurrentSeat = pDOC->GetNumCardsPlayedInRound() + 1;

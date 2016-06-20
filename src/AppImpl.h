@@ -248,5 +248,17 @@ public:
   virtual const char* SuitToString(int suit) {
     return ::SuitToString(suit);
   }
+
+  virtual const CString BidToShortString(int bid) {
+    return ::BidToShortString(bid);
+  }
+
+  virtual int GetPlayerTeam(int position) {
+    return ::GetPlayerTeam(position);
+  }
+
+  virtual int GetNextPlayer(int position) {
+    return ::GetNextPlayer(position);
+  }
 };
 

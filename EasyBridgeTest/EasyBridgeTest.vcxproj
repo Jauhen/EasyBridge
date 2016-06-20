@@ -188,7 +188,6 @@
     <ClInclude Include="..\src\engine\CombinedSuitHoldings.H" />
     <ClInclude Include="..\src\engine\Deck.H" />
     <ClInclude Include="..\src\engine\DisplayHoldings.H" />
-    <ClInclude Include="..\src\engine\GameRecord.h" />
     <ClInclude Include="..\src\engine\GuessedCard.H" />
     <ClInclude Include="..\src\engine\GuessedCardHoldings.H" />
     <ClInclude Include="..\src\engine\GuessedHandHoldings.H" />
@@ -262,7 +261,6 @@
     <ClCompile Include="..\src\engine\CombinedSuitHoldings.cpp" />
     <ClCompile Include="..\src\engine\Deck.cpp" />
     <ClCompile Include="..\src\engine\DisplayHoldings.cpp" />
-    <ClCompile Include="..\src\engine\GameRecord.cpp" />
     <ClCompile Include="..\src\engine\GuessedCard.CPP" />
     <ClCompile Include="..\src\engine\GuessedCardHoldings.cpp" />
     <ClCompile Include="..\src\engine\GuessedHandHoldings.cpp" />

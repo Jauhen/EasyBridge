@@ -94,7 +94,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
-	CString strRHO = PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
+	CString strRHO = app_->PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
 	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//

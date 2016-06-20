@@ -188,7 +188,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		int nOpeningBid = pDOC->GetOpeningBid();
 		int nOpeningBidder = pDOC->GetOpeningBidder();
 		BOOL bLHOMajor = ISMAJOR(nOpeningBid);
-		if (ISBID(nOpeningBid) && (GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
+		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&
 			  (nPartnersSuit == bidState.nLHOSuit) && (nPartnersBidLevel == 2) &&
 			  (bidState.m_numBidsMade == 0) )
