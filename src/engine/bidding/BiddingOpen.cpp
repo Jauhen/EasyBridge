@@ -19,7 +19,6 @@
 #include "app_interface.h"
 
 
-
 //
 //---------------------------------------------------------------
 //
@@ -66,7 +65,7 @@ int CBidEngine::MakeOpeningBid()
 	NTMax[2] = app_->GetCurrentConventionSet()->GetValue(tn3NTRangeMaxPts);
 
 	//
-	if ((bBalanced) && (fCardPts >= OPEN_PTS(NTMin[0]))) 
+	if ((bBalanced) && (fCardPts >= app_->OpenPoints(NTMin[0]))) 
 	{
 		//
 		status << "A00! Have " & fCardPts & " HCP's with a balanced hand.\n";
@@ -91,7 +90,7 @@ int CBidEngine::MakeOpeningBid()
 		}
 
 		// check range for 1NT
-		if ((fCardPts >= OPEN_PTS(NTMin[0])) && (fCardPts <= NTMax[0])) 
+		if ((fCardPts >= app_->OpenPoints(NTMin[0])) && (fCardPts <= NTMax[0])) 
 		{
 			// open 1NT
 			m_nBid = BID_1NT;
@@ -99,7 +98,7 @@ int CBidEngine::MakeOpeningBid()
 			return ValidateBid(m_nBid);
 			
 		} 
-		else if ((fCardPts > OPEN_PTS(NTMax[0])) && (fCardPts < NTMin[1])) 
+		else if ((fCardPts > app_->OpenPoints(NTMax[0])) && (fCardPts < NTMin[1])) 
 		{
 			// in-between 1 & 2 situation; bid interim suit
 			m_nNextIntendedBid = NIB_JUMP_NT;
@@ -131,7 +130,7 @@ int CBidEngine::MakeOpeningBid()
 			return ValidateBid(m_nBid);
 
 		} 
-		else if ((fCardPts >= OPEN_PTS(NTMin[1])) && (fCardPts <= NTMax[1])) 
+		else if ((fCardPts >= app_->OpenPoints(NTMin[1])) && (fCardPts <= NTMax[1])) 
 		{
 			// open 2NT
 			m_nBid = BID_2NT;
@@ -140,7 +139,7 @@ int CBidEngine::MakeOpeningBid()
 			return ValidateBid(m_nBid);
 
 		} 
-		else if ((fCardPts >= OPEN_PTS(NTMax[1])) && (NTMin[2] < 0)) 
+		else if ((fCardPts >= app_->OpenPoints(NTMax[1])) && (NTMin[2] < 0)) 
 		{
 
 			// > pts for 2NT, but 3NT opening not allowed
@@ -151,7 +150,7 @@ int CBidEngine::MakeOpeningBid()
 			return ValidateBid(m_nBid);
 
 		} 
-		else if ((fCardPts > OPEN_PTS(NTMax[1])) && (fCardPts < NTMin[2])) 
+		else if ((fCardPts > app_->OpenPoints(NTMax[1])) && (fCardPts < NTMin[2])) 
 		{
 
 			// in-between 2 & 3 situation; bid 2 of interim suit
@@ -178,7 +177,7 @@ int CBidEngine::MakeOpeningBid()
 			return ValidateBid(m_nBid);
 
 		} 
-		else if ((fCardPts >= OPEN_PTS(NTMin[2])) && (fCardPts <= NTMax[2])) 
+		else if ((fCardPts >= app_->OpenPoints(NTMin[2])) && (fCardPts <= NTMax[2])) 
 		{
 			// open 3NT
 			m_nBid = BID_3NT;
@@ -233,14 +232,14 @@ escape1:
 	nSuit = GetBestOpeningSuit();
 
 	// case 1:  14+ points in high cards
-	if (fCardPts >= OPEN_PTS(14)) 
+	if (fCardPts >= app_->OpenPoints(14)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E01! Have " & fCardPts & " points in high cards, so bid " & app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	// case 2:  13+ HCP's && 2 QT's
-	if ((fCardPts >= OPEN_PTS(13)) && (numQuickTricks >= 2)) 
+	if ((fCardPts >= app_->OpenPoints(13)) && (numQuickTricks >= 2)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E02! Have " & fCardPts & " points in high cards and " & numQuickTricks & 
@@ -248,7 +247,7 @@ escape1:
 		return ValidateBid(m_nBid);;
 	}
 	// case 3:  12+ HCP's, 2 QT's, & a rebiddable suit
-	if ((fCardPts >= OPEN_PTS(12)) && (numQuickTricks >= 2) && 
+	if ((fCardPts >= app_->OpenPoints(12)) && (numQuickTricks >= 2) && 
 								(numRebiddableSuits > 0)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
@@ -258,7 +257,7 @@ escape1:
 		return ValidateBid(m_nBid);;
 	}
 	// case 4:  12+ HCP's, 2 QT's, & a 5-card suit
-	if ((fCardPts >= OPEN_PTS(12)) && (numQuickTricks >= 2) && 
+	if ((fCardPts >= app_->OpenPoints(12)) && (numQuickTricks >= 2) && 
 							(m_pHand->GetNumSuitsOfAtLeast(5) > 0)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
@@ -268,7 +267,7 @@ escape1:
 		return ValidateBid(m_nBid);
 	}
 	// case 5:  12+ HCP's & a balanced dist in Weak NTs
-	if ((fCardPts >= OPEN_PTS(12)) && (bBalanced) && 
+	if ((fCardPts >= app_->OpenPoints(12)) && (bBalanced) && 
 				(app_->GetCurrentConventionSet()->GetValue(tn1NTRange) == 0)) 
 	{
 		m_nBid = BID_1NT;
@@ -277,7 +276,7 @@ escape1:
 		return ValidateBid(m_nBid);
 	}
 	// case 6:  10+ HCPs opening in 3rd or 4th seat & a good suit
-	if ((fCardPts >= OPEN_PTS(10)) && 
+	if ((fCardPts >= app_->OpenPoints(10)) && 
 		((nBiddingOrder == 2) || (nBiddingOrder == 3)) &&
 									(numOpenableSuits > 0)) 
 	{
@@ -289,7 +288,7 @@ escape1:
 		return ValidateBid(m_nBid);
 	}
 	// case 7:  15+ Total points and 10 HCPs, with 2 QTs
-	if ((fPts >= OPEN_PTS(15)) && (fCardPts >= OPEN_PTS(10)) && (numQuickTricks >= 2)) 
+	if ((fPts >= app_->OpenPoints(15)) && (fCardPts >= app_->OpenPoints(10)) && (numQuickTricks >= 2)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E08! Have " & fCardPts & "/" & fPts & " total points with " 
@@ -299,7 +298,7 @@ escape1:
 	//
 	// case 8:  14+ Total points with 10+ HCPs, 2 QTs 
 	// and a rebiddable suit
-	if ((fPts >= OPEN_PTS(14)) && (fCardPts >= OPEN_PTS(10)) && 
+	if ((fPts >= app_->OpenPoints(14)) && (fCardPts >= app_->OpenPoints(10)) && 
 		(numQuickTricks >= 2) && (numRebiddableSuits > 0)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
@@ -311,7 +310,7 @@ escape1:
 	//
 	// case 9:  13+ Total points with 10+ HCPs, 2 QTs and a 
 	// rebiddable suit of 6+ cards
-	if ((fPts >= OPEN_PTS(13)) && (fCardPts >= OPEN_PTS(10)) && 
+	if ((fPts >= app_->OpenPoints(13)) && (fCardPts >= app_->OpenPoints(10)) && 
 		(numQuickTricks >= 2) && (numRebiddableSuits > 0) && 
 		(numPrefSuitCards >= 6) &&
 		(nSuitStrength[nPrefSuit] > SS_OPENABLE)) 
@@ -336,7 +335,7 @@ escape1:
 	// option 1:  11+ HCPs with 2 QTs, a rebiddable suit, &
 	// length in both majors
 	//
-	if ((nAllowed1Opens & OB_11_HCPS_RBS_LM) && (fCardPts >= OPEN_PTS(11)) && 
+	if ((nAllowed1Opens & OB_11_HCPS_RBS_LM) && (fCardPts >= app_->OpenPoints(11)) && 
 		(numQuickTricks >= 2) && (numRebiddableSuits > 0) &&
 		(numCardsInSuit[HEARTS] >= 4) && (numCardsInSuit[SPADES] >= 4)) 
 	{
@@ -349,7 +348,7 @@ escape1:
 	//
 	// option 2:  11+ HCPs with 2 QTs and a 6-card suit
 	//
-	if ((nAllowed1Opens & OB_11_HCPS_6CS) && (fCardPts >= OPEN_PTS(11)) && 
+	if ((nAllowed1Opens & OB_11_HCPS_6CS) && (fCardPts >= app_->OpenPoints(11)) && 
 				(numQuickTricks >= 2) && 
 				(m_pHand->GetNumSuitsOfAtLeast(6) > 0)) 
 	{
@@ -364,7 +363,7 @@ escape1:
 	// good suit
 	//
 	if ((nAllowed1Opens & OB_14_TCPS_GS) && 
-				(fPts >= OPEN_PTS(14)) && (fCardPts >= OPEN_PTS(10)) && 
+				(fPts >= app_->OpenPoints(14)) && (fCardPts >= app_->OpenPoints(10)) && 
 				(numQuickTricks >= 2) && (numSolidSuits > 0)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
@@ -378,7 +377,7 @@ escape1:
 	// long suit (6+ cards)
 	//
 	if ((nAllowed1Opens & OB_14_TCPS_LS) && 
-		(fPts >= OPEN_PTS(14)) && (fCardPts >= OPEN_PTS(10)) && 
+		(fPts >= app_->OpenPoints(14)) && (fCardPts >= app_->OpenPoints(10)) && 
 		(numQuickTricks >= 2) && 
 		(m_pHand->GetNumSuitsOfAtLeast(6) > 0)) 
 	{
@@ -393,7 +392,7 @@ escape1:
 	// and a 6-card suit
 	//
 	if ((nAllowed1Opens & OB_13_TCPS_LS) && 
-		(fPts >= OPEN_PTS(13)) && (fCardPts >= OPEN_PTS(10)) && 
+		(fPts >= app_->OpenPoints(13)) && (fCardPts >= app_->OpenPoints(10)) && 
 		(numQuickTricks >= 2) && 
 		(m_pHand->GetNumSuitsOfAtLeast(6) > 0)) 
 	{
@@ -407,7 +406,7 @@ escape1:
 /*
 	//
 	// special case:  13 pts + 1 for every 0.5 QTs missing
-	if ((fPts > OPEN_PTS(13)) && (numQuickTricks < 2)) 
+	if ((fPts > app_->OpenPoints(13)) && (numQuickTricks < 2)) 
 	{
 		int nRqmt = 13 + (int)(((2.0 - numQuickTricks)*2));
 		if (fPts >= nRqmt) 

@@ -920,8 +920,8 @@ void CBidEngine::AdjustPartnershipPoints(double fPartnersMin, double fPartnersMa
 	{
 		if (bAdjustPoints)
 		{
-			m_fPartnersMin = OPEN_PTS(fPartnersMin);
-			m_fPartnersMax = OPEN_PTS(fPartnersMax);
+			m_fPartnersMin = app_->OpenPoints(fPartnersMin);
+			m_fPartnersMax = app_->OpenPoints(fPartnersMax);
 		}
 		else
 		{

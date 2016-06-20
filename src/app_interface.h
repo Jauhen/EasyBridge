@@ -31,6 +31,9 @@ public:
   virtual double SmallSlamPts() = 0;
   virtual double GrandSlamPts() = 0;
   virtual CConventionSet* GetCurrentConventionSet() = 0;
+  virtual double OpenPoints(double points) = 0;
+  virtual double PointCount(double points) = 0;
+  virtual int GetMinimumOpeningValue(CPlayer* player) const = 0;
 
 
   //////////////////////////////////////////////////////////////////////////

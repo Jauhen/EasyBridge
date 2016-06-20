@@ -164,8 +164,8 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	//
 	 
 	// first state expectations
-	bidState.m_fPartnersMin = OPEN_PTS(6);
-	bidState.m_fPartnersMax = OPEN_PTS(9);
+	bidState.m_fPartnersMin = app_->OpenPoints(6);
+	bidState.m_fPartnersMax = app_->OpenPoints(9);
 	status << "SHUTR0! Partner made a preemptive " & bidState.szPB & 
 			  " bid, showing a " & 
 			  ((bidState.nPartnersBidLevel==3)? 7:(bidState.nPartnersBidLevel==4)? 8:9) &

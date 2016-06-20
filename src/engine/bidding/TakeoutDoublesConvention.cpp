@@ -51,7 +51,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 	// test conditions 1,2, 3, & 4
 	if ( ((bidState.nLHOBid > BID_PASS) || (bidState.nRHOBid > BID_PASS)) &&
 		 (bidState.nPartnersBid <= BID_PASS) &&
-		 (bidState.fCardPts >= OPEN_PTS(12)) &&
+		 (bidState.fCardPts >= app_->OpenPoints(12)) &&
  		 ((bidState.m_numBidTurns == 0) ||
 		  ((bidState.m_numBidTurns == 1) && (bidState.m_nBid == BID_DOUBLE))) )
 	{
@@ -111,7 +111,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 		return FALSE;
 
 	// if the opponents bid at the 3-level, we need 13+ pts
-	if ((nOppBidLevel == 3) && (bidState.fCardPts < OPEN_PTS(13)))
+	if ((nOppBidLevel == 3) && (bidState.fCardPts < app_->OpenPoints(13)))
 		return FALSE;
 
 	// test condition #6
@@ -124,7 +124,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 		 (bidState.GetConventionStatus(this) == CONV_INVOKED))
 	{
 		 // need 14+ HPCs
-		 if (bidState.fCardPts < OPEN_PTS(14))
+		 if (bidState.fCardPts < app_->OpenPoints(14))
 		 {
 			 // spout a message here?
 			return FALSE;
@@ -143,9 +143,9 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 	int n3NTMax = app_->GetCurrentConventionSet()->GetNTRangeMax(3);
 	double fCardPts = bidState.fCardPts;
 	if ((bidState.bBalanced) && 
-		(((fCardPts >= OPEN_PTS(n1NTMin)) && (fCardPts <= n1NTMax) && (nOppBidLevel == 1)) ||
-		 ((fCardPts >= OPEN_PTS(n2NTMin)) && (fCardPts <= n2NTMax) && (nOppBidLevel <= 2)) ||
-		 ((fCardPts >= OPEN_PTS(n3NTMin)) && (fCardPts <= n3NTMax) && (nOppBidLevel <= 3))) )
+		(((fCardPts >= app_->OpenPoints(n1NTMin)) && (fCardPts <= n1NTMax) && (nOppBidLevel == 1)) ||
+		 ((fCardPts >= app_->OpenPoints(n2NTMin)) && (fCardPts <= n2NTMax) && (nOppBidLevel <= 2)) ||
+		 ((fCardPts >= app_->OpenPoints(n3NTMin)) && (fCardPts <= n3NTMax) && (nOppBidLevel <= 3))) )
 		return FALSE;
 
 	//
@@ -254,8 +254,8 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			nPartnersPoints += 2;
 		}
 
-		bidState.m_fPartnersMin = OPEN_PTS(nPartnersPoints);
-		bidState.m_fPartnersMax = Min(OPEN_PTS(22),40 - bidState.fCardPts);
+		bidState.m_fPartnersMin = app_->OpenPoints(nPartnersPoints);
+		bidState.m_fPartnersMax = Min(app_->OpenPoints(22),40 - bidState.fCardPts);
 		bidState.m_fMinTPPoints = bidState.fPts + bidState.m_fPartnersMin;
 		bidState.m_fMaxTPPoints = bidState.fPts + bidState.m_fPartnersMax;
 		bidState.m_fMinTPCPoints = bidState.fCardPts + bidState.m_fPartnersMin;
@@ -323,7 +323,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		//
 		// with 6-9.5 pts and a balanced hand, bid 1NT
 		//
-		if ((bidState.bBalanced) && (fCardPts >= OPEN_PTS(6)) && (fCardPts < OPEN_PTS(10)))
+		if ((bidState.bBalanced) && (fCardPts >= app_->OpenPoints(6)) && (fCardPts < app_->OpenPoints(10)))
 		{
 			nBid = BID_1NT;
 			status << "TKOTR20! With " & fCardPts & " HCPs and a balanced hand, respond with " &
@@ -337,7 +337,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		//
 		// else with 0-9.5 pts, bid the longest suit (or a reasonably long major)
 		//
-		if (fPts < OPEN_PTS(10))
+		if (fPts < app_->OpenPoints(10))
 		{
 			// get the longest suit
 			nSuit = hand.GetLongestSuit();
@@ -445,7 +445,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		if (nSuit != NONE)
 		{
 			// jump to game with 13+ pts, or bid at the 3-level with less
-			if (fPts >= OPEN_PTS(13))
+			if (fPts >= app_->OpenPoints(13))
 			{
 				nBid = bidState.GetGameBid(nSuit);
 				status << "TKOTR20! With " & fCardPts & "/" & fPts & 
@@ -471,7 +471,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		if (bidState.bBalanced)
 		{
 			// bid 3NT with >= 13 HCPS and all suits stopped, or 2NT otherwise
-			if (fCardPts >= OPEN_PTS(13)) 
+			if (fCardPts >= app_->OpenPoints(13)) 
 			{
 				if (hand.IsSuitStopped(nEnemySuit) && (nEnemySuit != NOTRUMP))
 				{
@@ -511,7 +511,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		// here, we don't have a good major or a hand worthy of a NT response
 		// with >= 13 pts, bid the enemy suit; with less (10-13), jump in the suit
 		//
-		if ((fPts >= OPEN_PTS(13)) && (nEnemySuit != NOTRUMP))
+		if ((fPts >= app_->OpenPoints(13)) && (nEnemySuit != NOTRUMP))
 		{
 			nBid = MAKEBID(nEnemySuit, nEnemyBidLevel+1);
 			status << "TKOTR50! With " & fCardPts & "/" & fPts & 
@@ -581,7 +581,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		//
 		//
 		// pass with < 20 total minimum pts
-		if (fMinTPPoints < OPEN_PTS(20)) 
+		if (fMinTPPoints < app_->OpenPoints(20)) 
 		{
 			status << "TKOTR62! With a total of only " & 
 					  fMinTPPoints & "-" & fMaxTPPoints &

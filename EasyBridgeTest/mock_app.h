@@ -21,6 +21,10 @@ public:
   MOCK_METHOD0(SmallSlamPts, double());
   MOCK_METHOD0(GrandSlamPts, double());
   MOCK_METHOD0(GetCurrentConventionSet, CConventionSet*());
+  MOCK_METHOD1(OpenPoints, double(double points));
+  MOCK_METHOD1(PointCount, double(double points));
+  MOCK_CONST_METHOD1(GetMinimumOpeningValue, int(CPlayer* player));
+
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));

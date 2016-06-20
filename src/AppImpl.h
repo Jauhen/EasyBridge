@@ -84,6 +84,17 @@ public:
     return pCurrConvSet;
   }
 
+  virtual double OpenPoints(double points) {
+    return points - theApp.GetBiddingAgressiveness()*0.5;
+  }
+
+  virtual double PointCount(double points) {
+    return points - theApp.GetBiddingAgressiveness()*0.5;
+  }
+
+  virtual int GetMinimumOpeningValue(CPlayer* player) const {
+    return theApp.GetMinimumOpeningValue(player);
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
