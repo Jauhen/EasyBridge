@@ -10,7 +10,7 @@
 // CCardLocation
 //
 #include "stdafx.h"
-#include "EasyB.h"
+#include "card_constants.h"
 #include "CardLocation.h"
 
 

@@ -16,14 +16,14 @@
 
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../HandHoldings.h"
 #include "../bidding/BidEngine.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "../Card.h"
 #include "../deck.h"
+#include "app_interface.h"
 /*
 #include "Play.h"
 #include "Cash.h"
@@ -117,13 +117,12 @@ void CPlayEngine::Clear()
 void CPlayEngine::InitNewHand()
 { 
 	// set general status info
-	CEasyBDoc* pDoc = pDOC;
-	m_nContract = pDoc->GetContract();
-	m_nContractModifier = pDoc->GetContractModifier();
-	m_nTrumpSuit = pDoc->GetContractSuit();
+	m_nContract = app_->GetContract();
+	m_nContractModifier = app_->GetContractModifier();
+	m_nTrumpSuit = app_->GetContractSuit();
 	//
-	m_bVulnerable = pDOC->IsTeamVulnerable(m_pPlayer->GetTeam());
-	m_bOpponentsVulnerable = pDoc->IsTeamVulnerable(m_pLHOpponent->GetTeam());
+	m_bVulnerable = app_->IsTeamVulnerable(m_pPlayer->GetTeam());
+	m_bOpponentsVulnerable = app_->IsTeamVulnerable(m_pLHOpponent->GetTeam());
 	if (m_pRHOpponent->IsDeclarer())
 		m_bLHDefender = TRUE;
 	else
@@ -151,13 +150,12 @@ void CPlayEngine::InitNewHand()
 void CPlayEngine::InitSwappedHand()
 { 
 	// set general status info
-	CEasyBDoc* pDoc = pDOC;
-	m_nContract = pDoc->GetContract();
-	m_nContractModifier = pDoc->GetContractModifier();
-	m_nTrumpSuit = pDoc->GetContractSuit();
+	m_nContract = app_->GetContract();
+	m_nContractModifier = app_->GetContractModifier();
+	m_nTrumpSuit = app_->GetContractSuit();
 	//
-	m_bVulnerable = pDOC->IsTeamVulnerable(m_pPlayer->GetTeam());
-	m_bOpponentsVulnerable = pDoc->IsTeamVulnerable(m_pLHOpponent->GetTeam());
+	m_bVulnerable = app_->IsTeamVulnerable(m_pPlayer->GetTeam());
+	m_bOpponentsVulnerable = app_->IsTeamVulnerable(m_pLHOpponent->GetTeam());
 	if (m_pRHOpponent->IsDeclarer())
 		m_bLHDefender = TRUE;
 	else
@@ -192,8 +190,8 @@ void CPlayEngine::RestartPlay()
 //
 CHandHoldings& CPlayEngine::GetDummyHand()
 {
-	ASSERT(pDOC->IsDummyExposed());
-	CHandHoldings& dummyHand = pDOC->GetDummyPlayer()->GetHand();
+	ASSERT(app_->IsDummyExposed());
+	CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
 	return dummyHand;
 }
 
@@ -204,9 +202,9 @@ CHandHoldings& CPlayEngine::GetDummyHand()
 //
 CSuitHoldings& CPlayEngine::GetDummySuit(int nSuit)
 {
-	ASSERT(pDOC->IsDummyExposed());
+	ASSERT(app_->IsDummyExposed());
 	ASSERT(ISSUIT(nSuit));
-	CHandHoldings& dummyHand = pDOC->GetDummyPlayer()->GetHand();
+	CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
 	return dummyHand.GetSuit(nSuit);
 }
 
@@ -241,11 +239,11 @@ void CPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 */
 	if (nPos == m_nPosition)
 		status << "4PLAY! We" & 
-				  ((pDOC->GetNumCardsPlayedInRound() == 1)? " lead" : " play") &
+				  ((app_->GetNumCardsPlayedInRound() == 1)? " lead" : " play") &
 				  " the " & pCard->GetName() & ".\n";
 	else
 		status << "4PLAY! " & app_->PositionToString(nPos) &
-				  ((pDOC->GetNumCardsPlayedInRound() == 1)? " leads" : " plays") &
+				  ((app_->GetNumCardsPlayedInRound() == 1)? " leads" : " plays") &
 				  " the " & pCard->GetName() & ".\n";
 
 	// record the card played by the specified player
@@ -325,19 +323,19 @@ void CPlayEngine::RecordRoundComplete(int nPos, CCard* pCard)
 void CPlayEngine::RecordHandComplete(int nResult)
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	int nTeam = pDOC->GetDeclaringTeam();
+	int nTeam = app_->GetDeclaringTeam();
 	if (nResult > 0)
 	{
-		status << "3RESULT! " & TeamToString(nTeam) & " made " & 
+		status << "3RESULT! " & app_->TeamToString(nTeam) & " made " & 
 				   nResult & " overtrick" & ((nResult > 1)? "s" : "") & ".\n";
 	}
 	else if (nResult < 0)
 	{
-		status << "3RESULT! " & TeamToString(nTeam) & " made the contract.\n";
+		status << "3RESULT! " & app_->TeamToString(nTeam) & " made the contract.\n";
 	}
 	else
 	{
-		status << "3RESULT! " & TeamToString(nTeam) & " were set " & 
+		status << "3RESULT! " & app_->TeamToString(nTeam) & " were set " & 
 				  -nResult & " trick" & ((nResult < -1)? "s" : "") & ".\n";
 	}
 }
@@ -356,13 +354,13 @@ void CPlayEngine::RecordSpecialEvent(int nCode, int nParam1, int nParam2, int nP
 	//
 	switch(nCode)
 	{
-		case CEasyBDoc::EVENT_CLAIMED:
+  case 1: //CEasyBDoc::EVENT_CLAIMED:
 //			status << "3PLAYCL! " & TeamToString(nTeam) & " has claimed the remaining " &
 			status << "3PLAYCL! " & app_->PositionToString(nPlayer) & " has claimed the remaining " &
 				      numTricks & " tricks.\n";
 			break;
 
-		case CEasyBDoc::EVENT_CONCEDED:
+    case 2: //CEasyBDoc::EVENT_CONCEDED:
 //			status << "3PLAYCN! " & TeamToString(nTeam) & " has conceded the remaining " &
 			status << "3PLAYCN! " & app_->PositionToString(nPlayer) & " has conceded the remaining " &
 				      numTricks & " tricks.\n";
@@ -384,7 +382,7 @@ void CPlayEngine::RecordCardsPlayed()
 	for(int i=0;i<4;i++)
 	{
 		// record the card played by this player
-		CCard* pPlayedCard = pDOC->GetCurrentTrickCard(i);
+		CCard* pPlayedCard = app_->GetCurrentTrickCard(i);
 		CGuessedHandHoldings* pHand = m_ppGuessedHands[i];
 		CGuessedCard* pCard = new CGuessedCard(app_, pPlayedCard,	// card
 											   FALSE,		// not outstanding
@@ -417,7 +415,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 
 		// see if the player showed out
 		CPlayerStatusDialog& status = *m_pStatusDlg;
-		CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+		CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 		if (pCard)
 		{
 			int nSuitLed = pCardLed->GetSuit();
@@ -500,7 +498,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 
 			// also, if this is the dummy, and the dummy plays his last card 
 			// in the suit, he has effectively shown out
-			CPlayer* pDummy = pDOC->GetDummyPlayer();
+			CPlayer* pDummy = app_->GetDummyPlayer();
 			if ((nPos == pDummy->GetPosition()) && (pDummy->AreCardsExposed()))
 			{
 				if ((pCard->GetSuit() == nSuitLed) && 
@@ -516,8 +514,8 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 
 	// special code -- if dummy has just been laid down, mark a suit as shown
 	// out if dummy is void in the suit
-	CPlayer* pDummy = pDOC->GetDummyPlayer();
-	int nRound = pDOC->GetPlayRound();
+	CPlayer* pDummy = app_->GetDummyPlayer();
+	int nRound = app_->GetPlayRound();
 	if ((nRound == 0) && (nPos == pDummy->GetPosition()) && (pDummy->AreCardsExposed()))
 	{
 		CHandHoldings& dummy = pDummy->GetHand();
@@ -585,7 +583,7 @@ void CPlayEngine::AdjustHoldingsCount(CCard* pCard)
 //
 CCard* CPlayEngine::PlayCard()
 {
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CCard* pCard = NULL;
 	switch(nOrdinal)
 	{
@@ -614,7 +612,7 @@ CCard* CPlayEngine::PlayCard()
 	else
 	{
 		// declarer  -- may be playing for dummy or self
-		if (pDOC->GetCurrentPlayer() == m_pPartner)
+		if (app_->GetCurrentPlayer() == m_pPartner)
 			ASSERT(m_pPartnersHand->HasCard(pCard));
 		else
 			ASSERT(m_pHand->HasCard(pCard));
@@ -657,12 +655,12 @@ CCard* CPlayEngine::PlaySecond()
 	status << "5PLAY2! Playing second, using default player logic.\n";
 
 	// get play info
-	int nDummyPos = pDOC->GetDummyPosition();
-	CCard* pCardLed = pDOC->GetCurrentTrickCardLed();
+	int nDummyPos = app_->GetDummyPosition();
+	CCard* pCardLed = app_->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
-	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard();
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard();
+	int nTrumpSuit = app_->GetTrumpSuit();
 	CSuitHoldings& suit = m_pHand->GetSuit(nSuitLed);
 	// card to play
 	CCard* pCard = NULL;
@@ -710,7 +708,7 @@ CCard* CPlayEngine::PlaySecond()
 				// but first see if we're playing ahead of dummy (dummy is to our left), 
 				// and dummy is also void in the suit
 				CGuessedHandHoldings* pDummyHand = m_pPlayer->GetGuessedHand(nDummyPos);
-				if ((m_pLHOpponent == pDOC->GetDummyPlayer()) &&
+				if ((m_pLHOpponent == app_->GetDummyPlayer()) &&
 					(pDummyHand->GetSuit(nSuitLed).GetNumRemainingCards() == 0) &&
 					(pDummyHand->GetSuit(nTrumpSuit).GetNumRemainingCards() > 0))
 				{
@@ -742,7 +740,7 @@ CCard* CPlayEngine::PlaySecond()
 		{
 			// discard
 			pCard = GetDiscard();
-			status << "PLY2Y! We have no " & SuitToString(nSuitLed) & ", so discard the " & pCard->GetName() & ".\n";
+			status << "PLY2Y! We have no " & app_->SuitToString(nSuitLed) & ", so discard the " & pCard->GetName() & ".\n";
 		}
 	}
 	//
@@ -802,19 +800,19 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 //	status << "2PLAY3! Playing best card.\n";
 
 	// get play info
-	CCard* pCurrentCard = pDOC->GetCurrentTrickCardLed();
+	CCard* pCurrentCard = app_->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
-	CCard* pCurrTopCard = pDOC->GetCurrentTrickHighCard(&nTopPos);
+	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = app_->PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
-	int nCurrentRound = pDOC->GetPlayRound();
-	int nCurrentSeat = pDOC->GetNumCardsPlayedInRound() + 1;
-	CCard* pPartnersCard = pDOC->GetCurrentTrickCard(m_pPartner->GetPosition());
+  int nCurrentRound = app_->GetPlayRound();
+	int nCurrentSeat = app_->GetNumCardsPlayedInRound() + 1;
+	CCard* pPartnersCard = app_->GetCurrentTrickCard(m_pPartner->GetPosition());
 	if (pPartnersCard == pCurrTopCard)
 		bPartnerHigh = TRUE;
 	// 
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	int nTrumpSuit = app_->GetTrumpSuit();
 	int numCardsInSuitLed = m_pHand->GetNumCardsInSuit(nSuitLed);
 	// card to play
 	CCard* pCard = NULL;
@@ -822,7 +820,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 	// 
 	// first see if somebody trumped in this hand
 	//
-	if ((pDOC->WasTrumpPlayed()) && (nTrumpSuit != nSuitLed))
+	if ((app_->WasTrumpPlayed()) && (nTrumpSuit != nSuitLed))
 	{
 		// a trump has been played 
 		// see whether it was played by partner or by an opponent
@@ -941,7 +939,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 							{
 								// dummy has the top card and we can beat it
 								status << "PLAYB38A! Playing third ahead of dummy, need to beat dummy's " & 
-										  CardValToString(nDummyTopCard) & ".\n";
+										  app_->CardValToString(nDummyTopCard) & ".\n";
 							}
 							else
 							{
@@ -1008,7 +1006,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 			{
 				// opponents have the high card (non-trump) -- so slam 'em
 				pCard = m_pHand->GetSuit(nTrumpSuit).GetBottomCard();
-				status << "PLAYB55! With no cards in " & SuitToString(nSuitLed) & 
+				status << "PLAYB55! With no cards in " & app_->SuitToString(nSuitLed) & 
 						  ", trump with the " & pCard->GetName() & ".\n";
 			}
 		}
@@ -1037,7 +1035,7 @@ CCard* CPlayEngine::GetLeadCard()
 	// default implementation 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	CCard* pLeadCard = NULL;
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	int nTrumpSuit = app_->GetTrumpSuit();
 	
 	// look to see if we have any winners
 	if (m_pHand->GetNumWinners() > 0)
@@ -1067,7 +1065,7 @@ CCard* CPlayEngine::GetLeadCard()
 
 	// if we have a card in an unbid suit, lead from that suit.
 	CArray<int,int> suitsUnbid;
-	int numSuitsUnbid = pDOC->GetSuitsUnbid(suitsUnbid);
+	int numSuitsUnbid = app_->GetSuitsUnbid(suitsUnbid);
 	for(int i=0;i<numSuitsUnbid;i++)
 	{
 		CSuitHoldings& suit = m_pHand->GetSuit(suitsUnbid[i]);
@@ -1274,8 +1272,8 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 	// but only if indicated, _and_ dummy's cards are visible
 	if (!bCountDummy)		// i.e, don't count dummy's cards as outstanding
 	{
-		CPlayer* pDummy = pDOC->GetDummyPlayer();
-		if (pDummy->AreCardsExposed() && (GetPlayerPosition() != pDOC->GetDummyPosition()))
+		CPlayer* pDummy = app_->GetDummyPlayer();
+		if (pDummy->AreCardsExposed() && (GetPlayerPosition() != app_->GetDummyPosition()))
 		{
 			CSuitHoldings& dummySuit = pDummy->GetHand().GetSuit(nSuit);
 			for(int i=0;i<dummySuit.GetNumCards();i++)
@@ -1385,9 +1383,9 @@ int CPlayEngine::GetMinCardsInSuit(int nPlayer, int nSuit) const
 		return suit.GetNumMinRemainingCards();
 
 	// else see if the player is dummy & his cards are visible
-	if (nPlayer == pDOC->GetDummyPosition() && pDOC->IsDummyExposed())
+	if (nPlayer == app_->GetDummyPosition() && app_->IsDummyExposed())
 	{
-		CHandHoldings& hand = pDOC->GetDummyPlayer()->GetHand();
+		CHandHoldings& hand = app_->GetDummyPlayer()->GetHand();
 		return hand.GetNumCardsInSuit(nSuit);
 	}
 
@@ -1476,9 +1474,9 @@ int CPlayEngine::GetMaxCardsInSuit(int nPlayer, int nSuit) const
 		return suit.GetNumMaxRemainingCards();
 
 	// else see if the player is dummy & his cards are visible
-	if (nPlayer == pDOC->GetDummyPosition() && pDOC->IsDummyExposed())
+	if (nPlayer == app_->GetDummyPosition() && app_->IsDummyExposed())
 	{
-		CHandHoldings& hand = pDOC->GetDummyPlayer()->GetHand();
+		CHandHoldings& hand = app_->GetDummyPlayer()->GetHand();
 		return hand.GetNumCardsInSuit(nSuit);
 	}
 
@@ -1490,7 +1488,7 @@ int CPlayEngine::GetMaxCardsInSuit(int nPlayer, int nSuit) const
 	nMax -= m_pHand->GetInitialHand().GetNumCardsOfSuit(nSuit);
 
 	// deduct dummy's suit holdings, if visible
-	CPlayer* pDummy = pDOC->GetDummyPlayer();
+	CPlayer* pDummy = app_->GetDummyPlayer();
 	if (pDummy->AreCardsExposed())
 	{
 		CCardHoldings& initialHand = pDummy->GetHand().GetInitialHand();
@@ -1538,9 +1536,9 @@ int CPlayEngine::GetMinStartingCardsInSuit(int nPlayer, int nSuit) const
 	VERIFY((nPlayer >= 0) && (nPlayer <= 3) && ISSUIT(nSuit));
 
 	// see if the player is dummy & his cards are visible
-	if (nPlayer == pDOC->GetDummyPosition() && pDOC->IsDummyExposed())
+	if (nPlayer == app_->GetDummyPosition() && app_->IsDummyExposed())
 	{
-		CHandHoldings& hand = pDOC->GetDummyPlayer()->GetHand();
+		CHandHoldings& hand = app_->GetDummyPlayer()->GetHand();
 		return hand.GetInitialHand().GetNumCardsOfSuit(nSuit);
 	}
 
@@ -1563,9 +1561,9 @@ int CPlayEngine::GetMaxStartingCardsInSuit(int nPlayer, int nSuit) const
 	VERIFY((nPlayer >= 0) && (nPlayer <= 3) && ISSUIT(nSuit));
 
 	// see if the player is dummy & his cards are visible
-	if (nPlayer == pDOC->GetDummyPosition() && pDOC->IsDummyExposed())
+	if (nPlayer == app_->GetDummyPosition() && app_->IsDummyExposed())
 	{
-		CHandHoldings& hand = pDOC->GetDummyPlayer()->GetHand();
+		CHandHoldings& hand = app_->GetDummyPlayer()->GetHand();
 		return hand.GetInitialHand().GetNumCardsOfSuit(nSuit);
 	}
 
@@ -1590,13 +1588,12 @@ int CPlayEngine::GetMaxStartingCardsInSuit(int nPlayer, int nSuit) const
 //
 void CPlayEngine::AssessPosition()
 {
-	CEasyBDoc* pDoc = pDOC;
-	m_nRound = pDoc->GetNumTricksPlayed();
-	m_numCardsPlayed = pDoc->GetNumCardsPlayedInRound();
+	m_nRound = app_->GetNumTricksPlayed();
+	m_numCardsPlayed = app_->GetNumCardsPlayedInRound();
 	if (m_numCardsPlayed > 0)
 	{
 		m_nRoundLead = app_->GetRoundLead();
-		m_pLeadCard = pDoc->GetCurrentTrickCard(m_nRoundLead);
+		m_pLeadCard = app_->GetCurrentTrickCard(m_nRoundLead);
 		m_nLeadSuit = m_pLeadCard->GetSuit();
 		m_nLeadFaceValue = m_pLeadCard->GetFaceValue();
 	}

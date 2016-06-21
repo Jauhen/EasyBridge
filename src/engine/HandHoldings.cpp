@@ -12,8 +12,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "HandHoldings.h"
 #include "Player.h"
@@ -227,8 +226,8 @@ void CHandHoldings::FormatHoldingsString()
 	CString strTemp,strTemp2;
 	for(int i=3;i>=0;i--) 
 	{
-		int nSuit = theApp.GetSuitSequence(i);
-		strTemp.Format("%c:",GetSuitLetter(nSuit));
+		int nSuit = app_->GetSuitSequence(i);
+		strTemp.Format("%c:", app_->GetSuitLetter(nSuit));
 		if (m_suit[i].GetLength() == 0) 
 		{
 			strTemp += "void ";
@@ -239,7 +238,7 @@ void CHandHoldings::FormatHoldingsString()
 		{
 			for(int j=0;j<m_suit[i].GetLength();j++) 
 			{
-				strTemp2.Format("%c",GetCardLetter(m_suit[i][j]->GetFaceValue()));
+				strTemp2.Format("%c", app_->GetCardLetter(m_suit[i][j]->GetFaceValue()));
 				strTemp += strTemp2;
 			}
 			if (i > 0)
@@ -511,11 +510,11 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 	//
 
 	// deduct 1 point for an aceless hand
-	if ((theApp.GetValue(tbAcelessPenalty)) && (m_numAces == 0))
+	if (app_->IsAcelessPenalty() && (m_numAces == 0))
 		m_numPenaltyPoints++;
 
 	// and add 1 point for holding all 4 aces
-	if ((theApp.GetValue(tb4AceBonus)) && (m_numAces == 4))
+	if (app_->IsFourAceBonus() && (m_numAces == 4))
 		m_numBonusPoints++;
 
 	//
@@ -566,7 +565,7 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 			m_nSuitsStopped[m_numSuitsStopped] = i;
 			m_numSuitsStopped++;
 			// record the name of the suit stopped
-			m_strSuitsStopped += SuitToString(i);
+			m_strSuitsStopped += app_->SuitToString(i);
 			m_strSuitsStopped += ", ";
 		}
 		else if (m_suit[i].IsSuitProbablyStopped())
@@ -574,7 +573,7 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 			m_nSuitsProbStopped[m_numSuitsStopped] = i;
 			m_numSuitsProbStopped++;
 			// record the name of the suit probably stopped
-			m_strSuitsProbStopped += SuitToString(i);
+			m_strSuitsProbStopped += app_->SuitToString(i);
 			m_strSuitsProbStopped += ", ";
 		}
 		else
@@ -583,7 +582,7 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 			m_nSuitsUnstopped[m_numSuitsUnstopped] = i;
 			m_numSuitsUnstopped++;
 			// record suit name
-			m_strSuitsUnstopped += SuitToString(i);
+			m_strSuitsUnstopped += app_->SuitToString(i);
 			m_strSuitsUnstopped += ", ";
 		}
 	}
@@ -916,7 +915,7 @@ void CHandHoldings::EvaluateHoldings()
 			if (m_suit[i].IsSuitStopped()) 
 			{
 //				str1.Format("%s",SuitToString(i));
-				str1.Format("%c",GetSuitLetter(i));
+				str1.Format("%c", app_->GetSuitLetter(i));
 				strTemp += str1;
 				nCount++;
 				if (nCount < m_numSuitsStopped)
@@ -943,7 +942,7 @@ void CHandHoldings::EvaluateHoldings()
 								(!m_suit[i].IsSuitStopped())) 
 			{
 //				str1.Format("%s",SuitToString(i));
-				str1.Format("%c",GetSuitLetter(i));
+				str1.Format("%c", app_->GetSuitLetter(i));
 				strTemp += str1;
 				nCount++;
 				if (nCount < nProbCount)
@@ -974,7 +973,7 @@ void CHandHoldings::EvaluateHoldings()
 	//
 	// check suit openability
 	//
-	if (pCurrConvSet->IsConventionEnabled(tid5CardMajors)) 
+	if (app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors)) 
 	{
 		strTemp.Format("Playing five-card majors, ");
 		strLine += strTemp;
@@ -1214,9 +1213,9 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 	m_numLongPoints = 0;
 	int nMinTrumpLength;
 	if (nMode & REVALUE_DECLARER) 
-		nMinTrumpLength = pCurrConvSet->IsConventionEnabled(tid5CardMajors)? 5 : 4;
+		nMinTrumpLength = app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors)? 5 : 4;
 	else
-		nMinTrumpLength = pCurrConvSet->IsConventionEnabled(tid5CardMajors)? 3 : 4;
+		nMinTrumpLength = app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors)? 3 : 4;
 	int numTrumps = m_suit[nTrumpSuit].GetLength();
 	//
 	for (i=0;i<4;i++) 
@@ -1319,7 +1318,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 					strMessage += " plus long outside suits in ";
 					for(i=0;i<numLongSuits;i++) 
 					{
-						strMessage += GetSuitName(nLongSuit[i]);
+						strMessage += app_->GetSuitName(nLongSuit[i]);
 						if (i<numLongSuits-1)
 							strMessage += " and ";
 						else
@@ -1340,7 +1339,7 @@ double CHandHoldings::RevalueHand(int nMode, int nTrumpSuit, BOOL bTrace, BOOL b
 				strMessage = "2REVAL14: (with long outside suits in ";
 				for(i=0;i<numLongSuits;i++) 
 				{
-					strMessage += GetSuitName(nLongSuit[i]);
+					strMessage += app_->GetSuitName(nLongSuit[i]);
 					if (i<numLongSuits-1)
 						strMessage += " and ";
 					else
@@ -1728,10 +1727,10 @@ CCard* CHandHoldings::GetDiscard()
 	CCard* pCard;
 
 	// determine the lead suit and the trump suit
-	CCard* pLeadCard = pDOC->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
 	ASSERT(pLeadCard);
 	int nSuitLed = pLeadCard->GetSuit();
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	int nTrumpSuit = app_->GetTrumpSuit();
 
 	// see if we have cards in the suit led
 	CSuitHoldings& suit = m_suit[nSuitLed];
@@ -1901,7 +1900,7 @@ CCard* CHandHoldings::GetDiscard()
 //
 int CHandHoldings::GetNumTrumps() const
 {
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	int nTrumpSuit = app_->GetTrumpSuit();
 	if (!ISSUIT(nTrumpSuit))
 		return 0;
 	//

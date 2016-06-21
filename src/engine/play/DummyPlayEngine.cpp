@@ -16,12 +16,12 @@
 
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../HandHoldings.h"
 #include "../Card.h"
 #include "../bidding/BidEngine.h"
 #include "DummyPlayEngine.h"
+#include "app_interface.h"
 
 
 

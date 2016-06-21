@@ -12,11 +12,11 @@
 //
 
 #include "stdafx.h"
-#include "../EasyB.h"
-#include "../EasyBdoc.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "CardHoldings.h"
 #include "engine/bidding/BidParams.h"
+#include "app_interface.h"
 
 
 
@@ -174,7 +174,7 @@ double CCardHoldings::CountPoints(const BOOL bForceCount)
 	{
 		int nFaceVal = m_cards[i]->GetFaceValue();
 		if (nFaceVal >= 10)
-			m_numHCPoints += HONOR_VALUE(nFaceVal);
+			m_numHCPoints += app_->GetHonorValue(nFaceVal);
 	}
 
 	// done

@@ -34,6 +34,11 @@ public:
   MOCK_METHOD0(IsInExpressAutoPlay, bool());
   MOCK_METHOD0(IsComputerCanClaim, bool());
   MOCK_METHOD5(InvokeGIB, int(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog));
+  MOCK_METHOD0(IsEnableGIBForDefender, bool());
+  MOCK_METHOD1(GetHonorValue, double(int faceValue));
+  MOCK_CONST_METHOD1(GetSuitSequence, int(int suit));
+  MOCK_METHOD0(IsAcelessPenalty, bool());
+  MOCK_METHOD0(IsFourAceBonus, bool());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -72,7 +77,18 @@ public:
   MOCK_CONST_METHOD0(GetContractLevel, int());
   MOCK_CONST_METHOD0(GetNumTricksRemaining, int());
   MOCK_CONST_METHOD1(GetGameTrickWinner, int(int round));
-
+  MOCK_CONST_METHOD0(GetDummyPlayer, CPlayer*());
+  MOCK_CONST_METHOD0(GetDummyPosition, int());
+  MOCK_CONST_METHOD1(GetGameTrickLead, int(int round));
+  MOCK_CONST_METHOD2(GetGameTrickCard, CCard*(int round, int position));
+  MOCK_CONST_METHOD1(GetNumTricksWonByTeam, int(int team));
+  MOCK_METHOD0(IsReviewingGame, bool());
+  MOCK_CONST_METHOD0(GetRoundLeadPlayer, CPlayer*());
+  MOCK_CONST_METHOD0(GetContractSuit, int());
+  MOCK_METHOD1(IsTeamVulnerable, bool(int team));
+  MOCK_CONST_METHOD0(IsDummyExposed, bool());
+  MOCK_CONST_METHOD1(GetSuitsUnbid, int(CArray<int, int> &suits));
+  MOCK_CONST_METHOD0(GetDeclaringTeam, int());
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
@@ -101,11 +117,20 @@ public:
   MOCK_METHOD1(GetNextPlayer, int(int position));
   MOCK_METHOD1(GetNextSuit, int(int suit));
   MOCK_METHOD1(SuitToSingularString, const char*(int suit));
-  MOCK_METHOD3(FormString, CString(const char* szFormat, const char* arg1, const char* arg2));
-  MOCK_METHOD2(FormString, CString(const char* szFormat, const char* arg1));
-  MOCK_METHOD2(FormString, CString(const char* szFormat, int arg1));
+  MOCK_METHOD7(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6));
+  MOCK_METHOD6(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5));
+  MOCK_METHOD4(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3));
+  MOCK_METHOD3(FormString, CString(const char* format, const char* arg1, const char* arg2));
+  MOCK_METHOD2(FormString, CString(const char* format, const char* arg1));
+  MOCK_METHOD2(FormString, CString(const char* format, int arg1));
   MOCK_METHOD2(ContractToString, CString(int contract, int modifier));
   MOCK_METHOD1(CardValToString, const char* (int i));
   MOCK_METHOD1(GetPrevPlayer, int(int position));
   MOCK_METHOD1(GetPrevSuit, int(int suit));
+  MOCK_METHOD1(IsHonor, bool(int faceValue));
+  MOCK_METHOD1(CardToString, const CString(int deckValue));
+  MOCK_METHOD1(TeamToString, const char*(int team));
+  MOCK_METHOD1(CardToShortString, const CString(int deckValue));
+  MOCK_METHOD1(GetSuitName, const char* (int suit));
+  MOCK_METHOD1(GetCardName, const char* (int faceValue));
 };

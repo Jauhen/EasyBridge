@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../Deck.h"
 #include "../Card.h"
 #include "Drop.h"
@@ -22,7 +21,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "../PlayerStatusDialog.h"
-
+#include "app_interface.h"
 
 
 //
@@ -101,7 +100,7 @@ void CDrop::Init()
 CString CDrop::GetFullDescription()
 {
 	// form description
-	return FormString("Play the %s from %s%s.", m_pConsumedCard->GetName(), ((m_nTargetHand == IN_HAND)? "hand" : "Dummy"), m_strDropMessage);
+	return app_->FormString("Play the %s from %s%s.", m_pConsumedCard->GetName(), ((m_nTargetHand == IN_HAND)? "hand" : "Dummy"), m_strDropMessage);
 }
 
 
@@ -117,19 +116,19 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	// this code is almost, but not quite, the same as a cash
 
 	// check which hand this is
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	BOOL bDropSucceeded = FALSE;
@@ -200,7 +199,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 			}
 
 			// see if LHO dropped a key card
-			pLHOCard = pDOC->GetCurrentTrickCardByOrder(0);
+			pLHOCard = app_->GetCurrentTrickCardByOrder(0);
 			if (m_pEnemyOrKeyCardsList->HasCard(pLHOCard))
 				bLHODropped = TRUE;
 
@@ -250,11 +249,11 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 			}
 
 			// see if RHO dropped a key card
-			pRHOCard = pDOC->GetCurrentTrickCardByOrder(1);
+			pRHOCard = app_->GetCurrentTrickCardByOrder(1);
 			if (m_pEnemyOrKeyCardsList->HasCard(pRHOCard))
 				bDropSucceeded = TRUE;
 
-			// check which hand we're plaing in
+			// check which hand we're planing in
 			if ( ((bPlayingInHand) && (m_nTargetHand == IN_HAND)) ||
 				 ((!bPlayingInHand) && (m_nTargetHand == IN_DUMMY)) )
 			{
@@ -295,7 +294,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				return PLAY_INACTIVE;
 
 			// see if we succeeded -- i.e., RHO dropped the desired card
-			pRHOCard = pDOC->GetCurrentTrickCardByOrder(2);
+			pRHOCard = app_->GetCurrentTrickCardByOrder(2);
 			if (m_pEnemyOrKeyCardsList->HasCard(pRHOCard))
 				bDropSucceeded = TRUE;
 

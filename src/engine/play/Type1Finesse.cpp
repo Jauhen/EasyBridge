@@ -15,8 +15,7 @@
 //   e.g., AQ3 (dummy) / 4 (hand) -- lead the 4, then finesse the Q
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../Card.h"
 #include "../CardList.h"
@@ -79,9 +78,9 @@ void CType1Finesse::Init()
 CString CType1Finesse::GetFullDescription()
 {
 	CString strText;
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	int nTrumpSuit = app_->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
-		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the { %s } as possible cover cards.",
+		return app_->FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the { %s } as possible cover cards.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),
@@ -90,7 +89,7 @@ CString CType1Finesse::GetFullDescription()
       app_->PositionToString(m_nTargetPos),
 						   m_pCoverCards->GetHoldingsString());
 	else
-		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
+		return app_->FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),
@@ -117,20 +116,20 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	//   e.g., AQ3 (dummy) / 4 (hand) -- lead the 4, then finesse the Q
 
 	// check which hand this is
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
@@ -245,7 +244,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				return PLAY_POSTPONE;
 			}
 			// see if RHO showed out
-			CCard* pLHOCard = pDOC->GetCurrentTrickCardByOrder(1);
+			CCard* pLHOCard = app_->GetCurrentTrickCardByOrder(1);
 			if (pLHOCard->GetSuit() != nSuitLed)
 			{
 				// oops! RHO showed out! the finesse can't win!
@@ -267,7 +266,7 @@ PlayResult CType1Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 */
 			}
 			// check the intervening opponents's card
-			pOppCard = pDOC->GetCurrentTrickCardByOrder(1);
+			pOppCard = app_->GetCurrentTrickCardByOrder(1);
 			// else check which hand we're playing in
 			if (bPlayingInHand) 
 			{

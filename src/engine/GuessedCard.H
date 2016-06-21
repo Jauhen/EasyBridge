@@ -32,7 +32,7 @@ public:
 	LPCTSTR GetName() { return (LPCTSTR) m_szName; }
 	LPCTSTR GetFullName() { return CardToString(MAKEDECKVALUE(m_nSuit, m_nFaceValue)); }
 	LPCTSTR GetReverseFullName() { return CardToReverseString(MAKEDECKVALUE(m_nSuit, m_nFaceValue)); }
-	LPCTSTR GetFaceName() { return GetCardName(m_nFaceValue); }
+	LPCTSTR GetFaceName() { return app_->GetCardName(m_nFaceValue); }
 	int GetFaceValue() { return m_nFaceValue; }
 	int GetDeckValue() { return MAKEDECKVALUE(m_nSuit, m_nFaceValue); }
 	// basic operations

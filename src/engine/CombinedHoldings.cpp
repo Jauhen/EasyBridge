@@ -12,13 +12,13 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "CombinedSuitHoldings.h"
 #include "CombinedHoldings.h"
 #include "PlayerStatusDialog.h"
 #include "handopts.h"
+#include "app_interface.h"
 
 
 //
@@ -82,21 +82,21 @@ int CCombinedHoldings::GetNumCardsInSuit(int nSuit) const
 	{ VERIFY((nSuit>=0)&&(nSuit<=3)); return m_pSuit[nSuit]->GetNumCards(); }
 
 int CCombinedHoldings::GetNumTrumps() const
-	{	int nTrumpSuit = pDOC->GetTrumpSuit();
+	{	int nTrumpSuit = app_->GetTrumpSuit();
 		if (!ISSUIT(nTrumpSuit))
 			return 0;
 		return GetNumCardsInSuit(nTrumpSuit);
 	}
 
 int CCombinedHoldings::GetNumDeclarerTrumps() const
-	{	int nTrumpSuit = pDOC->GetTrumpSuit();
+	{	int nTrumpSuit = app_->GetTrumpSuit();
 		if (!ISSUIT(nTrumpSuit))
 			return 0;
 		return m_pPlayerHand->GetNumCardsInSuit(nTrumpSuit);
 	}
 
 int CCombinedHoldings::GetNumDummyTrumps() const
-	{	int nTrumpSuit = pDOC->GetTrumpSuit();
+	{	int nTrumpSuit = app_->GetTrumpSuit();
 		if (!ISSUIT(nTrumpSuit))
 			return 0;
 		return m_pPartnerHand->GetNumCardsInSuit(nTrumpSuit);
@@ -361,7 +361,7 @@ void CCombinedHoldings::Sort()
 	for(i=3;i>=0;i--) 
 	{
 		// first set the S-H-D-C order holding
-		strTemp.Format("%c:",GetSuitLetter(i));
+		strTemp.Format("%c:", app_->GetSuitLetter(i));
 		if (m_pSuit[i]->GetLength() == 0) 
 		{
 			strTemp += "void";
@@ -380,8 +380,8 @@ void CCombinedHoldings::Sort()
 		}
 		m_strHolding += strTemp;
 		// then the screen-order holding
-		int nSuit = theApp.GetSuitSequence(i);
-		strTemp.Format("%c:",GetSuitLetter(nSuit));
+		int nSuit = app_->GetSuitSequence(i);
+		strTemp.Format("%c:", app_->GetSuitLetter(nSuit));
 		if (m_pSuit[i]->GetLength() == 0) 
 		{
 			strTemp += "void ";
@@ -392,7 +392,7 @@ void CCombinedHoldings::Sort()
 		{
 			for(j=0;j<m_pSuit[i]->GetLength();j++) 
 			{
-				strTemp2.Format("%c",GetCardLetter((*m_pSuit[i])[j]->GetFaceValue()));
+				strTemp2.Format("%c", app_->GetCardLetter((*m_pSuit[i])[j]->GetFaceValue()));
 				strTemp += strTemp2;
 			}
 			if (i > 0)
@@ -514,7 +514,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 			m_nSuitsStopped[m_numSuitsStopped] = i;
 			m_numSuitsStopped++;
 			// record the name of the suit stopped
-			m_strSuitsStopped += SuitToString(i);
+			m_strSuitsStopped += app_->SuitToString(i);
 			m_strSuitsStopped += ", ";
 		}
 		else if (m_pSuit[i]->IsSuitProbablyStopped())
@@ -522,7 +522,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 			m_nSuitsProbStopped[m_numSuitsStopped] = i;
 			m_numSuitsProbStopped++;
 			// record the name of the suit probably stopped
-			m_strSuitsProbStopped += SuitToString(i);
+			m_strSuitsProbStopped += app_->SuitToString(i);
 			m_strSuitsProbStopped += ", ";
 		}
 		else
@@ -531,7 +531,7 @@ double CCombinedHoldings::CountPoints(const BOOL bForceCount)
 			m_nSuitsUnstopped[m_numSuitsUnstopped] = i;
 			m_numSuitsUnstopped++;
 			// record suit name
-			m_strSuitsUnstopped += SuitToString(i);
+			m_strSuitsUnstopped += app_->SuitToString(i);
 			m_strSuitsUnstopped += ", ";
 		}
 	}
@@ -678,7 +678,7 @@ void CCombinedHoldings::EvaluateHoldings()
 			if (m_pSuit[i]->IsSuitStopped()) 
 			{
 //				if (m_pSuit[i]->GetNumStoppers() == 1)
-					str1.Format("%c",GetSuitLetter(i));
+					str1.Format("%c", app_->GetSuitLetter(i));
 //				else
 //					str1.Format("%c(%d)",GetSuitLetter(i),m_pSuit[i]->GetNumStoppers());
 				strTemp += str1;
@@ -705,7 +705,7 @@ void CCombinedHoldings::EvaluateHoldings()
 			if ((m_pSuit[i]->IsSuitProbablyStopped()) &&
 								(!m_pSuit[i]->IsSuitStopped())) 
 			{
-				str1.Format("%c",GetSuitLetter(i));
+				str1.Format("%c", app_->GetSuitLetter(i));
 				strTemp += str1;
 				nCount++;
 				if (nCount < nProbCount)
@@ -766,7 +766,7 @@ void CCombinedHoldings::EvaluateHoldings()
 	strTemp.Format("  %d Possible Loser%s(vs. %d allowable)\n",
 				   m_numLosers,
 				   (m_numLosers > 1)? "s " : " ",
-					7 - pDOC->GetContractLevel());
+					7 - app_->GetContractLevel());
 	strLine += strTemp;		 
 
 	//	strLine += "\n====================\n";

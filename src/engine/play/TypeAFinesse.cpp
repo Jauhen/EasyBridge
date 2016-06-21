@@ -14,8 +14,7 @@
 //   finesse against LHO
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../Card.h"
 #include "TypeAFinesse.h"
@@ -68,7 +67,7 @@ void CTypeAFinesse::Init()
 	if (m_nTarget == AGAINST_LHO)
 		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
 	else
-		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
+		m_nTargetPos = app_->GetPrevPlayer(m_nPlayerPosition);
 
 	// the ending hand is the target hand (opposite of default)
 	m_nStartingHand = m_nEndingHand = m_nTargetHand;
@@ -80,7 +79,7 @@ void CTypeAFinesse::Init()
 CString CTypeAFinesse::GetFullDescription()
 {
 	CString strText;
-	return FormString("Opportunistically play the %s from %s to finesse against %s.",
+	return app_->FormString("Opportunistically play the %s from %s to finesse against %s.",
 					   m_pConsumedCard->GetFaceName(),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
     app_->PositionToString(m_nTargetPos));
@@ -103,22 +102,22 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	//   finesse against LHO
 
 	// check which hand this is
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != pDOC->GetTrumpSuit()) && (pDOC->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
 		bTrumped = TRUE;
-	CCard* pTopCard = pDOC->GetCurrentTrickHighCard();
+	CCard* pTopCard = app_->GetCurrentTrickHighCard();
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 

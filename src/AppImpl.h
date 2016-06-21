@@ -134,6 +134,28 @@ public:
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
     return gib.Invoke(player, hand, dummyHand, statusDialog);
   }
+
+  virtual bool IsEnableGIBForDefender() {
+    return theApp.GetValue(tbEnableGIBForDefender) == TRUE;
+  }
+
+  virtual double GetHonorValue(int faceValue) {
+    return theApp.m_fHonorValue[faceValue];
+  }
+
+  virtual int GetSuitSequence(int index) const {
+    return theApp.GetSuitSequence(index);
+  }
+
+  virtual bool IsAcelessPenalty() {
+    return theApp.GetValue(tbAcelessPenalty) == TRUE;
+  }
+
+  virtual bool IsFourAceBonus() {
+    return theApp.GetValue(tb4AceBonus) == TRUE;
+  }
+
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
@@ -331,6 +353,54 @@ public:
     return pDOC->GetGameTrickWinner(round);
   }
 
+  virtual CPlayer* GetDummyPlayer() const {
+    return pDOC->GetDummyPlayer();
+  }
+
+  virtual int GetDummyPosition() const {
+    return pDOC->GetDummyPosition();
+  }
+
+  virtual int GetGameTrickLead(int round) const {
+    return pDOC->GetGameTrickLead(round);
+  }
+
+  virtual CCard* GetGameTrickCard(int round, int position) const {
+    return pDOC->GetGameTrickCard(round, position);
+  }
+
+  virtual int GetNumTricksWonByTeam(int team) const {
+    return pDOC->GetNumTricksWonByTeam(team);
+  }
+
+  virtual bool IsReviewingGame() {
+    return pDOC->IsReviewingGame() == TRUE;
+  }
+
+  virtual CPlayer* GetRoundLeadPlayer() const {
+    return pDOC->GetRoundLeadPlayer();
+  }
+
+  virtual int GetContractSuit() const {
+    return pDOC->GetContractSuit();
+  }
+
+  virtual bool IsTeamVulnerable(int team) {
+    return pDOC->IsTeamVulnerable(team) == TRUE;
+  }
+
+  virtual bool IsDummyExposed() const {
+    return pDOC->IsDummyExposed();
+  }
+  
+  virtual int GetSuitsUnbid(CArray<int, int> &suits) const {
+    return pDOC->GetSuitsBid(suits);
+  }
+
+  virtual int GetDeclaringTeam() const {
+    return pDOC->GetDeclaringTeam();
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW
@@ -408,6 +478,18 @@ public:
     return ::GetNextSuit(suit);
   }
 
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6) {
+    return ::FormString(format, arg1, arg2, arg3, arg4, arg5, arg6);
+  }
+
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5) {
+    return ::FormString(format, arg1, arg2, arg3, arg4, arg5);
+  }
+
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) {
+    return ::FormString(format, arg1, arg2, arg3);
+  }
+
   virtual CString FormString(const char* format, const char* arg1, const char* arg2) {
     return ::FormString(format, arg1, arg2);
   }
@@ -434,6 +516,30 @@ public:
 
   virtual int GetPrevSuit(int suit) {
     return ::GetPrevSuit(suit);
+  }
+
+  virtual bool IsHonor(int faceValue) {
+    return ::IsHonor(faceValue) == TRUE;
+  }
+
+  virtual const CString CardToString(int deckValue) {
+    return ::CardToString(deckValue);
+  }
+
+  virtual const char* TeamToString(int team) {
+    return ::TeamToString(team);
+  }
+
+  virtual const CString CardToShortString(int deckValue) {
+    return ::CardToShortString(deckValue);
+  }
+
+  virtual const char* GetSuitName(int suit) {
+    return ::GetSuitName(suit);
+  }
+
+  virtual const char* GetCardName(int faceValue) {
+    return ::GetCardName(faceValue);
   }
 };
 

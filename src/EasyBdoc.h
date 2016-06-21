@@ -24,7 +24,7 @@ class CEasyBDoc : public CDocument, public CObjectWithProperties, public CEventP
 {
 public:
 	// game-related event codes
-	enum { EVENT_NONE, EVENT_CLAIMED, EVENT_CONCEDED };
+	enum { EVENT_NONE = 0, EVENT_CLAIMED = 1, EVENT_CONCEDED = 2 };
 
 // public routines
 public:

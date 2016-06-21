@@ -10,12 +10,11 @@
 // GuessedCard.cpp
 //
 #include "stdafx.h"
-#include "EasyB.h"
-//#include "EasyBDoc.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "Deck.h"
 #include "GuessedCard.h"
-
+#include "app_interface.h"
 
 
 
@@ -67,7 +66,7 @@ void CGuessedCard::Init(int nSuit, int nFaceValue)
 	m_nFaceValue = nFaceValue;
 	int nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
 	m_pCard = deck.GetSortedCard(nDeckValue);
-	strcpy(m_szName, CardToShortString(nDeckValue));
+	strcpy(m_szName, app_->CardToShortString(nDeckValue));
 	//
 	Clear();
 }

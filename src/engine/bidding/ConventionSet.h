@@ -13,6 +13,8 @@
 #define __CCONVENTIONSET__
 
 #include "ConvCodes.h"
+#include "ObjectWithProperties.h"
+#include <vector>
 #include <memory>
 
 class AppInterface;
