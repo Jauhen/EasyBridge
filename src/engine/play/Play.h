@@ -25,6 +25,9 @@
 #ifndef __CPLAY__
 #define __CPLAY__
 
+#include <memory>
+
+class AppInterface;
 class CPlayList;
 class CPlayEngine;
 class CCard;
@@ -205,7 +208,6 @@ protected:
 	static CRITICAL_SECTION	m_csPlayIDLock;
 	static int				m_nPlayIDCounter;
 
-protected:
   std::shared_ptr<AppInterface> app_;
 
 // construction/destruction

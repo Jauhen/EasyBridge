@@ -37,6 +37,7 @@ template<class T> const T Abs(const T x)
 // string manipulation operations
 //
 const CString FormString(LPCTSTR szFormat, ...);
+const CString FormString(LPCTSTR szFormat, va_list list);
 const CString FormString(int nVal);
 const CString FormString(double fVal);
 //

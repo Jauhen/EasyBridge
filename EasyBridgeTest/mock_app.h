@@ -1,6 +1,7 @@
 #pragma once
 #include <gmock/gmock.h>
 #include "app_interface.h"
+#include "GIB.h"
 
 class MockApp : public AppInterface {
 public:
@@ -26,7 +27,13 @@ public:
   MOCK_CONST_METHOD1(GetMinimumOpeningValue, int(CPlayer* player));
   MOCK_METHOD3(GetProfileInt, int(const char* appName, const char* keyName, int defaultValue));
   MOCK_METHOD3(WriteProfileInt, void(const char* appName, const char* keyName, int defaultValue));
-
+  MOCK_METHOD0(IsInManualCardPlayMode, bool());
+  MOCK_METHOD0(AreCardsFaceUp, bool());
+  MOCK_METHOD0(IsEnableGIBForDeclarer, bool());
+  MOCK_METHOD0(GetGIB, CGIB&());
+  MOCK_METHOD0(IsInExpressAutoPlay, bool());
+  MOCK_METHOD0(IsComputerCanClaim, bool());
+  MOCK_METHOD5(InvokeGIB, int(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog));
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -48,11 +55,30 @@ public:
   MOCK_CONST_METHOD0(GetOpeningBid, int());
   MOCK_CONST_METHOD0(GetNumValidBidsMade, int());
   MOCK_CONST_METHOD0(GetOpeningBidder, int());
+  MOCK_CONST_METHOD0(GetCurrentPlayerPosition, int());
+  MOCK_CONST_METHOD0(GetNumCardsPlayedInRound, int());
+  MOCK_CONST_METHOD0(GetCurrentPlayer, CPlayer*());
+  MOCK_CONST_METHOD1(GetCurrentTrickCardByOrder, CCard*(int order));
+  MOCK_CONST_METHOD0(GetTrumpSuit, int());
+  MOCK_CONST_METHOD0(WasTrumpPlayed, bool());
+  MOCK_CONST_METHOD1(GetCurrentTrickCard, CCard*(int position));
+  MOCK_CONST_METHOD0(GetCurrentTrickHighCard, CCard*());
+  MOCK_CONST_METHOD1(GetCurrentTrickHighCard, CCard*(int* pos));
+  MOCK_METHOD2(ClaimTricks, void(Position position, int tricks));
+  MOCK_CONST_METHOD0(GetPlayRound, int());
+  MOCK_CONST_METHOD0(GetNumTricksPlayed, int());
+  MOCK_CONST_METHOD0(GetNumCardsPlayedInGame, int());
+  MOCK_CONST_METHOD1(GetNumberOfTricksWonByTeam, int(int team));
+  MOCK_CONST_METHOD0(GetContractLevel, int());
+  MOCK_CONST_METHOD0(GetNumTricksRemaining, int());
+  MOCK_CONST_METHOD1(GetGameTrickWinner, int(int round));
+
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
   MOCK_METHOD0(RestoreMode, void());
-  MOCK_METHOD1(SuitToSingularString, const char*(int suit));
+  MOCK_METHOD0(RefreshScreen, void());
+  MOCK_METHOD0(IsInGameRestoreMode, bool());
 
   MOCK_METHOD1(SetAutoHintDialogHintText, void(CString text));
   MOCK_METHOD1(ShowAnalysisDialog, void(Position position));
@@ -60,6 +86,9 @@ public:
   MOCK_METHOD2(SetAnalysisText, void(Position position, CString analysis));
   MOCK_METHOD0(SuspendHints, void());
   MOCK_METHOD0(ResumeHints, void());
+  MOCK_METHOD0(UpdateStatusWindowWithPlayPlan, void());
+  MOCK_METHOD0(UpdateStatusWindowWithSuitStatus, void());
+  MOCK_METHOD0(UpdateStatusWindowWithPlayPlanAndSuitStatus, void());
 
   MOCK_METHOD2(ContractToFullString, const CString(int contract, int modifier));
   MOCK_METHOD1(PositionToString, const char* (int pos));
@@ -71,4 +100,12 @@ public:
   MOCK_METHOD1(GetPlayerTeam, int(int position));
   MOCK_METHOD1(GetNextPlayer, int(int position));
   MOCK_METHOD1(GetNextSuit, int(int suit));
+  MOCK_METHOD1(SuitToSingularString, const char*(int suit));
+  MOCK_METHOD3(FormString, CString(const char* szFormat, const char* arg1, const char* arg2));
+  MOCK_METHOD2(FormString, CString(const char* szFormat, const char* arg1));
+  MOCK_METHOD2(FormString, CString(const char* szFormat, int arg1));
+  MOCK_METHOD2(ContractToString, CString(int contract, int modifier));
+  MOCK_METHOD1(CardValToString, const char* (int i));
+  MOCK_METHOD1(GetPrevPlayer, int(int position));
+  MOCK_METHOD1(GetPrevSuit, int(int suit));
 };

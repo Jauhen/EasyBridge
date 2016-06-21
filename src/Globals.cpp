@@ -97,6 +97,14 @@ const CString FormString(LPCTSTR szFormat, ...)
 	return strResult;
 }
 
+const CString FormString(LPCTSTR szFormat, va_list list) {
+  const int tnBufSize = 1024;
+  CString strResult;
+  LPTSTR szBuffer = strResult.GetBuffer(tnBufSize);
+  _vsnprintf(szBuffer, tnBufSize, szFormat, list);
+  strResult.ReleaseBuffer();
+  return strResult;
+}
 
 //
 const CString FormString(int nVal) 

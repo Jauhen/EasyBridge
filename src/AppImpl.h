@@ -3,7 +3,10 @@
 #include "app_interface.h"
 #include "EasyB.h"
 #include "dialogs/AutoHintDialog.h"
+#include "StatusWnd.h"
 #include "MainFrameopts.h"
+#include "GIB.h"
+#include "docopts.h"
 
 class AppImpl : public AppInterface {
 public:
@@ -104,7 +107,33 @@ public:
     theApp.WriteProfileInt(app, key, defaultValue);
   }
 
+  virtual bool IsInManualCardPlayMode() {
+    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL;
+  }
 
+  virtual bool AreCardsFaceUp() {
+    return theApp.AreCardsFaceUp() == TRUE;
+  }
+
+  virtual bool IsEnableGIBForDeclarer() {
+    return theApp.GetValue(tbEnableGIBForDeclarer) == TRUE;
+  }
+
+  virtual CGIB& GetGIB() {
+    return *(theApp.GetGIB());
+  }
+
+  virtual bool IsInExpressAutoPlay() {
+    return theApp.InExpressAutoPlay() == TRUE;
+  }
+
+  virtual bool IsComputerCanClaim() {
+    return theApp.GetValue(tbComputerCanClaim) == TRUE;
+  }
+
+  virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
+    return gib.Invoke(player, hand, dummyHand, statusDialog);
+  }
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
@@ -134,6 +163,19 @@ public:
   virtual void ResumeHints() {
     pMAINFRAME->ResumeHints();
   }
+
+  virtual void UpdateStatusWindowWithPlayPlan() {
+    pMAINFRAME->UpdateStatusWindow(CStatusWnd::SP_PLAY_PLAN);
+  }
+
+  virtual void UpdateStatusWindowWithSuitStatus() {
+    pMAINFRAME->UpdateStatusWindow(CStatusWnd::SP_SUIT_STATUS);
+  }
+
+  virtual void UpdateStatusWindowWithPlayPlanAndSuitStatus() {
+    pMAINFRAME->UpdateStatusWindow(CStatusWnd::SP_PLAY_PLAN | CStatusWnd::SP_SUIT_STATUS);
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -221,6 +263,74 @@ public:
     return pDOC->GetOpeningBidder();
   }
 
+  virtual int GetCurrentPlayerPosition() const {
+    return pDOC->GetCurrentPlayerPosition();
+  }
+
+  virtual int GetNumCardsPlayedInRound() const {
+    return pDOC->GetNumCardsPlayedInRound();
+  }
+
+  virtual CPlayer* GetCurrentPlayer() const {
+    return pDOC->GetCurrentPlayer();
+  }
+
+  virtual CCard* GetCurrentTrickCardByOrder(int order) const {
+    return pDOC->GetCurrentTrickCardByOrder(order);
+  }
+
+  virtual int GetTrumpSuit() const {
+    return pDOC->GetTrumpSuit();
+  }
+
+  virtual bool WasTrumpPlayed() const {
+    return pDOC->WasTrumpPlayed() == TRUE;
+  }
+
+  virtual CCard* GetCurrentTrickCard(int position) const {
+    return pDOC->GetCurrentTrickCard(position);
+  }
+
+  virtual CCard* GetCurrentTrickHighCard() const {
+    return pDOC->GetCurrentTrickHighCard();
+  }
+
+  virtual CCard* GetCurrentTrickHighCard(int* pos) const {
+    return pDOC->GetCurrentTrickHighCard(pos);
+  }
+
+  virtual void ClaimTricks(Position position, int tricks = 0) {
+    pDOC->ClaimTricks(position, tricks);
+  }
+
+  virtual int GetPlayRound() const {
+    return pDOC->GetPlayRound();
+  }
+
+  virtual int GetNumTricksPlayed() const {
+    return pDOC->GetNumTricksPlayed();
+  }
+
+  virtual int GetNumCardsPlayedInGame() const {
+    return pDOC->GetNumCardsPlayedInGame();
+  }
+
+  virtual int GetNumberOfTricksWonByTeam(int team) const {
+    return pDOC->GetValue(tnumTricksWon, team);
+  }
+
+  virtual int GetContractLevel() const {
+    return pDOC->GetContractLevel();
+  }
+
+  virtual int GetNumTricksRemaining() const {
+    return pDOC->GetNumTricksRemaining();
+  }
+
+  virtual int GetGameTrickWinner(int round) const {
+    return pDOC->GetGameTrickWinner(round);
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW
@@ -237,6 +347,14 @@ public:
 
   virtual void RestoreMode() {
     pVIEW->RestoreMode();
+  }
+
+  virtual void RefreshScreen() {
+    pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY);
+  }
+
+  virtual bool IsInGameRestoreMode() {
+    return pVIEW->GetCurrentMode() == CEasyBView::MODE_GAMERESTORE;
   }
 
 
@@ -288,6 +406,34 @@ public:
 
   virtual int GetNextSuit(int suit) {
     return ::GetNextSuit(suit);
+  }
+
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2) {
+    return ::FormString(format, arg1, arg2);
+  }
+
+  virtual CString FormString(const char* format, const char* arg1) {
+    return ::FormString(format, arg1);
+  }
+
+  virtual CString FormString(const char* format, int arg1) {
+    return ::FormString(format, arg1);
+  }
+
+  virtual CString ContractToString(int contract, int modifier) {
+    return ::ContractToString(contract, modifier);
+  }
+
+  virtual const char* CardValToString(int i) {
+    return ::CardValToString(i);
+  }
+
+  virtual int GetPrevPlayer(int position) {
+    return ::GetPrevPlayer(position);
+  }
+
+  virtual int GetPrevSuit(int suit) {
+    return ::GetPrevSuit(suit);
   }
 };
 

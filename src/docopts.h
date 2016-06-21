@@ -12,6 +12,8 @@
 // constants used in generic document property get/set calls
 //
 
+#pragma once
+
 enum docopts {
 	//
 	tppPlayer,				// [4]	

@@ -141,7 +141,7 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 
 	// see if partner is trying to signal with his discard
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	int nRoundLead = pDOC->GetRoundLead();
+	int nRoundLead = app_->GetRoundLead();
 	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
 	CCard* pTopCard = pDOC->GetCurrentTrickHighCard(0);
 	int nSuitLed = pCardLed->GetSuit();
@@ -409,7 +409,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 	int nPlayerPos = GetPlayerPosition();
 	int nPartnerPos = GetPartnerPosition();
 	int nPartnersSuit = NONE;
-	int	nDeclarer = pDOC->GetDeclarerPosition();
+	int	nDeclarer = app_->GetDeclarerPosition();
 	int nDummy = pDOC->GetDummyPosition();
 
 	// see if this is the first round
@@ -1032,7 +1032,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 				}
 
 				// see if we think declarer has trumps in the suit
-				int nDeclarer = pDOC->GetDeclarerPosition();
+				int nDeclarer = app_->GetDeclarerPosition();
 				CGuessedHandHoldings* pDeclarerHand = m_pPlayer->GetGuessedHand(nDeclarer);
 				if ( pDeclarerHand->IsSuitShownOut(i) && 
 					((pDeclarerHand->GetSuit(nTrumpSuit).GetNumRemainingCards() > 0) ||
@@ -1213,7 +1213,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 			// still has some left, and declarer has shown out of the suit
 			if ( (GetNumOutstandingCards(nTrumpSuit) > 0) &&
 					(IsPartnerVoidInSuit(nTrumpSuit)) &&
-						(m_ppGuessedHands[pDOC->GetDeclarerPosition()]->IsSuitShownOut(i)) )
+						(m_ppGuessedHands[app_->GetDeclarerPosition()]->IsSuitShownOut(i)) )
 			{
 				status << "3PLYLDWN4! We'd like to lead the " & app_->SuitToString(i) &
 						  " suit, but declarer might ruff.\n";
@@ -1284,7 +1284,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
 	int nRound = pDOC->GetPlayRound();
 	//
-	if ((pDOC->GetRoundLead() == GetPartnerPosition()) && 
+	if ((app_->GetRoundLead() == GetPartnerPosition()) && 
 			(nSuitLed != nTrumpSuit) && 
 					(m_pHand->GetNumCardsInSuit(nSuitLed) > 0) && 
 								(m_nSuitSignalStatus[nSuitLed] <= 1))
@@ -1858,7 +1858,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 	status << "3PLAYDF2! Playing second as defender, using default player logic.\n";
 
 	// get play info
-	int nDeclarerPos = pDOC->GetDeclarerPosition();
+	int nDeclarerPos = app_->GetDeclarerPosition();
 	int nDummyPos = pDOC->GetDummyPosition();
 	CPlayer* pDummy = pDOC->GetDummyPlayer();
 	CCard* pCardLed = pDOC->GetCurrentTrickCardLed();
