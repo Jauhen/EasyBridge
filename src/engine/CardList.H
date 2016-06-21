@@ -14,6 +14,9 @@
 #ifndef __CARDLIST__
 #define __CARDLIST__
 
+#include <memory>
+
+class AppInterface;
 class CCard;
 class CPlayer;
 

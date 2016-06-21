@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "Jacoby2NTConvention.h"
@@ -43,7 +42,7 @@ BOOL CJacoby2NTConvention::TryConvention(const CPlayer& player,
 	// 2: we must not have bid yet
 	// 3: we have 13+ points and 4+ card trump support
 
-	int nOpeningBid = pDOC->GetOpeningBid();
+	int nOpeningBid = app_->GetOpeningBid();
 	int nPartnersBid = bidState.nPartnersBid;
 
 	// test conditions 1 - 4
@@ -100,7 +99,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 	//
 	int nPartnersBid = bidState.nPartnersBid;
 	int nPreviousBid = bidState.nPreviousBid;
-	int numTotalBidTurns = pDOC->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetNumBidsMade();
 
 	//
 	int nBid;
@@ -119,7 +118,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 		// the requirements for a Jacoby 2NT Bid are:
 		// 1: we must have opened the bidding with 1 of a major
 		// 2: Partner responded with 2NT
-		int nOpeningBid = pDOC->GetOpeningBid();
+		int nOpeningBid = app_->GetOpeningBid();
 
 		// test conditions
 		if ( (bidState.m_numBidTurns == 1) && (ISMAJOR(BID_SUIT(nPreviousBid))) && 

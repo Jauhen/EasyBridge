@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "MichaelsCueBidConvention.h"
@@ -182,11 +181,11 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		// 1: we must not have bid yet
 		// 2: LHO must have bid a suit at the 1 level, and 
 		// 3: partner overcalled LHO's suit at the 2 level
-		int nLastValidBid = pDOC->GetLastValidBid();
+		int nLastValidBid = app_->GetLastValidBid();
 
 		// apply tests #1, 2, and 3
-		int nOpeningBid = pDOC->GetOpeningBid();
-		int nOpeningBidder = pDOC->GetOpeningBidder();
+		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBidder = app_->GetOpeningBidder();
 		BOOL bLHOMajor = ISMAJOR(nOpeningBid);
 		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&

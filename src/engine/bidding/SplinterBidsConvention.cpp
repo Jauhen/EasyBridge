@@ -11,7 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "SplinterBidsConvention.h"
 #include "app_interface.h"

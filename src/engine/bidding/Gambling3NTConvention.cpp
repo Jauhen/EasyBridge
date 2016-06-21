@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "Gambling3NTConvention.h"
@@ -77,7 +76,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 		nSuit = DIAMONDS;
 
 	// test for std and ACOL Gambling 3NT conditions
-	int numValidBidsMade = pDOC->GetNumValidBidsMade();
+	int numValidBidsMade = app_->GetNumValidBidsMade();
 	if ( bStandardGambling3NT && (numValidBidsMade  == 0) && (ISSUIT(nSuit)) &&
 		 (bidState.fCardPts >= app_->OpenPoints(10)) && (bidState.fCardPts <= app_->OpenPoints(12)) &&
 		 (bidState.numVoids == 0) && !bSmallSingletons &&
@@ -138,7 +137,7 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 	// make a responding bid
 	//
 	int nPartnersBid = bidState.nPartnersBid;
-	int nOpeningBid = pDOC->GetOpeningBid();
+	int nOpeningBid = app_->GetOpeningBid();
 	int nBid = NONE;
 
 	//

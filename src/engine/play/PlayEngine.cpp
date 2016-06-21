@@ -1046,7 +1046,7 @@ CCard* CPlayEngine::GetLeadCard()
 		// but avoid the trump suit unless there are no other winners
 		int nSuit = NONE;
 		if (ISSUIT(nTrumpSuit))
-			nSuit = GetNextSuit(nTrumpSuit);
+			nSuit = app_->GetNextSuit(nTrumpSuit);
 		else
 			nSuit= CLUBS;	// else start with the club suit
 		//
@@ -1061,7 +1061,7 @@ CCard* CPlayEngine::GetLeadCard()
 				return pLeadCard;
 			}
 			// else look at the next suit
-			nSuit = GetNextSuit(nSuit);
+			nSuit = app_->GetNextSuit(nSuit);
 		}
 	}
 
@@ -1595,7 +1595,7 @@ void CPlayEngine::AssessPosition()
 	m_numCardsPlayed = pDoc->GetNumCardsPlayedInRound();
 	if (m_numCardsPlayed > 0)
 	{
-		m_nRoundLead = pDoc->GetRoundLead();
+		m_nRoundLead = app_->GetRoundLead();
 		m_pLeadCard = pDoc->GetCurrentTrickCard(m_nRoundLead);
 		m_nLeadSuit = m_pLeadCard->GetSuit();
 		m_nLeadFaceValue = m_pLeadCard->GetFaceValue();

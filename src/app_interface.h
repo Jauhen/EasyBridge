@@ -2,6 +2,9 @@
 
 #include "EasyB.h"
 
+class CGIB;
+class CHandHoldings;
+class CPlayerStatusDialog;
 class CAutoHintDialog;
 
 class AppInterface {
@@ -34,7 +37,15 @@ public:
   virtual double OpenPoints(double points) = 0;
   virtual double PointCount(double points) = 0;
   virtual int GetMinimumOpeningValue(CPlayer* player) const = 0;
-
+  virtual int GetProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
+  virtual void WriteProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
+  virtual bool IsInManualCardPlayMode() = 0;
+  virtual bool AreCardsFaceUp() = 0;
+  virtual bool IsEnableGIBForDeclarer() = 0;
+  virtual CGIB& GetGIB() = 0;
+  virtual bool IsInExpressAutoPlay() = 0;
+  virtual bool IsComputerCanClaim() = 0;
+  virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -48,6 +59,10 @@ public:
   virtual void SetAnalysisText(Position position, CString analysis) = 0;
   virtual void SuspendHints() = 0;
   virtual void ResumeHints() = 0;
+  virtual void UpdateStatusWindowWithPlayPlan() = 0;
+  virtual void UpdateStatusWindowWithSuitStatus() = 0;
+  virtual void UpdateStatusWindowWithPlayPlanAndSuitStatus() = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -71,7 +86,27 @@ public:
   virtual int	GetDeclarerPosition() const = 0;
   virtual int	GetRoundLead() const = 0;
   virtual int	GetLastValidBidTeam() const = 0;
-
+  virtual bool IsDocInitialized() = 0;
+  virtual int GetOpeningBid() const = 0;
+  virtual int GetNumValidBidsMade() const = 0;
+  virtual int GetOpeningBidder() const = 0;
+  virtual int GetCurrentPlayerPosition() const = 0;
+  virtual int GetNumCardsPlayedInRound() const = 0;
+  virtual CPlayer* GetCurrentPlayer() const = 0;
+  virtual CCard* GetCurrentTrickCardByOrder(int order) const = 0;
+  virtual int GetTrumpSuit() const = 0;
+  virtual bool WasTrumpPlayed() const = 0;
+  virtual CCard* GetCurrentTrickCard(int position) const = 0;
+  virtual CCard* GetCurrentTrickHighCard() const = 0;
+  virtual CCard* GetCurrentTrickHighCard(int* pos) const = 0;
+  virtual void ClaimTricks(Position position, int tricks = 0) = 0;
+  virtual int GetPlayRound() const = 0;
+  virtual int GetNumTricksPlayed() const = 0;
+  virtual int GetNumCardsPlayedInGame() const = 0;
+  virtual int GetNumberOfTricksWonByTeam(int team) const = 0;
+  virtual int GetContractLevel() const = 0;
+  virtual int GetNumTricksRemaining() const = 0;
+  virtual int GetGameTrickWinner(int round) const = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -82,7 +117,8 @@ public:
   virtual void DisplayHand(Position pos) = 0;
   virtual void SetCurrentModeTemp(int mode) = 0;
   virtual void RestoreMode() = 0;
-
+  virtual void RefreshScreen() = 0;
+  virtual bool IsInGameRestoreMode() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -100,4 +136,12 @@ public:
   virtual const CString BidToShortString(int bid) = 0;
   virtual int GetPlayerTeam(int position) = 0;
   virtual int GetNextPlayer(int position) = 0;
+  virtual int GetNextSuit(int suit) = 0;
+  virtual CString FormString(const char* szFormat, const char* arg1, const char* arg2) = 0;
+  virtual CString FormString(const char* format, const char* arg1) = 0;
+  virtual CString FormString(const char* format, int arg1) = 0;
+  virtual CString ContractToString(int contract, int modifier) = 0;
+  virtual const char* CardValToString(int i) = 0;
+  virtual int GetPrevPlayer(int position) = 0;
+  virtual int GetPrevSuit(int suit) = 0;
 };

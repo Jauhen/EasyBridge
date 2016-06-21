@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "StrongTwoBidsConvention.h"
 #include "ConventionSet.h"
@@ -143,7 +142,7 @@ BOOL CStrongTwoBidsConvention::RespondToConvention(const CPlayer& player,
 	if ((nPartnersBidLevel == 2) && (nPartnersBid != BID_2C) &&
 					(bidState.m_bPartnerOpenedForTeam) &&
 					(numPartnerBidsMade == 1) &&
-					(nPartnersBid == pDOC->GetValidBidRecord(0)))
+					(nPartnersBid == app_->GetValidBidRecord(0)))
 	{
 		// okay, met requirements
 	}

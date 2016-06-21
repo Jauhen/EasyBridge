@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../Deck.h"
 #include "../Card.h"
 #include "Cash.h"
@@ -25,7 +24,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "../PlayerStatusDialog.h"
-
+#include "app_interface.h"
 
 //
 //==================================================================
@@ -88,7 +87,7 @@ void CCash::Init()
 //
 CString CCash::GetFullDescription()
 {
-	return FormString("Cash the %s in %s.",
+	return app_->FormString("Cash the %s in %s.",
 					   m_pConsumedCard->GetFullName(), 
 					   ((m_nTargetHand == 0)? "hand" : "dummy"));
 }
@@ -115,29 +114,29 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& declarerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	CDeclarerPlayEngine& declarerEngine = (CDeclarerPlayEngine&) playEngine;
 	
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = pDOC->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (pDOC->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 
 	// see what the top card in the round is
-	CCard* pTopCard = pDOC->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pTopCard = app_->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pTopCard == pPartnersCard);
 
@@ -699,7 +698,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	}
 
 	// ### TEMP ###
-	if (pDOC->GetCurrentPlayerPosition() == playEngine.GetPlayerPosition())
+	if (app_->GetCurrentPlayerPosition() == playEngine.GetPlayerPosition())
 		ASSERT(playEngine.GetPlayer()->HasCard(pPlayCard));
 	else
 		ASSERT(playEngine.GetPartner()->HasCard(pPlayCard));

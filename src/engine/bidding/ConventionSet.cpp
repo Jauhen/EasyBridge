@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "Convention.h"
 #include "4thSuitForcingConvention.h"
 #include "StrongTwoBidsConvention.h"
@@ -40,6 +39,7 @@
 #include "app_interface.h"
 #include <memory>
 #include "convention_pool.h"
+#include "app_interface.h"
 
 
 // default bidding settings
@@ -215,40 +215,40 @@ void CConventionSet::Initialize(LPCTSTR szName)
 	CString strSettingsKey = szBiddingOptions + m_strName;
 
 	// read in bidding conventions settings
-	m_nBiddingStyle = theApp.GetProfileInt(strSettingsKey, szBiddingStyle, 2);
+	m_nBiddingStyle = app_->GetProfileInt(strSettingsKey, szBiddingStyle, 2);
 	//
-	m_bFiveCardMajors = theApp.GetProfileInt(strSettingsKey, szFiveCardMajors, 1);
-	m_bArtificial2ClubConvention = theApp.GetProfileInt(strSettingsKey, sz2ClubConvention, 1);
-	m_bWeakTwoBids = theApp.GetProfileInt(strSettingsKey, szWeakTwoBids, 1);
-	m_bShutoutBids = theApp.GetProfileInt(strSettingsKey, szShutoutBids, TRUE);
+	m_bFiveCardMajors = app_->GetProfileInt(strSettingsKey, szFiveCardMajors, 1);
+	m_bArtificial2ClubConvention = app_->GetProfileInt(strSettingsKey, sz2ClubConvention, 1);
+	m_bWeakTwoBids = app_->GetProfileInt(strSettingsKey, szWeakTwoBids, 1);
+	m_bShutoutBids = app_->GetProfileInt(strSettingsKey, szShutoutBids, TRUE);
 	m_bOgust = FALSE;
-	m_bLimitRaises = theApp.GetProfileInt(strSettingsKey, szLimitRaises, FALSE);
-	m_bSplinterBids = theApp.GetProfileInt(strSettingsKey, szSplinters, FALSE);
-	m_bMichaels = theApp.GetProfileInt(strSettingsKey, szMichaels, FALSE);
-	m_bUnusualNT = theApp.GetProfileInt(strSettingsKey, szUnusualNT, FALSE);
-	m_bJacoby2NT = theApp.GetProfileInt(strSettingsKey, szJacoby2NT, FALSE);
-	m_bGambling3NT = theApp.GetProfileInt(strSettingsKey, szGambling3NT, FALSE);
-	m_nGambling3NTVersion = theApp.GetProfileInt(strSettingsKey, szGambling3NTVersion, 0);
-	m_bDrury = theApp.GetProfileInt(strSettingsKey, szDrury, FALSE);
-	m_bLebensohl = theApp.GetProfileInt(strSettingsKey, szLebensohl, FALSE);
-	m_bDONT = theApp.GetProfileInt(strSettingsKey, szDONT, FALSE);
-	m_bTakeoutDoubles = theApp.GetProfileInt(strSettingsKey, szTakeoutDoubles, TRUE);
-	m_bNegativeDoubles = theApp.GetProfileInt(strSettingsKey, szNegativeDoubles, TRUE);
-	m_nAllowable1Openings = theApp.GetProfileInt(strSettingsKey, szAllowable1Openings, 0);
-	m_n2ClubOpenRange = theApp.GetProfileInt(strSettingsKey, sz2ClubOpenRange, 0);
-	m_nNTRange[0] = theApp.GetProfileInt(strSettingsKey, sz1NTRange, 1);
-	m_nNTRange[1] = theApp.GetProfileInt(strSettingsKey, sz2NTRange, 2);
-	m_nNTRange[2] = theApp.GetProfileInt(strSettingsKey, sz3NTRange, 0);
-	m_bStayman = theApp.GetProfileInt(strSettingsKey, szStayman, TRUE);
-	m_bJacobyTransfers = theApp.GetProfileInt(strSettingsKey, szJacobyTransfers, FALSE);
-	m_b4SuitTransfers = theApp.GetProfileInt(strSettingsKey, sz4SuitTransfers, TRUE);
-	m_b4thSuitForcing = theApp.GetProfileInt(strSettingsKey, sz4thSuitForcing, FALSE);
-	m_bStructuredReverses = theApp.GetProfileInt(strSettingsKey, szStructuredReverses, FALSE);
-	m_b3LevelTakeouts = theApp.GetProfileInt(strSettingsKey, sz3LevelTakeouts, FALSE);
-	m_bWeakJumpOvercalls = theApp.GetProfileInt(strSettingsKey, szWeakJumpOvercalls, 0);
-	m_bBlackwood = theApp.GetProfileInt(strSettingsKey, szBlackwood, 1);
-	m_bCueBids = theApp.GetProfileInt(strSettingsKey, szCueBids, TRUE);
-	m_bGerber = theApp.GetProfileInt(strSettingsKey, szGerber, FALSE);
+	m_bLimitRaises = app_->GetProfileInt(strSettingsKey, szLimitRaises, FALSE);
+	m_bSplinterBids = app_->GetProfileInt(strSettingsKey, szSplinters, FALSE);
+	m_bMichaels = app_->GetProfileInt(strSettingsKey, szMichaels, FALSE);
+	m_bUnusualNT = app_->GetProfileInt(strSettingsKey, szUnusualNT, FALSE);
+	m_bJacoby2NT = app_->GetProfileInt(strSettingsKey, szJacoby2NT, FALSE);
+	m_bGambling3NT = app_->GetProfileInt(strSettingsKey, szGambling3NT, FALSE);
+	m_nGambling3NTVersion = app_->GetProfileInt(strSettingsKey, szGambling3NTVersion, 0);
+	m_bDrury = app_->GetProfileInt(strSettingsKey, szDrury, FALSE);
+	m_bLebensohl = app_->GetProfileInt(strSettingsKey, szLebensohl, FALSE);
+	m_bDONT = app_->GetProfileInt(strSettingsKey, szDONT, FALSE);
+	m_bTakeoutDoubles = app_->GetProfileInt(strSettingsKey, szTakeoutDoubles, TRUE);
+	m_bNegativeDoubles = app_->GetProfileInt(strSettingsKey, szNegativeDoubles, TRUE);
+	m_nAllowable1Openings = app_->GetProfileInt(strSettingsKey, szAllowable1Openings, 0);
+	m_n2ClubOpenRange = app_->GetProfileInt(strSettingsKey, sz2ClubOpenRange, 0);
+	m_nNTRange[0] = app_->GetProfileInt(strSettingsKey, sz1NTRange, 1);
+	m_nNTRange[1] = app_->GetProfileInt(strSettingsKey, sz2NTRange, 2);
+	m_nNTRange[2] = app_->GetProfileInt(strSettingsKey, sz3NTRange, 0);
+	m_bStayman = app_->GetProfileInt(strSettingsKey, szStayman, TRUE);
+	m_bJacobyTransfers = app_->GetProfileInt(strSettingsKey, szJacobyTransfers, FALSE);
+	m_b4SuitTransfers = app_->GetProfileInt(strSettingsKey, sz4SuitTransfers, TRUE);
+	m_b4thSuitForcing = app_->GetProfileInt(strSettingsKey, sz4thSuitForcing, FALSE);
+	m_bStructuredReverses = app_->GetProfileInt(strSettingsKey, szStructuredReverses, FALSE);
+	m_b3LevelTakeouts = app_->GetProfileInt(strSettingsKey, sz3LevelTakeouts, FALSE);
+	m_bWeakJumpOvercalls = app_->GetProfileInt(strSettingsKey, szWeakJumpOvercalls, 0);
+	m_bBlackwood = app_->GetProfileInt(strSettingsKey, szBlackwood, 1);
+	m_bCueBids = app_->GetProfileInt(strSettingsKey, szCueBids, TRUE);
+	m_bGerber = app_->GetProfileInt(strSettingsKey, szGerber, FALSE);
 }
 
 
@@ -263,40 +263,40 @@ void CConventionSet::Terminate()
 	CString strSettingsKey = szBiddingOptions + m_strName;
 
 	// write out current bidding conventions settings
-	theApp.WriteProfileInt(strSettingsKey, szBiddingStyle, m_nBiddingStyle);
+	app_->WriteProfileInt(strSettingsKey, szBiddingStyle, m_nBiddingStyle);
 	//
-	theApp.WriteProfileInt(strSettingsKey, szFiveCardMajors, m_bFiveCardMajors);
-	theApp.WriteProfileInt(strSettingsKey, sz2ClubConvention, m_bArtificial2ClubConvention);
-	theApp.WriteProfileInt(strSettingsKey, szWeakTwoBids, m_bWeakTwoBids);
-	theApp.WriteProfileInt(strSettingsKey, szShutoutBids, m_bShutoutBids);
-	theApp.WriteProfileInt(strSettingsKey, szOgustConvention, m_bOgust);
-	theApp.WriteProfileInt(strSettingsKey, szLimitRaises, m_bLimitRaises);
-	theApp.WriteProfileInt(strSettingsKey, szSplinters, m_bSplinterBids);
-	theApp.WriteProfileInt(strSettingsKey, szMichaels, m_bMichaels);
-	theApp.WriteProfileInt(strSettingsKey, szUnusualNT, m_bUnusualNT);
-	theApp.WriteProfileInt(strSettingsKey, szJacoby2NT, m_bJacoby2NT);
-	theApp.WriteProfileInt(strSettingsKey, szGambling3NT, m_bGambling3NT);
-	theApp.WriteProfileInt(strSettingsKey, szGambling3NTVersion, m_nGambling3NTVersion);
-	theApp.WriteProfileInt(strSettingsKey, szDrury, m_bDrury);
-	theApp.WriteProfileInt(strSettingsKey, szLebensohl, m_bLebensohl);
-	theApp.WriteProfileInt(strSettingsKey, szDONT, m_bDONT);
-	theApp.WriteProfileInt(strSettingsKey, szTakeoutDoubles, m_bTakeoutDoubles);
-	theApp.WriteProfileInt(strSettingsKey, szNegativeDoubles, m_bNegativeDoubles);
-	theApp.WriteProfileInt(strSettingsKey, szAllowable1Openings, m_nAllowable1Openings);
-	theApp.WriteProfileInt(strSettingsKey, sz2ClubOpenRange, m_n2ClubOpenRange);
-	theApp.WriteProfileInt(strSettingsKey, sz1NTRange, m_nNTRange[0]);
-	theApp.WriteProfileInt(strSettingsKey, sz2NTRange, m_nNTRange[1]);
-	theApp.WriteProfileInt(strSettingsKey, sz3NTRange, m_nNTRange[2]);
-	theApp.WriteProfileInt(strSettingsKey, szStayman, m_bStayman);
-	theApp.WriteProfileInt(strSettingsKey, szJacobyTransfers, m_bJacobyTransfers);
-	theApp.WriteProfileInt(strSettingsKey, sz4SuitTransfers, m_b4SuitTransfers);
-	theApp.WriteProfileInt(strSettingsKey, sz4thSuitForcing, m_b4thSuitForcing);
-	theApp.WriteProfileInt(strSettingsKey, szStructuredReverses, m_bStructuredReverses);
-	theApp.WriteProfileInt(strSettingsKey, sz3LevelTakeouts, m_b3LevelTakeouts);
-	theApp.WriteProfileInt(strSettingsKey, szWeakJumpOvercalls, m_bWeakJumpOvercalls);
-	theApp.WriteProfileInt(strSettingsKey, szBlackwood, m_bBlackwood);
-	theApp.WriteProfileInt(strSettingsKey, szCueBids, m_bCueBids);
-	theApp.WriteProfileInt(strSettingsKey, szGerber, m_bGerber);
+  app_->WriteProfileInt(strSettingsKey, szFiveCardMajors, m_bFiveCardMajors);
+  app_->WriteProfileInt(strSettingsKey, sz2ClubConvention, m_bArtificial2ClubConvention);
+  app_->WriteProfileInt(strSettingsKey, szWeakTwoBids, m_bWeakTwoBids);
+  app_->WriteProfileInt(strSettingsKey, szShutoutBids, m_bShutoutBids);
+  app_->WriteProfileInt(strSettingsKey, szOgustConvention, m_bOgust);
+  app_->WriteProfileInt(strSettingsKey, szLimitRaises, m_bLimitRaises);
+  app_->WriteProfileInt(strSettingsKey, szSplinters, m_bSplinterBids);
+  app_->WriteProfileInt(strSettingsKey, szMichaels, m_bMichaels);
+  app_->WriteProfileInt(strSettingsKey, szUnusualNT, m_bUnusualNT);
+  app_->WriteProfileInt(strSettingsKey, szJacoby2NT, m_bJacoby2NT);
+  app_->WriteProfileInt(strSettingsKey, szGambling3NT, m_bGambling3NT);
+  app_->WriteProfileInt(strSettingsKey, szGambling3NTVersion, m_nGambling3NTVersion);
+  app_->WriteProfileInt(strSettingsKey, szDrury, m_bDrury);
+  app_->WriteProfileInt(strSettingsKey, szLebensohl, m_bLebensohl);
+  app_->WriteProfileInt(strSettingsKey, szDONT, m_bDONT);
+  app_->WriteProfileInt(strSettingsKey, szTakeoutDoubles, m_bTakeoutDoubles);
+  app_->WriteProfileInt(strSettingsKey, szNegativeDoubles, m_bNegativeDoubles);
+  app_->WriteProfileInt(strSettingsKey, szAllowable1Openings, m_nAllowable1Openings);
+  app_->WriteProfileInt(strSettingsKey, sz2ClubOpenRange, m_n2ClubOpenRange);
+  app_->WriteProfileInt(strSettingsKey, sz1NTRange, m_nNTRange[0]);
+  app_->WriteProfileInt(strSettingsKey, sz2NTRange, m_nNTRange[1]);
+  app_->WriteProfileInt(strSettingsKey, sz3NTRange, m_nNTRange[2]);
+  app_->WriteProfileInt(strSettingsKey, szStayman, m_bStayman);
+  app_->WriteProfileInt(strSettingsKey, szJacobyTransfers, m_bJacobyTransfers);
+  app_->WriteProfileInt(strSettingsKey, sz4SuitTransfers, m_b4SuitTransfers);
+  app_->WriteProfileInt(strSettingsKey, sz4thSuitForcing, m_b4thSuitForcing);
+  app_->WriteProfileInt(strSettingsKey, szStructuredReverses, m_bStructuredReverses);
+  app_->WriteProfileInt(strSettingsKey, sz3LevelTakeouts, m_b3LevelTakeouts);
+  app_->WriteProfileInt(strSettingsKey, szWeakJumpOvercalls, m_bWeakJumpOvercalls);
+  app_->WriteProfileInt(strSettingsKey, szBlackwood, m_bBlackwood);
+  app_->WriteProfileInt(strSettingsKey, szCueBids, m_bCueBids);
+  app_->WriteProfileInt(strSettingsKey, szGerber, m_bGerber);
 }
 
 
@@ -401,10 +401,10 @@ void CConventionSet::InitConventions()
 
 
 	// instruct all players to clear their convention status
-	if (pDOC && pDOC->IsInitialized())
+	if (app_->IsDocInitialized())
 	{
 		for(int i=0;i<4;i++)
-			PLAYER(i).ClearConventionStatus();
+			app_->GetPlayer(i)->ClearConventionStatus();
 	}
 }
 

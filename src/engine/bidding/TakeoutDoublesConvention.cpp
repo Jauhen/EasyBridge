@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "TakeoutDoublesConvention.h"
@@ -88,7 +87,7 @@ BOOL CTakeoutDoublesConvention::TryConvention(const CPlayer& player,
 	//
 	for(i=0,nSuit=nOppSuit;i<3;i++)	// and examine the other suits
 	{
-		nSuit = GetNextSuit(nSuit);
+		nSuit = app_->GetNextSuit(nSuit);
 		if ((nSuit != nOppSuit2) && 
 			((bidState.numCardsInSuit[nSuit] < 3) || 
 					(bidState.nSuitStrength[nSuit] < SS_WEAK_SUPPORT)) )
@@ -195,7 +194,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 
 	int nBid,nRound = 1;
 	int nPartnersBid = bidState.nPartnersBid;
-	int nLastValidBid = pDOC->GetLastValidBid();
+	int nLastValidBid = app_->GetLastValidBid();
 	int nLastValidBidLevel = BID_LEVEL(nLastValidBid);
 	bool bSecondDouble = (bidState.nPartnersPrevBid == BID_DOUBLE);
 	int nConventionStatus = bidState.GetConventionStatus(this);
@@ -315,7 +314,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		int nSuit,nOrigSuit;
 		double fCardPts = bidState.fCardPts;
 		double fPts = bidState.fPts;
-		int nEnemyBid = pDOC->GetLastValidBid();
+		int nEnemyBid = app_->GetLastValidBid();
 		int nEnemyBidLevel = BID_LEVEL(nEnemyBid);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 
@@ -597,7 +596,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		// here, we have 20+ minimum total points
 		//
 
-		int nEnemyBid = pDOC->GetBidByPlayer(bidState.m_pLHOpponent->GetPosition(),0);
+		int nEnemyBid = app_->GetBidByPlayer(bidState.m_pLHOpponent->GetPosition(),0);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 
 		// see if partner raised our suit
@@ -908,7 +907,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		// set team point estimates -- be conservative
 		BOOL bPartnerJumped = FALSE;
 		BOOL bPartnerJumpedToGame = FALSE;
-		int nEnemyBid = pDOC->GetValidBidRecord(0);
+		int nEnemyBid = app_->GetValidBidRecord(0);
 		int nEnemyBidLevel = BID_LEVEL(nEnemyBid);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 		if ((nPartnersBid - nEnemyBid) > 5)
@@ -1140,7 +1139,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		//--------------------------------------------------------------------------
 		// here, we have no suit agreement (e.g., partner bid the opponents' suit)
 		//
-		int nLastBid = pDOC->GetLastValidBid();
+		int nLastBid = app_->GetLastValidBid();
 		if (bBalanced)
 		{
 			// try notrumps
