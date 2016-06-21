@@ -155,6 +155,14 @@ public:
     return theApp.GetValue(tb4AceBonus) == TRUE;
   }
 
+  virtual bool IsCountShortSuits() {
+    return theApp.GetValue(tbCountShortSuits) == TRUE;
+  }
+
+  virtual bool IsPenalizeUGHonors() {
+    return theApp.GetValue(tbPenalizeUGHonors) == TRUE;
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   //

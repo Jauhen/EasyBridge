@@ -51,6 +51,8 @@ public:
   virtual int GetSuitSequence(int suit) const = 0;
   virtual bool IsAcelessPenalty() = 0;
   virtual bool IsFourAceBonus() = 0;
+  virtual bool IsCountShortSuits() = 0;
+  virtual bool IsPenalizeUGHonors() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////

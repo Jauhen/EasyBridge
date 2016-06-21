@@ -39,6 +39,8 @@ public:
   MOCK_CONST_METHOD1(GetSuitSequence, int(int suit));
   MOCK_METHOD0(IsAcelessPenalty, bool());
   MOCK_METHOD0(IsFourAceBonus, bool());
+  MOCK_METHOD0(IsCountShortSuits, bool());
+  MOCK_METHOD0(IsPenalizeUGHonors, bool());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));

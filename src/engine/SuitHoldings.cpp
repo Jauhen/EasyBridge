@@ -12,8 +12,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "card_constants.h"
 #include "Deck.h"
 #include "Card.h"
 #include "SuitHoldings.h"
@@ -356,7 +355,7 @@ double CSuitHoldings::CountPoints(const BOOL bForceCount)
 
 	// count long points if the suit is good 
 	// i.e., 2+ honors of KJ or better (i.e., 4+ HCPs)
-	if (pCurrConvSet->IsConventionEnabled(tid5CardMajors))
+	if (app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors))
 	{
 		// if playing 5-card majors, add 1 pt for the sixth card + 2 per extra card
 		if ((m_numCards > 5) && (m_numHonors >= 2) && (m_numHCPoints >= 4))
@@ -370,14 +369,14 @@ double CSuitHoldings::CountPoints(const BOOL bForceCount)
 	}
 
 	// and set the total points tally
-	if (theApp.GetValue(tbCountShortSuits))
+	if (app_->IsCountShortSuits())
 		m_numTotalPoints = m_numHCPoints + m_numLengthPoints + m_numShortPoints;
 	else
 		m_numTotalPoints = m_numHCPoints + m_numLengthPoints;
 
 	// check for unguarded/poorly guarded honors
 	m_numPenaltyPoints = 0;
-	if (theApp.GetValue(tbPenalizeUGHonors)) 
+	if (app_->IsPenalizeUGHonors()) 
 	{
 		//
 		if (m_numCards == 1) 
@@ -522,7 +521,7 @@ int CSuitHoldings::GetCardsPlayedInSuit(CGuessedCardHoldings& playedCardsList)
 	// yet by the time this routines is called (a player's guessed hands are cleared,
 	// then his hands are initialized using this info, before the next player is processed)
   CGuessedCardHoldings  tempList{app_};
-	CPlayer* pPlayer = pDOC->GetPlayer(SOUTH);
+	CPlayer* pPlayer = app_->GetPlayer(SOUTH);
 	if (pPlayer)
 	{
 		for(int i=0;i<4;i++)
@@ -755,7 +754,7 @@ void CSuitHoldings::EvaluateHoldings()
 	{
 		// if playing 5-card majors, suit is weak to moderate support 
 		// with 3 cards
-		if (pCurrConvSet->IsConventionEnabled(tid5CardMajors))
+		if (app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors))
 		{
 			if (m_numHCPoints >= 2)		// Qxx is moderate support
 				m_nStrength = SS_MODERATE_SUPPORT;			
