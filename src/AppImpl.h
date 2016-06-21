@@ -134,6 +134,11 @@ public:
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
     return gib.Invoke(player, hand, dummyHand, statusDialog);
   }
+
+  virtual bool IsEnableGIBForDefender() {
+    return theApp.GetValue(tbEnableGIBForDefender) == TRUE;
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
@@ -331,6 +336,35 @@ public:
     return pDOC->GetGameTrickWinner(round);
   }
 
+  virtual CPlayer* GetDummyPlayer() const {
+    return pDOC->GetDummyPlayer();
+  }
+
+  virtual int GetDummyPosition() const {
+    return pDOC->GetDummyPosition();
+  }
+
+  virtual int GetGameTrickLead(int round) const {
+    return pDOC->GetGameTrickLead(round);
+  }
+
+  virtual CCard* GetGameTrickCard(int round, int position) const {
+    return pDOC->GetGameTrickCard(round, position);
+  }
+
+  virtual int GetNumTricksWonByTeam(int team) const {
+    return pDOC->GetNumTricksWonByTeam(team);
+  }
+
+  virtual bool IsReviewingGame() {
+    return pDOC->IsReviewingGame() == TRUE;
+  }
+
+  virtual CPlayer* GetRoundLeadPlayer() const {
+    return pDOC->GetRoundLeadPlayer();
+  }
+
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW
@@ -434,6 +468,10 @@ public:
 
   virtual int GetPrevSuit(int suit) {
     return ::GetPrevSuit(suit);
+  }
+
+  virtual bool IsHonor(int faceValue) {
+    return ::IsHonor(faceValue) == TRUE;
   }
 };
 

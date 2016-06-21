@@ -37,7 +37,6 @@
 #include "Discard.h"
 #include "ExitPlay.h"
 #include "gib.h"
-#include "progopts.h"
 #include "DeclarerPlayEngine.h"
 #include "DummyPlayEngine.h"
 #include "../CombinedHoldings.h"

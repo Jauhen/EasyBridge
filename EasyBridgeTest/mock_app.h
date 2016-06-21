@@ -34,6 +34,7 @@ public:
   MOCK_METHOD0(IsInExpressAutoPlay, bool());
   MOCK_METHOD0(IsComputerCanClaim, bool());
   MOCK_METHOD5(InvokeGIB, int(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog));
+  MOCK_METHOD0(IsEnableGIBForDefender, bool());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -72,7 +73,13 @@ public:
   MOCK_CONST_METHOD0(GetContractLevel, int());
   MOCK_CONST_METHOD0(GetNumTricksRemaining, int());
   MOCK_CONST_METHOD1(GetGameTrickWinner, int(int round));
-
+  MOCK_CONST_METHOD0(GetDummyPlayer, CPlayer*());
+  MOCK_CONST_METHOD0(GetDummyPosition, int());
+  MOCK_CONST_METHOD1(GetGameTrickLead, int(int round));
+  MOCK_CONST_METHOD2(GetGameTrickCard, CCard*(int round, int position));
+  MOCK_CONST_METHOD1(GetNumTricksWonByTeam, int(int team));
+  MOCK_METHOD0(IsReviewingGame, bool());
+  MOCK_CONST_METHOD0(GetRoundLeadPlayer, CPlayer*());
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
@@ -108,4 +115,5 @@ public:
   MOCK_METHOD1(CardValToString, const char* (int i));
   MOCK_METHOD1(GetPrevPlayer, int(int position));
   MOCK_METHOD1(GetPrevSuit, int(int suit));
+  MOCK_METHOD1(IsHonor, bool(int faceValue));
 };

@@ -46,6 +46,7 @@ public:
   virtual bool IsInExpressAutoPlay() = 0;
   virtual bool IsComputerCanClaim() = 0;
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) = 0;
+  virtual bool IsEnableGIBForDefender() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -107,6 +108,14 @@ public:
   virtual int GetContractLevel() const = 0;
   virtual int GetNumTricksRemaining() const = 0;
   virtual int GetGameTrickWinner(int round) const = 0;
+  virtual CPlayer* GetDummyPlayer() const = 0;
+  virtual int GetDummyPosition() const = 0;
+  virtual int GetGameTrickLead(int round) const = 0;
+  virtual CCard* GetGameTrickCard(int round, int position) const = 0;
+  virtual int GetNumTricksWonByTeam(int team) const = 0;
+  virtual bool IsReviewingGame() = 0;
+  virtual CPlayer* GetRoundLeadPlayer() const = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -144,4 +153,5 @@ public:
   virtual const char* CardValToString(int i) = 0;
   virtual int GetPrevPlayer(int position) = 0;
   virtual int GetPrevSuit(int suit) = 0;
+  virtual bool IsHonor(int faceValue) = 0;
 };
