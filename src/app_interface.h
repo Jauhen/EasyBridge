@@ -115,7 +115,11 @@ public:
   virtual int GetNumTricksWonByTeam(int team) const = 0;
   virtual bool IsReviewingGame() = 0;
   virtual CPlayer* GetRoundLeadPlayer() const = 0;
-
+  virtual int GetContractSuit() const = 0;
+  virtual bool IsTeamVulnerable(int team) = 0;
+  virtual bool IsDummyExposed() const = 0;
+  virtual int GetSuitsUnbid(CArray<int, int> &suits) const = 0;
+  virtual int GetDeclaringTeam() const = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -146,6 +150,7 @@ public:
   virtual int GetPlayerTeam(int position) = 0;
   virtual int GetNextPlayer(int position) = 0;
   virtual int GetNextSuit(int suit) = 0;
+  virtual CString FormString(const char* szFormat, const char* arg1, const char* arg2, const char* arg3) = 0;
   virtual CString FormString(const char* szFormat, const char* arg1, const char* arg2) = 0;
   virtual CString FormString(const char* format, const char* arg1) = 0;
   virtual CString FormString(const char* format, int arg1) = 0;
@@ -154,4 +159,6 @@ public:
   virtual int GetPrevPlayer(int position) = 0;
   virtual int GetPrevSuit(int suit) = 0;
   virtual bool IsHonor(int faceValue) = 0;
+  virtual const CString CardToString(int deckValue) = 0;
+  virtual const char* TeamToString(int team) = 0;
 };

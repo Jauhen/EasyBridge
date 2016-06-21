@@ -364,6 +364,25 @@ public:
     return pDOC->GetRoundLeadPlayer();
   }
 
+  virtual int GetContractSuit() const {
+    return pDOC->GetContractSuit();
+  }
+
+  virtual bool IsTeamVulnerable(int team) {
+    return pDOC->IsTeamVulnerable(team) == TRUE;
+  }
+
+  virtual bool IsDummyExposed() const {
+    return pDOC->IsDummyExposed();
+  }
+  
+  virtual int GetSuitsUnbid(CArray<int, int> &suits) const {
+    return pDOC->GetSuitsBid(suits);
+  }
+
+  virtual int GetDeclaringTeam() const {
+    return pDOC->GetDeclaringTeam();
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -442,6 +461,10 @@ public:
     return ::GetNextSuit(suit);
   }
 
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) {
+    return ::FormString(format, arg1, arg2, arg3);
+  }
+
   virtual CString FormString(const char* format, const char* arg1, const char* arg2) {
     return ::FormString(format, arg1, arg2);
   }
@@ -472,6 +495,14 @@ public:
 
   virtual bool IsHonor(int faceValue) {
     return ::IsHonor(faceValue) == TRUE;
+  }
+
+  virtual const CString CardToString(int deckValue) {
+    return ::CardToString(deckValue);
+  }
+
+  virtual const char* TeamToString(int team) {
+    return ::TeamToString(team);
   }
 };
 

@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "Play.h"
 #include "PlayList.h"
 #include "../Card.h"
@@ -22,6 +21,7 @@
 #include "PlayEngine.h"
 #include "../CombinedHoldings.h"
 #include "DeclarerPlayEngine.h"
+#include "app_interface.h"
 /*
 // required for CPlayList
 #include "BidEngine.h"
@@ -139,7 +139,7 @@ BOOL CPlay::IsPlayUsable(const CCombinedHoldings& combinedHand, const CPlayEngin
 	//
 
 	// but only do so if this is position #0 or 1
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	if (nOrdinal >= 2)
 		return TRUE;
 

@@ -12,8 +12,7 @@
 // - a play of throwing away losing cards
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../card.h"
 #include "HoldUp.h"
 #include "../Player.h"
@@ -22,7 +21,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "../PlayerStatusDialog.h"
-
+#include "app_interface.h"
 
 
 //
@@ -67,7 +66,7 @@ void CHoldUp::Init()
 //
 CString CHoldUp::GetFullDescription()
 {
-	return FormString("Hold up a round of %s.",app_->SuitToString(m_nSuit));
+	return app_->FormString("Hold up a round of %s.",app_->SuitToString(m_nSuit));
 }
 
 
@@ -81,28 +80,28 @@ PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combined
 				    CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = pDOC->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (pDOC->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 	// 
-	CCard* pRoundTopCard = pDOC->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pRoundTopCard = app_->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pRoundTopCard == pPartnersCard);
 	//

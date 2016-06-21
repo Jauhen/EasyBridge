@@ -10,7 +10,7 @@
 // Discard.cpp
 //
 #include "stdafx.h"
-#include "EasyB.h"
+#include "../card_constants.h"
 #include "../Deck.h"
 #include "../Card.h"
 #include "Discard.h"
@@ -19,6 +19,7 @@
 #include "../CardLocation.h"
 #include "../GuessedHandHoldings.h"
 #include "../PlayerStatusDialog.h"
+#include "app_interface.h"
 
 
 

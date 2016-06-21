@@ -10,8 +10,7 @@
 // ExitPlay.cpp
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../Deck.h"
 #include "../Card.h"
 #include "ExitPlay.h"
@@ -22,7 +21,7 @@
 #include "../CombinedSuitHoldings.h"
 #include "../PlayerStatusDialog.h"
 #include "DeclarerPlayEngine.h"
-
+#include "app_interface.h"
 
 //
 //==================================================================
@@ -91,11 +90,11 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	// check which hand this is
 	CPlayer* pPlayer = playEngine.GetPlayer();
 	CDeclarerPlayEngine& declarerEngine = (CDeclarerPlayEngine&) playEngine;
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
-	CString strRHO = app_->PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CString strRHO = app_->PositionToString(app_->GetPrevPlayer(playEngine.GetPlayerPosition()));
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//
 	BOOL bPlayViable = FALSE;
@@ -108,7 +107,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	}
 
 	//
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	switch(nOrdinal)
 	{
 		case 1:

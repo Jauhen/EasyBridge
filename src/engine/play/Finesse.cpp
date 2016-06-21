@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../Deck.h"
 #include "../Card.h"
 #include "../CardList.h"
@@ -69,7 +68,7 @@ void CFinesse::Init()
 {
 	CPlay::Init();
 	//
-	int nTrumpSuit = pDOC->GetTrumpSuit();
+	int nTrumpSuit = app_->GetTrumpSuit();
 	m_nGapSize = m_pGapCards->GetNumCards();
 	m_pEnemyOrKeyCardsList = m_pGapCards;	// will be deleted by base class
 	m_pConsumedCard = deck.GetCard(m_nSuit, m_nCardVal);
@@ -88,7 +87,7 @@ void CFinesse::Init()
 	if (m_nTarget == AGAINST_LHO)
 		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
 	else
-		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
+		m_nTargetPos = app_->GetPrevPlayer(m_nPlayerPosition);
 
 	// form name & description
 	if (m_nSuit == nTrumpSuit)
