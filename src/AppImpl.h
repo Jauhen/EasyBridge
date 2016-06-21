@@ -461,6 +461,14 @@ public:
     return ::GetNextSuit(suit);
   }
 
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6) {
+    return ::FormString(format, arg1, arg2, arg3, arg4, arg5, arg6);
+  }
+
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5) {
+    return ::FormString(format, arg1, arg2, arg3, arg4, arg5);
+  }
+
   virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) {
     return ::FormString(format, arg1, arg2, arg3);
   }

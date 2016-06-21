@@ -150,8 +150,10 @@ public:
   virtual int GetPlayerTeam(int position) = 0;
   virtual int GetNextPlayer(int position) = 0;
   virtual int GetNextSuit(int suit) = 0;
-  virtual CString FormString(const char* szFormat, const char* arg1, const char* arg2, const char* arg3) = 0;
-  virtual CString FormString(const char* szFormat, const char* arg1, const char* arg2) = 0;
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6) = 0;
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5) = 0;
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) = 0;
+  virtual CString FormString(const char* format, const char* arg1, const char* arg2) = 0;
   virtual CString FormString(const char* format, const char* arg1) = 0;
   virtual CString FormString(const char* format, int arg1) = 0;
   virtual CString ContractToString(int contract, int modifier) = 0;

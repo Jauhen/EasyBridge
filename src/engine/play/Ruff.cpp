@@ -10,8 +10,7 @@
 // Ruff.cpp
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBDoc.h"
+#include "../card_constants.h"
 #include "../card.h"
 #include "Ruff.h"
 #include "../Player.h"
@@ -77,7 +76,7 @@ void CRuff::Init()
 	// form name & description
 	m_strName.Format("%s Ruff", app_->SuitToSingularString(m_nSuit));
 	m_strDescription.Format("Ruff a %s in %s", 
-							SuitToSingularString(m_nSuit),
+							app_->SuitToSingularString(m_nSuit),
 							((m_nTargetHand == IN_HAND)? "hand" : "dummy"));
 }
 
@@ -86,8 +85,8 @@ void CRuff::Init()
 //
 CString CRuff::GetFullDescription()
 {
-	return FormString("Ruff a %s in %s.",
-					   SuitToSingularString(m_nSuit),
+	return app_->FormString("Ruff a %s in %s.",
+    app_->SuitToSingularString(m_nSuit),
 					   (m_nTargetHand == 0)? "hand" : "dummy");
 }
 
@@ -109,29 +108,29 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = pDOC->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (pDOC->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = pDOC->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = pDOC->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (pDOC->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 	//
-	CCard* pRoundTopCard = pDOC->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = pDOC->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = pDOC->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pRoundTopCard = app_->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pRoundTopCard == pPartnersCard);
 	//

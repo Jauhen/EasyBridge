@@ -113,10 +113,12 @@ public:
   MOCK_METHOD1(GetNextPlayer, int(int position));
   MOCK_METHOD1(GetNextSuit, int(int suit));
   MOCK_METHOD1(SuitToSingularString, const char*(int suit));
-  MOCK_METHOD4(FormString, CString(const char* szFormat, const char* arg1, const char* arg2, const char* arg3));
-  MOCK_METHOD3(FormString, CString(const char* szFormat, const char* arg1, const char* arg2));
-  MOCK_METHOD2(FormString, CString(const char* szFormat, const char* arg1));
-  MOCK_METHOD2(FormString, CString(const char* szFormat, int arg1));
+  MOCK_METHOD7(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6));
+  MOCK_METHOD6(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5));
+  MOCK_METHOD4(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3));
+  MOCK_METHOD3(FormString, CString(const char* format, const char* arg1, const char* arg2));
+  MOCK_METHOD2(FormString, CString(const char* format, const char* arg1));
+  MOCK_METHOD2(FormString, CString(const char* format, int arg1));
   MOCK_METHOD2(ContractToString, CString(int contract, int modifier));
   MOCK_METHOD1(CardValToString, const char* (int i));
   MOCK_METHOD1(GetPrevPlayer, int(int position));

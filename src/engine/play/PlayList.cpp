@@ -11,7 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
+#include "../card_constants.h"
 #include "PlayList.h"
 #include "Play.h"
 
