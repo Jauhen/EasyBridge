@@ -11,7 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "JacobyTransferConvention.h"
 #include "ConventionSet.h"
@@ -171,7 +171,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	if (app_->GetCurrentConventionSet()->IsOptionEnabled(tb4SuitTransfers)) 
 	{
 		if (nPartnersBid != BID_2NT)	// xfer to next suit
-			nNewSuit = GetNextSuit(nPartnersSuit);
+			nNewSuit = app_->GetNextSuit(nPartnersSuit);
 		else
 			nNewSuit = DIAMONDS;	// NT -> Diamonds transfer
 	} 
@@ -179,7 +179,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	{
 		// simple transfers
 		if (nPartnersBid != BID_2NT)
-			nNewSuit = GetNextSuit(nPartnersSuit);
+			nNewSuit = app_->GetNextSuit(nPartnersSuit);
 		else
 			nNewSuit = NONE;		// 2NT = no explicit transfer
 	}
@@ -315,7 +315,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	if (app_->GetCurrentConventionSet()->IsOptionEnabled(tb4SuitTransfers)) 
 	{
 		if (nPreviousSuit != NOTRUMP)
-			nNewSuit = GetNextSuit(nPreviousSuit);
+			nNewSuit = app_->GetNextSuit(nPreviousSuit);
 		else
 			nNewSuit = DIAMONDS;
 		//
@@ -325,7 +325,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	{
 		// not playing 4-suit transfers
 		if (nPreviousSuit != NOTRUMP)
-			nNewSuit = GetNextSuit(nPreviousSuit);
+			nNewSuit = app_->GetNextSuit(nPreviousSuit);
 		else
 			return FALSE;	// 2NT is natural
 

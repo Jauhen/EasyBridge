@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "GerberConvention.h"
 #include "ConventionSet.h"
@@ -149,7 +148,7 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 		}
 		else
 		{
-			nBid = bidState.GetCheapestShiftBid(nEventualSuit, pDOC->GetLastValidBid());
+			nBid = bidState.GetCheapestShiftBid(nEventualSuit, app_->GetLastValidBid());
 			status << "2GERBY3! so without quite enough points for a slam, we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//

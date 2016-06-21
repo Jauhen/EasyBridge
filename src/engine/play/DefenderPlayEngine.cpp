@@ -1227,7 +1227,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 	// so play the winners
 	int nSuit;
 	if (ISSUIT(nTrumpSuit))
-		nSuit = GetNextSuit(nTrumpSuit);
+		nSuit = app_->GetNextSuit(nTrumpSuit);
 	else
 		nSuit = CLUBS;
 	//
@@ -1238,7 +1238,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 		if (( bSuitIsSafe[i]) && (m_pHand->GetSuit(nSuit).GetNumTopCards() > 0) )
 			break;
 		// else advance to the next suit
-		nSuit = GetNextSuit(nSuit);
+		nSuit = app_->GetNextSuit(nSuit);
 	}
 	
 	// make sure we found a suit!

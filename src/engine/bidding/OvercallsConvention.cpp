@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "OvercallsConvention.h"
 #include "../HandHoldings.h"
@@ -302,7 +301,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 	int nPartnersBidLevel = bidState.nPartnersBidLevel;
 	int numPartnerBidsMade = bidState.m_numPartnerBidsMade;
 	int numPartnerBidTurns = bidState.m_numPartnerBidTurns;
-	int nFirstBid = pDOC->GetValidBidRecord(0);
+	int nFirstBid = app_->GetValidBidRecord(0);
 
 	// Requirements are:
 	// - partner opened bidding for the team
@@ -449,7 +448,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 	// need a good 6-card suit in order to bid it in preference to partner 
 	//
 	int nBid;
-	int nLastBid = pDOC->GetLastValidBid();
+	int nLastBid = app_->GetLastValidBid();
 	BOOL bJumped = FALSE;
 	//
 	if ((bidState.numPrefSuitCards >= 6) && 
@@ -751,7 +750,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 	//-----------------------------------------------------------------
 	// Now determine a plan of action!
 	//
-	int nLastBid = pDOC->GetLastValidBid();
+	int nLastBid = app_->GetLastValidBid();
 	int nLastBidLevel = BID_LEVEL(nLastBid);
 	int nBidLevel;
 

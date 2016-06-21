@@ -640,14 +640,14 @@ void CDeclarerPlayEngine::EvaluateEntries()
 
 		// iterate over other suits
 		int numSluffs = 0;
-		int nSuit = GetNextSuit(m_nTrumpSuit);
+		int nSuit = app_->GetNextSuit(m_nTrumpSuit);
 		for(int i=0;i<3;i++)
 		{	
 			CCombinedSuitHoldings& suit = m_pCombinedHand->GetSuit(nSuit);
 //			numSluffs += suit.GetNumDummyLosers();
 			if (suit.GetNumDummyCards() > suit.GetNumDeclarerCards())
 				numSluffs += (suit.GetNumDummyCards() - suit.GetNumDeclarerCards());
-			nSuit = GetNextSuit(nSuit);
+			nSuit = app_->GetNextSuit(nSuit);
 		}
 //		int numRuffs = Min(numDeclarerExcessTrumps, numSluffs);
 		int numRuffs = Min(numDeclarerTrumps, numSluffs);
@@ -703,14 +703,14 @@ void CDeclarerPlayEngine::EvaluateEntries()
 		int numDummyExcessTrumps = numDummyTrumps - trumpSuit.GetNumDummyWinners();
 		// iterate over other suits
 		int numSluffs = 0;
-		int nSuit = GetNextSuit(m_nTrumpSuit);
+		int nSuit = app_->GetNextSuit(m_nTrumpSuit);
 		for(int i=0;i<3;i++)
 		{	
 			CCombinedSuitHoldings& suit = m_pCombinedHand->GetSuit(nSuit);
 //			numSluffs += m_pCombinedHand->GetSuit(nSuit).GetNumDummyLosers();
 			if (suit.GetNumDeclarerCards() > suit.GetNumDummyCards())
 				numSluffs += (suit.GetNumDeclarerCards() - suit.GetNumDummyCards());
-			nSuit = GetNextSuit(nSuit);
+			nSuit = app_->GetNextSuit(nSuit);
 		}
 //		int numRuffs = Min(numDummyExcessTrumps, numSluffs);
 		int numRuffs = Min(numDummyTrumps, numSluffs);
@@ -4708,7 +4708,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 
 	// pick the starting suit -- make the trump suit the last 
 	if (ISSUIT(m_nTrumpSuit))
-		nSuit = GetNextSuit(m_nTrumpSuit);
+		nSuit = app_->GetNextSuit(m_nTrumpSuit);
 	else
 		nSuit = SPADES;
 
@@ -4728,7 +4728,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 		// skip if not pulling honors from trumps
 		if ((nSuit == m_nTrumpSuit) && (bExcludeTrumpSuit))
 		{
-			nSuit = GetNextSuit(nSuit);
+			nSuit = app_->GetNextSuit(nSuit);
 			continue;
 		}
 
@@ -4797,7 +4797,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 			playList << localPlayList.PopPlay();
 
 		// and proceed to the next suit
-		nSuit = GetNextSuit(nSuit);
+		nSuit = app_->GetNextSuit(nSuit);
 	}
 	if (nTricksCount > 0)
 		status < ".\n";
@@ -5555,7 +5555,7 @@ int CDeclarerPlayEngine::FindSuitDevelopmentPlays(CPlayList& forcePlayList, CPla
 	int nSuit = SPADES;
 	for(int z=0;z<4;z++)
 	{
-		nSuit = GetNextSuit(nSuit);
+		nSuit = app_->GetNextSuit(nSuit);
 
 		// skip trumps
 		if (nSuit == m_nTrumpSuit)
@@ -5811,7 +5811,7 @@ int CDeclarerPlayEngine::FindDropPlays(CPlayList& playList)
 
 	// pick the starting suit, skipping the trump suit the last 
 	if (ISSUIT(m_nTrumpSuit))
-		nSuit = GetNextSuit(m_nTrumpSuit);
+		nSuit = app_->GetNextSuit(m_nTrumpSuit);
 	else
 		nSuit = SPADES;
 	status << "5PLNDRP1! Looking at the hand for drop plays...\n";
@@ -5820,7 +5820,7 @@ int CDeclarerPlayEngine::FindDropPlays(CPlayList& playList)
 	//
 	// and check each suit
 	//
-	for(int z=0;z<4;z++,nSuit=GetNextSuit(nSuit))
+	for(int z=0;z<4;z++,nSuit= app_->GetNextSuit(nSuit))
 	{
 		// skip the trump suit
 		if (nSuit == m_nTrumpSuit)

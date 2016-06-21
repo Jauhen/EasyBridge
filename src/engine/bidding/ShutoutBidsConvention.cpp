@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "ShutoutBidsConvention.h"
 #include "app_interface.h"

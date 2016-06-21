@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "DruryConvention.h"
@@ -46,9 +45,9 @@ BOOL CDruryConvention::TryConvention(const CPlayer& player,
 	// 4: Partner must have bid at the 1-level
 	// 5: we have 11-12 pts and 3+ card support
 	//
-	int nOpeningBid = pDOC->GetOpeningBid();
+	int nOpeningBid = app_->GetOpeningBid();
 	int nPartnersBid = bidState.nPartnersBid;
-	int numTotalBidTurns = pDOC->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetNumBidsMade();
 	// test conditions 1 - 4
 	if ( (bidState.m_numBidTurns == 1) && (bidState.nPreviousBid == BID_PASS) && 
 		 ISBID(nOpeningBid) && (nOpeningBid == nPartnersBid) && 
@@ -111,7 +110,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 	//
 	int nPartnersBid = bidState.nPartnersBid;
 	int nPreviousBid = bidState.nPreviousBid;
-	int numTotalBidTurns = pDOC->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetNumBidsMade();
 
 	//
 	int nBid;
@@ -130,9 +129,9 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		// the requirements for an Drury Bid are:
 		// 1: we must have opened the bidding with 1 of a major in 3rd or 4th position
 		// 2: Partner passed at first opportunity, then bid 2C
-		int nOpeningBid = pDOC->GetOpeningBid();
+		int nOpeningBid = app_->GetOpeningBid();
 		int nPartnersBid = bidState.nPartnersBid;
-		int numTotalBidTurns = pDOC->GetNumBidsMade();
+		int numTotalBidTurns = app_->GetNumBidsMade();
 
 		// test conditions 1 - 4
 		if ( (bidState.m_numBidTurns == 1) && (ISMAJOR(BID_SUIT(nPreviousBid))) && 
@@ -276,7 +275,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner made an illegal bid
 			nBid = BID_PASS;
-			status << "DRUR49! Partner did not respond with 2D or 2" & GetSuitLetter(nSuit) &
+			status << "DRUR49! Partner did not respond with 2D or 2" & app_->GetSuitLetter(nSuit) &
 					  " to our Drury bid, so the convention is off and we have to pass.\n";
 		}
 

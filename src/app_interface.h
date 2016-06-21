@@ -34,6 +34,8 @@ public:
   virtual double OpenPoints(double points) = 0;
   virtual double PointCount(double points) = 0;
   virtual int GetMinimumOpeningValue(CPlayer* player) const = 0;
+  virtual int GetProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
+  virtual void WriteProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -72,6 +74,10 @@ public:
   virtual int	GetRoundLead() const = 0;
   virtual int	GetLastValidBidTeam() const = 0;
   virtual bool IsDocInitialized() = 0;
+  virtual int GetOpeningBid() const = 0;
+  virtual int GetNumValidBidsMade() const = 0;
+  virtual int GetOpeningBidder() const = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -100,4 +106,5 @@ public:
   virtual const CString BidToShortString(int bid) = 0;
   virtual int GetPlayerTeam(int position) = 0;
   virtual int GetNextPlayer(int position) = 0;
+  virtual int GetNextSuit(int suit) = 0;
 };

@@ -96,6 +96,15 @@ public:
     return theApp.GetMinimumOpeningValue(player);
   }
 
+  virtual int GetProfileInt(const char* app, const char* key, int defaultValue) {
+    return theApp.GetProfileInt(app, key, defaultValue);
+  }
+
+  virtual void WriteProfileInt(const char* app, const char* key, int defaultValue) {
+    theApp.WriteProfileInt(app, key, defaultValue);
+  }
+
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
@@ -200,6 +209,18 @@ public:
     return pDOC && pDOC->IsInitialized();
   }
 
+  virtual int GetOpeningBid() const {
+    return pDOC->GetOpeningBid();
+  }
+
+  virtual int GetNumValidBidsMade() const {
+    return pDOC->GetNumValidBidsMade();
+  }
+
+  virtual int GetOpeningBidder() const {
+    return pDOC->GetOpeningBidder();
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW
@@ -263,6 +284,10 @@ public:
 
   virtual int GetNextPlayer(int position) {
     return ::GetNextPlayer(position);
+  }
+
+  virtual int GetNextSuit(int suit) {
+    return ::GetNextSuit(suit);
   }
 };
 

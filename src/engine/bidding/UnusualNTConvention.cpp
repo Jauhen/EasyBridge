@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../Player.h"
 #include "../PlayerStatusDialog.h"
 #include "UnusualNTConvention.h"
@@ -146,8 +145,8 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		// 2: Opponent must have bid a suit at the 1 level, and 
 		// 3: partner overcalled opponent's bid with 2NT
 		// apply tests #1, 2, and 3
-		int nOpeningBid = pDOC->GetOpeningBid();
-		int nOpeningBidder = pDOC->GetOpeningBidder();
+		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBidder = app_->GetOpeningBidder();
 		BOOL bOppMajor = ISMAJOR(nOpeningBid);
 		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&
@@ -191,7 +190,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		if (bidState.m_fMinTPPoints >= app_->SlamPts() )
 		{
 			// cue-bid the enemy suit for a slam try
-			nBid = bidState.GetCheapestShiftBid(nLHOSuit, pDOC->GetLastValidBid());
+			nBid = bidState.GetCheapestShiftBid(nLHOSuit, app_->GetLastValidBid());
 			status << "UNTR20! With a total of " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " pts in the partnership, cue bid the enemy " & app_->SuitToSingularString(nLHOSuit) & 
@@ -240,7 +239,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		//
 
 		// se if we made an invitational bid last time
-		int nOpeningBid = pDOC->GetOpeningBid();
+		int nOpeningBid = app_->GetOpeningBid();
 		ASSERT(ISBID(nOpeningBid));
 		int nEnemySuit = BID_SUIT(nOpeningBid);
 		BOOL bPartnerHasStrongOpener = FALSE;
@@ -439,9 +438,9 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 	{
 		// first determine the enemy suit
 		int nOpeningBid = NONE;
-		for(int i=0;i<pDOC->GetNumBidsMade();i++)
+		for(int i=0;i<app_->GetNumBidsMade();i++)
 		{
-			nOpeningBid = pDOC->GetBidByIndex(i);
+			nOpeningBid = app_->GetBidByIndex(i);
 			if (nOpeningBid != BID_PASS)
 				break;
 		}

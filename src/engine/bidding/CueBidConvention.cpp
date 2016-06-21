@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "CueBidConvention.h"
 #include "app_interface.h"
@@ -90,7 +89,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 	// or if we're already at a slam level
 	if (bidState.nPartnersBidLevel >= 6)
 		return FALSE;
-	int nLastBid = pDOC->GetLastValidBid();
+	int nLastBid = app_->GetLastValidBid();
 	if (nLastBid >= bidState.GetGameBid(BID_SUIT(nLastBid)))
 		return FALSE;
 
@@ -687,12 +686,12 @@ int CCueBidConvention::GetCheapestAce(CHandHoldings& hand, int nBaseSuit, int nS
 	if (nBaseSuit == NOTRUMP)
 		nSuit = CLUBS;
 	else
-		nSuit = GetNextSuit(nBaseSuit);
+		nSuit = app_->GetNextSuit(nBaseSuit);
 	for(i=0;i<4;i++) 
 	{
 		if (hand.SuitHasCard(nSuit, ACE) && (nSuit != nSecondSuit))
 			break;
-		nSuit = GetNextSuit(nSuit);
+		nSuit = app_->GetNextSuit(nSuit);
 	}
 	//
 	if (i < 4)
@@ -719,14 +718,14 @@ int CCueBidConvention::GetCheapestKingOrVoid(CHandHoldings& hand, int nBaseSuit,
 	if (nBaseSuit == NOTRUMP)
 		nSuit = CLUBS;
 	else
-		nSuit = GetNextSuit(nBaseSuit);
+		nSuit = app_->GetNextSuit(nBaseSuit);
 	for(i=0;i<4;i++) 
 	{
 		// suit should be void or else have a king
 		if ( ((hand.GetSuitLength(nSuit) == 0) || hand.SuitHasCard(nSuit, KING)) &&
 			 (nSuit != nSecondSuit) )
 			break;
-		nSuit = GetNextSuit(nSuit);
+		nSuit = app_->GetNextSuit(nSuit);
 	}
 	//
 	if (i < 4)

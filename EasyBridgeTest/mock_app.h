@@ -24,6 +24,8 @@ public:
   MOCK_METHOD1(OpenPoints, double(double points));
   MOCK_METHOD1(PointCount, double(double points));
   MOCK_CONST_METHOD1(GetMinimumOpeningValue, int(CPlayer* player));
+  MOCK_METHOD3(GetProfileInt, int(const char* appName, const char* keyName, int defaultValue));
+  MOCK_METHOD3(WriteProfileInt, void(const char* appName, const char* keyName, int defaultValue));
 
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
@@ -43,6 +45,9 @@ public:
   MOCK_CONST_METHOD0(GetRoundLead, int());
   MOCK_CONST_METHOD0(GetLastValidBidTeam, int());
   MOCK_METHOD0(IsDocInitialized, bool());
+  MOCK_CONST_METHOD0(GetOpeningBid, int());
+  MOCK_CONST_METHOD0(GetNumValidBidsMade, int());
+  MOCK_CONST_METHOD0(GetOpeningBidder, int());
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
@@ -65,4 +70,5 @@ public:
   MOCK_METHOD1(BidToShortString, const CString(int bid));
   MOCK_METHOD1(GetPlayerTeam, int(int position));
   MOCK_METHOD1(GetNextPlayer, int(int position));
+  MOCK_METHOD1(GetNextSuit, int(int suit));
 };

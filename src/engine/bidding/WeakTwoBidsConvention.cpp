@@ -11,8 +11,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "../card_constants.h"
 #include "../PlayerStatusDialog.h"
 #include "../Card.h"
 #include "WeakTwoBidsConvention.h"
@@ -186,7 +185,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					(nPartnersBid != BID_2NT) &&
 					(bidState.m_bPartnerOpenedForTeam) &&
 					(numPartnerBidsMade == 1) &&
-					(nPartnersBid == pDOC->GetValidBidRecord(0)))
+					(nPartnersBid == app_->GetValidBidRecord(0)))
 	{
 		// okay, met requirements
 	}
