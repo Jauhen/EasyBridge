@@ -47,6 +47,11 @@ public:
   virtual bool IsComputerCanClaim() = 0;
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) = 0;
   virtual bool IsEnableGIBForDefender() = 0;
+  virtual double GetHonorValue(int faceValue) = 0;
+  virtual int GetSuitSequence(int suit) const = 0;
+  virtual bool IsAcelessPenalty() = 0;
+  virtual bool IsFourAceBonus() = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -163,4 +168,7 @@ public:
   virtual bool IsHonor(int faceValue) = 0;
   virtual const CString CardToString(int deckValue) = 0;
   virtual const char* TeamToString(int team) = 0;
+  virtual const CString CardToShortString(int deckValue) = 0;
+  virtual const char* GetSuitName(int suit) = 0;
+  virtual const char* GetCardName(int faceValue) = 0;
 };

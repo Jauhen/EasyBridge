@@ -12,8 +12,7 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "DisplayHoldings.h"
 

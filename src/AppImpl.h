@@ -139,6 +139,23 @@ public:
     return theApp.GetValue(tbEnableGIBForDefender) == TRUE;
   }
 
+  virtual double GetHonorValue(int faceValue) {
+    return theApp.m_fHonorValue[faceValue];
+  }
+
+  virtual int GetSuitSequence(int index) const {
+    return theApp.GetSuitSequence(index);
+  }
+
+  virtual bool IsAcelessPenalty() {
+    return theApp.GetValue(tbAcelessPenalty) == TRUE;
+  }
+
+  virtual bool IsFourAceBonus() {
+    return theApp.GetValue(tb4AceBonus) == TRUE;
+  }
+
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
@@ -511,6 +528,18 @@ public:
 
   virtual const char* TeamToString(int team) {
     return ::TeamToString(team);
+  }
+
+  virtual const CString CardToShortString(int deckValue) {
+    return ::CardToShortString(deckValue);
+  }
+
+  virtual const char* GetSuitName(int suit) {
+    return ::GetSuitName(suit);
+  }
+
+  virtual const char* GetCardName(int faceValue) {
+    return ::GetCardName(faceValue);
   }
 };
 

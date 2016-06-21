@@ -89,7 +89,7 @@ CString CType1Finesse::GetFullDescription()
       app_->PositionToString(m_nTargetPos),
 						   m_pCoverCards->GetHoldingsString());
 	else
-		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
+		return app_->FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),

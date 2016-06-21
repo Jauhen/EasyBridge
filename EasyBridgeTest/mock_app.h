@@ -35,6 +35,10 @@ public:
   MOCK_METHOD0(IsComputerCanClaim, bool());
   MOCK_METHOD5(InvokeGIB, int(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog));
   MOCK_METHOD0(IsEnableGIBForDefender, bool());
+  MOCK_METHOD1(GetHonorValue, double(int faceValue));
+  MOCK_CONST_METHOD1(GetSuitSequence, int(int suit));
+  MOCK_METHOD0(IsAcelessPenalty, bool());
+  MOCK_METHOD0(IsFourAceBonus, bool());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -126,4 +130,7 @@ public:
   MOCK_METHOD1(IsHonor, bool(int faceValue));
   MOCK_METHOD1(CardToString, const CString(int deckValue));
   MOCK_METHOD1(TeamToString, const char*(int team));
+  MOCK_METHOD1(CardToShortString, const CString(int deckValue));
+  MOCK_METHOD1(GetSuitName, const char* (int suit));
+  MOCK_METHOD1(GetCardName, const char* (int faceValue));
 };

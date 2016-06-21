@@ -81,7 +81,7 @@ void CTypeBFinesse::Init()
 CString CTypeBFinesse::GetFullDescription()
 {
 	CString strText;
-	return FormString("Opportunistically play the %s from %s to finesse against %s.",
+	return app_->FormString("Opportunistically play the %s from %s to finesse against %s.",
 					   m_pConsumedCard->GetFaceName(),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
     app_->PositionToString(m_nTargetPos));
