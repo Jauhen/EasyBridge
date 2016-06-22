@@ -14,10 +14,25 @@ namespace UnitTests {
 class PlayerTests : public Test {
 protected:
   shared_ptr<MockApp> app = make_shared<MockApp>();
-  CPlayer pl = CPlayer(app);
+  CPlayer pS = CPlayer(app);
+  CPlayer pW = CPlayer(app);
+  CPlayer pN = CPlayer(app);
+  CPlayer pE = CPlayer(app);
 };
 
 TEST_F(PlayerTests, Init) {
+  EXPECT_CALL(*app, PositionToString(_)).WillRepeatedly(Return("abc"));
+
+  pS.InitializePlayer(SOUTH, &pN, &pW, &pE);
+  pW.InitializePlayer(WEST, &pE, &pN, &pS);
+  pN.InitializePlayer(NORTH, &pS, &pE, &pW);
+  pE.InitializePlayer(EAST, &pW, &pS, &pN);
+
+  pS.InitializeEngines();
+  pW.InitializeEngines();
+  pN.InitializeEngines();
+  pE.InitializeEngines();
+
   EXPECT_EQ(1, 1);
 }
 

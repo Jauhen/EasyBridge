@@ -11,13 +11,10 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
-#include "mainfrm.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "Deck.h"
 #include "MyBitmap.h"
-#include "progopts.h"
 #include "deckopts.h"
 #include <sys/types.h>
 #include <sys/timeb.h>
@@ -47,7 +44,7 @@ int	CDeck::GetCardWidth() const
 	else
 	{
 		// not initialized yet
-		if (theApp.GetValue(tbLowResOption))
+		if (app_->IsLowResOption())
 			return SMALLCARDWIDTH;
 		else
 			return DEFCARDWIDTH;
@@ -64,7 +61,7 @@ int	CDeck::GetCardHeight() const
 	else
 	{
 		// not initialized yet
-		if (theApp.GetValue(tbLowResOption))
+		if (app_->IsLowResOption())
 			return SMALLCARDHEIGHT;
 		else
 			return DEFCARDHEIGHT;
@@ -101,13 +98,13 @@ static TCHAR BASED_CODE szCurrentCardBack[] = _T("Current Card Back Index");
 void CDeck::Initialize() 
 {
 	// read in some values
-	m_nCurrCardBack = theApp.GetProfileInt(szDeckSettings, szCurrentCardBack, 0);
+	m_nCurrCardBack = app_->GetProfileInt(szDeckSettings, szCurrentCardBack, 0);
 
 	// init bitmaps
 	InitializeBitmaps();
 
 	// init the deck
-	CDC *pDC = pMAINFRAME->GetDC();
+	CDC *pDC = app_->GetDC();
 	CCard* pCard;
 	int nCount = 0;
 	//
@@ -130,7 +127,7 @@ void CDeck::Initialize()
 	
 	// done
 	m_bInitialized = TRUE;
-	pMAINFRAME->ReleaseDC(pDC);
+  app_->ReleaseDC(pDC);
 }
 
 
@@ -140,10 +137,10 @@ void CDeck::InitializeBitmaps()
 {
 	// init the deck
 	int i,nSuit,nValue,nCount=0;
-	CDC *pDC = pMAINFRAME->GetDC();
+	CDC *pDC = app_->GetDC();
 
 	// see whether we're using small cards
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = app_->IsLowResOption();
 	int nBase = bSmallCards? IDBS_CARDS_BASE : IDB_CARDS_BASE;
 	
 	if (bSmallCards)
@@ -170,7 +167,7 @@ void CDeck::InitializeBitmaps()
 			if (!m_cardBitmap[nCount].LoadBitmap(nBase+(nSuit*100)+nValue)) 
 			{
 				AfxMessageBox("Failed to load card bitmap");
-				pMAINFRAME->ReleaseDC(pDC);
+        app_->ReleaseDC(pDC);
 				return;
 			}
 
@@ -217,7 +214,7 @@ void CDeck::InitializeBitmaps()
 		m_nCurrCardBack = 0;
 
 	// done
-	pMAINFRAME->ReleaseDC(pDC);
+	app_->ReleaseDC(pDC);
 }
 
 
@@ -229,7 +226,7 @@ void CDeck::InitializeBitmaps()
 void CDeck::Terminate() 
 {
 	// write out some settings
-	theApp.WriteProfileInt(szDeckSettings, szCurrentCardBack, m_nCurrCardBack);
+	app_->WriteProfileInt(szDeckSettings, szCurrentCardBack, m_nCurrCardBack);
 
 	//
 	int nSuit,nValue,nCount=0;
@@ -262,7 +259,7 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
 {
 	// copy from the ordered deck if deal numbering is enabled
 	// else leave shuffled
-	if (theApp.GetValue(tbEnableDealNumbering))
+	if (app_->IsEnableDealNumbering())
 	{
 		for(int i=0;i<52;i++)
 			m_cards[i] = m_sortedCards[i];
@@ -304,9 +301,9 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
    		for(int i=0;i<52;i++) 
 		{
 			// switch the ith card with a random card
-			nRand = GetRandomValue(51);
+			nRand = app_->GetRandomValue(51);
 			if (nRand == i)
-				nRand = GetRandomValue(51);	// try again	
+				nRand = app_->GetRandomValue(51);	// try again	
 			//
 			pTempCard = m_cards[i];
 			nTempSuit = pTempCard->m_nSuit;
@@ -338,7 +335,7 @@ CCard* CDeck::GetCard(int nDeckValue)
 //
 CCard* CDeck::GetCard(LPCTSTR pszName)
 {
-	int nValue = StringToDeckValue(pszName);
+	int nValue = app_->StringToDeckValue(pszName);
 	return GetCard(nValue);
 }
 
