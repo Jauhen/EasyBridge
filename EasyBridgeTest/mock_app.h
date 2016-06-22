@@ -41,6 +41,9 @@ public:
   MOCK_METHOD0(IsFourAceBonus, bool());
   MOCK_METHOD0(IsCountShortSuits, bool());
   MOCK_METHOD0(IsPenalizeUGHonors, bool());
+  MOCK_METHOD0(IsInAutoHintMode, bool());
+  MOCK_METHOD0(IsInsertBiddingPause, bool());
+  MOCK_METHOD0(GetPlayPauseLength, int());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -97,6 +100,7 @@ public:
   MOCK_METHOD0(RestoreMode, void());
   MOCK_METHOD0(RefreshScreen, void());
   MOCK_METHOD0(IsInGameRestoreMode, bool());
+  MOCK_METHOD2(PlayCard, void(CCard* card, int shift));
 
   MOCK_METHOD1(SetAutoHintDialogHintText, void(CString text));
   MOCK_METHOD1(ShowAnalysisDialog, void(Position position));

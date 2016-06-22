@@ -163,6 +163,17 @@ public:
     return theApp.GetValue(tbPenalizeUGHonors) == TRUE;
   }
 
+  virtual bool IsInAutoHintMode() {
+    return theApp.GetValue(tnAutoHintMode) == TRUE;
+  }
+
+  virtual bool IsInsertBiddingPause() {
+    return theApp.GetValue(tbInsertBiddingPause) == TRUE;
+  }
+
+  virtual int GetPlayPauseLength() {
+    return theApp.GetValue(tnPlayPauseLength);
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -435,6 +446,9 @@ public:
     return pVIEW->GetCurrentMode() == CEasyBView::MODE_GAMERESTORE;
   }
 
+  virtual void PlayCard(CCard* card, int shift) {
+    pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + shift, (int)card);
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //

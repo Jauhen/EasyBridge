@@ -53,6 +53,9 @@ public:
   virtual bool IsFourAceBonus() = 0;
   virtual bool IsCountShortSuits() = 0;
   virtual bool IsPenalizeUGHonors() = 0;
+  virtual bool IsInAutoHintMode() = 0;
+  virtual bool IsInsertBiddingPause() = 0;
+  virtual int GetPlayPauseLength() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -139,6 +142,8 @@ public:
   virtual void RestoreMode() = 0;
   virtual void RefreshScreen() = 0;
   virtual bool IsInGameRestoreMode() = 0;
+  virtual void PlayCard(CCard* card, int shift) = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //
