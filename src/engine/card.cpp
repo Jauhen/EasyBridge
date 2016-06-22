@@ -18,6 +18,7 @@
 #include "deck.h"
 #include "viewopts.h"
 #include "math.h"
+#include "app_interface.h"
 
 
 // class static data
@@ -26,7 +27,7 @@ int CCard::m_nCardHeight = -1;
 
 
 // constructor
-CCard::CCard()
+CCard::CCard(std::shared_ptr<AppInterface> app) : app_(app)
 {	
 	m_pBitmap = NULL;
 }
@@ -188,8 +189,8 @@ void CCard::SetBitmap(CBitmap* pBitmap, CDC* pDC)
 	}
 
 	// get dimensions for the new bitmap
-	m_nCardWidth = deck.GetCardWidth();
-	m_nCardHeight = deck.GetCardHeight();
+	m_nCardWidth = app_->GetDeck()->GetCardWidth();
+	m_nCardHeight = app_->GetDeck()->GetCardHeight();
 
 	// set the new bitmap
 	m_pBitmap = pBitmap;
@@ -283,8 +284,8 @@ void CCard::GetRect(RECT& rect) const
 {
 	rect.left = m_nPosX;
 	rect.top = m_nPosY;
-	rect.right = m_nPosX + deck.GetCardWidth();
-	rect.bottom = m_nPosY + deck.GetCardHeight();
+	rect.right = m_nPosX + app_->GetDeck()->GetCardWidth();
+	rect.bottom = m_nPosY + app_->GetDeck()->GetCardHeight();
 }
   
 
@@ -326,9 +327,9 @@ void CCard::Draw(CDC* pDC)
 	} 
 	else 
 	{
-		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(deck.GetCardBackBitmap());
+		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(app_->GetDeck()->GetCardBackBitmap());
 	}
-	CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+	CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(app_->GetDeck()->GetMaskBitmap());
     CBitmap tempBitmap;
 	//
     tempBitmap.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
@@ -378,7 +379,7 @@ void CCard::DrawHighlighted(CDC* pDC, BOOL bVisible)
 		// load bitmaps
 		CBitmap* pOldBitmap1;
 		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(m_pBitmap);
-		CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+		CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(app_->GetDeck()->GetMaskBitmap());
 	    CBitmap tempBitmap;
     	tempBitmap.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
 		CBitmap* pOldBitmap3 = (CBitmap*) cacheDC.SelectObject(&tempBitmap);
@@ -460,7 +461,7 @@ void CCard::RestoreBackground(CDC* pDC)
 	// load bitmap
 	CBitmap* pOldBitmap = (CBitmap*) cacheDC.SelectObject(&m_prevBitmap);
 	// copy the cacheDC onto the screen
-	pDC->BitBlt(m_nPosX,m_nPosY,deck.GetCardWidth(),deck.GetCardHeight(),&cacheDC,0,0,SRCCOPY);
+	pDC->BitBlt(m_nPosX,m_nPosY, app_->GetDeck()->GetCardWidth(), app_->GetDeck()->GetCardHeight(),&cacheDC,0,0,SRCCOPY);
 	// all done
 	(void)cacheDC.SelectObject(pOldBitmap);
 	cacheDC.DeleteDC();
@@ -501,8 +502,8 @@ void CCard::DragTo(CDC* pDC, int destX, int destY)
 	if ((m_bFaceUp) || (theApp.AreCardsFaceUp()))
 		pOldBitmapCard = (CBitmap*) cardDC.SelectObject(m_pBitmap);
 	else
-		pOldBitmapCard = (CBitmap*) cardDC.SelectObject(deck.GetCardBackBitmap());
-	CBitmap* pOldBitmapMask = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+		pOldBitmapCard = (CBitmap*) cardDC.SelectObject(app_->GetDeck()->GetCardBackBitmap());
+	CBitmap* pOldBitmapMask = (CBitmap*) maskDC.SelectObject(app_->GetDeck()->GetMaskBitmap());
     CBitmap tempBitmapNewBk,tempBitmapCache;
     tempBitmapNewBk.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
     tempBitmapCache.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);

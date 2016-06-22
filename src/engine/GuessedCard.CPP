@@ -29,7 +29,7 @@ CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app, int nSuit, int nFa
 {	
 	int nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
 	VERIFY(ISDECKVAL(nDeckValue));
-	m_pCard = deck.GetSortedCard(nDeckValue);
+	m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
 	strcpy(m_szName, m_pCard->GetName());
 }
 
@@ -65,7 +65,7 @@ void CGuessedCard::Init(int nSuit, int nFaceValue)
 	m_nSuit = nSuit;
 	m_nFaceValue = nFaceValue;
 	int nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
-	m_pCard = deck.GetSortedCard(nDeckValue);
+	m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
 	strcpy(m_szName, app_->CardToShortString(nDeckValue));
 	//
 	Clear();

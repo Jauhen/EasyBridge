@@ -71,7 +71,7 @@ void CTrumpPull::Init()
 {
 	CPlay::Init();
 	//
-	m_pConsumedCard = deck.GetCard(m_nSuit, m_nCardVal);
+	m_pConsumedCard = app_->GetDeck()->GetCard(m_nSuit, m_nCardVal);
 	m_pEnemyOrKeyCardsList = m_pOutstandingCards;	// will be deleted by base class
 	// form name & description
 	m_strName.Format("%s Trump Pull", m_pConsumedCard->GetName());

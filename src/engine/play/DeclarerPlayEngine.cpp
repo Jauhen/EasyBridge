@@ -5868,7 +5868,7 @@ int CDeclarerPlayEngine::FindDropPlays(CPlayList& playList)
 			for(int k=0;k<numMissingHonors;k++)
 			{
 				int nIndex = nBottomTopCard - 1 - k;
-				*pEnemyOrCards << deck.GetSortedCard(nIndex);
+				*pEnemyOrCards << app_->GetDeck()->GetSortedCard(nIndex);
 			}
 
 			// and create the play
@@ -6090,7 +6090,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					int nIndex = pFinesseCard->GetDeckValue() + 1;
 					for(int j=0;j<nGap;j++)
 					{
-						CCard* pGapCard = deck.GetSortedCard(nIndex++);
+						CCard* pGapCard = app_->GetDeck()->GetSortedCard(nIndex++);
 						*pGapCards << pGapCard;
 					}
 
@@ -6176,7 +6176,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				int nIndex = pFinesseCard->GetDeckValue() + 1;
 				for(int j=0;j<nGap;j++)
 				{
-					CCard* pGapCard = deck.GetSortedCard(nIndex++);
+					CCard* pGapCard = app_->GetDeck()->GetSortedCard(nIndex++);
 					*pGapCards << pGapCard;
 				}
 
@@ -6292,7 +6292,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					int nIndex = pTopEquivCard->GetDeckValue() + 1;
 					for(int j=0;j<nGap;j++)
 					{
-						CCard* pGapCard = deck.GetSortedCard(nIndex++);
+						CCard* pGapCard = app_->GetDeck()->GetSortedCard(nIndex++);
 						*pGapCards << pGapCard;
 					}
 					// check if one or more gap cards are outstanding
@@ -6361,7 +6361,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 					int nIndex = pTopEquivCard->GetDeckValue() + 1;
 					for(int j=0;j<nGap;j++)
 					{
-						CCard* pGapCard = deck.GetSortedCard(nIndex++);
+						CCard* pGapCard = app_->GetDeck()->GetSortedCard(nIndex++);
 						*pGapCards << pGapCard;
 					}
 					// check if one or more gap cards are outstanding
@@ -6427,7 +6427,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			//
 			for(int j=0;j<nGap;j++)
 			{
-				CCard* pGapCard = deck.GetSortedCard(nIndex++);
+				CCard* pGapCard = app_->GetDeck()->GetSortedCard(nIndex++);
 				// confirm that the gap card is higher (test is required here)
 				if (*pGapCard > *pFinesseCard)
 					*pGapCards << pGapCard;
@@ -6500,7 +6500,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			}
 			for(int j=0;j<nGap;j++)
 			{
-				CCard* pGapCard = deck.GetSortedCard(nIndex++);
+				CCard* pGapCard = app_->GetDeck()->GetSortedCard(nIndex++);
 				// confirm that the gap card is higher (test is required here)
 				if (*pGapCard > *pFinesseCard)
 					*pGapCards << pGapCard;
@@ -6623,7 +6623,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			for(int j=0;j<nMax;j++)
 			{
 				if (!suit.HasCard(nIndex))
-					*pGapCards << deck.GetSortedCard(nIndex++);
+					*pGapCards << app_->GetDeck()->GetSortedCard(nIndex++);
 				else
 					break;
 			}
@@ -6724,7 +6724,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			for(int j=0;j<nMax;j++)
 			{
 				if (!suit.HasCard(nIndex))
-					*pGapCards << deck.GetSortedCard(nIndex++);
+					*pGapCards << app_->GetDeck()->GetSortedCard(nIndex++);
 				else
 					break;
 			}

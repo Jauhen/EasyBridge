@@ -604,7 +604,7 @@ void CGameReviewDialog::OnNext()
 		//
 		m_nPlayerPosition = nPos;
 		int nCardPlayed = pGameRecord->m_nGameTrick[m_nPlayRound][m_nPlayerPosition];
-		CCard* pCard = deck.GetSortedCard(nCardPlayed);
+		CCard* pCard = theApp.GetDeck()->GetSortedCard(nCardPlayed);
 		if (!pCard)
 		{
 			AfxMessageBox("Invalid Play Record!");
@@ -694,7 +694,7 @@ void CGameReviewDialog::OnLast()
 			//
 			m_nPlayerPosition = nPos;
 			int nCardPlayed = pGameRecord->m_nGameTrick[m_nPlayRound][m_nPlayerPosition];
-			CCard* pCard = deck.GetSortedCard(nCardPlayed);
+			CCard* pCard = theApp.GetDeck()->GetSortedCard(nCardPlayed);
 			if (!pCard)
 			{
 				AfxMessageBox("Invalid Play Record!");

@@ -44,6 +44,7 @@ public:
   MOCK_METHOD0(IsInAutoHintMode, bool());
   MOCK_METHOD0(IsInsertBiddingPause, bool());
   MOCK_METHOD0(GetPlayPauseLength, int());
+  MOCK_METHOD0(GetDeck, std::shared_ptr<CDeck>());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));

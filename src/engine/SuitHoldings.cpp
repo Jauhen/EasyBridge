@@ -670,7 +670,7 @@ int CSuitHoldings::CheckKeyHoldings()
 			m_numMissingSequences++;
 			while ((i>=2) && (!HasCardOfFaceValue(i)))
 			{
-				*pList << deck.GetCard(m_nSuit, i);
+				*pList << app_->GetDeck()->GetCard(m_nSuit, i);
 				i--;
 			}
 #ifdef _DEBUG

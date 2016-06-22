@@ -67,7 +67,7 @@ void CEasyBDoc::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTe
 	m_nSpecialDealCode = (nGameCode << 6) | (nSuitCode << 4) | (nSlamCode << 2) | nTeam;
 
 	// perform the initial shuffle
-	m_nDealNumber = deck.Shuffle(nDealNumber);
+	m_nDealNumber = theApp.GetDeck()->Shuffle(nDealNumber);
 
 	// set busy cursor
 	pVIEW->SetCurrentMode(CEasyBView::MODE_WAITSPECIALDEAL);

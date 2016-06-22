@@ -1315,8 +1315,8 @@ void CEasyBView::DrawCardBack(CDC* pDC, int x, int y)
 	maskDC.CreateCompatibleDC(pDC);
 
 	// load bitmaps
-	CBitmap* pOldBitmap1 = (CBitmap*) cardDC.SelectObject(deck.GetCardBackBitmap());
-	CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+	CBitmap* pOldBitmap1 = (CBitmap*) cardDC.SelectObject(theApp.GetDeck()->GetCardBackBitmap());
+	CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(theApp.GetDeck()->GetMaskBitmap());
     CBitmap tempBitmap;
     tempBitmap.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
 	CBitmap* pOldBitmap3 = (CBitmap*) cacheDC.SelectObject(&tempBitmap);

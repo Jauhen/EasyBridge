@@ -93,7 +93,7 @@ BOOL CRoundFinishedDialog::OnInitDialog()
 	// position dialog just above south's cards, centered horizontally
 	int nYPos, nXPos = parentRect.left + (parentRect.Width() - rect.Width()) / 2;
 	POINT ptNorth = { 0, 0 }, ptSouth = { 0, 0 };
-	ptNorth.y = pVIEW->GetValue(tpDrawPoint, NORTH, 1) + deck.GetCardHeight();
+	ptNorth.y = pVIEW->GetValue(tpDrawPoint, NORTH, 1) + theApp.GetDeck()->GetCardHeight();
 	ptSouth.y = pVIEW->GetValue(tpDrawPoint, SOUTH, 1);
 	pView->ClientToScreen(&ptNorth);
 	pView->ClientToScreen(&ptSouth);

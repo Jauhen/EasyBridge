@@ -175,6 +175,11 @@ public:
     return theApp.GetValue(tnPlayPauseLength);
   }
 
+  virtual std::shared_ptr<CDeck> GetDeck() {
+    return theApp.GetDeck();
+  }
+
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME

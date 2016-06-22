@@ -2707,14 +2707,14 @@ void CEasyBView::PrepareCardLayout()
 
 	// turn all cards & hands face up
 	for(int i=0;i<52;i++) 
-		deck[i]->SetFaceUp();
+    (*theApp.GetDeck().get())[i]->SetFaceUp();
 	for(int i=0;i<4;i++) 
 		PLAYER(i).ExposeCards(TRUE, FALSE);
 
 	// assign cards to layout deck
 	for(int i=0;i<52;i++) 
 	{
-		m_layoutDeck[i] = deck.GetSortedCard(i);
+		m_layoutDeck[i] = theApp.GetDeck()->GetSortedCard(i);
 		m_layoutDeck[i]->ClearAssignment();
 		m_layoutDeck[i]->SetXPosition();
 		m_layoutDeck[i]->SetYPosition();
@@ -2808,7 +2808,7 @@ void CEasyBView::OnEditExistingHands()
 
 	// turn all cards face up
 	for(int i=0;i<52;i++) 
-		deck[i]->SetFaceUp();
+    (*theApp.GetDeck().get())[i]->SetFaceUp();
 	for(int i=0;i<4;i++) 
 		PLAYER(i).ExposeCards(TRUE, FALSE);
 

@@ -15,6 +15,8 @@
 #define __DECK__
 
 #include "ObjectWithProperties.h"
+#include <memory>
+class AppInterface;
 class CCard;
 
 // default card bitmap dimensions
@@ -76,14 +78,13 @@ private:
 	int 		m_nDeckIndex[4][15];
 	BOOL		m_bInitialized;
 	int			m_nPrevTime;
-	
+  std::shared_ptr<AppInterface> app_;
+
 // routines
 public:
-	CDeck();
+	CDeck(std::shared_ptr<AppInterface> app);
 	~CDeck();
 
 };
-
-extern CDeck deck;
 
 #endif

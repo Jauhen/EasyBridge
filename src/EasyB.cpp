@@ -149,6 +149,7 @@ END_MESSAGE_MAP()
 
 CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
   conventionPool_ = std::make_shared<ConventionPool>(app);
+  deck_ = std::make_shared<CDeck>(app);
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
@@ -1648,9 +1649,9 @@ BOOL CEasyBApp::InitInstance()
 //	((CMainFrame*)m_pMainWnd)->InitializeMenu(IDR_MAINFRAME, nToolbars, sizeof(nToolbars) / sizeof(UINT));
 
 	// now that the main window has been created, we can create the cards
-	deck.Initialize();
+	deck_->Initialize();
 	// and shuffle the deck
-	deck.Shuffle();
+	deck_->Shuffle();
 
 	// initialize the neural net engine
 //	m_pNeuralNet = NULL;
@@ -1679,7 +1680,7 @@ BOOL CEasyBApp::InitInstance()
 int CEasyBApp::ExitInstance() 
 {
 	// Destroy the cards
-	deck.Terminate();
+	deck_->Terminate();
 
 	// and delete the conventions
 	int i;

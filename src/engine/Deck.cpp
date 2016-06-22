@@ -21,16 +21,13 @@
 #include "deckopts.h"
 #include <sys/types.h>
 #include <sys/timeb.h>
-
-
-// global deck objects
-CDeck	deck;
+#include "app_interface.h"
 
 
 //
 // construction/destruction
 //
-CDeck::CDeck() 
+CDeck::CDeck(std::shared_ptr<AppInterface> app) : app_(app)
 {
 	m_bInitialized = FALSE;
 }
@@ -119,7 +116,7 @@ void CDeck::Initialize()
 		for(int nValue=2;nValue<=ACE;nValue++,nCount++) 
 		{
 			// create card
-			pCard = new CCard();
+			pCard = new CCard(app_);
 			pCard->Initialize(nSuit,nValue,&m_cardBitmap[nCount],pDC);
 			sprintf(pCard->m_szValue,pCard->GetName());
 			m_cards[nCount] = pCard;
@@ -193,8 +190,8 @@ void CDeck::InitializeBitmaps()
 	// initialize the cardbacks imagelist
 	if (m_bInitialized)
 		m_imageListCardBacks.DeleteImageList();
-	int nCardWidth = deck.GetCardWidth();
-	int nCardHeight = deck.GetCardHeight();
+	int nCardWidth = app_->GetDeck()->GetCardWidth();
+	int nCardHeight = app_->GetDeck()->GetCardHeight();
 	m_imageListCardBacks.Create(nCardWidth, nCardHeight, ILC_COLOR24 | ILC_MASK, 0, 32);
 
 	// load the cardbacks bitmaps into the imagelist

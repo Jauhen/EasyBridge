@@ -56,6 +56,7 @@ public:
   virtual bool IsInAutoHintMode() = 0;
   virtual bool IsInsertBiddingPause() = 0;
   virtual int GetPlayPauseLength() = 0;
+  virtual std::shared_ptr<CDeck> GetDeck() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////

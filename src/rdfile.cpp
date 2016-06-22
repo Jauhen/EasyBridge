@@ -345,19 +345,19 @@ next:		if (nRtnCode == EOF)
 						break;
 
 					case ITEM_TRICK_CARD_1:
-						m_pCurrTrick[0] = deck.GetCard(string);
+						m_pCurrTrick[0] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					case ITEM_TRICK_CARD_2:
-						m_pCurrTrick[1] = deck.GetCard(string);
+						m_pCurrTrick[1] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					case ITEM_TRICK_CARD_3:
-						m_pCurrTrick[2] = deck.GetCard(string);
+						m_pCurrTrick[2] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					case ITEM_TRICK_CARD_4:
-						m_pCurrTrick[3] = deck.GetCard(string);
+						m_pCurrTrick[3] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					// game status info
@@ -485,7 +485,7 @@ next:		if (nRtnCode == EOF)
 								}
 								else
 								{
-									pCard = deck.GetCard(partString);
+									pCard = theApp.GetDeck()->GetCard(partString);
 									m_pGameTrick[nIndex][i] = pCard;
 								}
 							}
@@ -746,7 +746,7 @@ void CEasyBDoc::AssignCards(CString& str, int nPosition, BOOL bInitialHand)
 		// get next card string
 		if (nOffset < nLen) 
 		{
-			pCard = deck.GetCard(str.Mid(nOffset));
+			pCard = theApp.GetDeck()->GetCard(str.Mid(nOffset));
 			nOffset += 2;
 			if (pCard == NULL) 
 			{
