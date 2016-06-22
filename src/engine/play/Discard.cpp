@@ -68,7 +68,7 @@ void CDiscard::Init()
 {
 	CPlay::Init();
 	//
-	m_pConsumedCard = deck.GetCard(m_nSuit, m_nCardVal);
+	m_pConsumedCard = app_->GetDeck()->GetCard(m_nSuit, m_nCardVal);
 	// form description
 	m_strDescription.Format("Discard the %s", m_pConsumedCard->GetName());
 }

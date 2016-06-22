@@ -12,10 +12,7 @@
 //
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
-#include "EasyBvw.h"
-#include "mainfrm.h"
+#include "card_constants.h"
 #include "Card.h"
 #include "progopts.h"
 #include "playeropts.h"
@@ -32,7 +29,6 @@
 #include "GuessedHandHoldings.h"
 #include "player.h"
 #include "handopts.h"
-#include "MainFrameOpts.h"
 #include "PlayerStatusDialog.h"
 #include "dialogs/AutoHintDialog.h"
 #include "app_interface.h"
@@ -209,7 +205,7 @@ int CPlayer::GetBiddingHint(BOOL bAutoHintMode)
 	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	//
-	app_->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
+	app_->SetCurrentModeTemp(160/*CEasyBView::MODE_THINKING*/);
 	m_pStatusDlg->ClearHints();
 	m_pStatusDlg->BeginHintBlock();
 	int nBiddingHint = m_pBidder->GetBiddingHint(); 
@@ -272,7 +268,7 @@ CCard* CPlayer::PlayCard()
 #else
 		// do a sanity check
 		CCard* pPlayCard = m_pPlayEngine->PlayCard();
-		if (pDOC->GetNumCardsPlayedInRound() > 0)
+		if (app_->GetNumCardsPlayedInRound() > 0)
 		{
 			CCard* pLeadCard = app_->GetCurrentTrickCardLed();
 			if (pPlayCard->GetSuit() != pLeadCard->GetSuit())
@@ -435,7 +431,7 @@ void CPlayer::InitializeRestoredHand()
 	else
 		m_bDeclarer = FALSE;
 	//
-	if (pDOC->GetDummyPosition() == m_nPosition)
+	if (app_->GetDummyPosition() == m_nPosition)
 		m_bDummy = TRUE;
 	else
 		m_bDummy = FALSE;
@@ -461,8 +457,8 @@ void CPlayer::InitializeRestoredHand()
 	m_pPlayEngine->InitNewHand(); 
 
 	// mark game position
-	int nContract = pDOC->GetContract();
-	int nModifier = pDOC->GetContractModifier();
+	int nContract = app_->GetContract();
+	int nModifier = app_->GetContractModifier();
 	if (ISBID(nContract))
 	{
 		*m_pStatusDlg << "4The contract is " & app_->ContractToFullString(nContract,nModifier) & 
@@ -494,7 +490,7 @@ void CPlayer::InitializeSwappedHand()
 	else
 		m_bDeclarer = FALSE;
 	//
-	if (pDOC->GetDummyPosition() == m_nPosition)
+	if (app_->GetDummyPosition() == m_nPosition)
 		m_bDummy = TRUE;
 	else
 		m_bDummy = FALSE;
@@ -520,7 +516,7 @@ void CPlayer::InitializeSwappedHand()
 	if ( (m_nPosition == SOUTH) ||
 		 ((app_->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
 		ExposeCards(TRUE, FALSE);
-	else if (m_bDummy && (pDOC->GetNumCardsPlayedInGame() > 0))
+	else if (m_bDummy && (app_->GetNumCardsPlayedInGame() > 0))
 		ExposeCards(TRUE, FALSE);
 	else
 		ExposeCards(FALSE, FALSE);
@@ -704,7 +700,7 @@ int CPlayer::GetPriorBid(int nIndex)
 	int nEntry = numBidTurns - nIndex - 1;
 	if (nEntry < 0)
 		return BID_NONE;
-	return pDOC->GetBidByPlayer(m_nPosition,nEntry);
+	return app_->GetBidByPlayer(m_nPosition, nEntry);
 }
 
 
@@ -718,7 +714,7 @@ CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode)
 		SuspendTrace();
 	CCard* pCard = NULL;
 	//
-	app_->SetCurrentModeTemp(CEasyBView::MODE_THINKING);
+	app_->SetCurrentModeTemp(160 /*CEasyBView::MODE_THINKING*/);
 	m_pStatusDlg->ClearHints();
 	m_pStatusDlg->BeginHintBlock();
 	try
@@ -777,17 +773,17 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 	if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1))
 	{
 		// sleep if necessary
-		if (theApp.GetValue(tbInsertBiddingPause))
-			Sleep(theApp.GetValue(tnPlayPauseLength)*100);
+		if (app_->IsInsertBiddingPause())
+			Sleep(app_->GetPlayPauseLength() * 100);
 
 		// auto play last card in suit
 		CCard* pPlayCard = GetCardInSuit(nSuitLed, 0);
 		ASSERT(pPlayCard);
 		ASSERT((Position)pPlayCard->GetOwner() == m_nPosition);
-		pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY+1002, (int)pPlayCard);
+    app_->PlayCard(pPlayCard, 1002);
 
 		// note the play in the hint window
-		if (theApp.GetValue(tnAutoHintMode) > 0)
+		if (app_->IsInAutoHintMode())
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
@@ -800,17 +796,17 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 	else if (GetNumCards() == 1)
 	{
 		// sleep if necessary
-		if (theApp.GetValue(tbInsertBiddingPause))
-			Sleep(theApp.GetValue(tnPlayPauseLength)*100);
+		if (app_->IsInsertBiddingPause())
+			Sleep(app_->GetPlayPauseLength() * 100);
 
 		// auto play last card in hand
 		CCard* pPlayCard = GetCardByPosition(0);
 		ASSERT(pPlayCard);
 		ASSERT((Position)pPlayCard->GetOwner() == m_nPosition);
-		pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY+1003, (int)pPlayCard);
+    app_->PlayCard(pPlayCard, 1003);
 		
 		// note the play in the hint window
-		if (theApp.GetValue(tnAutoHintMode) > 0)
+		if (app_->IsInAutoHintMode())
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();

@@ -24,6 +24,7 @@
 
 class AppInterface;
 class ConventionPool;
+class CDeck;
 class CPlayer;
 class CGIB;
 class CConventionSet;
@@ -98,6 +99,9 @@ public:
   std::shared_ptr<ConventionPool> GetConventionPool() {
     return conventionPool_;
   };
+  std::shared_ptr<CDeck> GetDeck() {
+    return deck_;
+  }
 //	CNeuralNet* GetNeuralNet() { return m_pNeuralNet; }
 
 // static data
@@ -284,6 +288,8 @@ private:
 	CSplashWnd*	m_pSplash;
 	DWORD 		m_dwSplashTime;
 
+  // global deck objects
+  std::shared_ptr<CDeck>	deck_;
   std::shared_ptr<ConventionPool> conventionPool_;
 
 // internal routines

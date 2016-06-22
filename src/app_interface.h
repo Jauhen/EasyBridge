@@ -51,6 +51,14 @@ public:
   virtual int GetSuitSequence(int suit) const = 0;
   virtual bool IsAcelessPenalty() = 0;
   virtual bool IsFourAceBonus() = 0;
+  virtual bool IsCountShortSuits() = 0;
+  virtual bool IsPenalizeUGHonors() = 0;
+  virtual bool IsInAutoHintMode() = 0;
+  virtual bool IsInsertBiddingPause() = 0;
+  virtual int GetPlayPauseLength() = 0;
+  virtual std::shared_ptr<CDeck> GetDeck() = 0;
+  virtual bool IsLowResOption() = 0;
+  virtual bool IsEnableDealNumbering() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -68,6 +76,8 @@ public:
   virtual void UpdateStatusWindowWithPlayPlan() = 0;
   virtual void UpdateStatusWindowWithSuitStatus() = 0;
   virtual void UpdateStatusWindowWithPlayPlanAndSuitStatus() = 0;
+  virtual CDC* GetDC() = 0;
+  virtual void ReleaseDC(CDC* dc) = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -137,6 +147,10 @@ public:
   virtual void RestoreMode() = 0;
   virtual void RefreshScreen() = 0;
   virtual bool IsInGameRestoreMode() = 0;
+  virtual void PlayCard(CCard* card, int shift) = 0;
+  virtual int GetSuitToScreenIndex(int suit) = 0;
+  virtual int GetDummySuitToScreenIndex(int suit) = 0;
+  virtual int GetAnimationGranularity() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -159,6 +173,7 @@ public:
   virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5) = 0;
   virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) = 0;
   virtual CString FormString(const char* format, const char* arg1, const char* arg2) = 0;
+  virtual CString FormString(const char* format, int arg1, int arg2) = 0;
   virtual CString FormString(const char* format, const char* arg1) = 0;
   virtual CString FormString(const char* format, int arg1) = 0;
   virtual CString ContractToString(int contract, int modifier) = 0;
@@ -171,4 +186,7 @@ public:
   virtual const CString CardToShortString(int deckValue) = 0;
   virtual const char* GetSuitName(int suit) = 0;
   virtual const char* GetCardName(int faceValue) = 0;
+  virtual const CString CardToReverseString(int faceValue) = 0;
+  virtual int StringToDeckValue(const char* str) = 0;
+  virtual int GetRandomValue(int max) = 0;
 };

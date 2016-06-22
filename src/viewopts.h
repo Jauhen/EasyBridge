@@ -12,6 +12,8 @@
 // constants used in generic view property get/set calls
 //
 
+#pragma once;
+
 enum viewopts {
 	tbAnimateCards,
 	tbAutoRestackCards,

@@ -2123,7 +2123,7 @@ void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point)
 //
 void CMainFrame::OnDisplayOptions() 
 {
-	CDispOptionsPropSheet dispOptsDialog(&theApp, pMAINFRAME, pVIEW, &deck, this);
+	CDispOptionsPropSheet dispOptsDialog(&theApp, pMAINFRAME, pVIEW, theApp.GetDeck().get(), this);
 	//
 	if (dispOptsDialog.DoModal() == IDOK)
 	{

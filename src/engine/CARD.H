@@ -13,6 +13,8 @@
 #ifndef __CARD__
 #define __CARD__
 
+#include <memory>
+
 
 // file constants
 extern const TCHAR cSuit[];
@@ -20,6 +22,7 @@ extern const TCHAR cCard[];
 extern const TCHAR cFaceCard[];
 extern const LPCTSTR szFaceValueName[];
 
+class AppInterface;
 class CDeck;
 
 
@@ -133,10 +136,11 @@ private:
 	//
 	static int  m_nCardWidth;
 	static int	m_nCardHeight;
+  std::shared_ptr<AppInterface> app_;
 
 // routines
 private:
-	CCard();
+	CCard(std::shared_ptr<AppInterface> app);
 	~CCard();
 
 private:

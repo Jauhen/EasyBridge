@@ -1260,7 +1260,7 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 
 	// first fill the list with all the cards in the suit
 	for(int i=2;i<=ACE;i++)
-		cardList << deck.GetSortedCard(MAKEDECKVALUE(nSuit,i));
+		cardList << app_->GetDeck()->GetSortedCard(MAKEDECKVALUE(nSuit,i));
 	cardList.Sort();
 
 	// then remove the cards remaining in our own hand
@@ -1290,7 +1290,7 @@ int	CPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCount
 		for(int j=0;j<suit.GetNumDefiniteCards();j++)
 		{
 			if (suit[j]->WasPlayed())
-				cardList.Remove(deck.GetSortedCard(suit[j]->GetDeckValue()));
+				cardList.Remove(app_->GetDeck()->GetSortedCard(suit[j]->GetDeckValue()));
 		}
 	}
 
@@ -1351,7 +1351,7 @@ BOOL CPlayEngine::IsCardOutstanding(int nSuit, int nFaceValue) const
 {
 	int nDeckValue = MAKEDECKVALUE(nSuit, nFaceValue);
 	ASSERT(ISDECKVAL(nDeckValue));
-	CCard* pCard = deck.GetSortedCard(nDeckValue);
+	CCard* pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
 	return IsCardOutstanding(pCard);
 }
 

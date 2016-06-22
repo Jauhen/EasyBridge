@@ -919,7 +919,7 @@ void CEasyBView::DoOpeningSequence()
 	int nIndex = 0;
 	nextPoint = nAnimCardDest[nIndex];
 	do {
-		pCard = deck[nIndex];
+		pCard = (*theApp.GetDeck().get())[nIndex];
 		pCard->MoveTo(pDC, bx, by);
 		pCard->RestoreBackground(pDC);
 		// try to equalize out animation time
@@ -1132,8 +1132,8 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		return;
 	
 	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
-	m_nCardWidth = deck.GetCardWidth();
-	m_nCardHeight = deck.GetCardHeight();
+	m_nCardWidth = theApp.GetDeck()->GetCardWidth();
+	m_nCardHeight = theApp.GetDeck()->GetCardHeight();
 	//
 	int nDefaultWidth, nDefaultHeight;
 	int dx, dy;
@@ -1257,8 +1257,8 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	//
 	// adjust hand display positions
 	//
-	int nCardWidth = deck.GetCardWidth();
-	int nCardHeight = deck.GetCardHeight();
+	int nCardWidth = theApp.GetDeck()->GetCardWidth();
+	int nCardHeight = theApp.GetDeck()->GetCardHeight();
 
 	int nLeftOffset = (cx - m_nCardXGap*9 - m_nSuitSpacer*3 - nCardWidth*4) / 2;
 	m_drawPoint[SOUTH].x = nLeftOffset;

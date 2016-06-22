@@ -71,7 +71,7 @@ void CFinesse::Init()
 	int nTrumpSuit = app_->GetTrumpSuit();
 	m_nGapSize = m_pGapCards->GetNumCards();
 	m_pEnemyOrKeyCardsList = m_pGapCards;	// will be deleted by base class
-	m_pConsumedCard = deck.GetCard(m_nSuit, m_nCardVal);
+	m_pConsumedCard = app_->GetDeck()->GetCard(m_nSuit, m_nCardVal);
 //	m_pKeyCardsList = new CCardList;
 
 	// check enemy target card(s)

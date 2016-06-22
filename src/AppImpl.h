@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "app_interface.h"
 #include "EasyB.h"
+#include "viewopts.h"
 #include "dialogs/AutoHintDialog.h"
 #include "StatusWnd.h"
 #include "MainFrameopts.h"
@@ -155,6 +156,37 @@ public:
     return theApp.GetValue(tb4AceBonus) == TRUE;
   }
 
+  virtual bool IsCountShortSuits() {
+    return theApp.GetValue(tbCountShortSuits) == TRUE;
+  }
+
+  virtual bool IsPenalizeUGHonors() {
+    return theApp.GetValue(tbPenalizeUGHonors) == TRUE;
+  }
+
+  virtual bool IsInAutoHintMode() {
+    return theApp.GetValue(tnAutoHintMode) == TRUE;
+  }
+
+  virtual bool IsInsertBiddingPause() {
+    return theApp.GetValue(tbInsertBiddingPause) == TRUE;
+  }
+
+  virtual int GetPlayPauseLength() {
+    return theApp.GetValue(tnPlayPauseLength);
+  }
+
+  virtual std::shared_ptr<CDeck> GetDeck() {
+    return theApp.GetDeck();
+  }
+
+  virtual bool IsLowResOption() {
+    return theApp.GetValue(tbLowResOption) == TRUE;
+  }
+
+  virtual bool IsEnableDealNumbering() {
+    return theApp.GetValue(tbEnableDealNumbering) == TRUE;
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -198,6 +230,13 @@ public:
     pMAINFRAME->UpdateStatusWindow(CStatusWnd::SP_PLAY_PLAN | CStatusWnd::SP_SUIT_STATUS);
   }
 
+  virtual CDC* GetDC() {
+    return pMAINFRAME->GetDC();
+  }
+
+  virtual void ReleaseDC(CDC* dc) {
+    pMAINFRAME->ReleaseDC(dc);
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -427,6 +466,22 @@ public:
     return pVIEW->GetCurrentMode() == CEasyBView::MODE_GAMERESTORE;
   }
 
+  virtual void PlayCard(CCard* card, int shift) {
+    pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + shift, (int)card);
+  }
+
+  virtual int GetSuitToScreenIndex(int suit) {
+    return pVIEW->GetSuitToScreenIndex(suit);
+  }
+  
+  virtual int GetDummySuitToScreenIndex(int suit) {
+    return pVIEW->GetSuitToScreenIndex(suit);
+  }
+
+  virtual int GetAnimationGranularity() {
+    return pVIEW->GetValue(tnAnimationGranularity);
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -494,6 +549,10 @@ public:
     return ::FormString(format, arg1, arg2);
   }
 
+  virtual CString FormString(const char* format, int arg1, int arg2) {
+    return ::FormString(format, arg1, arg2);
+  }
+
   virtual CString FormString(const char* format, const char* arg1) {
     return ::FormString(format, arg1);
   }
@@ -540,6 +599,18 @@ public:
 
   virtual const char* GetCardName(int faceValue) {
     return ::GetCardName(faceValue);
+  }
+
+  virtual const CString CardToReverseString(int faceValue) {
+    return ::CardToReverseString(faceValue);
+  }
+
+  virtual int StringToDeckValue(const char* str) {
+    return ::StringToDeckValue(str);
+  }
+
+  virtual int GetRandomValue(int max) {
+    return ::GetRandomValue(max);
   }
 };
 

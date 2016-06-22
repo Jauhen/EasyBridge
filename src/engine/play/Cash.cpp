@@ -77,7 +77,7 @@ void CCash::Init()
 {
 	CPlay::Init();
 	//
-	m_pConsumedCard = deck.GetCard(m_nSuit, m_nCardVal);
+	m_pConsumedCard = app_->GetDeck()->GetCard(m_nSuit, m_nCardVal);
 	// form name & description
 	m_strName.Format("%s Cash", m_pConsumedCard->GetName());
 	m_strDescription.Format("Cash the %s", m_pConsumedCard->GetName());

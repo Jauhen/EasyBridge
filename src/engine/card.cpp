@@ -10,14 +10,13 @@
 // CCard
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "EasyBdoc.h"
-#include "EasyBvw.h"
+#include "card_constants.h"
 #include "engine/cardopts.h"
 #include "card.h"
 #include "deck.h"
 #include "viewopts.h"
 #include "math.h"
+#include "app_interface.h"
 
 
 // class static data
@@ -26,7 +25,7 @@ int CCard::m_nCardHeight = -1;
 
 
 // constructor
-CCard::CCard()
+CCard::CCard(std::shared_ptr<AppInterface> app) : app_(app)
 {	
 	m_pBitmap = NULL;
 }
@@ -73,12 +72,12 @@ LPVOID CCard::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const
 {
 	switch(nItem)
 	{
-		case tcCard:
-			return (LPVOID) cCard[nIndex1];
-		case tcFaceCard:
-			return (LPVOID) cFaceCard[nIndex1];
-		case tcSuit:
-			return (LPVOID) cSuit[nIndex1];
+		//case tcCard:
+		//	return (LPVOID) cCard[nIndex1];
+		//case tcFaceCard:
+		//	return (LPVOID) cFaceCard[nIndex1];
+		//case tcSuit:
+		//	return (LPVOID) cSuit[nIndex1];
 		default:
 			AfxMessageBox("Unhandled Call to CCard::GetValuePV()");
 			return (LPVOID) NULL;
@@ -169,10 +168,10 @@ void CCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC)
 	m_nSuit = nSuit;
 	m_nFaceValue = nValue;
 	m_nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
-	m_strName = CardToShortString(m_nDeckValue);
-	m_strFaceName = GetCardName(m_nFaceValue);
-	m_strFullName = CardToString(m_nDeckValue);
-	m_strReverseFullName = CardToReverseString(m_nDeckValue);
+	m_strName = app_->CardToShortString(m_nDeckValue);
+	m_strFaceName = app_->GetCardName(m_nFaceValue);
+	m_strFullName = app_->CardToString(m_nDeckValue);
+	m_strReverseFullName = app_->CardToReverseString(m_nDeckValue);
 	m_bAssigned = FALSE;
 }
 
@@ -188,14 +187,14 @@ void CCard::SetBitmap(CBitmap* pBitmap, CDC* pDC)
 	}
 
 	// get dimensions for the new bitmap
-	m_nCardWidth = deck.GetCardWidth();
-	m_nCardHeight = deck.GetCardHeight();
+	m_nCardWidth = app_->GetDeck()->GetCardWidth();
+	m_nCardHeight = app_->GetDeck()->GetCardHeight();
 
 	// set the new bitmap
 	m_pBitmap = pBitmap;
 	if (m_pBitmap == NULL) 
 	{
-		AfxMessageBox(FormString("Failed to find card bitmap, suit %d, value %d", m_nSuit, m_nFaceValue));
+		AfxMessageBox(app_->FormString("Failed to find card bitmap, suit %d, value %d", m_nSuit, m_nFaceValue));
 	}
 	else
 	{
@@ -259,9 +258,8 @@ BOOL CCard::IsValid() const
 //
 int CCard::GetDisplayValue() const
 {
-	CEasyBView* pView = CEasyBView::GetView();
 	// get the suit's actual onscreen suit order
-	int nSuitIndex = pView->GetSuitToScreenIndex(m_nSuit);
+	int nSuitIndex = app_->GetSuitToScreenIndex(m_nSuit);
 	return (nSuitIndex*13 + (14 - m_nFaceValue));
 }
 
@@ -271,9 +269,8 @@ int CCard::GetDisplayValue() const
 //
 int CCard::GetDummyDisplayValue() const
 {
-	CEasyBView* pView = CEasyBView::GetView();
 	// get the suit's actual (dummy) onscreen suit order
-	int nSuitIndex = pView->GetDummySuitToScreenIndex(m_nSuit);
+	int nSuitIndex = app_->GetDummySuitToScreenIndex(m_nSuit);
 	return (nSuitIndex*13 + (14 - m_nFaceValue));
 }
 
@@ -283,21 +280,21 @@ void CCard::GetRect(RECT& rect) const
 {
 	rect.left = m_nPosX;
 	rect.top = m_nPosY;
-	rect.right = m_nPosX + deck.GetCardWidth();
-	rect.bottom = m_nPosY + deck.GetCardHeight();
+	rect.right = m_nPosX + app_->GetDeck()->GetCardWidth();
+	rect.bottom = m_nPosY + app_->GetDeck()->GetCardHeight();
 }
   
 
 //
 TCHAR CCard::GetCardLetter() const
 {
-	return cCard[m_nFaceValue];
+  return '~';// cCard[m_nFaceValue];
 }
 
 //
 TCHAR CCard::GetSuitLetter() const
 {
-	return cSuit[m_nSuit];
+  return '!';// cSuit[m_nSuit];
 }
 
 
@@ -320,15 +317,15 @@ void CCard::Draw(CDC* pDC)
 	// load bitmaps
 	CBitmap* pOldBitmap1;
 //	if ((m_bFaceUp) || (theApp.m_bDebugMode) || (theApp.m_bShowCardsFaceUp))
-	if ((m_bFaceUp) || (theApp.AreCardsFaceUp())) 
+	if ((m_bFaceUp) || (app_->AreCardsFaceUp())) 
 	{
 		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(m_pBitmap);
 	} 
 	else 
 	{
-		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(deck.GetCardBackBitmap());
+		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(app_->GetDeck()->GetCardBackBitmap());
 	}
-	CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+	CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(app_->GetDeck()->GetMaskBitmap());
     CBitmap tempBitmap;
 	//
     tempBitmap.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
@@ -378,7 +375,7 @@ void CCard::DrawHighlighted(CDC* pDC, BOOL bVisible)
 		// load bitmaps
 		CBitmap* pOldBitmap1;
 		pOldBitmap1 = (CBitmap*) cardDC.SelectObject(m_pBitmap);
-		CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+		CBitmap* pOldBitmap2 = (CBitmap*) maskDC.SelectObject(app_->GetDeck()->GetMaskBitmap());
 	    CBitmap tempBitmap;
     	tempBitmap.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
 		CBitmap* pOldBitmap3 = (CBitmap*) cacheDC.SelectObject(&tempBitmap);
@@ -460,7 +457,7 @@ void CCard::RestoreBackground(CDC* pDC)
 	// load bitmap
 	CBitmap* pOldBitmap = (CBitmap*) cacheDC.SelectObject(&m_prevBitmap);
 	// copy the cacheDC onto the screen
-	pDC->BitBlt(m_nPosX,m_nPosY,deck.GetCardWidth(),deck.GetCardHeight(),&cacheDC,0,0,SRCCOPY);
+	pDC->BitBlt(m_nPosX,m_nPosY, app_->GetDeck()->GetCardWidth(), app_->GetDeck()->GetCardHeight(),&cacheDC,0,0,SRCCOPY);
 	// all done
 	(void)cacheDC.SelectObject(pOldBitmap);
 	cacheDC.DeleteDC();
@@ -498,11 +495,11 @@ void CCard::DragTo(CDC* pDC, int destX, int destY)
 	CBitmap* pOldBitmapOldBk = (CBitmap*) oldBkDC.SelectObject(&m_prevBitmap);
 	CBitmap* pOldBitmapCard;
 //	if ((m_bFaceUp) || (theApp.m_bDebugMode) || (theApp.m_bShowCardsFaceUp))
-	if ((m_bFaceUp) || (theApp.AreCardsFaceUp()))
+	if ((m_bFaceUp) || (app_->AreCardsFaceUp()))
 		pOldBitmapCard = (CBitmap*) cardDC.SelectObject(m_pBitmap);
 	else
-		pOldBitmapCard = (CBitmap*) cardDC.SelectObject(deck.GetCardBackBitmap());
-	CBitmap* pOldBitmapMask = (CBitmap*) maskDC.SelectObject(deck.GetMaskBitmap());
+		pOldBitmapCard = (CBitmap*) cardDC.SelectObject(app_->GetDeck()->GetCardBackBitmap());
+	CBitmap* pOldBitmapMask = (CBitmap*) maskDC.SelectObject(app_->GetDeck()->GetMaskBitmap());
     CBitmap tempBitmapNewBk,tempBitmapCache;
     tempBitmapNewBk.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
     tempBitmapCache.CreateCompatibleBitmap(pDC, m_nCardWidth, m_nCardHeight);
@@ -580,7 +577,7 @@ void CCard::Animate(CDC* pDC, int destx, int desty, BOOL bClearAtEnd, int nGranu
 
 	//
 	if (nGranularity == -99)
-		nGranularity = pVIEW->GetValue(tnAnimationGranularity);
+		nGranularity = app_->GetAnimationGranularity();
 	int nSteps = (nGranularity > 0)? ABS(max / nGranularity) : max;
 	if (nSteps == 0) 
 	{

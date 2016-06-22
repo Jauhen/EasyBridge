@@ -81,7 +81,7 @@ void CDrop::Init()
 	CPlay::Init();
 
 	//
-	m_pConsumedCard = deck.GetCard(m_nSuit, m_nCardVal);
+	m_pConsumedCard = app_->GetDeck()->GetCard(m_nSuit, m_nCardVal);
 	m_numTargetCards = m_pEnemyOrKeyCardsList->GetNumCards();
 	if (m_numTargetCards == 1)
 		m_strDropCards.Format("the %s", m_pEnemyOrKeyCardsList->GetAt(0)->GetName());

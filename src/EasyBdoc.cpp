@@ -425,7 +425,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName)
 					if (nDeckVal < 0)
 						break;
 					//
-					CCard* pCard = deck.GetSortedCard(nDeckVal);
+					CCard* pCard = theApp.GetDeck()->GetSortedCard(nDeckVal);
 					if (pCard == NULL)
 						break;	// reached end of play record
 
@@ -2330,7 +2330,7 @@ void CEasyBDoc::ClearHands()
 		m_pPlayer[i]->ClearHand();
 	ClearPlayInfo();
 	// also clear the deck
-	deck.Clear();
+	theApp.GetDeck()->Clear();
 }
 
 
@@ -3554,7 +3554,7 @@ void CEasyBDoc::UpdatePlayHistory()
 //
 int CEasyBDoc::DealCards() 
 {
-	int newDealNumber = deck.Shuffle(0, true);
+	int newDealNumber = theApp.GetDeck()->Shuffle(0, true);
 
 	// 
 	InitializeVulnerability();
@@ -3568,7 +3568,7 @@ int CEasyBDoc::DealCards()
 	{
 		for(j=0;j<4;j++)
 		{
-			CCard* pCard = deck[nCount++];
+			CCard* pCard = (*theApp.GetDeck().get())[nCount++];
 			m_pPlayer[j]->AddCardToHand(pCard);
 		}
 	}
@@ -3599,7 +3599,7 @@ void CEasyBDoc::DealHands(BOOL bUseDealNumber, int nDealNumber)
 	pMAINFRAME->SetAllIndicators();
 
 	//
-	m_nDealNumber = deck.Shuffle(bUseDealNumber? nDealNumber : 0);
+	m_nDealNumber = theApp.GetDeck()->Shuffle(bUseDealNumber? nDealNumber : 0);
 	m_nSpecialDealCode = 0;
 
 	// assign cards
@@ -3611,7 +3611,7 @@ void CEasyBDoc::DealHands(BOOL bUseDealNumber, int nDealNumber)
 	{
 		for(j=0;j<4;j++)
 		{
-			CCard* pCard = deck[nCount++];
+			CCard* pCard = (*theApp.GetDeck().get())[nCount++];
 			m_pPlayer[j]->AddCardToHand(pCard);
 		}
 	}

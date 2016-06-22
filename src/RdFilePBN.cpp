@@ -790,7 +790,7 @@ void CEasyBDoc::AssignCardsPBN(const CString& str)
 			{
 				int nValue = CharToFaceValue(strSuit[j]);
 				int nIndex = MAKEDECKVALUE(nSuit, nValue);
-				CCard* pCard = deck.GetSortedCard(nIndex);
+				CCard* pCard = theApp.GetDeck()->GetSortedCard(nIndex);
 				ASSERT(pCard);
 				m_pPlayer[nPlayer]->AddCardToHand(pCard,FALSE);
 				m_pPlayer[nPlayer]->AddCardToInitialHand(pCard);

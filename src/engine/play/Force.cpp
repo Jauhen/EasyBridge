@@ -71,8 +71,8 @@ void CForce::Init()
 {
 	CPlay::Init();
 	//
-	m_pTargetCard = deck.GetSortedCard(MAKEDECKVALUE(m_nSuit, m_nTargetCardVal));
-	m_pConsumedCard = deck.GetSortedCard(MAKEDECKVALUE(m_nSuit, m_nCardVal));
+	m_pTargetCard = app_->GetDeck()->GetSortedCard(MAKEDECKVALUE(m_nSuit, m_nTargetCardVal));
+	m_pConsumedCard = app_->GetDeck()->GetSortedCard(MAKEDECKVALUE(m_nSuit, m_nCardVal));
 	// form name & description
 	m_strName.Format("Force out the %s", m_pTargetCard->GetName());
 	m_strDescription.Format("Force out the %s with the %s",

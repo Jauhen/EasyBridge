@@ -39,6 +39,14 @@ public:
   MOCK_CONST_METHOD1(GetSuitSequence, int(int suit));
   MOCK_METHOD0(IsAcelessPenalty, bool());
   MOCK_METHOD0(IsFourAceBonus, bool());
+  MOCK_METHOD0(IsCountShortSuits, bool());
+  MOCK_METHOD0(IsPenalizeUGHonors, bool());
+  MOCK_METHOD0(IsInAutoHintMode, bool());
+  MOCK_METHOD0(IsInsertBiddingPause, bool());
+  MOCK_METHOD0(GetPlayPauseLength, int());
+  MOCK_METHOD0(GetDeck, std::shared_ptr<CDeck>());
+  MOCK_METHOD0(IsLowResOption, bool());
+  MOCK_METHOD0(IsEnableDealNumbering, bool());
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -95,6 +103,10 @@ public:
   MOCK_METHOD0(RestoreMode, void());
   MOCK_METHOD0(RefreshScreen, void());
   MOCK_METHOD0(IsInGameRestoreMode, bool());
+  MOCK_METHOD2(PlayCard, void(CCard* card, int shift));
+  MOCK_METHOD1(GetSuitToScreenIndex, int(int suit));
+  MOCK_METHOD1(GetDummySuitToScreenIndex, int(int suit));
+  MOCK_METHOD0(GetAnimationGranularity, int());
 
   MOCK_METHOD1(SetAutoHintDialogHintText, void(CString text));
   MOCK_METHOD1(ShowAnalysisDialog, void(Position position));
@@ -105,6 +117,8 @@ public:
   MOCK_METHOD0(UpdateStatusWindowWithPlayPlan, void());
   MOCK_METHOD0(UpdateStatusWindowWithSuitStatus, void());
   MOCK_METHOD0(UpdateStatusWindowWithPlayPlanAndSuitStatus, void());
+  MOCK_METHOD0(GetDC, CDC*());
+  MOCK_METHOD1(ReleaseDC, void(CDC* dc));
 
   MOCK_METHOD2(ContractToFullString, const CString(int contract, int modifier));
   MOCK_METHOD1(PositionToString, const char* (int pos));
@@ -121,6 +135,7 @@ public:
   MOCK_METHOD6(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5));
   MOCK_METHOD4(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3));
   MOCK_METHOD3(FormString, CString(const char* format, const char* arg1, const char* arg2));
+  MOCK_METHOD3(FormString, CString(const char* format, int arg1, int arg2));
   MOCK_METHOD2(FormString, CString(const char* format, const char* arg1));
   MOCK_METHOD2(FormString, CString(const char* format, int arg1));
   MOCK_METHOD2(ContractToString, CString(int contract, int modifier));
@@ -133,4 +148,7 @@ public:
   MOCK_METHOD1(CardToShortString, const CString(int deckValue));
   MOCK_METHOD1(GetSuitName, const char* (int suit));
   MOCK_METHOD1(GetCardName, const char* (int faceValue));
+  MOCK_METHOD1(CardToReverseString, const CString(int faceValue));
+  MOCK_METHOD1(StringToDeckValue, int(const char* str));
+  MOCK_METHOD1(GetRandomValue, int(int max));
 };
