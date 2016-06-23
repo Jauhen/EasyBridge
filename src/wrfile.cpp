@@ -189,9 +189,9 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 	WriteBool(ITEM_GAME_IN_PROGRESS,theApp.IsGameInProgress());
 	WriteBool(ITEM_BIDDING_IN_PROGRESS,theApp.IsBiddingInProgress());
 	WriteBool(ITEM_HANDS_DEALT,m_bHandsDealt);
-	strTemp.Format("%s",SuitToString(m_nContractSuit));
+	strTemp.Format("%s",SuitToString(deal_->GetContractSuit()));
 	WriteString(ITEM_CONTRACT_SUIT,strTemp);
-	WriteInt(ITEM_CONTRACT_LEVEL,m_nContractLevel);
+	WriteInt(ITEM_CONTRACT_LEVEL, deal_->GetContractLevel());
 	WriteInt(ITEM_CONTRACT_MODIFIER, m_bRedoubled? 2 : m_bDoubled? 1 : 0);
 	WriteString(ITEM_DEALER,PositionToString(m_nDealer));
 	WriteInt(ITEM_NUM_BIDS,m_numBidsMade);

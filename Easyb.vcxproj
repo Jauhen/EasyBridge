@@ -248,6 +248,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\deal.cpp" />
     <ClCompile Include="src\engine\bidding\convention_pool.cpp" />
     <ClCompile Include="src\engine\bidding\4thSuitForcingConvention.cpp" />
     <ClCompile Include="src\dialogs\AnalysisDialog.cpp" />
@@ -277,7 +278,7 @@
     <ClCompile Include="src\engine\bidding\Convention.cpp" />
     <ClCompile Include="src\engine\bidding\ConventionSet.cpp" />
     <ClCompile Include="src\engine\bidding\CueBidConvention.cpp" />
-    <ClCompile Include="src\deal.cpp" />
+    <ClCompile Include="src\EasyBdoc-deal.cpp" />
     <ClCompile Include="src\dialogs\DealNumberDialog.cpp" />
     <ClCompile Include="src\engine\Deck.cpp" />
     <ClCompile Include="src\engine\play\DeclarerPlayEngine.cpp" />
@@ -384,6 +385,7 @@
     <ResourceCompile Include="EasyB.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\deal.h" />
     <ClInclude Include="src\engine\bidding\convention_pool.h" />
     <ClInclude Include="src\AppImpl.h" />
     <ClInclude Include="src\app_interface.h" />

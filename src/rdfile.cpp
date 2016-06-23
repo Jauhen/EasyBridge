@@ -385,11 +385,11 @@ next:		if (nRtnCode == EOF)
 					
 					case ITEM_CONTRACT_SUIT:
 						nLen = string.GetLength();
-						m_nContractSuit = CharToSuit(string.GetAt(0));
+            deal_->SetContractSuit(CharToSuit(string.GetAt(0)));
 						break;
 
 					case ITEM_CONTRACT_LEVEL:
-						m_nContractLevel = nValue;
+            deal_->SetContractLevel(nValue);
 						break;
 
 					case ITEM_CONTRACT_MODIFIER:
@@ -613,8 +613,8 @@ next:		if (nRtnCode == EOF)
 	//
 	// do some sanity checks
 	//
-	m_nContract = MAKEBID(m_nContractSuit, m_nContractLevel);
-	if (!ISPLAYER(m_nDeclarer) || !ISBID(m_nContract))
+  deal_->SetContract(MAKEBID(deal_->GetContractSuit(), deal_->GetContractLevel()));
+	if (!ISPLAYER(m_nDeclarer) || !ISBID(deal_->GetContract()))
 		theApp.SetValue(tbGameInProgress, FALSE);
 
 	//
@@ -659,7 +659,7 @@ next:		if (nRtnCode == EOF)
 		nPos = GetNextPlayer(nPos);
 		nTeam = GetOpposingTeam(nTeam);
 	}
-	if (ISBID(m_nContract))
+	if (ISBID(deal_->GetContract()))
 		UpdateBiddingHistory();
 
 
@@ -693,11 +693,11 @@ next:		if (nRtnCode == EOF)
 	//
 	// set contract info
 	//
-	m_nContract = ContractParamsToBid(m_nContractSuit,m_nContractLevel);
-	m_nTrumpSuit = m_nContractSuit;
+  deal_->SetContract(ContractParamsToBid(deal_->GetContractSuit(), deal_->GetContractLevel()));
+	m_nTrumpSuit = deal_->GetContractSuit();
 	m_nBiddingRound = nBidIndex;
 	// set play info 
-	if (ISBID(m_nContract) && ISPLAYER(m_nDeclarer))
+	if (ISBID(deal_->GetContract()) && ISPLAYER(m_nDeclarer))
 	{
 		// contract has been reached
 		m_nDummy = GetPartner((int) m_nDeclarer);
