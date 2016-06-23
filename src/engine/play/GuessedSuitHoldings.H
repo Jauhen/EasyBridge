@@ -13,7 +13,7 @@
 #ifndef __CGUESSEDSUITHOLDINGS__
 #define __CGUESSEDSUITHOLDINGS__
 
-#include "GuessedCardHoldings.h"
+#include "engine/play/GuessedCardHoldings.h"
 
 
 //

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "convention_pool.h"
+#include "engine/bidding/convention_pool.h"
 
 
 ConventionPool::ConventionPool(std::shared_ptr<AppInterface> app) {

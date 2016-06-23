@@ -13,7 +13,7 @@
 #ifndef __CGUESSEDCARDHOLDINGS__
 #define __CGUESSEDCARDHOLDINGS__
 
-#include "GuessedCard.h"
+#include "engine/GuessedCard.h"
 class CCardList;
 
 //

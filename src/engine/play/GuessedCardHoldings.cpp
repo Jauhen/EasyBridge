@@ -12,10 +12,10 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "GuessedCardHoldings.h"
-#include "Card.h"
-#include "CardList.h"
+#include "engine/card_constants.h"
+#include "engine/play/GuessedCardHoldings.h"
+#include "engine/Card.h"
+#include "engine/CardList.h"
 
 
 //

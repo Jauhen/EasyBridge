@@ -21,8 +21,8 @@
 #include "engine/Player.h"
 #include "engine/Card.h"
 #include "MainFrameOpts.h"
-#include "engine/HandHoldings.h"
-#include "engine/CardHoldings.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/play/CardHoldings.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

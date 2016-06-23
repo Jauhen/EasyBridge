@@ -12,7 +12,7 @@
 #ifndef __CUEBID__
 #define __CUEBID__
 
-#include "SlamConvention.h"
+#include "engine/bidding/SlamConvention.h"
 
 
 //

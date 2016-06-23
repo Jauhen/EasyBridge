@@ -12,8 +12,8 @@
 #ifndef __HANDHOLDINGS__
 #define __HANDHOLDINGS__
 
-#include "SuitHoldings.h"
-#include "DisplayHoldings.h"
+#include "engine/play/SuitHoldings.h"
+#include "engine/play/DisplayHoldings.h"
 
 class CPlayerStatusDialog;
 

@@ -11,7 +11,7 @@
 //
 #include "stdafx.h"
 #include "EasyB.h"
-#include "GameRecord.h"
+#include "engine/GameRecord.h"
 #include "filecodePBN.h"
 
 // the list of required PBN 2.0 tags

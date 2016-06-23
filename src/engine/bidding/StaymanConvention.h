@@ -9,10 +9,10 @@
 //
 // StaymanConvention.h
 //
-#include "Convention.h"
-
 #ifndef __STAYMAN__
 #define __STAYMAN__
+
+#include "engine/bidding/Convention.h"
 
 
 //

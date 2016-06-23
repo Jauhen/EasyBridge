@@ -16,14 +16,14 @@
 //===========================================================
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Card.h"
-#include "Deck.h"
-#include "Player.h"
-#include "CombinedSuitHoldings.h"
-#include "GuessedCardHoldings.h"
-#include "GuessedSuitHoldings.h"
-#include "GuessedHandHoldings.h"
+#include "engine/card_constants.h"
+#include "engine/Card.h"
+#include "engine/Deck.h"
+#include "engine/Player.h"
+#include "engine/play/CombinedSuitHoldings.h"
+#include "engine/play/GuessedCardHoldings.h"
+#include "engine/play/GuessedSuitHoldings.h"
+#include "engine/play/GuessedHandHoldings.h"
 
 
 

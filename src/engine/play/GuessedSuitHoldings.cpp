@@ -12,8 +12,8 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "GuessedSuitHoldings.h"
+#include "engine/card_constants.h"
+#include "engine/play/GuessedSuitHoldings.h"
 
 
 

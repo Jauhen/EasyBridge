@@ -11,11 +11,11 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Card.h"
-#include "Deck.h"
+#include "engine/card_constants.h"
+#include "engine/Card.h"
+#include "engine/Deck.h"
 #include "MyBitmap.h"
-#include "deckopts.h"
+#include "engine/deckopts.h"
 #include <sys/types.h>
 #include <sys/timeb.h>
 #include "app_interface.h"

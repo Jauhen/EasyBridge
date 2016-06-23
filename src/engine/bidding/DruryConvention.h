@@ -12,7 +12,7 @@
 #ifndef __CDRURYCONVENTION__
 #define __CDRURYCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

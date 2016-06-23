@@ -12,7 +12,7 @@
 #ifndef __DISPLAYHOLDINGS__
 #define __DISPLAYHOLDINGS__
 
-#include "cardholdings.h"
+#include "engine/play/cardholdings.h"
 
 
 //

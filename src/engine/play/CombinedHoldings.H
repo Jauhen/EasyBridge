@@ -12,7 +12,7 @@
 #ifndef __COMBINEDHOLDINGS__
 #define __COMBINEDHOLDINGS__
 
-#include "HandHoldings.h"
+#include "engine/play/HandHoldings.h"
 
 class CPlayerStatusDialog;
 class CCombinedSuitHoldings;

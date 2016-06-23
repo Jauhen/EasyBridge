@@ -12,14 +12,13 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Deck.h"
-#include "Card.h"
-#include "SuitHoldings.h"
+#include "engine/card_constants.h"
+#include "engine/Deck.h"
+#include "engine/Card.h"
+#include "engine/play/SuitHoldings.h"
 #include "engine/bidding/ConventionSet.h"
-#include "GuessedHandHoldings.h"
-#include "progopts.h"
-#include "Player.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/Player.h"
 
 
 //

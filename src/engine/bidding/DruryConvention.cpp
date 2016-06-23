@@ -11,12 +11,12 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../Player.h"
-#include "../PlayerStatusDialog.h"
-#include "DruryConvention.h"
-#include "OvercallsConvention.h"
-#include "ConventionSet.h"
+#include "engine/card_constants.h"
+#include "engine/Player.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/DruryConvention.h"
+#include "engine/bidding/OvercallsConvention.h"
+#include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 
 

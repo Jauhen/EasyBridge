@@ -12,7 +12,7 @@
 #ifndef __C2CLUBCONVENTION__
 #define __C2CLUBCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

@@ -13,7 +13,7 @@
 #ifndef __CTYPE1FINESSE__
 #define __CTYPE1FINESSE__
 
-#include "Finesse.h"
+#include "engine/play/Finesse.h"
 class CCardList;
 
 

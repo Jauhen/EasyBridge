@@ -12,16 +12,15 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Card.h"
-#include "HandHoldings.h"
-#include "Player.h"
-#include "play/PlayEngine.h"
-#include "PlayerStatusDialog.h"
-#include "bidding/ConventionSet.h"
-#include "bidding/bidparams.h"
-#include "handopts.h"
-#include "progopts.h"
+#include "engine/card_constants.h"
+#include "engine/Card.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/Player.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/ConventionSet.h"
+#include "engine/bidding/bidparams.h"
+#include "engine/handopts.h"
 #include "app_interface.h"
 
 

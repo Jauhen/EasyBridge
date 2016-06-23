@@ -12,7 +12,7 @@
 #ifndef __SUITHOLDINGS__
 #define __SUITHOLDINGS__
 
-#include "cardholdings.h"
+#include "engine/play/cardholdings.h"
 #include "engine/bidding/bidparams.h"
 
 class CCard;

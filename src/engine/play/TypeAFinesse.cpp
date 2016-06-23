@@ -14,15 +14,15 @@
 //   finesse against LHO
 //
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../Player.h"
-#include "../Card.h"
-#include "TypeAFinesse.h"
-#include "PlayEngine.h"
-#include "../CombinedHoldings.h"
-#include "../CardLocation.h"
-#include "../GuessedHandHoldings.h"
-#include "../PlayerStatusDialog.h"
+#include "engine/card_constants.h"
+#include "engine/Player.h"
+#include "engine/Card.h"
+#include "engine/play/TypeAFinesse.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/CardLocation.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/PlayerStatusDialog.h"
 
 
 

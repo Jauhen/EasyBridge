@@ -12,7 +12,7 @@
 #ifndef __CCARDLOCATION__
 #define __CCARDLOCATION__
 
-#include "GuessedCard.h"
+#include "engine/GuessedCard.h"
 
 // 
 class CCardLocation {

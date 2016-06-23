@@ -12,9 +12,9 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Card.h"
-#include "DisplayHoldings.h"
+#include "engine/card_constants.h"
+#include "engine/Card.h"
+#include "engine/play/DisplayHoldings.h"
 
 
 

@@ -12,7 +12,7 @@
 #ifndef __CJACOBY2NTCONVENTION__
 #define __CJACOBY2NTCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

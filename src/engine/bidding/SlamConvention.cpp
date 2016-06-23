@@ -11,8 +11,8 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "SlamConvention.h"
+#include "engine/card_constants.h"
+#include "engine/bidding/SlamConvention.h"
 
 
 //

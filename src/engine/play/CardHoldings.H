@@ -14,7 +14,7 @@
 #ifndef __CARDHOLDINGS__
 #define __CARDHOLDINGS__
 
-#include "CardList.h"
+#include "engine/CardList.h"
 class CCard;
 class CPlayer;
 

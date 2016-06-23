@@ -10,11 +10,11 @@
 // CCard
 //
 #include "stdafx.h"
-#include "card_constants.h"
+#include "engine/card_constants.h"
 #include "engine/cardopts.h"
-#include "card.h"
-#include "deck.h"
-#include "viewopts.h"
+#include "engine/card.h"
+#include "engine/deck.h"
+//#include "viewopts.h"
 #include "math.h"
 #include "app_interface.h"
 

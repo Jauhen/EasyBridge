@@ -12,12 +12,12 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Card.h"
-#include "CombinedSuitHoldings.h"
-#include "CombinedHoldings.h"
-#include "PlayerStatusDialog.h"
-#include "handopts.h"
+#include "engine/card_constants.h"
+#include "engine/Card.h"
+#include "engine/play/CombinedSuitHoldings.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/handopts.h"
 #include "app_interface.h"
 
 

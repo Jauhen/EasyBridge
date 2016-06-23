@@ -18,8 +18,8 @@
 #include "engine/cardlist.h"
 #include "engine/player.h"
 #include "engine/play/DeclarerPlayEngine.h"
-#include "engine/CombinedHoldings.h"
-#include "engine/CombinedSuitHoldings.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/play/CombinedSuitHoldings.h"
 #include "StatusSheet.h"
 #include "Subclass.h"
 

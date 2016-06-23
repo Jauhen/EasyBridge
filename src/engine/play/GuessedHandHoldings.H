@@ -13,7 +13,7 @@
 #ifndef __CGUESSEDHANDHOLDINGS__
 #define __CGUESSEDHANDHOLDINGS__
 
-#include "GuessedSuitHoldings.h"
+#include "engine/play/GuessedSuitHoldings.h"
 class CHandHoldings;
 
 //

@@ -12,8 +12,8 @@
 #ifndef __CDECLARERPLAYENGINE__
 #define __CDECLARERPLAYENGINE__
 
-#include "PlayEngine.h"
-#include "PlayList.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/PlayList.h"
 class CCombinedHoldings;
 class CCombinedSuitHoldings;
 class CDummyPlayEngine;

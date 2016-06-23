@@ -111,15 +111,6 @@
     <ClCompile Include="src\engine\CardLocation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\CardHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\CombinedSuitHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\CombinedHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\play\Cash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,21 +141,6 @@
     <ClCompile Include="src\engine\GameRecord.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\GuessedCard.CPP">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\GuessedCardHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\GuessedHandHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\GuessedSuitHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\HandHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -190,12 +166,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\play\TypeBFinesse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\SuitHoldings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\DisplayHoldings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ConfigData.cpp">
@@ -381,6 +351,36 @@
     <ClCompile Include="src\engine\bidding\convention_pool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\play\CardHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\CombinedHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\CombinedSuitHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\DisplayHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\GuessedCardHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\GuessedHandHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\GuessedSuitHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\HandHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\play\SuitHoldings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GuessedCard.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyB.rc">
@@ -475,15 +475,6 @@
     <ClInclude Include="src\engine\CardLocation.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\CardHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\CombinedSuitHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\CombinedHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\play\Cash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -517,21 +508,6 @@
     <ClInclude Include="src\engine\Handopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\GuessedCard.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\GuessedCardHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\GuessedHandHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\GuessedSuitHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\HandHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\playeropts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -559,19 +535,10 @@
     <ClInclude Include="src\engine\play\TypeBFinesse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\SuitHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\DisplayHoldings.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ConfigData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DEALPARM.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\deckopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DEFINES.H">
@@ -770,6 +737,39 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\card_constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\CardHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\CombinedHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\CombinedSuitHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\DisplayHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\GuessedCardHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\GuessedHandHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\GuessedSuitHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\HandHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\play\SuitHoldings.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\GuessedCard.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\deckopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

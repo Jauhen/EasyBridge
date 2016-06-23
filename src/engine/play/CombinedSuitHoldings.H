@@ -12,7 +12,7 @@
 #ifndef __COMBINEDSUITHOLDINGS__
 #define __COMBINEDSUITHOLDINGS__
 
-#include "SuitHoldings.h"
+#include "engine/play/SuitHoldings.h"
 
 class CCard;
 

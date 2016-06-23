@@ -12,8 +12,8 @@
 
 #include "stdafx.h"
 #include "app_interface.h"
-#include "../PlayerStatusDialog.h"
-#include "4thSuitForcingConvention.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/4thSuitForcingConvention.h"
 
 
 //

@@ -13,7 +13,7 @@
 #ifndef __CTYPE3FINESSE__
 #define __CTYPE3FINESSE__
 
-#include "Finesse.h"
+#include "engine/play/Finesse.h"
 
 
 //

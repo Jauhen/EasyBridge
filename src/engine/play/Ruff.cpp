@@ -10,16 +10,16 @@
 // Ruff.cpp
 //
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../card.h"
-#include "Ruff.h"
-#include "../Player.h"
-#include "PlayEngine.h"
-#include "../CombinedHoldings.h"
-#include "../CombinedSuitHoldings.h"
-#include "../CardLocation.h"
-#include "../GuessedHandHoldings.h"
-#include "../PlayerStatusDialog.h"
+#include "engine/card_constants.h"
+#include "engine/card.h"
+#include "engine/play/Ruff.h"
+#include "engine/Player.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/play/CombinedSuitHoldings.h"
+#include "engine/CardLocation.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/PlayerStatusDialog.h"
 
 
 

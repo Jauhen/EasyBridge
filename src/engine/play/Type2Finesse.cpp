@@ -16,16 +16,16 @@
 //                      then good; else, finesse the J against East
 //
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../Player.h"
-#include "../Card.h"
-#include "../CardList.h"
+#include "engine/card_constants.h"
+#include "engine/Player.h"
+#include "engine/Card.h"
+#include "engine/CardList.h"
 #include "Type2Finesse.h"
-#include "PlayEngine.h"
-#include "../CombinedHoldings.h"
-#include "../CardLocation.h"
-#include "../GuessedHandHoldings.h"
-#include "../PlayerStatusDialog.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/CardLocation.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/PlayerStatusDialog.h"
 
 
 

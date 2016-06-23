@@ -12,7 +12,7 @@
 #ifndef __CWEAKTWOBIDS__
 #define __CWEAKTWOBIDS__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

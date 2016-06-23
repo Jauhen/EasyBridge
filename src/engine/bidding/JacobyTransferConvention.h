@@ -12,7 +12,7 @@
 #ifndef __JACOBYTRANSFER__
 #define __JACOBYTRANSFER__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

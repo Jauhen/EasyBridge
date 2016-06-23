@@ -12,9 +12,9 @@
 //
 
 #include "stdafx.h"
-#include "card_constants.h"
-#include "HandHoldings.h"
-#include "GuessedHandHoldings.h"
+#include "engine/card_constants.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/play/GuessedHandHoldings.h"
 
 
 
