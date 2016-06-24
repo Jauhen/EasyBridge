@@ -168,9 +168,6 @@
     <ClCompile Include="src\engine\play\TypeBFinesse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ConfigData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\drawhand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -363,9 +360,6 @@
     <ClCompile Include="src\engine\GuessedCard.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\model\deal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\model\EasyBdoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -379,6 +373,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\model\WrFilePBN.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\easyb_doc_deal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -533,9 +530,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\TypeBFinesse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ConfigData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DEFINES.H">
@@ -757,9 +751,6 @@
     <ClInclude Include="src\engine\deckopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\model\DEALPARM.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\model\docopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -770,6 +761,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\model\FileCodePBN.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DEALPARM.H">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,7 +20,7 @@
 #include "engine/playeropts.h"
 #include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
-#include "model/dealparm.h"
+#include "dealparm.h"
 #include "engine/bidding/ConventionSet.h"
 #include "engine/bidding/convention_pool.h"
 #include "engine/deck.h"
