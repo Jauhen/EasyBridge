@@ -11,11 +11,11 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "myfildlg.h"
 #include "saveopts.h"
 #include "progopts.h"
-#include "docopts.h"
+#include "model/docopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

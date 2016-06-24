@@ -11,8 +11,8 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBDoc.h"
-#include "docopts.h"
+#include "model/EasyBDoc.h"
+#include "model/docopts.h"
 #include "saveopts.h"
 #include "progopts.h"
 #include "../Help/HelpCode.h"

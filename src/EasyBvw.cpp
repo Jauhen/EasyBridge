@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "engine/Player.h"
 #include "mainfrm.h"
 #include "engine/deck.h"
@@ -19,7 +19,7 @@
 #include "EasyBvw.h"
 #include "progopts.h"
 #include "viewopts.h"
-#include "docopts.h"
+#include "model/docopts.h"
 #include "dialogs/BidDialog.h"
 #include "dialogs/GameReviewDialog.h"
 #include "MainframeOpts.h"

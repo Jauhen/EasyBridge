@@ -12,8 +12,8 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
-#include "DocOpts.h"
+#include "model/EasyBdoc.h"
+#include "model/DocOpts.h"
 #include "mainfrm.h"
 #include "EasyBvw.h"
 #include "progopts.h"

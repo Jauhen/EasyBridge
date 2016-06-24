@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "easybDoc.h"
+#include "model/easybDoc.h"
 #include "mainfrm.h"
 #include "engine/Player.h"
 #include "StatusCardLocationsPage.h"
@@ -21,7 +21,7 @@
 #include "engine/play/SuitHoldings.h"
 #include "StatusSheet.h"
 #include "subclass.h"
-#include "docopts.h"
+#include "model/docopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

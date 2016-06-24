@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "easybDoc.h"
+#include "model/easybDoc.h"
 #include "Mainfrm.h"
 #include "Mainframeopts.h"
 #include "NNetOutputDialog.h"

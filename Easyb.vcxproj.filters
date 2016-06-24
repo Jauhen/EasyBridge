@@ -171,16 +171,10 @@
     <ClCompile Include="src\ConfigData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\deal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\drawhand.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\DrawParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\EasyBdoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\EasyBvw.cpp">
@@ -207,12 +201,6 @@
     <ClCompile Include="src\print.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\rdfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\RdFilePBN.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\StatusAnalysesPage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -235,12 +223,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\StatusWnd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\wrfile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WrFilePBN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\EasyB.cpp">
@@ -379,6 +361,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\GuessedCard.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\deal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\EasyBdoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\RdFilePBN.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\rdfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\wrfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\model\WrFilePBN.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -538,34 +538,19 @@
     <ClInclude Include="src\ConfigData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DEALPARM.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\DEFINES.H">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DialogInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\docopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\DrawParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\EasyBdoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\EasyBvw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\EventProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FILECODE.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\FileCodePBN.H">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\GIB.h">
@@ -770,6 +755,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\deckopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\DEALPARM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\docopts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\EasyBdoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\FILECODE.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\FileCodePBN.H">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

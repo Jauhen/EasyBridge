@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "engine/Player.h"
 #include "GIB.h"
 #include "engine/play/HandHoldings.h"
