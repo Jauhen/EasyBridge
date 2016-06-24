@@ -128,8 +128,8 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 		WriteLine(TAG_DECLARER, "?");
 
 	// Contract Tag
-	if (ISBID(deal_->GetContract()))
-		WriteLine(TAG_CONTRACT, ContractToString(deal_->GetContract()));
+	if (ISBID(m_nContract))
+		WriteLine(TAG_CONTRACT, ContractToString(m_nContract));
 	else
 		WriteLine(TAG_CONTRACT, "?");
 
@@ -160,7 +160,7 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 			strBids += "\r\n";
 	}
 	// add marker if needed
-	if (!ISBID(deal_->GetContract()))
+	if (!ISBID(m_nContract))
 		strBids += "\r\n*";
 	// and write out
 	WriteLine(strBids);

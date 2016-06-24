@@ -42,6 +42,9 @@ enum docopts {
 	tstrBonusPointsRecord,
 	tstrTotalPointsRecord,
 	// game (contract) info
+	tnContract,
+	tnContractLevel,
+	tnContractSuit,
 	tnContractTeam,
 	tnDefendingTeam,
 	tnBiddingStartPos,

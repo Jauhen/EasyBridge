@@ -15,8 +15,6 @@
 
 #include "ObjectWithProperties.h"
 #include "EventProcessor.h"
-#include "engine/deal.h"
-
 class CPlayer;
 class CCard;
 class CGameRecord;
@@ -97,12 +95,12 @@ public:
 	CPlayer* GetPlayer(int nIndex) const { return m_pPlayer[nIndex]; }
 	CPlayer* GetHumanPlayer() const { return m_pPlayer[SOUTH]; }
 	int GetHumanPlayerPos() const { return SOUTH; }
-	int	GetContract() const { return deal_->GetContract(); }
+	int	GetContract() const { return m_nContract; }
 	const CString GetContractString() const;
 	const CString GetFullContractString() const;
-	int	GetContractSuit() const { return deal_->GetContractSuit(); }
+	int	GetContractSuit() const { return m_nContractSuit; }
 	int	GetTrumpSuit() const { return m_nTrumpSuit; }
-	int	GetContractLevel() const { return deal_->GetContractLevel(); }
+	int	GetContractLevel() const { return m_nContractLevel; }
 	int GetContractModifier() const { return m_nContractModifier; }
 	BOOL IsContractDoubled() const { return m_bDoubled; }
 	BOOL IsContractRedoubled() const { return m_bRedoubled; }
@@ -175,8 +173,6 @@ public:
 	enum { tnEasyBridgeFormat=0, tnPBNFormat=1, tnTextFormat=2 };
 
 private:
-  std::shared_ptr<Deal> deal_;
-
 	static BOOL	m_bInitialized;
 	CPlayer*	m_pPlayer[4];
 	// file info
@@ -205,6 +201,9 @@ private:
 	CStringArray	m_strArrayBonusPointsRecord;
 	CString			m_strTotalPointsRecord;
 	// game (contract) info
+	int			m_nContract;
+	int			m_nContractLevel;
+	int			m_nContractSuit;
 	int			m_nContractTeam;		// team with the contract
 	int			m_nDefendingTeam;
 	int			m_numBidsMade;

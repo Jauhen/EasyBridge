@@ -168,8 +168,6 @@ void CEasyBDoc::Terminate()
 CEasyBDoc::CEasyBDoc()
 {
 	m_pDoc = this;
-
-  deal_ = std::make_shared<Deal>();
 	//
 	m_strFileProgTitle = theApp.GetValueString(tstrProgramTitle);
 	m_nFileProgMajorVersion = theApp.GetValue(tnProgramMajorVersion);
@@ -324,13 +322,13 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	theApp.SetValuePV(tpvActiveDocument, this);
 
 	// set contract and vulnerability info
-	if (ISBID(deal_->GetContract()))
+	if (ISBID(m_nContract))
 	{
 		pMAINFRAME->DisplayContract();
 		pMAINFRAME->DisplayDeclarer();
 		pMAINFRAME->DisplayVulnerable();
 		// reset suit sequence
-		theApp.InitDummySuitSequence(deal_->GetContractSuit(), m_nDummy);
+		theApp.InitDummySuitSequence(m_nContractSuit, m_nDummy);
 	}
 	else
 	{
@@ -352,7 +350,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName)
 		pVIEW->BeginGameReview(TRUE);
 		pMAINFRAME->MakeDialogVisible(twGameReviewDialog);
 		// see if a contract has been set
-		if (ISBID(deal_->GetContract()))
+		if (ISBID(m_nContract))
 		{
 			if (theApp.GetValue(tbAutoHideBidHistory))
 				pMAINFRAME->HideDialog(twBiddingHistoryDialog);
@@ -748,13 +746,13 @@ CCard* CEasyBDoc::GetCurrentTrickHighCard(int* nPos) const
 //
 const CString CEasyBDoc::GetContractString() const
 {
-	return ContractToString(deal_->GetContract(), m_nContractModifier);
+	return ContractToString(m_nContract, m_nContractModifier);
 }
 
 //
 const CString CEasyBDoc::GetFullContractString() const
 {
-	return ContractToFullString(deal_->GetContract(), m_nContractModifier);
+	return ContractToFullString(m_nContract, m_nContractModifier);
 }
 
 
@@ -1036,9 +1034,9 @@ void CEasyBDoc::ClearBiddingInfo()
 	for(i=0;i<4;i++)
 		m_pPlayer[i]->ClearBiddingInfo();
 	//
-  deal_->SetContract(0);
-  deal_->SetContractSuit(NOTRUMP);
-	deal_->SetContractLevel(0);
+	m_nContract = 0;
+	m_nContractSuit = NOTRUMP;
+	m_nContractLevel = 0;
 	m_bDoubled = FALSE;
 	m_nDoubler = NONE;
 	m_bRedoubled = FALSE;
@@ -1599,13 +1597,13 @@ int CEasyBDoc::EnterBid(int nPos, int nBid)
 	if ((m_numPasses >= 3) && (m_nLastValidBid != BID_PASS))
 	{
 		// contract has been set
-		deal_->SetContract(m_nLastValidBid);
-    deal_->SetContractSuit(BID_SUIT(m_nLastValidBid));
-    deal_->SetContractLevel(BID_LEVEL(m_nLastValidBid));
-		m_nTrumpSuit = deal_->GetContractSuit();
+		m_nContract = m_nLastValidBid;
+		m_nContractSuit = BID_SUIT(m_nLastValidBid);
+		m_nContractLevel = BID_LEVEL(m_nLastValidBid);
+		m_nTrumpSuit = m_nContractSuit;
 		m_nContractTeam = m_nLastValidBidTeam;
 		m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH)? EAST_WEST : NORTH_SOUTH;
-		m_nDeclarer = m_nPartnershipLead[m_nContractTeam][deal_->GetContractSuit()];
+		m_nDeclarer = m_nPartnershipLead[m_nContractTeam][m_nContractSuit];
 		m_nGameLead = GetNextPlayer(m_nDeclarer);
 		m_nDummy = GetNextPlayer(m_nGameLead);
 		m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
@@ -2354,13 +2352,13 @@ void CEasyBDoc::EvaluateTrick(BOOL bQuietMode)
 		int nSuit = pCard->GetSuit();
 		int nCardVal = pCard->GetFaceValue();
 		//
-		if ((deal_->GetContractSuit() != NOTRUMP) && (nSuit == deal_->GetContractSuit()))
+		if ((m_nContractSuit != NOTRUMP) && (nSuit == m_nContractSuit))
 			bTrumpPlayed = TRUE;
 		if (bTrumpPlayed)
 		{
 			// a trump has been played in this round, so only
 			// a trump card can win the trick
-			if ((nSuit == deal_->GetContractSuit()) && (nCardVal > m_nHighTrumpVal))
+			if ((nSuit == m_nContractSuit) && (nCardVal > m_nHighTrumpVal))
 			{
 				m_nHighVal = m_nHighTrumpVal = nCardVal;
 				m_pHighCard = pCard;
@@ -2494,7 +2492,7 @@ void CEasyBDoc::OnGameComplete()
 {
 	// game over -- see if the contract was made
 	pMAINFRAME->ClearStatusMessage();
-	int nRqmt = BID_LEVEL(deal_->GetContract()) + 6;
+	int nRqmt = BID_LEVEL(m_nContract) + 6;
 	int nDiff = m_numTricksWon[m_nContractTeam] - nRqmt;
 	CString strTeam = TeamToString(m_nContractTeam);
 	CString strMessage, strOldMessage;
@@ -2727,7 +2725,7 @@ void CEasyBDoc::UpdateScore()
 {
 	// calculate the game score
 	int numTricksMade = m_numTricksWon[m_nContractTeam];
-	int nContractLevel = BID_LEVEL(deal_->GetContract());
+	int nContractLevel = BID_LEVEL(m_nContract);
 	int numRequiredTricks = nContractLevel + 6;
 	int numTrickPoints = 0;
 	int numBonusPoints = 0;
@@ -2743,16 +2741,14 @@ void CEasyBDoc::UpdateScore()
 		int numOvertricks = numTricksMade - numRequiredTricks;
 		if (numOvertricks < 0)
 			numOvertricks = 0;
-		switch (deal_->GetContractSuit())
+		switch (m_nContractSuit)
 		{
-			case CLUBS:  
-      case DIAMONDS:
+			case CLUBS:  case DIAMONDS:
 				numTrickPoints = nContractLevel * 20;
 				numOvertrickPoints = numOvertricks * 20;
 				break;
 
-			case HEARTS: 
-      case SPADES:
+			case HEARTS: case SPADES:
 				numTrickPoints = nContractLevel * 30;
 				numOvertrickPoints = numOvertricks * 30;
 				break;
@@ -2775,7 +2771,7 @@ void CEasyBDoc::UpdateScore()
 								((m_nContractTeam == NORTH_SOUTH)? "" : "\t"),
 								numTrickPoints,
 								((m_nContractTeam == NORTH_SOUTH)? "\t" : ""),
-								ContractToFullString(deal_->GetContract(), m_nContractModifier),
+								ContractToFullString(m_nContract, m_nContractModifier),
 								(bDoubled? " doubled" : bRedoubled? " redoubled" : ""));
 		// and save
 		m_strArrayTrickPointsRecord.Add(strTrickPoints);
@@ -3089,12 +3085,12 @@ void CEasyBDoc::UpdateDuplicateScore()
 	CString strScore;
 
 	// calculate the duplicate score
-	int numTricksRequired = 6 + deal_->GetContractLevel();
+	int numTricksRequired = 6 + m_nContractLevel;
 	int numTricksMade = m_numTricksWon[m_nContractTeam];
 	int numTricksShort = numTricksRequired - numTricksMade;
 	if (numTricksShort < 0)
 		numTricksShort = 0;
-	int numRequiredTricks = deal_->GetContractLevel() + 6;
+	int numRequiredTricks = m_nContractLevel + 6;
 	int numTrickPoints = 0;
 	int numBonusPoints = 0;
 	int numOvertrickPoints = 0;
@@ -3116,22 +3112,20 @@ void CEasyBDoc::UpdateDuplicateScore()
 		int numOvertricks = numTricksMade - numRequiredTricks;
 		if (numOvertricks < 0)
 			numOvertricks = 0;
-		switch (deal_->GetContractSuit())
+		switch (m_nContractSuit)
 		{
-			case CLUBS:  
-      case DIAMONDS:
-				numTrickPoints = deal_->GetContractLevel() * 20;
+			case CLUBS:  case DIAMONDS:
+				numTrickPoints = m_nContractLevel * 20;
 				numOvertrickPoints = numOvertricks * 20;
 				break;
 
-			case HEARTS: 
-      case SPADES:
-				numTrickPoints = deal_->GetContractLevel() * 30;
+			case HEARTS: case SPADES:
+				numTrickPoints = m_nContractLevel * 30;
 				numOvertrickPoints = numOvertricks * 30;
 				break;
 				
 			case NOTRUMP:
-				numTrickPoints = 40 + (deal_->GetContractLevel() - 1) * 30;
+				numTrickPoints = 40 + (m_nContractLevel-1) * 30;
 				numOvertrickPoints = numOvertricks * 30;
 				break;
 		}
@@ -3148,7 +3142,7 @@ void CEasyBDoc::UpdateDuplicateScore()
 								((m_nContractTeam == NORTH_SOUTH)? "" : "\t"),
 								numTrickPoints,
 								((m_nContractTeam == NORTH_SOUTH)? "\t" : ""),
-								ContractToFullString(deal_->GetContract(), m_nContractModifier),
+								ContractToFullString(m_nContract, m_nContractModifier),
 								(bDoubled? " doubled" : bRedoubled? " redoubled" : ""));
 		// and save
 //		m_strArrayTrickPointsRecord.Add(strTrickPoints);
@@ -3211,9 +3205,9 @@ void CEasyBDoc::UpdateDuplicateScore()
 		}
 
 		// check for a slam bonus
-		if (deal_->GetContractLevel() >= 6)
+		if (m_nContractLevel >= 6)
 		{
-			if (deal_->GetContractLevel() == 6)
+			if (m_nContractLevel == 6)
 			{
 				if (!bVulnerable)
 					numBonusPoints = 500;
@@ -3232,7 +3226,7 @@ void CEasyBDoc::UpdateDuplicateScore()
 									((m_nContractTeam == NORTH_SOUTH)? "" : "\t"),
 									numBonusPoints,
 									((m_nContractTeam == NORTH_SOUTH)? "\t" : ""),
-									((deal_->GetContractLevel() == 6)? "Small"  : "Grand"),
+									((m_nContractLevel == 6)? "Small"  : "Grand"),
 									(bVulnerable? ", vulnerable" : ""));
 //			// and save
 			m_strArrayBonusPointsRecord.Add(strBonusPoints);
@@ -3698,15 +3692,15 @@ void CEasyBDoc::LoadGameRecord(const CGameRecord& game)
 	m_nCurrPlayer = m_nDealer;
 	if (ISBID(game.m_nContract))
 	{
-    deal_->SetContract(game.m_nContract);
+		m_nContract = game.m_nContract;
 		m_nContractModifier = game.m_nContractModifier;
 		if (m_nContractModifier == 1)
 			m_bDoubled = TRUE;
 		else if (m_nContractModifier == 2)
 			m_bRedoubled = TRUE;
-    deal_->SetContractSuit(BID_SUIT(deal_->GetContract()));
-    deal_->SetContractLevel(BID_LEVEL(deal_->GetContract()));
-		m_nTrumpSuit = deal_->GetContractSuit();
+		m_nContractSuit = BID_SUIT(m_nContract);
+		m_nContractLevel = BID_LEVEL(m_nContract);
+		m_nTrumpSuit = m_nContractSuit;
 		m_nContractTeam = (game.m_nDeclarer == SOUTH || game.m_nDeclarer == NORTH)? NORTH_SOUTH : EAST_WEST;
 		m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH)? EAST_WEST : NORTH_SOUTH;
 		m_nDeclarer = game.m_nDeclarer;
@@ -4572,7 +4566,7 @@ void CEasyBDoc::OnPlayClaimContract()
 	}
 
 	// and check the claim
-	int numTricksRequired = 6 + deal_->GetContractLevel();
+	int numTricksRequired = 6 + m_nContractLevel;
 	int numTricksLeft = numTricksRequired - m_numTricksWon[GetPlayerTeam(nPos)];
 	int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
 	if (numClaimableTricks < numTricksLeft)
@@ -5602,6 +5596,12 @@ LPVOID CEasyBDoc::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)  
 		case tstrTotalPointsRecord:
 			return (LPVOID) (LPCTSTR) m_strTotalPointsRecord;
 		// bid info
+		case tnContract:
+			return (LPVOID) m_nContract;
+		case tnContractLevel:
+			return (LPVOID) m_nContractLevel;
+		case tnContractSuit:
+			return (LPVOID) m_nContractSuit;
 		case tnContractTeam:
 			return (LPVOID) m_nContractTeam;
 		case tnDefendingTeam:
@@ -5823,6 +5823,15 @@ int CEasyBDoc::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			m_strTotalPointsRecord = sVal;
 			break;
 		// bidding info
+		case tnContract:
+			m_nContract = nVal;
+			break;
+		case tnContractLevel:
+			m_nContractLevel = nVal;
+			break;
+		case tnContractSuit:
+			m_nContractSuit = nVal;
+			break;
 		case tnContractTeam:
 			m_nContractTeam = nVal;
 			break;
