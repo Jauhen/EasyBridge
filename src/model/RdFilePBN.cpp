@@ -814,7 +814,7 @@ void CEasyBDoc::AssignCardsPBN(const CString& str)
 		nPlayer = GetNextPlayer(nPlayer);
 	}
 	//
-	m_bHandsDealt = TRUE;
+	m_bHandsDealt_deal = TRUE;
 }
 
 

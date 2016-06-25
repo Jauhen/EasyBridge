@@ -45,7 +45,6 @@ public:
 	static CEasyBDoc* GetDoc();
 	//
 	void ClearAllInfo();
-	void ClearMatchInfo();
 	void ClearFileParameters();
 	void InitNewMatch();
 	void InitNewHand(BOOL bRestarting=FALSE);
@@ -134,7 +133,6 @@ private:
 	//
 	CString		m_strDocTitle;
 	// flags
-	BOOL		m_bHandsDealt;		// hand dealt yet?
 	BOOL		m_bExpressPlayMode;
 	BOOL		m_bAutoReplayMode;
 	BOOL		m_bBatchMode;

@@ -380,7 +380,7 @@ next:		if (nRtnCode == EOF)
 						break;
 
 					case ITEM_HANDS_DEALT:
-						m_bHandsDealt = bValue;
+						m_bHandsDealt_deal = bValue;
 						break;
 					
 					case ITEM_CONTRACT_SUIT:

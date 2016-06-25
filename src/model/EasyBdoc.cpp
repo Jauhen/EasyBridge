@@ -181,7 +181,6 @@ CEasyBDoc::CEasyBDoc() : Deal(std::make_shared<AppImpl>()) {
 	//
 	m_bSuppressBidHistoryUpdate = FALSE;
 	m_bSuppressPlayHistoryUpdate = FALSE;
-	m_bHandsDealt = FALSE;
 	for(int i=0;i<4;i++)
 		m_bSavePlayerAnalysis[i] = FALSE;
 	m_bSaveIntermediatePositions = theApp.GetValue(tbSaveIntermediatePositions);
@@ -774,32 +773,6 @@ void CEasyBDoc::ClearAllInfo()
 
 
 
-//
-// ClearMatchInfo()
-//
-void CEasyBDoc::ClearMatchInfo() 
-{
-	int i,j;
-	for(i=0;i<2;i++) 
-	{
-		m_numGamesWon_deal[i] = 0;
-		m_nBonusScore_deal[i] = 0;
-		m_nTotalScore_deal[i] = 0;
-		m_bVulnerable_deal[i] = FALSE;
-	}
-	for(i=0;i<3;i++)
-		for(j=0;j<2;j++)
-			m_nGameScore_deal[i][j] = 0;
-	m_nVulnerableTeam_deal = NEITHER;
-	m_nCurrGame_deal = 0;
-	//
-	m_strArrayBonusPointsRecord_deal.RemoveAll();
-	m_strArrayTrickPointsRecord_deal.RemoveAll();
-	m_strTotalPointsRecord_deal.Empty();
-	//
-	m_bHandsDealt = FALSE;
-}
-
 
 
 
@@ -848,7 +821,7 @@ void CEasyBDoc::InitNewGame()
 			m_pGameTrick_deal[i][j] = NULL;
 	}
 	//
-	m_bHandsDealt = FALSE;
+	m_bHandsDealt_deal = FALSE;
 }
 
 
@@ -1024,7 +997,7 @@ void CEasyBDoc::InitPlay(BOOL bRedrawScreen, BOOL bRestarting)
 	// limit certain inits if restarting a hand
 	InitNewHand(bRestarting);
 	//
-	m_bHandsDealt = TRUE;
+	m_bHandsDealt_deal = TRUE;
 
 	// initialize each hand's holdings
 	for(int i=0;i<4;i++) 
@@ -3555,7 +3528,7 @@ void CEasyBDoc::LoadGameRecord(const CGameRecord& game)
 	InitNewHand();
 
 	// set game information
-	m_bHandsDealt = TRUE;
+	m_bHandsDealt_deal = TRUE;
 	m_nDealer_deal = game.m_nDealer;
 	m_nCurrPlayer_deal = m_nDealer_deal;
 	if (ISBID(game.m_nContract))
@@ -4757,7 +4730,7 @@ void CEasyBDoc::OnGameAutoTest()
 void CEasyBDoc::OnUpdateSwapCards(CCmdUI* pCmdUI) 
 {
 //	if ((theApp.IsGameInProgress()) || (!m_bHandsDealt))
-	if (!m_bHandsDealt)
+	if (!m_bHandsDealt_deal)
 		pCmdUI->Enable(FALSE);
 	else
 		pCmdUI->Enable(TRUE);
@@ -4959,7 +4932,7 @@ void CEasyBDoc::OnFileOpen()
 // 
 void CEasyBDoc::OnUpdateFileSave(CCmdUI* pCmdUI) 
 {
-	if ((!m_bHandsDealt) || !pVIEW->CanSaveFile())
+	if ((!m_bHandsDealt_deal) || !pVIEW->CanSaveFile())
 		pCmdUI->Enable(FALSE);
 	else
 		pCmdUI->Enable(TRUE);
@@ -5005,7 +4978,7 @@ void CEasyBDoc::OnFileSave()
 //
 void CEasyBDoc::OnUpdateFileSaveAs(CCmdUI* pCmdUI) 
 {
-	if ((!m_bHandsDealt) || !pVIEW->CanSaveFile())
+	if ((!m_bHandsDealt_deal) || !pVIEW->CanSaveFile())
 		pCmdUI->Enable(FALSE);
 	else
 		pCmdUI->Enable(TRUE);
@@ -5573,7 +5546,7 @@ LPVOID CEasyBDoc::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)  
 			return (LPVOID) m_nRoundWinningTeam_deal;
 		// flags
 		case tbHandsDealt:
-			return (LPVOID) m_bHandsDealt;
+			return (LPVOID) m_bHandsDealt_deal;
 		case tbShowCommentsUponOpen:
 			return (LPVOID) m_bShowCommentsUponOpen;
 		case tbShowBidHistoryUponOpen:
@@ -5852,7 +5825,7 @@ int CEasyBDoc::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			break;
 		// flags
 		case tbHandsDealt:
-			m_bHandsDealt = bVal;
+			m_bHandsDealt_deal = bVal;
 			break;
 		case tbShowCommentsUponOpen:
 			m_bShowCommentsUponOpen = bVal;

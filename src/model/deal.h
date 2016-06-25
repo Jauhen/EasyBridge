@@ -73,6 +73,7 @@ public:
   CTypedPtrArray<CPtrArray, CGameRecord*>& GetGameRecords() { return m_gameRecords_deal; }
   CGameRecord* GetGameRecord(int nIndex) { if ((nIndex < 0) || (nIndex > m_gameRecords_deal.GetSize())) return NULL; return m_gameRecords_deal[nIndex]; }
 
+  void ClearMatchInfo();
 
 
 protected:
@@ -153,6 +154,7 @@ protected:
   int			m_nHighPos_deal;
   int			m_nRoundWinner_deal;
   Team 		m_nRoundWinningTeam_deal;
+  BOOL		m_bHandsDealt_deal;		// hand dealt yet?
   //
   // misc info
   //

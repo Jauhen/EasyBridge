@@ -7,6 +7,7 @@
 Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
   m_nDealer_deal = NONE;
   m_nCurrPlayer_deal = NULL;
+  m_bHandsDealt_deal = FALSE;
 
   // create the players
   for (int i = 0; i < 4; i++)
@@ -126,3 +127,27 @@ CCard* Deal::GetCurrentTrickHighCard(int* nPos) const {
   return pHighCard;
 }
 
+
+//
+// ClearMatchInfo()
+//
+void Deal::ClearMatchInfo() {
+  int i, j;
+  for (i = 0; i < 2; i++) {
+    m_numGamesWon_deal[i] = 0;
+    m_nBonusScore_deal[i] = 0;
+    m_nTotalScore_deal[i] = 0;
+    m_bVulnerable_deal[i] = FALSE;
+  }
+  for (i = 0; i < 3; i++)
+    for (j = 0; j < 2; j++)
+      m_nGameScore_deal[i][j] = 0;
+  m_nVulnerableTeam_deal = NEITHER;
+  m_nCurrGame_deal = 0;
+  //
+  m_strArrayBonusPointsRecord_deal.RemoveAll();
+  m_strArrayTrickPointsRecord_deal.RemoveAll();
+  m_strTotalPointsRecord_deal.Empty();
+  //
+  m_bHandsDealt_deal = FALSE;
+}
