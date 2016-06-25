@@ -182,8 +182,6 @@ CEasyBDoc::CEasyBDoc() : Deal(std::make_shared<AppImpl>()) {
 	m_bSuppressBidHistoryUpdate = FALSE;
 	m_bSuppressPlayHistoryUpdate = FALSE;
 	m_bHandsDealt = FALSE;
-	m_nDealer_deal = NONE;
-	m_nCurrPlayer_deal = NULL;
 	for(int i=0;i<4;i++)
 		m_bSavePlayerAnalysis[i] = FALSE;
 	m_bSaveIntermediatePositions = theApp.GetValue(tbSaveIntermediatePositions);
@@ -192,23 +190,6 @@ CEasyBDoc::CEasyBDoc() : Deal(std::make_shared<AppImpl>()) {
 	m_nFileFormat = tnEasyBridgeFormat;
 	m_nPrevFileFormat = m_nFileFormat;
 
-	// create the players
-  std::shared_ptr<AppInterface> app (new AppImpl);
-	for(int i=0;i<4;i++)
-		m_pPlayer_deal[i] = new CPlayer(app);
-
-	// and init each player's info
-	for(int i=0;i<4;i++)
-	{
-		CPlayer* pLHOpponent = m_pPlayer_deal[(i+1)%4];
-		CPlayer* pPartner = m_pPlayer_deal[(i+2)%4];
-		CPlayer* pRHOpponent = m_pPlayer_deal[(i+3)%4];
-		m_pPlayer_deal[i]->InitializePlayer((Position) i, pPartner, pLHOpponent, pRHOpponent);
-	}
-
-	// init the players' engines (must do this after the above inits!!!)
-	for(int i=0;i<4;i++)
-		m_pPlayer_deal[i]->InitializeEngines();
 
 	// clear out some info
 	ClearAllInfo();
@@ -222,9 +203,6 @@ CEasyBDoc::~CEasyBDoc()
 	//
 	Terminate();
 
-	// clean up memory
-	for(int i=0;i<4;i++)
-		delete m_pPlayer_deal[i];
 	//
 	m_bInitialized = FALSE;
 }

@@ -5,9 +5,31 @@
 
 
 Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
+  m_nDealer_deal = NONE;
+  m_nCurrPlayer_deal = NULL;
+
+  // create the players
+  for (int i = 0; i < 4; i++)
+    m_pPlayer_deal[i] = new CPlayer(app);
+
+  // and init each player's info
+  for (int i = 0; i < 4; i++) {
+    CPlayer* pLHOpponent = m_pPlayer_deal[(i + 1) % 4];
+    CPlayer* pPartner = m_pPlayer_deal[(i + 2) % 4];
+    CPlayer* pRHOpponent = m_pPlayer_deal[(i + 3) % 4];
+    m_pPlayer_deal[i]->InitializePlayer((Position)i, pPartner, pLHOpponent, pRHOpponent);
+  }
+
+  // init the players' engines (must do this after the above inits!!!)
+  for (int i = 0; i < 4; i++)
+    m_pPlayer_deal[i]->InitializeEngines();
 }
 
-Deal::~Deal() {}
+Deal::~Deal() {
+  // clean up memory
+  for (int i = 0; i < 4; i++)
+    delete m_pPlayer_deal[i];
+}
 
 
 //
