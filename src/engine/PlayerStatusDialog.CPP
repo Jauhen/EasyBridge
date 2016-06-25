@@ -14,8 +14,7 @@
 
 #include "stdafx.h"
 #include "app_interface.h"
-#include "EasyB.h"
-#include "PlayerStatusDialog.h"
+#include "engine/PlayerStatusDialog.h"
 
 //#define _STRIP_HEADERS_
 

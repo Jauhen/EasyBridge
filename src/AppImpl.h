@@ -7,7 +7,7 @@
 #include "StatusWnd.h"
 #include "MainFrameopts.h"
 #include "GIB.h"
-#include "docopts.h"
+#include "model/docopts.h"
 
 class AppImpl : public AppInterface {
 public:

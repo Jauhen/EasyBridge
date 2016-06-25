@@ -11,10 +11,10 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../PlayerStatusDialog.h"
-#include "BlackwoodConvention.h"
-#include "ConventionSet.h"
+#include "engine/card_constants.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/BlackwoodConvention.h"
+#include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 
 //

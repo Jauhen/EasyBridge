@@ -12,7 +12,7 @@
 #ifndef __CUNUSUALNOTRUMPCONVENTION__
 #define __CUNUSUALNOTRUMPCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

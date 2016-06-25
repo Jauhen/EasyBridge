@@ -13,7 +13,7 @@
 #ifndef __CTypeAFinesse__
 #define __CTypeAFinesse__
 
-#include "Finesse.h"
+#include "engine/play/Finesse.h"
 
 
 //

@@ -12,7 +12,7 @@
 #ifndef __CMICHAELSCUEBIDCONVENTION__
 #define __CMICHAELSCUEBIDCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

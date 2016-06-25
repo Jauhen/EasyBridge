@@ -12,15 +12,15 @@
 // - a play of throwing away losing cards
 //
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../card.h"
-#include "HoldUp.h"
-#include "../Player.h"
-#include "PlayEngine.h"
-#include "../CombinedHoldings.h"
-#include "../CardLocation.h"
-#include "../GuessedHandHoldings.h"
-#include "../PlayerStatusDialog.h"
+#include "engine/card_constants.h"
+#include "engine/card.h"
+#include "engine/play/HoldUp.h"
+#include "engine/Player.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/CardLocation.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
 
 

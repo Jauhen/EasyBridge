@@ -14,7 +14,7 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "DispOptsCardBacksPage.h"
-#include "deckopts.h"
+#include "engine/deckopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

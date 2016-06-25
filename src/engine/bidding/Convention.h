@@ -16,12 +16,12 @@
 #ifndef __CCONVENTION__
 #define __CCONVENTION__
 
-#include "../Player.h"
-#include "../HandHoldings.h"
-#include "../CardLocation.h"
-#include "../GuessedHandHoldings.h"
-#include "BidParams.h"
-#include "BidEngine.h"
+#include "engine/Player.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/CardLocation.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/bidding/BidParams.h"
+#include "engine/bidding/BidEngine.h"
 
 
 // some constants

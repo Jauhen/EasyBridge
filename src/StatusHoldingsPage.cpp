@@ -11,15 +11,15 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "easybDoc.h"
+#include "model/easybDoc.h"
 #include "mainfrm.h"
 #include "StatusHoldingsPage.h"
 #include "engine/card.h"
 #include "engine/cardlist.h"
 #include "engine/player.h"
 #include "engine/play/DeclarerPlayEngine.h"
-#include "engine/CombinedHoldings.h"
-#include "engine/CombinedSuitHoldings.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/play/CombinedSuitHoldings.h"
 #include "StatusSheet.h"
 #include "Subclass.h"
 

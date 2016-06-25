@@ -11,9 +11,9 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "Convention.h"
-#include "../PlayerStatusDialog.h"
+#include "engine/card_constants.h"
+#include "engine/bidding/Convention.h"
+#include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
 
 

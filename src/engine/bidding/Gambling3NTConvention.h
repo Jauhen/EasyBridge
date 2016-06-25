@@ -12,7 +12,7 @@
 #ifndef __CGAMBLING3NTCONVENTION__
 #define __CGAMBLING3NTCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

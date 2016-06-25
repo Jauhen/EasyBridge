@@ -10,8 +10,8 @@
 // CCardLocation
 //
 #include "stdafx.h"
-#include "card_constants.h"
-#include "CardLocation.h"
+#include "engine/card_constants.h"
+#include "engine/CardLocation.h"
 
 
 

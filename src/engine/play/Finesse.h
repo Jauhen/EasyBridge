@@ -13,7 +13,7 @@
 #ifndef __CFINESSE__
 #define __CFINESSE__
 
-#include "Play.h"
+#include "engine/play/Play.h"
 
 //
 // The CFinesse class

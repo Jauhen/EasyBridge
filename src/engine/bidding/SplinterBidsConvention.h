@@ -12,7 +12,7 @@
 #ifndef __SPLINTERBIDS__
 #define __SPLINTERBIDS__
 
-#include "SlamConvention.h"
+#include "engine/bidding/SlamConvention.h"
 
 
 //

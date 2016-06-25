@@ -33,7 +33,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/player.h"
 #include "engine/card.h"

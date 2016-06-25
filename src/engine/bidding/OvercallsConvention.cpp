@@ -11,15 +11,15 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../PlayerStatusDialog.h"
-#include "OvercallsConvention.h"
-#include "../HandHoldings.h"
-#include "TakeoutDoublesConvention.h"
-#include "ConventionSet.h"
-#include "ConvCodes.h"
+#include "engine/card_constants.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/OvercallsConvention.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/bidding/TakeoutDoublesConvention.h"
+#include "engine/bidding/ConventionSet.h"
+#include "engine/bidding/ConvCodes.h"
 #include "app_interface.h"
-#include "convention_pool.h"
+#include "engine/bidding/convention_pool.h"
 
 
 //

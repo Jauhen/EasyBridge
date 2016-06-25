@@ -12,7 +12,7 @@
 #ifndef __CSTRONGTWOBIDS__
 #define __CSTRONGTWOBIDS__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

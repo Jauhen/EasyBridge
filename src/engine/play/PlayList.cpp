@@ -11,9 +11,9 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "PlayList.h"
-#include "Play.h"
+#include "engine/card_constants.h"
+#include "engine/play/PlayList.h"
+#include "engine/play/Play.h"
 
 
 

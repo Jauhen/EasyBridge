@@ -13,15 +13,15 @@
 // General routines for bidding
 //
 #include "stdafx.h"
-#include "../PlayerStatusDialog.h"
-#include "../card_constants.h"
-#include "bidengine.h"
-#include "BlackwoodConvention.h"
-#include "CueBidConvention.h"
-#include "Convention.h"
-#include "ConventionSet.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/card_constants.h"
+#include "engine/bidding/bidengine.h"
+#include "engine/bidding/BlackwoodConvention.h"
+#include "engine/bidding/CueBidConvention.h"
+#include "engine/bidding/Convention.h"
+#include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
-#include "convention_pool.h"
+#include "engine/bidding/convention_pool.h"
 
 
 //

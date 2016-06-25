@@ -16,11 +16,11 @@
 
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../HandHoldings.h"
-#include "../Card.h"
-#include "../bidding/BidEngine.h"
-#include "DummyPlayEngine.h"
+#include "engine/card_constants.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/Card.h"
+#include "engine/bidding/BidEngine.h"
+#include "engine/play/DummyPlayEngine.h"
 #include "app_interface.h"
 
 

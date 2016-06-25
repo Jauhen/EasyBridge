@@ -12,7 +12,7 @@
 #ifndef __CNEGATIVEDOUBLESCONVENTION__
 #define __CNEGATIVEDOUBLESCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

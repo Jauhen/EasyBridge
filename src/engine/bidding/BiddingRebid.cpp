@@ -12,11 +12,11 @@
 // Rebidding routines
 //
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "bidengine.h"
-#include "../PlayerStatusDialog.h"
-#include "ConventionSet.h"
-#include "Bidparams.h"
+#include "engine/card_constants.h"
+#include "engine/bidding/bidengine.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/ConventionSet.h"
+#include "engine/bidding/Bidparams.h"
 #include "app_interface.h"
 
 

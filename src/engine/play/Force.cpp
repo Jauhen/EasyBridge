@@ -11,17 +11,17 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../Deck.h"
-#include "../Card.h"
-#include "Force.h"
-#include "../Player.h"
-#include "PlayEngine.h"
-#include "../CombinedHoldings.h"
-#include "../CombinedSuitHoldings.h"
-#include "../CardLocation.h"
-#include "../GuessedHandHoldings.h"
-#include "../PlayerStatusDialog.h"
+#include "engine/card_constants.h"
+#include "engine/Deck.h"
+#include "engine/Card.h"
+#include "engine/play/Force.h"
+#include "engine/Player.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/play/CombinedSuitHoldings.h"
+#include "engine/CardLocation.h"
+#include "engine/play/GuessedHandHoldings.h"
+#include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
 
 

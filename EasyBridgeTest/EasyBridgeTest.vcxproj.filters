@@ -32,63 +32,6 @@
     <ClInclude Include="mock_app.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\CARD.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\CardHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\CardList.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\CardLocation.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\cardopts.h">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\CombinedHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\CombinedSuitHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\Deck.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\DisplayHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\GuessedCard.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\GuessedCardHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\GuessedHandHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\GuessedSuitHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\HandHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\Handopts.h">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\PLAYER.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\playeropts.h">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\PlayerStatusDialog.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\SuitHoldings.H">
-      <Filter>sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\engine\bidding\4thSuitForcingConvention.h">
       <Filter>sources\bidding</Filter>
     </ClInclude>
@@ -167,7 +110,19 @@
     <ClInclude Include="..\src\engine\bidding\WeakTwoBidsConvention.h">
       <Filter>sources\bidding</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\bidding\convention_pool.h">
+      <Filter>sources\bidding</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\CardHoldings.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\engine\play\Cash.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\CombinedHoldings.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\CombinedSuitHoldings.H">
       <Filter>sources\play</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\play\DeclarerPlayEngine.H">
@@ -177,6 +132,9 @@
       <Filter>sources\play</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\play\Discard.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\DisplayHoldings.H">
       <Filter>sources\play</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\play\Drop.h">
@@ -194,6 +152,18 @@
     <ClInclude Include="..\src\engine\play\Force.h">
       <Filter>sources\play</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\engine\play\GuessedCardHoldings.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\GuessedHandHoldings.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\GuessedSuitHoldings.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\HandHoldings.H">
+      <Filter>sources\play</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\engine\play\HoldUp.h">
       <Filter>sources\play</Filter>
     </ClInclude>
@@ -207,6 +177,9 @@
       <Filter>sources\play</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\play\Ruff.h">
+      <Filter>sources\play</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\play\SuitHoldings.H">
       <Filter>sources\play</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\play\TrumpPull.h">
@@ -227,8 +200,41 @@
     <ClInclude Include="..\src\engine\play\TypeBFinesse.h">
       <Filter>sources\play</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\bidding\convention_pool.h">
-      <Filter>sources\bidding</Filter>
+    <ClInclude Include="..\src\engine\CARD.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\card_constants.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CardList.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\CardLocation.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\cardopts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\Deck.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\deckopts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\GuessedCard.H">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\Handopts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\Player.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\playeropts.h">
+      <Filter>sources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\engine\PlayerStatusDialog.H">
+      <Filter>sources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -243,54 +249,6 @@
     </ClCompile>
     <ClCompile Include="player_test.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\card.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\CardHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\CardList.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\CardLocation.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\CombinedHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\CombinedSuitHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\Deck.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\DisplayHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\GuessedCard.CPP">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\GuessedCardHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\GuessedHandHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\GuessedSuitHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\HandHoldings.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\player.cpp">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\PlayerStatusDialog.CPP">
-      <Filter>sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\engine\SuitHoldings.cpp">
-      <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\bidding\4thSuitForcingConvention.cpp">
       <Filter>sources\bidding</Filter>
@@ -379,7 +337,19 @@
     <ClCompile Include="..\src\engine\bidding\WeakTwoBidsConvention.cpp">
       <Filter>sources\bidding</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\engine\bidding\convention_pool.cpp">
+      <Filter>sources\bidding</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\CardHoldings.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\engine\play\Cash.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\CombinedHoldings.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\CombinedSuitHoldings.cpp">
       <Filter>sources\play</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\play\DeclarerPlayEngine.cpp">
@@ -389,6 +359,9 @@
       <Filter>sources\play</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\play\Discard.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\DisplayHoldings.cpp">
       <Filter>sources\play</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\play\Drop.cpp">
@@ -406,6 +379,18 @@
     <ClCompile Include="..\src\engine\play\Force.cpp">
       <Filter>sources\play</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\engine\play\GuessedCardHoldings.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\GuessedHandHoldings.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\GuessedSuitHoldings.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\HandHoldings.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\engine\play\HoldUp.cpp">
       <Filter>sources\play</Filter>
     </ClCompile>
@@ -419,6 +404,9 @@
       <Filter>sources\play</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\play\Ruff.cpp">
+      <Filter>sources\play</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\play\SuitHoldings.cpp">
       <Filter>sources\play</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\play\TrumpPull.cpp">
@@ -439,8 +427,26 @@
     <ClCompile Include="..\src\engine\play\TypeBFinesse.cpp">
       <Filter>sources\play</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\engine\bidding\convention_pool.cpp">
-      <Filter>sources\bidding</Filter>
+    <ClCompile Include="..\src\engine\card.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CardList.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\CardLocation.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\Deck.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\GuessedCard.CPP">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\player.cpp">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\PlayerStatusDialog.CPP">
+      <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "easybDoc.h"
+#include "model/easybDoc.h"
 #include "DealNumberDialog.h"
 #include "../Help/Helpcode.h"
 

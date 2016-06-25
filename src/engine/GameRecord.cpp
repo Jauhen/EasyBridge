@@ -11,8 +11,8 @@
 //
 #include "stdafx.h"
 #include "EasyB.h"
-#include "GameRecord.h"
-#include "filecodePBN.h"
+#include "engine/GameRecord.h"
+#include "model/filecodePBN.h"
 
 // the list of required PBN 2.0 tags
 extern const char* tszTagName[];

@@ -9,14 +9,14 @@
 //
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "EasyBvw.h"
 #include "mainfrm.h"
 #include "engine/Player.h"
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "progopts.h"
-#include "docopts.h"
+#include "model/docopts.h"
 #include "DrawParameters.h"
 #include "dialogs/ScreenSizeWarningDlg.h"
 #include <limits.h>

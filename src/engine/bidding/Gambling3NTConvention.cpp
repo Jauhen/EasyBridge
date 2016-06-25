@@ -11,13 +11,13 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../Player.h"
-#include "../PlayerStatusDialog.h"
-#include "Gambling3NTConvention.h"
-#include "OvercallsConvention.h"
-#include "ConventionSet.h"
-#include "../Card.h"
+#include "engine/card_constants.h"
+#include "engine/Player.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/Gambling3NTConvention.h"
+#include "engine/bidding/OvercallsConvention.h"
+#include "engine/bidding/ConventionSet.h"
+#include "engine/Card.h"
 #include "app_interface.h"
 
 

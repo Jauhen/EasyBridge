@@ -12,7 +12,7 @@
 #ifndef __C4THSUITFORCINGCONVENTION__
 #define __C4THSUITFORCINGCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

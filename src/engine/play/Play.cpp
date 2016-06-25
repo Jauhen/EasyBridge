@@ -11,16 +11,16 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "Play.h"
-#include "PlayList.h"
-#include "../Card.h"
-#include "../CardList.h"
-#include "../Player.h"
-#include "../PlayerStatusDialog.h"
-#include "PlayEngine.h"
-#include "../CombinedHoldings.h"
-#include "DeclarerPlayEngine.h"
+#include "engine/card_constants.h"
+#include "engine/play/Play.h"
+#include "engine/play/PlayList.h"
+#include "engine/Card.h"
+#include "engine/CardList.h"
+#include "engine/Player.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/play/PlayEngine.h"
+#include "engine/play/CombinedHoldings.h"
+#include "engine/play/DeclarerPlayEngine.h"
 #include "app_interface.h"
 /*
 // required for CPlayList

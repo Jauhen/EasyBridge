@@ -12,7 +12,7 @@
 #ifndef __CCONVENTIONSET__
 #define __CCONVENTIONSET__
 
-#include "ConvCodes.h"
+#include "engine/bidding/ConvCodes.h"
 #include "ObjectWithProperties.h"
 #include <vector>
 #include <memory>

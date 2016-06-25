@@ -12,10 +12,10 @@
 // Responding bidding routines
 //
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../PlayerStatusDialog.h"
-#include "bidengine.h"
-#include "ConventionSet.h"
+#include "engine/card_constants.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/bidengine.h"
+#include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 
 

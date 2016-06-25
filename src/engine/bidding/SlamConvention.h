@@ -12,7 +12,7 @@
 #ifndef __SLAMCONVENTION__
 #define __SLAMCONVENTION__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

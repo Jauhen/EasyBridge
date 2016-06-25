@@ -15,7 +15,7 @@
 #define __BIDPARMS___
 
 
-#include "ConvCodes.h"	// need the convention codes
+#include "engine/bidding/ConvCodes.h"	// need the convention codes
 
 // shortcuts (Macros)
 #define BTS(x) BidToFullString(x)

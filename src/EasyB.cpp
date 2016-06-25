@@ -13,7 +13,7 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "mainfrm.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
 #include "progopts.h"

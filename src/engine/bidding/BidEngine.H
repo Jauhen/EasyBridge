@@ -13,7 +13,8 @@
 #define __CBIDENGINE__
 
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
+
 class CPlayer;
 class CHandHoldings;
 class CPlayerStatusDialog;

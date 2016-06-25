@@ -12,9 +12,9 @@
 
 #include "stdafx.h"
 #include "app_interface.h"
-#include "../PlayerStatusDialog.h"
-#include "Artificial2ClubConvention.h"
-#include "ConventionSet.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/Artificial2ClubConvention.h"
+#include "engine/bidding/ConventionSet.h"
 
 
 

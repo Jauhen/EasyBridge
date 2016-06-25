@@ -11,11 +11,11 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../Deck.h"
-#include "../Card.h"
-#include "../CardList.h"
-#include "Finesse.h"
+#include "engine/card_constants.h"
+#include "engine/Deck.h"
+#include "engine/Card.h"
+#include "engine/CardList.h"
+#include "engine/play/Finesse.h"
 #include "app_interface.h"
 
 

@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "EasyBDoc.h"
+#include "model/EasyBDoc.h"
 #include "EasyBVw.h"
 #include "Mainfrm.h"
 #include "engine/Player.h"
@@ -19,7 +19,7 @@
 #include "subclass.h"
 #include "progopts.h"
 #include "MainFrameopts.h"
-#include "docopts.h"
+#include "model/docopts.h"
 #include "mmsystem.h"
 
 #ifdef _DEBUG

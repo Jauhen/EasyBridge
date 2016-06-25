@@ -11,9 +11,9 @@
 //
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../PlayerStatusDialog.h"
-#include "SplinterBidsConvention.h"
+#include "engine/card_constants.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/bidding/SplinterBidsConvention.h"
 #include "app_interface.h"
 
 

@@ -12,7 +12,7 @@
 #ifndef __CSHUTOUTBIDS__
 #define __CSHUTOUTBIDS__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

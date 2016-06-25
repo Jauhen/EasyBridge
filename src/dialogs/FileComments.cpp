@@ -11,9 +11,9 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "Defines.h"
-#include "docopts.h"
+#include "model/docopts.h"
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "FileComments.h"

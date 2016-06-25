@@ -16,12 +16,12 @@
 
 
 #include "stdafx.h"
-#include "../card_constants.h"
-#include "../PlayerStatusDialog.h"
-#include "../Card.h"
-#include "../HandHoldings.h"
-#include "../bidding/BidEngine.h"
-#include "DefenderPlayEngine.h"
+#include "engine/card_constants.h"
+#include "engine/PlayerStatusDialog.h"
+#include "engine/Card.h"
+#include "engine/play/HandHoldings.h"
+#include "engine/bidding/BidEngine.h"
+#include "engine/play/DefenderPlayEngine.h"
 #include "app_interface.h"
 
 

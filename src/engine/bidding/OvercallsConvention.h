@@ -12,7 +12,7 @@
 #ifndef __COVERCALLS__
 #define __COVERCALLS__
 
-#include "Convention.h"
+#include "engine/bidding/Convention.h"
 
 
 //

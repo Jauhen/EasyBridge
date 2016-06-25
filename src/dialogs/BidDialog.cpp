@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
+#include "model/EasyBdoc.h"
 #include "mainfrm.h"
 #include "mainframeopts.h"
 #include "EasyBvw.h"

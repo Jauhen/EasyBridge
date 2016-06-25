@@ -12,7 +12,7 @@
 #ifndef __GERBER__
 #define __GERBER__
 
-#include "SlamConvention.h"
+#include "engine/bidding/SlamConvention.h"
 
 
 //

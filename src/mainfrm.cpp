@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBDoc.h"
+#include "model/EasyBDoc.h"
 #include "mainfrm.h"
 //#include "DockingTextWnd.h"
 #include "MyStatusBar.h"
@@ -21,7 +21,7 @@
 #include "engine/Player.h"
 #include "engine/Deck.h"
 #include "progopts.h"
-#include "docopts.h"
+#include "model/docopts.h"
 #include "viewopts.h"
 #include "dialogs/CardLayout.h"
 #include "dialogs/FileComments.h"

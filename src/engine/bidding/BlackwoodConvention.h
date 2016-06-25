@@ -12,7 +12,7 @@
 #ifndef __BLACKWOOD__
 #define __BLACKWOOD__
 
-#include "SlamConvention.h"
+#include "engine/bidding/SlamConvention.h"
 
 
 //

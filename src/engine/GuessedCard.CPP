@@ -10,10 +10,10 @@
 // GuessedCard.cpp
 //
 #include "stdafx.h"
-#include "card_constants.h"
-#include "Card.h"
-#include "Deck.h"
-#include "GuessedCard.h"
+#include "engine/card_constants.h"
+#include "engine/Card.h"
+#include "engine/Deck.h"
+#include "engine/GuessedCard.h"
 #include "app_interface.h"
 
 
