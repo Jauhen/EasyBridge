@@ -10,8 +10,8 @@ class CCard;
 
 class Deal {
 public:
-  Deal();
-  virtual ~Deal();
+  Deal(std::shared_ptr<AppInterface> app);
+  ~Deal();
 
   CPlayer* GetPlayer(int nIndex) const { return m_pPlayer_deal[nIndex]; }
   CPlayer* GetHumanPlayer() const { return m_pPlayer_deal[SOUTH]; }
@@ -29,7 +29,7 @@ public:
   int	GetDealer() const { return m_nDealer_deal; }
   CPlayer* GetDeclarer() const { return ISPLAYER(m_nDeclarer_deal) ? m_pPlayer_deal[m_nDeclarer_deal] : NULL; }
   int	GetDeclarerPosition() const { return m_nDeclarer_deal; }
-  int GetDeclaringTeam() const { return ::GetPlayerTeam(m_nDeclarer_deal); }
+  int GetDeclaringTeam() const { return app_->GetPlayerTeam(m_nDeclarer_deal); }
   int	GetRoundLead() const { return m_nRoundLead_deal; }
   CPlayer* GetRoundLeadPlayer() const { return m_pPlayer_deal[m_nRoundLead_deal]; }
   int	GetBiddingRound() const { return m_nBiddingRound_deal; }

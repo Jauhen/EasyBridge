@@ -4,7 +4,7 @@
 #include "engine/Player.h"
 
 
-Deal::Deal() {
+Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
 }
 
 Deal::~Deal() {}
@@ -12,12 +12,12 @@ Deal::~Deal() {}
 
 //
 const CString Deal::GetContractString() const {
-  return ::ContractToString(m_nContract_deal, m_nContractModifier_deal);
+  return app_->ContractToString(m_nContract_deal, m_nContractModifier_deal);
 }
 
 //
 const CString Deal::GetFullContractString() const {
-  return ::ContractToFullString(m_nContract_deal, m_nContractModifier_deal);
+  return app_->ContractToFullString(m_nContract_deal, m_nContractModifier_deal);
 }
 
 //
@@ -33,7 +33,7 @@ BOOL Deal::WasTrumpPlayed() const {
     CCard* pCard = m_pCurrTrick_deal[nIndex];
     if ((pCard) && (pCard->GetSuit() == m_nTrumpSuit_deal))
       return TRUE;
-    nIndex = ::GetNextPlayer(nIndex);
+    nIndex = app_->GetNextPlayer(nIndex);
   }
   return FALSE;
 }
@@ -46,7 +46,7 @@ CCard* Deal::GetCurrentTrickCardByOrder(int nOrder) const {
     return NULL;
   int nIndex = m_nRoundLead_deal;
   for (int i = 0; i < nOrder; i++)
-    nIndex = ::GetNextPlayer(nIndex);
+    nIndex = app_->GetNextPlayer(nIndex);
   //
   ASSERT(m_pCurrTrick_deal[nIndex] != NULL);
   return m_pCurrTrick_deal[nIndex];
@@ -65,7 +65,7 @@ CCard* Deal::GetCurrentTrickHighCard(int* nPos) const {
     return NULL;
   int nSuit = pHighCard->GetSuit();
   // and start comparing with the second player
-  int nIndex = ::GetNextPlayer(m_nRoundLead_deal);
+  int nIndex = app_->GetNextPlayer(m_nRoundLead_deal);
   // see if a trump was played in this round
   BOOL bTrumpPlayed = WasTrumpPlayed();
   //
@@ -89,14 +89,14 @@ CCard* Deal::GetCurrentTrickHighCard(int* nPos) const {
           nHighPos = nIndex;
         }
       } else if (pCard->GetSuit() == m_nTrumpSuit_deal) {
-        // else curent high card is not a trump, 
+        // else current high card is not a trump, 
         // so any trump that's played is tops
         pHighCard = pCard;
         nHighPos = nIndex;
       }
     }
     // advance to the next player
-    nIndex = ::GetNextPlayer(nIndex);
+    nIndex = app_->GetNextPlayer(nIndex);
   }
   //
   if (nPos)
