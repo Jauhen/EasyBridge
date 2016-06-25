@@ -214,7 +214,7 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalIncludeDirectories>src;Utils;Wizards;Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -276,6 +276,7 @@
     <ClCompile Include="src\engine\bidding\Convention.cpp" />
     <ClCompile Include="src\engine\bidding\ConventionSet.cpp" />
     <ClCompile Include="src\engine\bidding\CueBidConvention.cpp" />
+    <ClCompile Include="src\model\deal.cpp" />
     <ClCompile Include="src\model\easyb_doc_deal.cpp" />
     <ClCompile Include="src\dialogs\DealNumberDialog.cpp" />
     <ClCompile Include="src\engine\Deck.cpp" />
@@ -422,6 +423,7 @@
     <ClInclude Include="src\DialogInfo.h" />
     <ClInclude Include="src\engine\play\Discard.h" />
     <ClInclude Include="src\engine\play\DisplayHoldings.H" />
+    <ClInclude Include="src\model\deal.h" />
     <ClInclude Include="src\model\docopts.h" />
     <ClInclude Include="src\DrawParameters.h" />
     <ClInclude Include="src\engine\play\Drop.h" />

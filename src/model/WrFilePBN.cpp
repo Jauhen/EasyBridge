@@ -88,15 +88,15 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 	WriteLine(TAG_SOUTH, "Human Player");
 
 	// Dealer Tag
-	WriteLine(TAG_DEALER, FormString("%c", PositionToChar(m_nDealer)));
+	WriteLine(TAG_DEALER, FormString("%c", PositionToChar(m_nDealer_deal)));
 
 	// Vulnerable Tag
 	CString strVulnerable;
-	if ((m_bVulnerable[NORTH_SOUTH]) && (m_bVulnerable[EAST_WEST]))
+	if ((m_bVulnerable_deal[NORTH_SOUTH]) && (m_bVulnerable_deal[EAST_WEST]))
 		strVulnerable = "Both";
-	else if (m_bVulnerable[NORTH_SOUTH])
+	else if (m_bVulnerable_deal[NORTH_SOUTH])
 		strVulnerable = "NS";
-	else if (m_bVulnerable[EAST_WEST])
+	else if (m_bVulnerable_deal[EAST_WEST])
 		strVulnerable = "EW";
 	else
 		strVulnerable = "None";
@@ -107,7 +107,7 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 	int nPos = WEST;
 	for(int i=0;i<4;i++)
 	{
-		CCardHoldings& cards = m_pPlayer[nPos]->GetHand().GetInitialHand();
+		CCardHoldings& cards = m_pPlayer_deal[nPos]->GetHand().GetInitialHand();
 		strDeal += cards.GetGIBFormatHoldingsString();
 		nPos = GetNextPlayer(nPos);
 		if (i < 3)
@@ -122,20 +122,20 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 		WriteLine(TAG_SCORING, _T("None"));
 
 	// Declarer Tag
-	if (ISPOSITION(m_nDeclarer))
-		WriteLine(TAG_DECLARER, FormString("%c", PositionToChar(m_nDeclarer)));
+	if (ISPOSITION(m_nDeclarer_deal))
+		WriteLine(TAG_DECLARER, FormString("%c", PositionToChar(m_nDeclarer_deal)));
 	else
 		WriteLine(TAG_DECLARER, "?");
 
 	// Contract Tag
-	if (ISBID(m_nContract))
-		WriteLine(TAG_CONTRACT, ContractToString(m_nContract));
+	if (ISBID(m_nContract_deal))
+		WriteLine(TAG_CONTRACT, ContractToString(m_nContract_deal));
 	else
 		WriteLine(TAG_CONTRACT, "?");
 
 	// Result tag
-	if (m_numTricksPlayed == 13)
-		WriteLine(TAG_RESULT, FormString("\"%d\"",m_numTricksWon[m_nContractTeam]));
+	if (m_numTricksPlayed_deal == 13)
+		WriteLine(TAG_RESULT, FormString("\"%d\"",m_numTricksWon_deal[m_nContractTeam_deal]));
 	else
 		WriteLine(TAG_RESULT, "?");
 
@@ -148,19 +148,19 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 	//
 	// write out auction
 	//
-	CString strBids = FormString("[AUCTION \"%c\"]", PositionToChar(m_nDealer));
-	if (m_numBidsMade > 0)
+	CString strBids = FormString("[AUCTION \"%c\"]", PositionToChar(m_nDealer_deal));
+	if (m_numBidsMade_deal > 0)
 		strBids += "\r\n";
-	nPos = m_nDealer;
-	for(int i=0;i<m_numBidsMade;i++)
+	nPos = m_nDealer_deal;
+	for(int i=0;i<m_numBidsMade_deal;i++)
 	{
-		strBids += FormString("%s ", ::BidToPBNString(m_nBiddingHistory[i]));
+		strBids += FormString("%s ", ::BidToPBNString(m_nBiddingHistory_deal[i]));
 		nPos = ::GetNextPlayer(nPos);
-		if ( (((i+1) % 4) == 0) && (i < m_numBidsMade-1) )
+		if ( (((i+1) % 4) == 0) && (i < m_numBidsMade_deal-1) )
 			strBids += "\r\n";
 	}
 	// add marker if needed
-	if (!ISBID(m_nContract))
+	if (!ISBID(m_nContract_deal))
 		strBids += "\r\n*";
 	// and write out
 	WriteLine(strBids);
@@ -169,26 +169,26 @@ BOOL CEasyBDoc::WriteFilePBN(CArchive& ar)
 	//
 	// write out plays
 	//
-	CString strPlays = FormString("[PLAY \"%c\"]", PositionToChar(m_nGameLead));
-	if (m_numTricksPlayed> 0)
+	CString strPlays = FormString("[PLAY \"%c\"]", PositionToChar(m_nGameLead_deal));
+	if (m_numTricksPlayed_deal> 0)
 		strPlays += "\r\n";
-	for(int i=0;i<m_numTricksPlayed;i++)
+	for(int i=0;i<m_numTricksPlayed_deal;i++)
 	{
-		int nPos = m_nGameLead;
+		int nPos = m_nGameLead_deal;
 		for(int j=0;j<4;j++)
 		{
-			CCard* pCard = m_pGameTrick[i][nPos];
+			CCard* pCard = m_pGameTrick_deal[i][nPos];
 			if (pCard == NULL)
 				strPlays += "-  ";
 			else
 				strPlays += FormString("%s ", pCard->GetName());
 			nPos = ::GetNextPlayer(nPos);
 		}
-		if (i < m_numTricksPlayed-1)
+		if (i < m_numTricksPlayed_deal-1)
 			strPlays += "\r\n";
 	}
 	// add marker if needed
-	if (m_numTricksPlayed < 13)
+	if (m_numTricksPlayed_deal < 13)
 		strPlays += "\r\n*";
 	// and write out
 	WriteLine(strPlays);

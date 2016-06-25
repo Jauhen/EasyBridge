@@ -64,10 +64,10 @@ void CEasyBDoc::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTe
 		DeleteContents();
 
 	// save special deal code
-	m_nSpecialDealCode = (nGameCode << 6) | (nSuitCode << 4) | (nSlamCode << 2) | nTeam;
+	m_nSpecialDealCode_deal = (nGameCode << 6) | (nSuitCode << 4) | (nSlamCode << 2) | nTeam;
 
 	// perform the initial shuffle
-	m_nDealNumber = theApp.GetDeck()->Shuffle(nDealNumber);
+	m_nDealNumber_deal = theApp.GetDeck()->Shuffle(nDealNumber);
 
 	// set busy cursor
 	pVIEW->SetCurrentMode(CEasyBView::MODE_WAITSPECIALDEAL);
@@ -311,15 +311,15 @@ shuffle:
 	// it easier to trade down points later on
 	if ((nGameCode == 2) && (nSlamCode == 2)) 
 	{
-		double fDiff1 = m_pPlayer[SOUTH]->GetHCPoints() - (m_pPlayer[SOUTH]->GetNumCardsOf(ACE)*4 + m_pPlayer[SOUTH]->GetNumCardsOf(KING)*3);
-		double fDiff2 = m_pPlayer[NORTH]->GetHCPoints() - (m_pPlayer[NORTH]->GetNumCardsOf(ACE)*4 + m_pPlayer[NORTH]->GetNumCardsOf(KING)*3);
+		double fDiff1 = m_pPlayer_deal[SOUTH]->GetHCPoints() - (m_pPlayer_deal[SOUTH]->GetNumCardsOf(ACE)*4 + m_pPlayer_deal[SOUTH]->GetNumCardsOf(KING)*3);
+		double fDiff2 = m_pPlayer_deal[NORTH]->GetHCPoints() - (m_pPlayer_deal[NORTH]->GetNumCardsOf(ACE)*4 + m_pPlayer_deal[NORTH]->GetNumCardsOf(KING)*3);
 		// #### TEMP ####
-		double fHC1 = m_pPlayer[SOUTH]->GetHCPoints();
-		int nAces1 = m_pPlayer[SOUTH]->GetNumCardsOf(ACE);
-		int nKings1 = m_pPlayer[SOUTH]->GetNumCardsOf(KING);
-		double fHC2 = m_pPlayer[NORTH]->GetHCPoints();
-		int nAces2 = m_pPlayer[NORTH]->GetNumCardsOf(ACE);
-		int nKings2 = m_pPlayer[NORTH]->GetNumCardsOf(KING);
+		double fHC1 = m_pPlayer_deal[SOUTH]->GetHCPoints();
+		int nAces1 = m_pPlayer_deal[SOUTH]->GetNumCardsOf(ACE);
+		int nKings1 = m_pPlayer_deal[SOUTH]->GetNumCardsOf(KING);
+		double fHC2 = m_pPlayer_deal[NORTH]->GetHCPoints();
+		int nAces2 = m_pPlayer_deal[NORTH]->GetNumCardsOf(ACE);
+		int nKings2 = m_pPlayer_deal[NORTH]->GetNumCardsOf(KING);
 		ASSERT((fDiff1 >= 0) && (fDiff2 >= 0));
 		//
 		if ((fDiff1 < 2) || (fDiff2 < 2))
@@ -517,17 +517,17 @@ shuffle:
 	{
 		// check some hand parameters to ensure success of swap routine
 		// see if N/S have high cards available to swap down
-		int nSouthAces = m_pPlayer[SOUTH]->GetNumCardsOf(ACE);
-		int nSouthKings = m_pPlayer[SOUTH]->GetNumCardsOf(KING);
-		if ((m_pPlayer[SOUTH]->GetHCPoints() > nSouthAces*4 + nSouthKings*3) ||
+		int nSouthAces = m_pPlayer_deal[SOUTH]->GetNumCardsOf(ACE);
+		int nSouthKings = m_pPlayer_deal[SOUTH]->GetNumCardsOf(KING);
+		if ((m_pPlayer_deal[SOUTH]->GetHCPoints() > nSouthAces*4 + nSouthKings*3) ||
 			((nSouthAces > 0) && (numAcesHeld > numAcesRequired)) ||
 			((nSouthKings > 0) && (numKingsHeld > numKingsRequired))	)
 			bSouthHoldsExtraHonors = TRUE;
 		else
 			bSouthHoldsExtraHonors = FALSE;
-		int nNorthAces = m_pPlayer[NORTH]->GetNumCardsOf(ACE);
-		int nNorthKings = m_pPlayer[NORTH]->GetNumCardsOf(KING);
-		if ((m_pPlayer[NORTH]->GetHCPoints() > nNorthAces*4 + nNorthKings*3) ||
+		int nNorthAces = m_pPlayer_deal[NORTH]->GetNumCardsOf(ACE);
+		int nNorthKings = m_pPlayer_deal[NORTH]->GetNumCardsOf(KING);
+		if ((m_pPlayer_deal[NORTH]->GetHCPoints() > nNorthAces*4 + nNorthKings*3) ||
 			((nNorthAces > 0) && (numAcesHeld > numAcesRequired)) ||
 			((nNorthKings > 0) && (numKingsHeld > numKingsRequired)) )
 			bNorthHoldsExtraHonors = TRUE;
@@ -671,7 +671,7 @@ shuffle:
 	CMainFrame::ResetStatusMessage();
 	
 	// mark that the deal # is available
-	m_bDealNumberAvailable = TRUE;
+	m_bDealNumberAvailable_deal = TRUE;
 
 	// reset view mode
 	pVIEW->ClearMode();

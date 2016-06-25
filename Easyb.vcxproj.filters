@@ -378,6 +378,9 @@
     <ClCompile Include="src\model\easyb_doc_deal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\model\deal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyB.rc">
@@ -764,6 +767,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DEALPARM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\deal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

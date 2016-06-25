@@ -189,21 +189,21 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 	WriteBool(ITEM_GAME_IN_PROGRESS,theApp.IsGameInProgress());
 	WriteBool(ITEM_BIDDING_IN_PROGRESS,theApp.IsBiddingInProgress());
 	WriteBool(ITEM_HANDS_DEALT,m_bHandsDealt);
-	strTemp.Format("%s",SuitToString(m_nContractSuit));
+	strTemp.Format("%s",SuitToString(m_nContractSuit_deal));
 	WriteString(ITEM_CONTRACT_SUIT,strTemp);
-	WriteInt(ITEM_CONTRACT_LEVEL,m_nContractLevel);
-	WriteInt(ITEM_CONTRACT_MODIFIER, m_bRedoubled? 2 : m_bDoubled? 1 : 0);
-	WriteString(ITEM_DEALER,PositionToString(m_nDealer));
-	WriteInt(ITEM_NUM_BIDS,m_numBidsMade);
+	WriteInt(ITEM_CONTRACT_LEVEL,m_nContractLevel_deal);
+	WriteInt(ITEM_CONTRACT_MODIFIER, m_bRedoubled_deal? 2 : m_bDoubled_deal? 1 : 0);
+	WriteString(ITEM_DEALER,PositionToString(m_nDealer_deal));
+	WriteInt(ITEM_NUM_BIDS,m_numBidsMade_deal);
 	// declarer & bidding history
 	strTemp.Empty();
 	int nIndex = 0;
-	for(i=0;i<=m_numBidsMade;i++) 
+	for(i=0;i<=m_numBidsMade_deal;i++) 
 	{
-		strTemp += BidToShortString(m_nBiddingHistory[i]);
+		strTemp += BidToShortString(m_nBiddingHistory_deal[i]);
 		strTemp += " ";
 	}
-	WriteString(ITEM_DECLARER,PositionToString(m_nDeclarer));
+	WriteString(ITEM_DECLARER,PositionToString(m_nDeclarer_deal));
 	WriteString(ITEM_BIDDING_HISTORY,strTemp);
 	SkipLine();
 
@@ -217,7 +217,7 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 	if (m_bSaveIntermediatePositions)
 	{
 		// write the # tricks played
-		int numTricks = m_numTricksPlayed;
+		int numTricks = m_numTricksPlayed_deal;
 		
 		// see if the current trick is incomplete
 		if ((pDOC->GetNumCardsPlayedInRound() > 0) && (numTricks < 13))
@@ -225,25 +225,25 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 		WriteInt(ITEM_NUM_TRICKS_PLAYED,numTricks);
 		
 		// # tricks won by each side
-		WriteInt(ITEM_NUM_TRICKS_WON_NS,m_numTricksWon[0]);
-		WriteInt(ITEM_NUM_TRICKS_WON_EW,m_numTricksWon[1]);
-		WriteString(ITEM_GAME_LEAD,PositionToString(m_nGameLead));
+		WriteInt(ITEM_NUM_TRICKS_WON_NS,m_numTricksWon_deal[0]);
+		WriteInt(ITEM_NUM_TRICKS_WON_EW,m_numTricksWon_deal[1]);
+		WriteString(ITEM_GAME_LEAD,PositionToString(m_nGameLead_deal));
 
 		// and the record of tricks
 		for(i=0;i<13;i++) 
 		{
-			if (i <= m_numTricksPlayed)
+			if (i <= m_numTricksPlayed_deal)
 			{
 				strTemp.Empty();
-				strTemp += PositionToString(m_nTrickLead[i]);
+				strTemp += PositionToString(m_nTrickLead_deal[i]);
 				strTemp += " ";
 				for(j=0;j<4;j++) 
 				{
 					CCard* pCard = NULL;
-					if (i < m_numTricksPlayed)
-						pCard = m_pGameTrick[i][j];
+					if (i < m_numTricksPlayed_deal)
+						pCard = m_pGameTrick_deal[i][j];
 					else
-						pCard = m_pCurrTrick[j];
+						pCard = m_pCurrTrick_deal[j];
 					//
 					if (pCard != NULL)
 					{
@@ -255,7 +255,7 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 						strTemp += "-- ";
 					}
 				}
-				strTemp += PositionToString(m_nTrickWinner[i]);
+				strTemp += PositionToString(m_nTrickWinner_deal[i]);
 			}
 			else
 			{
@@ -284,29 +284,29 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 		WriteBlockHeader(BLOCK_MATCHINFO);
 
 		// write out scores
-		WriteInt(ITEM_SCORE_NS_BONUS, m_nBonusScore[NORTH_SOUTH]);
-		WriteInt(ITEM_SCORE_NS_GAME0, m_nGameScore[0][NORTH_SOUTH]);
-		WriteInt(ITEM_SCORE_NS_GAME1, m_nGameScore[1][NORTH_SOUTH]);
-		WriteInt(ITEM_SCORE_NS_GAME2, m_nGameScore[2][NORTH_SOUTH]);
-		WriteInt(ITEM_SCORE_NS_GAMES_WON, m_numGamesWon[NORTH_SOUTH]);
+		WriteInt(ITEM_SCORE_NS_BONUS, m_nBonusScore_deal[NORTH_SOUTH]);
+		WriteInt(ITEM_SCORE_NS_GAME0, m_nGameScore_deal[0][NORTH_SOUTH]);
+		WriteInt(ITEM_SCORE_NS_GAME1, m_nGameScore_deal[1][NORTH_SOUTH]);
+		WriteInt(ITEM_SCORE_NS_GAME2, m_nGameScore_deal[2][NORTH_SOUTH]);
+		WriteInt(ITEM_SCORE_NS_GAMES_WON, m_numGamesWon_deal[NORTH_SOUTH]);
 		//
-		WriteInt(ITEM_SCORE_EW_BONUS, m_nBonusScore[EAST_WEST]);
-		WriteInt(ITEM_SCORE_EW_GAME0, m_nGameScore[0][EAST_WEST]);
-		WriteInt(ITEM_SCORE_EW_GAME1, m_nGameScore[1][EAST_WEST]);
-		WriteInt(ITEM_SCORE_EW_GAME2, m_nGameScore[2][EAST_WEST]);
-		WriteInt(ITEM_SCORE_EW_GAMES_WON, m_numGamesWon[EAST_WEST]);
+		WriteInt(ITEM_SCORE_EW_BONUS, m_nBonusScore_deal[EAST_WEST]);
+		WriteInt(ITEM_SCORE_EW_GAME0, m_nGameScore_deal[0][EAST_WEST]);
+		WriteInt(ITEM_SCORE_EW_GAME1, m_nGameScore_deal[1][EAST_WEST]);
+		WriteInt(ITEM_SCORE_EW_GAME2, m_nGameScore_deal[2][EAST_WEST]);
+		WriteInt(ITEM_SCORE_EW_GAMES_WON, m_numGamesWon_deal[EAST_WEST]);
 
 		// write out current game
-		WriteInt(ITEM_CURRENT_GAME_INDEX, m_nCurrGame+1);
+		WriteInt(ITEM_CURRENT_GAME_INDEX, m_nCurrGame_deal+1);
 
 		// write out score record
-		int numBonusScoreRecords = m_strArrayBonusPointsRecord.GetSize();
+		int numBonusScoreRecords = m_strArrayBonusPointsRecord_deal.GetSize();
 		for(int i=0;i<numBonusScoreRecords;i++)
-			WriteString(ITEM_BONUS_SCORE_RECORD, WrapInQuotes(m_strArrayBonusPointsRecord.GetAt(i)));
+			WriteString(ITEM_BONUS_SCORE_RECORD, WrapInQuotes(m_strArrayBonusPointsRecord_deal.GetAt(i)));
 		//
-		int numGameScoreRecords = m_strArrayTrickPointsRecord.GetSize();
+		int numGameScoreRecords = m_strArrayTrickPointsRecord_deal.GetSize();
 		for(i=0;i<numGameScoreRecords;i++)
-			WriteString(ITEM_GAME_SCORE_RECORD, WrapInQuotes(m_strArrayTrickPointsRecord.GetAt(i)));
+			WriteString(ITEM_GAME_SCORE_RECORD, WrapInQuotes(m_strArrayTrickPointsRecord_deal.GetAt(i)));
 		//
 		SkipLine();
 	}
@@ -349,7 +349,7 @@ BOOL CEasyBDoc::WriteFile(CArchive& ar)
 		{
 			// save out the player analysis text
 			WriteBlockHeader(BLOCK_PLAYER_ANALYSIS + i);
-			WriteString(0, m_pPlayer[i]->GetValueString(tszAnalysis));
+			WriteString(0, m_pPlayer_deal[i]->GetValueString(tszAnalysis));
 			SkipLine();
 		}
 	}

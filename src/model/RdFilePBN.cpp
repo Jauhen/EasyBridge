@@ -130,7 +130,7 @@ BOOL CEasyBDoc::ReadFilePBN(CArchive& ar)
 				pGameRecord->AnalyzePlayRecord();
 				if (pGameRecord->IsValid())
 				{
-					m_gameRecords.Add(pGameRecord);
+					m_gameRecords_deal.Add(pGameRecord);
 					numGamesLoaded++;
 					nGameIndex++;
 				}
@@ -168,7 +168,7 @@ BOOL CEasyBDoc::ReadFilePBN(CArchive& ar)
 		if ((strValue == "#") && (nGameIndex > 0))
 		{
 			// look up the value from the previous game
-			CGameRecord* pPrevGame = m_gameRecords[nGameIndex-1];
+			CGameRecord* pPrevGame = m_gameRecords_deal[nGameIndex-1];
 			std::map<CString,CString>::const_iterator iter = pPrevGame->m_mapTagValues.find(strTag);
 			if (iter != pPrevGame->m_mapTagValues.end())
 				strValue = (*iter).second;
@@ -356,7 +356,7 @@ BOOL CEasyBDoc::ReadFilePBN(CArchive& ar)
 		pGameRecord->AnalyzePlayRecord();
 		if (pGameRecord->IsValid())
 		{
-			m_gameRecords.Add(pGameRecord);
+			m_gameRecords_deal.Add(pGameRecord);
 			numGamesLoaded++;
 			nGameIndex++;
 		}
@@ -792,8 +792,8 @@ void CEasyBDoc::AssignCardsPBN(const CString& str)
 				int nIndex = MAKEDECKVALUE(nSuit, nValue);
 				CCard* pCard = theApp.GetDeck()->GetSortedCard(nIndex);
 				ASSERT(pCard);
-				m_pPlayer[nPlayer]->AddCardToHand(pCard,FALSE);
-				m_pPlayer[nPlayer]->AddCardToInitialHand(pCard);
+				m_pPlayer_deal[nPlayer]->AddCardToHand(pCard,FALSE);
+				m_pPlayer_deal[nPlayer]->AddCardToInitialHand(pCard);
 				numCards++;
 			}
 			// move to the next suit

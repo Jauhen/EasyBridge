@@ -337,27 +337,27 @@ next:		if (nRtnCode == EOF)
 
 					// current round info
 					case ITEM_CURR_ROUND_LEAD:
-						m_nRoundLead = StringToPosition(string);
+						m_nRoundLead_deal = StringToPosition(string);
 						break;
 
 					case ITEM_NUM_CARDS_PLAYED_IN_ROUND:
-						m_numCardsPlayedInRound = nValue;
+						m_numCardsPlayedInRound_deal = nValue;
 						break;
 
 					case ITEM_TRICK_CARD_1:
-						m_pCurrTrick[0] = theApp.GetDeck()->GetCard(string);
+						m_pCurrTrick_deal[0] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					case ITEM_TRICK_CARD_2:
-						m_pCurrTrick[1] = theApp.GetDeck()->GetCard(string);
+						m_pCurrTrick_deal[1] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					case ITEM_TRICK_CARD_3:
-						m_pCurrTrick[2] = theApp.GetDeck()->GetCard(string);
+						m_pCurrTrick_deal[2] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					case ITEM_TRICK_CARD_4:
-						m_pCurrTrick[3] = theApp.GetDeck()->GetCard(string);
+						m_pCurrTrick_deal[3] = theApp.GetDeck()->GetCard(string);
 						break;
 
 					// game status info
@@ -385,36 +385,36 @@ next:		if (nRtnCode == EOF)
 					
 					case ITEM_CONTRACT_SUIT:
 						nLen = string.GetLength();
-						m_nContractSuit = CharToSuit(string.GetAt(0));
+						m_nContractSuit_deal = CharToSuit(string.GetAt(0));
 						break;
 
 					case ITEM_CONTRACT_LEVEL:
-						m_nContractLevel = nValue;
+						m_nContractLevel_deal = nValue;
 						break;
 
 					case ITEM_CONTRACT_MODIFIER:
 						switch(nValue) 
 						{
 							case 0:
-								m_bDoubled = FALSE;
-								m_bRedoubled = FALSE;
-								m_nContractModifier = 0;
+								m_bDoubled_deal = FALSE;
+								m_bRedoubled_deal = FALSE;
+								m_nContractModifier_deal = 0;
 								break;
 							case 1:
-								m_bDoubled = TRUE;
-								m_bRedoubled = FALSE;
-								m_nContractModifier = 1;
+								m_bDoubled_deal = TRUE;
+								m_bRedoubled_deal = FALSE;
+								m_nContractModifier_deal = 1;
 								break;
 							case 2:
-								m_bDoubled = FALSE;
-								m_bRedoubled = TRUE;
-								m_nContractModifier = 2;
+								m_bDoubled_deal = FALSE;
+								m_bRedoubled_deal = TRUE;
+								m_nContractModifier_deal = 2;
 								break;
 						}
 						break;
 
 					case ITEM_DEALER:
-						m_nDealer = StringToPosition(string);
+						m_nDealer_deal = StringToPosition(string);
 						break;
 
 					case ITEM_NUM_BIDS:
@@ -426,26 +426,26 @@ next:		if (nRtnCode == EOF)
 						break;
 
 					case ITEM_DECLARER:
-						m_nDeclarer = StringToPosition(string);
-						m_nContractTeam = GetPlayerTeam(m_nDeclarer);
-						m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH)? EAST_WEST : NORTH_SOUTH;
+						m_nDeclarer_deal = StringToPosition(string);
+						m_nContractTeam_deal = GetPlayerTeam(m_nDeclarer_deal);
+						m_nDefendingTeam_deal = (m_nContractTeam_deal == NORTH_SOUTH)? EAST_WEST : NORTH_SOUTH;
 						break;
 
 					// game record
 					case ITEM_NUM_TRICKS_PLAYED:
-						m_numTricksPlayed = nValue;
+						m_numTricksPlayed_deal = nValue;
 						break;
 
 					case ITEM_NUM_TRICKS_WON_NS:
-						m_numTricksWon[0] = nValue;
+						m_numTricksWon_deal[0] = nValue;
 						break;
 
 					case ITEM_NUM_TRICKS_WON_EW:
-						m_numTricksWon[1] = nValue;
+						m_numTricksWon_deal[1] = nValue;
 						break;
 
 					case ITEM_GAME_LEAD:
-						m_nGameLead = StringToPosition(string);
+						m_nGameLead_deal = StringToPosition(string);
 						break;
 
 					case ITEM_GAME_TRICK_1: case ITEM_GAME_TRICK_2: 
@@ -462,7 +462,7 @@ next:		if (nRtnCode == EOF)
 							nLen = string.GetLength();
 							// first read the lead player for the trick
 							partString = string.Mid(nOffset);
-							m_nTrickLead[nIndex] = StringToPosition(partString);
+							m_nTrickLead_deal[nIndex] = StringToPosition(partString);
 							nOffset = string.Find(' ');
 							//
 							for(i=0;i<4;i++) 
@@ -481,30 +481,30 @@ next:		if (nRtnCode == EOF)
 								//
 								if (partString.Left(2) == "--")
 								{
-									m_pGameTrick[nIndex][i] = NULL;
+									m_pGameTrick_deal[nIndex][i] = NULL;
 								}
 								else
 								{
 									pCard = theApp.GetDeck()->GetCard(partString);
-									m_pGameTrick[nIndex][i] = pCard;
+									m_pGameTrick_deal[nIndex][i] = pCard;
 								}
 							}
 							// insert the trick record into the game record
 							// in the proper order
 							nPlayOffset = nIndex * 4;
-							nPos = m_nTrickLead[nIndex];
+							nPos = m_nTrickLead_deal[nIndex];
 							for(i=0;i<4;i++)
 							{
-								CCard* pCard = m_pGameTrick[nIndex][nPos];
+								CCard* pCard = m_pGameTrick_deal[nIndex][nPos];
 								if (pCard)
-									m_nPlayRecord[nPlayOffset+i] = pCard->GetDeckValue();
+									m_nPlayRecord_deal[nPlayOffset+i] = pCard->GetDeckValue();
 								nPos = GetNextPlayer(nPos);
 							}
 							// and finally read the trick's winner 
 							while((nOffset < nLen) && (string[nOffset] == ' '))
 								nOffset++;
 							partString = string.Mid(nOffset);
-							m_nTrickWinner[nIndex] = StringToPosition(partString);
+							m_nTrickWinner_deal[nIndex] = StringToPosition(partString);
 						}
 						catch(...)
 						{
@@ -514,55 +514,55 @@ next:		if (nRtnCode == EOF)
 
 					// match info
 					case ITEM_SCORE_NS_BONUS:
-						m_nBonusScore[NORTH_SOUTH] = nValue;
+						m_nBonusScore_deal[NORTH_SOUTH] = nValue;
 						break;
 
 					case ITEM_SCORE_NS_GAME0:
-						m_nGameScore[0][NORTH_SOUTH] = nValue;
+						m_nGameScore_deal[0][NORTH_SOUTH] = nValue;
 						break;
 
 					case ITEM_SCORE_NS_GAME1:
-						m_nGameScore[1][NORTH_SOUTH] = nValue;
+						m_nGameScore_deal[1][NORTH_SOUTH] = nValue;
 						break;
 
 					case ITEM_SCORE_NS_GAME2:
-						m_nGameScore[2][NORTH_SOUTH] = nValue;
+						m_nGameScore_deal[2][NORTH_SOUTH] = nValue;
 						break;
 
 					case ITEM_SCORE_NS_GAMES_WON:
-						m_numGamesWon[NORTH_SOUTH] = nValue;
+						m_numGamesWon_deal[NORTH_SOUTH] = nValue;
 						break;
 
 					case ITEM_SCORE_EW_BONUS:
-						m_nBonusScore[EAST_WEST] = nValue;
+						m_nBonusScore_deal[EAST_WEST] = nValue;
 						break;
 
 					case ITEM_SCORE_EW_GAME0:
-						m_nGameScore[0][EAST_WEST] = nValue;
+						m_nGameScore_deal[0][EAST_WEST] = nValue;
 						break;
 
 					case ITEM_SCORE_EW_GAME1:
-						m_nGameScore[1][EAST_WEST] = nValue;
+						m_nGameScore_deal[1][EAST_WEST] = nValue;
 						break;
 
 					case ITEM_SCORE_EW_GAME2:
-						m_nGameScore[2][EAST_WEST] = nValue;
+						m_nGameScore_deal[2][EAST_WEST] = nValue;
 						break;
 
 					case ITEM_SCORE_EW_GAMES_WON:
-						m_numGamesWon[EAST_WEST] = nValue;
+						m_numGamesWon_deal[EAST_WEST] = nValue;
 						break;
 
 					case ITEM_CURRENT_GAME_INDEX:
-						m_nCurrGame = nValue-1;
+						m_nCurrGame_deal = nValue-1;
 						break;
 
 					case ITEM_BONUS_SCORE_RECORD:
-						m_strArrayBonusPointsRecord.Add(StripQuotes(string));
+						m_strArrayBonusPointsRecord_deal.Add(StripQuotes(string));
 						break;
 
 					case ITEM_GAME_SCORE_RECORD:
-						m_strArrayTrickPointsRecord.Add(StripQuotes(string));
+						m_strArrayTrickPointsRecord_deal.Add(StripQuotes(string));
 						break;
 
 					// misc info
@@ -613,17 +613,17 @@ next:		if (nRtnCode == EOF)
 	//
 	// do some sanity checks
 	//
-	m_nContract = MAKEBID(m_nContractSuit, m_nContractLevel);
-	if (!ISPLAYER(m_nDeclarer) || !ISBID(m_nContract))
+	m_nContract_deal = MAKEBID(m_nContractSuit_deal, m_nContractLevel_deal);
+	if (!ISPLAYER(m_nDeclarer_deal) || !ISBID(m_nContract_deal))
 		theApp.SetValue(tbGameInProgress, FALSE);
 
 	//
 	// parse the bidding history
 	//
-	if (!ISPLAYER(m_nDeclarer))
-		m_nDeclarer = SOUTH;
-	nPos = m_nDeclarer;
-	m_nCurrPlayer = nPos;
+	if (!ISPLAYER(m_nDeclarer_deal))
+		m_nDeclarer_deal = SOUTH;
+	nPos = m_nDeclarer_deal;
+	m_nCurrPlayer_deal = nPos;
 	int nTeam = GetPlayerTeam(nPos);
 	nOffset = 0;
 	// 
@@ -639,18 +639,18 @@ next:		if (nRtnCode == EOF)
 		partString = strBiddingHistory.Mid(nOffset);
 		int nBid = ContractStringToBid(partString);
 		// and record it
-		m_nBiddingHistory[m_numBidsMade] = nBid;
-		m_numBidsMade++;
-		m_nCurrPlayer = GetNextPlayer(m_nCurrPlayer);
+		m_nBiddingHistory_deal[m_numBidsMade_deal] = nBid;
+		m_numBidsMade_deal++;
+		m_nCurrPlayer_deal = GetNextPlayer(m_nCurrPlayer_deal);
 		int nBiddingRound = i % 4;
-		m_nBidsByPlayer[nPos][nBiddingRound] = nBid;
+		m_nBidsByPlayer_deal[nPos][nBiddingRound] = nBid;
 		// see if this is an actual numeric bid
 		if (ISBID(nBid))
 		{
-			m_nValidBidHistory[m_numValidBidsMade] = nBid;
-			m_numValidBidsMade++;
-			m_nLastValidBid = nBid;
-			m_nLastValidBidTeam = nTeam;
+			m_nValidBidHistory_deal[m_numValidBidsMade_deal] = nBid;
+			m_numValidBidsMade_deal++;
+			m_nLastValidBid_deal = nBid;
+			m_nLastValidBidTeam_deal = nTeam;
 		}
 		// skip over remainder of current bid string
 		while((nOffset < nLen) && (strBiddingHistory[nOffset] != ' '))
@@ -659,65 +659,65 @@ next:		if (nRtnCode == EOF)
 		nPos = GetNextPlayer(nPos);
 		nTeam = GetOpposingTeam(nTeam);
 	}
-	if (ISBID(m_nContract))
+	if (ISBID(m_nContract_deal))
 		UpdateBiddingHistory();
 
 
 	// tally some figures
-	m_nTotalScore[0] = m_nGameScore[0][0] + m_nGameScore[1][0] +
-					   m_nGameScore[2][0] + m_nBonusScore[0];
-	m_nTotalScore[1] = m_nGameScore[0][1] + m_nGameScore[1][1] +
-					   m_nGameScore[2][1] + m_nBonusScore[1];
+	m_nTotalScore_deal[0] = m_nGameScore_deal[0][0] + m_nGameScore_deal[1][0] +
+					   m_nGameScore_deal[2][0] + m_nBonusScore_deal[0];
+	m_nTotalScore_deal[1] = m_nGameScore_deal[0][1] + m_nGameScore_deal[1][1] +
+					   m_nGameScore_deal[2][1] + m_nBonusScore_deal[1];
 
 	// vulnerability
-	if ((m_numGamesWon[0] > 0) && (m_numGamesWon[1] > 0)) 
+	if ((m_numGamesWon_deal[0] > 0) && (m_numGamesWon_deal[1] > 0)) 
 	{
-		m_nVulnerableTeam = BOTH;
-		m_bVulnerable[0] = m_bVulnerable[1] = TRUE;
+		m_nVulnerableTeam_deal = BOTH;
+		m_bVulnerable_deal[0] = m_bVulnerable_deal[1] = TRUE;
 	} 
-	else if (m_numGamesWon[0] > 0) 
+	else if (m_numGamesWon_deal[0] > 0) 
 	{
-		m_nVulnerableTeam = NORTH_SOUTH;
-		m_bVulnerable[0] = TRUE;
+		m_nVulnerableTeam_deal = NORTH_SOUTH;
+		m_bVulnerable_deal[0] = TRUE;
 	} 
-	else if (m_numGamesWon[1] > 0)
+	else if (m_numGamesWon_deal[1] > 0)
 	{
-		m_nVulnerableTeam = EAST_WEST;
-		m_bVulnerable[1] = TRUE;
+		m_nVulnerableTeam_deal = EAST_WEST;
+		m_bVulnerable_deal[1] = TRUE;
 	} 
 	else 
 	{
-		m_nVulnerableTeam = NEITHER;
+		m_nVulnerableTeam_deal = NEITHER;
 	}
 
 	//
 	// set contract info
 	//
-	m_nContract = ContractParamsToBid(m_nContractSuit,m_nContractLevel);
-	m_nTrumpSuit = m_nContractSuit;
-	m_nBiddingRound = nBidIndex;
+	m_nContract_deal = ContractParamsToBid(m_nContractSuit_deal,m_nContractLevel_deal);
+	m_nTrumpSuit_deal = m_nContractSuit_deal;
+	m_nBiddingRound_deal = nBidIndex;
 	// set play info 
-	if (ISBID(m_nContract) && ISPLAYER(m_nDeclarer))
+	if (ISBID(m_nContract_deal) && ISPLAYER(m_nDeclarer_deal))
 	{
 		// contract has been reached
-		m_nDummy = GetPartner((int) m_nDeclarer);
-		m_nGameLead = GetNextPlayer(m_nDeclarer);
-		m_nRoundLead = m_nGameLead;
-		m_nCurrPlayer = m_nRoundLead;
-		m_nTrickLead[0] = m_nRoundLead;
+		m_nDummy_deal = GetPartner((int) m_nDeclarer_deal);
+		m_nGameLead_deal = GetNextPlayer(m_nDeclarer_deal);
+		m_nRoundLead_deal = m_nGameLead_deal;
+		m_nCurrPlayer_deal = m_nRoundLead_deal;
+		m_nTrickLead_deal[0] = m_nRoundLead_deal;
 //		m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
 //		m_pPlayer[m_nDeclarer]->SetDeclarerFlag(TRUE);
 	}
 	else
 	{
 		// contract has NOT been reached, so restart
-		m_nCurrPlayer = m_nDealer;
-		m_numBidsMade = 0;
+		m_nCurrPlayer_deal = m_nDealer_deal;
+		m_numBidsMade_deal = 0;
 	}
 
 	// restore initial hands (temp?)
 	for(i=0;i<4;i++)
-		m_pPlayer[i]->RestoreInitialHand();
+		m_pPlayer_deal[i]->RestoreInitialHand();
 
 	// not reviewing game
 	m_bReviewingGame = FALSE;
