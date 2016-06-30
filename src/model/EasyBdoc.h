@@ -13,6 +13,7 @@
 #ifndef __EASYBDOC__
 #define __EASYBDOC__
 
+#include "model/deal.h"
 #include "ObjectWithProperties.h"
 #include "EventProcessor.h"
 class CPlayer;
@@ -20,7 +21,7 @@ class CCard;
 class CGameRecord;
 
 
-class CEasyBDoc : public CDocument, public CObjectWithProperties, public CEventProcessor {
+class CEasyBDoc : public Deal, public CDocument, public CObjectWithProperties, public CEventProcessor {
 public:
   // game-related event codes
   enum { EVENT_NONE = 0, EVENT_CLAIMED = 1, EVENT_CONCEDED = 2 };
@@ -171,123 +172,6 @@ protected: // create from serialization only
 public:
   enum { tnEasyBridgeFormat = 0, tnPBNFormat = 1, tnTextFormat = 2 };
 
-private:
-  static BOOL m_bInitialized;
-  CPlayer* m_pPlayer[4];
-  // file info
-  CString m_strFileProgTitle;
-  int m_nFileProgMajorVersion;
-  int m_nFileProgMinorVersion;
-  int m_nFileProgIncrementVersion;
-  int m_nFileProgBuildNumber;
-  CString m_strFileProgBuildDate;
-  CString m_strFileDate;
-  CString m_strFileDescription;
-  CString m_strFileComments;
-  int m_nFileFormat;
-  int m_nPrevFileFormat;
-  //
-  CString m_strDocTitle;
-  // match info
-  int m_nGameScore[3][2]; // current game score
-  int m_nCurrGame;
-  int m_nBonusScore[2]; // score above the line
-  int m_nTotalScore[2]; // total game score
-  int m_numGamesWon[2]; // num games won
-  Team m_nVulnerableTeam; // which team is vunerable
-  BOOL m_bVulnerable[2]; // team is vulnerable flag
-  CStringArray m_strArrayTrickPointsRecord;
-  CStringArray m_strArrayBonusPointsRecord;
-  CString m_strTotalPointsRecord;
-  // game (contract) info
-  int m_nContract;
-  int m_nContractLevel;
-  int m_nContractSuit;
-  int m_nContractTeam; // team with the contract
-  int m_nDefendingTeam;
-  int m_numBidsMade;
-  int m_nBiddingRound;
-  BOOL m_bDoubled; // double in efect
-  int m_nDoubler; // player who doubled
-  BOOL m_bRedoubled; // redouble in effect
-  int m_nRedoubler; // player who redoubled
-  int m_nContractModifier; // doubled/redoubled status
-  int m_nLastValidBid; // last non-pass bid
-  int m_nLastValidBidTeam; // team to make that bid
-  int m_nPartnershipSuit[2]; // selected suit
-  int m_nPartnershipLead[2][5]; // player who called the suit first
-  int m_numPasses;
-  int m_nBiddingHistory[100];
-  int m_nValidBidHistory[100]; // record of non-pass bids
-  int m_numValidBidsMade;
-  int m_nOpeningBid;
-  int m_nOpeningBidder;
-  int m_nBidsByPlayer[4][50];
-  // game (play) info
-  // hand info
-  int m_nDealer; // dealer for current hand
-  int m_nPrevDealer; // dealer for previous hand
-  int m_nDeclarer; // declarer/driver for hand
-  int m_nDummy; // current dummy
-  BOOL m_bExposeDummy; // dummy show flag
-  int m_nTrumpSuit; //
-  //
-  int m_nDealNumber; // hand seed number
-  int m_nSpecialDealCode;
-  BOOL m_bDealNumberAvailable; // hand seed available?
-  // game (play) info
-  int m_nGameLead; // player to lead off the game
-  int m_nRoundLead; // player to lead this round
-  int m_nPlayRound; // current play round
-  int m_nCurrPlayer; // next person to play
-  int m_nPlayRecord[52]; // record of cards played
-  CCard* m_pGameTrick[13][4]; // history of tricks
-  int m_nTrickLead[13]; // history of lead players
-  int m_nTrickWinner[13]; // history of winners
-  CCard* m_pCurrTrick[4]; // cards so far in trick
-  int m_numTricksPlayed; // total # tricks played
-  int m_numActualTricksPlayed; // actual # tricks played (w/ claim/concede)
-  int m_numCardsPlayedInRound; // # played in current trick
-  int m_numCardsPlayedInGame; // # played in current game
-  int m_numTricksWon[2]; // # won by each team
-  int m_numActualTricksWon; // saves # tricks won before auto replay
-  //
-  int m_nLastBiddingHint;
-  CCard* m_pLastPlayHint;
-  BOOL m_bHintFollowed;
-  // results info
-  int m_nSuitLed;
-  int m_nHighVal;
-  int m_nHighTrumpVal;
-  CCard* m_pHighCard;
-  int m_nHighPos;
-  int m_nRoundWinner;
-  Team m_nRoundWinningTeam;
-  // flags
-  BOOL m_bHandsDealt; // hand dealt yet?
-  BOOL m_bExpressPlayMode;
-  BOOL m_bAutoReplayMode;
-  BOOL m_bBatchMode;
-  BOOL m_bHintMode;
-  BOOL m_bSuppressBidHistoryUpdate;
-  BOOL m_bSuppressPlayHistoryUpdate;
-  // auto window open triggers
-  BOOL m_bShowCommentsUponOpen;
-  BOOL m_bShowBidHistoryUponOpen;
-  BOOL m_bShowPlayHistoryUponOpen;
-  BOOL m_bShowAnalysesUponOpen;
-  // save options
-  BOOL m_bSavePlayerAnalysis[4];
-  BOOL m_bSaveIntermediatePositions;
-  // file I/O
-  BOOL m_bReviewingGame;
-  BOOL m_bGameReviewAvailable;
-  int m_nLineNumber;
-
-  //
-  // misc info
-  //
-  CTypedPtrArray<CPtrArray, CGameRecord*> m_gameRecords;
 
 
   // Operations
@@ -356,64 +240,64 @@ public:
   // Generated message map functions
 protected:
   //{{AFX_MSG(CEasyBDoc)
-  afx_msg void OnNewGame();
-  afx_msg void OnFileOpen();
-  afx_msg void OnUpdateFileSave(CCmdUI* pCmdUI);
-  afx_msg void OnFileSave();
-  afx_msg void OnUpdateFileSaveAs(CCmdUI* pCmdUI);
-  afx_msg void OnFileSaveAs();
-  afx_msg void OnDealGameHand();
-  afx_msg void OnUpdateDealSpecial(CCmdUI* pCmdUI);
-  afx_msg void OnDealGrandSlam();
-  afx_msg void OnDealMajorGame();
-  afx_msg void OnDealMinorGame();
-  afx_msg void OnDealSlam();
-  afx_msg void OnDealSmallSlam();
-  afx_msg void OnDealNotrumpGame();
-  afx_msg void OnSwapNS_EWCards();
-  afx_msg void OnSwapPositionEast();
-  afx_msg void OnSwapPositionNorth();
-  afx_msg void OnSwapPositionWest();
-  afx_msg void OnUpdateRestartCurrentHand(CCmdUI* pCmdUI);
-  afx_msg void OnRestartCurrentHand();
-  afx_msg void OnSwapCardsClockwise();
-  afx_msg void OnSwapCardsCounterclockwise();
-  afx_msg void OnUpdateDealNewHand(CCmdUI* pCmdUI);
-  afx_msg void OnDealNewHand();
-  afx_msg void OnViewScore();
-  afx_msg void OnUpdateViewScore(CCmdUI* pCmdUI);
-  afx_msg void OnUpdatePlayRubber(CCmdUI* pCmdUI);
-  afx_msg void OnPlayRubber();
-  afx_msg void OnUpdatePlayClaimTricks(CCmdUI* pCmdUI);
-  afx_msg void OnPlayClaimTricks();
-  afx_msg void OnUpdatePlayConcedeTricks(CCmdUI* pCmdUI);
-  afx_msg void OnPlayConcedeTricks();
-  afx_msg void OnUpdateGameAutoPlay(CCmdUI* pCmdUI);
-  afx_msg void OnGameAutoPlay();
-  afx_msg void OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI);
-  afx_msg void OnGameAutoPlayAll();
-  afx_msg void OnUpdateClearAll(CCmdUI* pCmdUI);
-  afx_msg void OnClearAll();
-  afx_msg void OnUpdateSwapCards(CCmdUI* pCmdUI);
-  afx_msg void OnUpdateGameHint(CCmdUI* pCmdUI);
-  afx_msg void OnGameHint();
-  afx_msg void OnUpdatePlayClaimContract(CCmdUI* pCmdUI);
-  afx_msg void OnPlayClaimContract();
-  afx_msg void OnDealGameHandEastWest();
-  afx_msg void OnDealMajorGameEastWest();
-  afx_msg void OnDealMinorGameEastWest();
-  afx_msg void OnDealNotrumpGameEastWest();
-  afx_msg void OnDealSlamEastWest();
-  afx_msg void OnDealSmallSlamEastWest();
-  afx_msg void OnDealGrandSlamEastWest();
-  afx_msg void OnUpdateGameAutoPlayExpress(CCmdUI* pCmdUI);
-  afx_msg void OnGameAutoPlayExpress();
-  afx_msg void OnUpdateFileProperties(CCmdUI* pCmdUI);
-  afx_msg void OnFileProperties();
-  afx_msg void OnUpdateDealNumberedHand(CCmdUI* pCmdUI);
-  afx_msg void OnDealNumberedHand();
-  afx_msg void OnUpdateGameAutoTest(CCmdUI* pCmdUI);
-  afx_msg void OnGameAutoTest();
+    afx_msg void OnNewGame();
+    afx_msg void OnFileOpen();
+    afx_msg void OnUpdateFileSave(CCmdUI* pCmdUI);
+    afx_msg void OnFileSave();
+    afx_msg void OnUpdateFileSaveAs(CCmdUI* pCmdUI);
+    afx_msg void OnFileSaveAs();
+    afx_msg void OnDealGameHand();
+    afx_msg void OnUpdateDealSpecial(CCmdUI* pCmdUI);
+    afx_msg void OnDealGrandSlam();
+    afx_msg void OnDealMajorGame();
+    afx_msg void OnDealMinorGame();
+    afx_msg void OnDealSlam();
+    afx_msg void OnDealSmallSlam();
+    afx_msg void OnDealNotrumpGame();
+    afx_msg void OnSwapNS_EWCards();
+    afx_msg void OnSwapPositionEast();
+    afx_msg void OnSwapPositionNorth();
+    afx_msg void OnSwapPositionWest();
+    afx_msg void OnUpdateRestartCurrentHand(CCmdUI* pCmdUI);
+    afx_msg void OnRestartCurrentHand();
+    afx_msg void OnSwapCardsClockwise();
+    afx_msg void OnSwapCardsCounterclockwise();
+    afx_msg void OnUpdateDealNewHand(CCmdUI* pCmdUI);
+    afx_msg void OnDealNewHand();
+    afx_msg void OnViewScore();
+    afx_msg void OnUpdateViewScore(CCmdUI* pCmdUI);
+    afx_msg void OnUpdatePlayRubber(CCmdUI* pCmdUI);
+    afx_msg void OnPlayRubber();
+    afx_msg void OnUpdatePlayClaimTricks(CCmdUI* pCmdUI);
+    afx_msg void OnPlayClaimTricks();
+    afx_msg void OnUpdatePlayConcedeTricks(CCmdUI* pCmdUI);
+    afx_msg void OnPlayConcedeTricks();
+    afx_msg void OnUpdateGameAutoPlay(CCmdUI* pCmdUI);
+    afx_msg void OnGameAutoPlay();
+    afx_msg void OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI);
+    afx_msg void OnGameAutoPlayAll();
+    afx_msg void OnUpdateClearAll(CCmdUI* pCmdUI);
+    afx_msg void OnClearAll();
+    afx_msg void OnUpdateSwapCards(CCmdUI* pCmdUI);
+    afx_msg void OnUpdateGameHint(CCmdUI* pCmdUI);
+    afx_msg void OnGameHint();
+    afx_msg void OnUpdatePlayClaimContract(CCmdUI* pCmdUI);
+    afx_msg void OnPlayClaimContract();
+    afx_msg void OnDealGameHandEastWest();
+    afx_msg void OnDealMajorGameEastWest();
+    afx_msg void OnDealMinorGameEastWest();
+    afx_msg void OnDealNotrumpGameEastWest();
+    afx_msg void OnDealSlamEastWest();
+    afx_msg void OnDealSmallSlamEastWest();
+    afx_msg void OnDealGrandSlamEastWest();
+    afx_msg void OnUpdateGameAutoPlayExpress(CCmdUI* pCmdUI);
+    afx_msg void OnGameAutoPlayExpress();
+    afx_msg void OnUpdateFileProperties(CCmdUI* pCmdUI);
+    afx_msg void OnFileProperties();
+    afx_msg void OnUpdateDealNumberedHand(CCmdUI* pCmdUI);
+    afx_msg void OnDealNumberedHand();
+    afx_msg void OnUpdateGameAutoTest(CCmdUI* pCmdUI);
+    afx_msg void OnGameAutoTest();
   //}}AFX_MSG
   DECLARE_MESSAGE_MAP()
 };

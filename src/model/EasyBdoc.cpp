@@ -163,7 +163,7 @@ void CEasyBDoc::Terminate() {
 /////////////////////////////////////////////////////////////////////////////
 // CEasyBDoc construction/destruction
 
-CEasyBDoc::CEasyBDoc() {
+CEasyBDoc::CEasyBDoc() : Deal(std::make_shared<AppImpl>()) {
   m_pDoc = this;
   //
   m_strFileProgTitle = theApp.GetValueString(tstrProgramTitle);
