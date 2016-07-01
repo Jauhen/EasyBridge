@@ -43,7 +43,7 @@ const int MAX_SPECIAL_DEAL_ITERATIONS = 200;
 //			  1 = Small Slam
 //			  2 = Grand Slam
 //
-void CEasyBDoc::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, int nDealNumber) {
+void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, int nDealNumber) {
   CString strFeedback;
 
   //
@@ -56,11 +56,11 @@ void CEasyBDoc::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTe
     return;
 
   // first clear all hands
-  InitNewHand();
+  pDOC->InitNewHand();
 
   // delete document info
   if (!m_bReviewingGame)
-    DeleteContents();
+    pDOC->DeleteContents();
 
   // save special deal code
   m_nSpecialDealCode = (nGameCode << 6) | (nSuitCode << 4) | (nSlamCode << 2) | nTeam;
@@ -151,7 +151,7 @@ shuffle:
   */
 
   // assign new hands
-  DealCards();
+  pDOC->DealCards();
 
 
   //
@@ -620,12 +620,12 @@ shuffle:
   pVIEW->ClearMode();
 
   // and begin play
-  InitPlay();
+  pDOC->InitPlay();
 }
 
 
 //
-void CEasyBDoc::DealSpecial(int nDealNumber, int nSpecialDealCode) {
+void Deal::DealSpecial(int nDealNumber, int nSpecialDealCode) {
   int nGameCode = (nSpecialDealCode & 0xC0) >> 6;
   int nSuitCode = (nSpecialDealCode & 0x30) >> 4;
   int nSlamCode = (nSpecialDealCode & 0x0C) >> 2;
@@ -642,7 +642,7 @@ void CEasyBDoc::DealSpecial(int nDealNumber, int nSpecialDealCode) {
 // - take a high face card from the nSource hand and swap it 
 //   for a lower card in the nDest hand
 //
-double CEasyBDoc::SwapPoints(int nDest, int nSource, double fMax,
+double Deal::SwapPoints(int nDest, int nSource, double fMax,
   int nGameCode, int nSuitCode, int nSlamCode) {
   //
   double fSrcPoints = PLAYER(nSource).CountCardPoints();
@@ -780,7 +780,7 @@ double CEasyBDoc::SwapPoints(int nDest, int nSource, double fMax,
 //
 // Swap two actual cards
 //
-BOOL CEasyBDoc::SwapPlayersCards(int nPlayer1, int nPlayer2,
+BOOL Deal::SwapPlayersCards(int nPlayer1, int nPlayer2,
   int nSuit1, int nSuit2,
   int nCard1, int nCard2,
   BOOL bResetCounts) {

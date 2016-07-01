@@ -51,7 +51,7 @@ void WriteString(int nLineCode, LPCTSTR szValue);
 //
 //---------------------------------------------------------
 //
-BOOL CEasyBDoc::WriteFile(CArchive& ar) {
+BOOL Deal::WriteFile(CArchive& ar) {
   pFile = ar.GetFile();
   ASSERT(pFile != NULL);
 
@@ -425,11 +425,11 @@ void WriteText(CArchive& ar, const CString& string) {
   //	pFile->Write(string, string.GetLength());
 }
 
-BOOL CEasyBDoc::ExportGameInfo(CArchive& ar) {
+BOOL Deal::ExportGameInfo(CArchive& ar) {
   // export game info
   // export hands
   WriteText(ar, "[Dealt Hands]\r\n");
-  CString strHands = FormatOriginalHands();
+  CString strHands = pDOC->FormatOriginalHands();
   WriteText(ar, strHands);
 
   // export bidding history
@@ -437,8 +437,8 @@ BOOL CEasyBDoc::ExportGameInfo(CArchive& ar) {
   WriteText(ar, "[Bidding History]\r\n");
   const CString strBiddingHistory = pMAINFRAME->GetBiddingHistory();
   WriteText(ar, strBiddingHistory);
-  if (ISBID(GetContract())) {
-    int nDeclarer = GetDeclarerPosition();
+  if (ISBID(pDOC->GetContract())) {
+    int nDeclarer = pDOC->GetDeclarerPosition();
     CString strContract = FormString("Contract: %s by %s; %s leads", pDOC->GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
     //		WriteText(pFile, strContract);
   }
@@ -450,7 +450,7 @@ BOOL CEasyBDoc::ExportGameInfo(CArchive& ar) {
   WriteText(ar, strPlayHistory);
 
   // export current hands
-  if (GetNumTricksPlayed() > 0) {
+  if (pDOC->GetNumTricksPlayed() > 0) {
     WriteText(ar, "\r\n\r\n\r\n");
     WriteText(ar, "[Current Hands]\r\n");
     CString strHands = pDOC->FormatCurrentHands();

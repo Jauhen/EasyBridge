@@ -149,7 +149,7 @@ static int nDataPosition = 0;;
 //
 //---------------------------------------------------------
 //
-BOOL CEasyBDoc::ReadFile(CArchive& ar) {
+BOOL Deal::ReadFile(CArchive& ar) {
   int i, nRtnCode, nLineCode, nSectionCode;
   int	nIndex, nValue, nOffset, nLen;
   int nPlayOffset, nPos;
@@ -568,7 +568,7 @@ BOOL CEasyBDoc::ReadFile(CArchive& ar) {
     }
   } catch (...) {
     // handle any improper file error here
-    ClearAllInfo();
+    pDOC->ClearAllInfo();
     //		AfxMessageBox("An error ocurred while reading the game file.");
     return FALSE;
   }
@@ -627,7 +627,7 @@ BOOL CEasyBDoc::ReadFile(CArchive& ar) {
     nTeam = GetOpposingTeam(nTeam);
   }
   if (ISBID(m_nContract))
-    UpdateBiddingHistory();
+    pDOC->UpdateBiddingHistory();
 
 
   // tally some figures
@@ -688,7 +688,7 @@ BOOL CEasyBDoc::ReadFile(CArchive& ar) {
 
 
 //
-void CEasyBDoc::AssignCards(CString& str, int nPosition, BOOL bInitialHand) {
+void Deal::AssignCards(CString& str, int nPosition, BOOL bInitialHand) {
   int i, nOffset = 0;
   int nLen = str.GetLength();
   BOOL bError = FALSE;
@@ -728,7 +728,7 @@ void CEasyBDoc::AssignCards(CString& str, int nPosition, BOOL bInitialHand) {
 //
 //---------------------------------------------------------
 //
-int CEasyBDoc::ParseLine(CString& string, int nLineLength) {
+int Deal::ParseLine(CString& string, int nLineLength) {
   int i, nEnd;
   //	int	nLen,nCode;
 
@@ -766,7 +766,7 @@ int CEasyBDoc::ParseLine(CString& string, int nLineLength) {
 //---------------------------------------------------------
 //
 //
-int CEasyBDoc::ReadLine(CArchive&ar, CString& strDest) {
+int Deal::ReadLine(CArchive&ar, CString& strDest) {
   int i, len, nBytesRead;
   BYTE  byte;
   char* pBuf;

@@ -10,10 +10,176 @@ class CCard;
 
 class Deal {
 public:
+  // game-related event codes
+  enum { EVENT_NONE = 0, EVENT_CLAIMED = 1, EVENT_CONCEDED = 2 };
+  enum { tnEasyBridgeFormat = 0, tnPBNFormat = 1, tnTextFormat = 2 };
+
   Deal(std::shared_ptr<AppInterface> app);
   ~Deal();
 
+  void DeleteContents();
+
+  //
+  void ClearAllInfo();
+  void ClearMatchInfo();
+  void ClearFileParameters();
+  void InitNewMatch();
+  void InitNewHand(BOOL bRestarting = FALSE);
+  int  DealCards();
+  void DealHands(BOOL bUseDealNumber = FALSE, int nDealNumber = 0);
+  void InitGameReview();
+  void LoadGameRecord(const CGameRecord& game);
+  void PlayGameRecord(int nGameIndex);
+  void ClearHands();
+  void ClearBiddingInfo();
+  void PrepForCardLayout();
+  void InitPlay(BOOL bRedrawScreen = TRUE, BOOL bRestarting = FALSE);
+  BOOL IsBidValid(int nBid);
+  int	 EnterBid(int nPos, int nBid);
+  int	 UndoBid();
+  void RestartBidding();
+  int  WasSuitBid(int nSuit) const;
+  int  GetSuitsBid(CArray<int, int>& suits) const;
+  int  GetSuitsUnbid(CArray<int, int>& suits) const;
+  void SetBiddingComplete();
+  void UpdateBiddingHistory();
+  void UpdatePlayHistory();
+  void BeginRound();
+  BOOL TestPlayValidity(Position nOrigin, CCard* pCard, BOOL bAlert = TRUE);
+  void EnterCardPlay(Position nPos, CCard* pCard);
+  void ClaimTricks(int nPos, int numTricks = 0);
+  void ConcedeTricks(int nPos);
+  void InvokeNextPlayer();
+  void EvaluateTrick(BOOL bQuietMode = FALSE);
+  void ClearTrick();
+  void UndoLastCardPlayed();
+  void UndoTrick();
+  void UndoPreviousTrick();
+  void RestoreInitialHands();
+  void OnGameComplete();
+  void PostProcessGame();
+  void ComputerReplay(BOOL bFullAuto);
+  void UpdateDisplay();
+  void RefreshDisplay();
+  void ResetDisplay();
+  void ShowAutoHint();
+  BOOL IsHintAvailable();
+  CString FormatOriginalHands();
+  CString FormatCurrentHands();
+  CString GetDealIDString();
+
+  // inline functions
+  BOOL IsInitialized() { return m_bInitialized; }
+  CPlayer* GetPlayer(int nIndex) const { return m_pPlayer[nIndex]; }
+  CPlayer* GetHumanPlayer() const { return m_pPlayer[SOUTH]; }
+  int GetHumanPlayerPos() const { return SOUTH; }
+  int	GetContract() const { return m_nContract; }
+  const CString GetContractString() const;
+  const CString GetFullContractString() const;
+  int	GetContractSuit() const { return m_nContractSuit; }
+  int	GetTrumpSuit() const { return m_nTrumpSuit; }
+  int	GetContractLevel() const { return m_nContractLevel; }
+  int GetContractModifier() const { return m_nContractModifier; }
+  BOOL IsContractDoubled() const { return m_bDoubled; }
+  BOOL IsContractRedoubled() const { return m_bRedoubled; }
+  int	GetDealer() const { return m_nDealer; }
+  CPlayer* GetDeclarer() const { return ISPLAYER(m_nDeclarer) ? m_pPlayer[m_nDeclarer] : NULL; }
+  int	GetDeclarerPosition() const { return m_nDeclarer; }
+  int GetDeclaringTeam() const { return GetPlayerTeam(m_nDeclarer); }
+  int	GetRoundLead() const { return m_nRoundLead; }
+  CPlayer* GetRoundLeadPlayer() const { return m_pPlayer[m_nRoundLead]; }
+  int	GetBiddingRound() const { return m_nBiddingRound; }
+  int	GetNumBidsMade() const { return m_numBidsMade; }
+  int GetOpeningBid() const { return m_nOpeningBid; }
+  int GetOpeningBidder() const { return m_nOpeningBidder; }
+  int	GetNumValidBidsMade() const { return m_numValidBidsMade; }
+  int	GetLastValidBid() const { return m_nLastValidBid; }
+  int	GetLastValidBidTeam() const { return m_nLastValidBidTeam; }
+  int GetBidByPlayer(int nPlayer, int nRound) const { return m_nBidsByPlayer[nPlayer][nRound]; }
+  int GetBidByPlayer(CPlayer* pPlayer, int nRound) const;
+  int GetBidByIndex(int nIndex) const { return m_nBiddingHistory[nIndex]; }
+  int GetValidBidRecord(int nIndex) const { return m_nValidBidHistory[nIndex]; }
+  int GetVulnerableTeam() const { return m_nVulnerableTeam; }
+  BOOL IsTeamVulnerable(int nTeam) { return m_bVulnerable[nTeam]; }
+  //	int	GetPlayRound() const { return m_nPlayRound; }
+  int	GetPlayRound() const { return m_numTricksPlayed; }
+  int	GetNumCardsPlayedInRound() const { return m_numCardsPlayedInRound; }
+  int	GetNumCardsPlayedInGame() const { return m_numCardsPlayedInGame; }
+  int	GetNumTricksPlayed() const { return m_numTricksPlayed; }
+  int	GetNumTricksRemaining() const { return 13 - m_numTricksPlayed; }
+  int	GetPlayRecord(int nIndex) const { return m_nPlayRecord[nIndex]; }
+  BOOL WasTrumpPlayed() const;
+  int    GetGameTrickLead(int nRound) const { return m_nTrickLead[nRound]; }
+  int    GetGameTrickWinner(int nRound) const { return m_nTrickWinner[nRound]; }
+  CCard* GetGameTrickCard(int nRound, int nPlayer) const { return m_pGameTrick[nRound][nPlayer]; }
+  CCard* GetCurrentTrickCardByOrder(int nOrder) const;
+  CCard* GetCurrentTrickCard(int nPos) const { return m_pCurrTrick[nPos]; }
+  CCard* GetCurrentTrickCardLed() const { return GetCurrentTrickCardByOrder(0); }
+  CCard* GetCurrentTrickHighCard(int* nPos = NULL)  const;
+  void SetCurrentTrickCard(int nPos, CCard* pCard) { m_pCurrTrick[nPos] = pCard; }
+  int	GetCurrentPlayerPosition() const { return m_nCurrPlayer; }
+  CPlayer* GetCurrentPlayer() const { return m_pPlayer[m_nCurrPlayer]; }
+  void SetCurrentPlayer(int nPlayer) { m_nCurrPlayer = nPlayer; }
+  int GetRoundWinner() const { return m_nRoundWinner; }
+  int GetRoundWinningTeam() { return m_nRoundWinningTeam; }
+  int GetNumTricksWonByTeam(int nTeam) { return m_numTricksWon[nTeam]; }
+  int GetDummyPosition() const { return m_nDummy; }
+  CPlayer* GetDummyPlayer() const { return m_pPlayer[m_nDummy]; }
+  BOOL IsDummyExposed() const { return m_bExposeDummy; }
+  void ExposeDummy(BOOL bExpose = TRUE, BOOL bRedraw = FALSE);
+  void GetGameHint(BOOL bAutoHintRequest = TRUE);
+  CTypedPtrArray<CPtrArray, CGameRecord*>& GetGameRecords() { return m_gameRecords; }
+  CGameRecord* GetGameRecord(int nIndex) { if ((nIndex < 0) || (nIndex > m_gameRecords.GetSize())) return NULL; return m_gameRecords[nIndex]; }
+  BOOL IsReviewingGame() { return m_bReviewingGame; }
+  BOOL IsGameReviewAvailable() { return m_bGameReviewAvailable; }
+  void SuppressBidHistoryUpdate(BOOL bCode = TRUE) { m_bSuppressBidHistoryUpdate = bCode; }
+  void SuppressPlayHistoryUpdate(BOOL bCode = TRUE) { m_bSuppressPlayHistoryUpdate = bCode; }
+
+
 protected:
+  void Initialize();
+  void Terminate();
+  void InitNewGame();
+  void PrepForNewDeal();
+  void RestartCurrentHand(BOOL bUpdateView);
+  void InitializeVulnerability();
+  void ClearPlayInfo();
+  void UpdateScore();
+  void DisplayScore();
+  void UpdateDuplicateScore();
+  void DisplayDuplicateScore();
+
+  //
+  void DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam = NORTH_SOUTH, int nDealNumber = 0);
+  void DealSpecial(int nDealNumber, int nSpecialDealCode);
+  double SwapPoints(int nDest, int nSource, double fMax, int nGameCode, int nSuitCode, int nSlamCode);
+  BOOL SwapPlayersCards(int nPlayer1, int nPlayer2, int nSuit1, int nSuit2, int nCard1, int nCard2, BOOL bResetCounts = FALSE);
+  void SwapPartialHands(int nPos1, int nPos2);
+
+  //
+  BOOL SwapPlayersHands(Position player1, Position player2, BOOL bRefresh = TRUE, BOOL bRestartBidding = TRUE);
+  void RotatePlayersHands(int nDirection, BOOL bRefresh = TRUE, BOOL bRestartBidding = TRUE);
+  void RotatePartialHands(int numPositions);
+
+  // I/O routines
+  BOOL ReadFile(CArchive& ar);
+  int ParseLine(CString& string, int nLineLength);
+  BOOL ReadFilePBN(CArchive& ar);
+  int ParseLinePBN(CString& string, CString& strTag, CString& strValue, int nLineLength);
+  int PreloadPBNFile(CArchive& ar, CStringArray& strLines);
+  int ReadLine(CArchive&ar, CString& strDest);
+  void AssignCards(CString& str, int nPosition, BOOL bInitialHand = FALSE);
+  int  ParseBidsPBN(CArchive& ar, const CString& strValue);
+  int  ParsePlaysPBN(CArchive& ar, const CString& strValue);
+  void AssignCardsPBN(const CString& str);
+  //void SaveCurrentGameRecord(BOOL bAllocNew = FALSE);
+  //
+  BOOL WriteFile(CArchive& ar);
+  BOOL WriteFilePBN(CArchive& ar);
+  BOOL ExportGameInfo(CArchive& ar);
+
+
+
   static BOOL m_bInitialized;
   CPlayer* m_pPlayer[4];
   // file info

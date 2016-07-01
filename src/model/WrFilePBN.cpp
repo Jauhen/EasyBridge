@@ -45,7 +45,7 @@ static void WriteComment(const CString& strValue);
 //
 // PBN File output routine
 //
-BOOL CEasyBDoc::WriteFilePBN(CArchive& ar) {
+BOOL Deal::WriteFilePBN(CArchive& ar) {
   pFile = ar.GetFile();
   ASSERT(pFile != NULL);
 

@@ -104,6 +104,8 @@ public:
 	int GetDummySuitToScreenIndex(int nIndex) { return m_nDummySuitToScreenIndex[nIndex]; }
 	RECT& GetRectSuitOffset(int nPlayer, int nSuit) { return m_rectSuitOffset[nPlayer][nSuit]; }
 
+  void ResetDummySuitSequence();
+
 
 // Data
 private:
@@ -233,7 +235,6 @@ private:
 	CCard* GetPlayerBottomCard(CPlayer& player);
 	void SetViewParameters(int cx=0, int cy=0);
 	void ResetSuitSequence();
-	void ResetDummySuitSequence();
 	void ResetSuitOffsets(Position nPos=UNKNOWN);
 	void DoOpeningSequence();
 	void OnDoRealize();

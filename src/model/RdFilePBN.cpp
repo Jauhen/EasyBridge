@@ -82,7 +82,7 @@ static int numLines;
 //
 //---------------------------------------------------------
 //
-BOOL CEasyBDoc::ReadFilePBN(CArchive& ar) {
+BOOL Deal::ReadFilePBN(CArchive& ar) {
   int nLineCode, nValue, nCode;
   CString strMessage, string, strTag, strValue, partString, strModifier;
   double fValue;
@@ -367,7 +367,7 @@ BOOL CEasyBDoc::ReadFilePBN(CArchive& ar) {
 //
 // ParseBidsPBN()
 //
-int CEasyBDoc::ParseBidsPBN(CArchive& ar, const CString& strValue) {
+int Deal::ParseBidsPBN(CArchive& ar, const CString& strValue) {
   CString string, partString;
 
   // read in the bids
@@ -450,7 +450,7 @@ int CEasyBDoc::ParseBidsPBN(CArchive& ar, const CString& strValue) {
 //
 // ParsePlaysPBN()
 //
-int CEasyBDoc::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
+int Deal::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
   CString string, partString;
 
   // read in the rest of the plays
@@ -537,7 +537,7 @@ int CEasyBDoc::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
 //
 // - preload the PBN file and strip comments
 //
-int CEasyBDoc::PreloadPBNFile(CArchive& ar, CStringArray& strLines) {
+int Deal::PreloadPBNFile(CArchive& ar, CStringArray& strLines) {
   int numLinesRead = 0;
   strLines.RemoveAll();
 
@@ -675,7 +675,7 @@ int CEasyBDoc::PreloadPBNFile(CArchive& ar, CStringArray& strLines) {
 //
 // AssignCardsPBN()
 //
-void CEasyBDoc::AssignCardsPBN(const CString& str) {
+void Deal::AssignCardsPBN(const CString& str) {
   CString strHoldings = str;
   strHoldings.TrimLeft();
 
@@ -727,7 +727,7 @@ void CEasyBDoc::AssignCardsPBN(const CString& str) {
     }
     // verify
     if (numCards != 13) {
-      ClearAllInfo();
+      pDOC->ClearAllInfo();
       pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY);
       AfxMessageBox("Invalid deal string!");
       AfxThrowFileException(CFileException::generic);
@@ -744,7 +744,7 @@ void CEasyBDoc::AssignCardsPBN(const CString& str) {
 
 
 //
-int CEasyBDoc::ParseLinePBN(CString& string, CString& strTag, CString& strValue, int nLineLength) {
+int Deal::ParseLinePBN(CString& string, CString& strTag, CString& strValue, int nLineLength) {
   // clear output
   strTag = strValue = "";
   // look for opening brackets
