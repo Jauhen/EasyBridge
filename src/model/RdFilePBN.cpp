@@ -727,7 +727,7 @@ void Deal::AssignCardsPBN(const CString& str) {
     }
     // verify
     if (numCards != 13) {
-      pDOC->ClearAllInfo();
+      ClearAllInfo();
       pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY);
       AfxMessageBox("Invalid deal string!");
       AfxThrowFileException(CFileException::generic);

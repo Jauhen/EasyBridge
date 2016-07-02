@@ -754,9 +754,6 @@
     <ClInclude Include="src\engine\deckopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\model\docopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\model\EasyBdoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>

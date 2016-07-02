@@ -21,7 +21,6 @@
 #include "engine/play/SuitHoldings.h"
 #include "StatusSheet.h"
 #include "subclass.h"
-#include "model/docopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -174,7 +173,7 @@ void CStatusCardLocationsPage::Update()
 	// return if not all inits are complete
 	if (!m_bInitialized)
 		return;
-	if ((pDOC == NULL) || !pDOC->GetValue(tbHandsDealt) || !theApp.IsGameInProgress())
+	if ((pDOC == NULL) || !pDOC->IsHandsDealt() || !theApp.IsGameInProgress())
 		return;
 
 	//

@@ -12,7 +12,6 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "model/EasyBDoc.h"
-#include "model/docopts.h"
 #include "saveopts.h"
 #include "progopts.h"
 #include "../Help/HelpCode.h"
@@ -41,15 +40,15 @@ CFileSaveOptionsDlg::CFileSaveOptionsDlg(CWnd* pParent /*=NULL*/)
 	m_bSaveIntermediatePositions = FALSE;
 	//}}AFX_DATA_INIT
 	CEasyBDoc* pDoc = CEasyBDoc::GetDoc();
-	m_bShowComments = pDoc->GetValue(tbShowCommentsUponOpen);
-	m_bShowBiddingHistory = pDoc->GetValue(tbShowBidHistoryUponOpen);
-	m_bShowPlayHistory = pDoc->GetValue(tbShowPlayHistoryUponOpen);
-	m_bShowAnalyses = pDoc->GetValue(tbShowAnalysesUponOpen);
-	m_bSaveSouthAnalysis = pDoc->GetValue(tbSavePlayerAnalysis, SOUTH);
-	m_bSaveWestAnalysis = pDoc->GetValue(tbSavePlayerAnalysis, WEST);
-	m_bSaveNorthAnalysis = pDoc->GetValue(tbSavePlayerAnalysis, NORTH);
-	m_bSaveEastAnalysis = pDoc->GetValue(tbSavePlayerAnalysis, EAST);
-	m_bSaveIntermediatePositions = pDoc->GetValue(tbDocSaveIntermediatePositions);
+	m_bShowComments = pDoc->IsShowCommentsUponOpen();
+	m_bShowBiddingHistory = pDoc->IsShowBidHistoryUponOpen();
+	m_bShowPlayHistory = pDoc->IsShowPlayHistoryUponOpen();
+	m_bShowAnalyses = pDoc->IsShowAnalysesUponOpen();
+	m_bSaveSouthAnalysis = pDoc->IsSavePlayerAnalysis(SOUTH);
+	m_bSaveWestAnalysis = pDoc->IsSavePlayerAnalysis(WEST);
+	m_bSaveNorthAnalysis = pDoc->IsSavePlayerAnalysis(NORTH);
+	m_bSaveEastAnalysis = pDoc->IsSavePlayerAnalysis(EAST);
+	m_bSaveIntermediatePositions = pDoc->IsSaveIntermediatePositions();
 }
 
 
@@ -86,15 +85,15 @@ void CFileSaveOptionsDlg::OnOk()
 {
 	UpdateData(TRUE);
 	CEasyBDoc* pDoc = CEasyBDoc::GetDoc();
-	pDoc->SetValue(tbShowCommentsUponOpen, m_bShowComments);
-	pDoc->SetValue(tbShowBidHistoryUponOpen, m_bShowBiddingHistory);
-	pDoc->SetValue(tbShowPlayHistoryUponOpen, m_bShowPlayHistory);
-	pDoc->SetValue(tbShowAnalysesUponOpen, m_bShowAnalyses);
-	pDoc->SetValue(tbSavePlayerAnalysis, m_bSaveSouthAnalysis, SOUTH);
-	pDoc->SetValue(tbSavePlayerAnalysis, m_bSaveWestAnalysis, WEST);
-	pDoc->SetValue(tbSavePlayerAnalysis, m_bSaveNorthAnalysis, NORTH);
-	pDoc->SetValue(tbSavePlayerAnalysis, m_bSaveEastAnalysis, EAST);
-	pDoc->SetValue(tbDocSaveIntermediatePositions, m_bSaveIntermediatePositions, EAST);
+	pDoc->ShowCommentsUponOpen(m_bShowComments);
+	pDoc->ShowBidHistoryUponOpen(m_bShowBiddingHistory);
+	pDoc->ShowPlayHistoryUponOpen(m_bShowPlayHistory);
+	pDoc->ShowAnalysesUponOpen(m_bShowAnalyses);
+	pDoc->SavePlayerAnalysis(SOUTH, m_bSaveSouthAnalysis);
+	pDoc->SavePlayerAnalysis(WEST, m_bSaveWestAnalysis);
+	pDoc->SavePlayerAnalysis(NORTH, m_bSaveNorthAnalysis);
+	pDoc->SavePlayerAnalysis(EAST, m_bSaveEastAnalysis);
+	pDoc->SaveIntermediatePositions(m_bSaveIntermediatePositions);
 	EndDialog(TRUE);	
 }
 

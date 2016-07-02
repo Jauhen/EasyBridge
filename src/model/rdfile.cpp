@@ -568,7 +568,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
     }
   } catch (...) {
     // handle any improper file error here
-    pDOC->ClearAllInfo();
+    ClearAllInfo();
     //		AfxMessageBox("An error ocurred while reading the game file.");
     return FALSE;
   }
@@ -627,7 +627,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
     nTeam = GetOpposingTeam(nTeam);
   }
   if (ISBID(m_nContract))
-    pDOC->UpdateBiddingHistory();
+    UpdateBiddingHistory();
 
 
   // tally some figures

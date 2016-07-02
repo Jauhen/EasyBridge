@@ -56,11 +56,11 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
     return;
 
   // first clear all hands
-  pDOC->InitNewHand();
+  InitNewHand();
 
   // delete document info
   if (!m_bReviewingGame)
-    pDOC->DeleteContents();
+    DeleteContents();
 
   // save special deal code
   m_nSpecialDealCode = (nGameCode << 6) | (nSuitCode << 4) | (nSlamCode << 2) | nTeam;
@@ -151,7 +151,7 @@ shuffle:
   */
 
   // assign new hands
-  pDOC->DealCards();
+  DealCards();
 
 
   //
@@ -620,7 +620,7 @@ shuffle:
   pVIEW->ClearMode();
 
   // and begin play
-  pDOC->InitPlay();
+  InitPlay();
 }
 
 

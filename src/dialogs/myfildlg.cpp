@@ -15,7 +15,6 @@
 #include "myfildlg.h"
 #include "saveopts.h"
 #include "progopts.h"
-#include "model/docopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -99,7 +98,7 @@ BOOL CMyFileDialog::OnInitDialog()
 		ASSERT(pEdit != NULL);
 		pEdit->SetReadOnly(FALSE);
 		pEdit->LimitText(255);
-		pEdit->SetWindowText((LPCTSTR)pDOC->GetValuePV(tstrFileDescription));
+		pEdit->SetWindowText((LPCTSTR)pDOC->GetFileDescription());
 	} 
 	else 
 	{
@@ -264,7 +263,7 @@ void CMyFileDialog::OnChangeFileDescription()
 	char* pszBuf = strTemp.GetBuffer(256);
 	GetDlgItemText(IDC_FILE_DESCRIPTION,pszBuf,255);
 	strTemp.ReleaseBuffer();	
-	pDOC->SetValue(tstrFileDescription,(LPCTSTR)strTemp);
+	pDOC->SetFileDescription(strTemp);
 }
 
 

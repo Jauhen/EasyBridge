@@ -49,7 +49,6 @@ private:
 	CProgConfigWizardData*		m_pData;
 	//
 	CObjectWithProperties&		m_app;
-	CObjectWithProperties&		m_doc;
 	CObjectWithProperties&		m_frame;
 	CObjectWithProperties&		m_view;
 	CObjectWithProperties&		m_conventionSet;
@@ -66,7 +65,7 @@ private:
 
 // Construction
 public:
-	CProgramConfigWizard(CObjectWithProperties* pApp, CObjectWithProperties* pDoc, CObjectWithProperties* pFrame, 
+	CProgramConfigWizard(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, 
 						 CObjectWithProperties* pView,  CObjectWithProperties* pConventionSet,
 						 CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 

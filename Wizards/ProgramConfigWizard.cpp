@@ -38,11 +38,11 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CProgramConfigWizard, CPropertySheet)
 
-CProgramConfigWizard::CProgramConfigWizard(CObjectWithProperties* pApp, CObjectWithProperties* pDoc, CObjectWithProperties* pFrame, 
+CProgramConfigWizard::CProgramConfigWizard(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, 
 										   CObjectWithProperties* pView,  CObjectWithProperties* pConventionSet,
 										   CWnd* pParentWnd, UINT iSelectPage)
 	: CPropertySheet(_T("Program Configuration Wizard"), pParentWnd, iSelectPage),
-	  m_app(*pApp), m_doc(*pDoc), m_frame(*pFrame), m_view(*pView), m_conventionSet(*pConventionSet)
+	  m_app(*pApp), m_frame(*pFrame), m_view(*pView), m_conventionSet(*pConventionSet)
 {
 	// create the data obejct
 	m_pData				= new CProgConfigWizardData;

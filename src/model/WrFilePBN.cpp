@@ -15,7 +15,6 @@
 #include "EasyBvw.h"
 #include "mainfrm.h"
 #include "progopts.h"
-#include "docopts.h"
 #include "engine/playeropts.h"
 #include "filecodePBN.h"
 #include "engine/Player.h"
@@ -140,7 +139,7 @@ BOOL Deal::WriteFilePBN(CArchive& ar) {
   //
   // write out the hands in comment form
   //
-  CString strHands = "{\r\n" + pDOC->FormatOriginalHands() + "}";
+  CString strHands = "{\r\n" + FormatOriginalHands() + "}";
   WriteLine(strHands);
 
   //

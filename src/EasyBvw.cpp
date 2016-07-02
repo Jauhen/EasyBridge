@@ -19,7 +19,6 @@
 #include "EasyBvw.h"
 #include "progopts.h"
 #include "viewopts.h"
-#include "model/docopts.h"
 #include "dialogs/BidDialog.h"
 #include "dialogs/GameReviewDialog.h"
 #include "MainframeOpts.h"
@@ -2199,7 +2198,7 @@ void CEasyBView::DisplayTricks(CDC* pSentDC)
 	y = m_ptTricksDisplayDest[1].y;
 	pDC->BitBlt(x, y, nLoserWidth, nLoserHeight, &tempDC, 0, 0, SRCCOPY);
 	tempDC.SelectObject(pOldBitmap);
-	strCount.Format("%d",pDOC->GetValue(tnumTricksWon,1));
+	strCount.Format("%d",pDOC->GetNumTricksWonByTeam(1));
 	size = pDC->GetTextExtent((LPCTSTR)strCount,strCount.GetLength());
 	int nOffset = (m_ptTricksDisplayDest[1].x + nLoserWidth) - (m_ptTricksDisplayDest[0].x + nWinnerWidth);
 	cx = (nOffset - size.cx) / 2;
@@ -2213,7 +2212,7 @@ void CEasyBView::DisplayTricks(CDC* pSentDC)
 	y = m_ptTricksDisplayDest[0].y;
 	pDC->BitBlt(x, y, nWinnerWidth, nWinnerHeight, &tempDC, 0, 0, SRCCOPY);
 	tempDC.SelectObject(pOldBitmap);
-	strCount.Format("%d",pDOC->GetValue(tnumTricksWon,0));
+	strCount.Format("%d",pDOC->GetNumTricksWonByTeam(0));
 	size = pDC->GetTextExtent((LPCTSTR)strCount,strCount.GetLength());
 	cx = (nWinnerWidth - size.cx) / 2;
 	cy = (nWinnerHeight - size.cy) / 2;
@@ -2241,7 +2240,7 @@ void CEasyBView::OnRefreshScreen()
 //
 void CEasyBView::OnUpdateFilePrint(CCmdUI* pCmdUI) 
 {
-	if (pDOC->GetValue(tbHandsDealt))
+	if (pDOC->IsHandsDealt())
 		pCmdUI->Enable(TRUE);
 	else
 		pCmdUI->Enable(FALSE);
@@ -2255,7 +2254,7 @@ void CEasyBView::OnFilePrint()
 //
 void CEasyBView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI) 
 {
-	if (pDOC->GetValue(tbHandsDealt))
+	if (pDOC->IsHandsDealt())
 		pCmdUI->Enable(TRUE);
 	else
 		pCmdUI->Enable(FALSE);
@@ -2566,7 +2565,7 @@ void CEasyBView::OnLayoutCards()
 			// preset dealer
 			if (bDuplicate && (m_nCurrMode == MODE_EDITHANDS))
 			{
-				int nVul = pDOC->GetValue(tnVulnerableTeam);
+				int nVul = pDOC->GetVulnerableTeam();
 				switch(nVul)
 				{
 					case NEITHER:
@@ -2588,17 +2587,17 @@ void CEasyBView::OnLayoutCards()
 			handDialog.DoModal();
 
 			// set dealer
-			pDOC->SetValue(tnDealer, handDialog.m_nPosition);
-			pDOC->SetValue(tnCurrentPlayer, handDialog.m_nPosition);
+			pDOC->SetDealer(handDialog.m_nPosition);
+			pDOC->SetCurrentPlayer(handDialog.m_nPosition);
 
 			// set vulnerable
 			if (bDuplicate)
 			{
-				int nVulnTeam;
+				Team nVulnTeam;
 				switch(handDialog.m_nVulnerability)
 				{
 					case 0:
-						nVulnTeam = GetRandomValue(3) - 1;
+						nVulnTeam = static_cast<Team>(GetRandomValue(3) - 1);
 						break;
 					case 1:
 						nVulnTeam = NEITHER;
@@ -2613,7 +2612,7 @@ void CEasyBView::OnLayoutCards()
 						nVulnTeam = EAST_WEST;
 						break;
 				}
-				pDOC->SetValue(tnVulnerableTeam, nVulnTeam);
+				pDOC->SetVulnerableTeam(nVulnTeam);
 			}
 /*
 			// note that for new deals, the dealer is automatically 
@@ -2664,7 +2663,7 @@ void CEasyBView::OnLayoutCards()
 //		UpdateWindow();
 
 		// mark that the current hand cannot be reproduced by ID
-		pDOC->SetValue(tbDealNumberAvailable, FALSE);
+		pDOC->SetDealNumberAvailable(FALSE);
 
 		// if in the course of play, restore initial hands 
 		if (theApp.GetValue(tbGameInProgress))
@@ -2674,7 +2673,7 @@ void CEasyBView::OnLayoutCards()
 		}
 
 		// clear display
-		if (pDOC->GetValue(tbHandsDealt)) 
+		if (pDOC->IsHandsDealt())
 		{
 			CDC* pDC = GetDC();
 			OnEraseBkgnd(pDC);
@@ -2746,7 +2745,7 @@ void CEasyBView::ClearCardExchangeMode()
 //
 void CEasyBView::OnUpdateEditExistingHands(CCmdUI* pCmdUI) 
 {
-	if (!pDOC->GetValue(tbHandsDealt) || (m_nCurrMode == MODE_CARDLAYOUT))
+	if (!pDOC->IsHandsDealt() || (m_nCurrMode == MODE_CARDLAYOUT))
 		pCmdUI->Enable(FALSE);
 	//
 	if (m_nCurrMode == MODE_EDITHANDS)
@@ -2789,7 +2788,7 @@ void CEasyBView::OnEditExistingHands()
 	UpdateWindow();
 
 	// mark that the current hand cannot be reproduced by ID
-	pDOC->SetValue(tbDealNumberAvailable, FALSE);
+	pDOC->SetDealNumberAvailable(FALSE);
 
 	// if in the course of play, restore initial hands 
 	if (theApp.GetValue(tbGameInProgress))
@@ -2941,10 +2940,10 @@ void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI)
 		pCmdUI->SetText("Bid\tF3");	
 	}
 	//
-	BOOL foo = pDOC->GetValue(tbHandsDealt);
+	BOOL foo = pDOC->IsHandsDealt();
 	BOOL ack = theApp.GetValue(tbBiddingInProgress);
 	//
-	if ((!pDOC->GetValue(tbHandsDealt)) ||
+	if ((!pDOC->IsHandsDealt()) ||
 //				(theApp.GetValue(tbBiddingInProgress)) ||
 							(m_nCurrMode == MODE_CARDLAYOUT) ||
 							(m_nCurrMode == MODE_EDITHANDS))
@@ -3000,7 +2999,7 @@ void CEasyBView::OnBidCurrentHand()
 	}
 
 	// verify that the cards have been dealt
-	if (!pDOC->GetValue(tbHandsDealt))
+	if (!pDOC->IsHandsDealt())
 	{
 		EnableRefresh();
 		return;
@@ -3186,7 +3185,7 @@ void CEasyBView::BeginPlay()
 		pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
 
 	//
-	if (pDOC->GetValue(tbAutoReplayMode))
+	if (pDOC->IsAutoReplayMode())
 		pMAINFRAME->SetStatusText("Performing computer replay...");
 	else
 		PromptLead();
@@ -3201,7 +3200,7 @@ void CEasyBView::BeginPlay()
 		JumpCursor();
 
 	// get the ball rolling
-	if (pDOC->GetValue(tbAutoReplayMode))
+	if (pDOC->IsAutoReplayMode())
 		AdvanceToNextPlayer();
 	else
 		pDOC->BeginRound();
@@ -3242,7 +3241,7 @@ void CEasyBView::RestartPlay()
 	// if in computer replay, or the lead is human, we might begin play immediately;
 	// else wait for a click to begin play again
 	//
-	if (pDOC->GetValue(tbAutoReplayMode))
+	if (pDOC->IsAutoReplayMode())
 	{
 		if (theApp.InExpressAutoPlay())
 		{

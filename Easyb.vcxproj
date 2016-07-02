@@ -424,7 +424,6 @@
     <ClInclude Include="src\engine\play\Discard.h" />
     <ClInclude Include="src\engine\play\DisplayHoldings.H" />
     <ClInclude Include="src\model\deal.h" />
-    <ClInclude Include="src\model\docopts.h" />
     <ClInclude Include="src\DrawParameters.h" />
     <ClInclude Include="src\engine\play\Drop.h" />
     <ClInclude Include="src\engine\bidding\DruryConvention.h" />

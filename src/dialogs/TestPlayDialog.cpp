@@ -19,7 +19,6 @@
 #include "subclass.h"
 #include "progopts.h"
 #include "MainFrameopts.h"
-#include "model/docopts.h"
 #include "mmsystem.h"
 
 #ifdef _DEBUG
@@ -331,7 +330,7 @@ void CTestPlayDialog::OnStart()
 
 		// now play out the hand -- play on full auto
 		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
-		pDOC->SetValue(tbExpressPlayMode, TRUE);
+		pDOC->SetExpressPlayMode(TRUE);
 		pDOC->InvokeNextPlayer();
 
 		// pump the mesage loop while the hand is being played out
@@ -348,7 +347,7 @@ void CTestPlayDialog::OnStart()
 		} 
 
 		// reset flags
-		pDOC->SetValue(tbExpressPlayMode, FALSE);
+		pDOC->SetExpressPlayMode(FALSE);
 
 		// end timer 
 		lNumHands++;

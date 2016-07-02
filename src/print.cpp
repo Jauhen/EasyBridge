@@ -13,7 +13,6 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "model/EasyBdoc.h"
-#include "model/DocOpts.h"
 #include "mainfrm.h"
 #include "EasyBvw.h"
 #include "progopts.h"

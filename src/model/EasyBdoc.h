@@ -14,27 +14,15 @@
 #define __EASYBDOC__
 
 #include "model/deal.h"
-#include "ObjectWithProperties.h"
 #include "EventProcessor.h"
 class CPlayer;
 class CCard;
 class CGameRecord;
 
 
-class CEasyBDoc : public Deal, public CDocument, public CObjectWithProperties, public CEventProcessor {
+class CEasyBDoc : public Deal, public CDocument {
   // public routines
 public:
-  // property get/set operations
-  LPVOID GetValuePV(int nItem, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0) const;
-  LPCTSTR GetValueString(int nItem, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0) const;
-  double GetValueDouble(int nItem, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0) const;
-  int GetValue(int nItem, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0) const;
-  int SetValuePV(int nItem, LPVOID value, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0);
-  int SetValue(int nItem, double fValue, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0);
-  int SetValue(int nItem, LPCTSTR szValue, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0);
-  int SetValue(int nItem, int nValue, int nIndex1 = 0, int nIndex2 = 0, int nIndex3 = 0);
-  // Event Processor
-  bool Notify(long lCode, long param1 = 0, long param2 = 0, long param3 = 0) { return false; }
   //
   static CEasyBDoc* GetDoc();
   // public access points

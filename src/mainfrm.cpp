@@ -21,7 +21,6 @@
 #include "engine/Player.h"
 #include "engine/Deck.h"
 #include "progopts.h"
-#include "model/docopts.h"
 #include "viewopts.h"
 #include "dialogs/CardLayout.h"
 #include "dialogs/FileComments.h"
@@ -1666,7 +1665,7 @@ void CMainFrame::DisplayVulnerable(BOOL bClear)
 	if (theApp.IsRubberInProgress() || pDOC->IsReviewingGame() || 
 				theApp.IsUsingDuplicateScoring())
 	{
-		switch(pDOC->GetValue(tnVulnerableTeam)) 
+		switch(pDOC->GetVulnerableTeam()) 
 		{
 			case NEITHER:
 				strMessage = "V: None";
@@ -1772,11 +1771,11 @@ void CMainFrame::SetModeIndicator(LPCTSTR szText)
 	// use the last pane as a mode indicator
 	if (szText == NULL) 
 	{
-		if (pDOC->GetValue(tbAutoReplayMode))
+		if (pDOC->IsAutoReplayMode())
 			m_pWndStatusBar->SetPaneText(4,"Replay");
 		else if (theApp.GetValue(tbRubberInProgress))
 			m_pWndStatusBar->SetPaneText(4,"Match");
-		else if (pDOC->GetValue(tbReviewingGame))
+		else if (pDOC->IsReviewingGame())
 			m_pWndStatusBar->SetPaneText(4,"Review");
 		else
 			m_pWndStatusBar->SetPaneText(4,"Practice");
@@ -1997,7 +1996,7 @@ void CMainFrame::OnProgConfigWizard()
 {
 	// why is the cast necessary? (VC++ won't acceept it otherwise!)
 //	CProgramConfigWizard configWizard(&theApp, pDOC, pMAINFRAME, pVIEW, pCurrConvSet);
-	CProgramConfigWizard configWizard(&theApp, pDOC, pMAINFRAME, pVIEW, (CObjectWithProperties*)pCurrConvSet);
+	CProgramConfigWizard configWizard(&theApp, pMAINFRAME, pVIEW, (CObjectWithProperties*)pCurrConvSet);
 	configWizard.InitOptions(FALSE);
 
 	//
@@ -2129,7 +2128,7 @@ void CMainFrame::OnDisplayOptions()
 	{
 		dispOptsDialog.UpdateAllPages();
 		if ( dispOptsDialog.m_bGlobalDisplayAffected ||
-			 ((dispOptsDialog.m_bDisplayAffected) && pDOC->GetValue(tbHandsDealt)) )
+			 ((dispOptsDialog.m_bDisplayAffected) && pDOC->IsHandsDealt()) )
 		{
 			theApp.InitDummySuitSequence(pDOC->GetTrumpSuit(), pDOC->GetDummyPosition());	
 			for(int i=0;i<4;i++)

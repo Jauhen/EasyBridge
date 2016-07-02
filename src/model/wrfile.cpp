@@ -15,7 +15,6 @@
 #include "EasyBvw.h"
 #include "mainfrm.h"
 #include "progopts.h"
-#include "docopts.h"
 #include "engine/playeropts.h"
 #include "filecode.h"
 #include "engine/Player.h"
@@ -207,7 +206,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
     int numTricks = m_numTricksPlayed;
 
     // see if the current trick is incomplete
-    if ((pDOC->GetNumCardsPlayedInRound() > 0) && (numTricks < 13))
+    if ((GetNumCardsPlayedInRound() > 0) && (numTricks < 13))
       numTricks++;
     WriteInt(ITEM_NUM_TRICKS_PLAYED, numTricks);
 
@@ -429,7 +428,7 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   // export game info
   // export hands
   WriteText(ar, "[Dealt Hands]\r\n");
-  CString strHands = pDOC->FormatOriginalHands();
+  CString strHands = FormatOriginalHands();
   WriteText(ar, strHands);
 
   // export bidding history
@@ -437,9 +436,9 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   WriteText(ar, "[Bidding History]\r\n");
   const CString strBiddingHistory = pMAINFRAME->GetBiddingHistory();
   WriteText(ar, strBiddingHistory);
-  if (ISBID(pDOC->GetContract())) {
-    int nDeclarer = pDOC->GetDeclarerPosition();
-    CString strContract = FormString("Contract: %s by %s; %s leads", pDOC->GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
+  if (ISBID(GetContract())) {
+    int nDeclarer = GetDeclarerPosition();
+    CString strContract = FormString("Contract: %s by %s; %s leads", GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
     //		WriteText(pFile, strContract);
   }
 
@@ -450,10 +449,10 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   WriteText(ar, strPlayHistory);
 
   // export current hands
-  if (pDOC->GetNumTricksPlayed() > 0) {
+  if (GetNumTricksPlayed() > 0) {
     WriteText(ar, "\r\n\r\n\r\n");
     WriteText(ar, "[Current Hands]\r\n");
-    CString strHands = pDOC->FormatCurrentHands();
+    CString strHands = FormatCurrentHands();
     WriteText(ar, strHands);
   }
 

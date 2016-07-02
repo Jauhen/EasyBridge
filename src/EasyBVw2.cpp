@@ -16,7 +16,6 @@
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "progopts.h"
-#include "model/docopts.h"
 #include "DrawParameters.h"
 #include "dialogs/ScreenSizeWarningDlg.h"
 #include <limits.h>
@@ -41,7 +40,7 @@ void CEasyBView::AdvanceToNextPlayer()
 			  (pDOC->GetCurrentPlayer()->IsDefending())) ) 
 		bManualPlay = TRUE;
 	// it's not manual if computer is replaying
-	if (pDOC->GetValue(tbAutoReplayMode))
+	if (pDOC->IsAutoReplayMode())
 		bManualPlay = FALSE;
 
 	//

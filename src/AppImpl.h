@@ -7,7 +7,6 @@
 #include "StatusWnd.h"
 #include "MainFrameopts.h"
 #include "GIB.h"
-#include "model/docopts.h"
 
 class AppImpl : public AppInterface {
 public:
@@ -377,7 +376,7 @@ public:
   }
 
   virtual int GetNumberOfTricksWonByTeam(int team) const {
-    return pDOC->GetValue(tnumTricksWon, team);
+    return pDOC->GetNumTricksWonByTeam(team);
   }
 
   virtual int GetContractLevel() const {

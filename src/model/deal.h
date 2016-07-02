@@ -83,6 +83,7 @@ public:
   BOOL IsContractDoubled() const { return m_bDoubled; }
   BOOL IsContractRedoubled() const { return m_bRedoubled; }
   int	GetDealer() const { return m_nDealer; }
+  void SetDealer(int val) { m_nDealer = val;  }
   CPlayer* GetDeclarer() const { return ISPLAYER(m_nDeclarer) ? m_pPlayer[m_nDeclarer] : NULL; }
   int	GetDeclarerPosition() const { return m_nDeclarer; }
   int GetDeclaringTeam() const { return GetPlayerTeam(m_nDeclarer); }
@@ -100,6 +101,7 @@ public:
   int GetBidByIndex(int nIndex) const { return m_nBiddingHistory[nIndex]; }
   int GetValidBidRecord(int nIndex) const { return m_nValidBidHistory[nIndex]; }
   int GetVulnerableTeam() const { return m_nVulnerableTeam; }
+  void SetVulnerableTeam(Team val) { m_nVulnerableTeam = val; }
   BOOL IsTeamVulnerable(int nTeam) { return m_bVulnerable[nTeam]; }
   //	int	GetPlayRound() const { return m_nPlayRound; }
   int	GetPlayRound() const { return m_numTricksPlayed; }
@@ -136,6 +138,27 @@ public:
   void SuppressPlayHistoryUpdate(BOOL bCode = TRUE) { m_bSuppressPlayHistoryUpdate = bCode; }
 
 
+  CString GetFileDescription() const { return m_strFileDescription; }
+  void SetFileDescription(CString val) { m_strFileDescription = val; }
+  CString GetFileComments() const { return m_strFileComments; }
+  void SetFileComments(CString val) { m_strFileComments = val; }
+  void SetDealNumberAvailable(BOOL val) { m_bDealNumberAvailable = val; }
+  BOOL IsHandsDealt() const { return m_bHandsDealt; }
+  BOOL IsShowCommentsUponOpen() const { return m_bShowCommentsUponOpen; }
+  void ShowCommentsUponOpen(BOOL val) { m_bShowCommentsUponOpen = val; }
+  BOOL IsShowBidHistoryUponOpen() const { return m_bShowBidHistoryUponOpen; }
+  void ShowBidHistoryUponOpen(BOOL val) { m_bShowBidHistoryUponOpen = val; }
+  BOOL IsShowPlayHistoryUponOpen() const { return m_bShowPlayHistoryUponOpen; }
+  void ShowPlayHistoryUponOpen(BOOL val) { m_bShowPlayHistoryUponOpen = val; }
+  BOOL IsShowAnalysesUponOpen() const { return m_bShowAnalysesUponOpen; }
+  void ShowAnalysesUponOpen(BOOL val) { m_bShowAnalysesUponOpen = val; }
+  BOOL IsSavePlayerAnalysis(Position pos) const { return m_bSavePlayerAnalysis[pos]; }
+  void SavePlayerAnalysis(Position pos, BOOL val) { m_bSavePlayerAnalysis[pos] = val; }
+  BOOL IsSaveIntermediatePositions() const { return m_bSaveIntermediatePositions; }
+  void SaveIntermediatePositions(BOOL val) { m_bSaveIntermediatePositions = val; }
+  void SetExpressPlayMode(BOOL val) { m_bExpressPlayMode = val; }
+  BOOL IsAutoReplayMode() const { return m_bAutoReplayMode; }
+  void SetAutoReplayMode(BOOL val) { m_bAutoReplayMode = val; }
 protected:
   void Initialize();
   void Terminate();

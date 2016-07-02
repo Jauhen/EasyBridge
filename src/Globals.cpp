@@ -777,8 +777,11 @@ const CString ContractToString(int nContract, int nModifier)
 	strBid.Format("%d%s", 
 				  BID_LEVEL(nContract), 
 				  szSuitNameShort[BID_SUIT(nContract)]);
-	if (nModifier > 0)
-		strBid += FormString(" %s", ((nModifier == 1)? "X" : "XX"));
+  if (nModifier == 1) {
+    strBid += " X";
+  } else if (nModifier == 2) {
+    strBid += " XX";
+  }
 	return strBid;
 }
 
