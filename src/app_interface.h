@@ -5,6 +5,7 @@
 class CGIB;
 class CHandHoldings;
 class CPlayerStatusDialog;
+class CRoundFinishedDialog;
 class CAutoHintDialog;
 
 class AppInterface {
@@ -59,6 +60,7 @@ public:
   virtual std::shared_ptr<CDeck> GetDeck() = 0;
   virtual bool IsLowResOption() = 0;
   virtual bool IsEnableDealNumbering() = 0;
+  virtual void SetFeedbackText(const char* msg) = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -78,6 +80,38 @@ public:
   virtual void UpdateStatusWindowWithPlayPlanAndSuitStatus() = 0;
   virtual CDC* GetDC() = 0;
   virtual void ReleaseDC(CDC* dc) = 0;
+  virtual void UpdateStatusWindow() = 0;
+  virtual void SetGIBMonitorText(const char* text) = 0;
+  virtual bool IsMainFrameExists() = 0;
+  virtual void SetStatusMessage(const char* msg) = 0;
+  virtual void ClearAllIndicators() = 0;
+  virtual void SetAllIndicators() = 0;
+  virtual void ExposeAllCards() = 0;
+  virtual void UpdateFileCommentsDialog(bool updateVariable = false) = 0;
+  virtual void SetHintDialogText(const char* msg) = 0;
+  virtual void ClearHintDialog() = 0;
+  virtual void SetBiddingHistory(const char* msg, bool useSuitSymbols = false) = 0;
+  virtual void SetPlainBiddingHistory(const char* msg) = 0;
+  virtual void DisableHintDialog() = 0;
+  virtual void EnableHintDialog() = 0;
+  virtual void RestartCurrentHand() = 0;
+  virtual void SetStatusText(const char* msg) = 0;
+  virtual void HideAutoHintDialog() = 0;
+  virtual void SetModeIndicator() = 0;
+  virtual void DisplayTricks() = 0;
+  virtual void ClearStatusMessage() = 0;
+  virtual void ClearAutoHints() = 0;
+  virtual std::shared_ptr<CRoundFinishedDialog> NewRoundFinishedDialog() = 0;
+  virtual void MakeGameReviewDialogVisible() = 0;
+  virtual void SetPlayHistory(const char* msg, bool useSuitSymbols = false) = 0;
+  virtual void SetPlainPlayHistory(const char* msg) = 0;
+  virtual void SetAutoPlayMode(bool isFullAuto) = 0;
+  virtual void ShowAutoHintDialog() = 0;
+  virtual void FlashBidDialogButton(int bid) = 0;
+  virtual void RegisterBid(int bid) = 0;
+  virtual void ResetStatusMessage() = 0;
+  virtual const CString GetBiddingHistory() = 0;
+  virtual const CString GetPlayHistory() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -135,6 +169,11 @@ public:
   virtual bool IsDummyExposed() const = 0;
   virtual int GetSuitsUnbid(CArray<int, int> &suits) const = 0;
   virtual int GetDeclaringTeam() const = 0;
+  virtual void OnNewDocument() = 0;
+  virtual void OnDealNewHand() = 0;
+  virtual void EndWaitCursorDoc() = 0;
+  virtual void OnRestartCurrentHand() = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //

@@ -11,16 +11,13 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "mainfrm.h"
-#include "MainFrameOpts.h"
 #include "filecode.h"
 #include "progopts.h"
 #include "engine/deck.h"
 #include "engine/card.h"
-
+#include "model/deal.h"
 #ifdef _DEBUG
 #undef THIS_FILE
 static char BASED_CODE THIS_FILE[] = __FILE__;
@@ -214,9 +211,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
                   nRtnCode = ReadLine(ar, strBuf);
                   if ((nRtnCode == EOF) || (strBuf.Left(2) == "[[")) {
                     // update file comments dialog if it's open
-                    CWnd* pWnd = pMAINFRAME->GetDialog(twFileCommentsDialog);
-                    if (pWnd)
-                      pWnd->SendMessage(WM_COMMAND, WMS_UPDATE_TEXT, FALSE);
+                    app_->UpdateFileCommentsDialog();
                     goto next;
                   }
                   strBuf += "\r\n";
@@ -706,9 +701,9 @@ void Deal::AssignCards(CString& str, int nPosition, BOOL bInitialHand) {
         bError = TRUE;
       } else {
         if (bInitialHand)
-          PLAYER(nPosition).AddCardToInitialHand(pCard);
+          m_pPlayer[nPosition]->AddCardToInitialHand(pCard);
         else
-          PLAYER(nPosition).AddCardToHand(pCard, FALSE);
+          m_pPlayer[nPosition]->AddCardToHand(pCard, FALSE);
       }
     } else {
       break;

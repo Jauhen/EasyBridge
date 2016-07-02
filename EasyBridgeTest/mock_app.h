@@ -1,6 +1,7 @@
 #pragma once
 #include <gmock/gmock.h>
 #include "app_interface.h"
+#include "dialogs/roundfinisheddialog.h"
 #include "GIB.h"
 
 class MockApp : public AppInterface {
@@ -47,6 +48,7 @@ public:
   MOCK_METHOD0(GetDeck, std::shared_ptr<CDeck>());
   MOCK_METHOD0(IsLowResOption, bool());
   MOCK_METHOD0(IsEnableDealNumbering, bool());
+  MOCK_METHOD1(SetFeedbackText, void(const char* msg));
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
@@ -97,6 +99,10 @@ public:
   MOCK_CONST_METHOD0(IsDummyExposed, bool());
   MOCK_CONST_METHOD1(GetSuitsUnbid, int(CArray<int, int> &suits));
   MOCK_CONST_METHOD0(GetDeclaringTeam, int());
+  MOCK_METHOD0(OnNewDocument, void());
+  MOCK_METHOD0(OnDealNewHand, void());
+  MOCK_METHOD0(EndWaitCursorDoc, void());
+  MOCK_METHOD0(OnRestartCurrentHand, void());
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
@@ -119,6 +125,43 @@ public:
   MOCK_METHOD0(UpdateStatusWindowWithPlayPlanAndSuitStatus, void());
   MOCK_METHOD0(GetDC, CDC*());
   MOCK_METHOD1(ReleaseDC, void(CDC* dc));
+  MOCK_METHOD0(UpdateStatusWindow, void());
+  MOCK_METHOD1(SetGIBMonitorText, void(const char* text));
+  MOCK_METHOD0(IsMainFrameExists, bool());
+  MOCK_METHOD1(SetStatusMessage, void(const char* msg));
+  MOCK_METHOD0(ClearAllIndicators, void());
+  MOCK_METHOD0(SetAllIndicators, void());
+  MOCK_METHOD0(ExposeAllCards, void());
+  MOCK_METHOD0(UpdateFileCommentsDialog, void());
+  MOCK_METHOD1(UpdateFileCommentsDialog, void(bool updateVariable));
+  MOCK_METHOD1(SetHintDialogText, void(const char* msg));
+  MOCK_METHOD0(ClearHintDialog, void());
+  MOCK_METHOD1(SetBiddingHistory, void(const char* msg));
+  MOCK_METHOD2(SetBiddingHistory, void(const char* msg, bool useSuitSymbols));
+  MOCK_METHOD1(SetPlainBiddingHistory, void(const char* msg));
+  MOCK_METHOD0(DisableHintDialog, void());
+  MOCK_METHOD0(EnableHintDialog, void());
+  MOCK_METHOD0(RestartCurrentHand, void());
+  MOCK_METHOD1(SetStatusText, void(const char* msg));
+  MOCK_METHOD0(HideAutoHintDialog, void());
+  MOCK_METHOD0(SetModeIndicator, void());
+  MOCK_METHOD0(DisplayTricks, void());
+  MOCK_METHOD0(ClearStatusMessage, void());
+  MOCK_METHOD0(ClearAutoHints, void());
+  MOCK_METHOD0(NewRoundFinishedDialog, std::shared_ptr<CRoundFinishedDialog>());
+  MOCK_METHOD0(MakeGameReviewDialogVisible, void());
+  MOCK_METHOD1(SetPlayHistory, void(const char* msg));
+  MOCK_METHOD2(SetPlayHistory, void(const char* msg, bool useSuitSymbols));
+  MOCK_METHOD1(SetPlainPlayHistory, void(const char* msg));
+  MOCK_METHOD1(SetAutoPlayMode, void(bool isFullAuto));
+  MOCK_METHOD0(ShowAutoHintDialog, void());
+  MOCK_METHOD1(FlashBidDialogButton, void(int bid));
+  MOCK_METHOD1(RegisterBid, void(int bid));
+  MOCK_METHOD0(ResetStatusMessage, void());
+  MOCK_METHOD0(GetBiddingHistory, const CString());
+  MOCK_METHOD0(GetPlayHistory, const CString());
+
+
 
   MOCK_METHOD2(ContractToFullString, const CString(int contract, int modifier));
   MOCK_METHOD1(PositionToString, const char* (int pos));

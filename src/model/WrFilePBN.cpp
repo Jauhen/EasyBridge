@@ -11,17 +11,15 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
 #include "EasyBvw.h"
-#include "mainfrm.h"
 #include "progopts.h"
 #include "engine/playeropts.h"
 #include "filecodePBN.h"
 #include "engine/Player.h"
 #include "engine/Card.h"
-#include "MainFrameOpts.h"
 #include "engine/play/HandHoldings.h"
 #include "engine/play/CardHoldings.h"
+#include "model/deal.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

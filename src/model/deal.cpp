@@ -7,17 +7,11 @@
 #include "engine/play/CardHoldings.h"
 #include "engine/play/HandHoldings.h"
 
-#include "afxwin.h"
 #include "mmsystem.h"
 #include "MyException.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
 #include "EasyBvw.h"
-#include "mainfrm.h"
-#include "MainFrameopts.h"
 #include "progopts.h"
-#include "dialogs/AutoHintDialog.h"
-#include "dialogs/BidDialog.h"
 #include "dialogs/roundfinisheddialog.h"
 #include "dialogs/ScoreDialog.h"
 #include "dialogs/SelectHandDialog.h"
@@ -133,10 +127,10 @@ void Deal::PrepForNewDeal() {
   // init a new document ONLY if a rubber is not in progress
   // else it's still the same "Document"
   if (!theApp.IsRubberInProgress())
-    pDOC->OnNewDocument();
+    app_->OnNewDocument();
 
   // and update status display
-  pMAINFRAME->UpdateStatusWindow();
+  app_->UpdateStatusWindow();
 }
 
 
@@ -244,8 +238,8 @@ void Deal::ClearPlayInfo() {
     m_nPlayRecord[i] = -1;
 
   // clear GIB Monitor && play history
-  if (pMAINFRAME) {
-    pMAINFRAME->SetGIBMonitorText(NULL);
+  if (app_->IsMainFrameExists()) {
+    app_->SetGIBMonitorText(NULL);
     UpdatePlayHistory();
   }
 }
@@ -531,11 +525,11 @@ void Deal::UpdateScore() {
       theApp.SetValue(tbRubberInProgress, FALSE);	// rubber is over
                                                   //
       if (m_nTotalScore[NORTH_SOUTH] > m_nTotalScore[EAST_WEST])
-        pMAINFRAME->SetStatusMessage("Rubber is over -- North/South won the match.");
+        app_->SetStatusMessage("Rubber is over -- North/South won the match.");
       else if (m_nTotalScore[EAST_WEST] > m_nTotalScore[NORTH_SOUTH])
-        pMAINFRAME->SetStatusMessage("Rubber is over -- East/West won the match.");
+        app_->SetStatusMessage("Rubber is over -- East/West won the match.");
       else
-        pMAINFRAME->SetStatusMessage("Rubber is over -- the match was a tie.");
+        app_->SetStatusMessage("Rubber is over -- the match was a tie.");
     }
   }
 
@@ -563,11 +557,11 @@ void Deal::DisplayScore() {
 
   // and proceed to the next hand, if appropriate
   if (theApp.IsRubberInProgress()) {
-    pDOC->OnDealNewHand();
+    app_->OnDealNewHand();
   } else {
     ClearAllInfo();
-    pMAINFRAME->ClearAllIndicators();
-    pMAINFRAME->SetStatusMessage("Rubber is over.  Press F2 or Shift+F2 for a new game.");
+    app_->ClearAllIndicators();
+    app_->SetStatusMessage("Rubber is over.  Press F2 or Shift+F2 for a new game.");
   }
 }
 
@@ -833,11 +827,11 @@ void Deal::DisplayDuplicateScore() {
 
   // and proceed to the next hand, if appropriate
   if (theApp.IsRubberInProgress()) {
-    pDOC->OnDealNewHand();
+    app_->OnDealNewHand();
   } else {
     ClearAllInfo();
-    pMAINFRAME->ClearAllIndicators();
-    pMAINFRAME->SetStatusMessage("Rubber is over.  Press F2 or Shift+F2 for a new game.");
+    app_->ClearAllIndicators();
+    app_->SetStatusMessage("Rubber is over.  Press F2 or Shift+F2 for a new game.");
   }
 }
 
@@ -1102,7 +1096,7 @@ void Deal::RotatePartialHands(int numPositions) {
   UpdatePlayHistory();
 
   // update other status
-  pMAINFRAME->SetAllIndicators();
+  app_->SetAllIndicators();
 
   //
   for (int i = 0; i < 4; i++)
@@ -1212,7 +1206,7 @@ int Deal::DealCards() {
 
   //
   for (i = 0; i < 4; i++)
-    PLAYER(i).InitializeHand();
+    m_pPlayer[i]->InitializeHand();
 
   //
   return newDealNumber;
@@ -1232,7 +1226,7 @@ void Deal::DealHands(BOOL bUseDealNumber, int nDealNumber) {
     InitializeVulnerability();
 
   // temp
-  pMAINFRAME->SetAllIndicators();
+  app_->SetAllIndicators();
 
   //
   m_nDealNumber = theApp.GetDeck()->Shuffle(bUseDealNumber ? nDealNumber : 0);
@@ -1375,7 +1369,7 @@ void Deal::ClearBiddingInfo() {
     for (j = 0; j<50; j++)
       m_nBidsByPlayer[i][j] = 0;
   //
-  if (pMAINFRAME)
+  if (app_->IsMainFrameExists())
     UpdateBiddingHistory();
   //
   m_nTrumpSuit = NOTRUMP;
@@ -1542,7 +1536,7 @@ void Deal::LoadGameRecord(const CGameRecord& game) {
 
   // then set cards face up if desired
   if (theApp.GetValue(tbExposePBNGameCards) && !theApp.AreCardsFaceUp())
-    pMAINFRAME->SendMessage(WM_COMMAND, ID_EXPOSE_ALL_CARDS);
+    app_->ExposeAllCards();
 
   //	for(i=0;i<4;i++)
   //		m_pPlayer[i]->ExposeCards(TRUE, FALSE);
@@ -1779,8 +1773,9 @@ void Deal::DeleteContents() {
   m_strFileDescription.Empty();
   // make sure to empty the file comments dialog
   if (m_bInitialized) {
-    if (pMAINFRAME)
-      pMAINFRAME->GetDialog(twFileCommentsDialog)->SendMessage(WM_COMMAND, WMS_UPDATE_TEXT, 0);
+    if (app_->IsMainFrameExists()) {
+      app_->UpdateFileCommentsDialog();
+    }
   }
   //
   ClearFileParameters();
@@ -1910,8 +1905,7 @@ int Deal::EnterBid(int nPos, int nBid) {
     } else {
       // advice overridden!
       m_bHintFollowed = FALSE;
-      CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
-      pHintDlg->SetHintText(_T("Bidding hints not available."));
+      app_->SetHintDialogText("Bidding hints not available.");
     }
   }
 
@@ -1958,9 +1952,8 @@ int Deal::EnterBid(int nPos, int nBid) {
       m_pPlayer[i]->BiddingFinished();
 
     //
-    CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
-    pHintDlg->Clear();
-    pHintDlg->EnableHintAccept(FALSE);
+    app_->ClearHintDialog();
+    app_->DisableHintDialog();
 
     //
     UpdatePlayHistory();
@@ -2181,7 +2174,7 @@ void Deal::UpdateBiddingHistory() {
   // return if dealer is not yet set
   int nPos = m_nDealer;
   if (!ISPOSITION(nPos)) {
-    pMAINFRAME->SetBiddingHistory("");
+    app_->SetBiddingHistory("");
     return;
   }
 
@@ -2189,7 +2182,7 @@ void Deal::UpdateBiddingHistory() {
   BOOL bSmallCards = theApp.GetValue(tbLowResOption);
 
   // check mode
-  BOOL bUseSymbols = theApp.GetValue(tbUseSuitSymbols);
+  bool bUseSymbols = theApp.GetValue(tbUseSuitSymbols);
 
   //
   for (int i = 0; i<4; i++) {
@@ -2250,8 +2243,8 @@ void Deal::UpdateBiddingHistory() {
       strPlainBids += "\r\n";
   }
   //
-  pMAINFRAME->SetBiddingHistory((LPCTSTR)strBids, bUseSymbols);
-  pMAINFRAME->SetPlainBiddingHistory((LPCTSTR)strPlainBids);
+  app_->SetBiddingHistory(strBids, bUseSymbols);
+  app_->SetPlainBiddingHistory((LPCTSTR)strPlainBids);
 }
 
 
@@ -2387,7 +2380,7 @@ void Deal::EnterCardPlay(Position nPos, CCard* pCard) {
   }
 
   // process the play
-  PLAYER(nPos).RemoveCardFromHand(pCard);
+  m_pPlayer[nPos]->RemoveCardFromHand(pCard);
 
   // then establish the card as being in the current trick
   SetCurrentTrickCard(nPos, pCard);
@@ -2409,7 +2402,7 @@ void Deal::EnterCardPlay(Position nPos, CCard* pCard) {
   m_pLastPlayHint = NULL;
 
   // update status display
-  pMAINFRAME->UpdateStatusWindow();
+  app_->UpdateStatusWindow();
   // and record
   UpdatePlayHistory();
 }
@@ -2427,8 +2420,7 @@ void Deal::InvokeNextPlayer() {
   CPlayer* pCurrPlayer = m_pPlayer[m_nCurrPlayer];
 
   // disable player hints
-  CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
-  pHintDlg->EnableHintAccept(FALSE);
+  app_->DisableHintDialog();
 
   // see if we'll be pausing between plays
   int nPauseLength = 0, nStartTime = 0;
@@ -2456,7 +2448,7 @@ void Deal::InvokeNextPlayer() {
     if (exception.GetErrorCode() != 0)
       AfxMessageBox("An error ocurred while attempting to run GIB.  Please check to be sure GIB is installed properly.");
     // restart the hand
-    pMAINFRAME->PostMessage(WM_COMMAND, ID_RESTART_CURRENT_HAND, 0);
+    app_->RestartCurrentHand();
     return;
   }
   // do some sanity checks here
@@ -2541,7 +2533,7 @@ void Deal::UndoTrick() {
   //	SetCurrentPlayer(m_nRoundLead);
 
   // update status display
-  pMAINFRAME->UpdateStatusWindow();
+  app_->UpdateStatusWindow();
 
   // see if we should hide dummy
   if (m_numTricksPlayed == 0) {
@@ -2631,7 +2623,7 @@ void Deal::UndoPreviousTrick() {
 
   // update displays
   UpdatePlayHistory();
-  pMAINFRAME->UpdateStatusWindow();
+  app_->UpdateStatusWindow();
 }
 
 
@@ -2642,7 +2634,7 @@ void Deal::UndoPreviousTrick() {
 //
 void Deal::EvaluateTrick(BOOL bQuietMode) {
   CCard *pCard;
-  // evalaute winner
+  // evaluate winner
   int nPos;
   m_nHighVal = 0;
   m_nHighTrumpVal = 0;
@@ -2693,7 +2685,7 @@ void Deal::EvaluateTrick(BOOL bQuietMode) {
   strMessage.Format("%s wins the trick.", PositionToString(m_nRoundWinner));
   if (!m_bReviewingGame)
     strMessage += "  Click for the next round.";
-  pMAINFRAME->SetStatusText(strMessage);
+  app_->SetStatusText(strMessage);
 
   // we don't finalize anything yet, since the last move can
   // still be taken back
@@ -2729,7 +2721,7 @@ void Deal::ClearTrick() {
   // update counts
   if (!theApp.GetValue(tbAutoTestMode)) {
     UpdatePlayHistory();
-    pMAINFRAME->DisplayTricks();
+    app_->DisplayTricks();
     pVIEW->DisplayTricks();
   }
   //	m_nPlayRound++;
@@ -2777,7 +2769,7 @@ void Deal::ClearTrick() {
 //
 void Deal::OnGameComplete() {
   // game over -- see if the contract was made
-  pMAINFRAME->ClearStatusMessage();
+  app_->ClearStatusMessage();
   int nRqmt = BID_LEVEL(m_nContract) + 6;
   int nDiff = m_numTricksWon[m_nContractTeam] - nRqmt;
   CString strTeam = TeamToString(m_nContractTeam);
@@ -2791,7 +2783,7 @@ void Deal::OnGameComplete() {
 
   // clear hints if enabled
   if (theApp.GetValue(tnAutoHintMode) > 0)
-    pMAINFRAME->ClearAutoHints();
+    app_->ClearAutoHints();
 
   // see if we're in practice mode using duplicate scoring
   if (!theApp.IsRubberInProgress() && theApp.IsUsingDuplicateScoring()) {
@@ -2865,7 +2857,7 @@ void Deal::OnGameComplete() {
   BOOL bReplayMode = m_bAutoReplayMode;	// but save setting first
   if ((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO) || (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO_EXPRESS)) {
     if (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO_EXPRESS) {
-      pDOC->EndWaitCursorDoc();
+      app_->EndWaitCursorDoc();
     }
     theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
     m_bExpressPlayMode = FALSE;
@@ -2875,29 +2867,29 @@ void Deal::OnGameComplete() {
 
   // return here if reviewing game
   if (m_bReviewingGame) {
-    pMAINFRAME->SetStatusMessage(strMessage);
+    app_->SetStatusMessage(strMessage);
     return;
   }
 
   // else prompt hand finished and optionally restart play/bid
-  CRoundFinishedDialog roundFinishedDlg(pMAINFRAME);
+  std::shared_ptr<CRoundFinishedDialog> roundFinishedDlg = app_->NewRoundFinishedDialog();
   // if replaying, keep old comparison message
   if (bReplayMode)
-    roundFinishedDlg.SetMessage(strMessage);
+    roundFinishedDlg->SetMessage(strMessage);
   else
-    roundFinishedDlg.SetMessage(strMessage, strOldMessage);
+    roundFinishedDlg->SetMessage(strMessage, strOldMessage);
 
   // disable "cancel" button if reviewing game
   if (m_bGameReviewAvailable)
-    roundFinishedDlg.m_bDisableCancel = TRUE;
+    roundFinishedDlg->m_bDisableCancel = TRUE;
 
   //
-  roundFinishedDlg.m_bReplayMode = bReplayMode;
-  BOOL bCode = roundFinishedDlg.DoModal();
+  roundFinishedDlg->m_bReplayMode = bReplayMode;
+  BOOL bCode = roundFinishedDlg->DoModal();
   if (!bCode) {
     // cancel, replay, or rebid the current hand
     theApp.SetValue(tbShowCardsFaceUp, bCardsFaceUpMode);
-    switch (roundFinishedDlg.m_nCode) {
+    switch (roundFinishedDlg->m_nCode) {
     case CRoundFinishedDialog::RF_NONE:
     {
       // return to just after the last trick
@@ -2915,7 +2907,7 @@ void Deal::OnGameComplete() {
 
     case CRoundFinishedDialog::RF_REPLAY:
       // replay game
-      pDOC->OnRestartCurrentHand();
+      app_->OnRestartCurrentHand();
       break;
 
     case CRoundFinishedDialog::RF_AUTOPLAY:
@@ -2957,7 +2949,7 @@ void Deal::PostProcessGame() {
     m_bReviewingGame = TRUE;
     // and show game review dialog
     pVIEW->RestoreGameReview();
-    pMAINFRAME->MakeDialogVisible(twGameReviewDialog);
+    app_->MakeGameReviewDialogVisible();
     return;
   }
 
@@ -2975,7 +2967,7 @@ void Deal::PostProcessGame() {
     //			DisplayDuplicateScore();
 
     // deal the next hand
-    pDOC->OnDealNewHand();
+    app_->OnDealNewHand();
   }
 }
 
@@ -2998,7 +2990,7 @@ void Deal::UpdatePlayHistory() {
   int nPos = m_nGameLead;
   if (nPos == NONE) {
     // not initialized yet
-    pMAINFRAME->SetPlayHistory("");
+    app_->SetPlayHistory("");
     return;
   }
 
@@ -3117,8 +3109,8 @@ void Deal::UpdatePlayHistory() {
   }
 
   //
-  pMAINFRAME->SetPlayHistory((LPCTSTR)strPlays, bUseSymbols);
-  pMAINFRAME->SetPlainPlayHistory((LPCTSTR)strPlaysPlain);
+  app_->SetPlayHistory(strPlays, bUseSymbols);
+  app_->SetPlainPlayHistory((LPCTSTR)strPlaysPlain);
 }
 
 
@@ -3232,17 +3224,17 @@ void Deal::ComputerReplay(BOOL bFullAuto) {
   // set flags before updating the view
   m_bAutoReplayMode = TRUE;
   m_bExpressPlayMode = bFullAuto;
-  pMAINFRAME->HideDialog(twAutoHintDialog);
+  app_->HideAutoHintDialog();
   if (!bFullAuto)
-    pMAINFRAME->SetStatusMessage("Click to begin computer replay.");
-  pMAINFRAME->SetModeIndicator();
+    app_->SetStatusMessage("Click to begin computer replay.");
+  app_->SetModeIndicator();
 
   // NOW we update the view, as everything is finally ready
   if (!bFullAuto)
     pVIEW->Notify(WM_COMMAND, WMS_PLAY_RESTART, 0L);
 
   // and send the program into auto play mode
-  pMAINFRAME->PostMessage(WM_COMMAND, bFullAuto ? ID_GAME_AUTO_PLAY_EXPRESS : ID_GAME_AUTO_PLAY_ALL);
+  app_->SetAutoPlayMode(bFullAuto);
 }
 
 
@@ -3417,21 +3409,19 @@ void Deal::ShowAutoHint() {
     return;
 
   // 
-  pMAINFRAME->MakeDialogVisible(twAutoHintDialog);
-  CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
-  CBidDialog* pBidDlg = (CBidDialog*)pMAINFRAME->GetDialog(twBidDialog);
+  app_->ShowAutoHintDialog();
   if (theApp.IsBiddingInProgress()) {
     // get the hint
     m_bHintMode = FALSE;
-    pHintDlg->EnableHintAccept(TRUE);
+    app_->EnableHintDialog();
     int nBid = m_pPlayer[SOUTH]->GetBiddingHint(TRUE);
-    pBidDlg->SendMessage(WM_COMMAND, WMS_FLASH_BUTTON, nBid);
+    app_->FlashBidDialogButton(nBid);
     m_nLastBiddingHint = nBid;
   } else if (theApp.IsGameInProgress()) {
     // get the play hint
     CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint(TRUE);
     if (pCard) {
-      pHintDlg->EnableHintAccept(TRUE);
+      app_->EnableHintDialog();
       CWindowDC dc(pVIEW);
       pCard->FlashCard(&dc);
       // save the hint as pending hint
@@ -3455,9 +3445,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
     // see if a hint is pending
     if (m_nLastBiddingHint >= 0) {
       // accept the hint
-      CBidDialog* pBidDlg = pMAINFRAME->GetBidDialog();
-      if (pBidDlg->IsWindowVisible())
-        pBidDlg->RegisterBid(m_nLastBiddingHint, TRUE);
+      app_->RegisterBid(m_nLastBiddingHint);
       // clear hint info
       //			m_nLastBiddingHint = NONE;
       //			CAutoHintDialog* pHintDlg = (CAutoHintDialog*) pMAINFRAME->GetDialog(twAutoHintDialog);
@@ -3471,7 +3459,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
       m_bHintMode = FALSE;
       //			m_nLastBiddingHint = m_pPlayer[SOUTH]->GetBiddingHint();
       m_nLastBiddingHint = m_pPlayer[m_nCurrPlayer]->GetBiddingHint();
-      pMAINFRAME->GetDialog(twBidDialog)->SendMessage(WM_COMMAND, WMS_FLASH_BUTTON, m_nLastBiddingHint);
+      app_->FlashBidDialogButton(m_nLastBiddingHint);
     }
   } else if (theApp.IsGameInProgress()) {
     // special code -- allow a <space> to be used to clear a trick
@@ -3487,7 +3475,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
     // see if a hint is pending
     if (m_pLastPlayHint) {
       // accept the hint
-      pMAINFRAME->SetStatusText("Playing hint card...");
+      app_->SetStatusText("Playing hint card...");
       ASSERT(m_pLastPlayHint->GetOwner() == m_nCurrPlayer);
       pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + 1000, (int)m_pLastPlayHint);
       // clear hint info

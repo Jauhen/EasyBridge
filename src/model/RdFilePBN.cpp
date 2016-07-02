@@ -11,16 +11,14 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "mainfrm.h"
-#include "MainFrameOpts.h"
 #include "filecodePBN.h"
 #include "progopts.h"
 #include "engine/GameRecord.h"
 #include "engine/deck.h"
 #include "engine/card.h"
+#include "model/deal.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

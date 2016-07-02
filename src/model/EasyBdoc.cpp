@@ -153,8 +153,7 @@ CEasyBDoc::CEasyBDoc() : Deal(std::make_shared<AppImpl>()) {
   m_pDoc = this;
 }
 
-CEasyBDoc::~CEasyBDoc() {
-}
+CEasyBDoc::~CEasyBDoc() {}
 
 
 BOOL CEasyBDoc::OnNewDocument() {
@@ -221,7 +220,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     // see if the load went OK, but there were no games found
     if (bCode)
       AfxMessageBox("No valid games were found in the PBN file!");
-    pMAINFRAME->SetStatusMessage("An error ocurred while opening the file.");
+    pMAINFRAME->SetStatusMessage("An error occurred while opening the file.");
     pVIEW->EnableRefresh();
     pMAINFRAME->Invalidate();
     return FALSE;
@@ -627,11 +626,6 @@ void CEasyBDoc::OnGameHint() {
 /////////////////////////////////////////////////////////////////////////////
 
 
-
-
-
-
-
 //
 void CEasyBDoc::OnUpdateDealNewHand(CCmdUI* pCmdUI) {
   // we can always deal a new hand, with a few exceptions
@@ -654,7 +648,7 @@ void CEasyBDoc::OnDealNewHand() {
   // and call the function to deal a new hand
   DealHands();
 
-  // if using duplicate socring, update vulnerability display
+  // if using duplicate scoring, update vulnerability display
   if (theApp.IsUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }
@@ -697,7 +691,7 @@ void CEasyBDoc::OnDealNumberedHand() {
   else
     DealSpecial(dealNumDlg.m_nDealNumber, m_nSpecialDealCode);
 
-  // if using duplicate socring, update vulnerability display
+  // if using duplicate scoring, update vulnerability display
   if (theApp.IsUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }

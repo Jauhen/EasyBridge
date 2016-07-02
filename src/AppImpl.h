@@ -4,6 +4,8 @@
 #include "EasyB.h"
 #include "viewopts.h"
 #include "dialogs/AutoHintDialog.h"
+#include "dialogs/BidDialog.h"
+#include "dialogs/roundfinisheddialog.h"
 #include "StatusWnd.h"
 #include "MainFrameopts.h"
 #include "GIB.h"
@@ -187,6 +189,10 @@ public:
     return theApp.GetValue(tbEnableDealNumbering) == TRUE;
   }
 
+  virtual void SetFeedbackText(const char* msg) {
+    ((CMainFrame*)theApp.GetFrame())->SetFeedbackText(msg);
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
@@ -235,6 +241,145 @@ public:
 
   virtual void ReleaseDC(CDC* dc) {
     pMAINFRAME->ReleaseDC(dc);
+  }
+
+  virtual void UpdateStatusWindow() {
+    pMAINFRAME->UpdateStatusWindow();
+  }
+
+  virtual void SetGIBMonitorText(const char* text) {
+    pMAINFRAME->SetGIBMonitorText(text);
+  }
+
+  virtual bool IsMainFrameExists() {
+    return pMAINFRAME != nullptr;
+  }
+
+  virtual void SetStatusMessage(const char* msg) {
+    pMAINFRAME->SetStatusMessage(msg);
+  }
+
+  virtual void ClearAllIndicators() {
+    pMAINFRAME->ClearAllIndicators();
+  }
+
+  virtual void SetAllIndicators() {
+    pMAINFRAME->SetAllIndicators();
+  }
+
+  virtual void ExposeAllCards() {
+    pMAINFRAME->SendMessage(WM_COMMAND, ID_EXPOSE_ALL_CARDS);
+  }
+
+  virtual void UpdateFileCommentsDialog(bool updateVariable = false) {
+    CWnd* pWnd = pMAINFRAME->GetDialog(twFileCommentsDialog);
+    if (pWnd) {
+      pWnd->SendMessage(WM_COMMAND, WMS_UPDATE_TEXT, updateVariable);
+    }
+  }
+
+  virtual void SetHintDialogText(const char* msg) {
+    CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
+    pHintDlg->SetHintText(msg);
+  }
+
+  virtual void ClearHintDialog() {
+    CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
+    pHintDlg->Clear();
+  }
+
+  virtual void SetBiddingHistory(const char* msg, bool useSuitSymbols = false) {
+    pMAINFRAME->SetBiddingHistory(msg, useSuitSymbols);
+  }
+
+  virtual void SetPlainBiddingHistory(const char* msg) {
+    pMAINFRAME->SetPlainBiddingHistory(msg);
+  }
+
+  virtual void DisableHintDialog() {
+    CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
+    pHintDlg->EnableHintAccept(FALSE);
+  }
+
+  virtual void EnableHintDialog() {
+    CAutoHintDialog* pHintDlg = (CAutoHintDialog*)pMAINFRAME->GetDialog(twAutoHintDialog);
+    pHintDlg->EnableHintAccept(TRUE);
+  }
+
+  virtual void RestartCurrentHand() {
+    pMAINFRAME->PostMessage(WM_COMMAND, ID_RESTART_CURRENT_HAND, 0);
+  }
+
+  virtual void SetStatusText(const char* msg) {
+    pMAINFRAME->SetStatusText(msg);
+  }
+
+  virtual void HideAutoHintDialog() {
+    pMAINFRAME->HideDialog(twAutoHintDialog);
+  }
+
+  virtual void SetModeIndicator() {
+    pMAINFRAME->SetModeIndicator();
+  }
+
+  virtual void DisplayTricks() {
+    pMAINFRAME->DisplayTricks();
+  }
+
+  virtual void ClearStatusMessage() {
+    pMAINFRAME->ClearStatusMessage();
+  }
+
+  virtual void ClearAutoHints() {
+    pMAINFRAME->ClearAutoHints();
+  }
+
+  virtual std::shared_ptr<CRoundFinishedDialog> NewRoundFinishedDialog() {
+    return std::make_shared<CRoundFinishedDialog>(pMAINFRAME);
+  }
+
+  virtual void MakeGameReviewDialogVisible() {
+    pMAINFRAME->MakeDialogVisible(twGameReviewDialog);
+  }
+
+  virtual void SetPlayHistory(const char* msg, bool useSuitSymbols = false) {
+    pMAINFRAME->SetPlayHistory(msg, useSuitSymbols);
+  }
+
+  virtual void SetPlainPlayHistory(const char* msg) {
+    pMAINFRAME->SetPlainPlayHistory(msg);
+  }
+
+  virtual void SetAutoPlayMode(bool isFullAuto) {
+    pMAINFRAME->PostMessage(WM_COMMAND, isFullAuto ? ID_GAME_AUTO_PLAY_EXPRESS : ID_GAME_AUTO_PLAY_ALL);
+  }
+
+  virtual void ShowAutoHintDialog() {
+    pMAINFRAME->MakeDialogVisible(twAutoHintDialog);
+  }
+
+  virtual void FlashBidDialogButton(int bid) {
+    CBidDialog* pBidDlg = (CBidDialog*)pMAINFRAME->GetDialog(twBidDialog);
+    pBidDlg->SendMessage(WM_COMMAND, WMS_FLASH_BUTTON, bid);
+  }
+
+  virtual void RegisterBid(int bid) {
+    CBidDialog* pBidDlg = pMAINFRAME->GetBidDialog();
+    if (pBidDlg->IsWindowVisible()) {
+      pBidDlg->RegisterBid(bid, TRUE);
+    }
+  }
+
+  virtual void ResetStatusMessage() {
+    CMainFrame::ResetStatusMessage();
+  }
+
+  virtual const CString GetBiddingHistory() {
+    return pMAINFRAME->GetBiddingHistory();
+  }
+
+  virtual const CString GetPlayHistory() {
+    return pMAINFRAME->GetPlayHistory();
   }
 
   //////////////////////////////////////////////////////////////////////////
@@ -437,6 +582,22 @@ public:
 
   virtual int GetDeclaringTeam() const {
     return pDOC->GetDeclaringTeam();
+  }
+
+  virtual void OnNewDocument() {
+    pDOC->OnNewDocument();
+  }
+
+  virtual void OnDealNewHand() {
+    pDOC->OnDealNewHand();
+  }
+
+  virtual void EndWaitCursorDoc() {
+    pDOC->EndWaitCursorDoc();
+  }
+
+  virtual void OnRestartCurrentHand() {
+    pDOC->OnRestartCurrentHand();
   }
 
   //////////////////////////////////////////////////////////////////////////

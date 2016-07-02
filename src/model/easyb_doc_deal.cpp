@@ -11,13 +11,12 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "mainfrm.h"
 #include "progopts.h"
 #include "engine/deck.h"
 #include "engine/Card.h"
+#include "model/deal.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -47,7 +46,7 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
   CString strFeedback;
 
   //
-  CMainFrame::SetStatusMessage("Performing deal...");
+  app_->SetStatusMessage("Performing deal...");
 
   // validate inputs
   if ((nGameCode < 0) || (nGameCode > 2) ||
@@ -161,12 +160,12 @@ shuffle:
   //
   double fSouthPoints, fNorthPoints;
   if (nSuitCode != 3) {
-    fSouthPoints = PLAYER(SOUTH).GetTotalPoints();
-    fNorthPoints = PLAYER(NORTH).GetTotalPoints();
+    fSouthPoints = m_pPlayer[SOUTH]->GetTotalPoints();
+    fNorthPoints = m_pPlayer[NORTH]->GetTotalPoints();
   } else {
     // No Trumps; count high card points only
-    fSouthPoints = PLAYER(SOUTH).GetHCPoints();
-    fNorthPoints = PLAYER(NORTH).GetHCPoints();
+    fSouthPoints = m_pPlayer[SOUTH]->GetHCPoints();
+    fNorthPoints = m_pPlayer[NORTH]->GetHCPoints();
   }
   double fTotalPoints = fSouthPoints + fNorthPoints;
   double fDiff, fSwapped;
@@ -176,28 +175,28 @@ shuffle:
   int numInSuit[4];
   BOOL bSuitFit[4];
   for (i = 0; i<4; i++) {
-    numInSuit[i] = PLAYER(SOUTH).GetNumCardsInSuit(i) +
-      PLAYER(NORTH).GetNumCardsInSuit(i);
+    numInSuit[i] = m_pPlayer[SOUTH]->GetNumCardsInSuit(i) +
+      m_pPlayer[NORTH]->GetNumCardsInSuit(i);
     // check for a proper card distribution (min 4/3)
     int nDistIndex = theApp.GetValue(tnMinSuitDistributions, nSuitCode - 1);
     int nDistVal[2];
     nDistVal[0] = theApp.GetValue(tnMinSuitDistributions, nSuitCode - 1, nDistIndex, 0);
     nDistVal[1] = theApp.GetValue(tnMinSuitDistributions, nSuitCode - 1, nDistIndex, 1);
     if ((nSuitCode == 1) || (nSuitCode == 2)) {
-      if (((PLAYER(SOUTH).GetNumCardsInSuit(i) >= nDistVal[0]) &&
-        (PLAYER(NORTH).GetNumCardsInSuit(i) >= nDistVal[1])) ||
-        ((PLAYER(NORTH).GetNumCardsInSuit(i) >= nDistVal[0]) &&
-        (PLAYER(SOUTH).GetNumCardsInSuit(i) >= nDistVal[1])))
+      if (((m_pPlayer[SOUTH]->GetNumCardsInSuit(i) >= nDistVal[0]) &&
+        (m_pPlayer[NORTH]->GetNumCardsInSuit(i) >= nDistVal[1])) ||
+        ((m_pPlayer[NORTH]->GetNumCardsInSuit(i) >= nDistVal[0]) &&
+        (m_pPlayer[SOUTH]->GetNumCardsInSuit(i) >= nDistVal[1])))
         bSuitFit[i] = TRUE;
       else
         bSuitFit[i] = FALSE;
     } else {
       // generic suit or no trumps specified; default to
       // 4/3 for fit determination
-      if (((PLAYER(SOUTH).GetNumCardsInSuit(i) >= 3) &&
-        (PLAYER(NORTH).GetNumCardsInSuit(i) >= 4)) ||
-        ((PLAYER(NORTH).GetNumCardsInSuit(i) >= 3) &&
-        (PLAYER(SOUTH).GetNumCardsInSuit(i) >= 4)))
+      if (((m_pPlayer[SOUTH]->GetNumCardsInSuit(i) >= 3) &&
+        (m_pPlayer[NORTH]->GetNumCardsInSuit(i) >= 4)) ||
+        ((m_pPlayer[NORTH]->GetNumCardsInSuit(i) >= 3) &&
+        (m_pPlayer[SOUTH]->GetNumCardsInSuit(i) >= 4)))
         bSuitFit[i] = TRUE;
       else
         bSuitFit[i] = FALSE;
@@ -211,13 +210,13 @@ shuffle:
     int nMaxImbalance = theApp.GetValue(tnMaxImbalanceForNT);
     if (theApp.GetValue(tbNeedTwoBalancedTrumpHands)) {
       // both players need balanced hands
-      if ((PLAYER(SOUTH).GetBalanceValue() > nMaxImbalance) ||
-        (PLAYER(NORTH).GetBalanceValue() > nMaxImbalance))
+      if ((m_pPlayer[SOUTH]->GetBalanceValue() > nMaxImbalance) ||
+        (m_pPlayer[NORTH]->GetBalanceValue() > nMaxImbalance))
         goto shuffle;
     } else {
       // at least one player has balanced hand
-      if ((PLAYER(SOUTH).GetBalanceValue() > nMaxImbalance) &&
-        (PLAYER(NORTH).GetBalanceValue() > nMaxImbalance))
+      if ((m_pPlayer[SOUTH]->GetBalanceValue() > nMaxImbalance) &&
+        (m_pPlayer[NORTH]->GetBalanceValue() > nMaxImbalance))
         goto shuffle;
     }
 
@@ -235,17 +234,17 @@ shuffle:
     // and also check that the suit is adequately topped
     BOOL bTopped = FALSE;
     int nMinTopMajorCard = theApp.GetValue(tnMinTopMajorCard);
-    if ((bSuitFit[HEARTS]) && (PLAYER(SOUTH).GetNumCardsInSuit(HEARTS) >= 4) &&
-      (PLAYER(SOUTH).GetCardInSuit(HEARTS, 0)->GetFaceValue() >= nMinTopMajorCard))
+    if ((bSuitFit[HEARTS]) && (m_pPlayer[SOUTH]->GetNumCardsInSuit(HEARTS) >= 4) &&
+      (m_pPlayer[SOUTH]->GetCardInSuit(HEARTS, 0)->GetFaceValue() >= nMinTopMajorCard))
       bTopped = TRUE;
-    if ((bSuitFit[SPADES]) && (PLAYER(SOUTH).GetNumCardsInSuit(SPADES) >= 4) &&
-      (PLAYER(SOUTH).GetCardInSuit(SPADES, 0)->GetFaceValue() >= nMinTopMajorCard))
+    if ((bSuitFit[SPADES]) && (m_pPlayer[SOUTH]->GetNumCardsInSuit(SPADES) >= 4) &&
+      (m_pPlayer[SOUTH]->GetCardInSuit(SPADES, 0)->GetFaceValue() >= nMinTopMajorCard))
       bTopped = TRUE;
-    if ((bSuitFit[HEARTS]) && (PLAYER(NORTH).GetNumCardsInSuit(HEARTS) >= 4) &&
-      (PLAYER(NORTH).GetCardInSuit(HEARTS, 0)->GetFaceValue() >= nMinTopMajorCard))
+    if ((bSuitFit[HEARTS]) && (m_pPlayer[NORTH]->GetNumCardsInSuit(HEARTS) >= 4) &&
+      (m_pPlayer[NORTH]->GetCardInSuit(HEARTS, 0)->GetFaceValue() >= nMinTopMajorCard))
       bTopped = TRUE;
-    if ((bSuitFit[SPADES]) && (PLAYER(NORTH).GetNumCardsInSuit(SPADES) >= 4) &&
-      (PLAYER(NORTH).GetCardInSuit(SPADES, 0)->GetFaceValue() >= nMinTopMajorCard))
+    if ((bSuitFit[SPADES]) && (m_pPlayer[NORTH]->GetNumCardsInSuit(SPADES) >= 4) &&
+      (m_pPlayer[NORTH]->GetCardInSuit(SPADES, 0)->GetFaceValue() >= nMinTopMajorCard))
       bTopped = TRUE;
     if (!bTopped)
       goto shuffle;
@@ -264,17 +263,17 @@ shuffle:
     // and also check that the suit is adequately topped
     BOOL bTopped = FALSE;
     int nMinTopMinorCard = theApp.GetValue(tnMinTopMinorCard);
-    if ((bSuitFit[CLUBS]) && (PLAYER(SOUTH).GetNumCardsInSuit(CLUBS) >= 4) &&
-      (PLAYER(SOUTH).GetCardInSuit(CLUBS, 0)->GetFaceValue() >= nMinTopMinorCard))
+    if ((bSuitFit[CLUBS]) && (m_pPlayer[SOUTH]->GetNumCardsInSuit(CLUBS) >= 4) &&
+      (m_pPlayer[SOUTH]->GetCardInSuit(CLUBS, 0)->GetFaceValue() >= nMinTopMinorCard))
       bTopped = TRUE;
-    if ((bSuitFit[DIAMONDS]) && (PLAYER(SOUTH).GetNumCardsInSuit(DIAMONDS) >= 4) &&
-      (PLAYER(SOUTH).GetCardInSuit(DIAMONDS, 0)->GetFaceValue() >= nMinTopMinorCard))
+    if ((bSuitFit[DIAMONDS]) && (m_pPlayer[SOUTH]->GetNumCardsInSuit(DIAMONDS) >= 4) &&
+      (m_pPlayer[SOUTH]->GetCardInSuit(DIAMONDS, 0)->GetFaceValue() >= nMinTopMinorCard))
       bTopped = TRUE;
-    if ((bSuitFit[CLUBS]) && (PLAYER(NORTH).GetNumCardsInSuit(CLUBS) >= 4) &&
-      (PLAYER(NORTH).GetCardInSuit(CLUBS, 0)->GetFaceValue() >= nMinTopMinorCard))
+    if ((bSuitFit[CLUBS]) && (m_pPlayer[NORTH]->GetNumCardsInSuit(CLUBS) >= 4) &&
+      (m_pPlayer[NORTH]->GetCardInSuit(CLUBS, 0)->GetFaceValue() >= nMinTopMinorCard))
       bTopped = TRUE;
-    if ((bSuitFit[DIAMONDS]) && (PLAYER(NORTH).GetNumCardsInSuit(DIAMONDS) >= 4) &&
-      (PLAYER(NORTH).GetCardInSuit(DIAMONDS, 0)->GetFaceValue() >= nMinTopMinorCard))
+    if ((bSuitFit[DIAMONDS]) && (m_pPlayer[NORTH]->GetNumCardsInSuit(DIAMONDS) >= 4) &&
+      (m_pPlayer[NORTH]->GetCardInSuit(DIAMONDS, 0)->GetFaceValue() >= nMinTopMinorCard))
       bTopped = TRUE;
     if (!bTopped)
       goto shuffle;
@@ -314,7 +313,7 @@ shuffle:
   int numAcesHeld;
   if (nGameCode == 2) {
     numAcesRequired = theApp.GetValue(tnumAcesForSlam, nSlamCode);
-    numAcesHeld = PLAYER(SOUTH).GetNumCardsOf(ACE) + PLAYER(NORTH).GetNumCardsOf(ACE);
+    numAcesHeld = m_pPlayer[SOUTH]->GetNumCardsOf(ACE) + m_pPlayer[NORTH]->GetNumCardsOf(ACE);
     int numCards, nSrcPlayer, nDestPlayer, nSuit1, nSuit2, nDestCard;
     int fDiff = numAcesRequired - numAcesHeld;
     // trade aces with opponents
@@ -323,16 +322,16 @@ shuffle:
         // first pick a source opponent, semi-randomly
         // 0 or 1; 0 means west, unless west has zero aces
         if (((GetRandomValue(1) == 0) &&
-          (PLAYER(WEST).GetNumCardsOf(ACE) > 0)) ||
-          (PLAYER(EAST).GetNumCardsOf(ACE) == 0))
+          (m_pPlayer[WEST]->GetNumCardsOf(ACE) > 0)) ||
+          (m_pPlayer[EAST]->GetNumCardsOf(ACE) == 0))
           nSrcPlayer = WEST;
         else
           nSrcPlayer = EAST;
-        ASSERT(PLAYER(nSrcPlayer).GetNumCardsOf(ACE) != 0);
+        ASSERT(m_pPlayer[nSrcPlayer]->GetNumCardsOf(ACE) != 0);
         // and likewise pick a dest player; 0=South
         int nVal = GetRandomValue(1);
-        if (((nVal == 0) && (PLAYER(SOUTH).GetNumCardsOf(ACE) < 4)) ||
-          (PLAYER(NORTH).GetNumCardsOf(ACE) == 4))
+        if (((nVal == 0) && (m_pPlayer[SOUTH]->GetNumCardsOf(ACE) < 4)) ||
+          (m_pPlayer[NORTH]->GetNumCardsOf(ACE) == 4))
           nDestPlayer = SOUTH;
         else
           nDestPlayer = NORTH;
@@ -341,8 +340,8 @@ shuffle:
         do {
           // search for a source suit with an ace
           nSuit1 = GetRandomValue(3);
-          if ((PLAYER(nSrcPlayer).GetNumCardsInSuit(nSuit1) > 0) &&
-            (PLAYER(nSrcPlayer).GetCardInSuit(nSuit1, 0)->GetFaceValue() == ACE)) {
+          if ((m_pPlayer[nSrcPlayer]->GetNumCardsInSuit(nSuit1) > 0) &&
+            (m_pPlayer[nSrcPlayer]->GetCardInSuit(nSuit1, 0)->GetFaceValue() == ACE)) {
             break;
           }
           nAceLoopCount1++;
@@ -357,9 +356,9 @@ shuffle:
           nSuit2 = GetRandomValue(3);
           // make sure the dest suit has > 1 cards in it,
           // or if it has only one card, that it's not an ace
-          if ((PLAYER(nDestPlayer).GetNumCardsInSuit(nSuit2) > 1) ||
-            ((PLAYER(nDestPlayer).GetNumCardsInSuit(nSuit2) == 1) &&
-            (PLAYER(nDestPlayer).GetCardInSuit(nSuit2, 0)->GetFaceValue() != ACE))) {
+          if ((m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2) > 1) ||
+            ((m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2) == 1) &&
+            (m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, 0)->GetFaceValue() != ACE))) {
             break;
           }
           nAceLoopCount2++;
@@ -369,10 +368,10 @@ shuffle:
           break;
         }
         // and then pick a nonace card from the dest suit
-        numCards = PLAYER(nDestPlayer).GetNumCardsInSuit(nSuit2);
+        numCards = m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2);
         do {
           nDestCard = GetRandomValue(numCards - 1);
-        } while (PLAYER(nDestPlayer).GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == ACE);
+        } while (m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == ACE);
         // and finally, then swap cards
         SwapPlayersCards(nSrcPlayer, nDestPlayer, nSuit1, nSuit2, 0, nDestCard, TRUE);
       }
@@ -388,7 +387,7 @@ shuffle:
   int numKingsHeld;
   if (nGameCode == 2) {
     numKingsRequired = theApp.GetValue(tnumKingsForSlam, nSlamCode);
-    numKingsHeld = PLAYER(SOUTH).GetNumCardsOf(KING) + PLAYER(NORTH).GetNumCardsOf(KING);
+    numKingsHeld = m_pPlayer[SOUTH]->GetNumCardsOf(KING) + m_pPlayer[NORTH]->GetNumCardsOf(KING);
     int numCards, nSrcPlayer, nDestPlayer, nSuit1, nSuit2, nDestCard, nSrcCard;
     int fDiff = numKingsRequired - numKingsHeld;
 
@@ -398,15 +397,15 @@ shuffle:
         // first pick a source opponent, semi-randomly
         // 0 or 1; 0 means west, unless west has zero kings
         if (((GetRandomValue(1) == 0) &&
-          (PLAYER(WEST).GetNumCardsOf(KING) > 0)) ||
-          (PLAYER(EAST).GetNumCardsOf(KING) == 0))
+          (m_pPlayer[WEST]->GetNumCardsOf(KING) > 0)) ||
+          (m_pPlayer[EAST]->GetNumCardsOf(KING) == 0))
           nSrcPlayer = WEST;
         else
           nSrcPlayer = EAST;
         // and likewise pick a dest player; 0=South
         if (((GetRandomValue(1) == 0) &&
-          (PLAYER(SOUTH).GetNumCardsOf(KING) < 4)) ||
-          (PLAYER(NORTH).GetNumCardsOf(KING) == 4))
+          (m_pPlayer[SOUTH]->GetNumCardsOf(KING) < 4)) ||
+          (m_pPlayer[NORTH]->GetNumCardsOf(KING) == 4))
           nDestPlayer = SOUTH;
         else
           nDestPlayer = NORTH;
@@ -415,13 +414,13 @@ shuffle:
         do {
           // search for a source suit with a king
           nSuit1 = GetRandomValue(3);
-          if ((PLAYER(nSrcPlayer).GetNumCardsInSuit(nSuit1) >= 1) &&
-            (PLAYER(nSrcPlayer).GetCardInSuit(nSuit1, 0)->GetFaceValue() == KING)) {
+          if ((m_pPlayer[nSrcPlayer]->GetNumCardsInSuit(nSuit1) >= 1) &&
+            (m_pPlayer[nSrcPlayer]->GetCardInSuit(nSuit1, 0)->GetFaceValue() == KING)) {
             nSrcCard = 0;
             break;
           }
-          if ((PLAYER(nSrcPlayer).GetNumCardsInSuit(nSuit1) >= 2) &&
-            (PLAYER(nSrcPlayer).GetCardInSuit(nSuit1, 1)->GetFaceValue() == KING)) {
+          if ((m_pPlayer[nSrcPlayer]->GetNumCardsInSuit(nSuit1) >= 2) &&
+            (m_pPlayer[nSrcPlayer]->GetCardInSuit(nSuit1, 1)->GetFaceValue() == KING)) {
             nSrcCard = 1;
             break;
           }
@@ -437,9 +436,9 @@ shuffle:
           nSuit2 = GetRandomValue(3);
           // make sure the dest suit has > 1 cards in it, including a 
           // card lower than a king which can be swapped out 
-          int nNum = PLAYER(nDestPlayer).GetNumCardsInSuit(nSuit2);
+          int nNum = m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2);
           if ((nNum >= 1) &&
-            (PLAYER(nDestPlayer).GetCardInSuit(nSuit2, nNum - 1)->GetFaceValue() < KING)) {
+            (m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nNum - 1)->GetFaceValue() < KING)) {
             break;
           }
           nKingLoopCount2++;
@@ -449,11 +448,11 @@ shuffle:
           break;
         }
         // and then pick a non-king, non-ace card from the dest suit
-        numCards = PLAYER(nDestPlayer).GetNumCardsInSuit(nSuit2);
+        numCards = m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2);
         do {
           nDestCard = GetRandomValue(numCards - 1);
-        } while ((PLAYER(nDestPlayer).GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == KING) ||
-          (PLAYER(nDestPlayer).GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == ACE));
+        } while ((m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == KING) ||
+          (m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == ACE));
         // and finally, then swap cards
         SwapPlayersCards(nSrcPlayer, nDestPlayer, nSuit1, nSuit2, nSrcCard, nDestCard, TRUE);
       }
@@ -536,15 +535,15 @@ shuffle:
         break;	// could've run out of high cards
     }
     // and re-evaluate
-    PLAYER(SOUTH).CountCardPoints(TRUE);
-    PLAYER(NORTH).CountCardPoints(TRUE);
+    m_pPlayer[SOUTH]->CountCardPoints(TRUE);
+    m_pPlayer[NORTH]->CountCardPoints(TRUE);
     if (nSuitCode != 3) {
-      fSouthPoints = PLAYER(SOUTH).GetTotalPoints();
-      fNorthPoints = PLAYER(NORTH).GetTotalPoints();
+      fSouthPoints = m_pPlayer[SOUTH]->GetTotalPoints();
+      fNorthPoints = m_pPlayer[NORTH]->GetTotalPoints();
     } else {
       // No Trumps; count high card points only
-      fSouthPoints = PLAYER(SOUTH).GetHCPoints();
-      fNorthPoints = PLAYER(NORTH).GetHCPoints();
+      fSouthPoints = m_pPlayer[SOUTH]->GetHCPoints();
+      fNorthPoints = m_pPlayer[NORTH]->GetHCPoints();
     }
     fTotalPoints = fSouthPoints + fNorthPoints;
     fDiff = fTotalPoints - fScoreTarget;
@@ -565,38 +564,38 @@ shuffle:
   */
 
   for (i = 0; i<4; i++)
-    PLAYER(i).CountCardPoints(TRUE);
+    m_pPlayer[i]->CountCardPoints(TRUE);
   //
   strTemp.Format("S: %d/%d pts;  N: %d/%d pts (Total: %d/%d/%d)\nEast: %d/%d pts;  West: %d/%d pts (Total E/W: %d)",
-    PLAYER(SOUTH).GetHCPoints(),
-    PLAYER(SOUTH).GetTotalPoints(),
-    PLAYER(NORTH).GetHCPoints(),
-    PLAYER(NORTH).GetTotalPoints(),
-    PLAYER(SOUTH).GetHCPoints() + PLAYER(NORTH).GetHCPoints(),
+    m_pPlayer[SOUTH]->GetHCPoints(),
+    m_pPlayer[SOUTH]->GetTotalPoints(),
+    m_pPlayer[NORTH]->GetHCPoints(),
+    m_pPlayer[NORTH]->GetTotalPoints(),
+    m_pPlayer[SOUTH]->GetHCPoints() + m_pPlayer[NORTH]->GetHCPoints(),
     fTotalPoints, fScoreTarget,
-    PLAYER(EAST).GetHCPoints(),
-    PLAYER(EAST).GetTotalPoints(),
-    PLAYER(WEST).GetHCPoints(),
-    PLAYER(WEST).GetTotalPoints(),
-    PLAYER(EAST).GetTotalPoints() + PLAYER(WEST).GetTotalPoints());
+    m_pPlayer[EAST]->GetHCPoints(),
+    m_pPlayer[EAST]->GetTotalPoints(),
+    m_pPlayer[WEST]->GetHCPoints(),
+    m_pPlayer[WEST]->GetTotalPoints(),
+    m_pPlayer[EAST]->GetTotalPoints() + m_pPlayer[WEST]->GetTotalPoints());
   strFeedback += strTemp;
   strTemp.Format("\nQT's: N: %3.1f S: %3.1f;   Stoppers: N: %d S: %d",
-    PLAYER(NORTH).GetNumQuickTricks(),
-    PLAYER(SOUTH).GetNumQuickTricks(),
-    PLAYER(NORTH).GetNumSuitsStopped(),
-    PLAYER(SOUTH).GetNumSuitsStopped());
+    m_pPlayer[NORTH]->GetNumQuickTricks(),
+    m_pPlayer[SOUTH]->GetNumQuickTricks(),
+    m_pPlayer[NORTH]->GetNumSuitsStopped(),
+    m_pPlayer[SOUTH]->GetNumSuitsStopped());
   strFeedback += strTemp;
   if (nGameCode == 2) {
     int numAcesRequired = theApp.GetValue(tnumAcesForSlam, nSlamCode);
-    int numAcesHeld = PLAYER(SOUTH).GetNumCardsOf(ACE) + PLAYER(NORTH).GetNumCardsOf(ACE);
+    int numAcesHeld = m_pPlayer[SOUTH]->GetNumCardsOf(ACE) + m_pPlayer[NORTH]->GetNumCardsOf(ACE);
     int numKingsRequired = theApp.GetValue(tnumKingsForSlam, nSlamCode);
-    int numKingsHeld = PLAYER(SOUTH).GetNumCardsOf(KING) + PLAYER(NORTH).GetNumCardsOf(KING);
+    int numKingsHeld = m_pPlayer[SOUTH]->GetNumCardsOf(KING) + m_pPlayer[NORTH]->GetNumCardsOf(KING);
     strTemp.Format("\nAces, Kings held by team = %d/%d, %d/%d",
       numAcesHeld, numAcesRequired,
       numKingsHeld, numKingsRequired);
     strFeedback += strTemp;
   }
-  FEEDBACK(strFeedback);
+  app_->SetFeedbackText(strFeedback);
 
   // swap hands if desired
   if (nTeam == EAST_WEST)
@@ -604,14 +603,14 @@ shuffle:
 
   // copy hands to the initial hands
   for (i = 0; i<4; i++)
-    PLAYER(i).InitializeHand();
+    m_pPlayer[i]->InitializeHand();
 
   // turn off game auto-play
   if ((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO) || (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO_EXPRESS))
     theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
 
   // done dealing
-  CMainFrame::ResetStatusMessage();
+  app_->ResetStatusMessage();
 
   // mark that the deal # is available
   m_bDealNumberAvailable = TRUE;
@@ -635,7 +634,7 @@ void Deal::DealSpecial(int nDealNumber, int nSpecialDealCode) {
 
 
 
-#define ISHONOR(x,y)  (PLAYER(x).GetCardByPosition(y)->GetFaceValue() > 10)
+#define ISHONOR(x,y)  (m_pPlayer[x]->GetCardByPosition(y)->GetFaceValue() > 10)
 //
 // Swap cards between two hands
 //
@@ -645,8 +644,8 @@ void Deal::DealSpecial(int nDealNumber, int nSpecialDealCode) {
 double Deal::SwapPoints(int nDest, int nSource, double fMax,
   int nGameCode, int nSuitCode, int nSlamCode) {
   //
-  double fSrcPoints = PLAYER(nSource).CountCardPoints();
-  double fDestPoints = PLAYER(nDest).CountCardPoints();
+  double fSrcPoints = m_pPlayer[nSource]->CountCardPoints();
+  double fDestPoints = m_pPlayer[nDest]->CountCardPoints();
   CCard *pSrcCard, *pDestCard;
   double fDiff, fTotalLeft = fMax;
   int i, nSrcCard, nDestCard, nSrcVal, nDestVal;
@@ -656,9 +655,9 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
   do {
     // values needed to observe Ace/King constraints
     int numAcesRequired = theApp.GetValue(tnumAcesForSlam, nSlamCode);
-    int numAcesHeld = PLAYER(SOUTH).GetNumCardsOf(ACE) + PLAYER(NORTH).GetNumCardsOf(ACE);
+    int numAcesHeld = m_pPlayer[SOUTH]->GetNumCardsOf(ACE) + m_pPlayer[NORTH]->GetNumCardsOf(ACE);
     int numKingsRequired = theApp.GetValue(tnumKingsForSlam, nSlamCode);
-    int numKingsHeld = PLAYER(SOUTH).GetNumCardsOf(KING) + PLAYER(NORTH).GetNumCardsOf(KING);
+    int numKingsHeld = m_pPlayer[SOUTH]->GetNumCardsOf(KING) + m_pPlayer[NORTH]->GetNumCardsOf(KING);
     // first see if there's an honor card in the source hand
     int nSum = 0;
     BOOL bIsHonor = FALSE;
@@ -667,7 +666,7 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
         bIsHonor = TRUE;
         break;
       }
-      //			nSum += HONOR_VALUE(PLAYER(nSource).m_holdings[i]->GetFaceValue());
+      //			nSum += HONOR_VALUE(m_pPlayer[nSource]->m_holdings[i]->GetFaceValue());
     }
     //		if (nSum == 0)
     if (!bIsHonor)
@@ -683,11 +682,11 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
       do {
         bInvalid = FALSE;
         nSrcCard = GetRandomValue(12);
-        pSrcCard = PLAYER(nSource).GetCardByPosition(nSrcCard);
+        pSrcCard = m_pPlayer[nSource]->GetCardByPosition(nSrcCard);
         nSrcVal = pSrcCard->GetFaceValue();
         nSuit = pSrcCard->GetSuit();
         // check that dest has cards in this suit
-        if (PLAYER(nDest).GetNumCardsInSuit(nSuit) == 0) {
+        if (m_pPlayer[nDest]->GetNumCardsInSuit(nSuit) == 0) {
           bInvalid = TRUE;
         } else if (nSuitCode == 1) {
           // check for suit preference
@@ -728,8 +727,8 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
       nInnerLoopCount = 0;
       bInvalid = FALSE;
       do {
-        nDestCard = GetRandomValue(PLAYER(nDest).GetNumCardsInSuit(nSuit) - 1);
-        pDestCard = PLAYER(nDest).GetCardInSuit(nSuit, nDestCard);
+        nDestCard = GetRandomValue(m_pPlayer[nDest]->GetNumCardsInSuit(nSuit) - 1);
+        pDestCard = m_pPlayer[nDest]->GetCardInSuit(nSuit, nDestCard);
         if (pDestCard == NULL) {
           // shouldn't happen, but does -- dunno why
           nInnerLoopCount++;
@@ -757,13 +756,13 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
     if ((fDiff > 0) && (fDiff <= fTotalLeft) &&
       (nInnerLoopCount < 40) && (nOuterLoopCount < 40)) {
       // success -- swap the two cards
-      PLAYER(nSource).RemoveCardFromHand(pSrcCard);
-      PLAYER(nDest).RemoveCardFromHand(pDestCard);
-      PLAYER(nDest).AddCardToHand(pSrcCard, TRUE);
-      PLAYER(nSource).AddCardToHand(pDestCard, TRUE);
+      m_pPlayer[nSource]->RemoveCardFromHand(pSrcCard);
+      m_pPlayer[nDest]->RemoveCardFromHand(pDestCard);
+      m_pPlayer[nDest]->AddCardToHand(pSrcCard, TRUE);
+      m_pPlayer[nSource]->AddCardToHand(pDestCard, TRUE);
       //
-      PLAYER(nDest).CountCardPoints(TRUE);
-      PLAYER(nSource).CountCardPoints(TRUE);
+      m_pPlayer[nDest]->CountCardPoints(TRUE);
+      m_pPlayer[nSource]->CountCardPoints(TRUE);
       //
       fValSwapped += fDiff;
       fTotalLeft -= fDiff;
@@ -786,21 +785,21 @@ BOOL Deal::SwapPlayersCards(int nPlayer1, int nPlayer2,
   BOOL bResetCounts) {
   CCard *pCard1, *pCard2;
 
-  if ((PLAYER(nPlayer1).GetNumCardsInSuit(nSuit1) == 0) ||
-    (PLAYER(nPlayer2).GetNumCardsInSuit(nSuit2) == 0))
+  if ((m_pPlayer[nPlayer1]->GetNumCardsInSuit(nSuit1) == 0) ||
+    (m_pPlayer[nPlayer2]->GetNumCardsInSuit(nSuit2) == 0))
     return 0;
-  pCard1 = PLAYER(nPlayer1).GetCardInSuit(nSuit1, nCard1);
-  pCard2 = PLAYER(nPlayer2).GetCardInSuit(nSuit2, nCard2);
-  PLAYER(nPlayer1).RemoveCardFromHand(pCard1);
-  PLAYER(nPlayer2).RemoveCardFromHand(pCard2);
-  PLAYER(nPlayer2).AddCardToHand(pCard1, TRUE);
-  PLAYER(nPlayer1).AddCardToHand(pCard2, TRUE);
+  pCard1 = m_pPlayer[nPlayer1]->GetCardInSuit(nSuit1, nCard1);
+  pCard2 = m_pPlayer[nPlayer2]->GetCardInSuit(nSuit2, nCard2);
+  m_pPlayer[nPlayer1]->RemoveCardFromHand(pCard1);
+  m_pPlayer[nPlayer2]->RemoveCardFromHand(pCard2);
+  m_pPlayer[nPlayer2]->AddCardToHand(pCard1, TRUE);
+  m_pPlayer[nPlayer1]->AddCardToHand(pCard2, TRUE);
   //
   if (bResetCounts) {
-    PLAYER(nPlayer1).CountCards();
-    PLAYER(nPlayer2).CountCards();
-    PLAYER(nPlayer1).CountCardPoints(TRUE);
-    PLAYER(nPlayer2).CountCardPoints(TRUE);
+    m_pPlayer[nPlayer1]->CountCards();
+    m_pPlayer[nPlayer2]->CountCards();
+    m_pPlayer[nPlayer1]->CountCardPoints(TRUE);
+    m_pPlayer[nPlayer2]->CountCardPoints(TRUE);
   }
   return 1;
 }

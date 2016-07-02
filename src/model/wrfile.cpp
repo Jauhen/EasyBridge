@@ -11,15 +11,13 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBdoc.h"
 #include "EasyBvw.h"
-#include "mainfrm.h"
 #include "progopts.h"
 #include "engine/playeropts.h"
 #include "filecode.h"
 #include "engine/Player.h"
 #include "engine/Card.h"
-#include "MainFrameOpts.h"
+#include "model/deal.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -91,10 +89,10 @@ BOOL Deal::WriteFile(CArchive& ar) {
   WriteBlockHeader(BLOCK_HANDINFO);
   // first the current hand
   for (i = 0; i<4; i++) {
-    numCards = PLAYER(i).GetNumCards();
+    numCards = m_pPlayer[i]->GetNumCards();
     strHand.Empty();
     for (j = 0; j<numCards; j++) {
-      strHand += PLAYER(i).GetCardByPosition(j)->GetName();
+      strHand += m_pPlayer[i]->GetCardByPosition(j)->GetName();
       strHand += " ";
     }
     switch (i) {
@@ -115,16 +113,16 @@ BOOL Deal::WriteFile(CArchive& ar) {
   // then the original hand
   for (i = 0; i<4; i++) {
     if (pVIEW->GetCurrentMode() == CEasyBView::MODE_CARDLAYOUT) {
-      numCards = PLAYER(i).GetNumCards();
+      numCards = m_pPlayer[i]->GetNumCards();
       strHand.Empty();
       for (j = 0; j<numCards; j++) {
-        strHand += PLAYER(i).GetCardByPosition(j)->GetName();
+        strHand += m_pPlayer[i]->GetCardByPosition(j)->GetName();
         strHand += " ";
       }
     } else {
       strHand.Empty();
       for (j = 0; j<13; j++) {
-        strHand += PLAYER(i).GetInitialHandCard(j)->GetName();
+        strHand += m_pPlayer[i]->GetInitialHandCard(j)->GetName();
         strHand += " ";
       }
     }
@@ -307,9 +305,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   WriteBlockHeader(BLOCK_COMMENTS);
   // get the current file comments text if the dialog is open
-  CWnd* pWnd = pMAINFRAME->GetDialog(twFileCommentsDialog);
-  if (pWnd)
-    pWnd->SendMessage(WM_COMMAND, WMS_UPDATE_TEXT, TRUE);
+  app_->UpdateFileCommentsDialog(true);
   WriteString(0, m_strFileComments);
   SkipLine();
 
@@ -434,7 +430,7 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   // export bidding history
   WriteText(ar, "\r\n\r\n");
   WriteText(ar, "[Bidding History]\r\n");
-  const CString strBiddingHistory = pMAINFRAME->GetBiddingHistory();
+  const CString strBiddingHistory = app_->GetBiddingHistory();
   WriteText(ar, strBiddingHistory);
   if (ISBID(GetContract())) {
     int nDeclarer = GetDeclarerPosition();
@@ -445,7 +441,7 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   // export play history
   WriteText(ar, "\r\n\r\n\r\n");
   WriteText(ar, "[Play History]\r\n");
-  const CString strPlayHistory = pMAINFRAME->GetPlayHistory();
+  const CString strPlayHistory = app_->GetPlayHistory();
   WriteText(ar, strPlayHistory);
 
   // export current hands

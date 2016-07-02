@@ -30,6 +30,5 @@
 #include <iostream>
 
 #include "defines.h"
-#include <CJLibrary.h>
 
 // TODO: reference additional headers your program requires here
