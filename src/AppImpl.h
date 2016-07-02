@@ -642,6 +642,119 @@ public:
     return pVIEW->GetValue(tnAnimationGranularity);
   }
 
+  virtual void EndGameReview() {
+    pVIEW->EndGameReview();
+  }
+
+  virtual void RestartPlay() {
+    pVIEW->PostMessage(WM_COMMAND, WMS_PLAY_RESTART, 0L);
+  }
+
+  virtual void RestartBidding() {
+    pVIEW->PostMessage(WM_COMMAND, WMS_BIDDING_RESTART, 0L);
+  }
+
+  virtual void ClearMode(bool redraw = false) {
+    pVIEW->ClearMode(redraw);
+  }
+
+  virtual void SuppressRefresh() {
+  pVIEW->SuppressRefresh();
+  }
+
+  virtual void InitNewRound() {
+    pVIEW->InitNewRound();
+  }
+
+  virtual void InitNewDeal() {
+    pVIEW->Notify(WM_COMMAND, WMS_INITNEWDEAL, 1L);
+  }
+
+  virtual void EnableRefresh(bool reset = false) {
+    pVIEW->EnableRefresh(reset);
+  }
+
+  virtual void ResumeGame() {
+    pVIEW->PostMessage(WM_COMMAND, WMS_RESUME_GAME, 0);
+  }
+
+  virtual void ResetDummySuitSequence() {
+    pVIEW->ResetDummySuitSequence();
+  }
+
+  virtual void AdvanceToNextPlayer() {
+    pVIEW->AdvanceToNextPlayer();
+  }
+
+  virtual void ClickForNextTrickMode() {
+    pVIEW->SetCurrentMode(CEasyBView::MODE_CLICKFORNEXTTRICK);
+  }
+
+  virtual void DisplayTricksView() {
+    pVIEW->DisplayTricks();
+  }
+
+  virtual void PromptLead() {
+    pVIEW->PromptLead();
+  }
+
+  virtual void WaitCardPlayMode() {
+    pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
+  }
+
+  virtual void GameFinished() {
+    pVIEW->GameFinished();
+  }
+
+  virtual void BidCurrentHand() {
+    pVIEW->PostMessage(WM_COMMAND, ID_BID_CURRENT_HAND, 0L);
+  }
+
+  virtual void RestoreGameReview() {
+    pVIEW->RestoreGameReview();
+  }
+
+  virtual void UpdateDisplay() {
+    pVIEW->Notify(WM_COMMAND, WMS_UPDATE_DISPLAY);
+  }
+
+  virtual void RefreshDisplay() {
+    pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY, 1L);
+  }
+
+  virtual void ResetDisplay() {
+    pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, 1L);
+  }
+
+  virtual CDC* GetWindowDC() {
+    CWindowDC dc(pVIEW);
+    return &dc;
+  }
+
+  virtual bool IsInClickForNextTrickMode() {
+    return pVIEW->GetCurrentMode() == CEasyBView::MODE_CLICKFORNEXTTRICK;
+  }
+
+  virtual void ClearTable() {
+    pVIEW->ClearTable();
+  }
+
+  virtual void SetWaitSpecialDealMode() {
+    pVIEW->SetCurrentMode(CEasyBView::MODE_WAITSPECIALDEAL);
+  }
+
+  virtual void SetCurrentMode(int value) {
+    pVIEW->SetCurrentMode((CEasyBView::ScreenMode)value);
+  }
+
+  virtual bool IsInCardLayoutMode() {
+    return pVIEW->GetCurrentMode() == CEasyBView::MODE_CARDLAYOUT;
+  }
+
+  virtual int GetCurrentMode() {
+    return pVIEW->GetCurrentMode();
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   //

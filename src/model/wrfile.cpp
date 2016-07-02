@@ -11,7 +11,6 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBvw.h"
 #include "progopts.h"
 #include "engine/playeropts.h"
 #include "filecode.h"
@@ -112,7 +111,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   }
   // then the original hand
   for (i = 0; i<4; i++) {
-    if (pVIEW->GetCurrentMode() == CEasyBView::MODE_CARDLAYOUT) {
+    if (app_->IsInCardLayoutMode()) {
       numCards = m_pPlayer[i]->GetNumCards();
       strHand.Empty();
       for (j = 0; j<numCards; j++) {
@@ -170,7 +169,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   // game status info
   //
   WriteBlockHeader(BLOCK_GAMEINFO);
-  WriteInt(ITEM_VIEW_STATUS_CODE, pVIEW->GetCurrentMode());
+  WriteInt(ITEM_VIEW_STATUS_CODE, app_->GetCurrentMode());
   WriteBool(ITEM_RUBBER_IN_PROGRESS, theApp.IsRubberInProgress());
   WriteBool(ITEM_GAME_IN_PROGRESS, theApp.IsGameInProgress());
   WriteBool(ITEM_BIDDING_IN_PROGRESS, theApp.IsBiddingInProgress());

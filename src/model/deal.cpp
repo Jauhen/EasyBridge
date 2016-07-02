@@ -10,7 +10,6 @@
 #include "mmsystem.h"
 #include "MyException.h"
 #include "EasyB.h"
-#include "EasyBvw.h"
 #include "progopts.h"
 #include "dialogs/roundfinisheddialog.h"
 #include "dialogs/ScoreDialog.h"
@@ -113,7 +112,7 @@ void Deal::InitNewGame() {
 void Deal::PrepForNewDeal() {
   // cancel review mode
   if (m_bReviewingGame)
-    pVIEW->EndGameReview();
+    app_->EndGameReview();
   m_bReviewingGame = FALSE;
   m_bGameReviewAvailable = FALSE;
 
@@ -171,8 +170,9 @@ void Deal::RestartCurrentHand(BOOL bUpdateView) {
   }
 
   // and update the view
-  if (bUpdateView)
-    pVIEW->PostMessage(WM_COMMAND, WMS_PLAY_RESTART, 0L);
+  if (bUpdateView) {
+    app_->RestartPlay();
+  }
 }
 
 
@@ -931,8 +931,9 @@ BOOL Deal::SwapPlayersHands(Position player1, Position player2, BOOL bRefresh, B
   }
 
   // and update
-  if (bRestartBidding && theApp.IsBiddingInProgress())
-    pVIEW->PostMessage(WM_COMMAND, WMS_BIDDING_RESTART, 0L);
+  if (bRestartBidding && theApp.IsBiddingInProgress()) {
+    app_->RestartBidding();
+  }
 
   // redisplay
   if (bRefresh)
@@ -977,7 +978,7 @@ void Deal::RotatePlayersHands(int nDirection, BOOL bRefresh, BOOL bRestartBiddin
       if (bRestartBidding)
         m_pPlayer[i]->RestartBidding();
     }
-    pVIEW->PostMessage(WM_COMMAND, WMS_BIDDING_RESTART, 0L);
+    app_->RestartBidding();
   }
 }
 
@@ -1131,7 +1132,7 @@ void Deal::ClearAllInfo() {
   theApp.SetValue(tbRubberInProgress, FALSE);
 
   // clear view mode
-  pVIEW->ClearMode();
+  app_->ClearMode();
 }
 
 
@@ -1433,18 +1434,18 @@ void Deal::InitPlay(BOOL bRedrawScreen, BOOL bRestarting) {
 
   // see if we should block a redraw
   if (!bRedrawScreen)
-    pVIEW->SuppressRefresh();
+    app_->SuppressRefresh();
 
   //
   if (bRedrawScreen)
-    pVIEW->InitNewRound();
+    app_->InitNewRound();
   //
   //	pVIEW->PostMessage(WM_COMMAND, WMS_INITNEWDEAL, 1L);
-  pVIEW->Notify(WM_COMMAND, WMS_INITNEWDEAL, 1L);
+  app_->InitNewDeal();
 
   if (!bRedrawScreen) {
     // restore drawing ability
-    pVIEW->EnableRefresh();
+    app_->EnableRefresh();
     //		pVIEW->Refresh();
   }
 }
@@ -1604,8 +1605,8 @@ void Deal::PlayGameRecord(int nGameIndex) {
   m_bReviewingGame = FALSE;
   theApp.SetValue(tbGameInProgress, TRUE);
   //
-  pVIEW->EndGameReview();
-  pVIEW->EnableRefresh(TRUE);
+  app_->EndGameReview();
+  app_->EnableRefresh(true);
   //	if (numPositions > 0)
   ResetDisplay();
 
@@ -1614,7 +1615,7 @@ void Deal::PlayGameRecord(int nGameIndex) {
   //
   if (m_numTricksPlayed < 13) {
     // then pick up where we left off
-    pVIEW->PostMessage(WM_COMMAND, WMS_RESUME_GAME, 0);
+    app_->ResumeGame();
   } else {
     // shouldn't even get here!
     AfxMessageBox(_T("The hand is over."));
@@ -1788,7 +1789,7 @@ void Deal::DeleteContents() {
 
   //
   //	pVIEW->SetCurrentMode(CEasyBView::MODE_NONE);
-  pVIEW->ClearMode(FALSE);
+  app_->ClearMode();
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -2307,11 +2308,11 @@ void Deal::BeginRound() {
   // make sure the view reflects the new dummy suit sequence
   if (theApp.GetValue(tbShowDummyTrumpsOnLeft)) {
     theApp.InitDummySuitSequence(m_nTrumpSuit, m_nDummy);
-    pVIEW->ResetDummySuitSequence();
+    app_->ResetDummySuitSequence();
   }
 
   // then start the play
-  pVIEW->AdvanceToNextPlayer();
+  app_->AdvanceToNextPlayer();
   //	InvokeNextPlayer();
 }
 
@@ -2468,7 +2469,7 @@ void Deal::InvokeNextPlayer() {
   // and then we POST a card play message to the view 
   // (instead of SENDing a messge or calling a function) 
   // in order to prevent recursive calls
-  pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + 1001, (int)pCard);
+  app_->PlayCard(pCard, 1001);
 }
 
 
@@ -2689,8 +2690,9 @@ void Deal::EvaluateTrick(BOOL bQuietMode) {
 
   // we don't finalize anything yet, since the last move can
   // still be taken back
-  if (!m_bReviewingGame && !m_bBatchMode)
-    pVIEW->SetCurrentMode(CEasyBView::MODE_CLICKFORNEXTTRICK);
+  if (!m_bReviewingGame && !m_bBatchMode) {
+    	app_->ClickForNextTrickMode();
+  }
 }
 
 
@@ -2722,7 +2724,7 @@ void Deal::ClearTrick() {
   if (!theApp.GetValue(tbAutoTestMode)) {
     UpdatePlayHistory();
     app_->DisplayTricks();
-    pVIEW->DisplayTricks();
+    app_->DisplayTricksView();
   }
   //	m_nPlayRound++;
 
@@ -2751,8 +2753,8 @@ void Deal::ClearTrick() {
     // _and_ not loading a saved position), then prompt the user and 
     // go on to the next round
     if (!m_bExpressPlayMode && !m_bBatchMode) {
-      pVIEW->PromptLead();
-      pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
+      app_->PromptLead();
+      app_->WaitCardPlayMode();
       BeginRound();
     } else if (!m_bBatchMode) {
       // else if we're playing through (and not not loading a saved position), 
@@ -2896,13 +2898,13 @@ void Deal::OnGameComplete() {
       for (int i = 0; i < 4; i++)
         m_pPlayer[i]->RemoveAllCardsFromHand();
       m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
-      pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY);
-      pVIEW->GameFinished();
+      app_->RefreshScreen();
+      app_->GameFinished();
       break;
     }
 
     case CRoundFinishedDialog::RF_REBID:
-      pVIEW->PostMessage(WM_COMMAND, ID_BID_CURRENT_HAND, 0L);
+      app_->BidCurrentHand();
       break;
 
     case CRoundFinishedDialog::RF_REPLAY:
@@ -2948,7 +2950,7 @@ void Deal::PostProcessGame() {
     m_bExposeDummy = FALSE;
     m_bReviewingGame = TRUE;
     // and show game review dialog
-    pVIEW->RestoreGameReview();
+    app_->RestoreGameReview();
     app_->MakeGameReviewDialogVisible();
     return;
   }
@@ -3231,7 +3233,7 @@ void Deal::ComputerReplay(BOOL bFullAuto) {
 
   // NOW we update the view, as everything is finally ready
   if (!bFullAuto)
-    pVIEW->Notify(WM_COMMAND, WMS_PLAY_RESTART, 0L);
+    app_->RestartPlay();
 
   // and send the program into auto play mode
   app_->SetAutoPlayMode(bFullAuto);
@@ -3248,19 +3250,19 @@ void Deal::ComputerReplay(BOOL bFullAuto) {
 //
 void Deal::UpdateDisplay() {
   // update is a simple redraw
-  pVIEW->Notify(WM_COMMAND, WMS_UPDATE_DISPLAY);
+  app_->UpdateDisplay();
 }
 
 //
 void Deal::RefreshDisplay() {
   // refresh is suit rest + redraw
-  pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY, 1L);
+  app_->RefreshDisplay();
 }
 
 //
 void Deal::ResetDisplay() {
   // reset is complete reset + redraw
-  pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, 1L);
+  app_->ResetDisplay();
 }
 
 //
@@ -3422,8 +3424,7 @@ void Deal::ShowAutoHint() {
     CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint(TRUE);
     if (pCard) {
       app_->EnableHintDialog();
-      CWindowDC dc(pVIEW);
-      pCard->FlashCard(&dc);
+      pCard->FlashCard(app_->GetWindowDC());
       // save the hint as pending hint
       m_pLastPlayHint = pCard;
     }
@@ -3464,8 +3465,8 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
   } else if (theApp.IsGameInProgress()) {
     // special code -- allow a <space> to be used to clear a trick
     if (m_numCardsPlayedInRound == 4) {
-      if (pVIEW->GetCurrentMode() == CEasyBView::MODE_CLICKFORNEXTTRICK) {
-        pVIEW->ClearTable();
+      if (app_->IsInClickForNextTrickMode()) {
+        app_->ClearTable();
         ClearTrick();
       }
       //
@@ -3477,7 +3478,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
       // accept the hint
       app_->SetStatusText("Playing hint card...");
       ASSERT(m_pLastPlayHint->GetOwner() == m_nCurrPlayer);
-      pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + 1000, (int)m_pLastPlayHint);
+      app_->PlayCard(m_pLastPlayHint, 1000);
       // clear hint info
       m_pLastPlayHint = NULL;
       //			CAutoHintDialog* pHintDlg = (CAutoHintDialog*) pMAINFRAME->GetDialog(twAutoHintDialog);
@@ -3490,8 +3491,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
       // get the hint
       CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint();
       if (pCard) {
-        CWindowDC dc(pVIEW);
-        pCard->FlashCard(&dc);
+        pCard->FlashCard(app_->GetWindowDC());
         // save the hint as pending hint
         m_pLastPlayHint = pCard;
       } else {

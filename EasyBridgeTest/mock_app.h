@@ -113,6 +113,37 @@ public:
   MOCK_METHOD1(GetSuitToScreenIndex, int(int suit));
   MOCK_METHOD1(GetDummySuitToScreenIndex, int(int suit));
   MOCK_METHOD0(GetAnimationGranularity, int());
+  MOCK_METHOD0(EndGameReview, void());
+  MOCK_METHOD0(RestartPlay, void());
+  MOCK_METHOD0(RestartBidding, void());
+  MOCK_METHOD0(ClearMode, void());
+  MOCK_METHOD1(ClearMode, void(bool redraw));
+  MOCK_METHOD0(SuppressRefresh, void());
+  MOCK_METHOD0(InitNewRound, void());
+  MOCK_METHOD0(InitNewDeal, void());
+  MOCK_METHOD0(EnableRefresh, void());
+  MOCK_METHOD1(EnableRefresh, void(bool reset));
+  MOCK_METHOD0(ResumeGame, void());
+  MOCK_METHOD0(ResetDummySuitSequence, void());
+  MOCK_METHOD0(AdvanceToNextPlayer, void());
+  MOCK_METHOD0(ClickForNextTrickMode, void());
+  MOCK_METHOD0(DisplayTricksView, void());
+  MOCK_METHOD0(PromptLead, void());
+  MOCK_METHOD0(WaitCardPlayMode, void());
+  MOCK_METHOD0(GameFinished, void());
+  MOCK_METHOD0(BidCurrentHand, void());
+  MOCK_METHOD0(RestoreGameReview, void());
+  MOCK_METHOD0(UpdateDisplay, void());
+  MOCK_METHOD0(RefreshDisplay, void());
+  MOCK_METHOD0(ResetDisplay, void());
+  MOCK_METHOD0(GetWindowDC, CDC*());
+  MOCK_METHOD0(IsInClickForNextTrickMode, bool());
+  MOCK_METHOD0(ClearTable, void());
+  MOCK_METHOD0(SetWaitSpecialDealMode, void());
+  MOCK_METHOD1(SetCurrentMode, void(int value));
+  MOCK_METHOD0(IsInCardLayoutMode, bool());
+  MOCK_METHOD0(GetCurrentMode, int());
+
 
   MOCK_METHOD1(SetAutoHintDialogHintText, void(CString text));
   MOCK_METHOD1(ShowAnalysisDialog, void(Position position));

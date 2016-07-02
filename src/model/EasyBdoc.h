@@ -14,11 +14,6 @@
 #define __EASYBDOC__
 
 #include "model/deal.h"
-#include "EventProcessor.h"
-class CPlayer;
-class CCard;
-class CGameRecord;
-
 
 class CEasyBDoc : public Deal, public CDocument {
   // public routines

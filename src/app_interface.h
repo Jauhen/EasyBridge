@@ -190,6 +190,35 @@ public:
   virtual int GetSuitToScreenIndex(int suit) = 0;
   virtual int GetDummySuitToScreenIndex(int suit) = 0;
   virtual int GetAnimationGranularity() = 0;
+  virtual void EndGameReview() = 0;
+  virtual void RestartPlay() = 0;
+  virtual void RestartBidding() = 0;
+  virtual void ClearMode(bool redraw = false) = 0;
+  virtual void SuppressRefresh() = 0;
+  virtual void InitNewRound() = 0;
+  virtual void InitNewDeal() = 0;
+  virtual void EnableRefresh(bool reset = false) = 0;
+  virtual void ResumeGame() = 0;
+  virtual void ResetDummySuitSequence() = 0;
+  virtual void AdvanceToNextPlayer() = 0;
+  virtual void ClickForNextTrickMode() = 0;
+  virtual void DisplayTricksView() = 0;
+  virtual void PromptLead() = 0;
+  virtual void WaitCardPlayMode() = 0;
+  virtual void GameFinished() = 0;
+  virtual void BidCurrentHand() = 0;
+  virtual void RestoreGameReview() = 0;
+  virtual void UpdateDisplay() = 0;
+  virtual void RefreshDisplay() = 0;
+  virtual void ResetDisplay() = 0;
+  virtual CDC* GetWindowDC() = 0;
+  virtual bool IsInClickForNextTrickMode() = 0;
+  virtual void ClearTable() = 0;
+  virtual void SetWaitSpecialDealMode() = 0;
+  virtual void SetCurrentMode(int value) = 0;
+  virtual bool IsInCardLayoutMode() = 0;
+  virtual int GetCurrentMode() = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //

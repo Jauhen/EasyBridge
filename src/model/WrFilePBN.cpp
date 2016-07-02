@@ -11,7 +11,6 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBvw.h"
 #include "progopts.h"
 #include "engine/playeropts.h"
 #include "filecodePBN.h"

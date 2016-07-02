@@ -11,7 +11,6 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBvw.h"
 #include "engine/Player.h"
 #include "filecode.h"
 #include "progopts.h"
@@ -341,7 +340,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
 
                 // game status info
               case ITEM_VIEW_STATUS_CODE:
-                pVIEW->SetCurrentMode((CEasyBView::ScreenMode)nValue);
+                app_->SetCurrentMode(nValue);
                 break;
 
               case ITEM_RUBBER_IN_PROGRESS:

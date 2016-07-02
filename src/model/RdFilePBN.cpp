@@ -11,7 +11,6 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBvw.h"
 #include "engine/Player.h"
 #include "filecodePBN.h"
 #include "progopts.h"
@@ -726,7 +725,7 @@ void Deal::AssignCardsPBN(const CString& str) {
     // verify
     if (numCards != 13) {
       ClearAllInfo();
-      pVIEW->Notify(WM_COMMAND, WMS_REFRESH_DISPLAY);
+      app_->RefreshScreen();
       AfxMessageBox("Invalid deal string!");
       AfxThrowFileException(CFileException::generic);
     }

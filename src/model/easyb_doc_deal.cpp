@@ -11,7 +11,6 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "EasyBvw.h"
 #include "engine/Player.h"
 #include "progopts.h"
 #include "engine/deck.h"
@@ -68,7 +67,7 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
   m_nDealNumber = theApp.GetDeck()->Shuffle(nDealNumber);
 
   // set busy cursor
-  pVIEW->SetCurrentMode(CEasyBView::MODE_WAITSPECIALDEAL);
+  app_->SetWaitSpecialDealMode();
 
   // first set target points
   int nMin, nMax;
@@ -139,7 +138,7 @@ shuffle:
   // check if we've exceeded the limit on iterations
   if (nOuterLoopCount >= MAX_SPECIAL_DEAL_ITERATIONS) {
     AfxMessageBox("Failed to meet hand requirements.  Try again.");
-    pVIEW->ClearMode();
+    app_->ClearMode();
     return;
   }
 
@@ -616,7 +615,7 @@ shuffle:
   m_bDealNumberAvailable = TRUE;
 
   // reset view mode
-  pVIEW->ClearMode();
+  app_->ClearMode();
 
   // and begin play
   InitPlay();
