@@ -16,6 +16,8 @@
 #include <map>
 #include <list>
 
+class AppInterface;
+
 //
 class CGameRecord
 {
@@ -75,10 +77,11 @@ private:
 //	BOOL		m_bBidsAvailable;
 //	BOOL		m_bPlaysAvailable;
 
+  std::shared_ptr<AppInterface> app_;
 
 // construction / destruction
 public:
-	CGameRecord();
+	CGameRecord(std::shared_ptr<AppInterface> app);
 	~CGameRecord();
 };
 

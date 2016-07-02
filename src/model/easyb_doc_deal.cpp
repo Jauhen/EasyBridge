@@ -83,7 +83,7 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
     // game deal
     nMin = theApp.GetValue(tnRequiredPointsForGame, nSuitCode, 0);
     nMax = theApp.GetValue(tnRequiredPointsForGame, nSuitCode, 1);
-    fScoreTarget = nMin + GetRandomValue(nMax - nMin);
+    fScoreTarget = nMin + app_->GetRandomValue(nMax - nMin);
     switch (nSuitCode) {
     case 0:
       // game hand, any suit
@@ -108,7 +108,7 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
     // slam deal
     nMin = theApp.GetValue(tnRequiredPointsForSlam, nSlamCode, 0);
     nMax = theApp.GetValue(tnRequiredPointsForSlam, nSlamCode, 1);
-    fScoreTarget = nMin + GetRandomValue(nMax - nMin);
+    fScoreTarget = nMin + app_->GetRandomValue(nMax - nMin);
     switch (nSlamCode) {
     case 0:
       // any slam
@@ -320,7 +320,7 @@ shuffle:
       for (i = 0; i<fDiff; i++) {
         // first pick a source opponent, semi-randomly
         // 0 or 1; 0 means west, unless west has zero aces
-        if (((GetRandomValue(1) == 0) &&
+        if (((app_->GetRandomValue(1) == 0) &&
           (m_pPlayer[WEST]->GetNumCardsOf(ACE) > 0)) ||
           (m_pPlayer[EAST]->GetNumCardsOf(ACE) == 0))
           nSrcPlayer = WEST;
@@ -328,7 +328,7 @@ shuffle:
           nSrcPlayer = EAST;
         ASSERT(m_pPlayer[nSrcPlayer]->GetNumCardsOf(ACE) != 0);
         // and likewise pick a dest player; 0=South
-        int nVal = GetRandomValue(1);
+        int nVal = app_->GetRandomValue(1);
         if (((nVal == 0) && (m_pPlayer[SOUTH]->GetNumCardsOf(ACE) < 4)) ||
           (m_pPlayer[NORTH]->GetNumCardsOf(ACE) == 4))
           nDestPlayer = SOUTH;
@@ -338,7 +338,7 @@ shuffle:
         nAceLoopCount1 = 0;
         do {
           // search for a source suit with an ace
-          nSuit1 = GetRandomValue(3);
+          nSuit1 = app_->GetRandomValue(3);
           if ((m_pPlayer[nSrcPlayer]->GetNumCardsInSuit(nSuit1) > 0) &&
             (m_pPlayer[nSrcPlayer]->GetCardInSuit(nSuit1, 0)->GetFaceValue() == ACE)) {
             break;
@@ -352,7 +352,7 @@ shuffle:
         //
         nAceLoopCount2 = 0;
         do {
-          nSuit2 = GetRandomValue(3);
+          nSuit2 = app_->GetRandomValue(3);
           // make sure the dest suit has > 1 cards in it,
           // or if it has only one card, that it's not an ace
           if ((m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2) > 1) ||
@@ -369,7 +369,7 @@ shuffle:
         // and then pick a nonace card from the dest suit
         numCards = m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2);
         do {
-          nDestCard = GetRandomValue(numCards - 1);
+          nDestCard = app_->GetRandomValue(numCards - 1);
         } while (m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == ACE);
         // and finally, then swap cards
         SwapPlayersCards(nSrcPlayer, nDestPlayer, nSuit1, nSuit2, 0, nDestCard, TRUE);
@@ -395,14 +395,14 @@ shuffle:
       for (i = 0; i<fDiff; i++) {
         // first pick a source opponent, semi-randomly
         // 0 or 1; 0 means west, unless west has zero kings
-        if (((GetRandomValue(1) == 0) &&
+        if (((app_->GetRandomValue(1) == 0) &&
           (m_pPlayer[WEST]->GetNumCardsOf(KING) > 0)) ||
           (m_pPlayer[EAST]->GetNumCardsOf(KING) == 0))
           nSrcPlayer = WEST;
         else
           nSrcPlayer = EAST;
         // and likewise pick a dest player; 0=South
-        if (((GetRandomValue(1) == 0) &&
+        if (((app_->GetRandomValue(1) == 0) &&
           (m_pPlayer[SOUTH]->GetNumCardsOf(KING) < 4)) ||
           (m_pPlayer[NORTH]->GetNumCardsOf(KING) == 4))
           nDestPlayer = SOUTH;
@@ -412,7 +412,7 @@ shuffle:
         nKingLoopCount1 = 0;
         do {
           // search for a source suit with a king
-          nSuit1 = GetRandomValue(3);
+          nSuit1 = app_->GetRandomValue(3);
           if ((m_pPlayer[nSrcPlayer]->GetNumCardsInSuit(nSuit1) >= 1) &&
             (m_pPlayer[nSrcPlayer]->GetCardInSuit(nSuit1, 0)->GetFaceValue() == KING)) {
             nSrcCard = 0;
@@ -432,7 +432,7 @@ shuffle:
         //
         nKingLoopCount2 = 0;
         do {
-          nSuit2 = GetRandomValue(3);
+          nSuit2 = app_->GetRandomValue(3);
           // make sure the dest suit has > 1 cards in it, including a 
           // card lower than a king which can be swapped out 
           int nNum = m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2);
@@ -449,7 +449,7 @@ shuffle:
         // and then pick a non-king, non-ace card from the dest suit
         numCards = m_pPlayer[nDestPlayer]->GetNumCardsInSuit(nSuit2);
         do {
-          nDestCard = GetRandomValue(numCards - 1);
+          nDestCard = app_->GetRandomValue(numCards - 1);
         } while ((m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == KING) ||
           (m_pPlayer[nDestPlayer]->GetCardInSuit(nSuit2, nDestCard)->GetFaceValue() == ACE));
         // and finally, then swap cards
@@ -490,7 +490,7 @@ shuffle:
     else
       bNorthHoldsExtraHonors = FALSE;
     //
-    nDest = (GetRandomValue(1) == 0) ? EAST : WEST;
+    nDest = (app_->GetRandomValue(1) == 0) ? EAST : WEST;
     if (fDiff < 0) {
       // adjust hand upwards
       if ((theApp.GetValue(tbBalanceTeamHands)) &&
@@ -500,7 +500,7 @@ shuffle:
         else
           nSource = NORTH;
       } else {
-        nSource = (GetRandomValue(1) == 0) ? NORTH : SOUTH;
+        nSource = (app_->GetRandomValue(1) == 0) ? NORTH : SOUTH;
       }
       fSwapped = SwapPoints(nSource, nDest, Abs(fDiff), nGameCode, nSuitCode, nSlamCode);
     } else {
@@ -523,7 +523,7 @@ shuffle:
         else
           nSource = NORTH;
       } else {
-        nSource = (GetRandomValue(1) == 0) ? NORTH : SOUTH;
+        nSource = (app_->GetRandomValue(1) == 0) ? NORTH : SOUTH;
       }
       fSwapped = SwapPoints(nDest, nSource, Abs(fDiff), nGameCode, nSuitCode, nSlamCode);
     }
@@ -680,7 +680,7 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
       nInnerLoopCount = 0;
       do {
         bInvalid = FALSE;
-        nSrcCard = GetRandomValue(12);
+        nSrcCard = app_->GetRandomValue(12);
         pSrcCard = m_pPlayer[nSource]->GetCardByPosition(nSrcCard);
         nSrcVal = pSrcCard->GetFaceValue();
         nSuit = pSrcCard->GetSuit();
@@ -726,7 +726,7 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
       nInnerLoopCount = 0;
       bInvalid = FALSE;
       do {
-        nDestCard = GetRandomValue(m_pPlayer[nDest]->GetNumCardsInSuit(nSuit) - 1);
+        nDestCard = app_->GetRandomValue(m_pPlayer[nDest]->GetNumCardsInSuit(nSuit) - 1);
         pDestCard = m_pPlayer[nDest]->GetCardInSuit(nSuit, nDestCard);
         if (pDestCard == NULL) {
           // shouldn't happen, but does -- dunno why

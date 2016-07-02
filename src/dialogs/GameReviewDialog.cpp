@@ -16,7 +16,7 @@
 #include "mainfrm.h"
 #include "mainFrameopts.h"
 #include "GameReviewDialog.h"
-#include "engine/GameRecord.h"
+#include "model/GameRecord.h"
 #include "MyToolTipWnd.h"
 #include "engine/Card.h"
 #include "engine/Deck.h"

@@ -224,6 +224,7 @@
     <ClInclude Include="..\src\model\deal.h" />
     <ClInclude Include="..\src\model\FILECODE.H" />
     <ClInclude Include="..\src\model\FileCodePBN.H" />
+    <ClInclude Include="..\src\model\GameRecord.h" />
     <ClInclude Include="mock_app.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="..\src\engine\play\TypeBFinesse.cpp" />
     <ClCompile Include="..\src\model\deal.cpp" />
     <ClCompile Include="..\src\model\easyb_doc_deal.cpp" />
+    <ClCompile Include="..\src\model\GameRecord.cpp" />
     <ClCompile Include="..\src\model\rdfile.cpp" />
     <ClCompile Include="..\src\model\RdFilePBN.cpp" />
     <ClCompile Include="..\src\model\wrfile.cpp" />

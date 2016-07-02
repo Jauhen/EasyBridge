@@ -28,7 +28,7 @@
 #include "progopts.h"
 #include "viewopts.h"
 #include "MyException.h"
-#include "engine/GameRecord.h"
+#include "model/GameRecord.h"
 #include "engine/play/HandHoldings.h"
 #include "engine/play/CombinedHoldings.h"
 #include "engine/play/DeclarerPlayEngine.h"

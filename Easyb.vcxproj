@@ -301,7 +301,7 @@
     <ClCompile Include="src\engine\play\Finesse.cpp" />
     <ClCompile Include="src\engine\play\Force.cpp" />
     <ClCompile Include="src\engine\bidding\Gambling3NTConvention.cpp" />
-    <ClCompile Include="src\engine\GameRecord.cpp" />
+    <ClCompile Include="src\model\GameRecord.cpp" />
     <ClCompile Include="src\dialogs\GameReviewDialog.cpp" />
     <ClCompile Include="src\engine\bidding\GerberConvention.cpp" />
     <ClCompile Include="src\GIB.cpp" />
@@ -441,7 +441,7 @@
     <ClInclude Include="src\engine\play\Finesse.h" />
     <ClInclude Include="src\engine\play\Force.h" />
     <ClInclude Include="src\engine\bidding\Gambling3NTConvention.h" />
-    <ClInclude Include="src\engine\GameRecord.h" />
+    <ClInclude Include="src\model\GameRecord.h" />
     <ClInclude Include="src\dialogs\GameReviewDialog.h" />
     <ClInclude Include="src\engine\bidding\GerberConvention.h" />
     <ClInclude Include="src\GIB.h" />

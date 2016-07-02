@@ -204,6 +204,7 @@ protected:
 
 
   static BOOL m_bInitialized;
+
   CPlayer* m_pPlayer[4];
   // file info
   CString m_strFileProgTitle;

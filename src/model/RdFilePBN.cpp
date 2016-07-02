@@ -14,7 +14,7 @@
 #include "engine/Player.h"
 #include "filecodePBN.h"
 #include "progopts.h"
-#include "engine/GameRecord.h"
+#include "model/GameRecord.h"
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "model/deal.h"
@@ -175,7 +175,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
     // if this is a valid tag, alloc a new game object
     //
     if ((!strTag.IsEmpty()) && (pGameRecord == NULL)) {
-      pGameRecord = new CGameRecord;
+      pGameRecord = new CGameRecord(app_);
       numTagsRead = 0;
     }
 
@@ -225,7 +225,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
       // dealer
     case TAG_DEALER:
       if (!strValue.IsEmpty() && (strValue[0] != '?'))
-        pGameRecord->m_nDealer = CharToPosition(strValue[0]);
+        pGameRecord->m_nDealer = app_->CharToPosition(strValue[0]);
       break;
 
       // vulnerability
@@ -248,7 +248,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
 
     case TAG_DECLARER:
       if (!strValue.IsEmpty() && (strValue[0] != '?'))
-        pGameRecord->m_nDeclarer = CharToPosition(strValue[0]);
+        pGameRecord->m_nDeclarer = app_->CharToPosition(strValue[0]);
       break;
 
     case TAG_CONTRACT:
@@ -260,7 +260,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
         break;
       }
       int nContractLevel = atoi(strValue);
-      int nContractSuit = CharToSuit(strValue[1]);
+      int nContractSuit = app_->CharToSuit(strValue[1]);
       int nContract = MAKEBID(nContractSuit, nContractLevel);
       int nContractModifier = 0;
       //
@@ -421,7 +421,7 @@ int Deal::ParseBidsPBN(CArchive& ar, const CString& strValue) {
         numBids += 3;
       } else {
         // this is a bid, so record it
-        int nBid = ::StringToBid(partString);
+        int nBid = app_->StringToBid(partString);
         if (nBid == BID_NONE) {
           // error!
           //					AfxMessageBox("Invalid bid string!");
@@ -477,7 +477,7 @@ int Deal::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
   int nRound = 0;
   int nLen = string.GetLength();
   //
-  int nStartingPos = CharToPosition(strValue[0]);
+  int nStartingPos = app_->CharToPosition(strValue[0]);
   pGameRecord->m_nRoundLead[0] = nStartingPos;
   pGameRecord->m_numCardsPlayed = 0;
 
@@ -504,11 +504,11 @@ int Deal::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
         // this is a NAG -- ignore it
       } else {
         // this is a play, so record it
-        int nCardVal = ::StringToDeckValue(partString);
+        int nCardVal = app_->StringToDeckValue(partString);
         int nPos = nStartingPos;
         int nPosOffset = nPlayIndex % 4;
         for (int i = 0; i < nPosOffset; i++)
-          nPos = GetNextPlayer(nPos);
+          nPos = app_->GetNextPlayer(nPos);
         //
         pGameRecord->m_nGameTrick[nRound][nPos] = nCardVal;
         pGameRecord->m_nPlayRecord[nPlayIndex] = nCardVal;
@@ -677,7 +677,7 @@ void Deal::AssignCardsPBN(const CString& str) {
   strHoldings.TrimLeft();
 
   // get the starting player
-  int nPlayer = CharToPosition(strHoldings[0]);
+  int nPlayer = app_->CharToPosition(strHoldings[0]);
   strHoldings = strHoldings.Mid(2);	// go past the "X:" mark
   strHoldings.TrimLeft();
 
@@ -708,7 +708,7 @@ void Deal::AssignCardsPBN(const CString& str) {
         strSuit = _T("");
       //
       for (int j = 0; j < strSuit.GetLength(); j++) {
-        int nValue = CharToFaceValue(strSuit[j]);
+        int nValue = app_->CharToFaceValue(strSuit[j]);
         int nIndex = MAKEDECKVALUE(nSuit, nValue);
         CCard* pCard = theApp.GetDeck()->GetSortedCard(nIndex);
         ASSERT(pCard);
@@ -730,7 +730,7 @@ void Deal::AssignCardsPBN(const CString& str) {
       AfxThrowFileException(CFileException::generic);
     }
     //
-    nPlayer = GetNextPlayer(nPlayer);
+    nPlayer = app_->GetNextPlayer(nPlayer);
   }
   //
   m_bHandsDealt = TRUE;

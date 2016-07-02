@@ -10,8 +10,8 @@
 // GameRecord.cpp: implementation file
 //
 #include "stdafx.h"
-#include "EasyB.h"
-#include "engine/GameRecord.h"
+#include "app_interface.h"
+#include "model/GameRecord.h"
 #include "model/filecodePBN.h"
 
 // the list of required PBN 2.0 tags
@@ -71,8 +71,7 @@ const int c_numNonEmptyTags = sizeof(c_nonEmptyTags) / sizeof(LPCTSTR);
 /////////////////////////////////////////////////////////////////
 
 //
-CGameRecord::CGameRecord()
-{
+CGameRecord::CGameRecord(std::shared_ptr<AppInterface> app) : app_(app) {
 	// clear data
 	m_nContract	= BID_NONE;
 	m_nContractModifier = 0;
@@ -180,7 +179,7 @@ int CGameRecord::DetermineRoundWinner(const int nRound) const
 			}
 		}
 		//
-		nPos = ::GetNextPlayer(nPos);
+		nPos = app_->GetNextPlayer(nPos);
 	}
 
 	//

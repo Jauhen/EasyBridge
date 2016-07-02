@@ -727,8 +727,8 @@ public:
   }
 
   virtual CDC* GetWindowDC() {
-    CWindowDC dc(pVIEW);
-    return &dc;
+    CWindowDC* dc = new CWindowDC(pVIEW);
+    return dc;
   }
 
   virtual bool IsInClickForNextTrickMode() {
@@ -826,11 +826,19 @@ public:
     return ::FormString(format, arg1, arg2);
   }
 
+  virtual CString FormString(const char* format, const char* arg1, int arg2) {
+    return ::FormString(format, arg1, arg2);
+  }
+
   virtual CString FormString(const char* format, const char* arg1) {
     return ::FormString(format, arg1);
   }
 
   virtual CString FormString(const char* format, int arg1) {
+    return ::FormString(format, arg1);
+  }
+
+  virtual CString FormString(const char* format, unsigned char arg1) {
     return ::FormString(format, arg1);
   }
 
@@ -884,6 +892,66 @@ public:
 
   virtual int GetRandomValue(int max) {
     return ::GetRandomValue(max);
+  }
+
+  virtual const char* PositionToShortString(int pos) {
+    return ::PositionToShortString(pos);
+  }
+
+  virtual int GetOpposingTeam(int team) {
+    return ::GetOpposingTeam(team);
+  }
+
+  virtual int GetPartner(int pos) {
+    return ::GetPartner(pos);
+  }
+
+  virtual int StringToPosition(const char* str) {
+    return ::StringToPosition(str);
+  }
+
+  virtual int CharToSuit(char c) {
+    return ::CharToSuit(c);
+  }
+
+  virtual const char PositionToChar(int pos) {
+    return ::PositionToChar(pos);
+  }
+
+  virtual int CharToFaceValue(char c) {
+    return ::CharToFaceValue(c);
+  }
+
+  virtual const CString BidToPBNString(int bid) {
+    return ::BidToPBNString(bid);
+  }
+
+  virtual CString WrapInQuotes(const CString& item) {
+    return ::WrapInQuotes(item);
+  }
+
+  virtual CString StripQuotes(const CString& item) {
+    return ::StripQuotes(item);
+  }
+
+  virtual int CharToPosition(char c) {
+    return ::CharToPosition(c);
+  }
+
+  virtual int StringToBid(const char* str) {
+    return ::StringToBid(str);
+  }
+
+  virtual int ContractStringToBid(const char* str) {
+    return ::ContractStringToBid(str);
+  }
+
+  virtual int ContractParamsToBid(int suit, int level) {
+    return ::ContractParamsToBid(suit, level);
+  }
+
+  virtual int TimeGetTime() {
+    return timeGetTime();
   }
 };
 

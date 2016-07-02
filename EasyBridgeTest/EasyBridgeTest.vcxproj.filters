@@ -248,6 +248,9 @@
     <ClInclude Include="..\src\model\FileCodePBN.H">
       <Filter>sources\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\model\GameRecord.h">
+      <Filter>sources\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -476,6 +479,9 @@
       <Filter>sources\model</Filter>
     </ClCompile>
     <ClCompile Include="..\src\model\WrFilePBN.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\GameRecord.cpp">
       <Filter>sources\model</Filter>
     </ClCompile>
   </ItemGroup>
