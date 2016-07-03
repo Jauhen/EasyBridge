@@ -9,9 +9,8 @@
 
 #include "MyException.h"
 #include "dialogs/roundfinisheddialog.h"
-#include "dialogs/ScoreDialog.h"
-#include "dialogs/SelectHandDialog.h"
 
+BOOL Deal::m_bInitialized = FALSE;
 
 Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
   //
@@ -538,17 +537,11 @@ void Deal::UpdateScore() {
 // DisplayScore() 
 //
 void Deal::DisplayScore() {
-  // set the info
-  CScoreDialog scoreDialog;
-  scoreDialog.SetBonusPoints(m_strArrayBonusPointsRecord);
-  scoreDialog.SetTrickPoints(m_strArrayTrickPointsRecord);
-  scoreDialog.SetTotalPoints(m_strTotalPointsRecord);
-
   // temporarily mark the game as inactive
   app_->SetGameInProgress(false);
 
   // show the score
-  scoreDialog.DoModal();
+  app_->DisplayScoreDialog(m_strArrayBonusPointsRecord, m_strArrayTrickPointsRecord, m_strTotalPointsRecord);
 
   // temporarily mark the game as inactive
   app_->SetGameInProgress(true);
@@ -806,19 +799,11 @@ void Deal::UpdateDuplicateScore() {
 // - this is purely preliminary code
 //
 void Deal::DisplayDuplicateScore() {
-  //	
-  // show the info
-  //
-  CScoreDialog scoreDialog;
-  scoreDialog.SetBonusPoints(m_strArrayBonusPointsRecord);
-  scoreDialog.SetTrickPoints(m_strArrayTrickPointsRecord);
-  scoreDialog.SetTotalPoints(m_strTotalPointsRecord);
-
   // temporarily mark the game as inactive
   app_->SetGameInProgress(false);
 
   // show the score
-  scoreDialog.DoModal();
+  app_->DisplayScoreDialog(m_strArrayBonusPointsRecord, m_strArrayTrickPointsRecord, m_strTotalPointsRecord);
 
   // temporarily mark the game as inactive
   app_->SetGameInProgress(true);
@@ -1568,20 +1553,18 @@ void Deal::InitGameReview() {
 void Deal::PlayGameRecord(int nGameIndex) {
   //
   ASSERT(nGameIndex < m_gameRecords.GetSize());
-
-  // ask for the position to assume
-  CSelectHandDialog handDialog;
-  handDialog.m_strTitle = "Select Hand to Play";
-  handDialog.m_nMode = CSelectHandDialog::SH_MODE_HAND;
   const CGameRecord& game = *(m_gameRecords.GetAt(nGameIndex));
 
-  // init declarer if available,else play south
-  if (ISPLAYER(game.m_nDeclarer))
-    handDialog.m_nPosition = game.m_nDeclarer;
-  else
-    handDialog.m_nPosition = SOUTH;
-  if (!handDialog.DoModal())
+  int position = SOUTH;
+  if (ISPLAYER(game.m_nDeclarer)) {
+    position = game.m_nDeclarer;
+  }
+
+  // ask for the position to assume
+  position = app_->DisplaySelectHandDialog(position);
+  if (!ISPLAYER(position)) {
     return;
+  }
 
   // init data
   m_nDeclarer = game.m_nDeclarer;
@@ -1594,7 +1577,7 @@ void Deal::PlayGameRecord(int nGameIndex) {
   }
 
   // get count of positions to rotate (clockwise)
-  int numPositions = 4 - handDialog.m_nPosition;
+  int numPositions = 4 - position;
 
   // rotate the hands
   CWaitCursor wait;
@@ -2875,24 +2858,12 @@ void Deal::OnGameComplete() {
   }
 
   // else prompt hand finished and optionally restart play/bid
-  std::shared_ptr<CRoundFinishedDialog> roundFinishedDlg = app_->NewRoundFinishedDialog();
-  // if replaying, keep old comparison message
-  if (bReplayMode)
-    roundFinishedDlg->SetMessage(strMessage);
-  else
-    roundFinishedDlg->SetMessage(strMessage, strOldMessage);
+  int roundFinishedDlgCode = app_->DisplayRoundFinishedDialog(bReplayMode, m_bGameReviewAvailable, strMessage, strOldMessage);
 
-  // disable "cancel" button if reviewing game
-  if (m_bGameReviewAvailable)
-    roundFinishedDlg->m_bDisableCancel = TRUE;
-
-  //
-  roundFinishedDlg->m_bReplayMode = bReplayMode;
-  BOOL bCode = roundFinishedDlg->DoModal();
-  if (!bCode) {
+  if (roundFinishedDlgCode > -1) {
     // cancel, replay, or rebid the current hand
     app_->SetShowCardsFaceUp(bCardsFaceUpMode);
-    switch (roundFinishedDlg->m_nCode) {
+    switch (roundFinishedDlgCode) {
     case CRoundFinishedDialog::RF_NONE:
     {
       // return to just after the last trick
@@ -2934,7 +2905,6 @@ void Deal::OnGameComplete() {
 
   //
   PostProcessGame();
-
 }
 
 

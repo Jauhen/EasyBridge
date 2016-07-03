@@ -53,7 +53,6 @@ const LPCTSTR tszFileFormatName[] = {
 
 //
 CEasyBDoc* CEasyBDoc::m_pDoc = NULL;
-BOOL CEasyBDoc::m_bInitialized = FALSE;
 
 
 /////////////////////////////////////////////////////////////////////////////

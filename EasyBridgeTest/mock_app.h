@@ -284,4 +284,7 @@ public:
   MOCK_METHOD1(ContractStringToBid, int(const char* str));
   MOCK_METHOD2(ContractParamsToBid, int(int suit, int level));
   MOCK_METHOD0(TimeGetTime, int());
+  MOCK_METHOD3(DisplayScoreDialog, void(CStringArray& bonusPoints, CStringArray& trickPoints, CString totalPoints));
+  MOCK_METHOD1(DisplaySelectHandDialog, int(int position));
+  MOCK_METHOD4(DisplayRoundFinishedDialog, int(bool isReplayMode, bool isGameReviewAvailable, CString message, CString oldMessage));
 };

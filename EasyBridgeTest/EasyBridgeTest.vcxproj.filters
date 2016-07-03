@@ -484,5 +484,8 @@
     <ClCompile Include="..\src\model\GameRecord.cpp">
       <Filter>sources\model</Filter>
     </ClCompile>
+    <ClCompile Include="deal_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

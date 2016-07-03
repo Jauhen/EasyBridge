@@ -6,6 +6,8 @@
 #include "dialogs/AutoHintDialog.h"
 #include "dialogs/BidDialog.h"
 #include "dialogs/roundfinisheddialog.h"
+#include "dialogs/ScoreDialog.h"
+#include "dialogs/SelectHandDialog.h"
 #include "StatusWnd.h"
 #include "MainFrameopts.h"
 #include "GIB.h"
@@ -1116,6 +1118,51 @@ public:
 
   virtual int TimeGetTime() {
     return timeGetTime();
+  }
+
+  virtual void DisplayScoreDialog(CStringArray& bonusPoints, CStringArray& trickPoints, CString totalPoints) {
+    CScoreDialog scoreDialog;
+    scoreDialog.SetBonusPoints(bonusPoints);
+    scoreDialog.SetTrickPoints(trickPoints);
+    scoreDialog.SetTotalPoints(totalPoints);
+
+    scoreDialog.DoModal();
+  }
+
+  virtual int DisplaySelectHandDialog(int position) {
+    // ask for the position to assume
+    CSelectHandDialog handDialog;
+    handDialog.m_strTitle = "Select Hand to Play";
+    handDialog.m_nMode = CSelectHandDialog::SH_MODE_HAND;
+    
+    handDialog.m_nPosition = position;
+    if (!handDialog.DoModal()) {
+      return -1;
+    }
+
+    return handDialog.m_nPosition;
+  }
+
+  virtual int DisplayRoundFinishedDialog(bool isReplayMode, bool isGameReviewAvailable, CString message, CString oldMessage) {
+    std::shared_ptr<CRoundFinishedDialog> roundFinishedDlg = NewRoundFinishedDialog();
+    // if replaying, keep old comparison message
+    if (isReplayMode) {
+      roundFinishedDlg->SetMessage(message);
+    } else {
+      roundFinishedDlg->SetMessage(message, oldMessage);
+    }
+
+    // disable "cancel" button if reviewing game
+    if (isGameReviewAvailable)
+      roundFinishedDlg->m_bDisableCancel = true;
+
+    //
+    roundFinishedDlg->m_bReplayMode = isReplayMode;
+    BOOL bCode = roundFinishedDlg->DoModal();
+    if (bCode) {
+      return -1;
+    }
+    return roundFinishedDlg->m_nCode;
   }
 };
 

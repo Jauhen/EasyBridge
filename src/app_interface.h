@@ -315,4 +315,7 @@ public:
   virtual int ContractStringToBid(const char* str) = 0;
   virtual int ContractParamsToBid(int suit, int level) = 0;
   virtual int TimeGetTime() = 0;
+  virtual void DisplayScoreDialog(CStringArray& bonusPoints, CStringArray& trickPoints, CString totalPoints) = 0;
+  virtual int DisplaySelectHandDialog(int position) = 0;
+  virtual int DisplayRoundFinishedDialog(bool isReplayMode, bool isGameReviewAvailable, CString message, CString oldMessage) = 0;
 };
