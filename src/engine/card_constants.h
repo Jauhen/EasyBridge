@@ -4,7 +4,6 @@
 // basic alias
 typedef int BID;
 typedef CArray<int, int> CIntArray;
-typedef CList<int, int> CIntList;
 typedef CMap<int, int, int, int> CIntMap;
 
 // limits
