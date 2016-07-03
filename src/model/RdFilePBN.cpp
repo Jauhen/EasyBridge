@@ -10,10 +10,8 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
 #include "engine/Player.h"
-#include "filecodePBN.h"
-#include "progopts.h"
+#include "model/filecodePBN.h"
 #include "model/GameRecord.h"
 #include "engine/deck.h"
 #include "engine/card.h"
@@ -256,7 +254,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
       // decipher the contract
       if ((strValue.GetLength() < 2) || (strValue[0] == '?')) {
         // contract has not yet been set
-        theApp.SetValue(tbGameInProgress, FALSE);
+        app_->SetGameInProgress(false);
         break;
       }
       int nContractLevel = atoi(strValue);
@@ -710,7 +708,7 @@ void Deal::AssignCardsPBN(const CString& str) {
       for (int j = 0; j < strSuit.GetLength(); j++) {
         int nValue = app_->CharToFaceValue(strSuit[j]);
         int nIndex = MAKEDECKVALUE(nSuit, nValue);
-        CCard* pCard = theApp.GetDeck()->GetSortedCard(nIndex);
+        CCard* pCard = app_->GetDeck()->GetSortedCard(nIndex);
         ASSERT(pCard);
         m_pPlayer[nPlayer]->AddCardToHand(pCard, FALSE);
         m_pPlayer[nPlayer]->AddCardToInitialHand(pCard);

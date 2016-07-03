@@ -1,6 +1,12 @@
 #ifndef EZ_CARD_CONTANTS_
 #define EZ_CARD_CONTANTS_
 
+// basic alias
+typedef int BID;
+typedef CArray<int, int> CIntArray;
+typedef CList<int, int> CIntList;
+typedef CMap<int, int, int, int> CIntMap;
+
 // limits
 const int MAX_CARDBACKS = 32;
 //const int MAXHOLDING	= 13;

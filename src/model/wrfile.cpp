@@ -10,10 +10,8 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
-#include "progopts.h"
 #include "engine/playeropts.h"
-#include "filecode.h"
+#include "model/filecode.h"
 #include "engine/Player.h"
 #include "engine/Card.h"
 #include "model/deal.h"
@@ -62,12 +60,12 @@ BOOL Deal::WriteFile(CArchive& ar) {
   // first the file ID
   //
   WriteBlockHeader(BLOCK_FILEINFO);
-  WriteString(ITEM_PROGRAM_ID, (LPCTSTR)theApp.GetValue(tstrProgramTitle));
-  WriteInt(ITEM_MAJOR_VERSIONNO, theApp.GetValue(tnProgramMajorVersion));
-  WriteInt(ITEM_MINOR_VERSIONNO, theApp.GetValue(tnProgramMinorVersion));
-  WriteInt(ITEM_INCREMENT_VERSIONNO, theApp.GetValue(tnProgramIncrementVersion));
-  WriteInt(ITEM_BUILD_NUMBER, theApp.GetValue(tnProgramBuildNumber));
-  WriteString(ITEM_BUILD_DATE, (LPCTSTR)theApp.GetValue(tstrProgramBuildDate));
+  WriteString(ITEM_PROGRAM_ID, app_->GetProgramTitle());
+  WriteInt(ITEM_MAJOR_VERSIONNO, app_->GetProgramMajorVersion());
+  WriteInt(ITEM_MINOR_VERSIONNO, app_->GetProgramMinorVersion());
+  WriteInt(ITEM_INCREMENT_VERSIONNO, app_->GetProgramIncrementVersion());
+  WriteInt(ITEM_BUILD_NUMBER, app_->GetProgramBuildNumber());
+  WriteString(ITEM_BUILD_DATE, app_->GetProgramBuildDate());
   CTime time = CTime::GetCurrentTime();
   strTemp.Format(" %s", (LPCTSTR)time.Format("%c"));
   WriteString(ITEM_FILE_DATE, strTemp);
@@ -170,9 +168,9 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   WriteBlockHeader(BLOCK_GAMEINFO);
   WriteInt(ITEM_VIEW_STATUS_CODE, app_->GetCurrentMode());
-  WriteBool(ITEM_RUBBER_IN_PROGRESS, theApp.IsRubberInProgress());
-  WriteBool(ITEM_GAME_IN_PROGRESS, theApp.IsGameInProgress());
-  WriteBool(ITEM_BIDDING_IN_PROGRESS, theApp.IsBiddingInProgress());
+  WriteBool(ITEM_RUBBER_IN_PROGRESS, app_->IsRubberInProgress());
+  WriteBool(ITEM_GAME_IN_PROGRESS, app_->IsGameInProgress());
+  WriteBool(ITEM_BIDDING_IN_PROGRESS, app_->IsBiddingInProgress());
   WriteBool(ITEM_HANDS_DEALT, m_bHandsDealt);
   strTemp.Format("%s", app_->SuitToString(m_nContractSuit));
   WriteString(ITEM_CONTRACT_SUIT, strTemp);

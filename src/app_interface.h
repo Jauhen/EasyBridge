@@ -61,7 +61,35 @@ public:
   virtual bool IsLowResOption() = 0;
   virtual bool IsEnableDealNumbering() = 0;
   virtual void SetFeedbackText(const char* msg) = 0;
-
+  virtual int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) = 0;
+  virtual int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) = 0;
+  virtual int GetMinSuitDistributions(int code) = 0;
+  virtual int GetMinSuitDistributionsTable(int code, int distribution, int hand) = 0;
+  virtual int GetMaxImbalanceForNT() = 0;
+  virtual bool IsNeedTwoBalancedTrumpHands() = 0;
+  virtual int GetMinCardsInMajor() = 0;
+  virtual int GetMinTopMajorCard() = 0;
+  virtual int GetMinCardsInMinor() = 0;
+  virtual int GetMinTopMinorCard() = 0;
+  virtual int GetAcesForSlam(int slamCode) = 0;
+  virtual int GetKingsForSlam(int slamCode) = 0;
+  virtual bool IsBalaceTeamHands() = 0;
+  virtual bool IsFullAutoPlayMode() = 0;
+  virtual bool IsFullAutoExpressPlayMode() = 0;
+  virtual void SetNormalPlayMode() = 0;
+  virtual void SetRubberInProgress(bool value) = 0;
+  virtual void SetGameInProgress(bool value) = 0;
+  virtual void SetBiddingInProgress(bool value) = 0;
+  virtual const char* GetProgramTitle() = 0;
+  virtual int GetProgramMajorVersion() = 0;
+  virtual int GetProgramMinorVersion() = 0;
+  virtual int GetProgramIncrementVersion() = 0;
+  virtual int GetProgramBuildNumber() = 0;
+  virtual const char* GetProgramBuildDate() = 0;
+  virtual bool IsRubberInProgress() = 0;
+  virtual bool IsGameInProgress() = 0;
+  virtual bool IsBiddingInProgress() = 0;
+  virtual CString GetProgramVersionString() = 0;
 
   //////////////////////////////////////////////////////////////////////////
   //

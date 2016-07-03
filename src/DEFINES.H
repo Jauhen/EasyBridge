@@ -21,12 +21,6 @@ class CCard;
 // constant suit symbol
 const unsigned char tSuitLetter = _T('§');
 
-// basic alias
-typedef int BID;
-typedef CArray<int,int>			CIntArray;
-typedef CList<int,int>			CIntList;
-typedef CMap<int,int,int,int>	CIntMap;
-
 #include "engine/card_constants.h"
 
 // Shortcuts (Macros)

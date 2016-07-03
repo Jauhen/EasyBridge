@@ -10,13 +10,12 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
 #include "engine/Player.h"
-#include "filecode.h"
-#include "progopts.h"
+#include "model/filecode.h"
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "model/deal.h"
+
 #ifdef _DEBUG
 #undef THIS_FILE
 static char BASED_CODE THIS_FILE[] = __FILE__;
@@ -323,19 +322,19 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_TRICK_CARD_1:
-                m_pCurrTrick[0] = theApp.GetDeck()->GetCard(string);
+                m_pCurrTrick[0] = app_->GetDeck()->GetCard(string);
                 break;
 
               case ITEM_TRICK_CARD_2:
-                m_pCurrTrick[1] = theApp.GetDeck()->GetCard(string);
+                m_pCurrTrick[1] = app_->GetDeck()->GetCard(string);
                 break;
 
               case ITEM_TRICK_CARD_3:
-                m_pCurrTrick[2] = theApp.GetDeck()->GetCard(string);
+                m_pCurrTrick[2] = app_->GetDeck()->GetCard(string);
                 break;
 
               case ITEM_TRICK_CARD_4:
-                m_pCurrTrick[3] = theApp.GetDeck()->GetCard(string);
+                m_pCurrTrick[3] = app_->GetDeck()->GetCard(string);
                 break;
 
                 // game status info
@@ -344,17 +343,17 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_RUBBER_IN_PROGRESS:
-                theApp.SetValue(tbRubberInProgress, bValue);
+                app_->SetRubberInProgress(bValue);
                 break;
 
               case ITEM_GAME_IN_PROGRESS:
                 // TEMP
                 //						theApp.SetValue(tbGameInProgress, FALSE);
-                theApp.SetValue(tbGameInProgress, bValue);
+                app_->SetGameInProgress(bValue);
                 break;
 
               case ITEM_BIDDING_IN_PROGRESS:
-                theApp.SetValue(tbBiddingInProgress, bValue);
+                app_->SetBiddingInProgress(bValue);
                 break;
 
               case ITEM_HANDS_DEALT:
@@ -456,7 +455,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
                     if (partString.Left(2) == "--") {
                       m_pGameTrick[nIndex][i] = NULL;
                     } else {
-                      pCard = theApp.GetDeck()->GetCard(partString);
+                      pCard = app_->GetDeck()->GetCard(partString);
                       m_pGameTrick[nIndex][i] = pCard;
                     }
                   }
@@ -577,8 +576,9 @@ BOOL Deal::ReadFile(CArchive& ar) {
   // do some sanity checks
   //
   m_nContract = MAKEBID(m_nContractSuit, m_nContractLevel);
-  if (!ISPLAYER(m_nDeclarer) || !ISBID(m_nContract))
-    theApp.SetValue(tbGameInProgress, FALSE);
+  if (!ISPLAYER(m_nDeclarer) || !ISBID(m_nContract)) {
+    app_->SetGameInProgress(false);
+  }
 
   //
   // parse the bidding history
@@ -694,7 +694,7 @@ void Deal::AssignCards(CString& str, int nPosition, BOOL bInitialHand) {
       nOffset++;
     // get next card string
     if (nOffset < nLen) {
-      pCard = theApp.GetDeck()->GetCard(str.Mid(nOffset));
+      pCard = app_->GetDeck()->GetCard(str.Mid(nOffset));
       nOffset += 2;
       if (pCard == NULL) {
         bError = TRUE;

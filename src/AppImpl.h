@@ -193,6 +193,122 @@ public:
     ((CMainFrame*)theApp.GetFrame())->SetFeedbackText(msg);
   }
 
+  virtual int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) {
+    return theApp.GetValue(tnRequiredPointsForGame, suitCode, side);
+  }
+
+  virtual int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) {
+    return theApp.GetValue(tnRequiredPointsForSlam, suitCode, side);
+  }
+
+  virtual int GetMinSuitDistributions(int code) {
+    return theApp.GetValue(tnMinSuitDistributions, code);
+  }
+
+  virtual int GetMinSuitDistributionsTable(int code, int distribution, int hand) {
+    return theApp.GetValue(tnMinSuitDistributionTable, code, distribution, hand);
+  }
+
+  virtual int GetMaxImbalanceForNT() {
+    return theApp.GetValue(tnMaxImbalanceForNT);
+  }
+
+  virtual bool IsNeedTwoBalancedTrumpHands() {
+    return theApp.GetValue(tbNeedTwoBalancedTrumpHands) == TRUE;
+  }
+
+  virtual int GetMinCardsInMajor() {
+    return theApp.GetValue(tnMinCardsInMajor);
+  }
+
+  virtual int GetMinTopMajorCard() {
+    return theApp.GetValue(tnMinTopMajorCard);
+  }
+
+  virtual int GetMinCardsInMinor() {
+    return theApp.GetValue(tnMinCardsInMinor);
+  }
+
+  virtual int GetMinTopMinorCard() {
+    return theApp.GetValue(tnMinTopMinorCard);
+  }
+
+  virtual int GetAcesForSlam(int slamCode) {
+    return theApp.GetValue(tnumAcesForSlam, slamCode);
+  }
+
+  virtual int GetKingsForSlam(int slamCode) {
+    return theApp.GetValue(tnumKingsForSlam, slamCode);
+  }
+
+  virtual bool IsBalaceTeamHands() {
+    return theApp.GetValue(tbBalanceTeamHands) == TRUE;
+  }
+
+  virtual bool IsFullAutoPlayMode() {
+    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO;
+  }
+
+  virtual bool IsFullAutoExpressPlayMode() {
+    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO_EXPRESS;
+  }
+
+  virtual void SetNormalPlayMode() {
+    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
+  }
+
+  virtual void SetRubberInProgress(bool value) {
+    theApp.SetValue(tbRubberInProgress, value);
+  }
+
+  virtual void SetGameInProgress(bool value) {
+    theApp.SetValue(tbGameInProgress, value);
+  }
+
+  virtual void SetBiddingInProgress(bool value) {
+    theApp.SetValue(tbBiddingInProgress, value);
+  }
+
+  virtual const char* GetProgramTitle() {
+    return (LPCTSTR)theApp.GetValue(tstrProgramTitle); 
+  }
+
+  virtual int GetProgramMajorVersion() {
+    return theApp.GetValue(tnProgramMajorVersion);
+  }
+
+  virtual int GetProgramMinorVersion() {
+    return theApp.GetValue(tnProgramMinorVersion);
+  }
+
+  virtual int GetProgramIncrementVersion() {
+    return theApp.GetValue(tnProgramIncrementVersion);
+  }
+
+  virtual int GetProgramBuildNumber() {
+    return theApp.GetValue(tnProgramBuildNumber);
+  }
+
+  virtual const char* GetProgramBuildDate() {
+    return (LPCTSTR)theApp.GetValue(tstrProgramBuildDate);
+  }
+
+  virtual bool IsRubberInProgress() {
+    return theApp.IsRubberInProgress() == TRUE;
+  }
+
+  virtual bool IsGameInProgress() {
+    return theApp.IsGameInProgress() == TRUE;
+  }
+
+  virtual bool IsBiddingInProgress() {
+    return theApp.IsBiddingInProgress() == TRUE;
+  }
+
+  virtual CString GetProgramVersionString() {
+    return theApp.GetProgramVersionString();
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pMAINFRAME
