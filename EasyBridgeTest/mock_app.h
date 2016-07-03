@@ -42,7 +42,7 @@ public:
   MOCK_METHOD0(IsFourAceBonus, bool());
   MOCK_METHOD0(IsCountShortSuits, bool());
   MOCK_METHOD0(IsPenalizeUGHonors, bool());
-  MOCK_METHOD0(IsInAutoHintMode, bool());
+  MOCK_METHOD0(GetAutoHintMode, int());
   MOCK_METHOD0(IsInsertBiddingPause, bool());
   MOCK_METHOD0(GetPlayPauseLength, int());
   MOCK_METHOD0(GetDeck, std::shared_ptr<CDeck>());
@@ -78,6 +78,19 @@ public:
   MOCK_METHOD0(IsGameInProgress, bool());
   MOCK_METHOD0(IsBiddingInProgress, bool());
   MOCK_METHOD0(GetProgramVersionString, CString());
+  MOCK_METHOD0(IsSaveIntermediatePositions, bool());
+  MOCK_METHOD0(IsScoreHonorsBonuses, bool());
+  MOCK_METHOD0(IsInAutoTestMode, bool());
+  MOCK_METHOD0(GetProgramDirectory, const char*());
+  MOCK_METHOD0(IsExposePBNGameCards, bool());
+  MOCK_METHOD0(IsUseSuitSymbols, bool());
+  MOCK_METHOD1(SetShowCardsFaceUp, void(bool value));
+  MOCK_METHOD0(IsShowDummyTrumpsOnLeft, bool());
+  MOCK_METHOD2(InitDummySuitSequence, void(int trump, int dummy_position));
+  MOCK_METHOD0(IsAutoHintEnabled, bool());
+  MOCK_METHOD0(IsUsingDuplicateScoring, bool());
+  MOCK_METHOD0(IsDebugModeActive, bool());
+
 
   MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));

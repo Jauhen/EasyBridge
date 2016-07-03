@@ -249,7 +249,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   // match info
   //
-  if (theApp.IsRubberInProgress()) {
+  if (app_->IsRubberInProgress()) {
     // write block header
     WriteBlockHeader(BLOCK_MATCHINFO);
 

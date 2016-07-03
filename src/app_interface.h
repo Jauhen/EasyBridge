@@ -54,7 +54,7 @@ public:
   virtual bool IsFourAceBonus() = 0;
   virtual bool IsCountShortSuits() = 0;
   virtual bool IsPenalizeUGHonors() = 0;
-  virtual bool IsInAutoHintMode() = 0;
+  virtual int GetAutoHintMode() = 0;
   virtual bool IsInsertBiddingPause() = 0;
   virtual int GetPlayPauseLength() = 0;
   virtual std::shared_ptr<CDeck> GetDeck() = 0;
@@ -90,6 +90,19 @@ public:
   virtual bool IsGameInProgress() = 0;
   virtual bool IsBiddingInProgress() = 0;
   virtual CString GetProgramVersionString() = 0;
+  virtual bool IsSaveIntermediatePositions() = 0;
+  virtual bool IsScoreHonorsBonuses() = 0;
+  virtual bool IsInAutoTestMode() = 0;
+  virtual const char* GetProgramDirectory() = 0;
+  virtual bool IsExposePBNGameCards() = 0;
+  virtual bool IsUseSuitSymbols() = 0;
+  virtual void SetShowCardsFaceUp(bool value) = 0;
+  virtual bool IsShowDummyTrumpsOnLeft() = 0;
+  virtual void InitDummySuitSequence(int trump, int dummy_position) = 0;
+  virtual bool IsAutoHintEnabled() = 0;
+  virtual bool IsUsingDuplicateScoring() = 0;
+  virtual bool IsDebugModeActive() = 0;
+
 
   //////////////////////////////////////////////////////////////////////////
   //

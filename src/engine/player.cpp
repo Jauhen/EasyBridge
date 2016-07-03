@@ -781,7 +781,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1002);
 
 		// note the play in the hint window
-		if (app_->IsInAutoHintMode())
+		if (app_->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
@@ -804,7 +804,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1003);
 		
 		// note the play in the hint window
-		if (app_->IsInAutoHintMode())
+		if (app_->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();

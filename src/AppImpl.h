@@ -165,8 +165,8 @@ public:
     return theApp.GetValue(tbPenalizeUGHonors) == TRUE;
   }
 
-  virtual bool IsInAutoHintMode() {
-    return theApp.GetValue(tnAutoHintMode) == TRUE;
+  virtual int GetAutoHintMode() {
+    return theApp.GetValue(tnAutoHintMode);
   }
 
   virtual bool IsInsertBiddingPause() {
@@ -307,6 +307,54 @@ public:
 
   virtual CString GetProgramVersionString() {
     return theApp.GetProgramVersionString();
+  }
+
+  virtual bool IsSaveIntermediatePositions() {
+    return theApp.GetValue(tbSaveIntermediatePositions) == TRUE;
+  }
+
+  virtual bool IsScoreHonorsBonuses() {
+    return theApp.GetValue(tbScoreHonorsBonuses) == TRUE;
+  }
+
+  virtual bool IsInAutoTestMode() {
+    return theApp.GetValue(tbAutoTestMode) == TRUE;
+  }
+
+  virtual const char* GetProgramDirectory() {
+    return (LPCTSTR)theApp.GetValue(tszProgramDirectory);
+  }
+
+  virtual bool IsExposePBNGameCards() {
+    return theApp.GetValue(tbExposePBNGameCards) == TRUE;
+  }
+
+  virtual bool IsUseSuitSymbols() {
+    return theApp.GetValue(tbUseSuitSymbols) ==  TRUE;
+  }
+  
+  virtual bool IsShowDummyTrumpsOnLeft() {
+    return theApp.GetValue(tbShowDummyTrumpsOnLeft) == TRUE;
+  }
+
+  virtual void SetShowCardsFaceUp(bool value) {
+    theApp.SetValue(tbShowCardsFaceUp, value);
+  }
+
+  virtual void InitDummySuitSequence(int trump, int dummy_position) {
+    theApp.InitDummySuitSequence(trump, dummy_position);
+  }
+
+  virtual bool IsAutoHintEnabled() {
+    return theApp.IsAutoHintEnabled() == TRUE;
+  }
+
+  virtual bool IsUsingDuplicateScoring() {
+    return theApp.IsUsingDuplicateScoring() == TRUE;
+  }
+
+  virtual bool IsDebugModeActive() {
+    return theApp.IsDebugModeActive() == TRUE;
   }
 
   //////////////////////////////////////////////////////////////////////////
