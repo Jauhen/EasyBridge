@@ -19,6 +19,8 @@ public:
 
   void DeleteContents();
 
+  void InitNewDocument();
+
   //
   void ClearAllInfo();
   void ClearMatchInfo();
@@ -198,7 +200,7 @@ protected:
   //void SaveCurrentGameRecord(BOOL bAllocNew = FALSE);
   //
   BOOL WriteFile(CArchive& ar);
-  BOOL WriteFilePBN(CArchive& ar);
+  std::string WriteFilePBN();
   BOOL ExportGameInfo(CArchive& ar);
 
 
@@ -216,8 +218,6 @@ protected:
   CString m_strFileDate;
   CString m_strFileDescription;
   CString m_strFileComments;
-  int m_nFileFormat;
-  int m_nPrevFileFormat;
   //
   CString m_strDocTitle;
   // match info

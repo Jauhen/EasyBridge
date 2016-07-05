@@ -38,7 +38,9 @@ protected: // create from serialization only
   //{{AFX_VIRTUAL(CEasyBDoc)
 public:
   virtual BOOL OnNewDocument();
+
   virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
+
   virtual void DeleteContents();
   //}}AFX_VIRTUAL
 
@@ -117,6 +119,11 @@ public:
     afx_msg void OnGameAutoTest();
   //}}AFX_MSG
   DECLARE_MESSAGE_MAP()
+
+  private:
+    int m_nFileFormat;
+    int m_nPrevFileFormat;
+    Deal* deal_;
 };
 
 /////////////////////////////////////////////////////////////////////////////

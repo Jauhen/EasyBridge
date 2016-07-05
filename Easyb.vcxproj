@@ -301,6 +301,11 @@
     <ClCompile Include="src\engine\play\Finesse.cpp" />
     <ClCompile Include="src\engine\play\Force.cpp" />
     <ClCompile Include="src\engine\bidding\Gambling3NTConvention.cpp" />
+    <ClCompile Include="src\model\file_exporter.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\model\GameRecord.cpp" />
     <ClCompile Include="src\dialogs\GameReviewDialog.cpp" />
     <ClCompile Include="src\engine\bidding\GerberConvention.cpp" />
@@ -441,6 +446,7 @@
     <ClInclude Include="src\engine\play\Finesse.h" />
     <ClInclude Include="src\engine\play\Force.h" />
     <ClInclude Include="src\engine\bidding\Gambling3NTConvention.h" />
+    <ClInclude Include="src\model\file_exporter.h" />
     <ClInclude Include="src\model\GameRecord.h" />
     <ClInclude Include="src\dialogs\GameReviewDialog.h" />
     <ClInclude Include="src\engine\bidding\GerberConvention.h" />
@@ -847,4 +853,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="EasyB.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

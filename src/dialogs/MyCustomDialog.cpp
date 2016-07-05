@@ -175,7 +175,7 @@ BOOL CMyCustomDialog::OnInitDialog()
 
 	// populate the control ID -> index map
 	for(int i=0;i<m_numControls;i++)
-		m_mapIDtoIndex.SetAt(m_pControlInfo[i].nControlID, i);
+		m_mapIDtoIndex[m_pControlInfo[i].nControlID] = i;
 
 	// and create custom tooltip for the tags list
 	m_pToolTip = new CMyToolTipWnd;
@@ -284,16 +284,16 @@ BOOL CMyCustomDialog::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
     {
         // idFrom is actually the HWND of the tool
         nID = ::GetDlgCtrlID((HWND)nID);
-        if(nID)
-        {
-			// look up the internal ordinal of the control
-			if (!m_mapIDtoIndex.Lookup(nID, nIndex))
-			{
-				return FALSE;
-			}
-            pTTT->lpszText = m_pControlInfo[nIndex].szToolTipText;
-            pTTT->hinst = AfxGetResourceHandle();
-            return(TRUE);
+        if (nID) {
+          // look up the internal ordinal of the control
+          auto it = m_mapIDtoIndex.find(nID);
+          if (it == m_mapIDtoIndex.end()) {
+            return FALSE;
+          }
+          nIndex = it->second;
+          pTTT->lpszText = m_pControlInfo[nIndex].szToolTipText;
+          pTTT->hinst = AfxGetResourceHandle();
+          return(TRUE);
         }
     }
     return(FALSE);
@@ -349,10 +349,12 @@ void CMyCustomDialog::EnableControl(int nIndex, BOOL bEnable, BOOL bSetImage)
 void CMyCustomDialog::EnableControlByID(int nControlID, BOOL bEnable, BOOL bSetImage) 
 {
 	// first look up the index
-	int nIndex;
-	if (!m_mapIDtoIndex.Lookup(nControlID, nIndex))
-		return;
+  auto it = m_mapIDtoIndex.find(nControlID);
+  if (it == m_mapIDtoIndex.end()) {
+    return;
+  }
+  int nIndex = it->second;
 
-	// then enable or disable control index as appropriate
+  // then enable or disable control index as appropriate
 	EnableControlByID(nIndex, bEnable, bSetImage);
 }

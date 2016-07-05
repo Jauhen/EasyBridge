@@ -190,7 +190,7 @@ BOOL CBidDialog::OnInitDialog()
 	// populate the control ID -> index map
 	EnableToolTips(TRUE);
 	for(int i=0;i<tnumToolTips;i++)
-		m_mapIDtoIndex.SetAt(tToolTipInfo[i].nControlID, i);
+		m_mapIDtoIndex[tToolTipInfo[i].nControlID] = i;
 
 	// subclass flat buttons
 	m_pFlatBaseButtons = new CFlatButton[tnumToolTips];
@@ -1060,27 +1060,27 @@ void CBidDialog::RepositionWindow()
 
 
 //
-BOOL CBidDialog::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
-{
-    TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
-    UINT nID = pNMHDR->idFrom;
-	int nIndex;
-	//
-    if (pTTT->uFlags & TTF_IDISHWND)
-    {
-        // idFrom is actually the HWND of the tool
-        nID = ::GetDlgCtrlID((HWND)nID);
-        if(nID)
-        {
-			// look up the internal ordinal of the control
-			if (!m_mapIDtoIndex.Lookup(nID, nIndex))
-				return FALSE;
-            pTTT->lpszText = tToolTipInfo[nIndex].szToolTipText;
-            pTTT->hinst = AfxGetResourceHandle();
-            return TRUE;
-        }
+BOOL CBidDialog::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult) {
+  TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
+  UINT nID = pNMHDR->idFrom;
+  int nIndex;
+  //
+  if (pTTT->uFlags & TTF_IDISHWND) {
+    // idFrom is actually the HWND of the tool
+    nID = ::GetDlgCtrlID((HWND)nID);
+    if (nID) {
+      // look up the internal ordinal of the control
+      auto it = m_mapIDtoIndex.find(nID);
+      if (it == m_mapIDtoIndex.end()) {
+        return FALSE;
+      }
+      nIndex = it->second;
+      pTTT->lpszText = tToolTipInfo[nIndex].szToolTipText;
+      pTTT->hinst = AfxGetResourceHandle();
+      return TRUE;
     }
-    return FALSE;
+  }
+  return FALSE;
 }
 
 

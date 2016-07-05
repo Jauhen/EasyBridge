@@ -35,10 +35,6 @@ Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
   }
   m_bSaveIntermediatePositions = app_->IsSaveIntermediatePositions();
 
-  // set default file format to native
-  m_nFileFormat = tnEasyBridgeFormat;
-  m_nPrevFileFormat = m_nFileFormat;
-
   // create the players
   for (int i = 0; i < 4; i++)
     m_pPlayer[i] = new CPlayer(app);
@@ -3650,4 +3646,16 @@ CString Deal::GetDealIDString() {
 
 
 
+
+void Deal::InitNewDocument() {
+  // do init
+  if (app_->IsRubberInProgress() || app_->IsUsingDuplicateScoring()) {
+    InitNewMatch();
+  } else {
+    InitNewGame();
+  }
+
+  // done
+  m_bInitialized = TRUE;
+}
 

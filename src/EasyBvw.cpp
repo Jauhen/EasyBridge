@@ -2223,8 +2223,9 @@ void CEasyBView::DisplayTricks(CDC* pSentDC)
 	pDC->SelectObject(pOldFont);
 	pDC->SetTextColor(oldColor);
 	//
-	if (pSentDC == NULL)
-		ReleaseDC(pDC);
+  if (pSentDC == NULL) {
+    ReleaseDC(pDC);
+  }
 }
 
 

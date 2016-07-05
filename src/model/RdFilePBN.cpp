@@ -409,7 +409,7 @@ int Deal::ParseBidsPBN(CArchive& ar, const CString& strValue) {
       } else if (partString[0] == '=') {
         // this is a note reference
         int nRef = atoi(partString.Mid(1));
-        pGameRecord->m_mapBiddingNotes.SetAt(nBidIndex, nRef);
+        pGameRecord->m_mapBiddingNotes[nBidIndex] = nRef;
       } else if (partString[0] == '$') {
         // this is a NAG -- ignore it
       } else if ((partString.CompareNoCase("AP") == 0) || (partString[0] == '*')) {
@@ -494,7 +494,7 @@ int Deal::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
       if (partString[0] == '=') {
         // this is a note reference
         int nRef = atoi(partString.Mid(1));
-        pGameRecord->m_mapPlayNotes.SetAt(nPlayIndex, nRef);
+        pGameRecord->m_mapPlayNotes[nPlayIndex] = nRef;
       } else if (partString[0] == '-') {
         // this is a blank play
         nPlayIndex++;

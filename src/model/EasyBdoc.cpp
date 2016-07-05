@@ -149,7 +149,12 @@ END_MESSAGE_MAP()
 // CEasyBDoc construction/destruction
 
 CEasyBDoc::CEasyBDoc() : Deal(std::make_shared<AppImpl>()) {
+  // set default file format to native
+  m_nFileFormat = tnEasyBridgeFormat;
+  m_nPrevFileFormat = m_nFileFormat;
+
   m_pDoc = this;
+  deal_ = this;
 }
 
 CEasyBDoc::~CEasyBDoc() {}
@@ -160,24 +165,14 @@ BOOL CEasyBDoc::OnNewDocument() {
   if (!CDocument::OnNewDocument())
     return FALSE;
 
-  // do inits
-  if (theApp.IsRubberInProgress() || theApp.IsUsingDuplicateScoring())
-    InitNewMatch();
-  else
-    InitNewGame();
+  deal_->InitNewDocument();
 
   // (SDI documents will reuse this document)
   theApp.SetValuePV(tpvActiveDocument, this);
 
-  // set format to native EasyBridge
-  //	m_nFileFormat = tnEasyBridgeFormat;
-  //	m_nPrevFileFormat = m_nFileFormat;
-
   // clear doc title
   SetTitle(_T(""));
 
-  // done
-  m_bInitialized = TRUE;
   return TRUE;
 }
 
@@ -196,17 +191,18 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   }
 
   // clear info
-  ClearAllInfo();
+  deal_->ClearAllInfo();
 
   // confirm file type
   CString	strPath = lpszPathName;
   int nIndex = strPath.ReverseFind('.');
   if (nIndex >= 0) {
     CString strSuffix = strPath.Mid(nIndex + 1);
-    if (strSuffix.CompareNoCase("pbn") == 0)
+    if (strSuffix.CompareNoCase("pbn") == 0) {
       m_nFileFormat = m_nPrevFileFormat = tnPBNFormat;
-    else
+    } else {
       m_nFileFormat = m_nPrevFileFormat = tnEasyBridgeFormat;
+    }
   }
 
   //
@@ -214,11 +210,11 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 
   // load and check for errors
   BOOL bCode = CDocument::OnOpenDocument(lpszPathName);
-  if (!bCode ||
-    ((m_nFileFormat == tnPBNFormat) && (m_gameRecords.GetSize() == 0))) {
+  if (!bCode || (m_nFileFormat == tnPBNFormat && m_gameRecords.GetSize() == 0)) {
     // see if the load went OK, but there were no games found
-    if (bCode)
+    if (bCode) {
       AfxMessageBox("No valid games were found in the PBN file!");
+    }
     pMAINFRAME->SetStatusMessage("An error occurred while opening the file.");
     pVIEW->EnableRefresh();
     pMAINFRAME->Invalidate();
@@ -403,7 +399,6 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 }
 
 
-//
 void CEasyBDoc::DeleteContents() {
   Deal::DeleteContents();
   CDocument::DeleteContents();
@@ -429,7 +424,7 @@ CEasyBDoc* CEasyBDoc::GetDoc() {
 void CEasyBDoc::Serialize(CArchive& ar) {
   if (ar.IsStoring()) {
     if (m_nFileFormat == tnPBNFormat)
-      WriteFilePBN(ar);
+      ar << WriteFilePBN().c_str();
     else if (m_nFileFormat == tnTextFormat)
       ExportGameInfo(ar);
     else

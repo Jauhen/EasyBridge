@@ -15,12 +15,22 @@ namespace UnitTests {
 
 class DealTests : public Test {
 protected:
-  shared_ptr<MockApp> app = make_shared<MockApp>();
+  DealTests() {
+    app = make_shared<MockApp>();
+    deck = make_shared<CDeck>(app);
+  }
+
+  virtual ~DealTests() {
+    deck.reset();
+    app.reset();
+  }
+
+  shared_ptr<MockApp> app;
+  shared_ptr<CDeck> deck;
 };
 
 TEST_F(DealTests, InitNewHand) {
   CConventionSet* set = new CConventionSet(app);
-  std::shared_ptr<CDeck> deck = std::make_shared<CDeck>(app);
 
   EXPECT_CALL(*app, GetProgramTitle()).WillRepeatedly(Return("abc"));
   EXPECT_CALL(*app, GetProgramMajorVersion()).WillRepeatedly(Return(4));
@@ -46,6 +56,8 @@ TEST_F(DealTests, InitNewHand) {
 
   Deal d{ app };
   d.InitNewHand();
+
+  EXPECT_TRUE(Mock::VerifyAndClearExpectations(app.get()));
 }
 
 } // namespace UnitTests

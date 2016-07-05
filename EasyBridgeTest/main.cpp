@@ -9,7 +9,6 @@
 
 
 // The one and only application object
-
 CWinApp theApp;
 
 using namespace std;

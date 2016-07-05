@@ -251,6 +251,9 @@
     <ClInclude Include="..\src\model\GameRecord.h">
       <Filter>sources\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\model\file_exporter.h">
+      <Filter>sources\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -485,6 +488,12 @@
       <Filter>sources\model</Filter>
     </ClCompile>
     <ClCompile Include="deal_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\file_exporter.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="file_exporter_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

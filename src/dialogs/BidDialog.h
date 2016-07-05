@@ -11,6 +11,7 @@
 #ifndef __BIDDIALOG__
 #define __BIDDIALOG__
 
+#include <map>
 #include "DialogInfo.h"
 #include "BiddingFinishedDialog.h"
 #include "FlatButton.h"
@@ -85,7 +86,7 @@ protected:
 	BOOL		m_bInsertBiddingPause;
 	int			m_nBiddingPauseLength;
 	int			m_nComputerBid;
-	CIntMap		m_mapIDtoIndex;
+  std::map<int, int> m_mapIDtoIndex{};
 	CFlatButton*			m_pFlatBaseButtons;
 	CBiddingFinishedDialog	m_bidFinishedDialog;
 	//

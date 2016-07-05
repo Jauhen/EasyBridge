@@ -13,6 +13,8 @@
 //
 
 #include "DialogInfo.h"
+#include <map>
+
 class CMyToolTipWnd;
 
 
@@ -41,7 +43,7 @@ protected:
 protected:
 	BOOL				m_bInitialized;
 	DialogControlInfo*	m_pControlInfo;
-	CIntMap				m_mapIDtoIndex;
+  std::map<int, int> m_mapIDtoIndex{};
 	int					m_numControls;
 	int					m_numButtons;
 	CMyToolTipWnd*		m_pToolTip;
