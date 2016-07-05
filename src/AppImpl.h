@@ -849,7 +849,7 @@ public:
   }
 
   virtual void AdvanceToNextPlayer() {
-    pVIEW->AdvanceToNextPlayer();
+    pDOC->AdvanceToNextPlayer(); // TODO(Jauhen): move to pDOC section.
   }
 
   virtual void ClickForNextTrickMode() {

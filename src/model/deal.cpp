@@ -3659,3 +3659,67 @@ void Deal::InitNewDocument() {
   m_bInitialized = TRUE;
 }
 
+
+void Deal::DealNumberedHand(int dealer, int vulnerability, int specialDealCode, int dealNumber) {
+  // set vulnerability & dealer
+  m_nDealer = dealer;
+  m_nCurrPlayer = m_nDealer;
+  m_nVulnerableTeam = (Team)vulnerability;
+  if ((m_nVulnerableTeam == NORTH_SOUTH) || (m_nVulnerableTeam == BOTH))
+    m_bVulnerable[NORTH_SOUTH] = TRUE;
+  if ((m_nVulnerableTeam == EAST_WEST) || (m_nVulnerableTeam == BOTH))
+    m_bVulnerable[EAST_WEST] = TRUE;
+
+  // and call the appropriate function to deal a new hand
+  m_nSpecialDealCode = specialDealCode;
+  if (m_nSpecialDealCode == 0) {
+    DealHands(TRUE, dealNumber);
+  } else {
+    DealSpecial(dealNumber, m_nSpecialDealCode);
+  }
+}
+
+bool Deal::PlayClaimTricks() {
+  // player claiming tricks
+  int nPos = GetHumanPlayerPos();
+  // may be claiming as declarer or defender
+  // if human has contract, get the declarer, be it human or computer partner
+  if ((nPos == NORTH) || (nPos == SOUTH))
+    nPos = GetDeclarerPosition();
+
+  // and check the claim
+  int numTricksRequired = 13 - m_numTricksPlayed;
+  int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
+  if (numClaimableTricks < numTricksRequired) {
+    AfxMessageBox(app_->FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksRequired), MB_ICONINFORMATION);
+    return false;
+  }
+  
+  // process the claim
+  ClaimTricks(nPos);
+  return true;
+}
+
+bool Deal::PlayClaimContract() {
+  // player claiming enough tricks for contract -- can only do so as declarer or dummy
+  int nPos = GetHumanPlayerPos();
+  // may be claiming as declarer or defender
+  // if human has contract, get the declarer, be it human or computer partner
+  if ((nPos != NORTH) && (nPos != SOUTH)) {
+    AfxMessageBox("You cannot claim the contract when defending.");
+    return true;
+  }
+
+  // and check the claim
+  int numTricksRequired = 6 + m_nContractLevel;
+  int numTricksLeft = numTricksRequired - m_numTricksWon[GetPlayerTeam(nPos)];
+  int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
+  if (numClaimableTricks < numTricksLeft) {
+    AfxMessageBox(app_->FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksLeft), MB_ICONINFORMATION);
+    return true;
+  }
+
+  // process the claim -- credit the player for all claimable tricks
+  ClaimTricks(nPos, numClaimableTricks);
+  return false;
+}

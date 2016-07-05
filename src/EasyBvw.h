@@ -90,7 +90,6 @@ public:
 	void ClearPartialTrickCards();
 	void ThrowCard(Position nPos, CCard* pCard);
 	void DrawPlayedCard(Position nPos, CCard* pCard, BOOL bShowAtEnd=TRUE);
-	void AdvanceToNextPlayer();
 	void GameFinished();
 	void BeginGameReview(BOOL bReset=TRUE);
 	void EndGameReview();

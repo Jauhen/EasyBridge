@@ -1202,12 +1202,12 @@ void CEasyBView::OnLButtonDown(UINT nFlags, CPoint point)
 
 		case MODE_CLICKTORESUMEPLAY:
 			// ready to resume play
-			AdvanceToNextPlayer();
+			pDOC->AdvanceToNextPlayer();
 			return;
 
 		case MODE_CLICKTORESTARTTRICK:
 			// ready to proceed afer taking trick back
-			AdvanceToNextPlayer();
+			pDOC->AdvanceToNextPlayer();
 			return;
 
 		case MODE_CLICKFORNEXTGAME:
@@ -2306,7 +2306,7 @@ void CEasyBView::HandleCardPlay(CCard* pCard)
 	if (pDOC->GetNumCardsPlayedInRound() < 4) 
 	{
 		// and move on, if more cards need to be played
-		AdvanceToNextPlayer();
+    pDOC->AdvanceToNextPlayer();
 	} 
 	else 
 	{
@@ -2357,7 +2357,7 @@ void CEasyBView::OnUndoCard()
 	ReleaseDC(pDC);
 
 	// correct the prompt and invoke the (previous) player 
-	AdvanceToNextPlayer();
+  pDOC->AdvanceToNextPlayer();
 }
 
 
@@ -2460,7 +2460,7 @@ void CEasyBView::OnUndoTrick()
 	if (bImmediateRestart && (theApp.GetValue(tnCardPlayMode) != CEasyBApp::PLAY_FULL_AUTO) &&
 				(theApp.GetValue(tnCardPlayMode) != CEasyBApp::PLAY_FULL_AUTO_EXPRESS))
 	{
-		AdvanceToNextPlayer();
+    pDOC->AdvanceToNextPlayer();
 	}
 	else
 	{
@@ -3202,7 +3202,7 @@ void CEasyBView::BeginPlay()
 
 	// get the ball rolling
 	if (pDOC->IsAutoReplayMode())
-		AdvanceToNextPlayer();
+    pDOC->AdvanceToNextPlayer();
 	else
 		pDOC->BeginRound();
 

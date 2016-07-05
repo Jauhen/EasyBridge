@@ -215,8 +215,8 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     if (bCode) {
       AfxMessageBox("No valid games were found in the PBN file!");
     }
-    pMAINFRAME->SetStatusMessage("An error occurred while opening the file.");
     pVIEW->EnableRefresh();
+    pMAINFRAME->SetStatusMessage("An error occurred while opening the file.");
     pMAINFRAME->Invalidate();
     return FALSE;
   }
@@ -227,8 +227,9 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 
   // get and set doc title
   int nStart = strPath.ReverseFind(_T('\\'));
-  if (nStart < 0)
+  if (nStart < 0) {
     nStart = strPath.ReverseFind(_T(':'));
+  }
   ASSERT(nStart >= 0);
   m_strDocTitle = strPath.Mid(nStart + 1);
   SetTitle(m_strDocTitle);
@@ -249,10 +250,12 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   }
 
   // activate some dialogs
-  if (m_bShowBidHistoryUponOpen)
+  if (m_bShowBidHistoryUponOpen) {
     pMAINFRAME->MakeDialogVisible(twBiddingHistoryDialog);
-  if (m_bShowPlayHistoryUponOpen)
+  }
+  if (m_bShowPlayHistoryUponOpen) {
     pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
+  }
 
   // check if reviewing game
   if (m_bReviewingGame) {
@@ -262,15 +265,19 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     pMAINFRAME->MakeDialogVisible(twGameReviewDialog);
     // see if a contract has been set
     if (ISBID(m_nContract)) {
-      if (theApp.GetValue(tbAutoHideBidHistory))
+      if (theApp.GetValue(tbAutoHideBidHistory)) {
         pMAINFRAME->HideDialog(twBiddingHistoryDialog);
-      if (theApp.GetValue(tbAutoShowPlayHistory))
+      }
+      if (theApp.GetValue(tbAutoShowPlayHistory)) {
         pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
+      }
     } else {
-      if (theApp.GetValue(tbAutoShowBidHistory))
+      if (theApp.GetValue(tbAutoShowBidHistory)) {
         pMAINFRAME->MakeDialogVisible(twBiddingHistoryDialog);
-      if (theApp.GetValue(tbAutoHidePlayHistory))
+      }
+      if (theApp.GetValue(tbAutoHidePlayHistory)) {
         pMAINFRAME->HideDialog(twPlayHistoryDialog);
+      }
     }
     // done
     pVIEW->EnableRefresh();
@@ -285,7 +292,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   // but check if this is PBN format
   if (m_nFileFormat == tnPBNFormat) {
     // if so, load the game data
-    LoadGameRecord(*(m_gameRecords[0]));
+    deal_->LoadGameRecord(*(m_gameRecords[0]));
     // and hide the game review dialog
     pMAINFRAME->HideDialog(twGameReviewDialog);
   }
@@ -296,15 +303,16 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   //
   if (theApp.IsGameInProgress()) {
     // init players with the new hands
-    for (int i = 0; i<4; i++)
+    for (int i = 0; i < 4; i++) {
       m_pPlayer[i]->InitializeRestoredHand();
+    }
 
     // and start play
     pVIEW->InitNewRound();
 
     // ######## New Code!!! ########
     // see if we have plays recorded
-    int nIndex = 0;
+    nIndex = 0;
     int numRounds = m_numTricksPlayed;
     m_numTricksPlayed = 0;	// reset
     if (numRounds > 0) {
@@ -312,57 +320,61 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
       theApp.SetValue(tbEnableAnalysisTracing, FALSE);
       //
       m_bBatchMode = TRUE;
-      for (int i = 0; i<4; i++)
+      for (int i = 0; i < 4; i++) {
         m_pPlayer[i]->SuspendTrace();
+      }
       pMAINFRAME->SetStatusText("Processing game position...");
       pMAINFRAME->LockStatusBar(TRUE);
       pVIEW->SetCurrentMode(CEasyBView::MODE_GAMERESTORE);
       //
-      for (int nRound = 0; nRound<numRounds; nRound++) {
+      for (int nRound = 0; nRound < numRounds; nRound++) {
         // silently play out the cards to reach the saved position
         int nPlayer = m_nTrickLead[nRound];
         int j = 0;
-        for (j = 0; j<4; j++) {
+        for (j = 0; j < 4; j++) {
           // grab the card that was played
           int nDeckVal = m_nPlayRecord[nIndex];
-          if (nDeckVal < 0)
+          if (nDeckVal < 0) {
             break;
+          }
           //
           CCard* pCard = theApp.GetDeck()->GetSortedCard(nDeckVal);
-          if (pCard == NULL)
+          if (pCard == NULL) {
             break;	// reached end of play record
-
-                    // see if we should expose dummy here
-          if ((nRound == 0) && (j == 0))
-            ExposeDummy(TRUE);
+          }
+          // see if we should expose dummy here
+          if ((nRound == 0) && (j == 0)) {
+            deal_->ExposeDummy(TRUE);
+          }
 
           // and play it out
           ASSERT(pCard->GetOwner() == nPlayer);
-          EnterCardPlay((Position)nPlayer, pCard);
+          deal_->EnterCardPlay((Position)nPlayer, pCard);
           //					pVIEW->Notify(WM_COMMAND, WMS_CARD_PLAY, (int)pCard);
 
           // if this is the last round, show the card
-          if (nRound == numRounds - 1)
+          if (nRound == numRounds - 1) {
             pVIEW->DrawPlayedCard((Position)nPlayer, pCard, FALSE);
+          }
 
           //
-          nPlayer = GetNextPlayer(nPlayer);
+          nPlayer = app_->GetNextPlayer(nPlayer);
           nIndex++;
         }
         //
         if (j == 4) {
           // evaluate the trick
-          EvaluateTrick(TRUE);
+          deal_->EvaluateTrick(TRUE);
           // then clear, but but don't clear the final trick
           //					if (nRound < numRounds-1)
           pDOC->ClearTrick();
         }
-
       }
 
       // restore settings
-      for (int i = 0; i<4; i++)
+      for (int i = 0; i < 4; i++) {
         m_pPlayer[i]->ResumeTrace();
+      }
       theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
       pMAINFRAME->LockStatusBar(FALSE);
       pMAINFRAME->SetStatusText("Done.");
@@ -380,15 +392,18 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     // just force reset of suit offsets for now
     pVIEW->ResetSuitOffsets();
     // and jump into bidding
-    InitPlay(FALSE, TRUE);	// restarting saved game
+    deal_->InitPlay(FALSE, TRUE);	// restarting saved game
   }
 
   // activate remaining dialogs
-  if (m_bShowCommentsUponOpen)
+  if (m_bShowCommentsUponOpen) {
     pMAINFRAME->MakeDialogVisible(twFileCommentsDialog);
-  if (m_bShowAnalysesUponOpen)
-    for (int i = 0; i<4; i++)
+  }
+  if (m_bShowAnalysesUponOpen) {
+    for (int i = 0; i < 4; i++) {
       pMAINFRAME->MakeDialogVisible(twAnalysisDialog, i);
+    }
+  }
 
   // restore disply
   pVIEW->EnableRefresh();
@@ -424,26 +439,25 @@ CEasyBDoc* CEasyBDoc::GetDoc() {
 void CEasyBDoc::Serialize(CArchive& ar) {
   if (ar.IsStoring()) {
     if (m_nFileFormat == tnPBNFormat)
-      ar << WriteFilePBN().c_str();
+      ar << deal_->WriteFilePBN().c_str();
     else if (m_nFileFormat == tnTextFormat)
-      ExportGameInfo(ar);
+      deal_->ExportGameInfo(ar);
     else
-      WriteFile(ar);
+      deal_->WriteFile(ar);
   } else {
     BOOL bCode = FALSE;
     if (m_nFileFormat == tnPBNFormat) {
       try {
-        bCode = ReadFilePBN(ar);
-      } catch (...) {
-      }
+        bCode = deal_->ReadFilePBN(ar);
+      } catch (...) {}
     } else {
       try {
-        bCode = ReadFile(ar);
-      } catch (...) {
-      }
+        bCode = deal_->ReadFile(ar);
+      } catch (...) {}
     }
-    if (!bCode)
+    if (!bCode) {
       throw (new CArchiveException());
+    }
   }
 }
 
@@ -494,8 +508,8 @@ void CEasyBDoc::OnClearAll() {
   }
 
   // clear document info
-  ClearAllInfo();
-  DeleteContents();
+  deal_->ClearAllInfo();
+  deal_->DeleteContents();
   m_strTitle = _T("");
   m_strPathName = _T("");
 
@@ -606,7 +620,7 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
 
 //
 void CEasyBDoc::OnGameHint() {
-  GetGameHint(FALSE);
+  deal_->GetGameHint(FALSE);
 }
 
 
@@ -637,10 +651,10 @@ void CEasyBDoc::OnDealNewHand() {
   pMAINFRAME->HideDialog(twFileCommentsDialog);
 
   // prep
-  PrepForNewDeal();
+  deal_->PrepForNewDeal();
 
   // and call the function to deal a new hand
-  DealHands();
+  deal_->DealHands();
 
   // if using duplicate scoring, update vulnerability display
   if (theApp.IsUsingDuplicateScoring())
@@ -662,34 +676,20 @@ void CEasyBDoc::OnUpdateDealNumberedHand(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnDealNumberedHand() {
   // prep
-  PrepForNewDeal();
+  deal_->PrepForNewDeal();
 
   // get the deal number
   CDealNumberDialog dealNumDlg;
   if (!dealNumDlg.DoModal())
     return;
 
-  // set vulnerability & dealer
-  m_nDealer = dealNumDlg.m_nDealer;
-  m_nCurrPlayer = m_nDealer;
-  m_nVulnerableTeam = (Team)dealNumDlg.m_nVulnerability;
-  if ((m_nVulnerableTeam == NORTH_SOUTH) || (m_nVulnerableTeam == BOTH))
-    m_bVulnerable[NORTH_SOUTH] = TRUE;
-  if ((m_nVulnerableTeam == EAST_WEST) || (m_nVulnerableTeam == BOTH))
-    m_bVulnerable[EAST_WEST] = TRUE;
-
-  // and call the appropriate function to deal a new hand
-  m_nSpecialDealCode = dealNumDlg.m_nSpecialDealCode;
-  if (m_nSpecialDealCode == 0)
-    DealHands(TRUE, dealNumDlg.m_nDealNumber);
-  else
-    DealSpecial(dealNumDlg.m_nDealNumber, m_nSpecialDealCode);
+  deal_->DealNumberedHand(dealNumDlg.m_nDealer, dealNumDlg.m_nVulnerability, 
+      dealNumDlg.m_nSpecialDealCode, dealNumDlg.m_nDealNumber);
 
   // if using duplicate scoring, update vulnerability display
   if (theApp.IsUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }
-
 
 //
 void CEasyBDoc::OnUpdateDealSpecial(CCmdUI* pCmdUI) {
@@ -703,71 +703,71 @@ void CEasyBDoc::OnUpdateDealSpecial(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnDealGameHand() {
   //	CMessageDisplay("Dealing game...");
-  DealSpecial(1, 0, 0);
+  deal_->DealSpecial(1, 0, 0);
 }
 
 //
 void CEasyBDoc::OnDealMinorGame() {
-  DealSpecial(1, 1, 0);
+  deal_->DealSpecial(1, 1, 0);
 }
 
 //
 void CEasyBDoc::OnDealMajorGame() {
-  DealSpecial(1, 2, 0);
+  deal_->DealSpecial(1, 2, 0);
 }
 
 //
 void CEasyBDoc::OnDealNotrumpGame() {
-  DealSpecial(1, 3, 0);
+  deal_->DealSpecial(1, 3, 0);
 }
 
 //
 void CEasyBDoc::OnDealGameHandEastWest() {
-  DealSpecial(1, 0, 0, EAST_WEST);
+  deal_->DealSpecial(1, 0, 0, EAST_WEST);
 }
 
 //
 void CEasyBDoc::OnDealMinorGameEastWest() {
-  DealSpecial(1, 1, 0, EAST_WEST);
+  deal_->DealSpecial(1, 1, 0, EAST_WEST);
 }
 
 //
 void CEasyBDoc::OnDealMajorGameEastWest() {
-  DealSpecial(1, 2, 0, EAST_WEST);
+  deal_->DealSpecial(1, 2, 0, EAST_WEST);
 }
 
 //
 void CEasyBDoc::OnDealNotrumpGameEastWest() {
-  DealSpecial(1, 3, 0, EAST_WEST);
+  deal_->DealSpecial(1, 3, 0, EAST_WEST);
 }
 
 
 //
 void CEasyBDoc::OnDealSlam() {
-  DealSpecial(2, 0, 0);
+  deal_->DealSpecial(2, 0, 0);
 }
 
 //
 void CEasyBDoc::OnDealSmallSlam() {
-  DealSpecial(2, 0, 1);
+  deal_->DealSpecial(2, 0, 1);
 }
 
 //
 void CEasyBDoc::OnDealGrandSlam() {
-  DealSpecial(2, 0, 2);
+  deal_->DealSpecial(2, 0, 2);
 }
 
 //
 void CEasyBDoc::OnDealSlamEastWest() {
-  DealSpecial(2, 0, 0, EAST_WEST);
+  deal_->DealSpecial(2, 0, 0, EAST_WEST);
 }
 
 void CEasyBDoc::OnDealSmallSlamEastWest() {
-  DealSpecial(2, 0, 1, EAST_WEST);
+  deal_->DealSpecial(2, 0, 1, EAST_WEST);
 }
 
 void CEasyBDoc::OnDealGrandSlamEastWest() {
-  DealSpecial(2, 0, 2, EAST_WEST);
+  deal_->DealSpecial(2, 0, 2, EAST_WEST);
 }
 
 
@@ -812,7 +812,7 @@ void CEasyBDoc::OnUpdateRestartCurrentHand(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnRestartCurrentHand() {
   // use the common function
-  RestartCurrentHand(TRUE);
+  deal_->RestartCurrentHand(TRUE);
 }
 
 
@@ -838,23 +838,7 @@ void CEasyBDoc::OnUpdatePlayClaimTricks(CCmdUI* pCmdUI) {
 // OnPlayClaimTricks() 
 //
 void CEasyBDoc::OnPlayClaimTricks() {
-  // player claiming tricks
-  int nPos = GetHumanPlayerPos();
-  // may be claiming as declarer or defender
-  // if human has contract, get the declarer, be it human or computer partner
-  if ((nPos == NORTH) || (nPos == SOUTH))
-    nPos = GetDeclarerPosition();
-
-  // and check the claim
-  int numTricksRequired = 13 - m_numTricksPlayed;
-  int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
-  if (numClaimableTricks < numTricksRequired) {
-    AfxMessageBox(FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksRequired), MB_ICONINFORMATION);
-    return;
-  }
-
-  // process the claim
-  ClaimTricks(nPos);
+  deal_->PlayClaimTricks();
 }
 
 
@@ -869,32 +853,8 @@ void CEasyBDoc::OnUpdatePlayClaimContract(CCmdUI* pCmdUI) {
 
 //
 void CEasyBDoc::OnPlayClaimContract() {
-  // player claiming enough tricks for contract -- can only do so as declarer or dummy
-  int nPos = GetHumanPlayerPos();
-  // may be claiming as declarer or defender
-  // if human has contract, get the declarer, be it human or computer partner
-  if ((nPos != NORTH) && (nPos != SOUTH)) {
-    AfxMessageBox("You cannot claim the contract when defending.");
-    return;
-  }
-
-  // and check the claim
-  int numTricksRequired = 6 + m_nContractLevel;
-  int numTricksLeft = numTricksRequired - m_numTricksWon[GetPlayerTeam(nPos)];
-  int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
-  if (numClaimableTricks < numTricksLeft) {
-    AfxMessageBox(FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksLeft), MB_ICONINFORMATION);
-    return;
-  }
-
-  // process the claim -- credit the player for all claimable tricks
-  ClaimTricks(nPos, numClaimableTricks);
+  deal_->PlayClaimContract();
 }
-
-
-
-
-
 
 //
 void CEasyBDoc::OnUpdatePlayConcedeTricks(CCmdUI* pCmdUI) {
@@ -911,8 +871,8 @@ void CEasyBDoc::OnPlayConcedeTricks() {
   // confirm
   if (AfxMessageBox("Are you sure you wish to concede the rest of the tricks?", MB_ICONQUESTION | MB_OKCANCEL) == IDOK) {
     // process the claim
-    int nPos = GetHumanPlayerPos();
-    ConcedeTricks(nPos);
+    int nPos = deal_->GetHumanPlayerPos();
+    deal_->ConcedeTricks(nPos);
   }
 }
 
@@ -933,7 +893,7 @@ void CEasyBDoc::OnGameAutoPlay() {
   CPlayerStatusDialog& status = m_pPlayer[m_nCurrPlayer]->GetStatusDialog();
   status << "4PLYAUTO1! The computer is playing a card for the human player...\n";
   pMAINFRAME->SetStatusMessage(FormString(("Playing for %s..."), PositionToString(m_nCurrPlayer)));
-  InvokeNextPlayer();
+  deal_->InvokeNextPlayer();
 }
 
 
@@ -976,8 +936,9 @@ void CEasyBDoc::OnGameAutoPlayAll() {
     }
     theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
     if (((m_nCurrPlayer == NORTH) || (m_nCurrPlayer == SOUTH)) &&
-      (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
-      pVIEW->AdvanceToNextPlayer();
+        (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
+      AdvanceToNextPlayer();
+    }
   } else {
     // have the computer play for the human
     status << "4PLYAUTO2b! The computer is taking over the remainder of play for the human...\n";
@@ -1029,8 +990,9 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
     pVIEW->EnableRefresh();
     EndWaitCursor();
     if (((m_nCurrPlayer == NORTH) || (m_nCurrPlayer == SOUTH)) &&
-      (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
-      pVIEW->AdvanceToNextPlayer();
+      (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
+       AdvanceToNextPlayer();
+    }
   } else {
     // have the computer play for the human
     if (m_bAutoReplayMode)
@@ -1052,8 +1014,9 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
       pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
     }
     //
-    if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
-      pVIEW->AdvanceToNextPlayer();
+    if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
+      AdvanceToNextPlayer();
+    }
   }
 }
 
@@ -1098,12 +1061,12 @@ void CEasyBDoc::OnSwapPositionEast() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    SwapPlayersHands(SOUTH, EAST);
+    deal_->SwapPlayersHands(SOUTH, EAST);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_EAST);
   } else {
     // play has started
-    SwapPartialHands(SOUTH, EAST);
-    ResetDisplay();
+    deal_->SwapPartialHands(SOUTH, EAST);
+    deal_->ResetDisplay();
     m_pPlayer[SOUTH]->InitializeSwappedHand();
     m_pPlayer[EAST]->InitializeSwappedHand();
   }
@@ -1114,12 +1077,12 @@ void CEasyBDoc::OnSwapPositionNorth() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    SwapPlayersHands(SOUTH, NORTH);
+    deal_->SwapPlayersHands(SOUTH, NORTH);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_NORTH);
   } else {
     // play has started
-    SwapPartialHands(SOUTH, EAST);
-    ResetDisplay();
+    deal_->SwapPartialHands(SOUTH, EAST);
+    deal_->ResetDisplay();
     m_pPlayer[SOUTH]->InitializeSwappedHand();
     m_pPlayer[NORTH]->InitializeSwappedHand();
   }
@@ -1130,12 +1093,12 @@ void CEasyBDoc::OnSwapPositionWest() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    SwapPlayersHands(SOUTH, WEST);
+    deal_->SwapPlayersHands(SOUTH, WEST);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_WEST);
   } else {
     // play has started
-    SwapPartialHands(SOUTH, EAST);
-    ResetDisplay();
+    deal_->SwapPartialHands(SOUTH, EAST);
+    deal_->ResetDisplay();
     m_pPlayer[SOUTH]->InitializeSwappedHand();
     m_pPlayer[EAST]->InitializeSwappedHand();
   }
@@ -1146,12 +1109,12 @@ void CEasyBDoc::OnSwapCardsClockwise() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    RotatePlayersHands(0, TRUE, theApp.IsBiddingInProgress());
+    deal_->RotatePlayersHands(0, TRUE, theApp.IsBiddingInProgress());
   } else {
     // play has started
-    RotatePartialHands(1);
-    ResetDisplay();
-    pVIEW->AdvanceToNextPlayer();
+    deal_->RotatePartialHands(1);
+    deal_->ResetDisplay();
+    AdvanceToNextPlayer();
   }
 }
 
@@ -1161,12 +1124,12 @@ void CEasyBDoc::OnSwapCardsCounterclockwise() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    RotatePlayersHands(1, TRUE, theApp.IsBiddingInProgress());
+    deal_->RotatePlayersHands(1, TRUE, theApp.IsBiddingInProgress());
   } else {
     // play has started
-    RotatePartialHands(3);
-    ResetDisplay();
-    pVIEW->AdvanceToNextPlayer();
+    deal_->RotatePartialHands(3);
+    deal_->ResetDisplay();
+    AdvanceToNextPlayer();
   }
 }
 
@@ -1367,3 +1330,80 @@ void CEasyBDoc::OnFileProperties() {
   //
   propDlg.DoModal();
 }
+
+
+//
+void CEasyBDoc::AdvanceToNextPlayer() {
+  // see whether this is a human or computer player
+  BOOL bManualPlay = FALSE;
+  int nPlayMode = theApp.GetValue(tnCardPlayMode);
+  if (GetCurrentPlayer()->IsHumanPlayer() && 
+      (nPlayMode != CEasyBApp::PLAY_FULL_AUTO && nPlayMode != CEasyBApp::PLAY_FULL_AUTO_EXPRESS)) {
+    bManualPlay = TRUE;
+  } else if ((theApp.GetValue(tbManualPlayMode)) ||
+      (nPlayMode == CEasyBApp::PLAY_MANUAL) ||
+      ((nPlayMode == CEasyBApp::PLAY_MANUAL_DEFEND) && (GetCurrentPlayer()->IsDefending()))) {
+    bManualPlay = TRUE;
+  }
+
+  // it's not manual if computer is replaying
+  if (IsAutoReplayMode()) {
+    bManualPlay = FALSE;
+  }
+
+  //
+  if (bManualPlay) {
+    // this is a human player
+    // first see if autoplay last card option is enabled
+    if (theApp.GetValue(tbAutoPlayLastCard)) {
+      CPlayer* pPlayer = GetCurrentPlayer();
+      if (pPlayer->TestForAutoPlayLastCard()) {
+        return;
+      }
+    }
+
+    // jump the cursor if appropriate
+    if (theApp.GetValue(tbAutoJumpCursor)) {
+      pVIEW->JumpCursor();
+    }
+
+    // set the prompt
+    CString strMessage;
+    strMessage.Format("%s's turn -- select a card to play.",
+        PositionToString(GetCurrentPlayerPosition()));
+    pMAINFRAME->SetStatusText(strMessage);
+
+    // and set status code
+    pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
+
+    // finally, show auto hint if appropriate
+    ShowAutoHint();
+  } else {
+    // this is a computer player
+    pVIEW->SetCurrentMode(CEasyBView::MODE_NONE);	// clear up loose ends
+    BOOL bExpressMode = theApp.InExpressAutoPlay();
+    // prompt if not in express mode
+    if (!bExpressMode && !theApp.GetValue(tbAutoTestMode)) {
+      CWaitCursor wait;
+      CString strMessage;
+      if ((!GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDeclarer)) ||
+          (GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDefender))) {
+        strMessage.Format("%s is playing (GIB)...", PositionToString(GetCurrentPlayerPosition()));
+      }
+      else {
+        strMessage.Format("%s is playing...", PositionToString(GetCurrentPlayerPosition()));
+      }
+      pVIEW->SetPrompt(strMessage);
+    }
+
+    // and move to the next player
+    // don't pop up wait cursor if in auto mode!
+    if (!bExpressMode) {
+      CWaitCursor wait;
+      InvokeNextPlayer();
+    } else {
+      InvokeNextPlayer();
+    }
+  }
+}
+

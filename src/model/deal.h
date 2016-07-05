@@ -138,6 +138,9 @@ public:
   BOOL IsGameReviewAvailable() { return m_bGameReviewAvailable; }
   void SuppressBidHistoryUpdate(BOOL bCode = TRUE) { m_bSuppressBidHistoryUpdate = bCode; }
   void SuppressPlayHistoryUpdate(BOOL bCode = TRUE) { m_bSuppressPlayHistoryUpdate = bCode; }
+  void DealNumberedHand(int dealer, int vulnerability, int specialDealCode, int dealNumber);
+  bool PlayClaimTricks();
+  bool PlayClaimContract();
 
 
   CString GetFileDescription() const { return m_strFileDescription; }
@@ -161,7 +164,6 @@ public:
   void SetExpressPlayMode(BOOL val) { m_bExpressPlayMode = val; }
   BOOL IsAutoReplayMode() const { return m_bAutoReplayMode; }
   void SetAutoReplayMode(BOOL val) { m_bAutoReplayMode = val; }
-protected:
   void Initialize();
   void Terminate();
   void InitNewGame();
