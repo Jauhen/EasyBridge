@@ -367,7 +367,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
           deal_->EvaluateTrick(TRUE);
           // then clear, but but don't clear the final trick
           //					if (nRound < numRounds-1)
-          pDOC->ClearTrick();
+          deal_->ClearTrick();
         }
       }
 
@@ -415,7 +415,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
 
 
 void CEasyBDoc::DeleteContents() {
-  Deal::DeleteContents();
+  deal_->DeleteContents();
   CDocument::DeleteContents();
 }
 

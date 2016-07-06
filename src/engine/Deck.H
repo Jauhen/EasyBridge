@@ -37,7 +37,8 @@ public:
 
 	// one-time only init/termination operations
 	void	Initialize();
-	void	InitializeBitmaps();
+  void	InitializeCards();
+  void	InitializeBitmaps();
 	void	Terminate();
 	//
 	void	Clear();

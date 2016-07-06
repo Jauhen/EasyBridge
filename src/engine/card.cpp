@@ -11,10 +11,8 @@
 //
 #include "stdafx.h"
 #include "engine/card_constants.h"
-#include "engine/cardopts.h"
 #include "engine/card.h"
 #include "engine/deck.h"
-//#include "viewopts.h"
 #include "math.h"
 #include "app_interface.h"
 
@@ -62,84 +60,6 @@ void CCard::ClearBackground()
 }
 
 
-//
-// GetProgramOption() and SetProgramOption() are 
-// generic property get/set routines
-//
-
-//
-LPVOID CCard::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	switch(nItem)
-	{
-		//case tcCard:
-		//	return (LPVOID) cCard[nIndex1];
-		//case tcFaceCard:
-		//	return (LPVOID) cFaceCard[nIndex1];
-		//case tcSuit:
-		//	return (LPVOID) cSuit[nIndex1];
-		default:
-			AfxMessageBox("Unhandled Call to CCard::GetValuePV()");
-			return (LPVOID) NULL;
-	}
-	return NULL;
-}
-
-//
-int CCard::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3)
-{
-	int nVal = (int) value;
-	BOOL bVal = (BOOL) value;
-	LPCTSTR sVal = (LPCTSTR) value;
-	//
-	//
-	switch(nItem)
-	{
-		// card chars are constants
-		case tcCard:
-			break;
-		case tcFaceCard:
-			break;
-		case tcSuit:
-			break;
-		default:
-			AfxMessageBox("Unhandled Call to CCard::SetValuePV()");
-			return 1;
-	}
-	return 0;
-}
-
-// conversion functions
-int CCard::GetValueInt(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	return (int) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
-
-LPCTSTR CCard::GetValueString(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	return (LPCTSTR) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
-
-int CCard::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	return (int) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
-
-int CCard::SetValueInt(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	return SetValuePV(nItem, (LPVOID)nValue, nIndex1, nIndex2, nIndex3);
-}
-
-int CCard::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	return SetValuePV(nItem, (LPVOID)szValue, nIndex1, nIndex2, nIndex3);
-}
-
-int CCard::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	return SetValuePV(nItem, (LPVOID)nValue, nIndex1, nIndex2, nIndex3);
-}
-
 
 //
 //===============================================================
@@ -148,7 +68,7 @@ int CCard::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3
 
 
 //
-void CCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC)
+void CCard::Initialize(int nSuit, int nValue)
 {
 	CString strTemp;
 	// check limits
@@ -160,9 +80,6 @@ void CCard::Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC)
 		AfxMessageBox(strTemp);
 		return;
 	}
-
-	// init the card's bitmap
-	SetBitmap(pBitmap, pDC);
 
 	//
 	m_nSuit = nSuit;

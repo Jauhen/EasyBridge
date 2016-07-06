@@ -496,5 +496,8 @@
     <ClCompile Include="file_exporter_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="deck_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

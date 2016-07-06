@@ -145,6 +145,8 @@ public:
   MOCK_METHOD0(OnDealNewHand, void());
   MOCK_METHOD0(EndWaitCursorDoc, void());
   MOCK_METHOD0(OnRestartCurrentHand, void());
+  MOCK_METHOD0(AdvanceToNextPlayer, void());
+
 
   MOCK_METHOD1(DisplayHand, void(Position pos));
   MOCK_METHOD1(SetCurrentModeTemp, void(int mode));
@@ -167,7 +169,6 @@ public:
   MOCK_METHOD1(EnableRefresh, void(bool reset));
   MOCK_METHOD0(ResumeGame, void());
   MOCK_METHOD0(ResetDummySuitSequence, void());
-  MOCK_METHOD0(AdvanceToNextPlayer, void());
   MOCK_METHOD0(ClickForNextTrickMode, void());
   MOCK_METHOD0(DisplayTricksView, void());
   MOCK_METHOD0(PromptLead, void());

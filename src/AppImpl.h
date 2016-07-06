@@ -766,6 +766,10 @@ public:
     pDOC->OnRestartCurrentHand();
   }
 
+  virtual void AdvanceToNextPlayer() {
+    pDOC->AdvanceToNextPlayer();
+  }
+
   //////////////////////////////////////////////////////////////////////////
   //
   // pVIEW
@@ -825,7 +829,7 @@ public:
   }
 
   virtual void SuppressRefresh() {
-  pVIEW->SuppressRefresh();
+    pVIEW->SuppressRefresh();
   }
 
   virtual void InitNewRound() {
@@ -846,10 +850,6 @@ public:
 
   virtual void ResetDummySuitSequence() {
     pVIEW->ResetDummySuitSequence();
-  }
-
-  virtual void AdvanceToNextPlayer() {
-    pDOC->AdvanceToNextPlayer(); // TODO(Jauhen): move to pDOC section.
   }
 
   virtual void ClickForNextTrickMode() {

@@ -97,40 +97,41 @@ static TCHAR BASED_CODE szCurrentCardBack[] = _T("Current Card Back Index");
 //
 void CDeck::Initialize() 
 {
+  InitializeCards();
 	// read in some values
 	m_nCurrCardBack = app_->GetProfileInt(szDeckSettings, szCurrentCardBack, 0);
+  // init the time
+  m_nPrevTime = time(NULL);
 
-	// init bitmaps
-	InitializeBitmaps();
-
-	// init the deck
-	CDC *pDC = app_->GetDC();
-	CCard* pCard;
-	int nCount = 0;
-	//
-	for (int nSuit=CLUBS;nSuit<=SPADES;nSuit++) 
-	{
-		for(int nValue=2;nValue<=ACE;nValue++,nCount++) 
-		{
-			// create card
-			pCard = new CCard(app_);
-			pCard->Initialize(nSuit,nValue,&m_cardBitmap[nCount],pDC);
-			sprintf(pCard->m_szValue,pCard->GetName());
-			m_cards[nCount] = pCard;
-			m_sortedCards[nCount] = pCard;
-			m_nDeckIndex[nSuit][nValue] = nCount;
-		}
-	}
-
-	// init the time
-	m_nPrevTime = time(NULL);
-	
-	// done
-	m_bInitialized = TRUE;
+  // init bitmaps
+  CDC *pDC = app_->GetDC();
+  InitializeBitmaps();
   app_->ReleaseDC(pDC);
 }
 
 
+
+void CDeck::InitializeCards() {
+  // init the deck
+  CCard* pCard;
+  int nCount = 0;
+  //
+  for (int nSuit = CLUBS; nSuit <= SPADES; nSuit++) {
+    for (int nValue = 2; nValue <= ACE; nValue++, nCount++) {
+      // create card
+      pCard = new CCard(app_);
+      pCard->Initialize(nSuit, nValue);
+      sprintf(pCard->m_szValue, pCard->GetName());
+      m_cards[nCount] = pCard;
+      m_sortedCards[nCount] = pCard;
+      m_nDeckIndex[nSuit][nValue] = nCount;
+    }
+  }
+
+
+  // done
+  m_bInitialized = TRUE;
+}
 
 //
 void CDeck::InitializeBitmaps()

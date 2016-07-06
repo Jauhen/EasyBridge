@@ -214,6 +214,7 @@ public:
   virtual void OnDealNewHand() = 0;
   virtual void EndWaitCursorDoc() = 0;
   virtual void OnRestartCurrentHand() = 0;
+  virtual void AdvanceToNextPlayer() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -241,7 +242,6 @@ public:
   virtual void EnableRefresh(bool reset = false) = 0;
   virtual void ResumeGame() = 0;
   virtual void ResetDummySuitSequence() = 0;
-  virtual void AdvanceToNextPlayer() = 0;
   virtual void ClickForNextTrickMode() = 0;
   virtual void DisplayTricksView() = 0;
   virtual void PromptLead() = 0;

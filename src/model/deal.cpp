@@ -3712,7 +3712,7 @@ bool Deal::PlayClaimContract() {
 
   // and check the claim
   int numTricksRequired = 6 + m_nContractLevel;
-  int numTricksLeft = numTricksRequired - m_numTricksWon[GetPlayerTeam(nPos)];
+  int numTricksLeft = numTricksRequired - m_numTricksWon[app_->GetPlayerTeam(nPos)];
   int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
   if (numClaimableTricks < numTricksLeft) {
     AfxMessageBox(app_->FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksLeft), MB_ICONINFORMATION);

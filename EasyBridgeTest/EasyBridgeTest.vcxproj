@@ -310,6 +310,7 @@
     <ClCompile Include="..\src\model\wrfile.cpp" />
     <ClCompile Include="..\src\model\WrFilePBN.cpp" />
     <ClCompile Include="deal_test.cpp" />
+    <ClCompile Include="deck_test.cpp" />
     <ClCompile Include="file_exporter_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player_status_dialog_test.cpp" />
