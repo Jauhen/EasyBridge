@@ -92,7 +92,7 @@ BOOL CShutoutBidsConvention::TryConvention(const CPlayer& player,
 	{
 		nBid = MAKEBID(nSuit,4);
 		status << "D00! Have a " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & app_->SuitToSingularString(nSuit) & 
+				  "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit with no tricks outside the suit, so make a shutout bid of " & 
 				  app_->BidToFullString(nBid) & ".\n";
 	} 
@@ -100,7 +100,7 @@ BOOL CShutoutBidsConvention::TryConvention(const CPlayer& player,
 	{
 		nBid = MAKEBID(nSuit,3);
 		status << "D04! Have a " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & app_->SuitToSingularString(nSuit) & 
+				  "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit with no tricks outside the suit, so make a shutout bid of " & 
 				  app_->BidToFullString(nBid) & ".\n";
 	}

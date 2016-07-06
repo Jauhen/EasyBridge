@@ -258,7 +258,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
         break;
       }
       int nContractLevel = atoi(strValue);
-      int nContractSuit = app_->CharToSuit(strValue[1]);
+      int nContractSuit = CCard::CharToSuit(strValue[1]);
       int nContract = MAKEBID(nContractSuit, nContractLevel);
       int nContractModifier = 0;
       //
@@ -706,7 +706,7 @@ void Deal::AssignCardsPBN(const CString& str) {
         strSuit = _T("");
       //
       for (int j = 0; j < strSuit.GetLength(); j++) {
-        int nValue = app_->CharToFaceValue(strSuit[j]);
+        int nValue = CCard::CharToFaceValue(strSuit[j]);
         int nIndex = MAKEDECKVALUE(nSuit, nValue);
         CCard* pCard = app_->GetDeck()->GetSortedCard(nIndex);
         ASSERT(pCard);

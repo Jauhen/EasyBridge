@@ -266,6 +266,7 @@
     <ClCompile Include="src\engine\bidding\BidEngine.cpp" />
     <ClCompile Include="src\engine\bidding\BlackwoodConvention.cpp" />
     <ClCompile Include="src\engine\card.cpp" />
+    <ClCompile Include="src\engine\card_static.cpp" />
     <ClCompile Include="src\engine\play\CardHoldings.cpp" />
     <ClCompile Include="src\dialogs\CardLayout.cpp" />
     <ClCompile Include="src\engine\CardList.cpp" />

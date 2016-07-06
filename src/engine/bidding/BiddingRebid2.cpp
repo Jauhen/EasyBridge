@@ -362,7 +362,7 @@ int CBidEngine::MakeRebidAsResponder()
 							  " pts in hand, for a total in the partnership of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " pts, and with " & numSupportCards &"-card trump support in " & 
-							  app_->SuitToString(m_nAgreedSuit) & 
+							  CCard::SuitToString(m_nAgreedSuit) & 
 							  ", explore slam possibilities with an invitational bid of " & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
@@ -1772,7 +1772,7 @@ int CBidEngine::MakeRebidAsResponder()
 				status << "B4M14! With " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points in hand, for a total in partnership of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
-						  " points, invite game by bidding the " & app_->SuitToSingularString(nSuit) & 
+						  " points, invite game by bidding the " & CCard::SuitToSingularString(nSuit) & 
 						  " support suit at " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else
@@ -2488,7 +2488,7 @@ int CBidEngine::MakeRebidAsResponder()
 		// jump to game in a self-supporting major
 		if (ISSUIT(nPreviousSuit) && RebidSuit(SUIT_MAJOR,REBID_AT_4,app_->MajorSuitGamePts() ,app_->SlamPts() -1,LENGTH_6,SS_SELFSUPPORTING,HONORS_3))
 		{
-			status << "B4P50! With a self-supporting " & app_->SuitToSingularString(nPrefSuit) &
+			status << "B4P50! With a self-supporting " & CCard::SuitToSingularString(nPrefSuit) &
 					  " suit and " & m_fMinTPPoints & 
 					  "+ team points, jump to game at " & app_->BidToFullString(m_nBid)  & ".\n";
 			return ValidateBid(m_nBid);
@@ -2516,7 +2516,7 @@ int CBidEngine::MakeRebidAsResponder()
 		// jump to game in a self-supporting minor (7 cards min)
 		if (ISSUIT(nPreviousSuit) && RebidSuit(SUIT_MINOR,REBID_AT_5,app_->MinorSuitGamePts() ,app_->SlamPts() -1,LENGTH_7,SS_SELFSUPPORTING,HONORS_3))
 		{
-			status << "B4P55! With a self-supporting " & app_->SuitToSingularString(nPrefSuit) &
+			status << "B4P55! With a self-supporting " & CCard::SuitToSingularString(nPrefSuit) &
 					  " suit and " & m_fMinTPPoints & 
 					  "+ team points, jump to game at " & app_->BidToFullString(m_nBid)  & ".\n";
 			return ValidateBid(m_nBid);
@@ -2563,7 +2563,7 @@ int CBidEngine::MakeRebidAsResponder()
 				else if (newSuit == nPreviousSuit)
 					status << "B4P64c! With a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " pts in the partnership and a lack of good support for either of partner's suits, rebid our own " & 
-							  app_->SuitToSingularString(nPreviousSuit) & " suit at " & app_->BidToFullString(m_nBid) & ".\n";
+							  CCard::SuitToSingularString(nPreviousSuit) & " suit at " & app_->BidToFullString(m_nBid) & ".\n";
 				else if (newSuit == NOTRUMP)
 					status << "B4P64d! With a total of " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 							  " HCPs in the partnership, no rebiddable suit or good second suit, and a lack of good support for either of partner's suits, bid " &
@@ -3051,7 +3051,7 @@ int CBidEngine::MakeRebidAsResponder()
 		}
 		InvokeBlackwood(nSuit);
 		if (nSuit != NOTRUMP)
-			status << "B4Q40! We pick " & app_->SuitToString(nSuit) & 
+			status << "B4Q40! We pick " & CCard::SuitToString(nSuit) & 
 					  " for the ultimate slam contract suit.\n";
 		else
 			status << "B4Q41! Since we lack good support for either of partner's suits, the ultimate suit for the slam contract will be No Trump.\n";

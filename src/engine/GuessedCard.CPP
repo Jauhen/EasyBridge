@@ -66,7 +66,7 @@ void CGuessedCard::Init(int nSuit, int nFaceValue)
 	m_nFaceValue = nFaceValue;
 	int nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
 	m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
-	strcpy(m_szName, app_->CardToShortString(nDeckValue));
+	strcpy(m_szName, CCard::CardToShortString(nDeckValue));
 	//
 	Clear();
 }

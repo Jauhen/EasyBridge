@@ -172,7 +172,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   WriteBool(ITEM_GAME_IN_PROGRESS, app_->IsGameInProgress());
   WriteBool(ITEM_BIDDING_IN_PROGRESS, app_->IsBiddingInProgress());
   WriteBool(ITEM_HANDS_DEALT, m_bHandsDealt);
-  strTemp.Format("%s", app_->SuitToString(m_nContractSuit));
+  strTemp.Format("%s", CCard::SuitToString(m_nContractSuit));
   WriteString(ITEM_CONTRACT_SUIT, strTemp);
   WriteInt(ITEM_CONTRACT_LEVEL, m_nContractLevel);
   WriteInt(ITEM_CONTRACT_MODIFIER, m_bRedoubled ? 2 : m_bDoubled ? 1 : 0);

@@ -182,7 +182,7 @@ BOOL CSplinterBidsConvention::RespondToConvention(const CPlayer& player,
 	//
 	status << "SPLNTR! Partner's " & bidState.szPB & 
 			  " bid is a splinter, indicating 13+ points, 4+ trumps, and a singleton or void in " &
-			  app_->SuitToString(nPartnersSuit) & ".  The bid is invitational towards slam.\n";
+			  CCard::SuitToString(nPartnersSuit) & ".  The bid is invitational towards slam.\n";
 	status << "2SPLNTRa! After adjusting for the fit with partner, we have a total of " &
 			  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 			  " pts in the partnership.\n";

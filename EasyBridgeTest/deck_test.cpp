@@ -18,12 +18,7 @@ protected:
 };
 
 TEST_F(DeckTests, Init) {
-  EXPECT_CALL(*app, CardToShortString(_)).WillRepeatedly(Return("HA"));
-  EXPECT_CALL(*app, GetCardName(_)).WillRepeatedly(Return("~~~"));
-  EXPECT_CALL(*app, CardToString(_)).WillRepeatedly(Return("!!"));
-  EXPECT_CALL(*app, CardToReverseString(_)).WillRepeatedly(Return("^^"));
   EXPECT_CALL(*app, GetSuitSequence(_)).WillRepeatedly(Return('H'));
-  EXPECT_CALL(*app, GetSuitLetter(_)).WillRepeatedly(Return('!'));
 
   d.InitializeCards();
 }

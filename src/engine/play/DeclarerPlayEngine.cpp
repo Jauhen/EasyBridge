@@ -1713,7 +1713,7 @@ CCard* CDeclarerPlayEngine::PlaySecond()
 			// or playing in a suit but have no trumps left, so simply discard
 			pCard = GetDiscard();
 			if (ISSUIT(nTrumpSuit))
-				status << "PLDC2C1! We don't have any more " & app_->SuitToString(nSuitLed) & 
+				status << "PLDC2C1! We don't have any more " & CCard::SuitToString(nSuitLed) & 
 					      " or trumps in " & (bPlayingInHand? "hand" : "dummy") & 
 						  ", so discard the " & pCard->GetFaceName() & ".\n";
 			else
@@ -1935,13 +1935,13 @@ CCard* CDeclarerPlayEngine::PlayThird()
 				if (trumpSuit.GetNumTopCards() > numOutstandingTrumps)
 				{
 					pCard = trumpSuit.GetTopSequence().GetBottomCard();;
-					status << "PLYD2A52! With no cards in the " & app_->SuitToString(nSuitLed) &
+					status << "PLYD2A52! With no cards in the " & CCard::SuitToString(nSuitLed) &
 							  " suit, trump with the " & pCard->GetFaceName() & ".\n";
 				}
 				else
 				{
 					pCard = hand.GetSuit(nTrumpSuit).GetBottomCard();
-					status << "PLYD2A55! With no cards in " & app_->SuitToString(nSuitLed) &
+					status << "PLYD2A55! With no cards in " & CCard::SuitToString(nSuitLed) &
 							  ", trump with the " & pCard->GetName() & ".\n";
 				}
 			}
@@ -2145,7 +2145,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 							{
 								// dummy has the top card and we can beat it
 								status << "PLYE38A! Playing third ahead of dummy, need to beat dummy's " & 
-										  app_->CardValToString(nDummyTopCard) & ".\n";
+										  CCard::CardValToString(nDummyTopCard) & ".\n";
 							}
 							else
 							{
@@ -2212,7 +2212,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 			{
 				// opponents have the high card (non-trump) -- so slam 'em
 				pCard = m_pHand->GetSuit(nTrumpSuit).GetBottomCard();
-				status << "PLYE55! With no cards in " & app_->SuitToString(nSuitLed) &
+				status << "PLYE55! With no cards in " & CCard::SuitToString(nSuitLed) &
 						  ", trump with the " & pCard->GetName() & ".\n";
 			}
 		}
@@ -3200,7 +3200,7 @@ void CDeclarerPlayEngine::PickPrioritySuit()
 		}
 	}
 	//
-	status << "2PLNPRI! The " & app_->SuitToSingularString(m_nPrioritySuit) & " suit looks the most promising for further development.\n";
+	status << "2PLNPRI! The " & CCard::SuitToSingularString(m_nPrioritySuit) & " suit looks the most promising for further development.\n";
 }
 
 
@@ -3266,7 +3266,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 			// remark
 			status << "3PLTSTB! The " & pPlay->GetConsumedCard()->GetName() & 
 					  " finesse is targeted against " & app_->PositionToString(pFinesse->GetTargetPos()) &
-					  ", who had earlier bid the " & app_->SuitToSingularString(pPlay->GetSuit()) & ", so postpone the play.\n";
+					  ", who had earlier bid the " & CCard::SuitToSingularString(pPlay->GetSuit()) & ", so postpone the play.\n";
 			// and push the play to the end of the play list
 			m_playPlan.MovePlayToEnd(i);
 		}
@@ -3917,12 +3917,12 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 			// then the exit play
 			if (numExitSuits == 1)
 			{
-				status << "3PLSEQ44! We want to eventualy exit with a " & app_->SuitToSingularString(arrayExitSuits[0]) & ".\n";
+				status << "3PLSEQ44! We want to eventualy exit with a " & CCard::SuitToSingularString(arrayExitSuits[0]) & ".\n";
 			}
 			else
 			{
-				status << "3PLSEQ45! We want to eventualy exit with a " & app_->SuitToSingularString(arrayExitSuits[0]) & 
-						  " and a " & app_->SuitToSingularString(arrayExitSuits[1]) & ".\n";
+				status << "3PLSEQ45! We want to eventualy exit with a " & CCard::SuitToSingularString(arrayExitSuits[0]) & 
+						  " and a " & CCard::SuitToSingularString(arrayExitSuits[1]) & ".\n";
 			}
 
 			// sequencing complete
@@ -3985,7 +3985,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 	if (!bSequenced && ISSUIT(m_nPrioritySuit) && !bEnoughCashes)
 	{
 		//
-		status << "3PLSEQ6! We want to work on developing the " & app_->SuitToSingularString(m_nPrioritySuit) &
+		status << "3PLSEQ6! We want to work on developing the " & CCard::SuitToSingularString(m_nPrioritySuit) &
 				  " suit first, so move its plays up to the front if possible.\n";
 		int numPlaysMoved = 0;
 		for(int i=1;i<numPlays;i++)
@@ -4769,9 +4769,9 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 			if (numMaxSuitCashes[nSuit] == nTricksCount)
 				status << "5PLNCSH3! We can cash " & numMaxSuitCashes[nSuit] & " " &
 						   ((numSuitTopCards > 1)? "cards" : "card") &
-					      " in " & app_->SuitToString(nSuit);
+					      " in " & CCard::SuitToString(nSuit);
 			else
-				status << " " & numMaxSuitCashes[nSuit] & " in " & app_->SuitToString(nSuit);
+				status << " " & numMaxSuitCashes[nSuit] & " in " & CCard::SuitToString(nSuit);
 			if (bExcludeTrumpSuit)
 			{
 				// are there more top cards aside from those in the trump suit?
@@ -5464,7 +5464,7 @@ int CDeclarerPlayEngine::FindRuffingPlays(CPlayList& playList)
 		}
 		//
 		status << "4PLNRF1! We can potentially ruff up to " & ruffCandidates[i].numRuffs & " " & 
-			((ruffCandidates[i].numRuffs > 1)? app_->SuitToString(ruffCandidates[i].nSuit) : app_->SuitToSingularString(ruffCandidates[i].nSuit));
+			((ruffCandidates[i].numRuffs > 1)? CCard::SuitToString(ruffCandidates[i].nSuit) : CCard::SuitToSingularString(ruffCandidates[i].nSuit));
 		status < ((ruffCandidates[i].nDirection == CRuff::IN_DUMMY)? " in dummy" : " in hand");
 		if (ruffCandidates[i].numDiscardsRequired > 0)
 			status < " after discarding the " & ruffCandidates[i].numDiscardsRequired & 
@@ -6638,7 +6638,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				{
 					// oops!
 					status << "5PSFNS42! We'd like to finesse the " & pFinesseCard->GetFullName() & " in dummy against " &
-            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & CCard::SuitToString(nSuit) & ".\n";
 					delete pGapCards;
 				}
 				else
@@ -6737,7 +6737,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				{
 					// oops!
 					status << "5PSFNS46! We'd like to finesse the " & pFinesseCard->GetFullName() & " in hand against " &
-            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & CCard::SuitToString(nSuit) & ".\n";
 					delete pGapCards;
 				}
 				else

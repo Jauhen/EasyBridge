@@ -127,7 +127,7 @@ int CBidEngine::MakeRebidExtended()
 				{
 					status << "BXA20! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " pts in the partnership, try for a slam in partner's original " & 
-							  app_->SuitToSingularString(m_nAgreedSuit) & " suit.\n";
+							  CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 					InvokeBlackwood(m_nAgreedSuit);
 					return ValidateBid(m_nBid);
 				}
@@ -147,7 +147,7 @@ int CBidEngine::MakeRebidExtended()
 			// so that we can get back to the "correct" suit
 			status << "BXA40! Partner has raised us in the " & szPVSS & 
 					  " suit, which we really didn't intend to play in, so try to switch back to partner's " & 
-					  app_->SuitToSingularString(m_nAgreedSuit) & " suit.\n";
+					  CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 
 			// raise to the 3-level if possible
 			if (RaisePartnersSuit(SUIT_PREV, RAISE_TO_3, app_->GamePts() -3, app_->GamePts() -1, SUPLEN_3))
@@ -371,7 +371,7 @@ int CBidEngine::MakeRebidExtended()
 		if ((m_fMinTPPoints <= app_->GrandSlamPts() ) && (nPartnersBidLevel < 6))
 		{
 			m_nBid = MAKEBID(nPartnersSuit, 6);
-			status << "BXC40! With an agreed suit of " & app_->SuitToString(nPartnersSuit) & 
+			status << "BXC40! With an agreed suit of " & CCard::SuitToString(nPartnersSuit) & 
 				      " and " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " total partnership points, bid on to slam at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
@@ -380,7 +380,7 @@ int CBidEngine::MakeRebidExtended()
 		if ((m_fMinTPPoints >= app_->GrandSlamPts() ) && (nPartnersBidLevel < 7))
 		{
 			m_nBid = MAKEBID(nPartnersSuit, 7);
-			status << "BXC44! With an agreed suit of " & app_->SuitToString(nPartnersSuit) & 
+			status << "BXC44! With an agreed suit of " & CCard::SuitToString(nPartnersSuit) & 
 				      " and " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " total partnership points, bid on to slam at " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
@@ -412,9 +412,9 @@ int CBidEngine::MakeRebidExtended()
 								   (nPartnersSuit == m_nAgreedSuit) &&
 								   (nPartnersSuit != NOTRUMP))
 	{
-		status << "2BXU00! Partner returned to our agreed " & app_->SuitToSingularString(m_nAgreedSuit) &
+		status << "2BXU00! Partner returned to our agreed " & CCard::SuitToSingularString(m_nAgreedSuit) &
 				  " at a bid of " & app_->BidToFullString(nPartnersBid) & 
-				  " after we showed the " & app_->SuitToSingularString(nPreviousSuit) & 
+				  " after we showed the " & CCard::SuitToSingularString(nPreviousSuit) & 
 				  " side suit.\n";
 		//
 		// either pass or return to the agreed suit at game or slam
@@ -1152,7 +1152,7 @@ int CBidEngine::MakeRebidExtended()
 					status << "BXL34! With a total of " & m_fMinTPPoints & 
 							  "+ pts in the partnership, raise partner's " & 
 							  ((m_nAgreedSuit == nPartnersPrevSuit)? "previous " : "") &
-							  app_->SuitToSingularString(m_nAgreedSuit) & " suit to " & 
+							  CCard::SuitToSingularString(m_nAgreedSuit) & " suit to " & 
 							  ((BID_LEVEL(m_nBid) == 7)? "a grand slam" : "slam") & 
 							  " at " & app_->BidToFullString(m_nBid) & ".\n";
 				else
@@ -1183,7 +1183,7 @@ int CBidEngine::MakeRebidExtended()
 			// partner is still below game, so raise
 //			m_nBid = MAKEBID(m_nAgreedSuit, nPartnersPrevBidLevel+1);
 			m_nBid = GetCheapestShiftBid(m_nAgreedSuit);
-			status << "BXL38! Support partner's " & app_->SuitToSingularString(m_nAgreedSuit) & 
+			status << "BXL38! Support partner's " & CCard::SuitToSingularString(m_nAgreedSuit) & 
 					  " suit with " & numCardsInSuit[m_nAgreedSuit] & "-card support and " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 					  " total team pts by bidding " & app_->BidToFullString(m_nBid) & ".\n";
@@ -1307,7 +1307,7 @@ int CBidEngine::MakeRebidExtended()
 		if (m_pHand->IsSuitSelfSupporting(nPrefSuit) && (nPreviousSuit != NOTRUMP))
 		{
 			status << "BXPNT0! Partner prefers NoTrump, but we want to insist on our self-supporting " & 
-					  app_->SuitToSingularString(nPrefSuit) & " suit.\n";
+					  CCard::SuitToSingularString(nPrefSuit) & " suit.\n";
 			// rebid our self-supporting suit, or invoke 
 			// Blackwood with slam values
 			if (m_fMinTPPoints < app_->SlamPts() )
@@ -1595,7 +1595,7 @@ int CBidEngine::MakeRebidExtended()
 					status << "2BXM11! We have no strong agreement in suits and don't have a very strong suit, but do have " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " points in the partnership, so we want a slam in partner's " & 
-							  app_->SuitToSingularString(nSuit) & " suit.\n";
+							  CCard::SuitToSingularString(nSuit) & " suit.\n";
 				}
 				else
 				{

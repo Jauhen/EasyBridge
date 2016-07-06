@@ -269,11 +269,7 @@ public:
 
   virtual const CString ContractToFullString(int contract, int modifier) = 0;
   virtual const char* PositionToString(int pos) = 0;
-  virtual const char* SuitToSingularString(int suit) = 0;
   virtual const CString BidToFullString(int bid) = 0;
-  virtual char GetCardLetter(int i) = 0;
-  virtual char GetSuitLetter(int i) = 0;
-  virtual const char* SuitToString(int suit) = 0;
   virtual const CString BidToShortString(int bid) = 0;
   virtual int GetPlayerTeam(int position) = 0;
   virtual int GetNextPlayer(int position) = 0;
@@ -288,25 +284,17 @@ public:
   virtual CString FormString(const char* format, int arg1) = 0;
   virtual CString FormString(const char* format, unsigned char arg1) = 0;
   virtual CString ContractToString(int contract, int modifier) = 0;
-  virtual const char* CardValToString(int i) = 0;
   virtual int GetPrevPlayer(int position) = 0;
   virtual int GetPrevSuit(int suit) = 0;
   virtual bool IsHonor(int faceValue) = 0;
-  virtual const CString CardToString(int deckValue) = 0;
   virtual const char* TeamToString(int team) = 0;
-  virtual const CString CardToShortString(int deckValue) = 0;
-  virtual const char* GetSuitName(int suit) = 0;
-  virtual const char* GetCardName(int faceValue) = 0;
-  virtual const CString CardToReverseString(int faceValue) = 0;
   virtual int StringToDeckValue(const char* str) = 0;
   virtual int GetRandomValue(int max) = 0;
   virtual const char* PositionToShortString(int pos) = 0;
   virtual int GetOpposingTeam(int team) = 0;
   virtual int GetPartner(int pos) = 0;
   virtual int StringToPosition(const char* str) = 0;
-  virtual int CharToSuit(char c) = 0;
   virtual const char PositionToChar(int pos) = 0;
-  virtual int CharToFaceValue(char c) = 0;
   virtual const CString BidToPBNString(int bid) = 0;
   virtual CString WrapInQuotes(const CString& item) = 0;
   virtual CString StripQuotes(const CString& item) = 0;

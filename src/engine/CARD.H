@@ -13,6 +13,7 @@
 #ifndef __CARD__
 #define __CARD__
 
+#include "engine/card_constants.h"
 #include <memory>
 
 
@@ -32,6 +33,20 @@ class CCard {
 
 // public functions
 public:
+  static int CharToSuit(TCHAR c);
+  static int CharToFaceValue(TCHAR c);
+  static TCHAR GetSuitLetter(int i);
+  static LPCTSTR GetSuitName(int nSuit);
+  static TCHAR GetCardLetter(int i);
+  static LPCTSTR GetCardName(int nFaceValue);
+  static LPCTSTR CardValToString(int i);
+  static const CString CardToString(int i);
+  static const CString CardToShortString(int i);
+  static const CString CardToReverseString(int i);
+  static LPCTSTR SuitToString(int nSuit);
+  static LPCTSTR SuitToSingularString(int nSuit);
+
+
 	// one-time only init operation
 	void Initialize(int nSuit, int nValue);
 	void SetBitmap(CBitmap* pBitmap, CDC* pDC);

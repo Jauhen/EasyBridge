@@ -92,7 +92,7 @@ CString CType2Finesse::GetFullDescription()
 	int nTrumpSuit = app_->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
 		return app_->FormString("Lead the %s %s from %s and finesses it, with the { %s } in %s as possible cover cards.",
-						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
+						   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 						   m_pConsumedCard->GetFaceName(),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
 						   m_pCoverCards->GetHoldingsString(),
@@ -100,7 +100,7 @@ CString CType2Finesse::GetFullDescription()
 	// done
 	else
 		return app_->FormString("Lead the %s %s from %s and finesse it, with the %s in %s as cover.",
-						   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
+						   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 						   m_pConsumedCard->GetFaceName(),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
 						   m_pCoverCards->GetAt(0)->GetFaceName(),
@@ -252,7 +252,7 @@ PlayResult CType2Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 			{
 				// RHO has showed out, so skip the finesse play
 				status << "3PL2FN55! Oops -- RHO (" & strRHO &
-						  ") showed out of " & app_->SuitToString(nSuitLed) & ", meaning that LHO holds the " & 
+						  ") showed out of " & CCard::SuitToString(nSuitLed) & ", meaning that LHO holds the " & 
 						  m_pGapCards->GetAt(0)->GetFaceName() & ", so the finesse cannot succeed -- so skip it.\n";
 				m_nStatusCode = PLAY_NOT_VIABLE;
 				return m_nStatusCode;

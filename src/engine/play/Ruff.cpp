@@ -74,9 +74,9 @@ void CRuff::Init()
 	m_nEndingHand = m_nTargetHand;
 	m_nStartingHand = (m_nEndingHand == IN_HAND)? IN_DUMMY : IN_HAND;
 	// form name & description
-	m_strName.Format("%s Ruff", app_->SuitToSingularString(m_nSuit));
+	m_strName.Format("%s Ruff", CCard::SuitToSingularString(m_nSuit));
 	m_strDescription.Format("Ruff a %s in %s", 
-							app_->SuitToSingularString(m_nSuit),
+							CCard::SuitToSingularString(m_nSuit),
 							((m_nTargetHand == IN_HAND)? "hand" : "dummy"));
 }
 
@@ -86,7 +86,7 @@ void CRuff::Init()
 CString CRuff::GetFullDescription()
 {
 	return app_->FormString("Ruff a %s in %s.",
-    app_->SuitToSingularString(m_nSuit),
+    CCard::SuitToSingularString(m_nSuit),
 					   (m_nTargetHand == 0)? "hand" : "dummy");
 }
 
@@ -172,14 +172,14 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					if (combinedSuit.GetNumDeclarerLosers() > 0)
 					{
 						pPlayCard = playerHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PLRUF04! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PLRUF04! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from hand to ruff in dummy.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLRUF08! Oops, we wanted to ruff a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in dummy, but we have no " & app_->SuitToSingularString(m_nSuit) & 
+						status << "4PLRUF08! Oops, we wanted to ruff a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & CCard::SuitToSingularString(m_nSuit) & 
 								  " losers in hand to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -209,14 +209,14 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					if (combinedSuit.GetNumDummyLosers() > 0)
 					{
 						pPlayCard = dummyHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PLRUF14! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PLRUF14! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from dummy to ruff in hand.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLRUF18! Oops, we wanted to ruff a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
+						status << "4PLRUF18! Oops, we wanted to ruff a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & CCard::SuitToString(m_nSuit) & 
 								  " losers in dummy to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;

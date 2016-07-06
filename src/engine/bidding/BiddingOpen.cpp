@@ -252,7 +252,7 @@ escape1:
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E03! Have " & fCardPts & " points in high cards, " & numQuickTricks &
-				  " quick tricks, and a rebiddable suit in " & app_->SuitToString(nSuit) & 
+				  " quick tricks, and a rebiddable suit in " & CCard::SuitToString(nSuit) & 
 				  ", so bid " & app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
@@ -283,7 +283,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E07! Have " & fCardPts & " points in high cards in " 
 				  & ((nBiddingOrder == 2)? "3rd" :  "4th") &
-				  " position and a " & SuitStrengthToString(nSuit) & " " & app_->SuitToSingularString(nSuit) & 
+				  " position and a " & SuitStrengthToString(nSuit) & " " & CCard::SuitToSingularString(nSuit) & 
 				  " suit, so bid " & app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
@@ -368,7 +368,7 @@ escape1:
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E23! Have " & fCardPts & "/" & fPts & "total points with " & numQuickTricks &
-				  " QT's and a " & SuitStrengthToString(nSuit) & " " & app_->SuitToSingularString(nSuit) & 
+				  " QT's and a " & SuitStrengthToString(nSuit) & " " & CCard::SuitToSingularString(nSuit) & 
 				  " suit (optional opening condition #3), so bid " & app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
@@ -383,7 +383,7 @@ escape1:
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E24! Have " & fCardPts & "/" & fPts & " total points with " & numQuickTricks &
-				  " QT's and a " & numCardsInSuit[nSuit] &"-card " & app_->SuitToSingularString(nSuit) & 
+				  " QT's and a " & numCardsInSuit[nSuit] &"-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit (optional opening condition #4), so bid " & app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
@@ -398,7 +398,7 @@ escape1:
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E25! Have " & fCardPts & "/" & fPts &" total points with " & numQuickTricks &
-				  " QT's and a " & numCardsInSuit[nSuit] & "-card " & app_->SuitToSingularString(nSuit) & 
+				  " QT's and a " & numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit (optional opening condition #5), so bid " & app_->BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}

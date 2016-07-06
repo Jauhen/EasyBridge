@@ -85,10 +85,10 @@ void CCard::Initialize(int nSuit, int nValue)
 	m_nSuit = nSuit;
 	m_nFaceValue = nValue;
 	m_nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
-	m_strName = app_->CardToShortString(m_nDeckValue);
-	m_strFaceName = app_->GetCardName(m_nFaceValue);
-	m_strFullName = app_->CardToString(m_nDeckValue);
-	m_strReverseFullName = app_->CardToReverseString(m_nDeckValue);
+	m_strName = CCard::CardToShortString(m_nDeckValue);
+	m_strFaceName = CCard::GetCardName(m_nFaceValue);
+	m_strFullName = CCard::CardToString(m_nDeckValue);
+	m_strReverseFullName = CCard::CardToReverseString(m_nDeckValue);
 	m_bAssigned = FALSE;
 }
 

@@ -235,7 +235,7 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 		 (nPartnerSuit != nTrumpSuit) && (pCard->GetFaceValue() > 6) && (nRound <= 6))
 	{
 		// this is s suit preference signal
-		status << "2PLYSIG20! Partner discarded high in the " & app_->SuitToSingularString(pCard->GetSuit()) &
+		status << "2PLYSIG20! Partner discarded high in the " & CCard::SuitToSingularString(pCard->GetSuit()) &
 				  " suit, indicating a preference for that suit.\n";
 		m_nPartnerSuitPreference[pCard->GetSuit()] = 1;
 	}
@@ -509,7 +509,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				{
 					// lead LOW with 3+ cards
 					pLeadCard = partnersSuit.GetBottomCard();
-					status << "PLYLD4! Lead the bottom card of partner's " & app_->SuitToSingularString(nPartnersSuit) & 
+					status << "PLYLD4! Lead the bottom card of partner's " & CCard::SuitToSingularString(nPartnersSuit) & 
 							  " suit (the " & pLeadCard->GetFaceName() & ".\n";
 					ASSERT(m_pHand->HasCard(pLeadCard));
 					return pLeadCard;
@@ -517,7 +517,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				else if (partnersSuit.GetNumCards() > 0)
 				{
 					pLeadCard = partnersSuit[0];
-					status << "PLYLD4! Lead the top card of partner's " & app_->SuitToSingularString(nPartnersSuit) & 
+					status << "PLYLD4! Lead the top card of partner's " & CCard::SuitToSingularString(nPartnersSuit) & 
 							  " suit (the " & pLeadCard->GetFaceName() & ".\n";
 					ASSERT(m_pHand->HasCard(pLeadCard));
 					return pLeadCard;
@@ -667,7 +667,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 			if ((ISSUIT(nTrumpSuit)) && (dummyHand.GetNumCardsInSuit(nSuit) == 0) &&
 										(dummyHand.GetNumTrumps() > 0))
 			{
-				status << "3PLYLDRT1! We'd like to return partner's " & app_->SuitToString(nSuit) &
+				status << "3PLYLDRT1! We'd like to return partner's " & CCard::SuitToString(nSuit) &
 					      " suit, but dummy might ruff.\n";
 				bDummyCanTrump = TRUE;
 			}
@@ -681,7 +681,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					(numOutstandingCards > 0) &&
 					(dummyHand.GetSuit(nSuit).GetTopCardVal() > outstandingCards[0]->GetFaceValue()))
 			{
-				status << "3PLYLDRT2! We'd like to return partner's " & app_->SuitToString(nSuit) &
+				status << "3PLYLDRT2! We'd like to return partner's " & CCard::SuitToString(nSuit) &
 					      " suit, but dummy will most likely win.\n";
 				bDummyCanTrump = TRUE;
 			}
@@ -694,7 +694,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 							 (IsPartnerVoidInSuit(nTrumpSuit)) &&
 							 (dummyHand.GetNumTrumps() == 0) )
 			{
-				status << "3PLYLDRT4! We'd like to return partner's " & app_->SuitToString(nSuit) &
+				status << "3PLYLDRT4! We'd like to return partner's " & CCard::SuitToString(nSuit) &
 					      " suit, but declarer might ruff.\n";
 				bDeclarerCanTrump = TRUE;
 			}
@@ -709,7 +709,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					pLeadCard = suit.GetTopSequence().GetBottomCard();
 				else
 					pLeadCard = suit.GetBottomCard();
-				status << "PLYLDRT8! Return partner's " & app_->SuitToSingularString(nSuit) & " suit with the " &
+				status << "PLYLDRT8! Return partner's " & CCard::SuitToSingularString(nSuit) & " suit with the " &
 						  pLeadCard->GetFaceName() & ".\n";
 				ASSERT(m_pHand->HasCard(pLeadCard));
 				return pLeadCard;
@@ -744,7 +744,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					{
 						// by all means, lead the suit
 						pLeadCard = suit.GetBottomCard();
-						status << "PLYLD32! Partner is void in " & app_->SuitToString(nPartnerVoidSuits[j]) &
+						status << "PLYLD32! Partner is void in " & CCard::SuitToString(nPartnerVoidSuits[j]) &
 								  " and may still have some trumps, so lead the " & 
 								  pLeadCard->GetName() & ".\n";
 						ASSERT(m_pHand->HasCard(pLeadCard));
@@ -801,7 +801,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				{
 					pLeadCard = suit.GetBottomCard();
 					status << "PLYLD42! With no good card to lead, lead the " & pLeadCard->GetName() &
-							  " since the opponents have not shown out of the " & app_->SuitToSingularString(pLeadCard->GetSuit()) &
+							  " since the opponents have not shown out of the " & CCard::SuitToSingularString(pLeadCard->GetSuit()) &
 							  " suit.\n";
 					ASSERT(m_pHand->HasCard(pLeadCard));
 					return pLeadCard;
@@ -820,7 +820,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				{
 					pLeadCard = suit.GetBottomCard();
 					status << "PLYLD43! With no good card to lead, lead the " & pLeadCard->GetName() &
-							  " since dummy is not void in the " & app_->SuitToSingularString(pLeadCard->GetSuit()) &
+							  " since dummy is not void in the " & CCard::SuitToSingularString(pLeadCard->GetSuit()) &
 							  " suit (we don't know about declarer, though).\n";
 					ASSERT(m_pHand->HasCard(pLeadCard));
 					return pLeadCard;
@@ -855,7 +855,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				{
 					 status << "4PLYLD50! With " &
 							   ((m_pHand->GetSuit(m_nPrioritySuit).GetNumCards() == 1)? "only one card" : "no cards") &
-							   " left in " &  app_->SuitToString(m_nPrioritySuit) & 
+							   " left in " &  CCard::SuitToString(m_nPrioritySuit) & 
 							   ", there's no point in continuing to try and develop the suit.\n";
 					 m_nPrioritySuit = NONE;
 				}
@@ -873,7 +873,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					 {
 						 status << "4PLYLD50! Since both partner and " & (bLHOShowOut? "LHO" : "RHO") &
 								   " have shown out, there is no point in trying to keep developing the " &
-								   app_->SuitToSingularString(m_nPrioritySuit) & " suit, as we'll only provide entries for the oponents.\n";
+								   CCard::SuitToSingularString(m_nPrioritySuit) & " suit, as we'll only provide entries for the oponents.\n";
 						 m_nPrioritySuit = NONE;
 					 }
 				}
@@ -891,7 +891,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				CSuitHoldings& suit = m_pHand->GetSuit(nSuit);
 				pLeadCard = suit[0];
 				status << "PLYLD76! Continue developing " &
-						  ((nSuit == m_nPrioritySuit)? "our " : "partner's ") & app_->SuitToSingularString(nSuit) & 
+						  ((nSuit == m_nPrioritySuit)? "our " : "partner's ") & CCard::SuitToSingularString(nSuit) & 
 						  " suit by playing the " & pLeadCard->GetName() & ".\n";
 				ASSERT(m_pHand->HasCard(pLeadCard));
 				// check for suit depletion
@@ -918,7 +918,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 				// mark this as the suit to develop
 				m_nPrioritySuit = nSuit;
 				pLeadCard = suit.GetLowestCardAbove(9);
-				status << "PLYLD80! Try to develop our " & app_->SuitToSingularString(nSuit) & 
+				status << "PLYLD80! Try to develop our " & CCard::SuitToSingularString(nSuit) & 
 						  " suit by playing the " & pLeadCard->GetName() & ".\n";
 				ASSERT(m_pHand->HasCard(pLeadCard));
 				return pLeadCard;
@@ -1025,7 +1025,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 					(pDummyHand->GetSuit(nTrumpSuit).GetNumRemainingCards() > 0) )
 				{
 					// dummy will ruff, so don't bother with this suit
-					status << "3PLYLDPRF1! Partner likes the " & app_->SuitToSingularString(i) & 
+					status << "3PLYLDPRF1! Partner likes the " & CCard::SuitToSingularString(i) & 
 							  " suit, but dummy can ruff, so skip this suit for now.\n";
 					continue;
 				}
@@ -1038,7 +1038,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 					 (GetNumOutstandingCards(nTrumpSuit) > 0)) )
 				{
 					// declarer may ruff, so don't bother with this suit
-					status << "3PLYLDPRF2! Partner likes the " & app_->SuitToSingularString(i) & 
+					status << "3PLYLDPRF2! Partner likes the " & CCard::SuitToSingularString(i) & 
 							  " suit, but declarer has shown out of the suit and _may_ be able to ruff, so avoid leading the suit if possible.\n";
 					continue;
 				}
@@ -1049,7 +1049,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 					pLeadCard = suit[0];
 				else
 					pLeadCard = suit.GetBottomCard();
-				status << "PLYLDPRF4! Partner has indicated a preference for the " & app_->SuitToString(i) &
+				status << "PLYLDPRF4! Partner has indicated a preference for the " & CCard::SuitToString(i) &
 						  " suit, so lead the " & pLeadCard->GetName() & ".\n";
 				return pLeadCard;
 			}
@@ -1079,7 +1079,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 				if ((dummySuit.GetNumCards() >= 2) && 
 					(*dummySuit[0] > *outstandingCards[0]) && (*dummySuit[1] > *outstandingCards[1]))
 				{
-					status << "3PLYLDPRF12! Partner likes the " & app_->SuitToSingularString(i) & 
+					status << "3PLYLDPRF12! Partner likes the " & CCard::SuitToSingularString(i) & 
 							  " suit, but dummy holds the top two cards in the suit, so prefer to skip it.\n";
 					continue;
 				}
@@ -1089,7 +1089,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 					pLeadCard = suit[0];
 				else
 					pLeadCard = suit.GetBottomCard();
-				status << "PLYLDPRF8! Partner has indicated a preference for the " & app_->SuitToString(i) &
+				status << "PLYLDPRF8! Partner has indicated a preference for the " & CCard::SuitToString(i) &
 						  " suit, so lead the " & pLeadCard->GetName() & ".\n";
 				return pLeadCard;
 			}
@@ -1122,7 +1122,7 @@ CCard* CDefenderPlayEngine::Get4thBestLeadCard()
 		{
 			// lead 4th best of the suit
 			pLeadCard = suit[3];
-			status << "PLYLD4A! Lead the fourth card from our best suit (" & app_->SuitToString(suit.GetSuit()) &
+			status << "PLYLD4A! Lead the fourth card from our best suit (" & CCard::SuitToString(suit.GetSuit()) &
 					   ") -- play the " & pLeadCard->GetName() & ".\n";
 		}
 		else
@@ -1135,7 +1135,7 @@ CCard* CDefenderPlayEngine::Get4thBestLeadCard()
 				// lead from this suit
 				pLeadCard = m_pHand->GetSuit(nOtherSuit).GetAt(3);
 				status << "PLYLD4E! We don't want to lead from the trump suit, so lead the 4th best from the " &
-						   app_->SuitToSingularString(nOtherSuit) & " suit -- the " & pLeadCard->GetName() & ".\n";
+						   CCard::SuitToSingularString(nOtherSuit) & " suit -- the " & pLeadCard->GetName() & ".\n";
 			}
 			else
 			{
@@ -1153,7 +1153,7 @@ CCard* CDefenderPlayEngine::Get4thBestLeadCard()
 		CSuitHoldings& longSuit = m_pHand->GetSuit(nLongSuit);
 		ASSERT(longSuit.GetNumCards() >= 4);
 		pLeadCard = longSuit[3];
-		status << "PLYLD4N! Lead the fourth card from our longest suit (" & app_->SuitToString(nLongSuit) &
+		status << "PLYLD4N! Lead the fourth card from our longest suit (" & CCard::SuitToString(nLongSuit) &
 				  ") -- play the " & pLeadCard->GetName() & ".\n";
 	}
 	//
@@ -1200,7 +1200,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 			CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
 			if ((dummyHand.IsSuitVoid(i)) && (dummyHand.GetNumTrumps() > 0))
 			{
-				status << "3PLYLDWN2! We'd like to lead the " & app_->SuitToString(i) &
+				status << "3PLYLDWN2! We'd like to lead the " & CCard::SuitToString(i) &
 						  " suit, but dummy might ruff.\n";
 				// may get ruffed in dummy
 				bSuitIsSafe[i] = FALSE;
@@ -1214,7 +1214,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 					(IsPartnerVoidInSuit(nTrumpSuit)) &&
 						(m_ppGuessedHands[app_->GetDeclarerPosition()]->IsSuitShownOut(i)) )
 			{
-				status << "3PLYLDWN4! We'd like to lead the " & app_->SuitToString(i) &
+				status << "3PLYLDWN4! We'd like to lead the " & CCard::SuitToString(i) &
 						  " suit, but declarer might ruff.\n";
 				// may get ruffed by declarer
 				bSuitIsSafe[i] = FALSE;
@@ -1254,7 +1254,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 	pLeadCard = suit.GetTopSequence().GetBottomCard();
 	ASSERT(m_pHand->HasCard(pLeadCard));
 	status << "PLCSW9! With no other good options, cash a winner in the " &
-			  app_->SuitToSingularString(nSuit) & " suit, the " & pLeadCard->GetFaceName() & "\n";
+			  CCard::SuitToSingularString(nSuit) & " suit, the " & pLeadCard->GetFaceName() & "\n";
 	return pLeadCard;
 }
 
@@ -1299,7 +1299,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 			// OR has 1 card in a suit countract (i.e., can trump the 3rd card)
 			if ((suit.GetNumCards() >= 3) && (suit[0]->GetFaceValue() >= KING))
 			{
-				status << "PLDIS2! Since we can win the next round of " & app_->SuitToString(nSuitLed) & 
+				status << "PLDIS2! Since we can win the next round of " & CCard::SuitToString(nSuitLed) & 
 	 					  ", we want to signal by discarding high in the suit.\n";
 				bSuitPreferred = TRUE;
 			}
@@ -1308,7 +1308,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 			if ((ISSUIT(nTrumpSuit)) && (m_pHand->GetNumCardsInSuit(nSuitLed) == 1) &&
 										(m_pHand->GetNumTrumps() > 0))
 			{
-				status << "PLDIS4! Since we can ruff the next round of " & app_->SuitToString(nSuitLed) & 
+				status << "PLDIS4! Since we can ruff the next round of " & CCard::SuitToString(nSuitLed) & 
 	 					  ", we want to signal by discarding high in the suit.\n";
 				bSuitPreferred = TRUE;
 			}
@@ -1327,7 +1327,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 			{
 				// the suit is not preferred, so discard low
 				pDiscard = suit.GetBottomCard();
-				status << "3PLDIS12! We do not have a winner in the " & app_->SuitToSingularString(nSuitLed) &
+				status << "3PLDIS12! We do not have a winner in the " & CCard::SuitToSingularString(nSuitLed) &
 						  " suit, so discard low with the " & pDiscard->GetFaceName() & ".\n";
 			}
 			// set suit signalled status
@@ -1384,7 +1384,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 				{
 					// hi/lo if not trumps
 					pDiscard = pHighCard;	// echo high w/ 2nd lowest card
-					status << "PLDIS20! The opponents are attacking the " & app_->SuitToString(nSuitLed) &
+					status << "PLDIS20! The opponents are attacking the " & CCard::SuitToString(nSuitLed) &
 							  "; start the hi/lo echo with the " & pDiscard->GetFaceName() & 
 							  " to tell partner we have an even number of cards in the suit.\n";
 				}
@@ -1403,7 +1403,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 				{
 					// lo/hi if not trump
 					pDiscard = pLowCard;	// echo high w/ 2nd lowest card
-					status << "PLDIS22! The opponents are attacking the " & app_->SuitToString(nSuitLed) &
+					status << "PLDIS22! The opponents are attacking the " & CCard::SuitToString(nSuitLed) &
 							  "; start the lo/hi echo with the " & pDiscard->GetFaceName() & 
 							  " to tell partner we have an odd number of cards in the suit.\n";
 				}
@@ -1505,7 +1505,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 				pDiscard = prefSuit.GetBottomCard();
 			}
 			//
-			status << "PLDIS40! Indicate a preference for the " & app_->SuitToSingularString(nPrefSuit) &
+			status << "PLDIS40! Indicate a preference for the " & CCard::SuitToSingularString(nPrefSuit) &
 					  " by discarding high with the " & pDiscard->GetName() & ".\n";
 		}
 	}
@@ -1913,13 +1913,13 @@ CCard* CDefenderPlayEngine::PlaySecond()
 				if ((nTrumpSuit != NOTRUMP) && (dummyHand.GetNumTrumps() == 0))
 				{
 					// suit play, and dummy is out of trumps
-					status << "PLDF2B! Partner is out of " & app_->SuitToString(nSuitLed) & 
+					status << "PLDF2B! Partner is out of " & CCard::SuitToString(nSuitLed) & 
 							  ", and dummy on our left is out of trumps, so we can play high in second position with the " & pCard->GetFaceName() & ".\n";
 				}
 				else
 				{
 					// NT play
-					status << "PLDF2B1! Partner is out of " & app_->SuitToString(nSuitLed) & 
+					status << "PLDF2B1! Partner is out of " & CCard::SuitToString(nSuitLed) & 
 							  ", so play high in second position to win with the " & pCard->GetFaceName() & ".\n";
 				}
 				ASSERT(pCard->IsValid());
@@ -1980,7 +1980,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 			{
 				// declarer/dummy may have some trumps left, so take the Ace now
 				pCard = suit[0];
-				status << "PLDF2G1! Since dummy has only a single " & app_->SuitToSingularString(nSuitLed) &
+				status << "PLDF2G1! Since dummy has only a single " & CCard::SuitToSingularString(nSuitLed) &
 						  " left, play our Ace now lest it be trumped later.\n";
 				ASSERT(pCard->IsValid());
 				return pCard;
@@ -1989,7 +1989,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 			{
 				// declarer/dummy have no trumps left
 				// hold off on winning the Ace for now
-//				status << "PLDF2G1! Since dummy has only a single " & app_->SuitToSingularString(nSuitLed) &
+//				status << "PLDF2G1! Since dummy has only a single " & CCard::SuitToSingularString(nSuitLed) &
 //						  " left, play our Ace now lest it be trumped later.\n";
 			}
 		}
@@ -2032,7 +2032,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 		}
 		else
 		{
-			status << "PLDF2C4! Play our only " & app_->SuitToSingularString(nSuitLed) & ", the " & pCard->GetFaceName() & ".\n";
+			status << "PLDF2C4! Play our only " & CCard::SuitToSingularString(nSuitLed) & ", the " & pCard->GetFaceName() & ".\n";
 		}
 	}
 	else
@@ -2072,7 +2072,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 			{
 				bPartnerMayWin = TRUE;
 				status << "3PLDF2J2! Since there is at least one higher card outstanding in the " &
-						   app_->SuitToSingularString(nSuitLed) & " suit than the one led (the " & pCardLed->GetFaceName() &
+						   CCard::SuitToSingularString(nSuitLed) & " suit than the one led (the " & pCardLed->GetFaceName() &
 						   "), partner could still have it and win the round.\n";
 			}
 
@@ -2138,9 +2138,9 @@ CCard* CDefenderPlayEngine::PlaySecond()
 			// discard
 			pCard = GetDiscard();
 			if (ISSUIT(nTrumpSuit))
-				status << "PLDF2Y! We have no " & app_->SuitToString(nSuitLed) & " and no trumps, so discard the " & pCard->GetName() & ".\n";
+				status << "PLDF2Y! We have no " & CCard::SuitToString(nSuitLed) & " and no trumps, so discard the " & pCard->GetName() & ".\n";
 			else
-				status << "PLDF2Ya! We have no " & app_->SuitToString(nSuitLed) & ", so discard the " & pCard->GetName() & ".\n";
+				status << "PLDF2Ya! We have no " & CCard::SuitToString(nSuitLed) & ", so discard the " & pCard->GetName() & ".\n";
 		}
 	}
 	//
@@ -2282,7 +2282,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 						// we're holding all the winners in this suit, so capture high
 						pCard = suit.GetTopCard();
 						if (suit.GetNumCards() > 1)
-							status << "PLDF31! We're holding all the remaining winning " & app_->SuitToString(nSuitLed) &
+							status << "PLDF31! We're holding all the remaining winning " & CCard::SuitToString(nSuitLed) &
 									  " in our hand, so win with the " & pCard->GetFaceName() &
 									  " in order to cash our winners.\n";
 					}
@@ -2439,7 +2439,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 				{
 					// opponents have the high card (non-trump) -- so slam 'em
 					pCard = m_pHand->GetSuit(nTrumpSuit).GetBottomCard();
-					status << "PLDF55! With no cards in " & app_->SuitToString(nSuitLed) &
+					status << "PLDF55! With no cards in " & CCard::SuitToString(nSuitLed) &
 							  ", trump with the " & pCard->GetName() & ".\n";
 				}
 			}

@@ -46,13 +46,7 @@ protected:
     EXPECT_CALL(*app, GetPrevPlayer(1)).WillRepeatedly(Return(0));
     EXPECT_CALL(*app, GetPrevPlayer(2)).WillRepeatedly(Return(1));
     EXPECT_CALL(*app, GetPrevPlayer(3)).WillRepeatedly(Return(2));
-    EXPECT_CALL(*app, CardToShortString(_)).WillRepeatedly(Return("HA"));
-    EXPECT_CALL(*app, GetCardName(_)).WillRepeatedly(Return("~~~"));
-    EXPECT_CALL(*app, CardToString(_)).WillRepeatedly(Return("!!"));
-    EXPECT_CALL(*app, CardToReverseString(_)).WillRepeatedly(Return("^^"));
     EXPECT_CALL(*app, GetSuitSequence(_)).WillRepeatedly(Return('H'));
-    EXPECT_CALL(*app, GetSuitLetter(_)).WillRepeatedly(Return('!'));
-    EXPECT_CALL(*app, GetCardLetter(_)).WillRepeatedly(Return('!'));
     EXPECT_CALL(*app, GetSuitToScreenIndex(_)).WillRepeatedly(Return(2));
     EXPECT_CALL(*app, GetHonorValue(_)).WillRepeatedly(Return(1));
 

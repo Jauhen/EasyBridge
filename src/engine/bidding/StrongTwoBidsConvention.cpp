@@ -61,7 +61,7 @@ BOOL CStrongTwoBidsConvention::TryConvention(const CPlayer& player,
 				nBid = MAKEBID(nextBestSuit ,2);
 				status << "STR2C1! Have a strong Club suit and " & fPts & 
 						  " points, but can't open at 2 Club, so we'll have to bid " & 
-						  app_->SuitToString(nextBestSuit) & " instead.\n";
+						  CCard::SuitToString(nextBestSuit) & " instead.\n";
 			}
 			else
 			{
@@ -82,7 +82,7 @@ BOOL CStrongTwoBidsConvention::TryConvention(const CPlayer& player,
 		}
 		else
 		{
-			status << "STR2C12! Have a solid " & app_->SuitToSingularString(bidState.nPrefSuit) & 
+			status << "STR2C12! Have a solid " & CCard::SuitToSingularString(bidState.nPrefSuit) & 
 					  " suit with " & bidState.numLikelyWinners & 
 					  " playing tricks and " & bidState.numQuickTricks & 
 					  " quick tricks, so bid a strong " & app_->BidToFullString(nBid) & ".\n";
@@ -218,7 +218,7 @@ BOOL CStrongTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RSTRT24! We lack good support for partner's " & 
 					  bidState.szPSS & " suit (holding " & bidState.szHP & 
 					  "), but we have an excellent " & 
-					  bidState.LEN(nSuit) & "-card suit of our own in " & app_->SuitToString(nSuit) & 
+					  bidState.LEN(nSuit) & "-card suit of our own in " & CCard::SuitToString(nSuit) & 
 					  " (holding " & bidState.SHTS(nSuit) & "), so show it in a bid of " &
         app_->BidToFullString(nBid) & ".\n";
 		} 
@@ -228,7 +228,7 @@ BOOL CStrongTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RSTRT26! But we lack good support for partner's " & 
 					  bidState.szPSS & " suit (holding " & bidState.szHP & 
 					  "), so show our preferred " & 
-					  bidState.LEN(nSuit) & "-card " & app_->SuitToSingularString(nSuit) & " suit in a bid of " &
+					  bidState.LEN(nSuit) & "-card " & CCard::SuitToSingularString(nSuit) & " suit in a bid of " &
         app_->BidToFullString(nBid) & ".\n";
 		}
 
@@ -331,7 +331,7 @@ BOOL CStrongTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 			int nSuit = bidState.GetRebidSuit(nPreviousSuit);
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "S2RB4! With a good second suit in " &
-					  app_->SuitToString(nSuit) & ", show it in a rebid of " & app_->BidToFullString(nBid) & ".\n";
+					  CCard::SuitToString(nSuit) & ", show it in a rebid of " & app_->BidToFullString(nBid) & ".\n";
 		}
 		// otherwise rebid our original suit (if not 2C)
 		if (bidState.nPreviousBid == BID_2C) 
@@ -415,7 +415,7 @@ BOOL CStrongTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 		nBid = bidState.GetCheapestShiftBid(nSuit);
 		status << "S2RB36! But we don't like partner's " & bidState.szPSS & 
 				  " suit (holding " & bidState.szHP & 
-				  "), and we hold a good second suit in " & app_->SuitToString(nSuit) & 
+				  "), and we hold a good second suit in " & CCard::SuitToString(nSuit) & 
 				  ", so show it in a rebid of " & app_->BidToFullString(nBid) & ".\n";
 	}
 	// otherwise rebid our original suit (if not 2C)

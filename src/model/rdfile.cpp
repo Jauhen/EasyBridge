@@ -362,7 +362,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
 
               case ITEM_CONTRACT_SUIT:
                 nLen = string.GetLength();
-                m_nContractSuit = app_->CharToSuit(string.GetAt(0));
+                m_nContractSuit = CCard::CharToSuit(string.GetAt(0));
                 break;
 
               case ITEM_CONTRACT_LEVEL:

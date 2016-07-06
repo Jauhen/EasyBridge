@@ -84,7 +84,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 	{
 		 // passed the test for standard gambling 3NT
 		status << "G3NT1! With a solid " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & app_->SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
+				  "-card " & CCard::SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
 				  " HCPs, no voids, no small singletons, and no outside stoppers, "
 				  " go ahead and bid a Gambling 3NT.\n";
 	}
@@ -95,7 +95,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 	{
 		 // passed the test for ACOL gambling 3NT
 		status << "G3NT2! With a solid " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & app_->SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
+				  "-card " & CCard::SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
 				  " HCPs, no voids, no small singletons, and stoppers in " & 
 				  ((bidState.numSuitsStopped == 4)? "all four suits" : "two outside suits") &
 				  ", go ahead and bid an ACOL Gambling 3NT.\n";

@@ -326,7 +326,7 @@ BOOL CNegativeDoublesConvention::RespondToConvention(const CPlayer& player,
 		{
 			status << "NEGDTR20! With " & bidState.m_fMinTPPoints & " pts in the partnership and " &
 				      " both majors available in response to the negative double, go with the " &
-					  hand.GetNumCardsInSuit(nSuit) & "-card " & app_->SuitToSingularString(nSuit) & " suit and bid " & 
+					  hand.GetNumCardsInSuit(nSuit) & "-card " & CCard::SuitToSingularString(nSuit) & " suit and bid " & 
 					  app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 		}
@@ -353,13 +353,13 @@ BOOL CNegativeDoublesConvention::RespondToConvention(const CPlayer& player,
 		{
 			status << "NEGDTR30! With " & bidState.m_fMinTPPoints & " pts in the partnership and " &
 				      hand.GetNumCardsInSuit(nSuit) & " cards available in " &
-					  app_->SuitToString(nSuit) &", bid " & app_->BidToFullString(nBid) & ".\n";
+					  CCard::SuitToString(nSuit) &", bid " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 		}
 		else
 		{
 			status << "NEGDTR31! We have " & hand.GetNumCardsInSuit(nSuit) & " cards in the " & 
-					  app_->SuitToSingularString(nSuit) & " suit, but with only " & bidState.m_fMinTPPoints & 
+					  CCard::SuitToSingularString(nSuit) & " suit, but with only " & bidState.m_fMinTPPoints & 
 					  " pts in the partnership, we can't go any higher.\n";
 			bidState.SetBid(BID_PASS);
 		}
@@ -544,7 +544,7 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			else if (bPartnerJumpedToGame)
 			{
 				// partner had 13+ pts & a 5-card major
-				status << "NEGDRb41! Partner has jumped to game in " & app_->SuitToString(nPartnersSuit) &
+				status << "NEGDRb41! Partner has jumped to game in " & CCard::SuitToString(nPartnersSuit) &
 						  ", indicating 13+ pts and a 5+ card suit.\n";
 				bidState.m_fPartnersMin = 30;
 				bidState.m_fPartnersMax = MIN(22, 40 - bidState.fCardPts);
@@ -722,11 +722,11 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				if (bWantedToOvercall)
 					status << "NGDRb90! Partner's forced response of " & bidState.szPB & 
 							 " not withstanding, we can now show the " & 
-							  app_->SuitToSingularString(nPrefSuit) & " suit that we wanted to overcall with last round by bidding " &
+							  CCard::SuitToSingularString(nPrefSuit) & " suit that we wanted to overcall with last round by bidding " &
 							  app_->BidToFullString(nBid) & ".\n";
 				else
 					status << "NGDRb91! Without clear suit agreement, we bid our " &
-							  bidState.numPrefSuitCards & "-card " & app_->SuitToSingularString(bidState.nPrefSuit) &
+							  bidState.numPrefSuitCards & "-card " & CCard::SuitToSingularString(bidState.nPrefSuit) &
 							  " suit at " & app_->BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
@@ -889,7 +889,7 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				status << "NGDRc40! With a total of " & 
 						  fMinTPPoints & "-" & fMaxTPPoints & 
 						  " pts in the partnership and no suit agreement, bid another suit (" &
-						  app_->SuitToString(nSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToString(nSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
 			}
 			else
 			{

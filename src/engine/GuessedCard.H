@@ -14,8 +14,7 @@
 #define __GUESSEDCARD__
 
 #include "app_interface.h"
-
-class CCard;
+#include "engine/card.h"
 
 
 class CGuessedCard {
@@ -27,12 +26,12 @@ public:
 	// inline functions
 	CCard* GetCard() { return m_pCard; }
 	int GetSuit() { return m_nSuit; }
-	char GetCardLetter() { return app_->GetCardLetter(m_nFaceValue); }
-	char GetSuitLetter() { return app_->GetSuitLetter(m_nSuit); }
+	char GetCardLetter() { return CCard::GetCardLetter(m_nFaceValue); }
+	char GetSuitLetter() { return CCard::GetSuitLetter(m_nSuit); }
 	LPCTSTR GetName() { return (LPCTSTR) m_szName; }
 	LPCTSTR GetFullName() { return CardToString(MAKEDECKVALUE(m_nSuit, m_nFaceValue)); }
 	LPCTSTR GetReverseFullName() { return CardToReverseString(MAKEDECKVALUE(m_nSuit, m_nFaceValue)); }
-	LPCTSTR GetFaceName() { return app_->GetCardName(m_nFaceValue); }
+	LPCTSTR GetFaceName() { return CCard::GetCardName(m_nFaceValue); }
 	int GetFaceValue() { return m_nFaceValue; }
 	int GetDeckValue() { return MAKEDECKVALUE(m_nSuit, m_nFaceValue); }
 	// basic operations

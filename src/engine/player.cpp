@@ -785,7 +785,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
-			*m_pStatusDlg << "Follow with our only " & app_->SuitToSingularString(nSuitLed) & ", the " & pPlayCard->GetFaceName() & ".\n";
+			*m_pStatusDlg << "Follow with our only " & CCard::SuitToSingularString(nSuitLed) & ", the " & pPlayCard->GetFaceName() & ".\n";
 			m_pStatusDlg->EndHintBlock();
 		}
 		// done

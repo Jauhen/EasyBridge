@@ -264,6 +264,7 @@
     <ClCompile Include="..\src\engine\card.cpp" />
     <ClCompile Include="..\src\engine\CardList.cpp" />
     <ClCompile Include="..\src\engine\CardLocation.cpp" />
+    <ClCompile Include="..\src\engine\card_static.cpp" />
     <ClCompile Include="..\src\engine\Deck.cpp" />
     <ClCompile Include="..\src\engine\GuessedCard.CPP" />
     <ClCompile Include="..\src\engine\player.cpp" />

@@ -136,7 +136,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 				return FALSE;
 			status << "CUET10! With " & bidState.m_fMinTPPoints & 
 					  "+ pts and possible slam aspirations, make a cue bid, showing the cheapest ace (" & 
-					  app_->SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  CCard::SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND1);
 			return TRUE;
@@ -164,7 +164,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 			int nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "CUET20! Make a second-round cue bid, showing the cheapest " &
 					  ((hand.GetSuitLength(nSuit) == 0)? "void suit" : "king") &
-					  " (in " & app_->SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " (in " & CCard::SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
 			return TRUE;
@@ -299,7 +299,7 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			// found a suit to cue bid
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "CUR20! Respond to partner's cue bid, showing our cheapest ace (" &
-					  app_->SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  CCard::SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND1);
 			return TRUE;
@@ -311,10 +311,10 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 			if (hand.SuitHasCard(nSuit, ACE))
 				status << "CUR22! But our only Ace is in the trump suit of " &
-						  app_->SuitToSingularString(nAgreedSuit) & ", so sign off at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToSingularString(nAgreedSuit) & ", so sign off at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			else
 				status << "CUR24! We have no other Aces to offer, so sign off with the agreed " &
-						  app_->SuitToSingularString(nAgreedSuit) & " suit at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToSingularString(nAgreedSuit) & " suit at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
@@ -332,7 +332,7 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "CUR30! Respond to partner's cue bid, showing our cheapest " &
 					  ((hand.GetSuitLength(nSuit) > 0)? "King" : "void suit") &
-					  " (in " & app_->SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " (in " & CCard::SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 //			bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
@@ -345,10 +345,10 @@ BOOL CCueBidConvention::RespondToConvention(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 			if (hand.SuitHasCard(nSuit, KING))
 				status << "CUR32! But our only Ace is in the trump suit of " &
-						  app_->SuitToSingularString(nAgreedSuit) & ", so sign off at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToSingularString(nAgreedSuit) & ", so sign off at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			else
 				status << "CUR34 We have no other Kings or void suits to offer, so sign off with the agreed " &
-						  app_->SuitToSingularString(nAgreedSuit) & " suit at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToSingularString(nAgreedSuit) & " suit at a bid of " & app_->BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
@@ -412,7 +412,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		// cue bid(unlikely, but hey...)
 		if (nPartnersBidLevel >= 6)
 		{
-			status << "HRCB0! In response to our cue bid, partner returned to the agreed " & app_->SuitToSingularString(nAgreedSuit) &
+			status << "HRCB0! In response to our cue bid, partner returned to the agreed " & CCard::SuitToSingularString(nAgreedSuit) &
 					  " trump suit with a slam bid at " & app_->BidToFullString(nPartnersBid) & ".\n";
 			// raise to a grand slam if possible
 			if ((nPartnersBidLevel == 6) && (bidState.m_fMinTPPoints >= 37))
@@ -441,7 +441,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		// otherwise partner returned to the agreed suit below slam, 
 		// a discouraging sign
 		//
-		status << "HRCB5! Partner returned to the agreed " & app_->SuitToSingularString(nAgreedSuit) &
+		status << "HRCB5! Partner returned to the agreed " & CCard::SuitToSingularString(nAgreedSuit) &
 				  " trump suit in response to our cue bid of " & app_->BidToFullString(nPreviousBid) &
 				  ", which is a discouraging sign.\n";
 		// pass with < 33 team points
@@ -497,7 +497,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 
 		//
 		status << "HRCB40! Partner responded with a cue bid of " & app_->BidToFullString(nPartnersBid) &
-				  ", showing an Ace in " & app_->SuitToString(nPartnersSuit) & ".\n";
+				  ", showing an Ace in " & CCard::SuitToString(nPartnersSuit) & ".\n";
 		//
 		// see if we want to proceed to a second round of cue bidding
 		// we need 36+ pts and controls in all four suits
@@ -505,13 +505,13 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		BOOL bAllFourControls;
 		if ((bidState.numAces + 1) == 4)
 		{
-			status << "HRCB42! And with partner's " & app_->SuitToSingularString(nPartnersSuit) & 
+			status << "HRCB42! And with partner's " & CCard::SuitToSingularString(nPartnersSuit) & 
 					  ", we have all four Aces for full first-round control.\n";
 			bAllFourControls = TRUE;
 		}
 		else
 		{
-			status << "HRCB43! But even with partner's " & app_->SuitToSingularString(nPartnersSuit) & 
+			status << "HRCB43! But even with partner's " & CCard::SuitToSingularString(nPartnersSuit) & 
 					  ", it's not clear we have all four Aces for full first-round control.\n";
 			bAllFourControls = FALSE;
 		}
@@ -556,7 +556,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "HRCB60! Make a second-round cue bid, showing the cheapest " &
 					  ((hand.GetSuitLength(nSuit) == 0)? "void suit" : "king") &
-					  " (in " & app_->SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " (in " & CCard::SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -596,14 +596,14 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		BOOL bAllFourSecondRoundControls;
 		if ((bidState.numKings + 1) == 4)
 		{
-			status << "HRCBS10! And with partner's " & app_->SuitToSingularString(nPartnersBid) & 
-					  " bid showing a King or void, in " & app_->SuitToString(nPartnersSuit) &
+			status << "HRCBS10! And with partner's " & CCard::SuitToSingularString(nPartnersBid) & 
+					  " bid showing a King or void, in " & CCard::SuitToString(nPartnersSuit) &
 					  ", we have scond-round control of all four suits.\n";
 			bAllFourSecondRoundControls = TRUE;
 		}
 		else
 		{
-			status << "HRCBS12! But even with partner's " & app_->SuitToSingularString(nPartnersBid) & 
+			status << "HRCBS12! But even with partner's " & CCard::SuitToSingularString(nPartnersBid) & 
 					  ", it's not clear we have all full second-round control.\n";
 			bAllFourSecondRoundControls = FALSE;
 		}

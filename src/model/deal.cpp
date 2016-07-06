@@ -3016,7 +3016,7 @@ void Deal::UpdatePlayHistory() {
       if (i < m_numActualTricksPlayed) {
         if (bUseSymbols) {
           // use suit symbols
-          strTemp += app_->FormString("%c%c", app_->GetCardLetter(m_pGameTrick[i][nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pGameTrick[i][nPos]->GetSuit()));
+          strTemp += app_->FormString("%c%c", CCard::GetCardLetter(m_pGameTrick[i][nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pGameTrick[i][nPos]->GetSuit()));
         } else {
           // use suit letters
           strTemp += m_pGameTrick[i][nPos]->GetName();
@@ -3030,7 +3030,7 @@ void Deal::UpdatePlayHistory() {
         if (m_pCurrTrick[nPos] != NULL) {
           if (bUseSymbols) {
             // use suit symbols
-            strTemp += app_->FormString("%c%c", app_->GetCardLetter(m_pCurrTrick[nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pCurrTrick[nPos]->GetSuit()));
+            strTemp += app_->FormString("%c%c", CCard::GetCardLetter(m_pCurrTrick[nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pCurrTrick[nPos]->GetSuit()));
           } else {
             // use suit letters
             strTemp += m_pCurrTrick[nPos]->GetName();
@@ -3491,7 +3491,7 @@ CString Deal::FormatOriginalHands() {
   CCardList& northCards = m_pPlayer[NORTH]->GetHand().GetInitialHand();
   int numCards = northCards.GetNumCards();
   for (int nSuit = SPADES; nSuit >= CLUBS; nSuit--) {
-    strHands += CString(' ', 16) + app_->GetSuitLetter(nSuit) + ": ";
+    strHands += CString(' ', 16) + CCard::GetSuitLetter(nSuit) + ": ";
     for (int nIndex = 0; nIndex < numCards; nIndex++) {
       if (northCards[nIndex]->GetSuit() != nSuit)
         continue;
@@ -3508,7 +3508,7 @@ CString Deal::FormatOriginalHands() {
   int numEastCards = eastCards.GetNumCards();
   CString strTemp;
   for (int nSuit = SPADES; nSuit >= CLUBS; nSuit--) {
-    strHands += CString(app_->GetSuitLetter(nSuit)) + ": ";
+    strHands += CString(CCard::GetSuitLetter(nSuit)) + ": ";
     int nCount = 3;
     // show west suit
     for (int nIndex = 0; nIndex < numWestCards; nIndex++) {
@@ -3520,7 +3520,7 @@ CString Deal::FormatOriginalHands() {
     }
     // pad out to 32 chars
     strHands += CString(' ', 32 - nCount);
-    strHands += CString(app_->GetSuitLetter(nSuit)) + ": ";
+    strHands += CString(CCard::GetSuitLetter(nSuit)) + ": ";
     // show east suit
     for (int nIndex = 0; nIndex < numEastCards; nIndex++) {
       if (eastCards[nIndex]->GetSuit() != nSuit)
@@ -3536,7 +3536,7 @@ CString Deal::FormatOriginalHands() {
   CCardList& southCards = m_pPlayer[SOUTH]->GetHand().GetInitialHand();
   numCards = southCards.GetNumCards();
   for (int nSuit = SPADES; nSuit >= CLUBS; nSuit--) {
-    strHands += CString(' ', 16) + app_->GetSuitLetter(nSuit) + ": ";
+    strHands += CString(' ', 16) + CCard::GetSuitLetter(nSuit) + ": ";
     for (int nIndex = 0; nIndex < numCards; nIndex++) {
       if (southCards[nIndex]->GetSuit() != nSuit)
         continue;
@@ -3562,7 +3562,7 @@ CString Deal::FormatCurrentHands() {
   CCardList& northCards = m_pPlayer[NORTH]->GetHand();
   int numCards = northCards.GetNumCards();
   for (int nSuit = SPADES; nSuit >= CLUBS; nSuit--) {
-    strHands += CString(' ', 16) + app_->GetSuitLetter(nSuit) + ": ";
+    strHands += CString(' ', 16) + CCard::GetSuitLetter(nSuit) + ": ";
     for (int nIndex = 0; nIndex < numCards; nIndex++) {
       if (northCards[nIndex]->GetSuit() != nSuit)
         continue;
@@ -3579,7 +3579,7 @@ CString Deal::FormatCurrentHands() {
   int numEastCards = eastCards.GetNumCards();
   CString strTemp;
   for (int nSuit = SPADES; nSuit >= CLUBS; nSuit--) {
-    strHands += CString(app_->GetSuitLetter(nSuit)) + ": ";
+    strHands += CString(CCard::GetSuitLetter(nSuit)) + ": ";
     int nCount = 3;
     // show west suit
     for (int nIndex = 0; nIndex < numWestCards; nIndex++) {
@@ -3591,7 +3591,7 @@ CString Deal::FormatCurrentHands() {
     }
     // pad out to 32 chars
     strHands += CString(' ', 32 - nCount);
-    strHands += CString(app_->GetSuitLetter(nSuit)) + ": ";
+    strHands += CString(CCard::GetSuitLetter(nSuit)) + ": ";
     // show east suit
     for (int nIndex = 0; nIndex < numEastCards; nIndex++) {
       if (eastCards[nIndex]->GetSuit() != nSuit)
@@ -3607,7 +3607,7 @@ CString Deal::FormatCurrentHands() {
   CCardList& southCards = m_pPlayer[SOUTH]->GetHand();
   numCards = southCards.GetNumCards();
   for (int nSuit = SPADES; nSuit >= CLUBS; nSuit--) {
-    strHands += CString(' ', 16) + app_->GetSuitLetter(nSuit) + ": ";
+    strHands += CString(' ', 16) + CCard::GetSuitLetter(nSuit) + ": ";
     for (int nIndex = 0; nIndex < numCards; nIndex++) {
       if (southCards[nIndex]->GetSuit() != nSuit)
         continue;

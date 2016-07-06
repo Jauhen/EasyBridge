@@ -936,24 +936,8 @@ public:
     return ::PositionToString(pos);
   }
 
-  virtual const char* SuitToSingularString(int suit) {
-    return ::SuitToSingularString(suit);
-  }
-
   virtual const CString BidToFullString(int bid) {
     return ::BidToFullString(bid);
-  }
-
-  virtual char GetCardLetter(int i) {
-    return ::GetCardLetter(i);
-  }
-
-  virtual char GetSuitLetter(int i) {
-    return ::GetSuitLetter(i);
-  }
-
-  virtual const char* SuitToString(int suit) {
-    return ::SuitToString(suit);
   }
 
   virtual const CString BidToShortString(int bid) {
@@ -1012,10 +996,6 @@ public:
     return ::ContractToString(contract, modifier);
   }
 
-  virtual const char* CardValToString(int i) {
-    return ::CardValToString(i);
-  }
-
   virtual int GetPrevPlayer(int position) {
     return ::GetPrevPlayer(position);
   }
@@ -1028,28 +1008,8 @@ public:
     return ::IsHonor(faceValue) == TRUE;
   }
 
-  virtual const CString CardToString(int deckValue) {
-    return ::CardToString(deckValue);
-  }
-
   virtual const char* TeamToString(int team) {
     return ::TeamToString(team);
-  }
-
-  virtual const CString CardToShortString(int deckValue) {
-    return ::CardToShortString(deckValue);
-  }
-
-  virtual const char* GetSuitName(int suit) {
-    return ::GetSuitName(suit);
-  }
-
-  virtual const char* GetCardName(int faceValue) {
-    return ::GetCardName(faceValue);
-  }
-
-  virtual const CString CardToReverseString(int faceValue) {
-    return ::CardToReverseString(faceValue);
   }
 
   virtual int StringToDeckValue(const char* str) {
@@ -1076,16 +1036,8 @@ public:
     return ::StringToPosition(str);
   }
 
-  virtual int CharToSuit(char c) {
-    return ::CharToSuit(c);
-  }
-
   virtual const char PositionToChar(int pos) {
     return ::PositionToChar(pos);
-  }
-
-  virtual int CharToFaceValue(char c) {
-    return ::CharToFaceValue(c);
   }
 
   virtual const CString BidToPBNString(int bid) {

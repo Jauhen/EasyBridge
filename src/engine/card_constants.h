@@ -74,5 +74,28 @@ enum Bids {
 #define OTHER_MAJOR(x) 	((x == HEARTS)? SPADES:HEARTS)
 #define OTHER_MINOR(x) 	((x == CLUBS)? DIAMONDS:CLUBS)
 
+const LPCTSTR szPosition[4] = {"South", "West", "North", "East"};
+const LPCTSTR szPositionShort[4] = {"Sou.", "West", "Nor.", "East"};
+const LPCTSTR tszTeam[4] = {"North/South", "East/West", "Both", "Neither"};
+const LPCTSTR tszTeamBrief[4] = {"N/S", "E/W", "Both", "Neither"};
+const LPCTSTR szCardName[15] = {"", "", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"};
+const LPCTSTR szSuitName[5] = {"Clubs", "Diamonds", "Hearts", "Spades", "No Trump"};
+const LPCTSTR szSuitNameSingular[5] = {"Club", "Diamond", "Heart", "Spade", "No Trump"};
+const LPCTSTR szSuitNameShort[5] = {"C", "D", "H", "S", "NT"};
+const LPCTSTR szFaceValueName[] = {
+  "", "", "two", "three", "four", "five", "six", "seven",
+  "eight", "nine", "ten", "Jack", "Queen", "King", "Ace"
+};
+
+const TCHAR cSuit[5] = {'C', 'D', 'H', 'S', 'N'};
+const TCHAR cCard[] = {
+  ' ', ' ', '2', '3', '4', '5', '6', '7',
+  '8', '9', 'T', 'J', 'Q', 'K', 'A'
+};
+const TCHAR cFaceCard[5] = {'T', 'J', 'Q', 'K', 'A'};
+
+const int numDefCardBacks = 1;
+
+
 
 #endif // EZ_CARD_CONTANTS_
