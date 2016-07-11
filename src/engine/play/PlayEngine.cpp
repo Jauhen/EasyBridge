@@ -118,8 +118,8 @@ void CPlayEngine::Clear()
 void CPlayEngine::InitNewHand()
 { 
 	// set general status info
-	m_nContract = app_->GetContract();
-	m_nContractModifier = app_->GetContractModifier();
+	m_nContract = app_->GetDeal()->GetContract();
+	m_nContractModifier = app_->GetDeal()->GetContractModifier();
 	m_nTrumpSuit = app_->GetContractSuit();
 	//
 	m_bVulnerable = app_->IsTeamVulnerable(m_pPlayer->GetTeam());
@@ -151,8 +151,8 @@ void CPlayEngine::InitNewHand()
 void CPlayEngine::InitSwappedHand()
 { 
 	// set general status info
-	m_nContract = app_->GetContract();
-	m_nContractModifier = app_->GetContractModifier();
+	m_nContract = app_->GetDeal()->GetContract();
+	m_nContractModifier = app_->GetDeal()->GetContractModifier();
 	m_nTrumpSuit = app_->GetContractSuit();
 	//
 	m_bVulnerable = app_->IsTeamVulnerable(m_pPlayer->GetTeam());

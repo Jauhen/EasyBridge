@@ -409,7 +409,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 	int nPlayerPos = GetPlayerPosition();
 	int nPartnerPos = GetPartnerPosition();
 	int nPartnersSuit = NONE;
-	int	nDeclarer = app_->GetDeclarerPosition();
+	int	nDeclarer = app_->GetDeal()->GetDeclarerPosition();
 	int nDummy = app_->GetDummyPosition();
 
 	// see if this is the first round
@@ -417,7 +417,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 	{
 		// this is the opening lead
 		status << "2PLYLEAD! Making opening lead as " & app_->PositionToString(nPlayerPos) &
-				  " against a contract of " & app_->ContractToFullString(app_->GetContract(), 0) & ".\n";
+				  " against a contract of " & app_->ContractToFullString(app_->GetDeal()->GetContract(), 0) & ".\n";
 		// review partner's bidding history
 		nPartnersSuit = ReviewBiddingHistory();
 
@@ -1032,7 +1032,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 				}
 
 				// see if we think declarer has trumps in the suit
-				int nDeclarer = app_->GetDeclarerPosition();
+				int nDeclarer = app_->GetDeal()->GetDeclarerPosition();
 				CGuessedHandHoldings* pDeclarerHand = m_pPlayer->GetGuessedHand(nDeclarer);
 				if ( pDeclarerHand->IsSuitShownOut(i) && 
 					((pDeclarerHand->GetSuit(nTrumpSuit).GetNumRemainingCards() > 0) ||
@@ -1213,7 +1213,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 			// still has some left, and declarer has shown out of the suit
 			if ( (GetNumOutstandingCards(nTrumpSuit) > 0) &&
 					(IsPartnerVoidInSuit(nTrumpSuit)) &&
-						(m_ppGuessedHands[app_->GetDeclarerPosition()]->IsSuitShownOut(i)) )
+						(m_ppGuessedHands[app_->GetDeal()->GetDeclarerPosition()]->IsSuitShownOut(i)) )
 			{
 				status << "3PLYLDWN4! We'd like to lead the " & CCard::SuitToString(i) &
 						  " suit, but declarer might ruff.\n";
@@ -1858,7 +1858,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 	status << "3PLAYDF2! Playing second as defender, using default player logic.\n";
 
 	// get play info
-	int nDeclarerPos = app_->GetDeclarerPosition();
+	int nDeclarerPos = app_->GetDeal()->GetDeclarerPosition();
 	int nDummyPos = app_->GetDummyPosition();
 	CPlayer* pDummy = app_->GetDummyPlayer();
 	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();

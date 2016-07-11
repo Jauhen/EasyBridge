@@ -1699,8 +1699,8 @@ void CBidEngine::BiddingFinished()
 	app_->SuspendHints();
 	CString strLine;
 	strLine.Format("Bidding finished; contract is %s.  Declarer is %s; %s leads.",
-					app_->ContractToFullString(app_->GetContract(), app_->GetContractModifier()),
-    app_->PositionToString(app_->GetDeclarerPosition()),
+					app_->ContractToFullString(app_->GetDeal()->GetContract(), app_->GetDeal()->GetContractModifier()),
+    app_->PositionToString(app_->GetDeal()->GetDeclarerPosition()),
     app_->PositionToString(app_->GetRoundLead()));
 	strLine += "\n=======================";
 	TraceNH(strLine);
@@ -2418,7 +2418,7 @@ BOOL CBidEngine::TestForPenaltyDouble()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// see if contract is already doubled or redoubled
-	if (app_->GetContractModifier() != 0)
+	if (app_->GetDeal()->GetContractModifier() != 0)
 		return FALSE;
 
 	// see which side made the last bid
@@ -2492,7 +2492,7 @@ BOOL CBidEngine::TestForPenaltyDouble()
 BOOL CBidEngine::TestForRedouble()
 {
 	// check to make sure the contract is doubled 
-	if (app_->GetContractModifier() != 1)
+	if (app_->GetDeal()->GetContractModifier() != 1)
 		return FALSE;
 
 	// temp

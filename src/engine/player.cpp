@@ -425,7 +425,7 @@ void CPlayer::InitializeHand()
 void CPlayer::InitializeRestoredHand()
 {
 	// set internal variables
-	if (app_->GetDeclarerPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDeclarerPosition() == m_nPosition)
 		m_bDeclarer = TRUE;
 	else
 		m_bDeclarer = FALSE;
@@ -456,19 +456,19 @@ void CPlayer::InitializeRestoredHand()
 	m_pPlayEngine->InitNewHand(); 
 
 	// mark game position
-	int nContract = app_->GetContract();
-	int nModifier = app_->GetContractModifier();
+	int nContract = app_->GetDeal()->GetContract();
+	int nModifier = app_->GetDeal()->GetContractModifier();
 	if (ISBID(nContract))
 	{
 		*m_pStatusDlg << "4The contract is " & app_->ContractToFullString(nContract,nModifier) & 
-					   " by " & app_->PositionToString(app_->GetDeclarerPosition()) & ".\n";
+					   " by " & app_->PositionToString(app_->GetDeal()->GetDeclarerPosition()) & ".\n";
 		*m_pStatusDlg << "4" & app_->PositionToString(app_->GetRoundLead()) & " leads.\n";
 		*m_pStatusDlg << "4====================\n";
 	}
 
 	// finally, expose cards if necessary
 	if ( (m_nPosition == SOUTH) ||
-		 ((app_->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
+		 ((app_->GetDeal()->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
 		ExposeCards(TRUE, FALSE);
 	else
 		ExposeCards(FALSE, FALSE);
@@ -484,7 +484,7 @@ void CPlayer::InitializeRestoredHand()
 void CPlayer::InitializeSwappedHand()
 {
 	// set internal variables
-	if (app_->GetDeclarerPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDeclarerPosition() == m_nPosition)
 		m_bDeclarer = TRUE;
 	else
 		m_bDeclarer = FALSE;
@@ -513,7 +513,7 @@ void CPlayer::InitializeSwappedHand()
 
 	// finally, expose cards if necessary
 	if ( (m_nPosition == SOUTH) ||
-		 ((app_->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
+		 ((app_->GetDeal()->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
 		ExposeCards(TRUE, FALSE);
 	else if (m_bDummy && (app_->GetNumCardsPlayedInGame() > 0))
 		ExposeCards(TRUE, FALSE);
@@ -834,7 +834,7 @@ BOOL CPlayer::IsHumanPlayer() const
 
 	// a player is human if it's south, or if it's north AND
 	// declarer is north or south
-	int nDeclarer = app_->GetDeclarerPosition();
+	int nDeclarer = app_->GetDeal()->GetDeclarerPosition();
 	if ((m_nPosition == SOUTH) || 
 		( (m_nPosition == NORTH) && 
 		  ((nDeclarer == NORTH) || (nDeclarer == SOUTH)) ) )

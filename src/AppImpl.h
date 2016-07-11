@@ -558,18 +558,6 @@ public:
     return pDOC->GetDeal();
   }
 
-  virtual int	GetContract() const {
-    return pDOC->GetDeal()->GetContract();
-  }
-
-  virtual int GetContractModifier() const {
-    return pDOC->GetDeal()->GetContractModifier();
-  }
-
-  virtual int	GetDeclarerPosition() const {
-    return pDOC->GetDeal()->GetDeclarerPosition();
-  }
-
   virtual int	GetRoundLead() const {
     return pDOC->GetDeal()->GetRoundLead();
   }

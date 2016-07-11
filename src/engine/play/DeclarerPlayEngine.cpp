@@ -382,7 +382,7 @@ void CDeclarerPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 
 	// if this is an idle declarer engine (i.e., for North/South), init
 	// the combined hand anyway 
-	if ( ((app_->GetDeclarerPosition() == NORTH) || (app_->GetDeclarerPosition() == SOUTH)) &&
+	if ( ((app_->GetDeal()->GetDeclarerPosition() == NORTH) || (app_->GetDeal()->GetDeclarerPosition() == SOUTH)) &&
 		  (app_->GetNumTricksPlayed() == 0) && (app_->GetNumCardsPlayedInRound() == 2))
 	{
 		InitCombinedHand();

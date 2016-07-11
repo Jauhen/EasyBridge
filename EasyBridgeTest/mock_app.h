@@ -93,9 +93,6 @@ public:
 
 
   MOCK_METHOD0(GetDeal, std::shared_ptr<Deal>());
-  MOCK_CONST_METHOD0(GetContract, int());
-  MOCK_CONST_METHOD0(GetContractModifier, int());
-  MOCK_CONST_METHOD0(GetDeclarerPosition, int());
   MOCK_CONST_METHOD0(GetRoundLead, int());
   MOCK_CONST_METHOD0(GetLastValidBidTeam, int());
   MOCK_METHOD0(IsDocInitialized, bool());
