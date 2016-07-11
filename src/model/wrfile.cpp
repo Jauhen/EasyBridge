@@ -270,13 +270,13 @@ BOOL Deal::WriteFile(CArchive& ar) {
     WriteInt(ITEM_CURRENT_GAME_INDEX, m_nCurrGame + 1);
 
     // write out score record
-    int numBonusScoreRecords = m_strArrayBonusPointsRecord.GetSize();
+    int numBonusScoreRecords = m_strArrayBonusPointsRecord.size();
     for (int i = 0; i<numBonusScoreRecords; i++)
-      WriteString(ITEM_BONUS_SCORE_RECORD, app_->WrapInQuotes(m_strArrayBonusPointsRecord.GetAt(i)));
+      WriteString(ITEM_BONUS_SCORE_RECORD, app_->WrapInQuotes(m_strArrayBonusPointsRecord[i]));
     //
-    int numGameScoreRecords = m_strArrayTrickPointsRecord.GetSize();
+    int numGameScoreRecords = m_strArrayTrickPointsRecord.size();
     for (i = 0; i<numGameScoreRecords; i++)
-      WriteString(ITEM_GAME_SCORE_RECORD, app_->WrapInQuotes(m_strArrayTrickPointsRecord.GetAt(i)));
+      WriteString(ITEM_GAME_SCORE_RECORD, app_->WrapInQuotes(m_strArrayTrickPointsRecord[i]));
     //
     SkipLine();
   }

@@ -79,9 +79,9 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 	int nStartSuit,nEndSuit;
 	CDC *pDC = GetDC();
 	CEasyBDoc* pDoc = CEasyBDoc::GetDoc();
-	if (!pDOC || !pDOC->IsInitialized())
+	if (!pDOC || !pDOC->GetDeal()->IsInitialized())
 		return;
-	CPlayer* pPlayer = pDOC->GetPlayer(nPos);
+	CPlayer* pPlayer = pDOC->GetDeal()->GetPlayer(nPos);
 	if (pPlayer == NULL)
 		return;
 	BOOL bDummy = pPlayer->IsDummy();
@@ -113,7 +113,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 	if (nDisplaySuit >= 0) 
 	{
 		// reset the suit to index in suit display table
-		if (nPos == pDOC->GetDummyPosition())
+		if (nPos == pDOC->GetDeal()->GetDummyPosition())
 			nStartSuit = m_nDummySuitToScreenIndex[nDisplaySuit];
 		else
 			nStartSuit = m_nSuitToScreenIndex[nDisplaySuit];
@@ -139,7 +139,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 		// player's hand (south); always display face up
 		//
 //		if ((bDummy) && (pDOC->IsDummyExposed()) && (theApp.IsGameInProgress())) 
-		if ((bDummy) && (pDOC->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT)) 
+		if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT))
 		{
 			//
 			// Dummy player
@@ -180,7 +180,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 		// Opponents hands
 		//
 //		if ((bDummy) && (pDOC->IsDummyExposed()) && (theApp.IsGameInProgress())) 
-		if ((bDummy) && (pDOC->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT)) 
+		if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT))
 		{
 			//
 			// Dummy east-west here
@@ -222,7 +222,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 		// north (partner)
 		//
 //		if ((bDummy) && (pDOC->IsDummyExposed()) && (theApp.IsGameInProgress())) 
-		if ((bDummy) && (pDOC->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT)) 
+		if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT))
 		{
 			//
 			// North, Dummy format
@@ -244,7 +244,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 			// North, non-dummy format
 			//
 			if ( (m_nCurrMode == MODE_CARDLAYOUT) || (m_nCurrMode == MODE_EDITHANDS) ||
-				 (pDOC->GetDeclarerPosition() == NORTH) ||
+				 (pDOC->GetDeal()->GetDeclarerPosition() == NORTH) ||
 				 (theApp.AreCardsFaceUp()) ) 
 			{
 				// show grouped cards
@@ -385,7 +385,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 		//
 		// clear area under bottom card
 		int numCards = PLAYER(nPos).GetNumCards();
-		CCard* pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
+		CCard* pPlayedCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 		cy = y + m_nCardHeight;
 		if (numCards > 0) 
 		{
@@ -410,7 +410,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 		//
 		// since cards are face up, redraw starting 
 		// from card after the one last played
-		CCard* pOldCard = pDOC->GetCurrentTrickCard(nPos);
+		CCard* pOldCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 		// restore the played card's background
 		pOldCard->RestoreBackground(pDC);
 		// and then restore remaining cards
@@ -534,7 +534,7 @@ void CEasyBView::PartialDrawHorizGrouped(CDC* pDC, Position nPos)
 	//
 	// since cards are face up, redraw starting 
 	// from card after the one last played
-	CCard* pOldCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pOldCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 
 	// restore the played card's background
 	pOldCard->RestoreBackground(pDC);
@@ -682,7 +682,7 @@ void CEasyBView::PartialDrawHorizDummy(CDC* pDC, Position nPos)
 	RECT eraseRect;
 
 	// first grab played card
-	CCard* pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pPlayedCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 	nSuit = pPlayedCard->GetSuit();
 
 	// first get the played card's posititon
@@ -912,7 +912,7 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 		// non-dummy east-west, face up, partial draw
 		//
 		// redraw starting from card after the one last played
-		CCard* pOldCard = pDOC->GetCurrentTrickCard(nPos);
+		CCard* pOldCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 		// restore the played card's background
 		pOldCard->RestoreBackground(pDC);
 		// and then restore remaining cards
@@ -1043,7 +1043,7 @@ void CEasyBView::PartialDrawVertDummy(CDC* pDC, Position nPos)
 	//
 
 	// redrawing after a card was pulled from a stack
-	CCard* pPlayedCard = pDOC->GetCurrentTrickCard(nPos);
+	CCard* pPlayedCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 	int nSuit = pPlayedCard->GetSuit();
 	int nStartSuit = m_nDummySuitToScreenIndex[nSuit];
 
@@ -1156,7 +1156,7 @@ void CEasyBView::CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, CCard* pPl
 	{
 		// check that we're not comparing the card being played against itself
 		// before it's moved onto the table
-		CCard* pCard = pDOC->GetCurrentTrickCard(i); 
+		CCard* pCard = pDOC->GetDeal()->GetCurrentTrickCard(i);
 		if (!pCard || (pCard == pPlayedCard))
 			continue;
 		//
@@ -1221,13 +1221,13 @@ void CEasyBView::AnimateTrick(int nWinner)
 	for(i=0;i<3;i++) 
 	{
 		nPos = GetNextPlayer(nPos);
-		pCard = pDOC->GetCurrentTrickCard(nPos);
+		pCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 		ASSERT(pCard != NULL);
 		pCard->RestoreBackground(pDC);
 		pCard->Animate(pDC, m_cardDest[nWinner].x, m_cardDest[nWinner].y, FALSE, nGranularity);
 	}
 	// then clear and anmiate the winning card
-	CCard* pWinningCard = pDOC->GetCurrentTrickCard(nWinner);
+	CCard* pWinningCard = pDOC->GetDeal()->GetCurrentTrickCard(nWinner);
 /*
 	ClearDisplayArea(pWinningCard->GetXPosition(),
 					 pWinningCard->GetYPosition(),
@@ -1255,13 +1255,13 @@ void CEasyBView::ClearPartialTrickCards()
 	CCard* pCard;
 	CDC* pDC = GetDC();
 
-	int nPos = pDOC->GetRoundLead();
-	int numCards = pDOC->GetNumCardsPlayedInRound();
+	int nPos = pDOC->GetDeal()->GetRoundLead();
+	int numCards = pDOC->GetDeal()->GetNumCardsPlayedInRound();
 
 	// 
 	for(i=0;i<numCards;i++) 
 	{
-		pCard = pDOC->GetCurrentTrickCardByOrder(i);
+		pCard = pDOC->GetDeal()->GetCurrentTrickCardByOrder(i);
 		ASSERT(pCard != NULL);
 		pCard->RestoreBackground(pDC);
 	}

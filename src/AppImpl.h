@@ -555,199 +555,199 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual CCard* GetCurrentTrickCardLed() {
-    return pDOC->GetCurrentTrickCardLed();
+    return pDOC->GetDeal()->GetCurrentTrickCardLed();
   }
 
   virtual int GetValidBidRecord(int index) const {
-    return pDOC->GetValidBidRecord(index);
+    return pDOC->GetDeal()->GetValidBidRecord(index);
   }
 
   virtual int	GetLastValidBid() const {
-    return pDOC->GetLastValidBid();
+    return pDOC->GetDeal()->GetLastValidBid();
   }
 
   virtual int GetBiddingRound() const {
-    return pDOC->GetBiddingRound();
+    return pDOC->GetDeal()->GetBiddingRound();
   }
 
   virtual int GetNumBidsMade() const {
-    return pDOC->GetNumBidsMade();
+    return pDOC->GetDeal()->GetNumBidsMade();
   }
 
   virtual int GetBidByPlayer(int position, int round) const {
-    return pDOC->GetBidByPlayer(position, round);
+    return pDOC->GetDeal()->GetBidByPlayer(position, round);
   }
 
   virtual int GetBidByPlayer(CPlayer* player, int round) const {
-    return pDOC->GetBidByPlayer(player, round);
+    return pDOC->GetDeal()->GetBidByPlayer(player, round);
   }
 
   virtual int	GetDealer() const {
-    return pDOC->GetDealer();
+    return pDOC->GetDeal()->GetDealer();
   }
 
   virtual bool IsBidValid(int bid) {
-    return pDOC->IsBidValid(bid) == TRUE;
+    return pDOC->GetDeal()->IsBidValid(bid) == TRUE;
   }
 
   virtual int GetBidByIndex(int index) const {
-    return pDOC->GetBidByIndex(index);
+    return pDOC->GetDeal()->GetBidByIndex(index);
   }
 
   virtual CPlayer* GetPlayer(int position) const {
-    return pDOC->GetPlayer(position);
+    return pDOC->GetDeal()->GetPlayer(position);
   }
 
   virtual int	GetContract() const {
-    return pDOC->GetContract();
+    return pDOC->GetDeal()->GetContract();
   }
 
   virtual int GetContractModifier() const {
-    return pDOC->GetContractModifier();
+    return pDOC->GetDeal()->GetContractModifier();
   }
 
   virtual int	GetDeclarerPosition() const {
-    return pDOC->GetDeclarerPosition();
+    return pDOC->GetDeal()->GetDeclarerPosition();
   }
 
   virtual int	GetRoundLead() const {
-    return pDOC->GetRoundLead();
+    return pDOC->GetDeal()->GetRoundLead();
   }
 
   virtual int	GetLastValidBidTeam() const {
-    return pDOC->GetLastValidBidTeam();
+    return pDOC->GetDeal()->GetLastValidBidTeam();
   }
 
   virtual bool IsDocInitialized() {
-    return pDOC && pDOC->IsInitialized();
+    return pDOC && pDOC->GetDeal()->IsInitialized();
   }
 
   virtual int GetOpeningBid() const {
-    return pDOC->GetOpeningBid();
+    return pDOC->GetDeal()->GetOpeningBid();
   }
 
   virtual int GetNumValidBidsMade() const {
-    return pDOC->GetNumValidBidsMade();
+    return pDOC->GetDeal()->GetNumValidBidsMade();
   }
 
   virtual int GetOpeningBidder() const {
-    return pDOC->GetOpeningBidder();
+    return pDOC->GetDeal()->GetOpeningBidder();
   }
 
   virtual int GetCurrentPlayerPosition() const {
-    return pDOC->GetCurrentPlayerPosition();
+    return pDOC->GetDeal()->GetCurrentPlayerPosition();
   }
 
   virtual int GetNumCardsPlayedInRound() const {
-    return pDOC->GetNumCardsPlayedInRound();
+    return pDOC->GetDeal()->GetNumCardsPlayedInRound();
   }
 
   virtual CPlayer* GetCurrentPlayer() const {
-    return pDOC->GetCurrentPlayer();
+    return pDOC->GetDeal()->GetCurrentPlayer();
   }
 
   virtual CCard* GetCurrentTrickCardByOrder(int order) const {
-    return pDOC->GetCurrentTrickCardByOrder(order);
+    return pDOC->GetDeal()->GetCurrentTrickCardByOrder(order);
   }
 
   virtual int GetTrumpSuit() const {
-    return pDOC->GetTrumpSuit();
+    return pDOC->GetDeal()->GetTrumpSuit();
   }
 
   virtual bool WasTrumpPlayed() const {
-    return pDOC->WasTrumpPlayed() == TRUE;
+    return pDOC->GetDeal()->WasTrumpPlayed() == TRUE;
   }
 
   virtual CCard* GetCurrentTrickCard(int position) const {
-    return pDOC->GetCurrentTrickCard(position);
+    return pDOC->GetDeal()->GetCurrentTrickCard(position);
   }
 
   virtual CCard* GetCurrentTrickHighCard() const {
-    return pDOC->GetCurrentTrickHighCard();
+    return pDOC->GetDeal()->GetCurrentTrickHighCard();
   }
 
   virtual CCard* GetCurrentTrickHighCard(int* pos) const {
-    return pDOC->GetCurrentTrickHighCard(pos);
+    return pDOC->GetDeal()->GetCurrentTrickHighCard(pos);
   }
 
   virtual void ClaimTricks(Position position, int tricks = 0) {
-    pDOC->ClaimTricks(position, tricks);
+    pDOC->GetDeal()->ClaimTricks(position, tricks);
   }
 
   virtual int GetPlayRound() const {
-    return pDOC->GetPlayRound();
+    return pDOC->GetDeal()->GetPlayRound();
   }
 
   virtual int GetNumTricksPlayed() const {
-    return pDOC->GetNumTricksPlayed();
+    return pDOC->GetDeal()->GetNumTricksPlayed();
   }
 
   virtual int GetNumCardsPlayedInGame() const {
-    return pDOC->GetNumCardsPlayedInGame();
+    return pDOC->GetDeal()->GetNumCardsPlayedInGame();
   }
 
   virtual int GetNumberOfTricksWonByTeam(int team) const {
-    return pDOC->GetNumTricksWonByTeam(team);
+    return pDOC->GetDeal()->GetNumTricksWonByTeam(team);
   }
 
   virtual int GetContractLevel() const {
-    return pDOC->GetContractLevel();
+    return pDOC->GetDeal()->GetContractLevel();
   }
 
   virtual int GetNumTricksRemaining() const {
-    return pDOC->GetNumTricksRemaining();
+    return pDOC->GetDeal()->GetNumTricksRemaining();
   }
 
   virtual int GetGameTrickWinner(int round) const {
-    return pDOC->GetGameTrickWinner(round);
+    return pDOC->GetDeal()->GetGameTrickWinner(round);
   }
 
   virtual CPlayer* GetDummyPlayer() const {
-    return pDOC->GetDummyPlayer();
+    return pDOC->GetDeal()->GetDummyPlayer();
   }
 
   virtual int GetDummyPosition() const {
-    return pDOC->GetDummyPosition();
+    return pDOC->GetDeal()->GetDummyPosition();
   }
 
   virtual int GetGameTrickLead(int round) const {
-    return pDOC->GetGameTrickLead(round);
+    return pDOC->GetDeal()->GetGameTrickLead(round);
   }
 
   virtual CCard* GetGameTrickCard(int round, int position) const {
-    return pDOC->GetGameTrickCard(round, position);
+    return pDOC->GetDeal()->GetGameTrickCard(round, position);
   }
 
   virtual int GetNumTricksWonByTeam(int team) const {
-    return pDOC->GetNumTricksWonByTeam(team);
+    return pDOC->GetDeal()->GetNumTricksWonByTeam(team);
   }
 
   virtual bool IsReviewingGame() {
-    return pDOC->IsReviewingGame() == TRUE;
+    return pDOC->GetDeal()->IsReviewingGame() == TRUE;
   }
 
   virtual CPlayer* GetRoundLeadPlayer() const {
-    return pDOC->GetRoundLeadPlayer();
+    return pDOC->GetDeal()->GetRoundLeadPlayer();
   }
 
   virtual int GetContractSuit() const {
-    return pDOC->GetContractSuit();
+    return pDOC->GetDeal()->GetContractSuit();
   }
 
   virtual bool IsTeamVulnerable(int team) {
-    return pDOC->IsTeamVulnerable(team) == TRUE;
+    return pDOC->GetDeal()->IsTeamVulnerable(team) == TRUE;
   }
 
   virtual bool IsDummyExposed() const {
-    return pDOC->IsDummyExposed();
+    return pDOC->GetDeal()->IsDummyExposed();
   }
   
   virtual int GetSuitsUnbid(CArray<int, int> &suits) const {
-    return pDOC->GetSuitsBid(suits);
+    return pDOC->GetDeal()->GetSuitsBid(suits);
   }
 
   virtual int GetDeclaringTeam() const {
-    return pDOC->GetDeclaringTeam();
+    return pDOC->GetDeal()->GetDeclaringTeam();
   }
 
   virtual void OnNewDocument() {
@@ -1072,7 +1072,7 @@ public:
     return timeGetTime();
   }
 
-  virtual void DisplayScoreDialog(CStringArray& bonusPoints, CStringArray& trickPoints, CString totalPoints) {
+  virtual void DisplayScoreDialog(std::vector<CString> bonusPoints, std::vector<CString> trickPoints, CString totalPoints) {
     CScoreDialog scoreDialog;
     scoreDialog.SetBonusPoints(bonusPoints);
     scoreDialog.SetTrickPoints(trickPoints);

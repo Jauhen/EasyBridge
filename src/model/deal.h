@@ -18,8 +18,18 @@ public:
   ~Deal();
 
   void DeleteContents();
-
+  bool HasRecords() { return m_gameRecords.GetSize() > 0; };
+  void SetTitle(const char* title) { m_strDocTitle = title; }
+  CString GetTitle() const  { return m_strDocTitle; }
+  std::vector<CString> GetBonusPointsRecords() const { return m_strArrayBonusPointsRecord; }
+  std::vector<CString> GetTrickPointsRecords() const { return m_strArrayTrickPointsRecord; }
+  bool IsHintFollowed() const { return m_bHintFollowed; }
+  CCard* GetLastPlayHint() const { return m_pLastPlayHint; }
+  void SetBatchMode(bool val) { m_bBatchMode = val; }
+  void SwapPositionsAlreadyInPlay(int pos1, int pos2);
   void InitNewDocument();
+  bool IsGameNotFinished();
+
 
   //
   void ClearAllInfo();
@@ -31,6 +41,7 @@ public:
   void DealHands(BOOL bUseDealNumber = FALSE, int nDealNumber = 0);
   void InitGameReview();
   void LoadGameRecord(const CGameRecord& game);
+  void LoadFirstGameRecord();
   void PlayGameRecord(int nGameIndex);
   void ClearHands();
   void ClearBiddingInfo();
@@ -109,7 +120,8 @@ public:
   int	GetPlayRound() const { return m_numTricksPlayed; }
   int	GetNumCardsPlayedInRound() const { return m_numCardsPlayedInRound; }
   int	GetNumCardsPlayedInGame() const { return m_numCardsPlayedInGame; }
-  int	GetNumTricksPlayed() const { return m_numTricksPlayed; }
+  int GetNumTricksPlayed() const { return m_numTricksPlayed; }
+  void SetNumTricksPlayed(int val) { m_numTricksPlayed = val; }
   int	GetNumTricksRemaining() const { return 13 - m_numTricksPlayed; }
   int	GetPlayRecord(int nIndex) const { return m_nPlayRecord[nIndex]; }
   BOOL WasTrumpPlayed() const;
@@ -205,8 +217,7 @@ public:
   std::string WriteFilePBN();
   BOOL ExportGameInfo(CArchive& ar);
 
-
-
+ private:
   static BOOL m_bInitialized;
 
   CPlayer* m_pPlayer[4];
@@ -230,8 +241,8 @@ public:
   int m_numGamesWon[2]; // num games won
   Team m_nVulnerableTeam; // which team is vulnerable
   BOOL m_bVulnerable[2]; // team is vulnerable flag
-  CStringArray m_strArrayTrickPointsRecord;
-  CStringArray m_strArrayBonusPointsRecord;
+  std::vector<CString> m_strArrayTrickPointsRecord;
+  std::vector<CString> m_strArrayBonusPointsRecord;
   CString m_strTotalPointsRecord;
   // game (contract) info
   int m_nContract;

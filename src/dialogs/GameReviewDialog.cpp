@@ -136,7 +136,7 @@ void CGameReviewDialog::Initialize(BOOL bRefresh)
 
 	// then operate
 	m_nGameIndex = 0;
-	CTypedPtrArray<CPtrArray, CGameRecord*>& gamesArray = pDOC->GetGameRecords();
+	CTypedPtrArray<CPtrArray, CGameRecord*>& gamesArray = pDOC->GetDeal()->GetGameRecords();
 	m_numGamesAvailable = gamesArray.GetSize();
 	BOOL bEnable = (m_numGamesAvailable > 0);
 
@@ -240,7 +240,7 @@ BOOL CGameReviewDialog::OnInitDialog()
 void CGameReviewDialog::UpdateToolTipText(CPoint point)
 {
 	//
-	if (!pDOC->IsReviewingGame())
+	if (!pDOC->GetDeal()->IsReviewingGame())
 		return;
 
 	// first call base class
@@ -254,7 +254,7 @@ void CGameReviewDialog::UpdateToolTipText(CPoint point)
 	int nIndex = m_pToolTip->ListControlHitTest(point, m_listTags, 1);
 
 	// update text if the cursor is on the right column
-	CGameRecord* pGameRecord = pDOC->GetGameRecord(m_nGameIndex);
+	CGameRecord* pGameRecord = pDOC->GetDeal()->GetGameRecord(m_nGameIndex);
 	if (!pGameRecord)
 		return;
 	int numTags = pGameRecord->m_mapTagValues.size();
@@ -339,7 +339,7 @@ void CGameReviewDialog::SetGameIndex(int nGame, BOOL bRefresh)
 	// first clear existing items
 	m_listTags.DeleteAllItems();
 	// then add entries
-	CGameRecord* pGameRecord = pDOC->GetGameRecord(m_nGameIndex);
+	CGameRecord* pGameRecord = pDOC->GetDeal()->GetGameRecord(m_nGameIndex);
 	if (!pGameRecord)
 		return;
 
@@ -383,18 +383,18 @@ void CGameReviewDialog::SetGameIndex(int nGame, BOOL bRefresh)
 	iter = pGameRecord->m_mapTagValues.find(_T("DEAL"));
 	if (iter != pGameRecord->m_mapTagValues.end())
 		strValue = (*iter).second;
-	pDOC->LoadGameRecord(*pGameRecord);
+	pDOC->GetDeal()->LoadGameRecord(*pGameRecord);
 	if (bRefresh)
-		pDOC->ResetDisplay();
-	pDOC->UpdateBiddingHistory();
-	pDOC->UpdatePlayHistory();
+		pDOC->GetDeal()->ResetDisplay();
+	pDOC->GetDeal()->UpdateBiddingHistory();
+	pDOC->GetDeal()->UpdatePlayHistory();
 	pMAINFRAME->SetAllIndicators();
 
 	// set prompt
 	pMAINFRAME->SetMessageText(FormString("Contract is %s.  Declarer is %s; %s leads.",
-										   pDOC->GetFullContractString(),
-										   PositionToString(pDOC->GetDeclarerPosition()),
-										   PositionToString(pDOC->GetRoundLead())));
+										   pDOC->GetDeal()->GetFullContractString(),
+										   PositionToString(pDOC->GetDeal()->GetDeclarerPosition()),
+										   PositionToString(pDOC->GetDeal()->GetRoundLead())));
 
 	// set game info
 	m_numPlaysAvailable = pGameRecord->m_numCardsPlayed;
@@ -506,11 +506,11 @@ void CGameReviewDialog::OnPrev()
 		return;
 
 	// get the game record
-	CGameRecord* pGameRecord = pDOC->GetGameRecord(m_nGameIndex);
+	CGameRecord* pGameRecord = pDOC->GetDeal()->GetGameRecord(m_nGameIndex);
 
 	// undo the last trick
 	CEasyBDoc* pDoc = pDOC;
-	int numCardsPlayed = pDoc->GetNumCardsPlayedInRound();
+	int numCardsPlayed = pDoc->GetDeal()->GetNumCardsPlayedInRound();
 
 	// return if there's nothing to undo
 	if ((m_nPlayRound == 0) && (numCardsPlayed == 0))
@@ -521,7 +521,7 @@ void CGameReviewDialog::OnPrev()
 	// undo cards from the current trick, if it has cards
 	if (numCardsPlayed > 0)
 	{
-		pDoc->UndoTrick();
+		pDoc->GetDeal()->UndoTrick();
 		m_nPlayRound--;
 		m_nPlayIndex -= numCardsPlayed;
 	}
@@ -532,22 +532,22 @@ void CGameReviewDialog::OnPrev()
 		// can't go back any further
 		SetPlayRound(0);
 		// hide dummy
-		pDOC->ExposeDummy(FALSE);
+		pDOC->GetDeal()->ExposeDummy(FALSE);
 		//
 		pVIEW->PostMessage(WM_COMMAND, WMS_RESET_DISPLAY, 1L);
 		pMAINFRAME->SetStatusMessage("Start of play record.");
-		pDOC->UpdatePlayHistory();
+		pDOC->GetDeal()->UpdatePlayHistory();
 		return;
 	}
 
 	// if past the first round, clear the previous trick as well
-	pDoc->UndoPreviousTrick();
+	pDoc->GetDeal()->UndoPreviousTrick();
 	m_nPlayRound--;
 	m_nPlayIndex -= 4;
 	if (m_nPlayIndex < 0)
 		m_nPlayIndex = 0;
 	//
-	pDoc->ResetDisplay();
+	pDoc->GetDeal()->ResetDisplay();
 	pVIEW->DisplayTricks();
 
 	// then re-display the trick
@@ -563,7 +563,7 @@ void CGameReviewDialog::OnNext()
 		return;
 
 	// get the game record
-	CGameRecord* pGameRecord = pDOC->GetGameRecord(m_nGameIndex);
+	CGameRecord* pGameRecord = pDOC->GetDeal()->GetGameRecord(m_nGameIndex);
 	pMAINFRAME->ClearStatusMessage();
 
 	// and show the next trick -- this is a bit tricky
@@ -571,10 +571,10 @@ void CGameReviewDialog::OnNext()
 	// play round = # of rounds played so far
 	if (m_nPlayRound > 0)
 	{
-		if (pDOC->GetNumCardsPlayedInRound() == 4)
+		if (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 4)
 		{
 			pVIEW->ClearTable();
-			pDOC->ClearTrick();
+			pDOC->GetDeal()->ClearTrick();
 		}
 		else
 		{
@@ -619,7 +619,7 @@ void CGameReviewDialog::OnNext()
 		// see if we should expose dummy here
 		if ((m_nPlayRound == 0) && (i == 1))
 		{
-			pDOC->ExposeDummy();
+			pDOC->GetDeal()->ExposeDummy();
 //			pDOC->RefreshDisplay();
 		}
 
@@ -641,10 +641,10 @@ void CGameReviewDialog::OnNext()
 	}
 
 	// evaluate the trick results
-	if (pDOC->GetNumCardsPlayedInRound() == 4)
-		pDOC->EvaluateTrick();
+	if (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 4)
+		pDOC->GetDeal()->EvaluateTrick();
 	//
-	pDOC->UpdatePlayHistory();
+	pDOC->GetDeal()->UpdatePlayHistory();
 
 	// and update the index
 	SetPlayRound(++m_nPlayRound);
@@ -665,16 +665,16 @@ void CGameReviewDialog::OnLast()
 //	pMAINFRAME->SetStatusMessage(_T("Advancing to the end of the play record..."));
 
 	// get the game record
-	CGameRecord* pGameRecord = pDOC->GetGameRecord(m_nGameIndex);
+	CGameRecord* pGameRecord = pDOC->GetDeal()->GetGameRecord(m_nGameIndex);
 	pMAINFRAME->ClearStatusMessage();
 
 	// first clear previous trick if appropriate
 	if (m_nPlayRound > 0)
 	{
-		if (pDOC->GetNumCardsPlayedInRound() == 4)
+		if (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 4)
 		{
 			pVIEW->ClearTable();
-			pDOC->ClearTrick();
+			pDOC->GetDeal()->ClearTrick();
 		}
 		else
 		{
@@ -709,12 +709,12 @@ void CGameReviewDialog::OnLast()
 			// see if we should expose dummy here
 			if ((m_nPlayRound == 0) && (i == 1))
 			{
-				PLAYER(pDOC->GetDummyPosition()).SetDummyFlag(TRUE);
-				pDOC->ExposeDummy();
+				PLAYER(pDOC->GetDeal()->GetDummyPosition()).SetDummyFlag(TRUE);
+				pDOC->GetDeal()->ExposeDummy();
 			}
 
 			// play the card
-			pDOC->EnterCardPlay((Position)nPos, pCard);
+			pDOC->GetDeal()->EnterCardPlay((Position)nPos, pCard);
 
 			// if this is the last round, show the card
 			if (m_nPlayRound == m_numTricksAvailable-1)
@@ -728,12 +728,12 @@ void CGameReviewDialog::OnLast()
 		}
 
 		// evaluate the trick results
-		if (pDOC->GetNumCardsPlayedInRound() == 4)
+		if (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 4)
 		{
-			pDOC->EvaluateTrick(TRUE);
+			pDOC->GetDeal()->EvaluateTrick(TRUE);
 			// but don't clear the final trick; leave it to show
 			if (m_nPlayIndex < m_numPlaysAvailable)
-				pDOC->ClearTrick();
+				pDOC->GetDeal()->ClearTrick();
 		}
 		//
 		m_nPlayRound++;
@@ -742,9 +742,9 @@ void CGameReviewDialog::OnLast()
 	}
 
 	// update status
-	pDOC->ResetDisplay();
+	pDOC->GetDeal()->ResetDisplay();
 	pVIEW->DisplayTricks();
-	pDOC->UpdatePlayHistory();
+	pDOC->GetDeal()->UpdatePlayHistory();
 	pMAINFRAME->SetStatusMessage("End of play record.");
 	SetPlayRound(m_nPlayRound);
 }
@@ -757,7 +757,7 @@ void CGameReviewDialog::OnFirst()
 {
 	// undo the last trick
 	CEasyBDoc* pDoc = pDOC;
-	int numCardsPlayed = pDoc->GetNumCardsPlayedInRound();
+	int numCardsPlayed = pDoc->GetDeal()->GetNumCardsPlayedInRound();
 
 	// return if there's nothing to undo
 	if ((m_nPlayRound == 0) && (numCardsPlayed == 0))
@@ -765,7 +765,7 @@ void CGameReviewDialog::OnFirst()
 
 	// suppress flashing
 	CWaitCursor wait;
-	pDoc->SuppressPlayHistoryUpdate(TRUE);
+	pDoc->GetDeal()->SuppressPlayHistoryUpdate(TRUE);
 	pMAINFRAME->SetStatusMessage(_T("Backing up to the beginning of play..."));
 
 	// decrement the play round one extra if at the end of play record
@@ -775,7 +775,7 @@ void CGameReviewDialog::OnFirst()
 	// undo cards from the current trick
 	if (numCardsPlayed > 0)
 	{
-		pDoc->UndoTrick();
+		pDoc->GetDeal()->UndoTrick();
 		m_nPlayRound--;
 		m_nPlayIndex -= numCardsPlayed;
 	}
@@ -783,7 +783,7 @@ void CGameReviewDialog::OnFirst()
 	// and all previous tricks
 	while(m_nPlayRound > 0)
 	{
-		pDoc->UndoPreviousTrick();
+		pDoc->GetDeal()->UndoPreviousTrick();
 		m_nPlayRound--;
 		m_nPlayIndex -= 4;
 	}
@@ -792,13 +792,13 @@ void CGameReviewDialog::OnFirst()
 	SetPlayRound(0);
 
 	// hide dummy
-	pDOC->ExposeDummy(FALSE);
+	pDOC->GetDeal()->ExposeDummy(FALSE);
 
 	// and reset display
-	pDoc->ResetDisplay();
+	pDoc->GetDeal()->ResetDisplay();
 	pMAINFRAME->ClearStatusMessage();
-	pDoc->SuppressPlayHistoryUpdate(FALSE);
-	pDOC->UpdatePlayHistory();
+	pDoc->GetDeal()->SuppressPlayHistoryUpdate(FALSE);
+	pDOC->GetDeal()->UpdatePlayHistory();
 
 	// done
 	return;
@@ -894,10 +894,10 @@ void CGameReviewDialog::OnPlay()
 	// clear previous trick
 	if (m_nPlayRound > 0)
 	{
-		if (pDOC->GetNumCardsPlayedInRound() == 4)
+		if (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 4)
 		{
 			pVIEW->ClearTable();
-			pDOC->ClearTrick();
+			pDOC->GetDeal()->ClearTrick();
 		}
 /*
 		else
@@ -908,7 +908,7 @@ void CGameReviewDialog::OnPlay()
 */
 	}
 	//
-	pDOC->PlayGameRecord(m_nGameIndex);	
+	pDOC->GetDeal()->PlayGameRecord(m_nGameIndex);
 }
 
 

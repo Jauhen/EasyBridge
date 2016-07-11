@@ -15,7 +15,7 @@
 
 #include "model/deal.h"
 
-class CEasyBDoc : public Deal, public CDocument {
+class CEasyBDoc : public CDocument {
   // public routines
 public:
   //
@@ -23,6 +23,7 @@ public:
   // public access points
   void SaveFile() { OnFileSave(); }
   void SaveFileAs() { OnFileSaveAs(); }
+  Deal* GetDeal() { return deal_; }
 
   //
 public:

@@ -294,7 +294,7 @@ void Deal::UpdateScore() {
       app_->ContractToFullString(m_nContract, m_nContractModifier),
       (bDoubled ? " doubled" : bRedoubled ? " redoubled" : ""));
     // and save
-    m_strArrayTrickPointsRecord.Add(strTrickPoints);
+    m_strArrayTrickPointsRecord.push_back(strTrickPoints);
 
     // record doubled contract bonus, if appropriate
     if (bDoubled) {
@@ -306,7 +306,7 @@ void Deal::UpdateScore() {
         numBonusPoints,
         ((m_nContractTeam == NORTH_SOUTH) ? "\t" : ""));
       // and save
-      m_strArrayBonusPointsRecord.Add(strBonusPoints);
+      m_strArrayBonusPointsRecord.push_back(strBonusPoints);
     } else if (bRedoubled) {
       // record re-doubled contract bonus of 100 points
       numBonusPoints = 100;
@@ -316,7 +316,7 @@ void Deal::UpdateScore() {
         numBonusPoints,
         ((m_nContractTeam == NORTH_SOUTH) ? "\t" : ""));
       // and save
-      m_strArrayBonusPointsRecord.Add(strBonusPoints);
+      m_strArrayBonusPointsRecord.push_back(strBonusPoints);
     }
 
     // record overtricks bonus, if any
@@ -343,7 +343,7 @@ void Deal::UpdateScore() {
         (bVulnerable ? ", vulnerable" : ""),
         (bDoubled ? ", doubled" : bRedoubled ? ", redoubled" : ""));
       // and save
-      m_strArrayBonusPointsRecord.Add(strBonusPoints);
+      m_strArrayBonusPointsRecord.push_back(strBonusPoints);
     }
 
     // check for a slam bonus
@@ -367,7 +367,7 @@ void Deal::UpdateScore() {
         ((nContractLevel == 6) ? "Small" : "Grand"),
         (bVulnerable ? ", vulnerable" : ""));
       // and save
-      m_strArrayBonusPointsRecord.Add(strBonusPoints);
+      m_strArrayBonusPointsRecord.push_back(strBonusPoints);
     }
 
   } else {
@@ -417,7 +417,7 @@ void Deal::UpdateScore() {
       numUndertricks,
       ((numUndertricks > 1) ? "s" : ""));
     // and save
-    m_strArrayBonusPointsRecord.Add(strBonusPoints);
+    m_strArrayBonusPointsRecord.push_back(strBonusPoints);
   }
 
   // check for honors bonuses
@@ -437,7 +437,7 @@ void Deal::UpdateScore() {
           strBonusPoints.Format("%s150%s\tHonors bonus for holding 5 trump honors",
             ((nTeam == NORTH_SOUTH) ? "" : "\t"),
             ((nTeam == NORTH_SOUTH) ? "\t" : ""));
-          m_strArrayBonusPointsRecord.Add(strBonusPoints);
+          m_strArrayBonusPointsRecord.push_back(strBonusPoints);
           break;
         } else if (numHonors == 4) {
           int nTeam = app_->GetPlayerTeam(i);
@@ -445,7 +445,7 @@ void Deal::UpdateScore() {
           strBonusPoints.Format("%s100%s\tHonors bonus for holding 4 trump honors",
             ((nTeam == NORTH_SOUTH) ? "" : "\t"),
             ((nTeam == NORTH_SOUTH) ? "\t" : ""));
-          m_strArrayBonusPointsRecord.Add(strBonusPoints);
+          m_strArrayBonusPointsRecord.push_back(strBonusPoints);
           break;
         }
       }
@@ -464,7 +464,7 @@ void Deal::UpdateScore() {
           strBonusPoints.Format("%s150%s\tHonors bonus for holding all 4 Aces in NT contract",
             ((nTeam == NORTH_SOUTH) ? "" : "\t"),
             ((nTeam == NORTH_SOUTH) ? "\t" : ""));
-          m_strArrayBonusPointsRecord.Add(strBonusPoints);
+          m_strArrayBonusPointsRecord.push_back(strBonusPoints);
           break;
         }
       }
@@ -475,7 +475,7 @@ void Deal::UpdateScore() {
   if (m_nGameScore[m_nCurrGame][m_nContractTeam] >= 100) {
     // if so, update and draw a line underneath
     m_numGamesWon[m_nContractTeam]++;
-    m_strArrayTrickPointsRecord.Add("----------------------------------------------------------------------------------------------------------------");
+    m_strArrayTrickPointsRecord.push_back("----------------------------------------------------------------------------------------------------------------");
 
     // update other game variables here
     m_nCurrGame++;
@@ -501,7 +501,7 @@ void Deal::UpdateScore() {
         ((m_nContractTeam == NORTH_SOUTH) ? "\t" : ""));
 
       // update game record
-      m_strArrayBonusPointsRecord.Add(strBonusPoints);
+      m_strArrayBonusPointsRecord.push_back(strBonusPoints);
 
       // and update total score
       m_nTotalScore[NORTH_SOUTH] = m_nGameScore[0][NORTH_SOUTH] +
@@ -693,7 +693,7 @@ void Deal::UpdateDuplicateScore() {
         ((m_nContractLevel == 6) ? "Small" : "Grand"),
         (bVulnerable ? ", vulnerable" : ""));
       //			// and save
-      m_strArrayBonusPointsRecord.Add(strBonusPoints);
+      m_strArrayBonusPointsRecord.push_back(strBonusPoints);
     }
 
   } else {
@@ -1135,8 +1135,8 @@ void Deal::ClearMatchInfo() {
   m_nVulnerableTeam = NEITHER;
   m_nCurrGame = 0;
   //
-  m_strArrayBonusPointsRecord.RemoveAll();
-  m_strArrayTrickPointsRecord.RemoveAll();
+  m_strArrayBonusPointsRecord.clear();
+  m_strArrayTrickPointsRecord.clear();
   m_strTotalPointsRecord.Empty();
   //
   m_bHandsDealt = FALSE;
@@ -1432,6 +1432,9 @@ void Deal::InitPlay(BOOL bRedrawScreen, BOOL bRestarting) {
 }
 
 
+void Deal::LoadFirstGameRecord() {
+  LoadGameRecord(*(m_gameRecords[0]));
+}
 
 
 //
@@ -3722,4 +3725,18 @@ bool Deal::PlayClaimContract() {
   // process the claim -- credit the player for all claimable tricks
   ClaimTricks(nPos, numClaimableTricks);
   return false;
+}
+
+
+void Deal::SwapPositionsAlreadyInPlay(int pos1, int pos2) {
+  // play has started
+  SwapPartialHands(pos1, pos2);
+  ResetDisplay();
+  GetPlayer(pos1)->InitializeSwappedHand();
+  GetPlayer(pos2)->InitializeSwappedHand();
+}
+
+
+bool Deal::IsGameNotFinished() {
+  return app_->IsGameInProgress() && GetNumTricksPlayed() < 13;
 }

@@ -40,15 +40,15 @@ CFileSaveOptionsDlg::CFileSaveOptionsDlg(CWnd* pParent /*=NULL*/)
 	m_bSaveIntermediatePositions = FALSE;
 	//}}AFX_DATA_INIT
 	CEasyBDoc* pDoc = CEasyBDoc::GetDoc();
-	m_bShowComments = pDoc->IsShowCommentsUponOpen();
-	m_bShowBiddingHistory = pDoc->IsShowBidHistoryUponOpen();
-	m_bShowPlayHistory = pDoc->IsShowPlayHistoryUponOpen();
-	m_bShowAnalyses = pDoc->IsShowAnalysesUponOpen();
-	m_bSaveSouthAnalysis = pDoc->IsSavePlayerAnalysis(SOUTH);
-	m_bSaveWestAnalysis = pDoc->IsSavePlayerAnalysis(WEST);
-	m_bSaveNorthAnalysis = pDoc->IsSavePlayerAnalysis(NORTH);
-	m_bSaveEastAnalysis = pDoc->IsSavePlayerAnalysis(EAST);
-	m_bSaveIntermediatePositions = pDoc->IsSaveIntermediatePositions();
+	m_bShowComments = pDoc->GetDeal()->IsShowCommentsUponOpen();
+	m_bShowBiddingHistory = pDoc->GetDeal()->IsShowBidHistoryUponOpen();
+	m_bShowPlayHistory = pDoc->GetDeal()->IsShowPlayHistoryUponOpen();
+	m_bShowAnalyses = pDoc->GetDeal()->IsShowAnalysesUponOpen();
+	m_bSaveSouthAnalysis = pDoc->GetDeal()->IsSavePlayerAnalysis(SOUTH);
+	m_bSaveWestAnalysis = pDoc->GetDeal()->IsSavePlayerAnalysis(WEST);
+	m_bSaveNorthAnalysis = pDoc->GetDeal()->IsSavePlayerAnalysis(NORTH);
+	m_bSaveEastAnalysis = pDoc->GetDeal()->IsSavePlayerAnalysis(EAST);
+	m_bSaveIntermediatePositions = pDoc->GetDeal()->IsSaveIntermediatePositions();
 }
 
 
@@ -85,15 +85,15 @@ void CFileSaveOptionsDlg::OnOk()
 {
 	UpdateData(TRUE);
 	CEasyBDoc* pDoc = CEasyBDoc::GetDoc();
-	pDoc->ShowCommentsUponOpen(m_bShowComments);
-	pDoc->ShowBidHistoryUponOpen(m_bShowBiddingHistory);
-	pDoc->ShowPlayHistoryUponOpen(m_bShowPlayHistory);
-	pDoc->ShowAnalysesUponOpen(m_bShowAnalyses);
-	pDoc->SavePlayerAnalysis(SOUTH, m_bSaveSouthAnalysis);
-	pDoc->SavePlayerAnalysis(WEST, m_bSaveWestAnalysis);
-	pDoc->SavePlayerAnalysis(NORTH, m_bSaveNorthAnalysis);
-	pDoc->SavePlayerAnalysis(EAST, m_bSaveEastAnalysis);
-	pDoc->SaveIntermediatePositions(m_bSaveIntermediatePositions);
+	pDoc->GetDeal()->ShowCommentsUponOpen(m_bShowComments);
+	pDoc->GetDeal()->ShowBidHistoryUponOpen(m_bShowBiddingHistory);
+	pDoc->GetDeal()->ShowPlayHistoryUponOpen(m_bShowPlayHistory);
+	pDoc->GetDeal()->ShowAnalysesUponOpen(m_bShowAnalyses);
+	pDoc->GetDeal()->SavePlayerAnalysis(SOUTH, m_bSaveSouthAnalysis);
+	pDoc->GetDeal()->SavePlayerAnalysis(WEST, m_bSaveWestAnalysis);
+	pDoc->GetDeal()->SavePlayerAnalysis(NORTH, m_bSaveNorthAnalysis);
+	pDoc->GetDeal()->SavePlayerAnalysis(EAST, m_bSaveEastAnalysis);
+	pDoc->GetDeal()->SaveIntermediatePositions(m_bSaveIntermediatePositions);
 	EndDialog(TRUE);	
 }
 

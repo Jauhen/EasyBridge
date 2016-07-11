@@ -280,7 +280,7 @@ BOOL CBidDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 			nBid = nID - IDC_BID_PASS;
 
 		// see if we're in training mode
-		CPlayer* pPlayer = pDOC->GetCurrentPlayer();
+		CPlayer* pPlayer = pDOC->GetDeal()->GetCurrentPlayer();
 		int nPos = pPlayer->GetPosition();
 /*
 		if (m_nCurrMode == BD_MODE_TRAIN)
@@ -304,7 +304,7 @@ BOOL CBidDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 		// record the bid
 		if (nPos == SOUTH)
 			pPlayer->EnterHumanBid(nBid);
-		int nCode = pDOC->EnterBid(nPos, nBid);
+		int nCode = pDOC->GetDeal()->EnterBid(nPos, nBid);
 		UpdateBidDisplay(nPos, nBid);	
 
 		// check the result of the bid
@@ -312,7 +312,7 @@ BOOL CBidDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 		if (nCode == 0)
 		{
 			// bid entered OK, move on to the next player
-			int nPos = pDOC->GetCurrentPlayerPosition();
+			int nPos = pDOC->GetDeal()->GetCurrentPlayerPosition();
 			GetComputerBids(nPos);
 		}
 		return TRUE;
@@ -381,9 +381,9 @@ void CBidDialog::RegisterBid(int nBid, BOOL bShowButtonPress)
 void CBidDialog::OnBidBackUp()
 {
 	//
-	int nPos = pDOC->GetCurrentPlayerPosition();
+	int nPos = pDOC->GetDeal()->GetCurrentPlayerPosition();
 	UpdateBidDisplay(nPos, -1);	
-	pDOC->UndoBid();
+	pDOC->GetDeal()->UndoBid();
 	GetComputerBids(nPos);
 }
 
@@ -392,14 +392,14 @@ void CBidDialog::OnBidBackUp()
 //
 int CBidDialog::EnterPlayerBid(int nBid)
 {
-	if (!pDOC->IsBidValid(nBid))
+	if (!pDOC->GetDeal()->IsBidValid(nBid))
 		return 0;
 
 	// update records ( this calls ValidateBid() )
-	int nPlayer = pDOC->GetCurrentPlayerPosition();	// not necessarily South
+	int nPlayer = pDOC->GetDeal()->GetCurrentPlayerPosition();	// not necessarily South
 	UpdateBidDisplay(nPlayer, nBid);	
-	PLAYER(nPlayer).EnterHumanBid(nBid);
-	int nCode = pDOC->EnterBid(nPlayer, nBid);
+	pDOC->GetDeal()->GetPlayer(nPlayer)->EnterHumanBid(nBid);
+	int nCode = pDOC->GetDeal()->EnterBid(nPlayer, nBid);
 	if (nPlayer == SOUTH)
 		m_nComputerBid = NONE;
 
@@ -435,7 +435,7 @@ int CBidDialog::GetComputerBids(int nStart)
 	if (m_bTrainingMode)
 	{
 		// get the current computer's bid
-		nBid = PLAYER(nStart).Bid();
+		nBid = pDOC->GetDeal()->GetPlayer(nStart)->Bid();
 		m_nComputerBid = nBid;
 		UpdateBidDisplay(nStart, nBid, FALSE, TRUE);	
 		DisableControls();
@@ -469,9 +469,9 @@ int CBidDialog::GetComputerBids(int nStart)
 			}
 
 			//
-			nBid = PLAYER(i).Bid();
+			nBid = pDOC->GetDeal()->GetPlayer(i)->Bid();
 			UpdateBidDisplay(i,nBid);	
-			int nCode = pDOC->EnterBid(i,nBid);
+			int nCode = pDOC->GetDeal()->EnterBid(i,nBid);
 
 			// then proceed
 			if (nCode == -99)
@@ -502,7 +502,7 @@ int CBidDialog::GetComputerBids(int nStart)
 		UpdateBidDisplay(SOUTH,0,TRUE);	
 		DisableControls();
 		m_nCurrMode = BD_MODE_WAITFORBID;
-		pDOC->ShowAutoHint();
+		pDOC->GetDeal()->ShowAutoHint();
 		return 0;
 	}
 }
@@ -512,7 +512,7 @@ int CBidDialog::GetComputerBids(int nStart)
 void CBidDialog::EnableManualBidding(BOOL bEnable) 
 {
 	m_bManualBidding = bEnable;
-	int nPos = pDOC->GetCurrentPlayerPosition();
+	int nPos = pDOC->GetDeal()->GetCurrentPlayerPosition();
 	GetComputerBids(nPos);
 }
 
@@ -534,8 +534,8 @@ void CBidDialog::OnAutotrain()
 	SetWindowText(_T("Auto Training in progress"));
 
 	// suppress updates
-	pDOC->SuppressBidHistoryUpdate(TRUE);
-	pDOC->SuppressPlayHistoryUpdate(TRUE);
+	pDOC->GetDeal()->SuppressBidHistoryUpdate(TRUE);
+	pDOC->GetDeal()->SuppressPlayHistoryUpdate(TRUE);
 	pVIEW->SuppressRefresh();
 	pVIEW->ClearDisplay();
 	BOOL bOutputVisible = pMAINFRAME->IsDialogVisible(twNNetOutputDialog);
@@ -549,14 +549,14 @@ void CBidDialog::OnAutotrain()
 		do
 		{
 			// deal a new hand
-			pDOC->DealHands();
+			pDOC->GetDeal()->DealHands();
 			numHands++;
 
 			// and get bids
 			do 
 			{
 				// get the computer's bid
-				CBidEngine* pBidEngine = pDOC->GetCurrentPlayer()->GetBidEngine();
+				CBidEngine* pBidEngine = pDOC->GetDeal()->GetCurrentPlayer()->GetBidEngine();
 				theApp.SetValue(tnBiddingEngine, 1);
 				int nNetBid = pBidEngine->Bid();
 				theApp.SetValue(tnBiddingEngine, 0);
@@ -577,7 +577,7 @@ void CBidDialog::OnAutotrain()
 				}
 
 				// record the bid and process
-				int nCode = pDOC->EnterBid(pDOC->GetCurrentPlayerPosition(), nRuleBid);
+				int nCode = pDOC->GetDeal()->EnterBid(pDOC->GetDeal()->GetCurrentPlayerPosition(), nRuleBid);
 				if ((nCode == -99) || (nCode == 1))
 				{
 					// passed out, or 3 passes, and bidding is complete
@@ -611,8 +611,8 @@ void CBidDialog::OnAutotrain()
 
 	// done -- reset
 	statusDlg.ShowWindow(SW_SHOW);
-	pDOC->SuppressBidHistoryUpdate(FALSE);
-	pDOC->SuppressPlayHistoryUpdate(FALSE);
+	pDOC->GetDeal()->SuppressBidHistoryUpdate(FALSE);
+	pDOC->GetDeal()->SuppressPlayHistoryUpdate(FALSE);
 	pVIEW->EnableRefresh();
 	pVIEW->Refresh(TRUE);
 //	if (bOutputVisible)
@@ -654,7 +654,7 @@ void CBidDialog::InitBiddingSequence()
 
 	// start the bidding process
 	CEasyBDoc* pDoc = CEasyBDoc::GetDoc();
-	if (!pDoc || !pDoc->IsInitialized())
+	if (!pDoc || !pDoc->GetDeal()->IsInitialized())
 		return;
 	m_nComputerBid = NONE;
 	EnableControls();
@@ -671,7 +671,7 @@ void CBidDialog::InitBiddingSequence()
 	// but return if just initializing
 	if (!theApp.IsBiddingInProgress())
 		return;
-	int nDealer = pDOC->GetDealer();
+	int nDealer = pDOC->GetDeal()->GetDealer();
 	if ((nDealer != SOUTH) || m_bTrainingMode)
 	{
 		GetComputerBids(nDealer);
@@ -680,11 +680,11 @@ void CBidDialog::InitBiddingSequence()
 	{
 		UpdateBidDisplay(SOUTH,0,TRUE);	
 		m_nCurrMode = BD_MODE_WAITFORBID;
-		pDOC->ShowAutoHint();
+		pDOC->GetDeal()->ShowAutoHint();
 	}
 
 	// show dealer
-	int nPos = pDOC->GetDealer();
+	int nPos = pDOC->GetDeal()->GetDealer();
 	CString strTitle = FormString("Bid  (Dealer = %s)", PositionToString(nPos));
 //	if (m_bTrainingMode)
 //		strTitle += _T(" (Training Mode)");
@@ -777,9 +777,9 @@ BOOL CBidDialog::BiddingDone()
 	m_nCurrMode = BD_MODE_DONE;
 	CString strTemp;
 	strTemp.Format("Contract is %s.\nDeclarer is %s;\n%s leads.",
-			pDOC->GetFullContractString(),
-			PositionToString(pDOC->GetDeclarerPosition()),
-			PositionToString(pDOC->GetRoundLead()));
+			pDOC->GetDeal()->GetFullContractString(),
+			PositionToString(pDOC->GetDeal()->GetDeclarerPosition()),
+			PositionToString(pDOC->GetDeal()->GetRoundLead()));
 //	AfxMessageBox(strTemp, MB_ICONINFORMATION);
 //	CBiddingFinishedDialog bidFinishedDialog;
 	
@@ -824,7 +824,7 @@ void CBidDialog::OnCancel()
 	}
 */
 	// clear out bidding info
-	pDOC->ClearBiddingInfo();
+	pDOC->GetDeal()->ClearBiddingInfo();
 	theApp.SetValue(tbBiddingInProgress, FALSE);
 	pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
 //	EndDialog(FALSE);
@@ -835,7 +835,7 @@ void CBidDialog::OnCancel()
 void CBidDialog::CancelImmediate() 
 {
 	// cancels immediately and uses SendMessage() insetad of Post()
-	pDOC->ClearBiddingInfo();
+	pDOC->GetDeal()->ClearBiddingInfo();
 	theApp.SetValue(tbBiddingInProgress, FALSE);
 	pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
 //	EndDialog(FALSE);
@@ -844,14 +844,14 @@ void CBidDialog::CancelImmediate()
 //
 void CBidDialog::OnBidHint() 
 {
-	pDOC->GetGameHint();
+	pDOC->GetDeal()->GetGameHint();
 }
 
 
 //
 void CBidDialog::OnBidRestart() 
 {
-	pDOC->RestartBidding();
+	pDOC->GetDeal()->RestartBidding();
 	InitBiddingSequence();	
 }
 
@@ -866,7 +866,7 @@ void CBidDialog::OnBidRedeal()
 //
 void CBidDialog::DisableControls()
 {
-	if (pDOC->GetLastValidBid() == BID_PASS)
+	if (pDOC->GetDeal()->GetLastValidBid() == BID_PASS)
 		return;
 
 	// set defaults for double/redouble buttons
@@ -874,16 +874,16 @@ void CBidDialog::DisableControls()
 	BOOL bEnableReDouble = FALSE;
 
 	// can't double own team's bid
-	int nBidTeam = pDOC->GetLastValidBidTeam();
+	int nBidTeam = pDOC->GetDeal()->GetLastValidBidTeam();
 	if (nBidTeam == NORTH_SOUTH && !m_bTrainingMode)
 		bEnableDouble = FALSE;
 
 	// or if already doubled
-	if (pDOC->IsContractDoubled())
+	if (pDOC->GetDeal()->IsContractDoubled())
 		bEnableDouble = FALSE;
 
 	// can redouble only if already doubled && is team contract (or is training)
-	if (pDOC->IsContractDoubled() && ((nBidTeam == NORTH_SOUTH) || m_bTrainingMode))
+	if (pDOC->GetDeal()->IsContractDoubled() && ((nBidTeam == NORTH_SOUTH) || m_bTrainingMode))
 		bEnableReDouble = TRUE;
 
 	// and set

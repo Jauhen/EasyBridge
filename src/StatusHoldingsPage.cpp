@@ -179,10 +179,10 @@ void CStatusHoldingsPage::Update()
 	m_listSuitStatus.DeleteAllItems();
 
 	// get the declarer & his play engine
-	int nDeclarer = pDOC->GetDeclarerPosition();
+	int nDeclarer = pDOC->GetDeal()->GetDeclarerPosition();
 	if (!ISPLAYER(nDeclarer))
 		return;
-	CPlayer* pPlayer = pDOC->GetDeclarer();
+	CPlayer* pPlayer = pDOC->GetDeal()->GetDeclarer();
 	CDeclarerPlayEngine* pPlayEngine = pPlayer->GetDeclarerEngine();
 	CCombinedHoldings& combinedHand = pPlayEngine->GetCombinedHand();
 	CPlayList& playPlan = pPlayEngine->GetPlayPlan();
@@ -203,7 +203,7 @@ void CStatusHoldingsPage::Update()
 
 		// then insert # of declarer entries
 		int numDeclarerEntries = pPlayEngine->GetNumDeclarerEntriesInSuit(nSuit);
-		if (nSuit == pDOC->GetTrumpSuit())
+		if (nSuit == pDOC->GetDeal()->GetTrumpSuit())
 		{
 			int numDeclarerRuffingEntries = pPlayEngine->GetNumDeclarerRuffingEntries();
 			m_listSuitStatus.SetItem(i, 3, LVIF_TEXT, FormString("%d + %d", numDeclarerEntries-numDeclarerRuffingEntries, numDeclarerRuffingEntries), 0, 0, 0, 0L);
@@ -215,7 +215,7 @@ void CStatusHoldingsPage::Update()
 
 		// then insert # of dummy entries
 		int numDummyEntries = pPlayEngine->GetNumDummyEntriesInSuit(nSuit);
-		if (nSuit == pDOC->GetTrumpSuit())
+		if (nSuit == pDOC->GetDeal()->GetTrumpSuit())
 		{
 			int numDummyRuffingEntries = pPlayEngine->GetNumDummyRuffingEntries();
 			m_listSuitStatus.SetItem(i, 4, LVIF_TEXT, FormString("%d + %d", numDummyEntries-numDummyRuffingEntries, numDummyRuffingEntries), 0, 0, 0, 0L);

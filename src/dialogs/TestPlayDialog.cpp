@@ -172,12 +172,12 @@ void CTestPlayDialog::Update()
 	m_listResults.DeleteAllItems();
 
 	// get the latest results from the document
-	int nTrumpSuit = pDOC->GetTrumpSuit();
-	int nContractLevel = pDOC->GetContractLevel();
-	int nDeclaringTeam = pDOC->GetDeclaringTeam();
-	int numTricksMade = pDOC->GetNumTricksWonByTeam(nDeclaringTeam);
-	BOOL bDoubled = pDOC->IsContractDoubled();
-	BOOL bReDoubled = pDOC->IsContractRedoubled();
+	int nTrumpSuit = pDOC->GetDeal()->GetTrumpSuit();
+	int nContractLevel = pDOC->GetDeal()->GetContractLevel();
+	int nDeclaringTeam = pDOC->GetDeal()->GetDeclaringTeam();
+	int numTricksMade = pDOC->GetDeal()->GetNumTricksWonByTeam(nDeclaringTeam);
+	BOOL bDoubled = pDOC->GetDeal()->IsContractDoubled();
+	BOOL bReDoubled = pDOC->GetDeal()->IsContractRedoubled();
 
 	// update counts
 	m_numContracts[nContractLevel-1][nTrumpSuit]++;
@@ -262,12 +262,12 @@ void CTestPlayDialog::OnStart()
 	//
 	// suppress updates
 	//
-	pDOC->SuppressBidHistoryUpdate(TRUE);
-	pDOC->SuppressPlayHistoryUpdate(TRUE);
+	pDOC->GetDeal()->SuppressBidHistoryUpdate(TRUE);
+	pDOC->GetDeal()->SuppressPlayHistoryUpdate(TRUE);
 	pMAINFRAME->HideDialog(twBidDialog);
 	pVIEW->ClearDisplay();
 	pVIEW->SuppressRefresh();
-	pDOC->ClearAllInfo();
+	pDOC->GetDeal()->ClearAllInfo();
 
 	// save settings
 	BOOL bOldClaimSetting = theApp.GetValue(tbComputerCanClaim);
@@ -296,7 +296,7 @@ void CTestPlayDialog::OnStart()
 		// deal a new hand
 		m_strStatus = "Dealing...";
 		UpdateData(FALSE);
-		pDOC->DealHands();
+		pDOC->GetDeal()->DealHands();
 		numHands++;
 
 		// and get bids
@@ -305,9 +305,9 @@ void CTestPlayDialog::OnStart()
 		do 
 		{
 			// get the computer's bids
-			int nPos = pDOC->GetCurrentPlayerPosition();
-			int nBid = pDOC->GetCurrentPlayer()->Bid();
-			nCode = pDOC->EnterBid(nPos, nBid);
+			int nPos = pDOC->GetDeal()->GetCurrentPlayerPosition();
+			int nBid = pDOC->GetDeal()->GetCurrentPlayer()->Bid();
+			nCode = pDOC->GetDeal()->EnterBid(nPos, nBid);
 			if ((nCode == -99) || (nCode == 1))
 			{
 				// passed out, or 3 passes, and bidding is complete
@@ -330,8 +330,8 @@ void CTestPlayDialog::OnStart()
 
 		// now play out the hand -- play on full auto
 		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
-		pDOC->SetExpressPlayMode(TRUE);
-		pDOC->InvokeNextPlayer();
+		pDOC->GetDeal()->SetExpressPlayMode(TRUE);
+		pDOC->GetDeal()->InvokeNextPlayer();
 
 		// pump the mesage loop while the hand is being played out
 		m_strStatus = "Playing hand...";
@@ -347,7 +347,7 @@ void CTestPlayDialog::OnStart()
 		} 
 
 		// reset flags
-		pDOC->SetExpressPlayMode(FALSE);
+		pDOC->GetDeal()->SetExpressPlayMode(FALSE);
 
 		// end timer 
 		lNumHands++;
@@ -379,11 +379,11 @@ void CTestPlayDialog::OnStart()
 	//
 	// done -- reset
 	//
-	pDOC->SuppressBidHistoryUpdate(FALSE);
-	pDOC->SuppressPlayHistoryUpdate(FALSE);
+	pDOC->GetDeal()->SuppressBidHistoryUpdate(FALSE);
+	pDOC->GetDeal()->SuppressPlayHistoryUpdate(FALSE);
 	pVIEW->EnableRefresh();
 	pVIEW->Refresh(TRUE);
-	pDOC->ClearAllInfo();
+	pDOC->GetDeal()->ClearAllInfo();
 
 	// restore settings
 	theApp.SetValue(tbComputerCanClaim, bOldClaimSetting);

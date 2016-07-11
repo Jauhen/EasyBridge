@@ -63,7 +63,7 @@ END_MESSAGE_MAP()
 void CFileCommentsDialog::OnAutoShow() 
 {
 	UpdateData(TRUE);
-	pDOC->ShowCommentsUponOpen(m_bAutoShow);
+	pDOC->GetDeal()->ShowCommentsUponOpen(m_bAutoShow);
 }
 
 BOOL CFileCommentsDialog::OnInitDialog() 
@@ -163,7 +163,7 @@ void CFileCommentsDialog::UpdateText(BOOL bUpdateVariable)
 		// update main document string
 		CString strText;
 		pEdit->GetWindowText(strText);
-		pDOC->SetFileComments(strText);
+		pDOC->GetDeal()->SetFileComments(strText);
 		return;
 	} 
 	// else update window text display

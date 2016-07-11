@@ -28,13 +28,13 @@
 void CEasyBView::PromptLead() 
 {
 	//
-	if ((!pDOC->GetCurrentPlayer()->IsHumanPlayer()) &&
+	if ((!pDOC->GetDeal()->GetCurrentPlayer()->IsHumanPlayer()) &&
 		(!theApp.GetValue(tbManualPlayMode)))
 		return;
 	//
 	CString strMessage;
 	strMessage.Format("%s leads -- select a card to play.",
-				PositionToString(pDOC->GetCurrentPlayerPosition()));
+				PositionToString(pDOC->GetDeal()->GetCurrentPlayerPosition()));
 	pMAINFRAME->SetStatusText(strMessage);
 }
 
@@ -221,7 +221,7 @@ void CEasyBView::DrawPlayingField(CDC* pDC)
 {
 	CEasyBDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	if (!pDoc->IsInitialized())
+	if (!pDoc->GetDeal()->IsInitialized())
 		return;
 
 	// first draw labels
@@ -269,7 +269,7 @@ void CEasyBView::DrawPlayingField(CDC* pDC)
 	}
 
 	// and any trick cards on the table
-	if (theApp.GetValue(tbGameInProgress) || pDOC->IsReviewingGame() || 
+	if (theApp.GetValue(tbGameInProgress) || pDOC->GetDeal()->IsReviewingGame() ||
 					(m_nCurrMode == MODE_CARDLAYOUT))
 		DrawTableCards(pDC, bFullDraw);
 }
@@ -287,15 +287,15 @@ void CEasyBView::DrawTableCards(CDC* pDC, BOOL bFullDraw)
 	ASSERT_VALID(pDoc);
 
 	// and any trick cards on the table
-	int numCards = pDOC->GetNumCardsPlayedInRound();
+	int numCards = pDOC->GetDeal()->GetNumCardsPlayedInRound();
 	CCard* pCard;
 	// gotta stretch the clipping region to make sure table 
 	// cards are visible
 	CDC* pNewDC = GetDC();
-	int nPos = pDOC->GetRoundLead();
+	int nPos = pDOC->GetDeal()->GetRoundLead();
 	for(int i=0;i<numCards;i++) 
 	{
-		pCard = pDOC->GetCurrentTrickCard(nPos);
+		pCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 		// it's possible the cards may be null 
 		// (e.g., after the end of play, when reviewing hands)
 		if (pCard)
@@ -434,14 +434,14 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 	int x,y;
 
 	// record the card played
-	pDOC->EnterCardPlay(nPos, pCard);
+	pDOC->GetDeal()->EnterCardPlay(nPos, pCard);
 
 	// provide feedback
 	CString strLine,strTemp;
 	strLine = "Tricks: ";
-	for(int i=0;i<pDOC->GetNumCardsPlayedInRound();i++) 
+	for(int i=0;i<pDOC->GetDeal()->GetNumCardsPlayedInRound();i++)
 	{
-		CCard* pCard = pDOC->GetCurrentTrickCard(i);
+		CCard* pCard = pDOC->GetDeal()->GetCurrentTrickCard(i);
 		if (pCard)
 			strTemp = pCard->GetName();
 		strLine += strTemp;
@@ -452,9 +452,9 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 	// skip drawing if in express play mode, OR if updates are disabled
 	if (theApp.InExpressAutoPlay() || (m_nSuppressRefresh > 0))
 	{
-		if ((pDOC->GetNumTricksPlayed() == 0) &&
-				(pDOC->GetNumCardsPlayedInRound() == 1)) 
-			pDOC->ExposeDummy(TRUE);
+		if ((pDOC->GetDeal()->GetNumTricksPlayed() == 0) &&
+				(pDOC->GetDeal()->GetNumCardsPlayedInRound() == 1))
+			pDOC->GetDeal()->ExposeDummy(TRUE);
 		return;
 	}
 
@@ -468,10 +468,10 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 	// if it's a computer player, it will be automatically 
 	// redrawn after its cards is played (avoid redrawing the
 	// dummy twice)
-	if ((pDOC->GetNumTricksPlayed() == 0) &&
-			(pDOC->GetNumCardsPlayedInRound() == 1)) 
+	if ((pDOC->GetDeal()->GetNumTricksPlayed() == 0) &&
+			(pDOC->GetDeal()->GetNumCardsPlayedInRound() == 1))
 	{
-		pDOC->ExposeDummy(TRUE);
+		pDOC->GetDeal()->ExposeDummy(TRUE);
 		int nextPos = GetNextPlayer(nPos);
 		PLAYER(nextPos).ExposeCards(TRUE);
 	}
@@ -532,7 +532,7 @@ void CEasyBView::DrawPlayedCard(Position nPos, CCard* pCard, BOOL bShowAtEnd)
 void CEasyBView::JumpCursor(int nPlayer)
 {
 	if (nPlayer == NONE)
-		nPlayer = pDOC->GetCurrentPlayerPosition();
+		nPlayer = pDOC->GetDeal()->GetCurrentPlayerPosition();
 	POINT pt;
 	pt.x = m_drawPoint[nPlayer].x + (m_nCardWidth/2);
 	pt.y = m_drawPoint[nPlayer].y + (m_nCardHeight/2);
@@ -633,7 +633,7 @@ void CEasyBView::ClearTable()
 	//
 	if (m_bAnimateCards) 
 	{
-		AnimateTrick(pDOC->GetRoundWinner());
+		AnimateTrick(pDOC->GetDeal()->GetRoundWinner());
 	} 
 	else 
 	{
@@ -641,7 +641,7 @@ void CEasyBView::ClearTable()
 		CDC *pDC = GetDC();
 		for(int i=0;i<4;i++) 
 		{
-			CCard* pCard = pDOC->GetCurrentTrickCard(i);
+			CCard* pCard = pDOC->GetDeal()->GetCurrentTrickCard(i);
 			ASSERT(pCard != NULL);
 			pCard->RestoreBackground(pDC);
 		}
@@ -1257,11 +1257,11 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	// and any trick cards on the table
 	if (theApp.IsGameInProgress())
 	{
-		int numCards = pDOC->GetNumCardsPlayedInRound();
-		int nPos = pDOC->GetRoundLead();
+		int numCards = pDOC->GetDeal()->GetNumCardsPlayedInRound();
+		int nPos = pDOC->GetDeal()->GetRoundLead();
 		for(int i=0;i<numCards;i++) 
 		{
-			CCard* pCard = pDOC->GetCurrentTrickCard(nPos);
+			CCard* pCard = pDOC->GetDeal()->GetCurrentTrickCard(nPos);
 			if (pCard)
 				pCard->MoveTo(NULL, m_cardDest[nPos].x, m_cardDest[nPos].y, FALSE);
 			nPos = GetNextPlayer(nPos);

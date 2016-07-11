@@ -242,10 +242,10 @@ BOOL CBidDialogSmall::OnCommand(WPARAM wParam, LPARAM lParam)
 		if (m_nCurrMode == BD_MODE_MANUAL_BID)
 		{
 			// record the bid
-			int nPos = pDOC->GetCurrentPlayerPosition();
+			int nPos = pDOC->GetDeal()->GetCurrentPlayerPosition();
 			if (nPos == SOUTH)
-				pDOC->GetCurrentPlayer()->EnterHumanBid(nBid);
-			int nCode = pDOC->EnterBid(nPos, nBid);
+				pDOC->GetDeal()->GetCurrentPlayer()->EnterHumanBid(nBid);
+			int nCode = pDOC->GetDeal()->EnterBid(nPos, nBid);
 			UpdateBidDisplay(nPos, nBid);	
 
 			// and check the result of the bid
@@ -253,7 +253,7 @@ BOOL CBidDialogSmall::OnCommand(WPARAM wParam, LPARAM lParam)
 			if (nCode == 0)
 			{
 				// bid entered OK, move on to the next player
-				int nPos = pDOC->GetCurrentPlayerPosition();
+				int nPos = pDOC->GetDeal()->GetCurrentPlayerPosition();
 				GetComputerBids(nPos);
 			}
 		}
@@ -361,7 +361,7 @@ void CBidDialogSmall::EnableControls()
 //
 void CBidDialogSmall::DisableControls()
 {
-	int nLastBid = pDOC->GetLastValidBid();
+	int nLastBid = pDOC->GetDeal()->GetLastValidBid();
 	int nLastBidLevel = BID_LEVEL(nLastBid);
 	int nLastBidSuit = BID_SUIT(nLastBid);
 
@@ -405,16 +405,16 @@ void CBidDialogSmall::DisableControls()
 		bEnableDouble = FALSE;
 
 	// or if already doubled or redoubled
-	if (pDOC->IsContractDoubled() || pDOC->IsContractRedoubled())
+	if (pDOC->GetDeal()->IsContractDoubled() || pDOC->GetDeal()->IsContractRedoubled())
 		bEnableDouble = FALSE;
 
 	// can't double own team's bid
-	int nBidTeam = pDOC->GetLastValidBidTeam();
-	if ((nBidTeam == pDOC->GetCurrentPlayer()->GetTeam()) && !m_bTrainingMode)
+	int nBidTeam = pDOC->GetDeal()->GetLastValidBidTeam();
+	if ((nBidTeam == pDOC->GetDeal()->GetCurrentPlayer()->GetTeam()) && !m_bTrainingMode)
 		bEnableDouble = FALSE;
 
 	// can redouble only if already doubled && is team contract (or is training)
-	if (pDOC->IsContractDoubled() && ((nBidTeam == NORTH_SOUTH) || m_bTrainingMode))
+	if (pDOC->GetDeal()->IsContractDoubled() && ((nBidTeam == NORTH_SOUTH) || m_bTrainingMode))
 		bEnableReDouble = TRUE;
 
 	// and set

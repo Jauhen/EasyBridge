@@ -278,7 +278,7 @@ void CStatusPlayPlanPage::UpdateToolTipText(CPoint point)
 	// get the declarer & his play engine
 	if (!theApp.IsGameInProgress())
 		return;
-	CPlayer* pPlayer = pDOC->GetDeclarer();
+	CPlayer* pPlayer = pDOC->GetDeal()->GetDeclarer();
 	CDeclarerPlayEngine* pPlayEngine = pPlayer->GetDeclarerEngine();
 	CPlayList& playPlan = pPlayEngine->GetPlayPlan();
 	// get number of available plays
@@ -384,10 +384,10 @@ void CStatusPlayPlanPage::Update()
 	m_listPlayPlan.DeleteAllItems();
 
 	// get the declarer & his play engine
-	int nDeclarer = pDOC->GetDeclarerPosition();
+	int nDeclarer = pDOC->GetDeal()->GetDeclarerPosition();
 	if (!ISPLAYER(nDeclarer))
 		return;
-	CPlayer* pPlayer = pDOC->GetDeclarer();
+	CPlayer* pPlayer = pDOC->GetDeal()->GetDeclarer();
 	CDeclarerPlayEngine* pPlayEngine = pPlayer->GetDeclarerEngine();
 	CPlayList& playPlan = pPlayEngine->GetPlayPlan();
 

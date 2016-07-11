@@ -525,11 +525,11 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_BONUS_SCORE_RECORD:
-                m_strArrayBonusPointsRecord.Add(app_->StripQuotes(string));
+                m_strArrayBonusPointsRecord.push_back(app_->StripQuotes(string));
                 break;
 
               case ITEM_GAME_SCORE_RECORD:
-                m_strArrayTrickPointsRecord.Add(app_->StripQuotes(string));
+                m_strArrayTrickPointsRecord.push_back(app_->StripQuotes(string));
                 break;
 
                 // misc info

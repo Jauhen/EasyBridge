@@ -20,8 +20,8 @@ public:
 	//
 	void Clear();
 	void StartNewHand();
-	void SetBonusPoints(CStringArray& strArrayText);
-	void SetTrickPoints(CStringArray& strArrayText);
+	void SetBonusPoints(std::vector<CString> strArrayText);
+	void SetTrickPoints(std::vector<CString> strArrayText);
 	void SetTotalPoints(CString& strText);
 //	void DisableGameControls() { m_bDisableGameControls = TRUE; }
 

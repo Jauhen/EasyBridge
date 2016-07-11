@@ -1610,15 +1610,15 @@ void CMainFrame::DisplayTricks(BOOL bClear)
 void CMainFrame::DisplayContract(BOOL bClear)
 {
 	CString strMessage;
-	if ((bClear) || (!theApp.IsGameInProgress() && !pDOC->IsReviewingGame())) 
+	if ((bClear) || (!theApp.IsGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
 	{
 		strMessage = "";
 	} 
 	else 
 	{
 		// get bid info
-		int nSuit = pDOC->GetContractSuit();
-		int nValue = pDOC->GetContractLevel();
+		int nSuit = pDOC->GetDeal()->GetContractSuit();
+		int nValue = pDOC->GetDeal()->GetContractLevel();
 		if ((nValue < 1) || (nValue > 7) ||
 					(nSuit < CLUBS) || (nSuit > NOTRUMP)) 
 		{
@@ -1633,7 +1633,7 @@ void CMainFrame::DisplayContract(BOOL bClear)
 			else
 				strMessage.Format(" C: %dNT ",nValue);
 */
-			strMessage = "C: " + ContractToString(pDOC->GetContract(), pDOC->GetContractModifier());
+			strMessage = "C: " + ContractToString(pDOC->GetDeal()->GetContract(), pDOC->GetDeal()->GetContractModifier());
 		}
 	}
 	m_pWndStatusBar->SetPaneText(1,strMessage);
@@ -1645,13 +1645,13 @@ void CMainFrame::DisplayContract(BOOL bClear)
 void CMainFrame::DisplayDeclarer(BOOL bClear)
 {
 	CString strMessage;
-	if ((bClear) || (!theApp.IsGameInProgress() && !pDOC->IsReviewingGame())) 
+	if ((bClear) || (!theApp.IsGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
 	{
 		strMessage = "";
 	} 
 	else 
 	{
-		strMessage.Format("D: %s", PositionToString(pDOC->GetDeclarerPosition()));
+		strMessage.Format("D: %s", PositionToString(pDOC->GetDeal()->GetDeclarerPosition()));
 	}
 	m_pWndStatusBar->SetPaneText(2,strMessage);
 	m_pWndStatusBar->UpdateWindow();
@@ -1662,10 +1662,10 @@ void CMainFrame::DisplayDeclarer(BOOL bClear)
 void CMainFrame::DisplayVulnerable(BOOL bClear) 
 {
 	CString strMessage;
-	if (theApp.IsRubberInProgress() || pDOC->IsReviewingGame() || 
+	if (theApp.IsRubberInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
 				theApp.IsUsingDuplicateScoring())
 	{
-		switch(pDOC->GetVulnerableTeam()) 
+		switch(pDOC->GetDeal()->GetVulnerableTeam())
 		{
 			case NEITHER:
 				strMessage = "V: None";
@@ -1771,11 +1771,11 @@ void CMainFrame::SetModeIndicator(LPCTSTR szText)
 	// use the last pane as a mode indicator
 	if (szText == NULL) 
 	{
-		if (pDOC->IsAutoReplayMode())
+		if (pDOC->GetDeal()->IsAutoReplayMode())
 			m_pWndStatusBar->SetPaneText(4,"Replay");
 		else if (theApp.GetValue(tbRubberInProgress))
 			m_pWndStatusBar->SetPaneText(4,"Match");
-		else if (pDOC->IsReviewingGame())
+		else if (pDOC->GetDeal()->IsReviewingGame())
 			m_pWndStatusBar->SetPaneText(4,"Review");
 		else
 			m_pWndStatusBar->SetPaneText(4,"Practice");
@@ -2128,9 +2128,9 @@ void CMainFrame::OnDisplayOptions()
 	{
 		dispOptsDialog.UpdateAllPages();
 		if ( dispOptsDialog.m_bGlobalDisplayAffected ||
-			 ((dispOptsDialog.m_bDisplayAffected) && pDOC->IsHandsDealt()) )
+			 ((dispOptsDialog.m_bDisplayAffected) && pDOC->GetDeal()->IsHandsDealt()) )
 		{
-			theApp.InitDummySuitSequence(pDOC->GetTrumpSuit(), pDOC->GetDummyPosition());	
+			theApp.InitDummySuitSequence(pDOC->GetDeal()->GetTrumpSuit(), pDOC->GetDeal()->GetDummyPosition());
 			for(int i=0;i<4;i++)
 				PLAYER(i).SortHand();
 			pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, TRUE);
@@ -2436,8 +2436,8 @@ void CMainFrame::OnGameAutoHint()
 	if (nMode)
 	{
 		// show autohint dialog and hint if necessary
-		if (!pDOC->IsHintAvailable())
-			pDOC->ShowAutoHint();
+		if (!pDOC->GetDeal()->IsHintAvailable())
+			pDOC->GetDeal()->ShowAutoHint();
 	}
 	else
 	{
