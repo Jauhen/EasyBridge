@@ -16,6 +16,7 @@
 #include "engine/bidding/BlackwoodConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 //
 //==================================================================
@@ -147,7 +148,7 @@ BOOL CBlackwoodConvention::InvokeBlackwood(CHandHoldings& hand, CBidEngine& bidS
 		}
 		else
 		{
-			nBid = bidState.GetCheapestShiftBid(nEventualSuit, app_->GetLastValidBid());
+			nBid = bidState.GetCheapestShiftBid(nEventualSuit, app_->GetDeal()->GetLastValidBid());
 			status << "BKWDY3! so without quite enough points for a slam, we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//

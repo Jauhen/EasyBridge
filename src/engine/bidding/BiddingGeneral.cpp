@@ -22,7 +22,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
-
+#include "model/deal.h"
 
 //
 //---------------------------------------------------------------
@@ -740,7 +740,7 @@ BOOL CBidEngine::RebidSuit(int nSuitType,  RebidLevel enShiftLevel,
 		nBid = MAKEBID(nSuit,-nShiftLevel);
 
 	// see if bid is legal
-	if (nBid <= app_->GetLastValidBid())
+	if (nBid <= app_->GetDeal()->GetLastValidBid())
 		return FALSE;
 	else
 		m_nBid = nBid;

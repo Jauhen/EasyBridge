@@ -15,6 +15,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/CueBidConvention.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 //
@@ -89,7 +90,7 @@ BOOL CCueBidConvention::TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CP
 	// or if we're already at a slam level
 	if (bidState.nPartnersBidLevel >= 6)
 		return FALSE;
-	int nLastBid = app_->GetLastValidBid();
+	int nLastBid = app_->GetDeal()->GetLastValidBid();
 	if (nLastBid >= bidState.GetGameBid(BID_SUIT(nLastBid)))
 		return FALSE;
 

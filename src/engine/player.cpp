@@ -699,7 +699,7 @@ int CPlayer::GetPriorBid(int nIndex)
 	int nEntry = numBidTurns - nIndex - 1;
 	if (nEntry < 0)
 		return BID_NONE;
-	return app_->GetBidByPlayer(m_nPosition, nEntry);
+	return app_->GetDeal()->GetBidByPlayer(m_nPosition, nEntry);
 }
 
 

@@ -26,6 +26,7 @@
 #include "engine/bidding/bidopts.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 //#include "NeuralNet.h"
 //#include "NNetOutputDialog.h"
 
@@ -565,11 +566,11 @@ int CBidEngine::GetBiddingHint()
 void CBidEngine::AssessPosition()
 {
 	// 
-	nRound = app_->GetBiddingRound();
-	nLastBid = app_->GetLastValidBid();
+	nRound = app_->GetDeal()->GetBiddingRound();
+	nLastBid = app_->GetDeal()->GetLastValidBid();
 	nPosition = m_pPlayer->GetPosition();
-	nBiddingOrder = app_->GetNumBidsMade();
-	nLastValidRecordedBid = app_->GetLastValidBid();
+	nBiddingOrder = app_->GetDeal()->GetNumBidsMade();
+	nLastValidRecordedBid = app_->GetDeal()->GetLastValidBid();
 
 	//
 	// retrieve bidding history info
@@ -609,7 +610,7 @@ void CBidEngine::AssessPosition()
 	//
 	if (nRound >= 2)
 	{
-		nNextPrevBid = app_->GetBidByPlayer(m_pPlayer->GetPosition(), nRound-2);
+		nNextPrevBid = app_->GetDeal()->GetBidByPlayer(m_pPlayer->GetPosition(), nRound-2);
 		if (ISBID(nNextPrevBid))
 			nNextPrevSuit = BID_SUIT(nNextPrevBid);
 		else
@@ -623,7 +624,7 @@ void CBidEngine::AssessPosition()
 
 
 	// get first round bid info
-	nFirstRoundBid = app_->GetBidByPlayer(m_pPlayer->GetPosition(), 0);
+	nFirstRoundBid = app_->GetDeal()->GetBidByPlayer(m_pPlayer->GetPosition(), 0);
 	if (ISBID(nFirstRoundBid))
 	{
 		nFirstRoundBidLevel = BID_LEVEL(nFirstRoundBid);
@@ -1405,10 +1406,10 @@ void CBidEngine::FillNeuralNetInputs(NVALUE* fInputs, int numInputs)
 	// bidding history for each position
 	for(int nRound=0;nRound<6;nRound++)
 	{
-		int nPos = app_->GetDealer();
+		int nPos = app_->GetDeal()->GetDealer();
 		for(int j=0;j<4;j++)
 		{
-			fInputs[nIndex++]		= (NVALUE) app_->GetBidByPlayer(nPos, nRound);
+			fInputs[nIndex++]		= (NVALUE) app_->GetDeal()->GetBidByPlayer(nPos, nRound);
 			nPos = app_->GetNextPlayer(nPos);
 		}
 	}
@@ -1499,7 +1500,7 @@ BOOL CBidEngine::IsSuitShiftable(int nSuit, int nMinCards, int nMinStrength)
 int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 {
 	CString strTemp;
-	int nLVBid = app_->GetLastValidBid();
+	int nLVBid = app_->GetDeal()->GetLastValidBid();
 	int nSuit = (m_nBid-1) % 5;
 	int nPartnersBid = m_pPartner->InquireLastBid();
 	int nPartnersSuit = (nPartnersBid-1) % 5;
@@ -1507,21 +1508,21 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 	// see if this really isn't a bid but rather advice
 	if (m_bHintMode)
 	{
-		if (app_->IsBidValid(nBid)) 
+		if (app_->GetDeal()->IsBidValid(nBid))
 		{
 			return nBid;
 		}
 		else
 		{
 			strTemp.Format("But the bid is too low vs. the last bid of of %s, so we have to pass.",
-							app_->BidToFullString(app_->GetLastValidBid()));
+							app_->BidToFullString(app_->GetDeal()->GetLastValidBid()));
 			Trace(strTemp);
 			return BID_PASS;
 		}
 	}
 
 	// else this is a real bid
-	if (app_->IsBidValid(nBid)) 
+	if (app_->GetDeal()->IsBidValid(nBid))
 	{
 		// bid is okay; record count
 		if ((nBid > BID_PASS) & (nBid < BID_DOUBLE))
@@ -1543,7 +1544,7 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 							app_->BidToFullString(nBid));
 		else if (nBid != BID_PASS)
 			strTemp.Format("But our bid is too low vs. the last bid of of %s, so we have to pass.",
-							app_->BidToFullString(app_->GetLastValidBid()));
+							app_->BidToFullString(app_->GetDeal()->GetLastValidBid()));
 		Trace(strTemp);
 		nBid = BID_PASS;
 	}
@@ -1553,7 +1554,7 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 	if ((nBid > BID_PASS) && (nBid < BID_DOUBLE) && 
 		(m_pPlayer->GetNumBidsMade() == 1) && (m_pPartner->GetNumBidsMade() == 0))  
 	{
-		m_nOpeningPosition = app_->GetNumBidsMade();
+		m_nOpeningPosition = app_->GetDeal()->GetNumBidsMade();
 		m_bOpenedBiddingForTeam = TRUE;
 	}
 	//
@@ -1605,11 +1606,11 @@ BOOL CBidEngine::PlayerOpenedSuit(int nSuit)
 	//
 	int nPlayerPos = m_pPlayer->GetPosition();
 	int nPartnerPos = m_pPartner->GetPosition();
-	int numBidsMade = app_->GetNumBidsMade();
-	int nPos = app_->GetDealer();
+	int numBidsMade = app_->GetDeal()->GetNumBidsMade();
+	int nPos = app_->GetDeal()->GetDealer();
 	for(int i=0;i<numBidsMade;i++)
 	{
-		int nBid = app_->GetBidByIndex(i);
+		int nBid = app_->GetDeal()->GetBidByIndex(i);
 		if (ISBID(nBid) && (BID_SUIT(nBid) == nSuit))
 		{
 			if (nPos == nPlayerPos)
@@ -1670,7 +1671,7 @@ void CBidEngine::RecordBid(int nPos, int nBid)
 				strTemp.Format("%s bids %s.", app_->PositionToString(nPos),
 										   app_->BidToShortString(nBid));
 			// see if this is partner opening the bidding for the team
-			if ((app_->GetPlayer(nPos) == m_pPartner) && (!m_bOpenedBiddingForTeam))
+			if ((app_->GetDeal()->GetPlayer(nPos) == m_pPartner) && (!m_bOpenedBiddingForTeam))
 				m_bPartnerOpenedForTeam = TRUE;
 		}
 		else
@@ -2425,7 +2426,7 @@ BOOL CBidEngine::TestForPenaltyDouble()
 		return FALSE;	// can't double our own contract
 
 	// make sure a valid bid was indeed made
-	int nBid = app_->GetLastValidBid();
+	int nBid = app_->GetDeal()->GetLastValidBid();
 	if (!ISBID(nBid))
 		return FALSE;
 

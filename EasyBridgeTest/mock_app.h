@@ -93,16 +93,6 @@ public:
 
 
   MOCK_METHOD0(GetDeal, std::shared_ptr<Deal>());
-  MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
-  MOCK_CONST_METHOD0(GetLastValidBid, int());
-  MOCK_CONST_METHOD0(GetBiddingRound, int());
-  MOCK_CONST_METHOD0(GetNumBidsMade, int());
-  MOCK_CONST_METHOD2(GetBidByPlayer, int(int position, int round));
-  MOCK_CONST_METHOD2(GetBidByPlayer, int(CPlayer* player, int round));
-  MOCK_CONST_METHOD0(GetDealer, int());
-  MOCK_METHOD1(IsBidValid, bool(int bid));
-  MOCK_CONST_METHOD1(GetBidByIndex, int(int index));
-  MOCK_CONST_METHOD1(GetPlayer, CPlayer*(int position));
   MOCK_CONST_METHOD0(GetContract, int());
   MOCK_CONST_METHOD0(GetContractModifier, int());
   MOCK_CONST_METHOD0(GetDeclarerPosition, int());

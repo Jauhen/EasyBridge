@@ -18,6 +18,7 @@
 #include "engine/bidding/OvercallsConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 
@@ -181,7 +182,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		// 1: we must not have bid yet
 		// 2: LHO must have bid a suit at the 1 level, and 
 		// 3: partner overcalled LHO's suit at the 2 level
-		int nLastValidBid = app_->GetLastValidBid();
+		int nLastValidBid = app_->GetDeal()->GetLastValidBid();
 
 		// apply tests #1, 2, and 3
 		int nOpeningBid = app_->GetOpeningBid();

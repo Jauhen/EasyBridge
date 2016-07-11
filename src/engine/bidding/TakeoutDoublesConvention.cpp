@@ -19,6 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
+#include "model/deal.h"
 
 
 
@@ -194,7 +195,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 
 	int nBid,nRound = 1;
 	int nPartnersBid = bidState.nPartnersBid;
-	int nLastValidBid = app_->GetLastValidBid();
+	int nLastValidBid = app_->GetDeal()->GetLastValidBid();
 	int nLastValidBidLevel = BID_LEVEL(nLastValidBid);
 	bool bSecondDouble = (bidState.nPartnersPrevBid == BID_DOUBLE);
 	int nConventionStatus = bidState.GetConventionStatus(this);
@@ -314,7 +315,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		int nSuit,nOrigSuit;
 		double fCardPts = bidState.fCardPts;
 		double fPts = bidState.fPts;
-		int nEnemyBid = app_->GetLastValidBid();
+		int nEnemyBid = app_->GetDeal()->GetLastValidBid();
 		int nEnemyBidLevel = BID_LEVEL(nEnemyBid);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 
@@ -596,7 +597,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 		// here, we have 20+ minimum total points
 		//
 
-		int nEnemyBid = app_->GetBidByPlayer(bidState.m_pLHOpponent->GetPosition(),0);
+		int nEnemyBid = app_->GetDeal()->GetBidByPlayer(bidState.m_pLHOpponent->GetPosition(),0);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 
 		// see if partner raised our suit
@@ -907,7 +908,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		// set team point estimates -- be conservative
 		BOOL bPartnerJumped = FALSE;
 		BOOL bPartnerJumpedToGame = FALSE;
-		int nEnemyBid = app_->GetValidBidRecord(0);
+		int nEnemyBid = app_->GetDeal()->GetValidBidRecord(0);
 		int nEnemyBidLevel = BID_LEVEL(nEnemyBid);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 		if ((nPartnersBid - nEnemyBid) > 5)
@@ -1139,7 +1140,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		//--------------------------------------------------------------------------
 		// here, we have no suit agreement (e.g., partner bid the opponents' suit)
 		//
-		int nLastBid = app_->GetLastValidBid();
+		int nLastBid = app_->GetDeal()->GetLastValidBid();
 		if (bBalanced)
 		{
 			// try notrumps

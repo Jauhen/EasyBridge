@@ -19,7 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
-
+#include "model/deal.h"
 
 
 //
@@ -466,7 +466,7 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		// set team point estimates -- be conservative
 		BOOL bPartnerJumped = FALSE;
 		BOOL bPartnerJumpedToGame = FALSE;
-		int nEnemyBid = app_->GetValidBidRecord(0);
+		int nEnemyBid = app_->GetDeal()->GetValidBidRecord(0);
 		int nEnemyBidLevel = BID_LEVEL(nEnemyBid);
 		int nEnemySuit = BID_SUIT(nEnemyBid);
 		if (nPartnersBidLevel > (nEnemyBidLevel + 1))
@@ -694,7 +694,7 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 		//--------------------------------------------------------------------------
 		// here, we have no suit agreement (e.g., partner bid the opponents' suit)
 		//
-		int nLastBid = app_->GetLastValidBid();
+		int nLastBid = app_->GetDeal()->GetLastValidBid();
 		if (bBalanced)
 		{
 			// try notrumps

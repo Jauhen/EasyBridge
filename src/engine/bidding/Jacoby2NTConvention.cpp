@@ -18,6 +18,7 @@
 #include "engine/bidding/OvercallsConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 
@@ -99,7 +100,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 	//
 	int nPartnersBid = bidState.nPartnersBid;
 	int nPreviousBid = bidState.nPreviousBid;
-	int numTotalBidTurns = app_->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 
 	//
 	int nBid;

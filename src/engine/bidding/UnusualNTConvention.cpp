@@ -18,7 +18,7 @@
 #include "engine/bidding/OvercallsConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 
 //
@@ -190,7 +190,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		if (bidState.m_fMinTPPoints >= app_->SlamPts() )
 		{
 			// cue-bid the enemy suit for a slam try
-			nBid = bidState.GetCheapestShiftBid(nLHOSuit, app_->GetLastValidBid());
+			nBid = bidState.GetCheapestShiftBid(nLHOSuit, app_->GetDeal()->GetLastValidBid());
 			status << "UNTR20! With a total of " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " pts in the partnership, cue bid the enemy " & CCard::SuitToSingularString(nLHOSuit) & 
@@ -438,9 +438,9 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 	{
 		// first determine the enemy suit
 		int nOpeningBid = NONE;
-		for(int i=0;i<app_->GetNumBidsMade();i++)
+		for(int i=0;i<app_->GetDeal()->GetNumBidsMade();i++)
 		{
-			nOpeningBid = app_->GetBidByIndex(i);
+			nOpeningBid = app_->GetDeal()->GetBidByIndex(i);
 			if (nOpeningBid != BID_PASS)
 				break;
 		}

@@ -963,7 +963,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 //
 int CDefenderPlayEngine::ReviewBiddingHistory()
 {
-	int numBidsMade = app_->GetNumBidsMade();
+	int numBidsMade = app_->GetDeal()->GetNumBidsMade();
 	int numBiddingRounds = numBidsMade / 4;
 
 	// we have the # of bidding rounds (rounded up)
@@ -973,7 +973,7 @@ int CDefenderPlayEngine::ReviewBiddingHistory()
 	int nTopSuitVal = 0;
 	for(int i=0;i<4;i++)
 	{
-		int nBid = app_->GetBidByPlayer(nPartner, i);
+		int nBid = app_->GetDeal()->GetBidByPlayer(nPartner, i);
 		if (ISBID(nBid))
 		{
 			int nSuit = BID_SUIT(nBid);

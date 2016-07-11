@@ -20,7 +20,7 @@
 #include "engine/bidding/ConvCodes.h"
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
-
+#include "model/deal.h"
 
 //
 //===============================================================================
@@ -301,7 +301,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 	int nPartnersBidLevel = bidState.nPartnersBidLevel;
 	int numPartnerBidsMade = bidState.m_numPartnerBidsMade;
 	int numPartnerBidTurns = bidState.m_numPartnerBidTurns;
-	int nFirstBid = app_->GetValidBidRecord(0);
+	int nFirstBid = app_->GetDeal()->GetValidBidRecord(0);
 
 	// Requirements are:
 	// - partner opened bidding for the team
@@ -448,7 +448,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 	// need a good 6-card suit in order to bid it in preference to partner 
 	//
 	int nBid;
-	int nLastBid = app_->GetLastValidBid();
+	int nLastBid = app_->GetDeal()->GetLastValidBid();
 	BOOL bJumped = FALSE;
 	//
 	if ((bidState.numPrefSuitCards >= 6) && 
@@ -750,7 +750,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 	//-----------------------------------------------------------------
 	// Now determine a plan of action!
 	//
-	int nLastBid = app_->GetLastValidBid();
+	int nLastBid = app_->GetDeal()->GetLastValidBid();
 	int nLastBidLevel = BID_LEVEL(nLastBid);
 	int nBidLevel;
 

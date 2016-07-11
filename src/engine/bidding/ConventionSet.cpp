@@ -39,6 +39,7 @@
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 // default bidding settings
@@ -403,7 +404,7 @@ void CConventionSet::InitConventions()
 	if (app_->IsDocInitialized())
 	{
 		for(int i=0;i<4;i++)
-			app_->GetPlayer(i)->ClearConventionStatus();
+			app_->GetDeal()->GetPlayer(i)->ClearConventionStatus();
 	}
 }
 

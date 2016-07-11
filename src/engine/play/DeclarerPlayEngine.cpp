@@ -3231,7 +3231,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 		// for a finesse, see if an opponent had bid this suit
 		CFinesse* pFinesse = (CFinesse*) pPlay;
 		int nSuit = pPlay->GetSuit();
-		int numBids = app_->GetNumBidsMade();
+		int numBids = app_->GetDeal()->GetNumBidsMade();
 		int numRounds = numBids / 4;
 		if ((numBids % 4) > 0)
 			numRounds++;
@@ -3245,14 +3245,14 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 		for(int j=0;j<numRounds;j++)
 		{
 			// check LHO
-			int nBid = app_->GetBidByPlayer(m_pLHOpponent, j);
+			int nBid = app_->GetDeal()->GetBidByPlayer(m_pLHOpponent, j);
 			if (ISBID(nBid) && (BID_SUIT(nBid) == nSuit))
 			{
 				bLHOBidSuit = TRUE;
 				break;
 			}
 			// check RHO
-			nBid = app_->GetBidByPlayer(m_pRHOpponent, j);
+			nBid = app_->GetDeal()->GetBidByPlayer(m_pRHOpponent, j);
 			if (ISBID(nBid) && (BID_SUIT(nBid) == nSuit))
 			{
 				bRHOBidSuit = TRUE;

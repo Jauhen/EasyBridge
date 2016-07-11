@@ -15,6 +15,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/Artificial2ClubConvention.h"
 #include "engine/bidding/ConventionSet.h"
+#include "model/deal.h"
 
 
 
@@ -162,7 +163,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	//
 	if ((nPartnersBid == BID_2C) && (bidState.m_bPartnerOpenedForTeam) &&
 					(numPartnerBidsMade == 1) &&
-					(nPartnersBid == app_->GetValidBidRecord(0)))
+					(nPartnersBid == app_->GetDeal()->GetValidBidRecord(0)))
 	{
 		// condition valid
 		// record that we responded

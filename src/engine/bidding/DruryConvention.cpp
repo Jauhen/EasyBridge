@@ -19,6 +19,7 @@
 #include "engine/bidding/OvercallsConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 
@@ -48,7 +49,7 @@ BOOL CDruryConvention::TryConvention(const CPlayer& player,
 	//
 	int nOpeningBid = app_->GetOpeningBid();
 	int nPartnersBid = bidState.nPartnersBid;
-	int numTotalBidTurns = app_->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 	// test conditions 1 - 4
 	if ( (bidState.m_numBidTurns == 1) && (bidState.nPreviousBid == BID_PASS) && 
 		 ISBID(nOpeningBid) && (nOpeningBid == nPartnersBid) && 
@@ -111,7 +112,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 	//
 	int nPartnersBid = bidState.nPartnersBid;
 	int nPreviousBid = bidState.nPreviousBid;
-	int numTotalBidTurns = app_->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 
 	//
 	int nBid;
@@ -132,7 +133,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		// 2: Partner passed at first opportunity, then bid 2C
 		int nOpeningBid = app_->GetOpeningBid();
 		int nPartnersBid = bidState.nPartnersBid;
-		int numTotalBidTurns = app_->GetNumBidsMade();
+		int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 
 		// test conditions 1 - 4
 		if ( (bidState.m_numBidTurns == 1) && (ISMAJOR(BID_SUIT(nPreviousBid))) && 

@@ -18,6 +18,7 @@
 #include "engine/play/HandHoldings.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 
@@ -185,7 +186,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					(nPartnersBid != BID_2NT) &&
 					(bidState.m_bPartnerOpenedForTeam) &&
 					(numPartnerBidsMade == 1) &&
-					(nPartnersBid == app_->GetValidBidRecord(0)))
+					(nPartnersBid == app_->GetDeal()->GetValidBidRecord(0)))
 	{
 		// okay, met requirements
 	}

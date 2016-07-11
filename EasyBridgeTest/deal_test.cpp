@@ -75,12 +75,13 @@ TEST_F(DealTests, DealNumberedHand) {
   EXPECT_CALL(*app, IsEnableDealNumbering()).WillRepeatedly(Return(true));
   EXPECT_CALL(*app, GetRandomValue(_)).WillRepeatedly(Return(0));
 
-  Deal d{app};
-  d.InitNewHand();
-  d.DealNumberedHand(0, 0, 0, 1);
+  std::shared_ptr<Deal> d = std::make_shared<Deal>(app);
+  EXPECT_CALL(*app, GetDeal()).WillRepeatedly(Return(d));
+
+  d->InitNewHand();
+  d->DealNumberedHand(0, 0, 0, 1);
 
   EXPECT_TRUE(Mock::VerifyAndClearExpectations(app.get()));
-
 }
 
 } // namespace UnitTests

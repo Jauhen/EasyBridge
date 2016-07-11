@@ -163,16 +163,6 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual std::shared_ptr<Deal> GetDeal() = 0;
-  virtual int GetValidBidRecord(int index) const = 0;
-  virtual int	GetLastValidBid() const = 0;
-  virtual int GetBiddingRound() const = 0;
-  virtual int GetNumBidsMade() const = 0;
-  virtual int GetBidByPlayer(int position, int round) const = 0;
-  virtual int GetBidByPlayer(CPlayer* player, int round) const = 0;
-  virtual int	GetDealer() const = 0;
-  virtual bool IsBidValid(int bid) = 0;
-  virtual int GetBidByIndex(int index) const = 0;
-  virtual CPlayer* GetPlayer(int position) const = 0;
   virtual int	GetContract() const = 0;
   virtual int GetContractModifier() const = 0;
   virtual int	GetDeclarerPosition() const = 0;

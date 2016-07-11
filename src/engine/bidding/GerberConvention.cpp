@@ -16,7 +16,7 @@
 #include "engine/bidding/GerberConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 //
 //==================================================================
@@ -148,7 +148,7 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 		}
 		else
 		{
-			nBid = bidState.GetCheapestShiftBid(nEventualSuit, app_->GetLastValidBid());
+			nBid = bidState.GetCheapestShiftBid(nEventualSuit, app_->GetDeal()->GetLastValidBid());
 			status << "2GERBY3! so without quite enough points for a slam, we just bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		//

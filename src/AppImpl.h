@@ -558,46 +558,6 @@ public:
     return pDOC->GetDeal();
   }
 
-  virtual int GetValidBidRecord(int index) const {
-    return pDOC->GetDeal()->GetValidBidRecord(index);
-  }
-
-  virtual int	GetLastValidBid() const {
-    return pDOC->GetDeal()->GetLastValidBid();
-  }
-
-  virtual int GetBiddingRound() const {
-    return pDOC->GetDeal()->GetBiddingRound();
-  }
-
-  virtual int GetNumBidsMade() const {
-    return pDOC->GetDeal()->GetNumBidsMade();
-  }
-
-  virtual int GetBidByPlayer(int position, int round) const {
-    return pDOC->GetDeal()->GetBidByPlayer(position, round);
-  }
-
-  virtual int GetBidByPlayer(CPlayer* player, int round) const {
-    return pDOC->GetDeal()->GetBidByPlayer(player, round);
-  }
-
-  virtual int	GetDealer() const {
-    return pDOC->GetDeal()->GetDealer();
-  }
-
-  virtual bool IsBidValid(int bid) {
-    return pDOC->GetDeal()->IsBidValid(bid) == TRUE;
-  }
-
-  virtual int GetBidByIndex(int index) const {
-    return pDOC->GetDeal()->GetBidByIndex(index);
-  }
-
-  virtual CPlayer* GetPlayer(int position) const {
-    return pDOC->GetDeal()->GetPlayer(position);
-  }
-
   virtual int	GetContract() const {
     return pDOC->GetDeal()->GetContract();
   }

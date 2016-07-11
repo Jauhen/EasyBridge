@@ -17,6 +17,7 @@
 #include "engine/bidding/bidengine.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 
@@ -1802,7 +1803,7 @@ int CBidEngine::MakeRebidAsResponder()
 			if (RebidSuit(MakeDirectSuit(m_nAgreedSuit),REBID_AT_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() ,LENGTH_ANY,SS_MARGINAL_OPENER))
 				return ValidateBid(m_nBid);
 			// if here, we're somehow stuck with a weak suit, so correct to NT
-			if (app_->GetLastValidBid() < BID_3NT)
+			if (app_->GetDeal()->GetLastValidBid() < BID_3NT)
 			{
 				m_nBid = BID_3NT;
 				status << "B4M20! Somehow partner raised our weak suit, so correct to " & 
