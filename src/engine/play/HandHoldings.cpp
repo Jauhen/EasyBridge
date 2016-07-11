@@ -21,6 +21,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "engine/bidding/bidparams.h"
 #include "engine/handopts.h"
+#include "model/deal.h"
 #include "app_interface.h"
 
 
@@ -1726,7 +1727,7 @@ CCard* CHandHoldings::GetDiscard()
 	CCard* pCard;
 
 	// determine the lead suit and the trump suit
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	ASSERT(pLeadCard);
 	int nSuitLed = pLeadCard->GetSuit();
 	int nTrumpSuit = app_->GetTrumpSuit();

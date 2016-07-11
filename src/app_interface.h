@@ -2,6 +2,7 @@
 
 #include "EasyB.h"
 
+class Deal;
 class CGIB;
 class CHandHoldings;
 class CPlayerStatusDialog;
@@ -161,7 +162,7 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
-  virtual CCard* GetCurrentTrickCardLed() = 0;
+  virtual std::shared_ptr<Deal> GetDeal() = 0;
   virtual int GetValidBidRecord(int index) const = 0;
   virtual int	GetLastValidBid() const = 0;
   virtual int GetBiddingRound() const = 0;

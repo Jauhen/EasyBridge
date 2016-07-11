@@ -154,7 +154,7 @@ CEasyBDoc::CEasyBDoc() {
   m_nPrevFileFormat = m_nFileFormat;
 
   m_pDoc = this;
-  deal_ = new Deal(std::make_shared<AppImpl>());
+  deal_ = std::make_shared<Deal>(std::make_shared<AppImpl>());
 }
 
 CEasyBDoc::~CEasyBDoc() {}

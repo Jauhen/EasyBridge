@@ -24,6 +24,7 @@
 #include "engine/Card.h"
 #include "engine/deck.h"
 #include "app_interface.h"
+#include "model/deal.h"
 /*
 #include "Play.h"
 #include "Cash.h"
@@ -656,7 +657,7 @@ CCard* CPlayEngine::PlaySecond()
 
 	// get play info
 	int nDummyPos = app_->GetDummyPosition();
-	CCard* pCardLed = app_->GetCurrentTrickCardLed();
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
 	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard();
@@ -800,7 +801,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 //	status << "2PLAY3! Playing best card.\n";
 
 	// get play info
-	CCard* pCurrentCard = app_->GetCurrentTrickCardLed();
+	CCard* pCurrentCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
 	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard(&nTopPos);

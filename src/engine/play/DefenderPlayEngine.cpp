@@ -22,6 +22,7 @@
 #include "engine/play/HandHoldings.h"
 #include "engine/bidding/BidEngine.h"
 #include "engine/play/DefenderPlayEngine.h"
+#include "model/deal.h"
 #include "app_interface.h"
 
 
@@ -1860,7 +1861,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 	int nDeclarerPos = app_->GetDeclarerPosition();
 	int nDummyPos = app_->GetDummyPosition();
 	CPlayer* pDummy = app_->GetDummyPlayer();
-	CCard* pCardLed = app_->GetCurrentTrickCardLed();
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
 	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard();
@@ -2165,7 +2166,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 	//
 
 	// get play info
-	CCard* pCurrentCard = app_->GetCurrentTrickCardLed();
+	CCard* pCurrentCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	CPlayer* pDummy = app_->GetDummyPlayer();
 	int nTopPos;

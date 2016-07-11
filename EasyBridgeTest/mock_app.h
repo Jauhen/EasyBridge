@@ -92,7 +92,7 @@ public:
   MOCK_METHOD0(IsDebugModeActive, bool());
 
 
-  MOCK_METHOD0(GetCurrentTrickCardLed, CCard*());
+  MOCK_METHOD0(GetDeal, std::shared_ptr<Deal>());
   MOCK_CONST_METHOD1(GetValidBidRecord, int(int index));
   MOCK_CONST_METHOD0(GetLastValidBid, int());
   MOCK_CONST_METHOD0(GetBiddingRound, int());
@@ -273,7 +273,7 @@ public:
   MOCK_METHOD1(ContractStringToBid, int(const char* str));
   MOCK_METHOD2(ContractParamsToBid, int(int suit, int level));
   MOCK_METHOD0(TimeGetTime, int());
-  MOCK_METHOD3(DisplayScoreDialog, void(CStringArray& bonusPoints, CStringArray& trickPoints, CString totalPoints));
+  MOCK_METHOD3(DisplayScoreDialog, void(std::vector<CString> bonusPoints, std::vector<CString> trickPoints, CString totalPoints));
   MOCK_METHOD1(DisplaySelectHandDialog, int(int position));
   MOCK_METHOD4(DisplayRoundFinishedDialog, int(bool isReplayMode, bool isGameReviewAvailable, CString message, CString oldMessage));
 };

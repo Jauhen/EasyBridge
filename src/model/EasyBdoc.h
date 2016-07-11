@@ -23,7 +23,7 @@ public:
   // public access points
   void SaveFile() { OnFileSave(); }
   void SaveFileAs() { OnFileSaveAs(); }
-  Deal* GetDeal() { return deal_; }
+  std::shared_ptr<Deal> GetDeal() { return deal_; }
 
   //
 public:
@@ -126,7 +126,7 @@ public:
   private:
     int m_nFileFormat;
     int m_nPrevFileFormat;
-    Deal* deal_;
+    std::shared_ptr<Deal> deal_;
 };
 
 /////////////////////////////////////////////////////////////////////////////

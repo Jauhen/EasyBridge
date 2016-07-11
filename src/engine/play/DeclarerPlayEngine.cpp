@@ -42,6 +42,7 @@
 #include "engine/play/CombinedHoldings.h"
 #include "engine/play/CombinedSuitHoldings.h"
 #include "engine/PlayerStatusDialog.h"
+#include "model/deal.h"
 #include "app_interface.h"
 
 
@@ -1551,7 +1552,7 @@ CCard* CDeclarerPlayEngine::PlaySecond()
 */
 
 	// get play info
-	CCard* pCardLed = app_->GetCurrentTrickCardLed();
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nCardLedFaceValue = pCardLed->GetFaceValue();
 	int nTrumpSuit = app_->GetTrumpSuit();
@@ -1742,7 +1743,7 @@ CCard* CDeclarerPlayEngine::PlayThird()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// get play info
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	CCard* pRHOCard = app_->GetCurrentTrickCardByOrder(1);
 	int nSuitLed = pLeadCard->GetSuit();
 	int nTopPos;
@@ -2004,7 +2005,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 //	status << "PLYE3! Playing best card.\n";
 
 	// get play info
-	CCard* pCurrentCard = app_->GetCurrentTrickCardLed();
+	CCard* pCurrentCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
 	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard(&nTopPos);
@@ -2245,7 +2246,7 @@ CCard* CDeclarerPlayEngine::GetDiscard()
 	//
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	//
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pLeadCard->GetSuit();
 	int nTrumpSuit = app_->GetTrumpSuit();
 	bool bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
@@ -6613,7 +6614,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			 bOppositeEquivSingleton = TRUE;
 
 		// make sure we have a card we can finesse (& it's higher then the card led)
-		CCard* pCardLed = app_->GetCurrentTrickCardLed();
+		CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 		if (pFinesseCard && (*pFinesseCard > *pCardLed) && !bOppositeHigherCard && !bOppositeEquivSingleton)
 		{
 			// form the enemy OR-cards list
@@ -6714,7 +6715,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			 bOppositeEquivSingleton = TRUE;
 
 		// make sure we have a card we can finesse (& it's higher then the card led)
-		CCard* pCardLed = app_->GetCurrentTrickCardLed();
+		CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 		if (pFinesseCard && (*pFinesseCard > *pCardLed) && !bOppositeHigherCard && !bOppositeEquivSingleton)
 		{
 			// form the enemy OR-cards list

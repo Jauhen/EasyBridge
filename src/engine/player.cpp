@@ -29,6 +29,7 @@
 #include "engine/player.h"
 #include "engine/handopts.h"
 #include "engine/PlayerStatusDialog.h"
+#include "model/deal.h"
 #include "app_interface.h"
 
 
@@ -268,7 +269,7 @@ CCard* CPlayer::PlayCard()
 		CCard* pPlayCard = m_pPlayEngine->PlayCard();
 		if (app_->GetNumCardsPlayedInRound() > 0)
 		{
-			CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+			CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 			if (pPlayCard->GetSuit() != pLeadCard->GetSuit())
 			{
 				if (m_pHand->GetNumCardsInSuit(pLeadCard->GetSuit()) > 0)
@@ -765,7 +766,7 @@ CCard* CPlayer::GetPlayHintForDummy()
 BOOL CPlayer::TestForAutoPlayLastCard()
 {
 	int nSuitLed = NONE;
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	if (pLeadCard)
 		nSuitLed = pLeadCard->GetSuit();
 	if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1))

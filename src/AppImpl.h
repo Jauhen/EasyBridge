@@ -554,8 +554,8 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
-  virtual CCard* GetCurrentTrickCardLed() {
-    return pDOC->GetDeal()->GetCurrentTrickCardLed();
+  virtual std::shared_ptr<Deal> GetDeal() {
+    return pDOC->GetDeal();
   }
 
   virtual int GetValidBidRecord(int index) const {
