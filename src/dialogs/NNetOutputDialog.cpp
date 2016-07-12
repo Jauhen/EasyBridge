@@ -189,7 +189,7 @@ void CNNetOutputDialog::OnPaint()
 	int nWidth = rectDefault.Width();
 	nWidth -= 2;	// adjust for the border
 	int nHeight = rectDefault.Height();
-	int nLastValidBid = pDOC->GetLastValidBid();
+	int nLastValidBid = pDOC->GetDeal()->GetLastValidBid();
 
 	// iterate
 	for(int i=0;i<tnumDefaultBiddingOutputs;i++)

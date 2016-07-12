@@ -20,7 +20,7 @@
 #include "engine/CardLocation.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-
+#include "model/deal.h"
 
 
 //
@@ -74,9 +74,9 @@ void CRuff::Init()
 	m_nEndingHand = m_nTargetHand;
 	m_nStartingHand = (m_nEndingHand == IN_HAND)? IN_DUMMY : IN_HAND;
 	// form name & description
-	m_strName.Format("%s Ruff", app_->SuitToSingularString(m_nSuit));
+	m_strName.Format("%s Ruff", CCard::SuitToSingularString(m_nSuit));
 	m_strDescription.Format("Ruff a %s in %s", 
-							app_->SuitToSingularString(m_nSuit),
+							CCard::SuitToSingularString(m_nSuit),
 							((m_nTargetHand == IN_HAND)? "hand" : "dummy"));
 }
 
@@ -86,7 +86,7 @@ void CRuff::Init()
 CString CRuff::GetFullDescription()
 {
 	return app_->FormString("Ruff a %s in %s.",
-    app_->SuitToSingularString(m_nSuit),
+    CCard::SuitToSingularString(m_nSuit),
 					   (m_nTargetHand == 0)? "hand" : "dummy");
 }
 
@@ -108,29 +108,29 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = app_->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 	//
-	CCard* pRoundTopCard = app_->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pRoundTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pRoundTopCard == pPartnersCard);
 	//
@@ -172,14 +172,14 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					if (combinedSuit.GetNumDeclarerLosers() > 0)
 					{
 						pPlayCard = playerHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PLRUF04! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PLRUF04! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from hand to ruff in dummy.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLRUF08! Oops, we wanted to ruff a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in dummy, but we have no " & app_->SuitToSingularString(m_nSuit) & 
+						status << "4PLRUF08! Oops, we wanted to ruff a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & CCard::SuitToSingularString(m_nSuit) & 
 								  " losers in hand to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -209,14 +209,14 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					if (combinedSuit.GetNumDummyLosers() > 0)
 					{
 						pPlayCard = dummyHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PLRUF14! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PLRUF14! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from dummy to ruff in hand.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLRUF18! Oops, we wanted to ruff a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
+						status << "4PLRUF18! Oops, we wanted to ruff a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & CCard::SuitToString(m_nSuit) & 
 								  " losers in dummy to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;

@@ -13,7 +13,6 @@
 #include "stdafx.h"
 #include "EasyB.h"
 #include "model/EasyBdoc.h"
-#include "model/DocOpts.h"
 #include "mainfrm.h"
 #include "EasyBvw.h"
 #include "progopts.h"
@@ -196,18 +195,18 @@ void CEasyBView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	int nPageLine = 0;
 
 	// draw dealt hands
-	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, FormString(_T("[Dealt Hands -- #%s]\n"), pDOC->GetDealIDString()));
-	CString strHands = pDOC->FormatOriginalHands();
+	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, FormString(_T("[Dealt Hands -- #%s]\n"), pDOC->GetDeal()->GetDealIDString()));
+	CString strHands = pDOC->GetDeal()->FormatOriginalHands();
 	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, strHands);
 
 	// draw bidding history
 	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, "\n\n[Bidding History]\n");
 	const CString strBiddingHistory = pMAINFRAME->GetPlainBiddingHistory();
 	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, strBiddingHistory);
-	if (ISBID(pDOC->GetContract()))
+	if (ISBID(pDOC->GetDeal()->GetContract()))
 	{
-		int nDeclarer = pDOC->GetDeclarerPosition();
-		CString strContract = FormString("Contract: %s by %s; %s leads", pDOC->GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
+		int nDeclarer = pDOC->GetDeal()->GetDeclarerPosition();
+		CString strContract = FormString("Contract: %s by %s; %s leads", pDOC->GetDeal()->GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
 		PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, strContract);
 	}
 
@@ -216,15 +215,15 @@ void CEasyBView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 	const CString strPlayHistory = pMAINFRAME->GetPlainPlayHistory();
 	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, strPlayHistory);
 	CString strTricks = FormString("Tricks -- N/S: %d,  E/W: %d", 
-									pDOC->GetNumTricksWonByTeam(NORTH_SOUTH),
-									pDOC->GetNumTricksWonByTeam(EAST_WEST));
+									pDOC->GetDeal()->GetNumTricksWonByTeam(NORTH_SOUTH),
+									pDOC->GetDeal()->GetNumTricksWonByTeam(EAST_WEST));
 	PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, strTricks);
 
 	// draw current hands
-	if (pDOC->GetNumTricksPlayed() > 0)
+	if (pDOC->GetDeal()->GetNumTricksPlayed() > 0)
 	{
 		PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, "\n\n[Ending Hands]\n");
-		CString strHands = pDOC->FormatCurrentHands();
+		CString strHands = pDOC->GetDeal()->FormatCurrentHands();
 		PrintTextBlock(*pDC, cyChar, rectPage, nPageLine, strHands);
 	}
 

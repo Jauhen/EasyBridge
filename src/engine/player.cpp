@@ -29,6 +29,7 @@
 #include "engine/player.h"
 #include "engine/handopts.h"
 #include "engine/PlayerStatusDialog.h"
+#include "model/deal.h"
 #include "app_interface.h"
 
 
@@ -266,9 +267,9 @@ CCard* CPlayer::PlayCard()
 #else
 		// do a sanity check
 		CCard* pPlayCard = m_pPlayEngine->PlayCard();
-		if (app_->GetNumCardsPlayedInRound() > 0)
+		if (app_->GetDeal()->GetNumCardsPlayedInRound() > 0)
 		{
-			CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+			CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 			if (pPlayCard->GetSuit() != pLeadCard->GetSuit())
 			{
 				if (m_pHand->GetNumCardsInSuit(pLeadCard->GetSuit()) > 0)
@@ -424,12 +425,12 @@ void CPlayer::InitializeHand()
 void CPlayer::InitializeRestoredHand()
 {
 	// set internal variables
-	if (app_->GetDeclarerPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDeclarerPosition() == m_nPosition)
 		m_bDeclarer = TRUE;
 	else
 		m_bDeclarer = FALSE;
 	//
-	if (app_->GetDummyPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDummyPosition() == m_nPosition)
 		m_bDummy = TRUE;
 	else
 		m_bDummy = FALSE;
@@ -455,19 +456,19 @@ void CPlayer::InitializeRestoredHand()
 	m_pPlayEngine->InitNewHand(); 
 
 	// mark game position
-	int nContract = app_->GetContract();
-	int nModifier = app_->GetContractModifier();
+	int nContract = app_->GetDeal()->GetContract();
+	int nModifier = app_->GetDeal()->GetContractModifier();
 	if (ISBID(nContract))
 	{
 		*m_pStatusDlg << "4The contract is " & app_->ContractToFullString(nContract,nModifier) & 
-					   " by " & app_->PositionToString(app_->GetDeclarerPosition()) & ".\n";
-		*m_pStatusDlg << "4" & app_->PositionToString(app_->GetRoundLead()) & " leads.\n";
+					   " by " & app_->PositionToString(app_->GetDeal()->GetDeclarerPosition()) & ".\n";
+		*m_pStatusDlg << "4" & app_->PositionToString(app_->GetDeal()->GetRoundLead()) & " leads.\n";
 		*m_pStatusDlg << "4====================\n";
 	}
 
 	// finally, expose cards if necessary
 	if ( (m_nPosition == SOUTH) ||
-		 ((app_->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
+		 ((app_->GetDeal()->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
 		ExposeCards(TRUE, FALSE);
 	else
 		ExposeCards(FALSE, FALSE);
@@ -483,12 +484,12 @@ void CPlayer::InitializeRestoredHand()
 void CPlayer::InitializeSwappedHand()
 {
 	// set internal variables
-	if (app_->GetDeclarerPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDeclarerPosition() == m_nPosition)
 		m_bDeclarer = TRUE;
 	else
 		m_bDeclarer = FALSE;
 	//
-	if (app_->GetDummyPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDummyPosition() == m_nPosition)
 		m_bDummy = TRUE;
 	else
 		m_bDummy = FALSE;
@@ -512,9 +513,9 @@ void CPlayer::InitializeSwappedHand()
 
 	// finally, expose cards if necessary
 	if ( (m_nPosition == SOUTH) ||
-		 ((app_->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
+		 ((app_->GetDeal()->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
 		ExposeCards(TRUE, FALSE);
-	else if (m_bDummy && (app_->GetNumCardsPlayedInGame() > 0))
+	else if (m_bDummy && (app_->GetDeal()->GetNumCardsPlayedInGame() > 0))
 		ExposeCards(TRUE, FALSE);
 	else
 		ExposeCards(FALSE, FALSE);
@@ -698,7 +699,7 @@ int CPlayer::GetPriorBid(int nIndex)
 	int nEntry = numBidTurns - nIndex - 1;
 	if (nEntry < 0)
 		return BID_NONE;
-	return app_->GetBidByPlayer(m_nPosition, nEntry);
+	return app_->GetDeal()->GetBidByPlayer(m_nPosition, nEntry);
 }
 
 
@@ -765,7 +766,7 @@ CCard* CPlayer::GetPlayHintForDummy()
 BOOL CPlayer::TestForAutoPlayLastCard()
 {
 	int nSuitLed = NONE;
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	if (pLeadCard)
 		nSuitLed = pLeadCard->GetSuit();
 	if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1))
@@ -781,11 +782,11 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1002);
 
 		// note the play in the hint window
-		if (app_->IsInAutoHintMode())
+		if (app_->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
-			*m_pStatusDlg << "Follow with our only " & app_->SuitToSingularString(nSuitLed) & ", the " & pPlayCard->GetFaceName() & ".\n";
+			*m_pStatusDlg << "Follow with our only " & CCard::SuitToSingularString(nSuitLed) & ", the " & pPlayCard->GetFaceName() & ".\n";
 			m_pStatusDlg->EndHintBlock();
 		}
 		// done
@@ -804,7 +805,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1003);
 		
 		// note the play in the hint window
-		if (app_->IsInAutoHintMode())
+		if (app_->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
@@ -833,7 +834,7 @@ BOOL CPlayer::IsHumanPlayer() const
 
 	// a player is human if it's south, or if it's north AND
 	// declarer is north or south
-	int nDeclarer = app_->GetDeclarerPosition();
+	int nDeclarer = app_->GetDeal()->GetDeclarerPosition();
 	if ((m_nPosition == SOUTH) || 
 		( (m_nPosition == NORTH) && 
 		  ((nDeclarer == NORTH) || (nDeclarer == SOUTH)) ) )

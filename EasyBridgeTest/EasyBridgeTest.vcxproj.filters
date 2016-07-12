@@ -18,6 +18,9 @@
     <Filter Include="sources\play">
       <UniqueIdentifier>{5328664f-6194-4e9b-a658-5fba746f3e6e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="sources\model">
+      <UniqueIdentifier>{ba914fac-a874-4f26-b264-cc500241da01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -236,6 +239,21 @@
     <ClInclude Include="..\src\engine\PlayerStatusDialog.H">
       <Filter>sources</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\model\deal.h">
+      <Filter>sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\FILECODE.H">
+      <Filter>sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\FileCodePBN.H">
+      <Filter>sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\GameRecord.h">
+      <Filter>sources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\file_exporter.h">
+      <Filter>sources\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -446,6 +464,42 @@
       <Filter>sources</Filter>
     </ClCompile>
     <ClCompile Include="..\src\engine\PlayerStatusDialog.CPP">
+      <Filter>sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\deal.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\easyb_doc_deal.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\rdfile.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\RdFilePBN.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\wrfile.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\WrFilePBN.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\GameRecord.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="deal_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\file_exporter.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="file_exporter_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="deck_test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\engine\card_static.cpp">
       <Filter>sources</Filter>
     </ClCompile>
   </ItemGroup>

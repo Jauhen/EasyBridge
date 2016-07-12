@@ -266,6 +266,7 @@
     <ClCompile Include="src\engine\bidding\BidEngine.cpp" />
     <ClCompile Include="src\engine\bidding\BlackwoodConvention.cpp" />
     <ClCompile Include="src\engine\card.cpp" />
+    <ClCompile Include="src\engine\card_static.cpp" />
     <ClCompile Include="src\engine\play\CardHoldings.cpp" />
     <ClCompile Include="src\dialogs\CardLayout.cpp" />
     <ClCompile Include="src\engine\CardList.cpp" />
@@ -301,7 +302,12 @@
     <ClCompile Include="src\engine\play\Finesse.cpp" />
     <ClCompile Include="src\engine\play\Force.cpp" />
     <ClCompile Include="src\engine\bidding\Gambling3NTConvention.cpp" />
-    <ClCompile Include="src\engine\GameRecord.cpp" />
+    <ClCompile Include="src\model\file_exporter.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\model\GameRecord.cpp" />
     <ClCompile Include="src\dialogs\GameReviewDialog.cpp" />
     <ClCompile Include="src\engine\bidding\GerberConvention.cpp" />
     <ClCompile Include="src\GIB.cpp" />
@@ -404,7 +410,6 @@
     <ClInclude Include="src\dialogs\CardLayout.h" />
     <ClInclude Include="src\engine\CardList.H" />
     <ClInclude Include="src\engine\CardLocation.H" />
-    <ClInclude Include="src\engine\cardopts.h" />
     <ClInclude Include="src\engine\card_constants.h" />
     <ClInclude Include="src\engine\play\Cash.h" />
     <ClInclude Include="src\engine\play\CombinedHoldings.H" />
@@ -424,7 +429,6 @@
     <ClInclude Include="src\engine\play\Discard.h" />
     <ClInclude Include="src\engine\play\DisplayHoldings.H" />
     <ClInclude Include="src\model\deal.h" />
-    <ClInclude Include="src\model\docopts.h" />
     <ClInclude Include="src\DrawParameters.h" />
     <ClInclude Include="src\engine\play\Drop.h" />
     <ClInclude Include="src\engine\bidding\DruryConvention.h" />
@@ -442,7 +446,8 @@
     <ClInclude Include="src\engine\play\Finesse.h" />
     <ClInclude Include="src\engine\play\Force.h" />
     <ClInclude Include="src\engine\bidding\Gambling3NTConvention.h" />
-    <ClInclude Include="src\engine\GameRecord.h" />
+    <ClInclude Include="src\model\file_exporter.h" />
+    <ClInclude Include="src\model\GameRecord.h" />
     <ClInclude Include="src\dialogs\GameReviewDialog.h" />
     <ClInclude Include="src\engine\bidding\GerberConvention.h" />
     <ClInclude Include="src\GIB.h" />
@@ -848,4 +853,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="EasyB.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

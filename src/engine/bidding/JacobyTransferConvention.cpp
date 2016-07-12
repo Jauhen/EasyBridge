@@ -68,7 +68,7 @@ BOOL CJacobyTransferConvention::TryConvention(const CPlayer& player,
 		nSuit = bidState.GetBestSuitofAtLeast(HEARTS,SPADES,5);
 		nBid = MAKEBID(nSuit-1, 2);
 		status << "JAC0! With a " & bidState.numCardsInSuit[nSuit] & 
-				  "-card major in " & app_->SuitToString(nSuit) &
+				  "-card major in " & CCard::SuitToString(nSuit) &
 				  ", use Jacoby to transfer by bidding " & app_->BidToFullString(nBid) & ".\n";
 	} 
 	else 
@@ -83,7 +83,7 @@ BOOL CJacobyTransferConvention::TryConvention(const CPlayer& player,
 			else
 				nBid = BID_2NT;
 			status << "JAC2! With a " & bidState.numCardsInSuit[nSuit] & 
-					  "-card minor in " & app_->SuitToString(nSuit) &
+					  "-card minor in " & CCard::SuitToString(nSuit) &
 					  ", and playing 4-suit transfers, use Jacoby to transfer by bidding " &
 					  app_->BidToFullString(nBid) & ".\n";
 		} 
@@ -93,12 +93,12 @@ BOOL CJacobyTransferConvention::TryConvention(const CPlayer& player,
 			nBid = BID_2S;
 			if (nSuit == CLUBS)
 				status << "JAC4! With a " & bidState.numCardsInSuit[nSuit] & 
-						  "-card minor in " & app_->SuitToString(nSuit) &
+						  "-card minor in " & CCard::SuitToString(nSuit) &
 						  ", use Jacoby to transfer to 3C by bidding " & 
 						  app_->BidToFullString(nBid) & ".\n";
 			else
 				status << "JAC6! With a " & bidState.numCardsInSuit[nSuit] & 
-						  "-card minor in " & app_->SuitToString(nSuit) &
+						  "-card minor in " & CCard::SuitToString(nSuit) &
 						  ", and playing only simple transfers, use Jacoby to transfer to 3C by bidding " &
 						  app_->BidToFullString(nBid) & ".  We can then rebid 3D at the next opportunity.\n";
 		}
@@ -197,13 +197,13 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	if (app_->GetCurrentConventionSet()->IsOptionEnabled(tb4SuitTransfers)) 
 	{
 		status << "JC10! Playing Four-suit Jacoby Transfers, partner is asking to transfer to " &
-				  app_->SuitToString(nNewSuit) & ".\n";
+				  CCard::SuitToString(nNewSuit) & ".\n";
 	} 
 	else 
 	{
 		if (nPartnersBid != BID_2NT)
 			status << "JC12! Playing Simple Jacoby Transfers, partner is asking to transfer to " &
-					   app_->SuitToString(nNewSuit) & ".\n";
+					   CCard::SuitToString(nNewSuit) & ".\n";
 	}
 
 	//
@@ -232,7 +232,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 			(bidState.nSuitStrength[nNewSuit] >= SS_GOOD_SUPPORT)) 
 	{
 		nBid = bidState.GetJumpShiftBid(nNewSuit,nPartnersBid);
-		status << "JC20! Responding with strong support in the major " & app_->SuitToSingularString(nNewSuit) &
+		status << "JC20! Responding with strong support in the major " & CCard::SuitToSingularString(nNewSuit) &
 				  " suit (holding " & bidState.SHTS(nNewSuit) & 
 				  ") and max NT opening points, jump respond to " & app_->BidToFullString(nBid) & ".\n";
 	}
@@ -249,7 +249,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 		{
 			// cheapest bid up = strong respnse
 			nBid = nPartnersBid + 1;
-			status << "JC22! Responding with strong support in the major " & app_->SuitToSingularString(nNewSuit) &
+			status << "JC22! Responding with strong support in the major " & CCard::SuitToSingularString(nNewSuit) &
 					  " suit (holding " & bidState.SHTS(nNewSuit) & 
 					  ") and max NT opening points, respond with " & app_->BidToFullString(nBid) & 
 					  " to indicate strong support and max opening strength (playing 4-suit transfers).\n";
@@ -270,7 +270,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	if (nNewSuit >= CLUBS) 
 	{
 		nBid = bidState.GetCheapestShiftBid(nNewSuit);
-		status << "JC24! Respond to the requested " & app_->SuitToSingularString(nNewSuit) & 
+		status << "JC24! Respond to the requested " & CCard::SuitToSingularString(nNewSuit) & 
 				  " transfer suit with a " & app_->BidToFullString(nBid) & " bid.\n";
 	}
 
@@ -397,7 +397,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 				  " HCPs, for a total of " & 
 				  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 				  " HCPs in the partnership) and strong support for the minor " &
-				  app_->SuitToSingularString(nPreviousSuit) & " suit.\n";
+				  CCard::SuitToSingularString(nPreviousSuit) & " suit.\n";
 	} 
 	else 
 	{

@@ -128,12 +128,12 @@ void CScoreDialog::StartNewHand()
 
 
 //
-void CScoreDialog::SetBonusPoints(CStringArray& strArrayText)
+void CScoreDialog::SetBonusPoints(std::vector<CString> strArrayText)
 {
-	int numLines = strArrayText.GetSize();
+	int numLines = strArrayText.size();
 	for(int i=0;i<numLines;i++)
 	{
-		m_strBonusPoints += strArrayText.GetAt(i);
+		m_strBonusPoints += strArrayText[i];
 		if (i < numLines-1)
 			m_strBonusPoints += _T("\r\n");
 	}
@@ -141,12 +141,12 @@ void CScoreDialog::SetBonusPoints(CStringArray& strArrayText)
 
 
 //
-void CScoreDialog::SetTrickPoints(CStringArray& strArrayText)
+void CScoreDialog::SetTrickPoints(std::vector<CString> strArrayText)
 {
-	int numLines = strArrayText.GetSize();
+	int numLines = strArrayText.size();
 	for(int i=0;i<numLines;i++)
 	{
-		m_strTrickPoints += strArrayText.GetAt(i);
+		m_strTrickPoints += strArrayText[i];
 		if (i < numLines-1)
 			m_strTrickPoints += _T("\r\n");
 	}

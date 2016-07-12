@@ -23,7 +23,7 @@
 #include "engine/CardLocation.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-
+#include "model/deal.h"
 
 
 //
@@ -102,22 +102,22 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	//   finesse against LHO
 
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetDeal()->GetTrumpSuit()) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
-	CCard* pTopCard = app_->GetCurrentTrickHighCard();
+	CCard* pTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 

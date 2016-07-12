@@ -56,7 +56,7 @@ END_MESSAGE_MAP()
 //
 BOOL CBiddingFinishedDialog::OnInitDialog() 
 {
-	ASSERT(pDOC->GetNumBidsMade() >= 3);
+	ASSERT(pDOC->GetDeal()->GetNumBidsMade() >= 3);
 	//
  	CDialog::OnInitDialog();
 	//

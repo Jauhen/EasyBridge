@@ -42,6 +42,7 @@
 #include "engine/play/CombinedHoldings.h"
 #include "engine/play/CombinedSuitHoldings.h"
 #include "engine/PlayerStatusDialog.h"
+#include "model/deal.h"
 #include "app_interface.h"
 
 
@@ -319,7 +320,7 @@ int CDeclarerPlayEngine::GetNumClaimableTricks()
 	int numWinners = 0;
 
 	// special handling for suit contracts
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	if (ISSUIT(nTrumpSuit))
 	{
 		// first check trumps
@@ -364,7 +365,7 @@ void CDeclarerPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 	// first card played
 	// OR: we are in manual mode, watching the human play for us
 	if ( (app_->IsInGameRestoreMode() || app_->IsInManualCardPlayMode()) && 
-		 (nPos == m_pPartner->GetPosition()) && (app_->GetNumCardsPlayedInGame() == 2) )
+		 (nPos == m_pPartner->GetPosition()) && (app_->GetDeal()->GetNumCardsPlayedInGame() == 2) )
 	{
 		// if so, we have to init the combined hand at this point, since
 		// it won;t get done through the normal course of events
@@ -381,8 +382,8 @@ void CDeclarerPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 
 	// if this is an idle declarer engine (i.e., for North/South), init
 	// the combined hand anyway 
-	if ( ((app_->GetDeclarerPosition() == NORTH) || (app_->GetDeclarerPosition() == SOUTH)) &&
-		  (app_->GetNumTricksPlayed() == 0) && (app_->GetNumCardsPlayedInRound() == 2))
+	if ( ((app_->GetDeal()->GetDeclarerPosition() == NORTH) || (app_->GetDeal()->GetDeclarerPosition() == SOUTH)) &&
+		  (app_->GetDeal()->GetNumTricksPlayed() == 0) && (app_->GetDeal()->GetNumCardsPlayedInRound() == 2))
 	{
 		InitCombinedHand();
 	}
@@ -825,11 +826,11 @@ CCard* CDeclarerPlayEngine::PlayCard()
 
 	// as we're playing declarer, we must have formed a play plan already
 	// but if this is round 2 or later, look for any newly emergent plays
-	if (app_->GetPlayRound() > 0) 
+	if (app_->GetDeal()->GetPlayRound() > 0)
 	{	
 		// plan if we're in pos 1 or 2, or if we're in hint mode and 
 		// we haven't planned any plays yet
-		if (app_->GetNumCardsPlayedInRound() < 2)
+		if (app_->GetDeal()->GetNumCardsPlayedInRound() < 2)
 			ReviewPlayPlan();
 	}
 	
@@ -908,7 +909,7 @@ CCard* CDeclarerPlayEngine::PlayForDummy()
 	}
 
 	// if this is round 2 or later, look for any newly emergent plays
-	if ((app_->GetPlayRound() > 0) && (app_->GetNumCardsPlayedInRound() < 2))
+	if ((app_->GetDeal()->GetPlayRound() > 0) && (app_->GetDeal()->GetNumCardsPlayedInRound() < 2))
 		ReviewPlayPlan();
 
 	// then try the plays we have selected
@@ -945,10 +946,10 @@ void CDeclarerPlayEngine::TestForClaim()
 		return;
 
 	// see if we can claim the hand (or should concede)
-	if (app_->GetNumCardsPlayedInRound() == 0) 
+	if (app_->GetDeal()->GetNumCardsPlayedInRound() == 0)
 	{
 		// see how many tricks we have left -- if it's just one, don't bother
-		int numRemainingTricks = 13 - app_->GetNumTricksPlayed();
+		int numRemainingTricks = 13 - app_->GetDeal()->GetNumTricksPlayed();
 		if (numRemainingTricks == 1)
 			return;
 
@@ -966,7 +967,7 @@ void CDeclarerPlayEngine::TestForClaim()
 
 		// check entries
 		EvaluateEntries();
-		BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+		BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 
 		// test condition #2 -- see if we need winners from both hands
 		if ( (m_pCombinedHand->GetNumDeclarerTopCards() < numRemainingTricks) &&
@@ -1006,7 +1007,7 @@ void CDeclarerPlayEngine::TestForClaim()
 		if (nCode == IDYES)
 		{
 			// player concedes
-			app_->ClaimTricks(m_pPlayer->GetPosition());
+			app_->GetDeal()->ClaimTricks(m_pPlayer->GetPosition());
 			throw 1;	// escape
 		}
 		else
@@ -1320,7 +1321,7 @@ CCard* CDeclarerPlayEngine::TrySelectedPlays()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// now sift through the play list
-	int nCurrPos = app_->GetCurrentPlayerPosition();
+	int nCurrPos = app_->GetDeal()->GetCurrentPlayerPosition();
 
 	// and search through the remaining plays for a usable one
 	int nPlayIndex = 0;
@@ -1489,7 +1490,7 @@ CCard* CDeclarerPlayEngine::TrySelectedPlays()
 	if (pCard)
 	{
 		// make sure we play a valid card!!!
-		if (app_->GetCurrentPlayerPosition() == m_pPlayer->GetPosition())
+		if (app_->GetDeal()->GetCurrentPlayerPosition() == m_pPlayer->GetPosition())
 			ASSERT(m_pPlayer->HasCard(pCard));
 		else
 			ASSERT(m_pPartner->HasCard(pCard));
@@ -1514,7 +1515,7 @@ CCard* CDeclarerPlayEngine::TrySelectedPlays()
 CCard* CDeclarerPlayEngine::PlayFirst()
 {
 	// see if we're playing in hand or in dummy
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 
 	// call default code in base class
 	if (bPlayingInHand)
@@ -1535,7 +1536,7 @@ CCard* CDeclarerPlayEngine::PlayFirst()
 CCard* CDeclarerPlayEngine::PlaySecond()
 {
 	// see if we're playing in hand or in dummy
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 
 	//
 	CPlayerStatusDialog& status = *m_pStatusDlg;
@@ -1551,10 +1552,10 @@ CCard* CDeclarerPlayEngine::PlaySecond()
 */
 
 	// get play info
-	CCard* pCardLed = app_->GetCurrentTrickCardLed();
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nCardLedFaceValue = pCardLed->GetFaceValue();
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	CCard* pCard = NULL;
 
 	// get hand info
@@ -1713,7 +1714,7 @@ CCard* CDeclarerPlayEngine::PlaySecond()
 			// or playing in a suit but have no trumps left, so simply discard
 			pCard = GetDiscard();
 			if (ISSUIT(nTrumpSuit))
-				status << "PLDC2C1! We don't have any more " & app_->SuitToString(nSuitLed) & 
+				status << "PLDC2C1! We don't have any more " & CCard::SuitToString(nSuitLed) & 
 					      " or trumps in " & (bPlayingInHand? "hand" : "dummy") & 
 						  ", so discard the " & pCard->GetFaceName() & ".\n";
 			else
@@ -1737,21 +1738,21 @@ CCard* CDeclarerPlayEngine::PlaySecond()
 CCard* CDeclarerPlayEngine::PlayThird()
 {
 	// see if we're playing in hand or in dummy
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 	//
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// get play info
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
-	CCard* pRHOCard = app_->GetCurrentTrickCardByOrder(1);
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
+	CCard* pRHOCard = app_->GetDeal()->GetCurrentTrickCardByOrder(1);
 	int nSuitLed = pLeadCard->GetSuit();
 	int nTopPos;
-	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard(&nTopPos);
+	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = app_->PositionToString(nTopPos);
-	int nCurrentRound = app_->GetPlayRound();
-	int nCurrentSeat = app_->GetNumCardsPlayedInRound() + 1;
-	CCard* pDeclarersCard = app_->GetCurrentTrickCard(GetPlayerPosition());
-	CCard* pDummysCard = app_->GetCurrentTrickCard(GetPartnerPosition());
+	int nCurrentRound = app_->GetDeal()->GetPlayRound();
+	int nCurrentSeat = app_->GetDeal()->GetNumCardsPlayedInRound() + 1;
+	CCard* pDeclarersCard = app_->GetDeal()->GetCurrentTrickCard(GetPlayerPosition());
+	CCard* pDummysCard = app_->GetDeal()->GetCurrentTrickCard(GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarersCard;
 	BOOL bPartnerHigh = (pCurrTopCard == pPartnersCard);
 	//
@@ -1761,7 +1762,7 @@ CCard* CDeclarerPlayEngine::PlayThird()
 	CSuitHoldings& dummySuit = combinedSuit.GetDummySuit();
 	CSuitHoldings& suit = bPlayingInHand? declarerSuit : dummySuit;
 	// 
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	int numCardsInSuitLed = suit.GetNumCards();
 	int numOutstandingTrumps = 0;
 	if (ISSUIT(nTrumpSuit))
@@ -1935,13 +1936,13 @@ CCard* CDeclarerPlayEngine::PlayThird()
 				if (trumpSuit.GetNumTopCards() > numOutstandingTrumps)
 				{
 					pCard = trumpSuit.GetTopSequence().GetBottomCard();;
-					status << "PLYD2A52! With no cards in the " & app_->SuitToString(nSuitLed) &
+					status << "PLYD2A52! With no cards in the " & CCard::SuitToString(nSuitLed) &
 							  " suit, trump with the " & pCard->GetFaceName() & ".\n";
 				}
 				else
 				{
 					pCard = hand.GetSuit(nTrumpSuit).GetBottomCard();
-					status << "PLYD2A55! With no cards in " & app_->SuitToString(nSuitLed) &
+					status << "PLYD2A55! With no cards in " & CCard::SuitToString(nSuitLed) &
 							  ", trump with the " & pCard->GetName() & ".\n";
 				}
 			}
@@ -1976,7 +1977,7 @@ CCard* CDeclarerPlayEngine::PlayThird()
 CCard* CDeclarerPlayEngine::PlayFourth()
 {
 	// see if we're playing in hand or in dummy
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 
 	// call default code in base class
 	if (bPlayingInHand)
@@ -1997,28 +1998,28 @@ CCard* CDeclarerPlayEngine::PlayFourth()
 CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 {
 	// see if we're playing in hand or in dummy
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 
 	//
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 //	status << "PLYE3! Playing best card.\n";
 
 	// get play info
-	CCard* pCurrentCard = app_->GetCurrentTrickCardLed();
+	CCard* pCurrentCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
-	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard(&nTopPos);
+	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = app_->PositionToString(nTopPos);
-	int nCurrentRound = app_->GetPlayRound();
-	int nCurrentSeat = app_->GetNumCardsPlayedInRound() + 1;
+	int nCurrentRound = app_->GetDeal()->GetPlayRound();
+	int nCurrentSeat = app_->GetDeal()->GetNumCardsPlayedInRound() + 1;
 	// see what the top card in the round is
-	CCard* pTopCard = app_->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = app_->GetCurrentTrickCard(GetPlayerPosition());
-	CCard* pDummysCard = app_->GetCurrentTrickCard(GetPartnerPosition());
+	CCard* pTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetDeal()->GetCurrentTrickCard(GetPlayerPosition());
+	CCard* pDummysCard = app_->GetDeal()->GetCurrentTrickCard(GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard: pDeclarerCard;
 	BOOL bPartnerHigh = (pTopCard == pPartnersCard);
 	// 
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	int numCardsInSuitLed = m_pHand->GetNumCardsInSuit(nSuitLed);
 	// card to play
 	CCard* pCard = NULL;
@@ -2026,7 +2027,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 	// 
 	// first see if somebody trumped in this hand
 	//
-	if ((app_->WasTrumpPlayed()) && (nTrumpSuit != nSuitLed))
+	if ((app_->GetDeal()->WasTrumpPlayed()) && (nTrumpSuit != nSuitLed))
 	{
 		// a trump has been played 
 		// see whether it was played by partner or by an opponent
@@ -2145,7 +2146,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 							{
 								// dummy has the top card and we can beat it
 								status << "PLYE38A! Playing third ahead of dummy, need to beat dummy's " & 
-										  app_->CardValToString(nDummyTopCard) & ".\n";
+										  CCard::CardValToString(nDummyTopCard) & ".\n";
 							}
 							else
 							{
@@ -2212,7 +2213,7 @@ CCard* CDeclarerPlayEngine::PlayBestCard(int nPosition)
 			{
 				// opponents have the high card (non-trump) -- so slam 'em
 				pCard = m_pHand->GetSuit(nTrumpSuit).GetBottomCard();
-				status << "PLYE55! With no cards in " & app_->SuitToString(nSuitLed) &
+				status << "PLYE55! With no cards in " & CCard::SuitToString(nSuitLed) &
 						  ", trump with the " & pCard->GetName() & ".\n";
 			}
 		}
@@ -2245,10 +2246,10 @@ CCard* CDeclarerPlayEngine::GetDiscard()
 	//
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	//
-	CCard* pLeadCard = app_->GetCurrentTrickCardLed();
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pLeadCard->GetSuit();
-	int nTrumpSuit = app_->GetTrumpSuit();
-	bool bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
+	bool bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 	CCard* pCard;
 
 
@@ -2412,12 +2413,12 @@ CCard* CDeclarerPlayEngine::GetFinalDiscard()
 	// standard discard routine -- declarer/dummy discards from the worst suits
 	// playing no trumps -- generally return the bottom card of the worst suit
 	//
-	bool bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	bool bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 	CCombinedHoldings& combinedHand = *m_pCombinedHand;
 	CHandHoldings& declarerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CHandHoldings& hand = bPlayingInHand? declarerHand : dummyHand;
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	CSuitHoldings* pDiscardSuit = NULL;
 
 	//
@@ -2681,7 +2682,7 @@ void CDeclarerPlayEngine::ReviewPlayPlan()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// starting as declarer
-	status << "2PLNADJ! Reviewing play plan for round " & (app_->GetNumTricksPlayed()+1) & "...\n";
+	status << "2PLNADJ! Reviewing play plan for round " & (app_->GetDeal()->GetNumTricksPlayed()+1) & "...\n";
 	m_declarerPriorityDiscards.Clear();
 	m_dummyPriorityDiscards.Clear();
 	m_declarerDiscardedPriorityDiscards.Clear();
@@ -2691,7 +2692,7 @@ void CDeclarerPlayEngine::ReviewPlayPlan()
 
 	//
 	int nTeam = app_->GetPlayerTeam(m_pPlayer->GetPosition());
-	m_numTricksMade = app_->GetNumberOfTricksWonByTeam(nTeam);
+	m_numTricksMade = app_->GetDeal()->GetNumTricksWonByTeam(nTeam);
 	m_numTricksLeftToBeMade =  m_numRequiredTricks - m_numTricksMade;
 //	m_numSureTricks = m_pCombinedHand->GetNumMaxWinners();
 	m_numSureTricks = m_pCombinedHand->GetNumMaxTopCards();
@@ -2777,7 +2778,7 @@ int CDeclarerPlayEngine::CreateNoTrumpPlayPlan()
 	//
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	// set verbosity level
-	if (app_->GetNumTricksPlayed() == 0)
+	if (app_->GetDeal()->GetNumTricksPlayed() == 0)
 		status.SetStreamOutputLevel(4);
 	else
 		status.SetStreamOutputLevel(5);
@@ -2875,7 +2876,7 @@ int CDeclarerPlayEngine::CreateNoTrumpPlayPlan()
 
 	//
 	// done planning -- so return the max number of possible tricks
-	int numRemainingTricks = 13 - app_->GetNumTricksPlayed();
+	int numRemainingTricks = 13 - app_->GetDeal()->GetNumTricksPlayed();
 	if (m_numTotalPlannedTricks < 13)
 		status << "2PLNNT90A! We have " & m_playPlan.GetSize() & " plays and approx. " & 
 				  m_numTotalPlannedTricks & "+ possible tricks including " & m_numSureTricks & 
@@ -2906,12 +2907,12 @@ int CDeclarerPlayEngine::CreateSuitContractPlayPlan()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 
 	// set verbosity level
-	if (app_->GetNumTricksPlayed() == 0)
+	if (app_->GetDeal()->GetNumTricksPlayed() == 0)
 		status.SetStreamOutputLevel(4);
 	else
 		status.SetStreamOutputLevel(5);
 
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 //	int nTricksCount = 0;
 	m_numTotalPlannedTricks = 0;
 
@@ -3064,7 +3065,7 @@ int CDeclarerPlayEngine::CreateSuitContractPlayPlan()
 
 	//
 	// done planning -- so return the max number of possible tricks
-	int numRemainingTricks = 13 - app_->GetNumTricksPlayed();
+	int numRemainingTricks = 13 - app_->GetDeal()->GetNumTricksPlayed();
 	if (m_numTotalPlannedTricks < 13)
 		status << "2PLNST90A! We have " & m_playPlan.GetSize() & " possible plays and approx. " & 
 				  m_numTotalPlannedTricks & "+ possible tricks including " & m_numSureTricks & 
@@ -3168,7 +3169,7 @@ void CDeclarerPlayEngine::PickPrioritySuit()
 	{
 		// start with the longest suit unless it's the trump suit
 		int nIndex = 0;
-		if (m_pCombinedHand->GetSuitsByLength(nIndex) == app_->GetTrumpSuit())
+		if (m_pCombinedHand->GetSuitsByLength(nIndex) == app_->GetDeal()->GetTrumpSuit())
 			nIndex++;
 		// and add the suits to the list
 		for(;nIndex<4;nIndex++)
@@ -3200,7 +3201,7 @@ void CDeclarerPlayEngine::PickPrioritySuit()
 		}
 	}
 	//
-	status << "2PLNPRI! The " & app_->SuitToSingularString(m_nPrioritySuit) & " suit looks the most promising for further development.\n";
+	status << "2PLNPRI! The " & CCard::SuitToSingularString(m_nPrioritySuit) & " suit looks the most promising for further development.\n";
 }
 
 
@@ -3230,7 +3231,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 		// for a finesse, see if an opponent had bid this suit
 		CFinesse* pFinesse = (CFinesse*) pPlay;
 		int nSuit = pPlay->GetSuit();
-		int numBids = app_->GetNumBidsMade();
+		int numBids = app_->GetDeal()->GetNumBidsMade();
 		int numRounds = numBids / 4;
 		if ((numBids % 4) > 0)
 			numRounds++;
@@ -3244,14 +3245,14 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 		for(int j=0;j<numRounds;j++)
 		{
 			// check LHO
-			int nBid = app_->GetBidByPlayer(m_pLHOpponent, j);
+			int nBid = app_->GetDeal()->GetBidByPlayer(m_pLHOpponent, j);
 			if (ISBID(nBid) && (BID_SUIT(nBid) == nSuit))
 			{
 				bLHOBidSuit = TRUE;
 				break;
 			}
 			// check RHO
-			nBid = app_->GetBidByPlayer(m_pRHOpponent, j);
+			nBid = app_->GetDeal()->GetBidByPlayer(m_pRHOpponent, j);
 			if (ISBID(nBid) && (BID_SUIT(nBid) == nSuit))
 			{
 				bRHOBidSuit = TRUE;
@@ -3266,7 +3267,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstBiddingHistory()
 			// remark
 			status << "3PLTSTB! The " & pPlay->GetConsumedCard()->GetName() & 
 					  " finesse is targeted against " & app_->PositionToString(pFinesse->GetTargetPos()) &
-					  ", who had earlier bid the " & app_->SuitToSingularString(pPlay->GetSuit()) & ", so postpone the play.\n";
+					  ", who had earlier bid the " & CCard::SuitToSingularString(pPlay->GetSuit()) & ", so postpone the play.\n";
 			// and push the play to the end of the play list
 			m_playPlan.MovePlayToEnd(i);
 		}
@@ -3328,7 +3329,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstPlayHistory()
 
 			// here, the two plays have the same suit and gap cards
 			// so see if the earlier play succeeded, and its target
-			int nTrickWinner = app_->GetGameTrickWinner(j);
+			int nTrickWinner = app_->GetDeal()->GetGameTrickWinner(j);
 			if ((nTrickWinner == GetPlayerPosition()) || (nTrickWinner == GetPartnerPosition()))
 			{
 				// the play succeeded -- so see if the new play's target is 
@@ -3400,10 +3401,10 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 	if (numPlays == 0)
 		return;
 	int numPlaysMoved = 0;
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 	int nCurrentHand = bPlayingInHand? CPlay::IN_HAND : CPlay::IN_DUMMY;
 	//
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	int numOutstandingTrumps = ISSUIT(nTrumpSuit)? GetNumOutstandingCards(nTrumpSuit) : 0;
 
 
@@ -3917,12 +3918,12 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 			// then the exit play
 			if (numExitSuits == 1)
 			{
-				status << "3PLSEQ44! We want to eventualy exit with a " & app_->SuitToSingularString(arrayExitSuits[0]) & ".\n";
+				status << "3PLSEQ44! We want to eventualy exit with a " & CCard::SuitToSingularString(arrayExitSuits[0]) & ".\n";
 			}
 			else
 			{
-				status << "3PLSEQ45! We want to eventualy exit with a " & app_->SuitToSingularString(arrayExitSuits[0]) & 
-						  " and a " & app_->SuitToSingularString(arrayExitSuits[1]) & ".\n";
+				status << "3PLSEQ45! We want to eventualy exit with a " & CCard::SuitToSingularString(arrayExitSuits[0]) & 
+						  " and a " & CCard::SuitToSingularString(arrayExitSuits[1]) & ".\n";
 			}
 
 			// sequencing complete
@@ -3949,7 +3950,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 	// opportunistic plays are generally speculative, so we cannot 
 	// play them if we have to win every trick
 	if (!bSkipOpportunisticPlays && 
-    app_->GetNumTricksRemaining() > m_numTricksLeftToBeMade)
+    app_->GetDeal()->GetNumTricksRemaining() > m_numTricksLeftToBeMade)
 	{
 		int numPlays = m_playPlan.GetSize();
 		int i = 0;
@@ -3985,7 +3986,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 	if (!bSequenced && ISSUIT(m_nPrioritySuit) && !bEnoughCashes)
 	{
 		//
-		status << "3PLSEQ6! We want to work on developing the " & app_->SuitToSingularString(m_nPrioritySuit) &
+		status << "3PLSEQ6! We want to work on developing the " & CCard::SuitToSingularString(m_nPrioritySuit) &
 				  " suit first, so move its plays up to the front if possible.\n";
 		int numPlaysMoved = 0;
 		for(int i=1;i<numPlays;i++)
@@ -4053,10 +4054,10 @@ void CDeclarerPlayEngine::InterleavePlays()
 	if (numPlays == 0)
 		return;
 	int numPlaysMoved = 0;
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == m_pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer);
 	int nCurrentHand = bPlayingInHand? CPlay::IN_HAND : CPlay::IN_DUMMY;
 	//
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	int numOutstandingTrumps = ISSUIT(nTrumpSuit)? GetNumOutstandingCards(nTrumpSuit) : 0;
 
 
@@ -4172,7 +4173,7 @@ void CDeclarerPlayEngine::InterleavePlays()
 	//   to eliminate key cards for a finesse
 	CPlay* pPlay = m_playPlan[0];
 	int nStartingHand = pPlay->GetStartingHand();
-	if (app_->GetCurrentPlayerPosition() == GetPlayerPosition())
+	if (app_->GetDeal()->GetCurrentPlayerPosition() == GetPlayerPosition())
 		nCurrentHand = CPlay::IN_HAND;
 	else
 		nCurrentHand = CPlay::IN_DUMMY;
@@ -4352,7 +4353,7 @@ void CDeclarerPlayEngine::InterleavePlays()
 		CPlay* pPlay = m_playPlan[i];
 		if ((pPlay->GetPlayType() == CPlay::CASH) && (pPlay->GetSuit() != nTrumpSuit))
 		{
-			int nCurrentHand = (app_->GetCurrentPlayer() == m_pPlayer) ? CPlay::IN_HAND : CPlay::IN_DUMMY;
+			int nCurrentHand = (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer) ? CPlay::IN_HAND : CPlay::IN_DUMMY;
 			int nTargetHand = pPlay->GetTargetHand();
 //			int nSuit = dynamic_cast<CCash*>(pPlay)->GetSuit();
 			int nSuit = ((CCash*) pPlay)->GetSuit();
@@ -4603,10 +4604,10 @@ int CDeclarerPlayEngine::FilterPlays(CPlayList& playList)
 int CDeclarerPlayEngine::FindHoldUpPlays(CPlayList& playList, BOOL bExcludeTrumpSuit)
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	int nRound = app_->GetNumTricksPlayed();
+	int nRound = app_->GetDeal()->GetNumTricksPlayed();
 
 	// no holdups in a suit contract, OR after the second round
-	if (ISSUIT(app_->GetTrumpSuit()) || (nRound >= 2))
+	if (ISSUIT(app_->GetDeal()->GetTrumpSuit()) || (nRound >= 2))
 		return 0;
 
 	// see if this is the second round
@@ -4624,12 +4625,12 @@ int CDeclarerPlayEngine::FindHoldUpPlays(CPlayList& playList, BOOL bExcludeTrump
 
 	// check if we won the last round and hence are leading --
 	// this could conceivably have happened even if we held up (???)
-	if (app_->GetNumCardsPlayedInRound() == 0)
+	if (app_->GetDeal()->GetNumCardsPlayedInRound() == 0)
 		return 0;
 
 	// see if a holdup is appropriate
 	// check the suit that was led
-	CCard* pLeadCard = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pLeadCard->GetSuit();
 	CCombinedSuitHoldings& suit = m_pCombinedHand->GetSuit(nSuitLed);
 
@@ -4654,7 +4655,7 @@ int CDeclarerPlayEngine::FindHoldUpPlays(CPlayList& playList, BOOL bExcludeTrump
 	int numHoldUps = 2 - nRound;
 
 	// don't hold up more than once if trying for a slam
-	numHoldUps = Min(numHoldUps, 7 - app_->GetContractLevel());
+	numHoldUps = Min(numHoldUps, 7 - app_->GetDeal()->GetContractLevel());
 
 	// adjust for previous holdup, if we played one
 	if (numHoldUps <= 0)
@@ -4769,9 +4770,9 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 			if (numMaxSuitCashes[nSuit] == nTricksCount)
 				status << "5PLNCSH3! We can cash " & numMaxSuitCashes[nSuit] & " " &
 						   ((numSuitTopCards > 1)? "cards" : "card") &
-					      " in " & app_->SuitToString(nSuit);
+					      " in " & CCard::SuitToString(nSuit);
 			else
-				status << " " & numMaxSuitCashes[nSuit] & " in " & app_->SuitToString(nSuit);
+				status << " " & numMaxSuitCashes[nSuit] & " in " & CCard::SuitToString(nSuit);
 			if (bExcludeTrumpSuit)
 			{
 				// are there more top cards aside from those in the trump suit?
@@ -4801,14 +4802,14 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 	// now look for a delayed cashing trick
 	//
 	int nDelayedTricksCount = 0;
-	if (app_->GetNumCardsPlayedInRound() == 1)
+	if (app_->GetDeal()->GetNumCardsPlayedInRound() == 1)
 	
 	{
 		// a delayed cash is a card that we can cash now or later, depending on
 		// what gets played by the opponents (specifically, RHO)
 		// e.g., a Kx in hand is normally not a cash, but it becomes worth 1 
 		// delayed cash if LHO plays a low card of the suit
-		CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+		CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 		nSuit = pCardLed->GetSuit();
 		CCombinedSuitHoldings& suit = m_pCombinedHand->GetSuit(nSuit);
 		CSuitHoldings& dummy = suit.GetDummySuit();
@@ -4817,9 +4818,9 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 		if (suit.GetNumMissingSequences() > 0)
 		{
 			CCardList& missingTopCards = suit.GetTopMissingSequence();
-			int numTricksLeft = 13 - app_->GetNumTricksPlayed();
+			int numTricksLeft = 13 - app_->GetDeal()->GetNumTricksPlayed();
 			//
-			if ((app_->GetCurrentPlayer() == m_pPartner) &&
+			if ((app_->GetDeal()->GetCurrentPlayer() == m_pPartner) &&
 				(pCardLed->GetSuit() == nSuit) && (dummy.GetNumWinners() == 0) && 
 				(missingTopCards.GetNumCards() == 1) && (declarer.GetNumCards() >= 2) && 
 				((*(missingTopCards[0]) - *(declarer[0])) == 1) && (numTricksLeft > m_numTricksLeftToBeMade))
@@ -4844,7 +4845,7 @@ int CDeclarerPlayEngine::FindCashingPlays(CPlayList& playList, BOOL bExcludeTrum
 			}
 
 			// try the same for dummy in fourth position
-			if ((app_->GetCurrentPlayer() == m_pPlayer) &&
+			if ((app_->GetDeal()->GetCurrentPlayer() == m_pPlayer) &&
 				(pCardLed->GetSuit() == nSuit) && (declarer.GetNumWinners() == 0) && 
 				(missingTopCards.GetNumCards() == 1) && (dummy.GetNumCards() >= 2) && 
 				((*(missingTopCards[0]) - *(dummy[0])) == 1) && (numTricksLeft > m_numTricksLeftToBeMade))
@@ -5101,7 +5102,7 @@ int CDeclarerPlayEngine::FormTrumpPullingPlan(CPlayList& mainPlayList, CPlayList
 //
 int CDeclarerPlayEngine::FormTrumpFinessePlan(CPlayList& mainPlayList, CPlayList& trumpPlayList)
 {
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	if (!ISSUIT(nTrumpSuit))
 		return 0;
 
@@ -5181,7 +5182,7 @@ int CDeclarerPlayEngine::FindRuffingPlays(CPlayList& playList)
 
 	// first look to see if the current opponent's lead card can be ruffed
 	// this check is ONLY done if we're planning in second hand, so this is OK
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	if (pCardLed != NULL)
 	{
 		int nSuitLed = pCardLed->GetSuit();
@@ -5464,7 +5465,7 @@ int CDeclarerPlayEngine::FindRuffingPlays(CPlayList& playList)
 		}
 		//
 		status << "4PLNRF1! We can potentially ruff up to " & ruffCandidates[i].numRuffs & " " & 
-			((ruffCandidates[i].numRuffs > 1)? app_->SuitToString(ruffCandidates[i].nSuit) : app_->SuitToSingularString(ruffCandidates[i].nSuit));
+			((ruffCandidates[i].numRuffs > 1)? CCard::SuitToString(ruffCandidates[i].nSuit) : CCard::SuitToSingularString(ruffCandidates[i].nSuit));
 		status < ((ruffCandidates[i].nDirection == CRuff::IN_DUMMY)? " in dummy" : " in hand");
 		if (ruffCandidates[i].numDiscardsRequired > 0)
 			status < " after discarding the " & ruffCandidates[i].numDiscardsRequired & 
@@ -6558,8 +6559,8 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 	//   and NO higher cards in the opposite hand
 	//
 	// check if we have a gap in the honors, located in dummy, and no cover in hand but one in dummy
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
-	if ((app_->GetNumCardsPlayedInRound() == 1) && (app_->GetCurrentPlayer() == m_pPartner) &&
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
+	if ((app_->GetDeal()->GetNumCardsPlayedInRound() == 1) && (app_->GetDeal()->GetCurrentPlayer() == m_pPartner) &&
 		(pCardLed->GetSuit() == nSuit) && (suit.GetNumMissingHonors() > 0) && (dummy.GetNumCards() > 0) && 
 		(dummy.GetNumMissingHonors() > 0) && !bDeclarerHasCommandingCard &&
 		(dummy.GetNumCardsAbove(pCardLed) > 0) && bHaveLosers)
@@ -6613,7 +6614,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			 bOppositeEquivSingleton = TRUE;
 
 		// make sure we have a card we can finesse (& it's higher then the card led)
-		CCard* pCardLed = app_->GetCurrentTrickCardLed();
+		CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 		if (pFinesseCard && (*pFinesseCard > *pCardLed) && !bOppositeHigherCard && !bOppositeEquivSingleton)
 		{
 			// form the enemy OR-cards list
@@ -6638,7 +6639,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				{
 					// oops!
 					status << "5PSFNS42! We'd like to finesse the " & pFinesseCard->GetFullName() & " in dummy against " &
-            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & CCard::SuitToString(nSuit) & ".\n";
 					delete pGapCards;
 				}
 				else
@@ -6660,7 +6661,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 	}
 
 	// or in hand
-	if ((app_->GetNumCardsPlayedInRound() == 1) && (app_->GetCurrentPlayer() == m_pPlayer) &&
+	if ((app_->GetDeal()->GetNumCardsPlayedInRound() == 1) && (app_->GetDeal()->GetCurrentPlayer() == m_pPlayer) &&
 		(suit.GetNumMissingHonors() > 0) && (declarer.GetNumCards() > 0) &&
 		(declarer.GetNumMissingHonors() > 0) && !bDummyHasCommandingCard &&
 		(declarer.GetNumCardsAbove(pCardLed) > 0) && bHaveLosers)
@@ -6714,7 +6715,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 			 bOppositeEquivSingleton = TRUE;
 
 		// make sure we have a card we can finesse (& it's higher then the card led)
-		CCard* pCardLed = app_->GetCurrentTrickCardLed();
+		CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 		if (pFinesseCard && (*pFinesseCard > *pCardLed) && !bOppositeHigherCard && !bOppositeEquivSingleton)
 		{
 			// form the enemy OR-cards list
@@ -6737,7 +6738,7 @@ int CDeclarerPlayEngine::FindFinessesInSuit(CCombinedSuitHoldings& suit, CPlayLi
 				{
 					// oops!
 					status << "5PSFNS46! We'd like to finesse the " & pFinesseCard->GetFullName() & " in hand against " &
-            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & app_->SuitToString(nSuit) & ".\n";
+            app_->PositionToString(app_->GetNextPlayer(m_nPosition)) & ", but he's shown out of " & CCard::SuitToString(nSuit) & ".\n";
 					delete pGapCards;
 				}
 				else

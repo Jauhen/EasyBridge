@@ -23,6 +23,7 @@
 #include "EasyB.h"
 #include "engine/deck.h"
 #include "engine/card.h"
+#include "engine/card_constants.h"
 #include "engine/bidding/ConventionSet.h"
 
 
@@ -35,28 +36,6 @@ const int defSuitDisplaySequence[4][4] = {
 	{ CLUBS, DIAMONDS, HEARTS, SPADES }
 };
 */
-const LPCTSTR szPosition[4] = { "South", "West", "North", "East" };
-const LPCTSTR szPositionShort[4] = { "Sou.", "West", "Nor.", "East" };
-const LPCTSTR tszTeam[4] = {	"North/South", "East/West", "Both", "Neither" };
-const LPCTSTR tszTeamBrief[4] = { "N/S", "E/W", "Both", "Neither" };
-const LPCTSTR szCardName[15] = { "", "", "Deuce", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace" };
-const LPCTSTR szSuitName[5] = { "Clubs", "Diamonds", "Hearts", "Spades", "No Trump" };
-const LPCTSTR szSuitNameSingular[5] = { "Club", "Diamond", "Heart", "Spade", "No Trump" };
-const LPCTSTR szSuitNameShort[5] = { "C", "D", "H", "S", "NT" };
-const LPCTSTR szFaceValueName[] = {
-	"", "", "two", "three", "four", "five", "six", "seven",
-	"eight", "nine", "ten", "Jack", "Queen", "King", "Ace"
-};
-
-const TCHAR cSuit[5] = { 'C', 'D', 'H', 'S', 'N' };
-const TCHAR cCard[] = { 
-	' ', ' ', '2', '3', '4', '5', '6', '7', 
-	'8', '9', 'T', 'J', 'Q', 'K', 'A' 
-};
-const TCHAR cFaceCard[5] = { 'T', 'J', 'Q', 'K', 'A' };
-
-const int numDefCardBacks = 1;
-
 
 
 
@@ -777,8 +756,11 @@ const CString ContractToString(int nContract, int nModifier)
 	strBid.Format("%d%s", 
 				  BID_LEVEL(nContract), 
 				  szSuitNameShort[BID_SUIT(nContract)]);
-	if (nModifier > 0)
-		strBid += FormString(" %s", ((nModifier == 1)? "X" : "XX"));
+  if (nModifier == 1) {
+    strBid += " X";
+  } else if (nModifier == 2) {
+    strBid += " XX";
+  }
 	return strBid;
 }
 

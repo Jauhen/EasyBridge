@@ -13,7 +13,6 @@
 #include "EasyB.h"
 #include "model/EasyBdoc.h"
 #include "Defines.h"
-#include "model/docopts.h"
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "FileComments.h"
@@ -64,7 +63,7 @@ END_MESSAGE_MAP()
 void CFileCommentsDialog::OnAutoShow() 
 {
 	UpdateData(TRUE);
-	pDOC->SetValue(tbShowCommentsUponOpen, m_bAutoShow);
+	pDOC->GetDeal()->ShowCommentsUponOpen(m_bAutoShow);
 }
 
 BOOL CFileCommentsDialog::OnInitDialog() 
@@ -164,7 +163,7 @@ void CFileCommentsDialog::UpdateText(BOOL bUpdateVariable)
 		// update main document string
 		CString strText;
 		pEdit->GetWindowText(strText);
-		pDOC->SetValue(tstrFileComments,(LPCTSTR)strText);
+		pDOC->GetDeal()->SetFileComments(strText);
 		return;
 	} 
 	// else update window text display

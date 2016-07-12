@@ -19,7 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "engine/Card.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 
 //
@@ -76,7 +76,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 		nSuit = DIAMONDS;
 
 	// test for std and ACOL Gambling 3NT conditions
-	int numValidBidsMade = app_->GetNumValidBidsMade();
+	int numValidBidsMade = app_->GetDeal()->GetNumValidBidsMade();
 	if ( bStandardGambling3NT && (numValidBidsMade  == 0) && (ISSUIT(nSuit)) &&
 		 (bidState.fCardPts >= app_->OpenPoints(10)) && (bidState.fCardPts <= app_->OpenPoints(12)) &&
 		 (bidState.numVoids == 0) && !bSmallSingletons &&
@@ -84,7 +84,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 	{
 		 // passed the test for standard gambling 3NT
 		status << "G3NT1! With a solid " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & app_->SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
+				  "-card " & CCard::SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
 				  " HCPs, no voids, no small singletons, and no outside stoppers, "
 				  " go ahead and bid a Gambling 3NT.\n";
 	}
@@ -95,7 +95,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 	{
 		 // passed the test for ACOL gambling 3NT
 		status << "G3NT2! With a solid " & bidState.numCardsInSuit[nSuit] & 
-				  "-card " & app_->SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
+				  "-card " & CCard::SuitToSingularString(nSuit) & " suit, " & bidState.fCardPts &
 				  " HCPs, no voids, no small singletons, and stoppers in " & 
 				  ((bidState.numSuitsStopped == 4)? "all four suits" : "two outside suits") &
 				  ", go ahead and bid an ACOL Gambling 3NT.\n";
@@ -137,7 +137,7 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 	// make a responding bid
 	//
 	int nPartnersBid = bidState.nPartnersBid;
-	int nOpeningBid = app_->GetOpeningBid();
+	int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 	int nBid = NONE;
 
 	//

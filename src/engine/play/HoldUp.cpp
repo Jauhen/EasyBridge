@@ -22,6 +22,7 @@
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 //
@@ -57,8 +58,8 @@ void CHoldUp::Init()
 {
 	CPlay::Init();
 	// form name & description
-	m_strName.Format("%s Hold up", app_->SuitToSingularString(m_nSuit));
-	m_strDescription.Format("Hold up a round of %s", app_->SuitToString(m_nSuit));
+	m_strName.Format("%s Hold up", CCard::SuitToSingularString(m_nSuit));
+	m_strDescription.Format("Hold up a round of %s", CCard::SuitToString(m_nSuit));
 }
 
 
@@ -66,7 +67,7 @@ void CHoldUp::Init()
 //
 CString CHoldUp::GetFullDescription()
 {
-	return app_->FormString("Hold up a round of %s.",app_->SuitToString(m_nSuit));
+	return app_->FormString("Hold up a round of %s.",CCard::SuitToString(m_nSuit));
 }
 
 
@@ -80,28 +81,28 @@ PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combined
 				    CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = app_->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 	// 
-	CCard* pRoundTopCard = app_->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pRoundTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pRoundTopCard == pPartnersCard);
 	//
@@ -127,7 +128,7 @@ PlayResult CHoldUp::Perform(CPlayEngine& playEngine, CCombinedHoldings& combined
 				pPlayCard = playerHand.GetDiscard();
 			else
 				pPlayCard = dummyHand.GetDiscard();
-			status << "PLHLD04! Hold up a round of " & app_->SuitToString(m_nSuit) & 
+			status << "PLHLD04! Hold up a round of " & CCard::SuitToString(m_nSuit) & 
 					  " and discard the " & pPlayCard->GetFaceName() & " from " &
 					  (bPlayingInHand? "hand" : "dummy") & ".\n";
 			m_nStatusCode = PLAY_IN_PROGRESS;

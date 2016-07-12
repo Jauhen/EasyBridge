@@ -22,6 +22,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "DeclarerPlayEngine.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 //
 //==================================================================
@@ -56,9 +57,9 @@ void CExitPlay::Init()
 	m_strName = "Exit Play";
 	// form description
 	if (ISSUIT(m_nSuit2))
-		m_strDescription.Format("Exit with a %s or %s.", app_->SuitToSingularString(m_nSuit), app_->SuitToString(m_nSuit2));
+		m_strDescription.Format("Exit with a %s or %s.", CCard::SuitToSingularString(m_nSuit), CCard::SuitToString(m_nSuit2));
 	else
-		m_strDescription.Format("Exit with a %s.", app_->SuitToSingularString(m_nSuit));
+		m_strDescription.Format("Exit with a %s.", CCard::SuitToSingularString(m_nSuit));
 }
 
 
@@ -67,9 +68,9 @@ CString CExitPlay::GetFullDescription()
 {
 	CString strText;
 	if (ISSUIT(m_nSuit2))
-		strText.Format("Exit with a %s or %s and throw the opponents into the lead.", app_->SuitToSingularString(m_nSuit), app_->SuitToSingularString(m_nSuit2));
+		strText.Format("Exit with a %s or %s and throw the opponents into the lead.", CCard::SuitToSingularString(m_nSuit), CCard::SuitToSingularString(m_nSuit2));
 	else
-		strText.Format("Exit with a %s and throw the opponents into the lead.", app_->SuitToSingularString(m_nSuit));
+		strText.Format("Exit with a %s and throw the opponents into the lead.", CCard::SuitToSingularString(m_nSuit));
 
 	// done
 	return strText;
@@ -90,11 +91,11 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	// check which hand this is
 	CPlayer* pPlayer = playEngine.GetPlayer();
 	CDeclarerPlayEngine& declarerEngine = (CDeclarerPlayEngine&) playEngine;
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CString strRHO = app_->PositionToString(app_->GetPrevPlayer(playEngine.GetPlayerPosition()));
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//
 	BOOL bPlayViable = FALSE;
@@ -107,7 +108,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	}
 
 	//
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	switch(nOrdinal)
 	{
 		case 1:
@@ -168,7 +169,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 				else
 				{
 					// we can't lead from hand 
-					status << "4PLEXT5! Oops, want to exit with a " & app_->SuitToString(m_nSuit) &
+					status << "4PLEXT5! Oops, want to exit with a " & CCard::SuitToString(m_nSuit) &
 							  " from hand, but we have no losers in the suit, so we have to skip this play.\n";
 					m_nStatusCode = PLAY_INACTIVE;
 					return PLAY_NOT_VIABLE;
@@ -224,7 +225,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 				else
 				{
 					// we can't lead from hand 
-					status << "4PLEXT9! Oops, want to exit with a " & app_->SuitToString(m_nSuit) &
+					status << "4PLEXT9! Oops, want to exit with a " & CCard::SuitToString(m_nSuit) &
 							  " from dummy, but we have no losers in the suit, so we have to skip this play.\n";
 					m_nStatusCode = PLAY_INACTIVE;
 					return PLAY_NOT_VIABLE;

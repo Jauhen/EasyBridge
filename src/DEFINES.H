@@ -21,12 +21,6 @@ class CCard;
 // constant suit symbol
 const unsigned char tSuitLetter = _T('§');
 
-// basic alias
-typedef int BID;
-typedef CArray<int,int>			CIntArray;
-typedef CList<int,int>			CIntList;
-typedef CMap<int,int,int,int>	CIntMap;
-
 #include "engine/card_constants.h"
 
 // Shortcuts (Macros)
@@ -34,8 +28,7 @@ typedef CMap<int,int,int,int>	CIntMap;
 #define pDOC			 (CEasyBDoc::m_pDoc)
 #define pVIEW			 (CEasyBView::m_pView)
 #define DECK			 theApp.m_deck
-#define PLAYER(x)		 (*(CEasyBDoc::GetDoc()->GetPlayer(x)))
-#define DUMMY			 (*(CEasyBDoc::GetDoc()->GetPlayer(GetDoc()->GetDummyPlayer())))
+#define PLAYER(x)		 (*(CEasyBDoc::GetDoc()->GetDeal()->GetPlayer(x)))
 #define	ABS(x)			 ((x>=0)?x:-x)
 
 #define SETSTATUSMSG(x)		((CMainFrame*)theApp.GetFrame())->SetStatusText(x)

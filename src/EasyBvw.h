@@ -90,7 +90,6 @@ public:
 	void ClearPartialTrickCards();
 	void ThrowCard(Position nPos, CCard* pCard);
 	void DrawPlayedCard(Position nPos, CCard* pCard, BOOL bShowAtEnd=TRUE);
-	void AdvanceToNextPlayer();
 	void GameFinished();
 	void BeginGameReview(BOOL bReset=TRUE);
 	void EndGameReview();
@@ -103,6 +102,8 @@ public:
 	int GetSuitToScreenIndex(int nIndex) { return m_nSuitToScreenIndex[nIndex]; }
 	int GetDummySuitToScreenIndex(int nIndex) { return m_nDummySuitToScreenIndex[nIndex]; }
 	RECT& GetRectSuitOffset(int nPlayer, int nSuit) { return m_rectSuitOffset[nPlayer][nSuit]; }
+
+  void ResetDummySuitSequence();
 
 
 // Data
@@ -233,7 +234,6 @@ private:
 	CCard* GetPlayerBottomCard(CPlayer& player);
 	void SetViewParameters(int cx=0, int cy=0);
 	void ResetSuitSequence();
-	void ResetDummySuitSequence();
 	void ResetSuitOffsets(Position nPos=UNKNOWN);
 	void DoOpeningSequence();
 	void OnDoRealize();

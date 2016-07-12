@@ -308,7 +308,7 @@ void CAnalysisDialog::OnSysCommand(UINT nID, LPARAM lParam)
 	} 
 	else if (nID == ID_CLEAR_ANALYSIS) 
 	{
-		pDOC->GetPlayer(m_nPlayer)->SetValueString(tszAnalysis, "");
+		pDOC->GetDeal()->GetPlayer(m_nPlayer)->SetValueString(tszAnalysis, "");
 	}
 	else if (nID == ID_SET_ANALYSIS_FONT) 
 	{

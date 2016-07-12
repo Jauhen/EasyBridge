@@ -17,7 +17,7 @@
 #include "engine/CardList.h"
 #include "engine/play/Finesse.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 
 //
@@ -68,7 +68,7 @@ void CFinesse::Init()
 {
 	CPlay::Init();
 	//
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	m_nGapSize = m_pGapCards->GetNumCards();
 	m_pEnemyOrKeyCardsList = m_pGapCards;	// will be deleted by base class
 	m_pConsumedCard = app_->GetDeck()->GetCard(m_nSuit, m_nCardVal);

@@ -48,7 +48,7 @@ const int defSuitDisplaySequence[5][4] = {
 };
 const int tnumSuitSequences = sizeof(defSuitDisplaySequence) / sizeof(int[4]);
 
-const LPCTSTR szPosition[4] = { "South", "West", "North", "East" };
+//const LPCTSTR szPosition[4] = { "South", "West", "North", "East" };
 
 //const LPCTSTR tszAppAboutWAVFile = _T("Ocean.wav");
 

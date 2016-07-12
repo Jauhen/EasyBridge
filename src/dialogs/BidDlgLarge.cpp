@@ -254,7 +254,7 @@ void CBidDialogLarge::RegisterBid(int nBid, BOOL bShowButtonPress)
 	if (nStatus == 0)
 	{
 		// received player's bid; get computer players' bids
-		nStatus = GetComputerBids(pDOC->GetCurrentPlayerPosition());
+		nStatus = GetComputerBids(pDOC->GetDeal()->GetCurrentPlayerPosition());
 	}
 
 	// set focus on the "Pass" button
@@ -277,7 +277,7 @@ void CBidDialogLarge::EnableControls()
 //
 void CBidDialogLarge::DisableControls()
 {
-	int nLastValidBid = pDOC->GetLastValidBid();
+	int nLastValidBid = pDOC->GetDeal()->GetLastValidBid();
 	if (nLastValidBid > BID_PASS)
 	{
 		int nStart = IDC_BID_1C;
@@ -299,16 +299,16 @@ void CBidDialogLarge::DisableControls()
 		bEnableDouble = FALSE;
 
 	// or if already doubled or redoubled
-	if (pDOC->IsContractDoubled() || pDOC->IsContractRedoubled())
+	if (pDOC->GetDeal()->IsContractDoubled() || pDOC->GetDeal()->IsContractRedoubled())
 		bEnableDouble = FALSE;
 
 	// can't double own team's bid
-	int nBidTeam = pDOC->GetLastValidBidTeam();
-	if ((nBidTeam == pDOC->GetCurrentPlayer()->GetTeam()) && !m_bTrainingMode)
+	int nBidTeam = pDOC->GetDeal()->GetLastValidBidTeam();
+	if ((nBidTeam == pDOC->GetDeal()->GetCurrentPlayer()->GetTeam()) && !m_bTrainingMode)
 		bEnableDouble = FALSE;
 
 	// can redouble only if already doubled && is team contract (or is training)
-	if (pDOC->IsContractDoubled() && ((nBidTeam == NORTH_SOUTH) || m_bTrainingMode))
+	if (pDOC->GetDeal()->IsContractDoubled() && ((nBidTeam == NORTH_SOUTH) || m_bTrainingMode))
 		bEnableReDouble = TRUE;
 
 	// and set

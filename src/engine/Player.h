@@ -13,6 +13,7 @@
 #ifndef __CPLAYER__
 #define __CPLAYER__
 
+#include "engine/card_constants.h"
 #include <memory>
 
 class CCard;

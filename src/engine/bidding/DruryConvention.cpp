@@ -12,12 +12,14 @@
 
 #include "stdafx.h"
 #include "engine/card_constants.h"
+#include "engine/card.h"
 #include "engine/Player.h"
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/DruryConvention.h"
 #include "engine/bidding/OvercallsConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 
@@ -45,9 +47,9 @@ BOOL CDruryConvention::TryConvention(const CPlayer& player,
 	// 4: Partner must have bid at the 1-level
 	// 5: we have 11-12 pts and 3+ card support
 	//
-	int nOpeningBid = app_->GetOpeningBid();
+	int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 	int nPartnersBid = bidState.nPartnersBid;
-	int numTotalBidTurns = app_->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 	// test conditions 1 - 4
 	if ( (bidState.m_numBidTurns == 1) && (bidState.nPreviousBid == BID_PASS) && 
 		 ISBID(nOpeningBid) && (nOpeningBid == nPartnersBid) && 
@@ -110,7 +112,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 	//
 	int nPartnersBid = bidState.nPartnersBid;
 	int nPreviousBid = bidState.nPreviousBid;
-	int numTotalBidTurns = app_->GetNumBidsMade();
+	int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 
 	//
 	int nBid;
@@ -129,9 +131,9 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		// the requirements for an Drury Bid are:
 		// 1: we must have opened the bidding with 1 of a major in 3rd or 4th position
 		// 2: Partner passed at first opportunity, then bid 2C
-		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 		int nPartnersBid = bidState.nPartnersBid;
-		int numTotalBidTurns = app_->GetNumBidsMade();
+		int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 
 		// test conditions 1 - 4
 		if ( (bidState.m_numBidTurns == 1) && (ISMAJOR(BID_SUIT(nPreviousBid))) && 
@@ -163,7 +165,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 			// we opened with <= 11 pts (actual, before adjusting for trump fit)
 			nBid = MAKEBID(nSuit, 2);
 			status << "DRUR12! But since we opened light with only " & fCardPts & 
-					  " HCPs, we have to respond in the original " & app_->SuitToSingularString(nSuit) & 
+					  " HCPs, we have to respond in the original " & CCard::SuitToSingularString(nSuit) & 
 					  " suit at the 2-level and bid " & app_->BidToFullString(nBid) & ".\n";
 		}
 		else
@@ -268,14 +270,14 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner bid 2 of the original suit
 			nBid = BID_PASS;
-			status << "DRUR46! Partner did his original " & app_->SuitToSingularString(nSuit) & 
+			status << "DRUR46! Partner did his original " & CCard::SuitToSingularString(nSuit) & 
 					  " at the 2-level, indicating subpar opening values, so we have to pass.\n";
 		}
 		else
 		{
 			// partner made an illegal bid
 			nBid = BID_PASS;
-			status << "DRUR49! Partner did not respond with 2D or 2" & app_->GetSuitLetter(nSuit) &
+			status << "DRUR49! Partner did not respond with 2D or 2" & CCard::GetSuitLetter(nSuit) &
 					  " to our Drury bid, so the convention is off and we have to pass.\n";
 		}
 

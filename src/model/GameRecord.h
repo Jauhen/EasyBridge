@@ -16,43 +16,44 @@
 #include <map>
 #include <list>
 
-//
-class CGameRecord
-{
-// routines
-public:
-	//
-	int		DetermineRoundWinner(const int nRound) const;
-	void	AnalyzePlayRecord();
-	bool	IsValid();
-	void	SetTagValue(LPCTSTR szTag, LPCTSTR szValue);
-	CString GetTagValue(LPCTSTR szTag) const;
+class AppInterface;
 
-	// inline operations
+//
+class CGameRecord {
+  // routines
+public:
+  //
+  int		DetermineRoundWinner(const int nRound) const;
+  void	AnalyzePlayRecord();
+  bool	IsValid();
+  void	SetTagValue(LPCTSTR szTag, LPCTSTR szValue);
+  CString GetTagValue(LPCTSTR szTag) const;
+
+  // inline operations
 //	BOOL	AreBidsAvailable() const { return m_bBidsAvailable; }
 //	BOOL	ArePlaysAvailable() const { return m_bBidsAvailable; }
-	BOOL	GetNumBids() const { return m_nBids.GetSize(); }
+  BOOL	GetNumBids() const { return m_nBids.GetSize(); }
 
 
-// data
+  // data
 public:
-	//
-	int				m_nContract;
-	int				m_nContractModifier;
-	int				m_nDealer;
-	int				m_nDeclarer;
-	int				m_nVulnerability;
-	CIntArray		m_nBids;
-	int				m_nHands[4][13];
-	int				m_nGameTrick[13][4];
-	int				m_nRoundLead[13];
-	int				m_nRoundWinner[13];
-	int				m_numCardsPlayed;
-	int				m_numTricksPlayed;
-	int				m_nPlayRecord[52];	// this is NOT ordered by player
-	int				m_numTricksWon[2];
-	CIntMap			m_mapBiddingNotes;
-	CIntMap			m_mapPlayNotes;
+  //
+  int				m_nContract;
+  int				m_nContractModifier;
+  int				m_nDealer;
+  int				m_nDeclarer;
+  int				m_nVulnerability;
+  CIntArray		m_nBids;
+  int				m_nHands[4][13];
+  int				m_nGameTrick[13][4];
+  int				m_nRoundLead[13];
+  int				m_nRoundWinner[13];
+  int				m_numCardsPlayed;
+  int				m_numTricksPlayed;
+  int				m_nPlayRecord[52];	// this is NOT ordered by player
+  int				m_numTricksWon[2];
+  std::map<int, int> m_mapBiddingNotes{};
+  std::map<int, int> m_mapPlayNotes{};
 	CStringArray	m_strBiddingNotes;
 	CStringArray	m_strPlayNotes;
 
@@ -75,10 +76,11 @@ private:
 //	BOOL		m_bBidsAvailable;
 //	BOOL		m_bPlaysAvailable;
 
+  std::shared_ptr<AppInterface> app_;
 
 // construction / destruction
 public:
-	CGameRecord();
+	CGameRecord(std::shared_ptr<AppInterface> app);
 	~CGameRecord();
 };
 

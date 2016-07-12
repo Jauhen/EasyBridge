@@ -13,6 +13,7 @@
 #ifndef __CARD__
 #define __CARD__
 
+#include "engine/card_constants.h"
 #include <memory>
 
 
@@ -32,22 +33,26 @@ class CCard {
 
 // public functions
 public:
+  static int CharToSuit(TCHAR c);
+  static int CharToFaceValue(TCHAR c);
+  static TCHAR GetSuitLetter(int i);
+  static LPCTSTR GetSuitName(int nSuit);
+  static TCHAR GetCardLetter(int i);
+  static LPCTSTR GetCardName(int nFaceValue);
+  static LPCTSTR CardValToString(int i);
+  static const CString CardToString(int i);
+  static const CString CardToShortString(int i);
+  static const CString CardToReverseString(int i);
+  static LPCTSTR SuitToString(int nSuit);
+  static LPCTSTR SuitToSingularString(int nSuit);
+
+
 	// one-time only init operation
-	void Initialize(int nSuit, int nValue, CBitmap* pBitmap, CDC* pDC);
+	void Initialize(int nSuit, int nValue);
 	void SetBitmap(CBitmap* pBitmap, CDC* pDC);
 	//
 	void Clear();
 	void ClearBackground();
-	LPVOID GetValuePV(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	int GetValueInt(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	LPCTSTR GetValueString(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	char GetValueChar(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	int GetValue(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	int SetValuePV(int nItem, LPVOID value, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValueInt(int nItem, int nValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValueString(int nItem, LPCTSTR szValue=NULL, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValueChar(int nItem, char cValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, int nValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
 	BOOL IsValid() const;
 
 	// GetName() -- "D7"

@@ -19,6 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/Player.h"
+#include "model/deal.h"
 
 
 //
@@ -520,7 +521,7 @@ int CSuitHoldings::GetCardsPlayedInSuit(CGuessedCardHoldings& playedCardsList)
 	// yet by the time this routines is called (a player's guessed hands are cleared,
 	// then his hands are initialized using this info, before the next player is processed)
   CGuessedCardHoldings  tempList{app_};
-	CPlayer* pPlayer = app_->GetPlayer(SOUTH);
+	CPlayer* pPlayer = app_->GetDeal()->GetPlayer(SOUTH);
 	if (pPlayer)
 	{
 		for(int i=0;i<4;i++)

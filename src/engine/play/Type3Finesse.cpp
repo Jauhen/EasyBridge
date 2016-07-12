@@ -25,7 +25,7 @@
 #include "engine/CardLocation.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-
+#include "model/deal.h"
 
 
 //
@@ -80,12 +80,12 @@ void CType3Finesse::Init()
 CString CType3Finesse::GetFullDescription()
 {
 	CString strText;
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	return app_->FormString("Lead a low %s from %s and finesse the %s in %s against %s.",
-					   ((m_nSuit == nTrumpSuit)? "trump" : app_->SuitToSingularString(m_nSuit)),
+					   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 					   (m_nTargetHand == IN_HAND)? "dummy" : "hand",
 					   m_pConsumedCard->GetFaceName(),
-//					   app_->SuitToString(m_nSuit),
+//					   CCard::SuitToString(m_nSuit),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
     app_->PositionToString(m_nTargetPos));
 	// done
@@ -109,24 +109,24 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	//                      or play low if West plays the Ace.
 
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetDeal()->GetTrumpSuit()) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
-	CCard* pTopCard = app_->GetCurrentTrickHighCard();
+	CCard* pTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
 	CString strRHO = bPlayingInHand? playEngine.szRHO : playEngine.szLHO;
 
 	// test preconditions
@@ -159,7 +159,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					if (playerHand.GetNumCardsInSuit(m_nSuit) > 0)
 					{
 						pPlayCard = playerHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PL3FN12! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PL3FN12! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() &
 								  ") from hand to finesse the " & 
 								  m_pConsumedCard->GetFaceName() & " in dummy.\n";
@@ -167,8 +167,8 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PL3FN14! Oops, we wanted to finesse a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in dummy, but we have no " & app_->SuitToString(m_nSuit) & 
+						status << "4PL3FN14! Oops, we wanted to finesse a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & CCard::SuitToString(m_nSuit) & 
 								  " in hand to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -192,7 +192,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					if (dummyHand.GetNumCardsInSuit(m_nSuit) > 0)
 					{
 						pPlayCard = dummyHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PL3FN22! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PL3FN22! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() &
 								  ") from dummy to finesse the " & 
 								  m_pConsumedCard->GetFaceName() & " in hand.\n";
@@ -200,8 +200,8 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PL3FN24! Oops, we wanted to finesse a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
+						status << "4PL3FN24! Oops, we wanted to finesse a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & CCard::SuitToString(m_nSuit) & 
 								  " in dummy to lead, so we have to abandon the play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -240,7 +240,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					if (playerHand.GetNumCardsInSuit(m_nSuit) > 0)
 					{
 						pPlayCard = playerHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PL3FN32! Play low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PL3FN32! Play low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from hand to opportunistically finesse the " & 
 								  m_pConsumedCard->GetFaceName() & " in dummy.\n";
 					}
@@ -248,8 +248,8 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					{
 						// oops, no cards in the suit to play, so discard
 						pPlayCard = playerHand.GetDiscard();
-						status << "PL3FN33! We want to opportunistically finesse a " & app_->SuitToSingularString(m_nSuit) & 
-							      " in dummy, but have no " & app_->SuitToString(m_nSuit) & " in hand, so discard the " & pPlayCard->GetName() & ".\n";
+						status << "PL3FN33! We want to opportunistically finesse a " & CCard::SuitToSingularString(m_nSuit) & 
+							      " in dummy, but have no " & CCard::SuitToString(m_nSuit) & " in hand, so discard the " & pPlayCard->GetName() & ".\n";
 					}
 				}
 			}
@@ -269,7 +269,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					if (dummyHand.GetNumCardsInSuit(m_nSuit) > 0)
 					{
 						pPlayCard = dummyHand.GetSuit(m_nSuit).GetBottomCard();
-						status << "PL3FN36! Play low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PL3FN36! Play low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (the " & pPlayCard->GetFaceName() & ") from dummy to opportunistically finesse the " & 
 								  m_pConsumedCard->GetFaceName() & " in hand.\n";
 					}
@@ -277,8 +277,8 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					{
 						// oops, no cards in the suit to play, so discard
 						pPlayCard = dummyHand.GetDiscard();
-						status << "PL3FN37! We want to opportunistically finesse a " & app_->SuitToSingularString(m_nSuit) & 
-							      " in hand, but have no " & app_->SuitToString(m_nSuit) & " in dummy, so discard the " & pPlayCard->GetName() & ".\n";
+						status << "PL3FN37! We want to opportunistically finesse a " & CCard::SuitToSingularString(m_nSuit) & 
+							      " in hand, but have no " & CCard::SuitToString(m_nSuit) & " in dummy, so discard the " & pPlayCard->GetName() & ".\n";
 					}
 				}
 			}
@@ -306,13 +306,13 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				return PLAY_POSTPONE;
 			}
 			// check the intervening opponent's card
-			pOppCard = app_->GetCurrentTrickCardByOrder(1);
+			pOppCard = app_->GetDeal()->GetCurrentTrickCardByOrder(1);
 			// check if RHO showed out
 			if (pOppCard->GetSuit() != nSuitLed)
 			{
 				// RHO has showed out, so skip the finesse and play low
 				status << "3PL3FN55! Oops -- RHO (" & strRHO &
-						  ") showed out of " & app_->SuitToString(nSuitLed) & ", meaning that LHO holds the " & 
+						  ") showed out of " & CCard::SuitToString(nSuitLed) & ", meaning that LHO holds the " & 
 						  m_pGapCards->GetAt(0)->GetFaceName() & ", so the finesse cannot succeed -- so skip it.\n";
 				m_nStatusCode = PLAY_NOT_VIABLE;
 				return m_nStatusCode;
@@ -404,12 +404,12 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				return PLAY_POSTPONE;
 			}
 			// check RHO's card
-			pOppCard = app_->GetCurrentTrickCardByOrder(2);
+			pOppCard = app_->GetDeal()->GetCurrentTrickCardByOrder(2);
 			// check if RHO showed out
 			if (pOppCard->GetSuit() != nSuitLed)
 			{
 				// RHO has showed out, so skip the finesse and play just high enough to win
-				status << "3PL3FN75! RHO (" & strRHO & ") showed out of " & app_->SuitToString(nSuitLed) & 
+				status << "3PL3FN75! RHO (" & strRHO & ") showed out of " & CCard::SuitToString(nSuitLed) & 
 						  ", so we may not necessarily need to play the finesse card.\n";
 				m_nStatusCode = PLAY_INACTIVE;
 				return PLAY_POSTPONE;

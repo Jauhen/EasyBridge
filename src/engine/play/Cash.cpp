@@ -25,6 +25,7 @@
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 //
 //==================================================================
@@ -114,29 +115,29 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& declarerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	CDeclarerPlayEngine& declarerEngine = (CDeclarerPlayEngine&) playEngine;
 	
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = app_->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 
 	// see what the top card in the round is
-	CCard* pTopCard = app_->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pTopCard == pPartnersCard);
 
@@ -247,7 +248,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 							}
 							else
 							{
-								status << "PLCSH20! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+								status << "PLCSH20! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 										  " (the " & pPlayCard->GetFaceName() &
 										  ") from hand in order to cash the " & 
 										  m_pConsumedCard->GetFaceName() & " in dummy.\n";
@@ -256,8 +257,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 						else 
 						{
 							// oops, we have no low cards in hand to lead!
-							status << "4PLCSH21! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
-									  " in dummy, but we have no low " & app_->SuitToString(m_nSuit) & 
+							status << "4PLCSH21! Oops, we wanted to cash a " & CCard::SuitToSingularString(m_nSuit) & 
+									  " in dummy, but we have no low " & CCard::SuitToString(m_nSuit) & 
 									  " in hand to lead, so we have to abandon that play.\n";
 							m_nStatusCode = PLAY_INACTIVE;
 							return PLAY_POSTPONE;
@@ -266,8 +267,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLCSH22! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in dummy, but we have no " & app_->SuitToString(m_nSuit) & 
+						status << "4PLCSH22! Oops, we wanted to cash a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in dummy, but we have no " & CCard::SuitToString(m_nSuit) & 
 								  " in hand to lead, so we have to abandon that play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -326,7 +327,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 							}
 							else
 							{
-								status << "PLCSH40! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+								status << "PLCSH40! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 										  " (the " & pPlayCard->GetFaceName() &
 										  ") from dummy in order to cash the " & 
 										  m_pConsumedCard->GetFaceName() & " in hand.\n";
@@ -335,8 +336,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 						else
 						{
 							// oops, we have no low cards in dummy to lead!
-							status << "4PLCSH41! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
-									  " in hand, but we have no low " & app_->SuitToString(m_nSuit) & 
+							status << "4PLCSH41! Oops, we wanted to cash a " & CCard::SuitToSingularString(m_nSuit) & 
+									  " in hand, but we have no low " & CCard::SuitToString(m_nSuit) & 
 									  " in dummy to lead, so we have to abandon that play.\n";
 							m_nStatusCode = PLAY_INACTIVE;
 							return PLAY_POSTPONE;
@@ -345,8 +346,8 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLCSH42! Oops, we wanted to cash a " & app_->SuitToSingularString(m_nSuit) & 
-								  " in hand, but we have no " & app_->SuitToString(m_nSuit) & 
+						status << "4PLCSH42! Oops, we wanted to cash a " & CCard::SuitToSingularString(m_nSuit) & 
+								  " in hand, but we have no " & CCard::SuitToString(m_nSuit) & 
 								  " in dummy to lead, so we have to abandon that play.\n";
 						m_nStatusCode = PLAY_NOT_VIABLE;
 						return m_nStatusCode;
@@ -403,7 +404,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 						return PLAY_POSTPONE;
 					}
 					pPlayCard = m_pConsumedCard;
-					status << "PLCSH55! The opponents led a " & app_->SuitToSingularString(m_nSuit) & 
+					status << "PLCSH55! The opponents led a " & CCard::SuitToSingularString(m_nSuit) & 
 							  ", so cash the " & pPlayCard->GetFaceName() & " now.\n";
 				}
 				else
@@ -431,7 +432,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 
 					// else go ahead and discard
 					pPlayCard = playEngine.GetDiscard();
-					status << "PLCSH56! Discard a " & app_->SuitToSingularString(m_nSuit) & " from " &
+					status << "PLCSH56! Discard a " & CCard::SuitToSingularString(m_nSuit) & " from " &
 							  (bPlayingInHand? "hand" : "dummy") &
 							  " in anticipation of cashing the " & 
 							  m_pConsumedCard->GetFaceName() & " in " &
@@ -565,7 +566,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 			if (m_nStatusCode != PLAY_IN_PROGRESS)
 				return PLAY_INACTIVE;
 			// since opponent led the suit, we are still trying to cash
-			status << "3PLCSH80! the opponents led a " & app_->SuitToSingularString(nSuitLed) & 
+			status << "3PLCSH80! the opponents led a " & CCard::SuitToSingularString(nSuitLed) & 
 					  ", so see if we can finish up the cash play here.\n";
 			// see if RHO (or partner) has trumped
 			if (bTrumped)
@@ -698,7 +699,7 @@ PlayResult CCash::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	}
 
 	// ### TEMP ###
-	if (app_->GetCurrentPlayerPosition() == playEngine.GetPlayerPosition())
+	if (app_->GetDeal()->GetCurrentPlayerPosition() == playEngine.GetPlayerPosition())
 		ASSERT(playEngine.GetPlayer()->HasCard(pPlayCard));
 	else
 		ASSERT(playEngine.GetPartner()->HasCard(pPlayCard));

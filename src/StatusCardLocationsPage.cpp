@@ -21,7 +21,6 @@
 #include "engine/play/SuitHoldings.h"
 #include "StatusSheet.h"
 #include "subclass.h"
-#include "model/docopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -174,7 +173,7 @@ void CStatusCardLocationsPage::Update()
 	// return if not all inits are complete
 	if (!m_bInitialized)
 		return;
-	if ((pDOC == NULL) || !pDOC->GetValue(tbHandsDealt) || !theApp.IsGameInProgress())
+	if ((pDOC == NULL) || !pDOC->GetDeal()->IsHandsDealt() || !theApp.IsGameInProgress())
 		return;
 
 	//
@@ -183,22 +182,22 @@ void CStatusCardLocationsPage::Update()
 	int nTarget = m_cbTarget.GetCurSel();
 	VERIFY(ISPLAYER(nObserver));
 	VERIFY(ISPLAYER(nTarget));
-	if ((pDOC->GetPlayer(nObserver) == NULL) ||
-		(pDOC->GetPlayer(nTarget) == NULL))
+	if ((pDOC->GetDeal()->GetPlayer(nObserver) == NULL) ||
+		(pDOC->GetDeal()->GetPlayer(nTarget) == NULL))
 		return;
 	//
 	m_listHoldings.DeleteAllItems();
 
 	//
   CGuessedSuitHoldings playedCards{ appImpl }, remainingCards{ appImpl }, identifiedCards{ appImpl };
-	CGuessedHandHoldings* pHand = pDOC->GetPlayer(nObserver)->GetGuessedHand(nTarget);
-	CPlayEngine* pPlayEngine = pDOC->GetPlayer(nObserver)->GetPlayEngine();
+	CGuessedHandHoldings* pHand = pDOC->GetDeal()->GetPlayer(nObserver)->GetGuessedHand(nTarget);
+	CPlayEngine* pPlayEngine = pDOC->GetDeal()->GetPlayer(nObserver)->GetPlayEngine();
 	//
 	if ((pHand == NULL) || (pPlayEngine == NULL))
 		return;
 	// see if this hand is dummy and exposed
 	BOOL bDummy = FALSE;
-	if ((nTarget == pDOC->GetDummyPosition()) && pDOC->IsDummyExposed())
+	if ((nTarget == pDOC->GetDeal()->GetDummyPosition()) && pDOC->GetDeal()->IsDummyExposed())
 		bDummy = TRUE;
 
 	// and show the card info
@@ -284,7 +283,7 @@ void CStatusCardLocationsPage::Update()
 			// holdings are known with certainty
 			//
 			// set cards left field
-			CHandHoldings& hand = pDOC->GetDummyPlayer()->GetHand();
+			CHandHoldings& hand = pDOC->GetDeal()->GetDummyPlayer()->GetHand();
 			CSuitHoldings& suit = hand.GetSuit(nSuit);
 			CString strText = FormString("(%d) %s", suit.GetNumCards(), suit.GetHoldingsString());
 			m_listHoldings.SetItem(nIndex, 2, LVIF_TEXT, strText, 0, 0, 0, 0L);

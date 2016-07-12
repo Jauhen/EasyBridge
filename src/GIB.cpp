@@ -486,7 +486,7 @@ BOOL CGIB::CreateGIBInputFile(CFile& file, CPlayer* pPlayer, CHandHoldings* pHan
 	file.Write((LPCTSTR)strInput, strInput.GetLength());
 
 	// indicate dealer
-	strInput.Format("%c\n",PositionToChar(pDoc->GetDealer()));
+	strInput.Format("%c\n",PositionToChar(pDoc->GetDeal()->GetDealer()));
 	strContents += strInput;
 	file.Write((LPCTSTR)strInput, strInput.GetLength());
 
@@ -497,10 +497,10 @@ BOOL CGIB::CreateGIBInputFile(CFile& file, CPlayer* pPlayer, CHandHoldings* pHan
 
 	// indicate auction
 	strInput.Empty();
-	int numBids = pDoc->GetNumBidsMade();
+	int numBids = pDoc->GetDeal()->GetNumBidsMade();
 	for(int i=0;i<numBids;i++)
 	{
-		strInput += BidToBriefString(pDoc->GetBidByIndex(i));
+		strInput += BidToBriefString(pDoc->GetDeal()->GetBidByIndex(i));
 		if (i < numBids)
 			strInput += ' ';
 	}
@@ -509,7 +509,7 @@ BOOL CGIB::CreateGIBInputFile(CFile& file, CPlayer* pPlayer, CHandHoldings* pHan
 	file.Write((LPCTSTR)strInput, strInput.GetLength());
 
 	// indicate opening lead
-	int nLeadCard = pDoc->GetPlayRecord(0);
+	int nLeadCard = pDoc->GetDeal()->GetPlayRecord(0);
 	strInput.Format("%s\n",CardToShortString(nLeadCard));
 	strContents += strInput;
 	file.Write((LPCTSTR)strInput, strInput.GetLength());
@@ -522,10 +522,10 @@ BOOL CGIB::CreateGIBInputFile(CFile& file, CPlayer* pPlayer, CHandHoldings* pHan
 
 	// and enter any plays so far
 	strInput.Empty();
-	int numCardsPlayed = pDoc->GetNumCardsPlayedInGame();
+	int numCardsPlayed = pDoc->GetDeal()->GetNumCardsPlayedInGame();
 	for(int i=1;i<numCardsPlayed;i++)
 	{
-		strInput += CardToShortString(pDoc->GetPlayRecord(i));
+		strInput += CardToShortString(pDoc->GetDeal()->GetPlayRecord(i));
 		strInput += ' ';
 		if (((i % 3) == 0) || (i == numCardsPlayed-1))
 		{

@@ -22,7 +22,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
-
+#include "model/deal.h"
 
 //
 //---------------------------------------------------------------
@@ -140,7 +140,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	m_fPartnersMax = MAX(m_fPartnersMax, 10);
 	status << "RDR0! With a single raise, partner is showing " & 
 			  m_fPartnersMin & "-" & m_fPartnersMax & 
-			  " points and decent (3-4 card) support for our " & app_->SuitToSingularString(m_nAgreedSuit) & " suit.\n";
+			  " points and decent (3-4 card) support for our " & CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 	int nTricks = CountModifiedPlayingTricks(m_nAgreedSuit);
 
 	// get adjusted hand point count as declarer
@@ -223,7 +223,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			status << "R14! Using the modified trick count, we have " & nTricks &
 					  " playing tricks in hand and a total of " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  " points in the partnership, so show the " & app_->SuitToSingularString(nSuit) &
+					  " points in the partnership, so show the " & CCard::SuitToSingularString(nSuit) &
 					  " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		} 
@@ -258,7 +258,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			status << "R14! Using the modified trick count, we have " & nTricks &
 					  " playing tricks in hand and a total of " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  " points in the partnership, so show the " & app_->SuitToSingularString(nSuit) &
+					  " points in the partnership, so show the " & CCard::SuitToSingularString(nSuit) &
 					  " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		} 
@@ -333,7 +333,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 				m_nBid = GetCheapestShiftBid(nSuit);
 				status << "R26! We have a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership for a minor suit, so show the " & 
-						  app_->SuitToSingularString(nSuit) & " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(nSuit) & " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{
@@ -423,7 +423,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 		m_fPartnersMax = MAX(m_fPartnersMax, 12);
 		status << "2S00! With a double raise and playing limit raises, partner is showing "& 
 				  m_fPartnersMin & "-" & m_fPartnersMax & 
-				  " points and 4+ card support for our " & app_->SuitToSingularString(m_nAgreedSuit) & " suit.\n";
+				  " points and 4+ card support for our " & CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 	} 
 	else 
 	{
@@ -434,13 +434,13 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 		{
 			m_fPartnersMax = 13;
 			status << "2S01a! With a double raise after passing previously, partner is showing approx. " &
-					  m_fPartnersMin & " points and good 4-card support for our " & app_->SuitToSingularString(m_nAgreedSuit) & " suit.\n";
+					  m_fPartnersMin & " points and good 4-card support for our " & CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 		}
 		else
 		{
 			status << "2S01b! With a double raise, partner is showing " &
 					  m_fPartnersMin & "-" & m_fPartnersMax	& 
-					  " points and good 4-card support for our " & app_->SuitToSingularString(m_nAgreedSuit) &
+					  " points and good 4-card support for our " & CCard::SuitToSingularString(m_nAgreedSuit) &
 					  " suit" & ((nPartnersBid < GetGameBid(m_nAgreedSuit))? ".  The bid is forcing to game." : ".") & "\n";
 		}
 	}
@@ -518,7 +518,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 				m_nBid = BID_3NT;
 				status << "S14! With approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
 						  " HCPs in the partnership and all unbid suits stopped, bid " &
-						  app_->BidToFullString(m_nBid) & " over the raised minor " & app_->SuitToSingularString(m_nAgreedSuit) & " suit.\n";
+						  app_->BidToFullString(m_nBid) & " over the raised minor " & CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -543,7 +543,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 					m_nBid = GetCheapestShiftBid(nSuit);
 					status << "S18! We have " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " total points in the partnership for a minor suit, so show the " &
-							  app_->SuitToSingularString(nSuit) & " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+							  CCard::SuitToSingularString(nSuit) & " support suit in a bid of " & app_->BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -740,7 +740,7 @@ BOOL CBidEngine::RebidSuit(int nSuitType,  RebidLevel enShiftLevel,
 		nBid = MAKEBID(nSuit,-nShiftLevel);
 
 	// see if bid is legal
-	if (nBid <= app_->GetLastValidBid())
+	if (nBid <= app_->GetDeal()->GetLastValidBid())
 		return FALSE;
 	else
 		m_nBid = nBid;
@@ -748,11 +748,11 @@ BOOL CBidEngine::RebidSuit(int nSuitType,  RebidLevel enShiftLevel,
 	//
 	if (nPartnersSuit == nSuit) 
 		status << "YR1! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & " total points and a " &
-				  SuitStrengthToString(nSuit) & " " & numCardsInSuit[nSuit] & "-card " & app_->SuitToSingularString(nSuit) & 
+				  SuitStrengthToString(nSuit) & " " & numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit (holding " & SHTS(nSuit) & "), re-raise it to " & app_->BidToFullString(m_nBid)  & ".\n";
 	else
 		status << "YR2! With With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & " total points and a " &
-				  SuitStrengthToString(nSuit) & " " & numCardsInSuit[nSuit] & "-card " & app_->SuitToSingularString(nSuit) &
+				  SuitStrengthToString(nSuit) & " " & numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) &
 				  " suit (holding " & SHTS(nSuit) & "), " & 
 				  ((nShiftLevel > 0)? "jump rebid" :  "rebid") &
 				  " it at " & app_->BidToFullString(m_nBid) & ".\n";
@@ -865,7 +865,7 @@ BOOL CBidEngine::BidNextBestSuit(int nSuitType, RebidLevel enShiftLevel,
 
 		// else all's OK
 		status << "YR4! Rebid the" & ((nPreviousSuit == NOTRUMP)? " " :  " next ") &
-				  "best suit of " & app_->SuitToString(nSuit) & " in a " &
+				  "best suit of " & CCard::SuitToString(nSuit) & " in a " &
 				  ((nShiftLevel > 0)? "jump bid":  "bid") &
 				  " of " & app_->BidToFullString(m_nBid) & ".\n";
 		// mark lack of suit agreement
@@ -1081,7 +1081,7 @@ BOOL CBidEngine::RaisePartnersSuit(int nSuitType, RaiseLevel enLevel,
 				  " points and " & numCardsInSuit[nTargetSuit] & 
 				  "-card support for partner's" & 
 				  ((nSuitType == SUIT_PREV)? " earlier " : " ") &
-				  ((ISMAJOR(nTargetSuit))? "major " :  " ") & app_->SuitToSingularString(nTargetSuit) &
+				  ((ISMAJOR(nTargetSuit))? "major " :  " ") & CCard::SuitToSingularString(nTargetSuit) &
 				  " suit (holding " & SHTS(nTargetSuit) & "), " & 
 				  ((nLevel <= 1)? "raise" :  "jump raise") & " to " & app_->BidToFullString(m_nBid) & ".\n";
 	}
@@ -1092,7 +1092,7 @@ BOOL CBidEngine::RaisePartnersSuit(int nSuitType, RaiseLevel enLevel,
 				  " points in the partnership and " & numCardsInSuit[nTargetSuit] & 
 				  "-card support for partner's" &
 				  ((nSuitType == SUIT_PREV)? " earlier " : " ") &
-				  ((ISMAJOR(nTargetSuit))? "major " :  " ") & app_->SuitToSingularString(nTargetSuit) &
+				  ((ISMAJOR(nTargetSuit))? "major " :  " ") & CCard::SuitToSingularString(nTargetSuit) &
 				  " suit (holding " & SHTS(nTargetSuit) & "), " & 
 				  ((nLevel <= 1)? "raise" :  "jump raise") & " to " & app_->BidToFullString(m_nBid) & ".\n";
 	}
@@ -1341,7 +1341,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		// go with partner's first (previous or original) suit
 		nSuit = nPartnersPrevSuit;
 		status << "2PKF1! With " & numPPrevSuitSupportCards & 
-				  " trumps in partner's first suit (" & app_->SuitToString(nSuit) &
+				  " trumps in partner's first suit (" & CCard::SuitToString(nSuit) &
 				  "), we prefer to support that suit.\n";
 	}
 	else if (nPartnersSuitSupport >= SS_MODERATE_SUPPORT)
@@ -1349,7 +1349,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		// go with partner's second suit
 		nSuit = nPartnersSuit;
 		status << "2PKF2! With " & numSupportCards & 
-				  " trumps in partner's second suit (" & app_->SuitToString(nSuit) &
+				  " trumps in partner's second suit (" & CCard::SuitToString(nSuit) &
 				  "), we prefer to support that suit.\n";
 	}
 	else if ((nPrefSuitStrength >= SS_STRONG) && (numPrefSuitCards >= 6))
@@ -1361,7 +1361,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 				  " suits bid so far, we prefer to " &
 				  ((nPreviousSuit == nPrefSuit)? "rebid" : "bid") &
 				  " our own " & numPrefSuitCards & "-card " & 
-				  app_->SuitToSingularString(nSuit) & " suit.\n";
+				  CCard::SuitToSingularString(nSuit) & " suit.\n";
 	}
 	else if ((nPPrevSuitSupport >= SS_WEAK_SUPPORT) &&
 			  (nPPrevSuitSupport> nPartnersSuitSupport))
@@ -1369,14 +1369,14 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		// go with partner's first (previous or original) suit
 		nSuit = nPartnersPrevSuit;
 		status << "2PKF4! Without a compelling suit of our own, we prefer to support partner's first suit of " & 
-				   app_->SuitToString(nSuit) & ".\n";
+				   CCard::SuitToString(nSuit) & ".\n";
 	}
 	else if (nPartnersSuitSupport >= SS_WEAK_SUPPORT)
 	{
 		// go with partner's second suit
 		nSuit = nPartnersSuit;
 		status << "2PKF5! Without a compelling suit of our own, we prefer to support partner's second suit of " & 				   
-				  app_->SuitToString(nSuit) & ".\n";
+				  CCard::SuitToString(nSuit) & ".\n";
 	}
 	else if ((numSingletons == 0) && (numVoids == 0))
 	{
@@ -1390,7 +1390,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		nSuit = newSuit;
 		status << "2PKF7! Since our first suit is not rebiddable, and we lack good support for either of partner's suits, we prefer to bid " &
 				  (((numSuitsAvailable==1))? "the 4th suit of" : "a new suit in") &
-				  app_->SuitToString(nSuit) & ".\n";
+				  CCard::SuitToString(nSuit) & ".\n";
 	}
 	else if ((numSingletons <= 1) && (numVoids == 0))
 	{
@@ -1413,7 +1413,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		// gotta go with our suit
 		nSuit = nPrefSuit;
 		status << "2PKF11! With lackluster support for partner's two suits, we choose to rebid our own " & 
-				  numPrefSuitCards & "-card " & app_->SuitToSingularString(nSuit) & " suit.\n";
+				  numPrefSuitCards & "-card " & CCard::SuitToSingularString(nSuit) & " suit.\n";
 	}
 	else if ( (nPPrevSuitSupport >= nPartnersSuitSupport) &&
 			  (numPPrevSuitSupportCards >= 2))
@@ -1421,14 +1421,14 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		// go with partner's first suit
 		nSuit = nPartnersPrevSuit;
 		status << "2PKF12! Without a good suit of our own, we pick partner's first suit of " & 
-				   app_->SuitToString(nSuit) & ".\n";
+				   CCard::SuitToString(nSuit) & ".\n";
 	}
 	else if (numSupportCards >= 2)
 	{
 		// go with partner's second suit
 		nSuit = nPartnersSuit;
 		status << "2PKF13! Without a good suit of our own, we pick partner's second suit of " & 
-				   app_->SuitToString(nSuit) & ".\n";
+				   CCard::SuitToString(nSuit) & ".\n";
 	}
 	else if (numVoids == 0)
 	{
@@ -1442,7 +1442,7 @@ int CBidEngine::PickBestFinalSuit(CPlayerStatusDialog& status)
 		nSuit = newSuit;
 		status << "2PKF15! Without a rebiddable suit or any decent support for partner's suits, and with a hand unsuitable for Notrump, we have little choice but to bid " &
 				  (((numSuitsAvailable==1))? "the 4th suit of" : "a new suit in") &
-				   app_->SuitToString(nSuit) & ".\n";
+				   CCard::SuitToString(nSuit) & ".\n";
 	}
 
 	// done

@@ -23,7 +23,7 @@
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 
 //
@@ -86,9 +86,9 @@ void CForce::Init()
 CString CForce::GetFullDescription()
 {
 	return app_->FormString("Play the %s from %s to force out the opponents' %s.",
-					   app_->CardToString(MAKEDECKVALUE(m_nSuit,m_nCardVal)),
+					   CCard::CardToString(MAKEDECKVALUE(m_nSuit,m_nCardVal)),
 					   (m_nTargetHand == 0)? "hand" : "dummy",
-             app_->CardValToString(m_nTargetCardVal));
+             CCard::CardValToString(m_nTargetCardVal));
 }
 
 
@@ -104,21 +104,21 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 	// a "force" is a play of the lowest possible card that will force out
 	// a key enemy card
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetDeal()->GetTrumpSuit()) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 
@@ -173,7 +173,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 						return m_nStatusCode;
 					}
 					status << "PLFRC04! Play the " & pPlayCard->GetName() &
-							  " from hand to force out the opponents' " & app_->CardValToString(m_nTargetCardVal) & ".\n";
+							  " from hand to force out the opponents' " & CCard::CardValToString(m_nTargetCardVal) & ".\n";
 				}
 				else
 				{
@@ -181,14 +181,14 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 					if (playerSuit.GetNumCards() > 0)
 					{
 						pPlayCard = playerSuit.GetBottomCard();
-						status << "PLFRC06! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PLFRC06! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (" & pPlayCard->GetFaceName() &
 								  ") from hand to trigger a force play in dummy.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLFRC08! Oops, we can't start a force play in the " & app_->SuitToSingularString(m_nSuit) & 
+						status << "4PLFRC08! Oops, we can't start a force play in the " & CCard::SuitToSingularString(m_nSuit) & 
 								  " suit from declarer, since we have no cards in the suit.\n";
 						m_nStatusCode = PLAY_POSTPONE;
 						return m_nStatusCode;
@@ -209,7 +209,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 						return m_nStatusCode;
 					}
 					status << "PLFRC12! Play the " & pPlayCard->GetName() &
-							  " from dummy to force out the opponents' " & app_->CardValToString(m_nTargetCardVal) & ".\n";
+							  " from dummy to force out the opponents' " & CCard::CardValToString(m_nTargetCardVal) & ".\n";
 				}
 				else
 				{
@@ -217,14 +217,14 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 					if (dummySuit.GetNumCards() > 0)
 					{
 						pPlayCard = dummySuit.GetBottomCard();
-						status << "PLFRC14! Lead a low " & app_->SuitToSingularString(m_nSuit) & 
+						status << "PLFRC14! Lead a low " & CCard::SuitToSingularString(m_nSuit) & 
 								  " (" & pPlayCard->GetFaceName() &
 								  ") from dummy to trigger a force play in hand.\n";
 					}
 					else
 					{
 						// oops, no card in the suit to lead!
-						status << "4PLFRC16! Oops, we can't start a force play in the " & app_->SuitToSingularString(m_nSuit) & 
+						status << "4PLFRC16! Oops, we can't start a force play in the " & CCard::SuitToSingularString(m_nSuit) & 
 								  " suit from dummy, since we have no cards in the suit.\n";
 						m_nStatusCode = PLAY_POSTPONE;
 						return m_nStatusCode;
@@ -259,10 +259,10 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 						return m_nStatusCode;
 					}
 					// got the forcing card
-					status << "PLFRC22! The opponents led a " & app_->SuitToSingularString(m_nSuit) & 
+					status << "PLFRC22! The opponents led a " & CCard::SuitToSingularString(m_nSuit) & 
 							  ", so play the " & pPlayCard->GetName() & " from " &
 							  (bPlayingInHand? "hand" : "dummy") & " to try and force out the " & 
-							  app_->CardValToString(m_nTargetCardVal) & " now.\n";
+							  CCard::CardValToString(m_nTargetCardVal) & " now.\n";
 //					m_nStatusCode = PLAY_IN_PROGRESS;
 					m_nStatusCode = PLAY_COMPLETE;
 				}
@@ -306,10 +306,10 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 				 (!bPlayingInHand && (m_nTargetHand == IN_DUMMY)) )
 			{
 				// see if RHO played the target card
-				CCard* pRHOCard = app_->GetCurrentTrickCardByOrder(1);
+				CCard* pRHOCard = app_->GetDeal()->GetCurrentTrickCardByOrder(1);
 				if (pRHOCard->GetFaceValue() >= m_nTargetCardVal)
 				{
-					status << "5PLFR50! RHO played the " & app_->CardValToString(m_nTargetCardVal) &
+					status << "5PLFR50! RHO played the " & CCard::CardValToString(m_nTargetCardVal) &
 							  ", so skip this force play.\n";
 					m_nStatusCode = PLAY_NOT_VIABLE;
 					return m_nStatusCode;
@@ -356,7 +356,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 					// got the forcing card
 					status << "PLFRC62! Play the " & pPlayCard->GetName() & " from " &
 							  (bPlayingInHand? "hand" : "dummy") & " to try and force out the " & 
-            app_->CardValToString(m_nTargetCardVal) & " now.\n";
+            CCard::CardValToString(m_nTargetCardVal) & " now.\n";
 					m_nStatusCode = PLAY_COMPLETE;
 				}
 			}

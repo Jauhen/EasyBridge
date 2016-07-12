@@ -126,7 +126,7 @@ BOOL CAutoHintDialog::OnInitDialog()
 //
 void CAutoHintDialog::OnAcceptHint() 
 {
-	pDOC->GetGameHint();
+	pDOC->GetDeal()->GetGameHint();
 }
 
 

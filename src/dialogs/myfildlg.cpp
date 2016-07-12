@@ -15,7 +15,6 @@
 #include "myfildlg.h"
 #include "saveopts.h"
 #include "progopts.h"
-#include "model/docopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -99,7 +98,7 @@ BOOL CMyFileDialog::OnInitDialog()
 		ASSERT(pEdit != NULL);
 		pEdit->SetReadOnly(FALSE);
 		pEdit->LimitText(255);
-		pEdit->SetWindowText((LPCTSTR)pDOC->GetValuePV(tstrFileDescription));
+		pEdit->SetWindowText((LPCTSTR)pDOC->GetDeal()->GetFileDescription());
 	} 
 	else 
 	{
@@ -191,12 +190,12 @@ void CMyFileDialog::GetFileDescription(CString& strFileName)
 	CString strKey;
 	if (strSuffix.CompareNoCase("brd") == 0)
 	{
-		m_nFileType = CEasyBDoc::tnEasyBridgeFormat;
+		m_nFileType = Deal::tnEasyBridgeFormat;
 		strKey = "[[File Description]]";
 	}
 	else
 	{
-		m_nFileType = CEasyBDoc::tnPBNFormat;
+		m_nFileType = Deal::tnPBNFormat;
 		strKey = "[Description ";
 	}
 
@@ -215,7 +214,7 @@ void CMyFileDialog::GetFileDescription(CString& strFileName)
 
 	// else read file description
 	int nEnd;
-	if (m_nFileType == CEasyBDoc::tnEasyBridgeFormat)
+	if (m_nFileType == Deal::tnEasyBridgeFormat)
 	{
 		BOOL bBreak = FALSE;
 		do {
@@ -264,7 +263,7 @@ void CMyFileDialog::OnChangeFileDescription()
 	char* pszBuf = strTemp.GetBuffer(256);
 	GetDlgItemText(IDC_FILE_DESCRIPTION,pszBuf,255);
 	strTemp.ReleaseBuffer();	
-	pDOC->SetValue(tstrFileDescription,(LPCTSTR)strTemp);
+	pDOC->GetDeal()->SetFileDescription(strTemp);
 }
 
 
@@ -285,22 +284,22 @@ BOOL CMyFileDialog::OnNotify(WPARAM wParam, LPARAM lParam, LRESULT* pResult)
 	{
 		LPOPENFILENAME lpOFN = lpon->lpOFN;
 		if (lpOFN->nFilterIndex == 3)
-			m_nFileType = CEasyBDoc::tnTextFormat;
+			m_nFileType = Deal::tnTextFormat;
 		else if (lpOFN->nFilterIndex == 2)
-			m_nFileType = CEasyBDoc::tnPBNFormat;
+			m_nFileType = Deal::tnPBNFormat;
 		else
-			m_nFileType = CEasyBDoc::tnEasyBridgeFormat;
+			m_nFileType = Deal::tnEasyBridgeFormat;
 		return TRUE;
 	}
 	//
 	if (m_bIsSaving)
 	{
-		if (m_nFileType == CEasyBDoc::tnTextFormat)
+		if (m_nFileType == Deal::tnTextFormat)
 			GetDlgItem(IDC_FILE_DESCRIPTION)->EnableWindow(FALSE);
 		else
 			GetDlgItem(IDC_FILE_DESCRIPTION)->EnableWindow(TRUE);
 		//
-		if (m_nFileType != CEasyBDoc::tnEasyBridgeFormat)
+		if (m_nFileType != Deal::tnEasyBridgeFormat)
 			GetDlgItem(IDC_OPTIONS)->EnableWindow(FALSE);
 		else
 			GetDlgItem(IDC_OPTIONS)->EnableWindow(TRUE);
