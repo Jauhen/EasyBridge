@@ -314,7 +314,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
 
                 // current round info
               case ITEM_CURR_ROUND_LEAD:
-                m_nRoundLead = app_->StringToPosition(string);
+                m_nRoundLead = StringToPosition(string);
                 break;
 
               case ITEM_NUM_CARDS_PLAYED_IN_ROUND:
@@ -390,7 +390,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_DEALER:
-                m_nDealer = app_->StringToPosition(string);
+                m_nDealer = StringToPosition(string);
                 break;
 
               case ITEM_NUM_BIDS:
@@ -402,8 +402,8 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_DECLARER:
-                m_nDeclarer = app_->StringToPosition(string);
-                m_nContractTeam = app_->GetPlayerTeam(m_nDeclarer);
+                m_nDeclarer = StringToPosition(string);
+                m_nContractTeam = GetPlayerTeam(m_nDeclarer);
                 m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH) ? EAST_WEST : NORTH_SOUTH;
                 break;
 
@@ -421,7 +421,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_GAME_LEAD:
-                m_nGameLead = app_->StringToPosition(string);
+                m_nGameLead = StringToPosition(string);
                 break;
 
               case ITEM_GAME_TRICK_1: case ITEM_GAME_TRICK_2:
@@ -437,7 +437,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
                   nLen = string.GetLength();
                   // first read the lead player for the trick
                   partString = string.Mid(nOffset);
-                  m_nTrickLead[nIndex] = app_->StringToPosition(partString);
+                  m_nTrickLead[nIndex] = StringToPosition(partString);
                   nOffset = string.Find(' ');
                   //
                   for (i = 0; i<4; i++) {
@@ -467,13 +467,13 @@ BOOL Deal::ReadFile(CArchive& ar) {
                     CCard* pCard = m_pGameTrick[nIndex][nPos];
                     if (pCard)
                       m_nPlayRecord[nPlayOffset + i] = pCard->GetDeckValue();
-                    nPos = app_->GetNextPlayer(nPos);
+                    nPos = GetNextPlayer(nPos);
                   }
                   // and finally read the trick's winner 
                   while ((nOffset < nLen) && (string[nOffset] == ' '))
                     nOffset++;
                   partString = string.Mid(nOffset);
-                  m_nTrickWinner[nIndex] = app_->StringToPosition(partString);
+                  m_nTrickWinner[nIndex] = StringToPosition(partString);
                 } catch (...) {
                   // error
                 }
@@ -525,11 +525,11 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_BONUS_SCORE_RECORD:
-                m_strArrayBonusPointsRecord.push_back(app_->StripQuotes(string));
+                m_strArrayBonusPointsRecord.push_back(StripQuotes(string));
                 break;
 
               case ITEM_GAME_SCORE_RECORD:
-                m_strArrayTrickPointsRecord.push_back(app_->StripQuotes(string));
+                m_strArrayTrickPointsRecord.push_back(StripQuotes(string));
                 break;
 
                 // misc info
@@ -587,7 +587,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
     m_nDeclarer = SOUTH;
   nPos = m_nDeclarer;
   m_nCurrPlayer = nPos;
-  int nTeam = app_->GetPlayerTeam(nPos);
+  int nTeam = GetPlayerTeam(nPos);
   nOffset = 0;
   // 
   nLen = strBiddingHistory.GetLength();
@@ -599,11 +599,11 @@ BOOL Deal::ReadFile(CArchive& ar) {
       break;
     // grab the next bid
     partString = strBiddingHistory.Mid(nOffset);
-    int nBid = app_->ContractStringToBid(partString);
+    int nBid = ContractStringToBid(partString);
     // and record it
     m_nBiddingHistory[m_numBidsMade] = nBid;
     m_numBidsMade++;
-    m_nCurrPlayer = app_->GetNextPlayer(m_nCurrPlayer);
+    m_nCurrPlayer = GetNextPlayer(m_nCurrPlayer);
     int nBiddingRound = i % 4;
     m_nBidsByPlayer[nPos][nBiddingRound] = nBid;
     // see if this is an actual numeric bid
@@ -617,8 +617,8 @@ BOOL Deal::ReadFile(CArchive& ar) {
     while ((nOffset < nLen) && (strBiddingHistory[nOffset] != ' '))
       nOffset++;
     // and move to the next player
-    nPos = app_->GetNextPlayer(nPos);
-    nTeam = app_->GetOpposingTeam(nTeam);
+    nPos = GetNextPlayer(nPos);
+    nTeam = GetOpposingTeam(nTeam);
   }
   if (ISBID(m_nContract))
     UpdateBiddingHistory();
@@ -647,14 +647,14 @@ BOOL Deal::ReadFile(CArchive& ar) {
   //
   // set contract info
   //
-  m_nContract = app_->ContractParamsToBid(m_nContractSuit, m_nContractLevel);
+  m_nContract = ContractParamsToBid(m_nContractSuit, m_nContractLevel);
   m_nTrumpSuit = m_nContractSuit;
   m_nBiddingRound = nBidIndex;
   // set play info 
   if (ISBID(m_nContract) && ISPLAYER(m_nDeclarer)) {
     // contract has been reached
-    m_nDummy = app_->GetPartner((int)m_nDeclarer);
-    m_nGameLead = app_->GetNextPlayer(m_nDeclarer);
+    m_nDummy = GetPartner((int)m_nDeclarer);
+    m_nGameLead = GetNextPlayer(m_nDeclarer);
     m_nRoundLead = m_nGameLead;
     m_nCurrPlayer = m_nRoundLead;
     m_nTrickLead[0] = m_nRoundLead;

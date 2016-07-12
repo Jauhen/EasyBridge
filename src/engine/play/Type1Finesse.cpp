@@ -80,22 +80,22 @@ CString CType1Finesse::GetFullDescription()
 	CString strText;
 	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
-		return app_->FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the { %s } as possible cover cards.",
+		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the { %s } as possible cover cards.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),
 //						   CCard::SuitToString(m_nSuit),
 						   ((m_nTargetHand == 0)? "hand" : "dummy"),
-      app_->PositionToString(m_nTargetPos),
+      PositionToString(m_nTargetPos),
 						   m_pCoverCards->GetHoldingsString());
 	else
-		return app_->FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
+		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the %s as cover.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"),
 						   m_pConsumedCard->GetFaceName(),
 //						   CCard::SuitToString(m_nSuit),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
-      app_->PositionToString(m_nTargetPos),
+      PositionToString(m_nTargetPos),
 						   m_pCoverCards->GetAt(0)->GetFaceName());
 }
 

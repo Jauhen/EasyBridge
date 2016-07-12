@@ -69,7 +69,7 @@ BOOL CJacobyTransferConvention::TryConvention(const CPlayer& player,
 		nBid = MAKEBID(nSuit-1, 2);
 		status << "JAC0! With a " & bidState.numCardsInSuit[nSuit] & 
 				  "-card major in " & CCard::SuitToString(nSuit) &
-				  ", use Jacoby to transfer by bidding " & app_->BidToFullString(nBid) & ".\n";
+				  ", use Jacoby to transfer by bidding " & BidToFullString(nBid) & ".\n";
 	} 
 	else 
 	{
@@ -85,7 +85,7 @@ BOOL CJacobyTransferConvention::TryConvention(const CPlayer& player,
 			status << "JAC2! With a " & bidState.numCardsInSuit[nSuit] & 
 					  "-card minor in " & CCard::SuitToString(nSuit) &
 					  ", and playing 4-suit transfers, use Jacoby to transfer by bidding " &
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		} 
 		else 
 		{
@@ -95,12 +95,12 @@ BOOL CJacobyTransferConvention::TryConvention(const CPlayer& player,
 				status << "JAC4! With a " & bidState.numCardsInSuit[nSuit] & 
 						  "-card minor in " & CCard::SuitToString(nSuit) &
 						  ", use Jacoby to transfer to 3C by bidding " & 
-						  app_->BidToFullString(nBid) & ".\n";
+						  BidToFullString(nBid) & ".\n";
 			else
 				status << "JAC6! With a " & bidState.numCardsInSuit[nSuit] & 
 						  "-card minor in " & CCard::SuitToString(nSuit) &
 						  ", and playing only simple transfers, use Jacoby to transfer to 3C by bidding " &
-						  app_->BidToFullString(nBid) & ".  We can then rebid 3D at the next opportunity.\n";
+						  BidToFullString(nBid) & ".  We can then rebid 3D at the next opportunity.\n";
 		}
 	}
 	//
@@ -171,7 +171,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	if (app_->GetCurrentConventionSet()->IsOptionEnabled(tb4SuitTransfers)) 
 	{
 		if (nPartnersBid != BID_2NT)	// xfer to next suit
-			nNewSuit = app_->GetNextSuit(nPartnersSuit);
+			nNewSuit = GetNextSuit(nPartnersSuit);
 		else
 			nNewSuit = DIAMONDS;	// NT -> Diamonds transfer
 	} 
@@ -179,7 +179,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	{
 		// simple transfers
 		if (nPartnersBid != BID_2NT)
-			nNewSuit = app_->GetNextSuit(nPartnersSuit);
+			nNewSuit = GetNextSuit(nPartnersSuit);
 		else
 			nNewSuit = NONE;		// 2NT = no explicit transfer
 	}
@@ -234,7 +234,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 		nBid = bidState.GetJumpShiftBid(nNewSuit,nPartnersBid);
 		status << "JC20! Responding with strong support in the major " & CCard::SuitToSingularString(nNewSuit) &
 				  " suit (holding " & bidState.SHTS(nNewSuit) & 
-				  ") and max NT opening points, jump respond to " & app_->BidToFullString(nBid) & ".\n";
+				  ") and max NT opening points, jump respond to " & BidToFullString(nBid) & ".\n";
 	}
 
 	//
@@ -251,7 +251,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 			nBid = nPartnersBid + 1;
 			status << "JC22! Responding with strong support in the major " & CCard::SuitToSingularString(nNewSuit) &
 					  " suit (holding " & bidState.SHTS(nNewSuit) & 
-					  ") and max NT opening points, respond with " & app_->BidToFullString(nBid) & 
+					  ") and max NT opening points, respond with " & BidToFullString(nBid) & 
 					  " to indicate strong support and max opening strength (playing 4-suit transfers).\n";
 		} 
 		else 
@@ -271,7 +271,7 @@ BOOL CJacobyTransferConvention::RespondToConvention(const CPlayer& player,
 	{
 		nBid = bidState.GetCheapestShiftBid(nNewSuit);
 		status << "JC24! Respond to the requested " & CCard::SuitToSingularString(nNewSuit) & 
-				  " transfer suit with a " & app_->BidToFullString(nBid) & " bid.\n";
+				  " transfer suit with a " & BidToFullString(nBid) & " bid.\n";
 	}
 
 	// done
@@ -315,7 +315,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	if (app_->GetCurrentConventionSet()->IsOptionEnabled(tb4SuitTransfers)) 
 	{
 		if (nPreviousSuit != NOTRUMP)
-			nNewSuit = app_->GetNextSuit(nPreviousSuit);
+			nNewSuit = GetNextSuit(nPreviousSuit);
 		else
 			nNewSuit = DIAMONDS;
 		//
@@ -325,7 +325,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	{
 		// not playing 4-suit transfers
 		if (nPreviousSuit != NOTRUMP)
-			nNewSuit = app_->GetNextSuit(nPreviousSuit);
+			nNewSuit = GetNextSuit(nPreviousSuit);
 		else
 			return FALSE;	// 2NT is natural
 
@@ -341,9 +341,9 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	// check for violation
  	if ((nPartnersBid > BID_4D) || (nPartnersBid == BID_DOUBLE) || (nPartnersBid == BID_REDOUBLE))
 	{
-		CString strTemp = app_->BidToFullString(nPartnersBid);
+		CString strTemp = BidToFullString(nPartnersBid);
 		status << "2JC30! Partner did not reply properly to our Jacoby Transfer, bidding " &
-				   strTemp & " instead of the asked-for " & app_->BidToFullString(MAKEBID(nNewSuit,2)) &
+				   strTemp & " instead of the asked-for " & BidToFullString(MAKEBID(nNewSuit,2)) &
 				   ". Treat this as a simple rebid.\n";
 		bidState.SetConventionStatus(this, CONV_ERROR);
 		return FALSE;
@@ -351,7 +351,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	else if (nPartnersBid == BID_PASS)
 	{
 		BOOL bInterference = ISBID(bidState.nLHOBid);
-		CString strTemp = app_->BidToFullString(nPartnersBid);
+		CString strTemp = BidToFullString(nPartnersBid);
 		status << "2JC31! Partner passed our Jacoby Transfer " &
 				  (bInterference? "after interference from the opponents" : "") &
 				   ", so Jacoby is no longer in effect.\n";
@@ -376,7 +376,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 		bidState.m_fMaxTPPoints = n1NTMAX + fAdjPts;
 		bidState.m_fMinTPCPoints = n1NTMIN + fCardPts;
 		bidState.m_fMaxTPCPoints = n1NTMAX + fCardPts;
-		status << "2JC32! Partner replied to our Jacoby transfer with " & app_->BidToFullString(nPartnersBid) &
+		status << "2JC32! Partner replied to our Jacoby transfer with " & BidToFullString(nPartnersBid) &
 				  " indicating " & n1NTMIN & "-" & n1NTMAX  & 
 				  " points for a total in the partership of " & 
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & " points.\n";
@@ -390,9 +390,9 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 		bidState.m_fMaxTPPoints = n1NTMAX + fAdjPts;
 		bidState.m_fMinTPCPoints = n1NTMIN + fCardPts;
 		bidState.m_fMaxTPCPoints = n1NTMAX + fCardPts;
-		CString strTemp = app_->BidToFullString(nPreviousBid);
+		CString strTemp = BidToFullString(nPreviousBid);
 		status << "2JC34! Partner replied to our " & strTemp & 
-				  " Jacoby transfer with a response of " & app_->BidToFullString(nPartnersBid) & 
+				  " Jacoby transfer with a response of " & BidToFullString(nPartnersBid) & 
 				  ", which indicates a maximum 1NT opening hand (" & n1NTMAX  & 
 				  " HCPs, for a total of " & 
 				  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
@@ -408,7 +408,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 		bidState.m_fMinTPCPoints = n1NTMIN + fCardPts;
 		bidState.m_fMaxTPCPoints = n1NTMAX + fCardPts;
 		status << "2JC16! Partner replied to our Jacoby transfer with a jump response of " &
-				  app_->BidToFullString(nPartnersBid) & ", indicating max 1NT opening points (" &
+				  BidToFullString(nPartnersBid) & ", indicating max 1NT opening points (" &
 				  n1NTMAX & ") and 4+ trumps, for a total partnership holding of " &
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
 				  " points and 4+ trumps.\n";
@@ -433,7 +433,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 			status << "JC20! With " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 					  " points in the hand, and a total in the partnership of " &
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
-					  " points, settle for a part score and correct to " & app_->BidToFullString(nBid) & ".\n";
+					  " points, settle for a part score and correct to " & BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -466,7 +466,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 					status << "JC50! With " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							  " points in the hand, and a total in the partnership of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
-							  " points, raise to " & app_->BidToFullString(nBid) & ".\n";
+							  " points, raise to " & BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
@@ -505,7 +505,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 		status << "JC60! With " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 				  " points in the hand, and a total in the partnership of " &
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
-				  " points, bid " & app_->BidToFullString(nBid) & ".\n";
+				  " points, bid " & BidToFullString(nBid) & ".\n";
 	}
 
 	//

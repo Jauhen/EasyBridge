@@ -21,7 +21,6 @@ protected:
 };
 
 TEST_F(PlayerTests, Init) {
-  EXPECT_CALL(*app, PositionToString(_)).WillRepeatedly(Return("abc"));
 
   pS.InitializePlayer(SOUTH, &pN, &pW, &pE);
   pW.InitializePlayer(WEST, &pE, &pN, &pS);

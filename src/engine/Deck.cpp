@@ -302,9 +302,9 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
    		for(int i=0;i<52;i++) 
 		{
 			// switch the ith card with a random card
-			nRand = app_->GetRandomValue(51);
+			nRand = GetRandomValue(51);
 			if (nRand == i)
-				nRand = app_->GetRandomValue(51);	// try again	
+				nRand = GetRandomValue(51);	// try again	
 			//
 			pTempCard = m_cards[i];
 			nTempSuit = pTempCard->m_nSuit;
@@ -336,7 +336,7 @@ CCard* CDeck::GetCard(int nDeckValue)
 //
 CCard* CDeck::GetCard(LPCTSTR pszName)
 {
-	int nValue = app_->StringToDeckValue(pszName);
+	int nValue = StringToDeckValue(pszName);
 	return GetCard(nValue);
 }
 

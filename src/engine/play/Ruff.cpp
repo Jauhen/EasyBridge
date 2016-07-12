@@ -85,7 +85,7 @@ void CRuff::Init()
 //
 CString CRuff::GetFullDescription()
 {
-	return app_->FormString("Ruff a %s in %s.",
+	return FormString("Ruff a %s in %s.",
     CCard::SuitToSingularString(m_nSuit),
 					   (m_nTargetHand == 0)? "hand" : "dummy");
 }

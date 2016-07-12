@@ -226,6 +226,7 @@
     <ClInclude Include="..\src\model\FileCodePBN.H" />
     <ClInclude Include="..\src\model\file_exporter.h" />
     <ClInclude Include="..\src\model\GameRecord.h" />
+    <ClInclude Include="..\src\model\Globals.h" />
     <ClInclude Include="mock_app.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -306,6 +307,7 @@
       </PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="..\src\model\GameRecord.cpp" />
+    <ClCompile Include="..\src\model\Globals.cpp" />
     <ClCompile Include="..\src\model\rdfile.cpp" />
     <ClCompile Include="..\src\model\RdFilePBN.cpp" />
     <ClCompile Include="..\src\model\wrfile.cpp" />

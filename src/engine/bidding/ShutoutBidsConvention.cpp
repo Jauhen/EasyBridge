@@ -94,7 +94,7 @@ BOOL CShutoutBidsConvention::TryConvention(const CPlayer& player,
 		status << "D00! Have a " & bidState.numCardsInSuit[nSuit] & 
 				  "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit with no tricks outside the suit, so make a shutout bid of " & 
-				  app_->BidToFullString(nBid) & ".\n";
+				  BidToFullString(nBid) & ".\n";
 	} 
 	else if (bidState.numCardsInSuit[nSuit] >= 7) 
 	{
@@ -102,7 +102,7 @@ BOOL CShutoutBidsConvention::TryConvention(const CPlayer& player,
 		status << "D04! Have a " & bidState.numCardsInSuit[nSuit] & 
 				  "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit with no tricks outside the suit, so make a shutout bid of " & 
-				  app_->BidToFullString(nBid) & ".\n";
+				  BidToFullString(nBid) & ".\n";
 	}
 	bidState.SetBid(nBid);
 	bidState.SetConventionStatus(this, CONV_INVOKED);
@@ -205,7 +205,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 				  " points in the partnership, strong support for partner's long " &
 				  bidState.szPSS & " suit (holding " & bidState.szHP & 
 				  "), plus " & numQuickTricks & " QTs and " & numLikelyWinners & 
-				  " likely winners, so we can safely bid game at " & app_->BidToFullString(nBid) & ".\n";
+				  " likely winners, so we can safely bid game at " & BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -222,7 +222,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 				  " points in the partnership, strong support for partner's long " &
 				  bidState.szPSS & " suit (holding " & bidState.szHP & 
 				  "), plus " & numQuickTricks & " QTs and " & numLikelyWinners & 
-				  " likely winners, so we can safely bid a minor game at " & app_->BidToFullString(nBid) & ".\n";
+				  " likely winners, so we can safely bid a minor game at " & BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}
@@ -238,7 +238,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 				  " points in the partnership, " & bidState.SLTS(nPartnersSuit) &
 				  " support for partner's long " & bidState.szPSS & 
 				  " suit (holding " & bidState.szHP & "), plus " & numQuickTricks & 
-				  " QTs, so we can safely bid a slam at " & app_->BidToFullString(nBid) & ".\n";
+				  " QTs, so we can safely bid a slam at " & BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		return TRUE;
 	}

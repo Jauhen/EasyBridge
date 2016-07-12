@@ -152,7 +152,7 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 			{
 				// yup, it does
 				status << "OVRCW1! With " & bidState.fPts & " pts and a " & bidState.numCardsInSuit[nSuit] &
-						  "-card " & CCard::SuitToSingularString(nSuit) & " suit, make a weak jump overcall to " & app_->BidToFullString(nBid) & ".\n";
+						  "-card " & CCard::SuitToSingularString(nSuit) & " suit, make a weak jump overcall to " & BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED);
 				bidState.SetConventionParameter(this, 1);	// indicate that we jump shifted
@@ -170,7 +170,7 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 				// yup, it does
 				status << "OVRCS1! With " & bidState.fPts & " pts, a " & bidState.numCardsInSuit[nSuit] &
 						  "-card " & CCard::SuitToSingularString(nSuit) & " suit, and " & bidState.numLikelyWinners & 
-						  " likely winners in the hand, make a strong jump overcall to " & app_->BidToFullString(nBid) & ".\n";
+						  " likely winners in the hand, make a strong jump overcall to " & BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED);
 				bidState.SetConventionParameter(this, 1);	// indicate that we jump shifted
@@ -222,12 +222,12 @@ BOOL COvercallsConvention::TryConvention(const CPlayer& player,
 	//
 	// whew! we've passed all the tests, so bid
 	//
-	CString strOppBid = app_->BidToFullString(nOppBid);
+	CString strOppBid = BidToFullString(nOppBid);
 	status << "OVERCL8! Have a good " & bidState.numCardsInSuit[nSuit] & 
 			  "-card " & CCard::SuitToSingularString(nSuit) & " suit with " & 
 			  bidState.fPts & "/" & bidState.fPts & 
 			  " points and " & bidState.numLikelyWinners & " playing tricks, so overcall the opponents' " & 
-			  (LPCTSTR)strOppBid & " with a bid of " & app_->BidToFullString(nBid) & ".\n";
+			  (LPCTSTR)strOppBid & " with a bid of " & BidToFullString(nBid) & ".\n";
 	bidState.SetBid(nBid);
 	bidState.SetConventionStatus(this, CONV_INVOKED);
 	return TRUE;
@@ -487,12 +487,12 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 			if (!bJumped)
 				status << "ROVRC24! With a " & bidState.numPrefSuitCards & "-card " & 
 						  CCard::SuitToSingularString(nPrefSuit) & " suit, we bid it in preference to partner's " 
-						  & CCard::SuitToString(nPartnersSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  & CCard::SuitToString(nPartnersSuit) & " at a bid of " & BidToFullString(nBid) & ".\n";
 			else
 				status << "ROVRC26! With a " & bidState.numPrefSuitCards & "-card " & 
 						  CCard::SuitToSingularString(nPrefSuit) & " suit and " & fPts & 
 						  " points, we jump in it in preference to partner's " 
-						  & CCard::SuitToString(nPartnersSuit) & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  & CCard::SuitToString(nPartnersSuit) & " at a bid of " & BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 		}
 		return TRUE;
@@ -533,7 +533,7 @@ BOOL COvercallsConvention::RespondToConvention(const CPlayer& player,
 		status << "ROVRC60! With poor support for partner's " & CCard::SuitToString(nPartnersSuit) &
 				  " (holding " & bidState.szHP & 
 				  "), no good 6-card suit of our own to bid, and a hand unsuited for NT, cue bid the opponents' " &
-				  CCard::SuitToSingularString(nOppSuit) & " suit at " & app_->BidToFullString(nBid) & ".  This bid is forcing.\n";
+				  CCard::SuitToSingularString(nOppSuit) & " suit at " & BidToFullString(nBid) & ".  This bid is forcing.\n";
 	}
 
 	
@@ -769,7 +769,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// rebid the suit
 			status << "OVRRB50! Despite partner's pass, we have the strength to rebid the suit, so rebid at " & 
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -796,7 +796,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 			status << "OVRRB60! With a total of approx. " &
 					  fMinTPPoints & "-" & fMinTPPoints & 
 					  " pts in the partnership, we can raise to game at " &
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		}
 		else 
 		{
@@ -809,7 +809,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 						  fMinTPPoints & "-" & fMinTPPoints & 
 						  " pts in the partnership, we can raise to" & 
 						  ((nBid >= bidState.GetGameBid(nPreviousSuit))? " game at " : " ") &
-						  app_->BidToFullString(nBid) & ".\n";
+						  BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -831,7 +831,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 				nBid = bidState.m_nBid;
 				status << "OVRRB70! We have a reasonably balanced hand and a total of " & 
 							  fMinTPCPoints & "-" & fMaxTPCPoints &
-							  " HPCs in the partnership, so raise to " & app_->BidToFullString(nBid) & ".\n";
+							  " HPCs in the partnership, so raise to " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -853,7 +853,7 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				status << "OVRRB76! We don't have a balanced hand, but do have a " &
 						  bidState.numPrefSuitCards & "-card " & bidState.szPVSS & 
-						  " suit, so rebid it at " & app_->BidToFullString(nBid) & ".\n";
+						  " suit, so rebid it at " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -880,14 +880,14 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			nBid = bidState.m_nBid;
 			status << "OVRRB80! With a lack of better options, we begrudgingly raise partner to the 2-level with " &
-					  bidState.numSupportCards & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  bidState.numSupportCards & " at a bid of " & BidToFullString(nBid) & ".\n";
 		}
 		if ((nPartnersBidLevel == 2) &&
 			(bidState.RaisePartnersSuit(SUIT_ANY,RAISE_ONE,app_->GamePts() -3,app_->SlamPts() -1,SUPLEN_2)))
 		{
 			nBid = bidState.m_nBid;
 //			status << "OVRRB81! With a lack of better options, we begrudgingly raise partner to the 3-level with " &
-//					  bidState.numSupportCards & " at a bid of " & app_->BidToFullString(nBid) & ".\n";
+//					  bidState.numSupportCards & " at a bid of " & BidToFullString(nBid) & ".\n";
 		}
 		else if ( ((nRebidLevel == 2) && (fMinTPPoints >= app_->GamePts() -3) && (bidState.numPrefSuitCards >= 6)) ||
 				   ((nRebidLevel == 3) && (fMinTPPoints >= app_->GamePts() -1) && (bidState.numPrefSuitCards >= 6)) )
@@ -895,14 +895,14 @@ BOOL COvercallsConvention::HandleConventionResponse(const CPlayer& player,
 			// rebid a 6-card suit, if possible
 			nBid = bidState.m_nBid;
 			status << "OVRRB82! We lack the strength to raise partner, so rebid our own " & 
-					  bidState.numPrefSuitCards & "-card suit at " & app_->BidToFullString(nBid) & ".\n";
+					  bidState.numPrefSuitCards & "-card suit at " & BidToFullString(nBid) & ".\n";
 		}
 		else if (bidState.BidNoTrumpAsAppropriate(TRUE,STOPPED_ALLOTHER,nPartnersSuit))
 		{
 			// bid NT
 			nBid = bidState.m_nBid;
 //			status << "OVRRB84! With a semi-balanced hand, we prefer to bid NT instead of raising partner with weak trump support, so bid " &
-//					   app_->BidToFullString(nBid) & ".\n";
+//					   BidToFullString(nBid) & ".\n";
 		}
 		else
 		{

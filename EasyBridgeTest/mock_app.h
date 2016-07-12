@@ -189,42 +189,7 @@ public:
   MOCK_METHOD0(GetPlayHistory, const CString());
 
 
-
-  MOCK_METHOD2(ContractToFullString, const CString(int contract, int modifier));
-  MOCK_METHOD1(PositionToString, const char* (int pos));
-  MOCK_METHOD1(BidToFullString, const CString(int bid));
-  MOCK_METHOD1(BidToShortString, const CString(int bid));
-  MOCK_METHOD1(GetPlayerTeam, int(int position));
-  MOCK_METHOD1(GetNextPlayer, int(int position));
-  MOCK_METHOD1(GetNextSuit, int(int suit));
-  MOCK_METHOD7(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6));
-  MOCK_METHOD6(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5));
-  MOCK_METHOD4(FormString, CString(const char* format, const char* arg1, const char* arg2, const char* arg3));
-  MOCK_METHOD3(FormString, CString(const char* format, const char* arg1, const char* arg2));
-  MOCK_METHOD3(FormString, CString(const char* format, int arg1, int arg2));
-  MOCK_METHOD3(FormString, CString(const char* format, const char* arg1, int arg2));
-  MOCK_METHOD2(FormString, CString(const char* format, const char* arg1));
-  MOCK_METHOD2(FormString, CString(const char* format, int arg1));
-  MOCK_METHOD2(FormString, CString(const char* format, unsigned char arg1));
-  MOCK_METHOD2(ContractToString, CString(int contract, int modifier));
-  MOCK_METHOD1(GetPrevPlayer, int(int position));
-  MOCK_METHOD1(GetPrevSuit, int(int suit));
-  MOCK_METHOD1(IsHonor, bool(int faceValue));
-  MOCK_METHOD1(TeamToString, const char*(int team));
-  MOCK_METHOD1(StringToDeckValue, int(const char* str));
-  MOCK_METHOD1(GetRandomValue, int(int max));
-  MOCK_METHOD1(PositionToShortString, const char*(int pos));
-  MOCK_METHOD1(GetOpposingTeam, int(int team));
-  MOCK_METHOD1(GetPartner, int(int pos));
-  MOCK_METHOD1(StringToPosition, int(const char* str));
-  MOCK_METHOD1(PositionToChar, const char(int pos));
-  MOCK_METHOD1(BidToPBNString, const CString(int bid));
-  MOCK_METHOD1(WrapInQuotes, CString(const CString& item));
-  MOCK_METHOD1(StripQuotes, CString(const CString& item));
-  MOCK_METHOD1(CharToPosition, int(char c));
-  MOCK_METHOD1(StringToBid, int(const char* str));
-  MOCK_METHOD1(ContractStringToBid, int(const char* str));
-  MOCK_METHOD2(ContractParamsToBid, int(int suit, int level));
+  MOCK_METHOD0(GetToday, const char*());
   MOCK_METHOD0(TimeGetTime, int());
   MOCK_METHOD3(DisplayScoreDialog, void(std::vector<CString> bonusPoints, std::vector<CString> trickPoints, CString totalPoints));
   MOCK_METHOD1(DisplaySelectHandDialog, int(int position));
