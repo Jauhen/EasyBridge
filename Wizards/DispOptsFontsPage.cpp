@@ -16,7 +16,7 @@
 #include "DispOptsFontsPage.h"
 #include "MainFrameOpts.h"
 #include "progopts.h"
-#include "Globals.h"
+#include "model/Globals.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

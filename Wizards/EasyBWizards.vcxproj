@@ -283,7 +283,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\Globals.cpp" />
+    <ClCompile Include="..\src\model\Globals.cpp" />
     <ClCompile Include="BidOptionsPropSheet.cpp" />
     <ClCompile Include="BidOptsConfigPage.cpp" />
     <ClCompile Include="BidOptsGeneralPage.cpp" />

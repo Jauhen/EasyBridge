@@ -92,7 +92,4 @@ BOOL	IsHonor(int nFaceValue);
 int		GetRandomValue(int nMax);
 int		Round(float fValue);
 
-//
-void	Pause(int nMilliseconds);
-
 #endif

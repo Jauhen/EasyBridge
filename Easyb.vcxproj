@@ -313,7 +313,7 @@
     <ClCompile Include="src\GIB.cpp" />
     <ClCompile Include="src\dialogs\GIBDialog.cpp" />
     <ClCompile Include="src\GIBMonitorThread.cpp" />
-    <ClCompile Include="src\Globals.cpp" />
+    <ClCompile Include="src\model\Globals.cpp" />
     <ClCompile Include="src\engine\GuessedCard.CPP" />
     <ClCompile Include="src\engine\play\GuessedCardHoldings.cpp" />
     <ClCompile Include="src\engine\play\GuessedHandHoldings.cpp" />
@@ -453,7 +453,7 @@
     <ClInclude Include="src\GIB.h" />
     <ClInclude Include="src\dialogs\GIBDialog.h" />
     <ClInclude Include="src\GIBMonitorThread.h" />
-    <ClInclude Include="src\Globals.h" />
+    <ClInclude Include="src\model\Globals.h" />
     <ClInclude Include="src\engine\GuessedCard.H" />
     <ClInclude Include="src\engine\play\GuessedCardHoldings.H" />
     <ClInclude Include="src\engine\play\GuessedHandHoldings.H" />

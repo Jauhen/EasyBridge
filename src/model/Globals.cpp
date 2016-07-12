@@ -20,11 +20,11 @@
 //
 
 #include "stdafx.h"
-#include "EasyB.h"
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "engine/card_constants.h"
 #include "engine/bidding/ConventionSet.h"
+#include "model/Globals.h"
 
 
 /*
@@ -903,37 +903,4 @@ int GetPartner(int nPos)
 }
 
 
-
-
-///////////////////////////////////////////////////////////////////////////
-//
-//
-// Misc Utilities
-//
-//
-///////////////////////////////////////////////////////////////////////////
-
-
-//
-// Pause()
-//
-// a wait routine that doesn't block the program the way ::Sleep does
-// Note: is this supported on Win95???
-//
-void Pause(int nMilliseconds)
-{
-/*
-	LARGE_INTEGER lnTime = nMilliseconds * 1000000;		// nanoseconds -> milliseconds
-	HANDLE hTimer = CreateWaitableTimer(NULL, FALSE, NULL);
-	SetWaitableTimer(hTimer, &lnTime, 0, NULL, NULL, FALSE);
-	const int tnMaxTimeout = 30 * 1000;			// 30 seconds max
-
-	//
-	DWORD dCode = WaitForSingleObject(hTimer, tnMaxTimeout);
-	if (dCode == WAIT_TIMEOUT)
-	{
-		// oops!
-	}
-*/
-}
 

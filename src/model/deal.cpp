@@ -179,7 +179,7 @@ void Deal::RestartCurrentHand(BOOL bUpdateView) {
 void Deal::InitializeVulnerability() {
   // if playing in practice mode with duplicate scoring, randomize vulnerability
   if (!app_->IsRubberInProgress() && app_->IsUsingDuplicateScoring())
-    m_nVulnerableTeam = (Team)(app_->GetRandomValue(3) - 1);
+    m_nVulnerableTeam = (Team)(GetRandomValue(3) - 1);
   //
   if ((m_nVulnerableTeam == NORTH_SOUTH) || (m_nVulnerableTeam == BOTH))
     m_bVulnerable[NORTH_SOUTH] = TRUE;
@@ -291,7 +291,7 @@ void Deal::UpdateScore() {
       ((m_nContractTeam == NORTH_SOUTH) ? "" : "\t"),
       numTrickPoints,
       ((m_nContractTeam == NORTH_SOUTH) ? "\t" : ""),
-      app_->ContractToFullString(m_nContract, m_nContractModifier),
+      ContractToFullString(m_nContract, m_nContractModifier),
       (bDoubled ? " doubled" : bRedoubled ? " redoubled" : ""));
     // and save
     m_strArrayTrickPointsRecord.push_back(strTrickPoints);
@@ -432,7 +432,7 @@ void Deal::UpdateScore() {
             numHonors++;
         //
         if (numHonors == 5) {
-          int nTeam = app_->GetPlayerTeam(i);
+          int nTeam = GetPlayerTeam(i);
           m_nBonusScore[nTeam] += 150;
           strBonusPoints.Format("%s150%s\tHonors bonus for holding 5 trump honors",
             ((nTeam == NORTH_SOUTH) ? "" : "\t"),
@@ -440,7 +440,7 @@ void Deal::UpdateScore() {
           m_strArrayBonusPointsRecord.push_back(strBonusPoints);
           break;
         } else if (numHonors == 4) {
-          int nTeam = app_->GetPlayerTeam(i);
+          int nTeam = GetPlayerTeam(i);
           m_nBonusScore[nTeam] += 100;
           strBonusPoints.Format("%s100%s\tHonors bonus for holding 4 trump honors",
             ((nTeam == NORTH_SOUTH) ? "" : "\t"),
@@ -459,7 +459,7 @@ void Deal::UpdateScore() {
             numAces++;
         //
         if (numAces == 4) {
-          int nTeam = app_->GetPlayerTeam(i);
+          int nTeam = GetPlayerTeam(i);
           m_nBonusScore[nTeam] += 150;
           strBonusPoints.Format("%s150%s\tHonors bonus for holding all 4 Aces in NT contract",
             ((nTeam == NORTH_SOUTH) ? "" : "\t"),
@@ -617,7 +617,7 @@ void Deal::UpdateDuplicateScore() {
       ((m_nContractTeam == NORTH_SOUTH) ? "" : "\t"),
       numTrickPoints,
       ((m_nContractTeam == NORTH_SOUTH) ? "\t" : ""),
-      app_->ContractToFullString(m_nContract, m_nContractModifier),
+      ContractToFullString(m_nContract, m_nContractModifier),
       (bDoubled ? " doubled" : bRedoubled ? " redoubled" : ""));
     // and save
     //		m_strArrayTrickPointsRecord.Add(strTrickPoints);
@@ -994,27 +994,27 @@ void Deal::RotatePartialHands(int numPositions) {
     m_pCurrTrick[EAST] = pTemp;
 
     // adjust the player(s) info
-    m_nCurrPlayer = app_->GetNextPlayer(m_nCurrPlayer);
-    m_nRoundLead = app_->GetNextPlayer(m_nRoundLead);
-    m_nRoundWinner = app_->GetNextPlayer(m_nRoundWinner);
-    m_nRoundWinningTeam = (Team)app_->GetOpposingTeam(m_nRoundWinningTeam);
+    m_nCurrPlayer = GetNextPlayer(m_nCurrPlayer);
+    m_nRoundLead = GetNextPlayer(m_nRoundLead);
+    m_nRoundWinner = GetNextPlayer(m_nRoundWinner);
+    m_nRoundWinningTeam = (Team)GetOpposingTeam(m_nRoundWinningTeam);
 
     // adjust other stuff
-    m_nDealer = app_->GetNextPlayer(m_nDealer);
-    m_nDeclarer = app_->GetNextPlayer(m_nDeclarer);
-    m_nDummy = app_->GetNextPlayer(m_nDummy);
-    m_nDoubler = app_->GetNextPlayer(m_nDoubler);
-    m_nRedoubler = app_->GetNextPlayer(m_nRedoubler);
-    m_nOpeningBidder = app_->GetOpposingTeam(m_nOpeningBidder);
-    m_nGameLead = app_->GetNextPlayer(m_nGameLead);
-    m_nPrevDealer = app_->GetNextPlayer(m_nPrevDealer);
+    m_nDealer = GetNextPlayer(m_nDealer);
+    m_nDeclarer = GetNextPlayer(m_nDeclarer);
+    m_nDummy = GetNextPlayer(m_nDummy);
+    m_nDoubler = GetNextPlayer(m_nDoubler);
+    m_nRedoubler = GetNextPlayer(m_nRedoubler);
+    m_nOpeningBidder = GetOpposingTeam(m_nOpeningBidder);
+    m_nGameLead = GetNextPlayer(m_nGameLead);
+    m_nPrevDealer = GetNextPlayer(m_nPrevDealer);
 
     // the following is not the most efficient, but...
-    m_nContractTeam = app_->GetOpposingTeam(m_nContractTeam);
-    m_nDefendingTeam = app_->GetOpposingTeam(m_nDefendingTeam);
+    m_nContractTeam = GetOpposingTeam(m_nContractTeam);
+    m_nDefendingTeam = GetOpposingTeam(m_nDefendingTeam);
     if (ISTEAM(m_nVulnerableTeam))
-      m_nVulnerableTeam = (Team)app_->GetOpposingTeam(m_nDefendingTeam);
-    m_nLastValidBidTeam = (Team)app_->GetOpposingTeam(m_nLastValidBidTeam);
+      m_nVulnerableTeam = (Team)GetOpposingTeam(m_nDefendingTeam);
+    m_nLastValidBidTeam = (Team)GetOpposingTeam(m_nLastValidBidTeam);
 
     // and team lead info
     for (int j = 0; j < 5; j++) {
@@ -1069,8 +1069,8 @@ void Deal::RotatePartialHands(int numPositions) {
       m_pGameTrick[i][EAST] = pTemp;
 
       // adjust trick lead and winner for each round
-      m_nTrickLead[i] = app_->GetNextPlayer(m_nTrickLead[i]);
-      m_nTrickWinner[i] = app_->GetNextPlayer(m_nTrickWinner[i]);
+      m_nTrickLead[i] = GetNextPlayer(m_nTrickLead[i]);
+      m_nTrickWinner[i] = GetNextPlayer(m_nTrickWinner[i]);
     }
   }
   UpdatePlayHistory();
@@ -1227,7 +1227,7 @@ void Deal::DealHands(BOOL bUseDealNumber, int nDealNumber) {
 
   // adjust dealer if using deal number
   if (bUseDealNumber)
-    m_nDealer = app_->GetPrevPlayer(m_nDealer);
+    m_nDealer = GetPrevPlayer(m_nDealer);
   m_nCurrPlayer = m_nDealer;
 
   //
@@ -1289,7 +1289,7 @@ void Deal::InitNewHand(BOOL bRestarting) {
   if (!bRestarting) {
     if (ISPLAYER(m_nDealer)) {
       m_nPrevDealer = m_nDealer;
-      m_nDealer = app_->GetNextPlayer(m_nDealer);
+      m_nDealer = GetNextPlayer(m_nDealer);
     } else {
       m_nPrevDealer = EAST;
       m_nDealer = SOUTH;
@@ -1487,8 +1487,8 @@ void Deal::LoadGameRecord(const CGameRecord& game) {
     m_nContractTeam = (game.m_nDeclarer == SOUTH || game.m_nDeclarer == NORTH) ? NORTH_SOUTH : EAST_WEST;
     m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH) ? EAST_WEST : NORTH_SOUTH;
     m_nDeclarer = game.m_nDeclarer;
-    m_nGameLead = app_->GetNextPlayer(m_nDeclarer);
-    m_nDummy = app_->GetNextPlayer(m_nGameLead);
+    m_nGameLead = GetNextPlayer(m_nDeclarer);
+    m_nDummy = GetNextPlayer(m_nGameLead);
     m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
     m_pPlayer[m_nDeclarer]->SetDeclarerFlag(TRUE);
     m_nRoundLead = m_nGameLead;
@@ -1572,7 +1572,7 @@ void Deal::PlayGameRecord(int nGameIndex) {
   //
   if (ISBID(game.m_nContract)) {
     // reset suit sequence
-    app_->InitDummySuitSequence(BID_SUIT(game.m_nContract), app_->GetPartner(m_nDeclarer));
+    app_->InitDummySuitSequence(BID_SUIT(game.m_nContract), GetPartner(m_nDeclarer));
   }
 
   // get count of positions to rotate (clockwise)
@@ -1821,8 +1821,8 @@ int Deal::EnterBid(int nPos, int nBid) {
   }
   if (!IsBidValid(nBid)) {
     strTemp.Format("Caught logic error: %s attempted an illegal bid of %s.",
-      app_->PositionToString(nPos),
-      app_->BidToShortString(nBid));
+      PositionToString(nPos),
+      BidToShortString(nBid));
     AfxMessageBox(strTemp, MB_ICONEXCLAMATION);
     return -1;
   }
@@ -1880,7 +1880,7 @@ int Deal::EnterBid(int nPos, int nBid) {
   // and advance the bid counter
   m_numBidsMade++;
   m_nBiddingRound = m_numBidsMade / 4;
-  m_nCurrPlayer = app_->GetNextPlayer(m_nCurrPlayer);
+  m_nCurrPlayer = GetNextPlayer(m_nCurrPlayer);
 
   // see if our bidding hint was followed
   if ((nPos == SOUTH) && (m_nLastBiddingHint != NONE)) {
@@ -1919,8 +1919,8 @@ int Deal::EnterBid(int nPos, int nBid) {
     m_nContractTeam = m_nLastValidBidTeam;
     m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH) ? EAST_WEST : NORTH_SOUTH;
     m_nDeclarer = m_nPartnershipLead[m_nContractTeam][m_nContractSuit];
-    m_nGameLead = app_->GetNextPlayer(m_nDeclarer);
-    m_nDummy = app_->GetNextPlayer(m_nGameLead);
+    m_nGameLead = GetNextPlayer(m_nDeclarer);
+    m_nDummy = GetNextPlayer(m_nGameLead);
     m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
     m_pPlayer[m_nDeclarer]->SetDeclarerFlag(TRUE);
     m_nRoundLead = m_nGameLead;
@@ -1990,7 +1990,7 @@ int Deal::UndoBid() {
 
   // recall the previous bid
   int nBid = m_nBiddingHistory[m_numBidsMade];
-  m_nCurrPlayer = app_->GetPrevPlayer(m_nCurrPlayer);
+  m_nCurrPlayer = GetPrevPlayer(m_nCurrPlayer);
   int nPos = m_nCurrPlayer;
   //
   m_nBiddingHistory[m_numBidsMade] = NONE;
@@ -2170,10 +2170,10 @@ void Deal::UpdateBiddingHistory() {
 
   //
   for (int i = 0; i<4; i++) {
-    strTemp.Format("%-5s", app_->PositionToString(nPos));
+    strTemp.Format("%-5s", PositionToString(nPos));
     strBids += strTemp;
     strBids += " ";
-    nPos = app_->GetNextPlayer(nPos);
+    nPos = GetNextPlayer(nPos);
   }
   strBids += "\r\n----- ----- ----- -----\r\n";
   strPlainBids = strBids;
@@ -2191,11 +2191,11 @@ void Deal::UpdateBiddingHistory() {
       else
         strTemp.Format(_T("%1dNT"), BID_LEVEL(nBid));
     } else {
-      strTemp = app_->BidToShortString(m_nBiddingHistory[i]);
+      strTemp = BidToShortString(m_nBiddingHistory[i]);
     }
 
     // letter version
-    strTempPlain = app_->BidToShortString(m_nBiddingHistory[i]);
+    strTempPlain = BidToShortString(m_nBiddingHistory[i]);
 
     // center the bid string by adding spaces fore & aft
     int nLen = strTemp.GetLength();
@@ -2376,7 +2376,7 @@ void Deal::EnterCardPlay(Position nPos, CCard* pCard) {
   // update running play record
   m_nPlayRecord[m_numCardsPlayedInGame] = pCard->GetDeckValue();
   m_numCardsPlayedInGame++;
-  m_nCurrPlayer = app_->GetNextPlayer(nPos);
+  m_nCurrPlayer = GetNextPlayer(nPos);
 
   // get players' reactions
   for (int i = 0; i < 4; i++)
@@ -2466,7 +2466,7 @@ void Deal::InvokeNextPlayer() {
 void Deal::UndoLastCardPlayed() {
   if (m_numCardsPlayedInRound < 1)
     return;
-  int nPos = app_->GetPrevPlayer(m_nCurrPlayer);
+  int nPos = GetPrevPlayer(m_nCurrPlayer);
 
   CCard* pCard = m_pCurrTrick[nPos];
   // turn card back over if necessary -- i.e., if all cards are face up, 
@@ -2567,7 +2567,7 @@ void Deal::UndoPreviousTrick() {
     m_nPlayRecord[m_numCardsPlayedInGame] = -1;
 
     // move to the next player
-    nPos = app_->GetNextPlayer(nPos);
+    nPos = GetNextPlayer(nPos);
   }
 
   // inform each player of the trick undo
@@ -2652,7 +2652,7 @@ void Deal::EvaluateTrick(BOOL bQuietMode) {
   }
   // this is pending the addition of trump logic
   m_nRoundWinner = m_nHighPos;
-  m_nRoundWinningTeam = (Team)app_->GetPlayerTeam(m_nRoundWinner);
+  m_nRoundWinningTeam = (Team)GetPlayerTeam(m_nRoundWinner);
 
   // update play history
   UpdatePlayHistory();
@@ -2666,7 +2666,7 @@ void Deal::EvaluateTrick(BOOL bQuietMode) {
 
   // declare winner if in interactive mode
   CString strMessage;
-  strMessage.Format("%s wins the trick.", app_->PositionToString(m_nRoundWinner));
+  strMessage.Format("%s wins the trick.", PositionToString(m_nRoundWinner));
   if (!m_bReviewingGame)
     strMessage += "  Click for the next round.";
   app_->SetStatusText(strMessage);
@@ -2757,7 +2757,7 @@ void Deal::OnGameComplete() {
   app_->ClearStatusMessage();
   int nRqmt = BID_LEVEL(m_nContract) + 6;
   int nDiff = m_numTricksWon[m_nContractTeam] - nRqmt;
-  CString strTeam = app_->TeamToString(m_nContractTeam);
+  CString strTeam = TeamToString(m_nContractTeam);
   CString strMessage, strOldMessage;
 
   // see if we're in autotest
@@ -2977,12 +2977,12 @@ void Deal::UpdatePlayHistory() {
   for (i = 0; i < 4; i++) {
     // use suit letters
     if (bSmallCards)
-      strTemp.Format("%-4s", app_->PositionToShortString(nPos));
+      strTemp.Format("%-4s", PositionToShortString(nPos));
     else
-      strTemp.Format("%-5s", app_->PositionToString(nPos));
+      strTemp.Format("%-5s", PositionToString(nPos));
     strPlays += strTemp;
     strPlays += " ";
-    nPos = app_->GetNextPlayer(nPos);
+    nPos = GetNextPlayer(nPos);
   }
   if (bSmallCards)
     strPlays += "\r\n--- ---- ---- ---- ----\r\n";
@@ -3019,7 +3019,7 @@ void Deal::UpdatePlayHistory() {
       if (i < m_numActualTricksPlayed) {
         if (bUseSymbols) {
           // use suit symbols
-          strTemp += app_->FormString("%c%c", CCard::GetCardLetter(m_pGameTrick[i][nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pGameTrick[i][nPos]->GetSuit()));
+          strTemp += FormString("%c%c", CCard::GetCardLetter(m_pGameTrick[i][nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pGameTrick[i][nPos]->GetSuit()));
         } else {
           // use suit letters
           strTemp += m_pGameTrick[i][nPos]->GetName();
@@ -3033,7 +3033,7 @@ void Deal::UpdatePlayHistory() {
         if (m_pCurrTrick[nPos] != NULL) {
           if (bUseSymbols) {
             // use suit symbols
-            strTemp += app_->FormString("%c%c", CCard::GetCardLetter(m_pCurrTrick[nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pCurrTrick[nPos]->GetSuit()));
+            strTemp += FormString("%c%c", CCard::GetCardLetter(m_pCurrTrick[nPos]->GetFaceValue()), (unsigned char)(tSuitLetter + m_pCurrTrick[nPos]->GetSuit()));
           } else {
             // use suit letters
             strTemp += m_pCurrTrick[nPos]->GetName();
@@ -3066,7 +3066,7 @@ void Deal::UpdatePlayHistory() {
       }
       strPlays += strTemp;
       strPlaysPlain += strTempPlain;
-      nPos = app_->GetNextPlayer(nPos);
+      nPos = GetNextPlayer(nPos);
     }
     if (i < m_numTricksPlayed) {
       strPlays += "\r\n";
@@ -3076,8 +3076,8 @@ void Deal::UpdatePlayHistory() {
 
   // mark any skipped tricks
   for (; i < m_numTricksPlayed; i++) {
-    strPlays += app_->FormString("%2d: Skipped\r\n", i + 1);
-    strPlaysPlain += app_->FormString("%2d: Skipped\r\n", i + 1);
+    strPlays += FormString("%2d: Skipped\r\n", i + 1);
+    strPlaysPlain += FormString("%2d: Skipped\r\n", i + 1);
   }
 
   //
@@ -3093,7 +3093,7 @@ void Deal::UpdatePlayHistory() {
 void Deal::ClaimTricks(int nPos, int numTricks) {
   m_numActualTricksPlayed = m_numTricksPlayed;
   int numRemainingTricks = 13 - m_numTricksPlayed;
-  m_nRoundWinningTeam = (Team)app_->GetPlayerTeam(nPos);
+  m_nRoundWinningTeam = (Team)GetPlayerTeam(nPos);
   // default # of tricks claimed = all remaining
   int numTricksToClaim;
   if (numTricks == 0)
@@ -3106,7 +3106,7 @@ void Deal::ClaimTricks(int nPos, int numTricks) {
     if (numTricksToClaim > 0)
       m_numTricksWon[m_nRoundWinningTeam]++;
     else
-      m_numTricksWon[app_->GetOpposingTeam(m_nRoundWinningTeam)]++;
+      m_numTricksWon[GetOpposingTeam(m_nRoundWinningTeam)]++;
     m_numTricksPlayed++;
     // clear trick record
     for (int j = 0; j < 4; j++)
@@ -3141,7 +3141,7 @@ void Deal::ConcedeTricks(int nPos) {
   // process the concession
   m_numActualTricksPlayed = m_numTricksPlayed;
   int numRemainingTricks = 13 - m_numTricksPlayed;
-  int nConcedingTeam = app_->GetPlayerTeam(nPos);
+  int nConcedingTeam = GetPlayerTeam(nPos);
   m_nRoundWinningTeam = (nConcedingTeam == NORTH_SOUTH) ? EAST_WEST : NORTH_SOUTH;
   for (int i = m_numTricksPlayed; i < 13; i++) {
     // increment tricks won
@@ -3249,7 +3249,7 @@ BOOL Deal::WasTrumpPlayed() const {
     CCard* pCard = m_pCurrTrick[nIndex];
     if ((pCard) && (pCard->GetSuit() == m_nTrumpSuit))
       return TRUE;
-    nIndex = app_->GetNextPlayer(nIndex);
+    nIndex = GetNextPlayer(nIndex);
   }
   return FALSE;
 }
@@ -3261,7 +3261,7 @@ CCard* Deal::GetCurrentTrickCardByOrder(int nOrder) const {
     return NULL;
   int nIndex = m_nRoundLead;
   for (int i = 0; i < nOrder; i++)
-    nIndex = app_->GetNextPlayer(nIndex);
+    nIndex = GetNextPlayer(nIndex);
   //
   ASSERT(m_pCurrTrick[nIndex] != NULL);
   return m_pCurrTrick[nIndex];
@@ -3281,7 +3281,7 @@ CCard* Deal::GetCurrentTrickHighCard(int* nPos) const {
     return NULL;
   int nSuit = pHighCard->GetSuit();
   // and start comparing with the second player
-  int nIndex = app_->GetNextPlayer(m_nRoundLead);
+  int nIndex = GetNextPlayer(m_nRoundLead);
   // see if a trump was played in this round
   BOOL bTrumpPlayed = WasTrumpPlayed();
   //
@@ -3312,7 +3312,7 @@ CCard* Deal::GetCurrentTrickHighCard(int* nPos) const {
       }
     }
     // advance to the next player
-    nIndex = app_->GetNextPlayer(nIndex);
+    nIndex = GetNextPlayer(nIndex);
   }
   //
   if (nPos)
@@ -3323,12 +3323,12 @@ CCard* Deal::GetCurrentTrickHighCard(int* nPos) const {
 
 //
 const CString Deal::GetContractString() const {
-  return app_->ContractToString(m_nContract, m_nContractModifier);
+  return ContractToString(m_nContract, m_nContractModifier);
 }
 
 //
 const CString Deal::GetFullContractString() const {
-  return app_->ContractToFullString(m_nContract, m_nContractModifier);
+  return ContractToFullString(m_nContract, m_nContractModifier);
 }
 
 
@@ -3637,11 +3637,11 @@ CString Deal::GetDealIDString() {
 
     // appended code = vulnerability + dealer
     int nAppend = (m_nVulnerableTeam << 2) | m_nDealer;
-    strDealID += app_->FormString("%1X", (BYTE)(nAppend & 0x0F));
+    strDealID += FormString("%1X", (BYTE)(nAppend & 0x0F));
 
     // append special deal code if necessary
     if (m_nSpecialDealCode != 0)
-      strDealID += app_->FormString("%2X", (BYTE)(m_nSpecialDealCode & 0xFF));
+      strDealID += FormString("%2X", (BYTE)(m_nSpecialDealCode & 0xFF));
   }
   //
   return strDealID;
@@ -3694,7 +3694,7 @@ bool Deal::PlayClaimTricks() {
   int numTricksRequired = 13 - m_numTricksPlayed;
   int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
   if (numClaimableTricks < numTricksRequired) {
-    AfxMessageBox(app_->FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksRequired), MB_ICONINFORMATION);
+    AfxMessageBox(FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksRequired), MB_ICONINFORMATION);
     return false;
   }
   
@@ -3715,10 +3715,10 @@ bool Deal::PlayClaimContract() {
 
   // and check the claim
   int numTricksRequired = 6 + m_nContractLevel;
-  int numTricksLeft = numTricksRequired - m_numTricksWon[app_->GetPlayerTeam(nPos)];
+  int numTricksLeft = numTricksRequired - m_numTricksWon[GetPlayerTeam(nPos)];
   int numClaimableTricks = m_pPlayer[nPos]->GetNumClaimableTricks();
   if (numClaimableTricks < numTricksLeft) {
-    AfxMessageBox(app_->FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksLeft), MB_ICONINFORMATION);
+    AfxMessageBox(FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksLeft), MB_ICONINFORMATION);
     return true;
   }
 

@@ -179,7 +179,7 @@ int CGameRecord::DetermineRoundWinner(const int nRound) const
 			}
 		}
 		//
-		nPos = app_->GetNextPlayer(nPos);
+		nPos = GetNextPlayer(nPos);
 	}
 
 	//

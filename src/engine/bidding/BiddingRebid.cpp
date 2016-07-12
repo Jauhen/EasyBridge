@@ -126,7 +126,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3A10! Partner passed, but with " & fCardPts & "/" & fPts & 
 						  " points, " & numLikelyWinners & 
 						  " playing tricks and a solid " & szPrefS & 
-						  " suit, we still want to try for game, so rebid " & app_->BidToFullString(m_nBid) & ".\n";
+						  " suit, we still want to try for game, so rebid " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -238,21 +238,21 @@ int CBidEngine::MakeRebidAsOpener()
 					m_nBid = BID_7NT;
 					status << "B3J26! Have " & fCardPts & " HCPS with a balanced hand, and " &
 							  " approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
-							  " HCPs in the partnership, so go directly to a grand slam at " & app_->BidToFullString(m_nBid) & ".\n";
+							  " HCPs in the partnership, so go directly to a grand slam at " & BidToFullString(m_nBid) & ".\n";
 				} 
 				else if (m_fMinTPCPoints >= app_->SlamPts() ) 
 				{
 					m_nBid = BID_6NT;
 					status << "B3J28! Have " & fCardPts & " HCPS with a balanced hand, and " &
 							  " approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
-							  " HCPs in the partnership, so go directly to a small slam at " & app_->BidToFullString(m_nBid) & ".\n";
+							  " HCPs in the partnership, so go directly to a small slam at " & BidToFullString(m_nBid) & ".\n";
 				} 
 				else 
 				{
 					m_nBid = BID_4NT;
 					status << "B3J30! Have " & fCardPts & " HCPS with a balanced hand, and " &
 							  "approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
-							  " HCPs in the partnership, so invite a slam by bidding " & app_->BidToFullString(m_nBid) & ".\n";
+							  " HCPs in the partnership, so invite a slam by bidding " & BidToFullString(m_nBid) & ".\n";
 				}
 				return ValidateBid(m_nBid);
 			}
@@ -283,10 +283,10 @@ int CBidEngine::MakeRebidAsOpener()
 			if (nSuit == nPreviousSuit)
 				status << "B3K10! Partner doesn't like our " & szPVS & 
 						  ", but we don't have another suit we can bid, so rebid the suit at " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			else
 				status << "B3K12! Since partner doesn't like our " & szPVS & 
-						  ", try " & app_->BidToFullString(m_nBid) & ".\n";
+						  ", try " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -299,11 +299,11 @@ int CBidEngine::MakeRebidAsOpener()
 			if (nSuit == nPreviousSuit)
 				status << "B3K20! Partner doesn't like our " & szPVS & ", but with " &
 						  fCardPts & "/" & fPts &
-						  " points and no other good suit, jump rebid to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " points and no other good suit, jump rebid to " & BidToFullString(m_nBid) & ".\n";
 			else
 				status << "B3K22! Partner doesn't like our " & szPVS & "; but with " & 
 						  fCardPts & "/" & fPts & " points, jump shift to " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 	
@@ -319,7 +319,7 @@ int CBidEngine::MakeRebidAsOpener()
 			nSuit = newSuit;
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "B3K30! With " & fCardPts & "/" & fPts & 
-					  " points, jump shift to " & app_->BidToFullString(m_nBid) & " (forcing to game).\n";
+					  " points, jump shift to " & BidToFullString(m_nBid) & " (forcing to game).\n";
 			m_bGameForceActive = TRUE;		
 		}
 		else
@@ -328,7 +328,7 @@ int CBidEngine::MakeRebidAsOpener()
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "B3K30a! With " & fCardPts & "/" & fPts & 
 					  " points and no other good suits, jump rebid the " & CCard::SuitToSingularString(nSuit) &
-					  " suit at " & app_->BidToFullString(m_nBid) & ".\n";
+					  " suit at " & BidToFullString(m_nBid) & ".\n";
 		}
 		return ValidateBid(m_nBid);
 
@@ -400,7 +400,7 @@ int CBidEngine::MakeRebidAsOpener()
 				{
 					m_nBid = BID_3NT;
 					status << "B3N16! With a total of approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-							  " HCPS in the partnership, try for game at a " & app_->BidToFullString(m_nBid) &
+							  " HCPS in the partnership, try for game at a " & BidToFullString(m_nBid) &
 							  " contract.\n";
 				} 
 				else if (nPartnersBid == BID_3NT) 
@@ -432,7 +432,7 @@ int CBidEngine::MakeRebidAsOpener()
 							status << "B3N20! Partner's invitational bid of " & szPB & 
 									  " indicates a minimum of " & m_fMinTPCPoints & 
 									  "+ points in the partnership, which is enough for a grand slam, so bid " &
-									  app_->BidToFullString(m_nBid) & ".\n";
+									  BidToFullString(m_nBid) & ".\n";
 						}
 						else if (m_fMinTPCPoints >= app_->SlamPts() )
 						{
@@ -440,7 +440,7 @@ int CBidEngine::MakeRebidAsOpener()
 							status << "B3N22! Partner's invitational bid of " & szPB & 
 									  " indicates a minimum of " & m_fMinTPCPoints & 
 									  "+ points in the partnership, which is enough for a small slam, so bid " &
-									  app_->BidToFullString(m_nBid) & ".\n";
+									  BidToFullString(m_nBid) & ".\n";
 						}
 						else
 						{
@@ -461,7 +461,7 @@ int CBidEngine::MakeRebidAsOpener()
 								status << "B3N30! Partner has bid a small slam, and with " &
 										  m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
 										  "HCPs in the partnership, we raise to " &
-										  app_->BidToFullString(m_nBid) & ".\n";
+										  BidToFullString(m_nBid) & ".\n";
 							}
 							else
 							{
@@ -487,20 +487,20 @@ int CBidEngine::MakeRebidAsOpener()
 					{
 						m_nBid = BID_7NT;	// bid grand slam directly
 						status << "B3N40! With a total of approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-								  " HCPS in the partnership, bid a grand slam directly at " & app_->BidToFullString(m_nBid) & ".\n";
+								  " HCPS in the partnership, bid a grand slam directly at " & BidToFullString(m_nBid) & ".\n";
 					} 
 					else if (m_fMinTPCPoints >= app_->SlamPts() ) 
 					{
 						m_nBid = BID_6NT;	// bid small slam directly
 						status << "B3N42! With a total of approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-								  " HCPS in the partnership, bid a small slam directly at " & app_->BidToFullString(m_nBid) & ".\n";
+								  " HCPS in the partnership, bid a small slam directly at " & BidToFullString(m_nBid) & ".\n";
 					} 
 					else 
 					{
 						// 32 pts? bid 4NT invitational (NOT Blackwood)
 						m_nBid = BID_4NT;	
 						status << "B3N44! With a total of approx. " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-								  " HCPS in the partnership, make an invitation towards slam at " & app_->BidToFullString(m_nBid) & ".\n";
+								  " HCPS in the partnership, make an invitation towards slam at " & BidToFullString(m_nBid) & ".\n";
 					}
 				}
 				return ValidateBid(m_nBid);
@@ -544,7 +544,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3N50! With a total of " & 
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
 						  " HCPs in the partnership and a reasonably balanced distribution, and all suits stopped, we can jump to slam at " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -558,7 +558,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " pts in the partnership, plus a strong " &
 						  numPrefSuitCards & "-card " & szPrefSS & 
 						  " suit, go ahead and jump to slam at " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -570,7 +570,7 @@ int CBidEngine::MakeRebidAsOpener()
 				m_nBid = BID_3NT;
 				status << "B3N51! With " & fCardPts & 
 						  " HCPs, reasonably balanced distribution, and all suits stopped, we can safely bid game at " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -579,9 +579,9 @@ int CBidEngine::MakeRebidAsOpener()
 			{
 				m_nBid = GetCheapestShiftBid(nSuit);
 				if (nSuit == nPreviousSuit)
-					status << "B3N52! Partner wants to play in No Trumps, but we don't have a balanced distribution, so rebid " & app_->BidToFullString(m_nBid) & ".\n";
+					status << "B3N52! Partner wants to play in No Trumps, but we don't have a balanced distribution, so rebid " & BidToFullString(m_nBid) & ".\n";
 				else
-					status << "B3N54! Partner wants to play in No Trumps, but we don't have a balanced distribution, so try bidding " & app_->BidToFullString(m_nBid) & ".\n";
+					status << "B3N54! Partner wants to play in No Trumps, but we don't have a balanced distribution, so try bidding " & BidToFullString(m_nBid) & ".\n";
 			} 
 			else if (m_bGameForceActive) 
 			{
@@ -589,7 +589,7 @@ int CBidEngine::MakeRebidAsOpener()
 				if (numVoids == 0) 
 				{
 					m_nBid = BID_3NT;
-					status << "B3N56! As partner's 2NT bid was forcing to game, we have no choice but to bid " & app_->BidToFullString(m_nBid) & ".\n";
+					status << "B3N56! As partner's 2NT bid was forcing to game, we have no choice but to bid " & BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				} 
 				else 
@@ -599,7 +599,7 @@ int CBidEngine::MakeRebidAsOpener()
 					status << "B3N58! Partner's 2NT bid was forcing to game -- and with " &
 							  ((numVoids == 1)? "a void suit" : 
 							   (numVoids == 2)? "2 void suits" : "3 void suits") &
-							  ", we have no choice but to rebid " & app_->BidToFullString(m_nBid) & ".\n";
+							  ", we have no choice but to rebid " & BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 			} 
@@ -628,7 +628,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3N70! Partner's 3NT response indicates a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership, so bid a grand slam directly at " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			} 
 			else if (m_fMinTPCPoints >= app_->SlamPts() ) 
 			{
@@ -636,7 +636,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3N72! Partner's 3NT response indicates a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership, so bid a small slam directly at " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			} 
 			else 
 			{
@@ -645,7 +645,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3N74! Partner's 3NT response indicates a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership, so make an invitation towards slam at " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			return ValidateBid(m_nBid);
 		}
@@ -657,7 +657,7 @@ int CBidEngine::MakeRebidAsOpener()
 		{
 			m_nBid = GetCheapestShiftBid(nPreviousSuit);
 			status << "B3N80! Partner wants to play at 3NT, but with a solid major in " &
-					  szPVS & ", we prefer to play in the suit, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+					  szPVS & ", we prefer to play in the suit, so bid " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -672,7 +672,7 @@ int CBidEngine::MakeRebidAsOpener()
 		{
 			nSuit = GetRebidSuit(nPreviousSuit);
 			m_nBid = GetCheapestShiftBid(nSuit);
-			status << "B3N90! In response to partner's game forcing bid, we have no choice but to express dislike for NT by bidding "& app_->BidToFullString(m_nBid) & ".\n";
+			status << "B3N90! In response to partner's game forcing bid, we have no choice but to express dislike for NT by bidding "& BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -771,7 +771,7 @@ int CBidEngine::MakeRebidAsOpener()
 			status << "B3X1! With a total of " & 
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " points in the partnership, go ahead and raise partner to a small slam at " &
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 		if ((nPartnersBidLevel <= 6) &&
@@ -781,7 +781,7 @@ int CBidEngine::MakeRebidAsOpener()
 			status << "B3X2! With a total of " & 
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " points in the partnership, go ahead and raise partner to a grand slam at " &
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 		else
@@ -851,7 +851,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  "-card support for partner's major " & szPSS & 
 						  " suit (holding " & szHP & 
 						  "), no rebiddable suit, and no openable second suit, raise to " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -867,12 +867,12 @@ int CBidEngine::MakeRebidAsOpener()
 							  " support for partner's " & szPSS &
 							  " suit (holding " & szHP & "), and a second openable suit in " & 
 							  CCard::SuitToString(nSuit) & " (holding " & SHTS(nSuit) & "), show it in a " & 
-							  app_->BidToFullString(m_nBid) & " bid.\n";
+							  BidToFullString(m_nBid) & " bid.\n";
 				else
 					status << "B3U18a! With " & SLTS(nPartnersSuit) & 
 							  " support for partner's " & szPSS &" suit (holding " & szHP & 
 							  "), and no other suit available to bid, rebid the " & szPVSS & 
-							  " suit at " & app_->BidToFullString(m_nBid) & ".\n";
+							  " suit at " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -884,18 +884,18 @@ int CBidEngine::MakeRebidAsOpener()
 				{
 					status << "B3U22! With a rebiddable " & szPVSS & 
 							  " suit and insufficient support for partner's " & szPS &
-							  " (holding " & szHP & "), rebid at " & app_->BidToFullString(m_nBid) & ".\n";
+							  " (holding " & szHP & "), rebid at " & BidToFullString(m_nBid) & ".\n";
 				} 
 				else 
 				{
 					if (ISMAJOR(nPreviousSuit))
 						status << "B3U24! With a rebiddable major " & szPVSS & 
 							      " suit, show it in preference to raising partner's minor by rebidding " &
-								  app_->BidToFullString(m_nBid) & ".\n";
+								  BidToFullString(m_nBid) & ".\n";
 					else
 						status << "B3U26! With a rebiddable " & szPVSS & 
 								  " suit, show it in preference to raising partner's suit by rebidding " & 
-								  app_->BidToFullString(m_nBid) & ".\n";
+								  BidToFullString(m_nBid) & ".\n";
 				}
 				return ValidateBid(m_nBid);
 			}
@@ -905,11 +905,11 @@ int CBidEngine::MakeRebidAsOpener()
 			{
 				m_nBid = BID_1NT;
 				if (ISMINOR(nPartnersSuit))
-					status << "B3U30! With a balanced distribution, bid " & app_->BidToFullString(m_nBid) &
+					status << "B3U30! With a balanced distribution, bid " & BidToFullString(m_nBid) &
 						      " in preference to partner's minor.\n";
 				else
 					status << "B3U34! With a balanced distribution and weak support for partner's " & szPSS &
-							  " suit (holding " & szHP & "), bid " & app_->BidToFullString(m_nBid) & ".\n";
+							  " suit (holding " & szHP & "), bid " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -923,7 +923,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  "-card support for partner's minor " & szPS & 
 						  " suit (holding " & szHP & 
 						  "), no rebiddable suit or openable second suit, and unbalanced distribution, raise to " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -931,7 +931,7 @@ int CBidEngine::MakeRebidAsOpener()
 			m_nBid = BID_1NT;
 			status << "B3U44! With weak support for partner's " & szPS & 
 					  " (holding " & szHP & "), and no other available bid, bid " & 
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -952,7 +952,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  "-card support for partner's " & szPS & 
 						  " (holding " & szHP & ") and " &
 						  fCardPts & "/" & fPts & "/" & fAdjPts &
-						  " points, jump raise to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " points, jump raise to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -967,7 +967,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points, and a second openable suit in " & CCard::SuitToString(nSuit) & 
 						  " (holding " & SHTS(nSuit) & "), show it in a " & 
-						  app_->BidToFullString(m_nBid) & " bid.\n";
+						  BidToFullString(m_nBid) & " bid.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -982,7 +982,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  ", and only " & SLTS(nPartnersSuit) & 
 						  " support for partner's " & szPS &
 						  " (holding " & szHP & "), jump rebid our suit at " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -995,7 +995,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " (holding " & szHP & 
 						  ") and a balanced hand with " & fCardPts & 
 						  " HCPs, for a total of " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-						  " HCPs in the partnership, bid " & app_->BidToFullString(m_nBid) & ".\n";
+						  " HCPs in the partnership, bid " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1010,7 +1010,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " suit (holding " & szHP & 
 						  "), no rebiddable suit or second suit of our own, and " &
 						  fCardPts & "/" & fPts & "/" & fAdjPts &
-						  " points, jump raise to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " points, jump raise to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1029,7 +1029,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " (holding " & szHP & "), " &
 						  fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points, an unbalanced hand, and our primary " & szPVSS & 
-						  " suit not jump rebiddable, we have to show our strength by shifting to " & app_->BidToFullString(m_nBid) &
+						  " suit not jump rebiddable, we have to show our strength by shifting to " & BidToFullString(m_nBid) &
 						  ", regardless of that suit's strength.\n";
 			}
 			else
@@ -1060,7 +1060,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  fCardPts & "/" & fPts & "/" & fAdjPts &
 					  " points in hand (for " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 					  " points in the partnership), we have enough for game, so bid " &
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1074,7 +1074,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  fCardPts & "/" & fPts & "/" & fAdjPts &
 					  " points and a second suit in " & CCard::SuitToString(nSuit) & 
 					  " (holding " & SHTS(nSuit) & "), show it by jump shifting to " & 
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1092,14 +1092,14 @@ int CBidEngine::MakeRebidAsOpener()
 						  " HCPs in the partnership, and stoppers in all" &
 						  ((numSuitsStopped == 4)? " " : " unbid ") &
 						  "suits, we can make game at No Trumps, so bid " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			} 
 			else 
 			{
 				m_nBid = BID_2NT;
 				status << "B3U78! With a balanced hand and approx. " &
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-						  " HCPs in the partnership, we can bid " & app_->BidToFullString(m_nBid) & ".\n";
+						  " HCPs in the partnership, we can bid " & BidToFullString(m_nBid) & ".\n";
 			}
 			return ValidateBid(m_nBid);
 		}
@@ -1116,7 +1116,7 @@ int CBidEngine::MakeRebidAsOpener()
 			status << "B3U80! With a solid minor suit, all" & 
 					  ((numSuitsStopped == 4)? " " : " unbid ") &
 					  "suits stopped, " & fCardPts & " HCPs, and " & numLikelyWinners & 
-					  " playing tricks, bid " & app_->BidToFullString(m_nBid) & ".\n";
+					  " playing tricks, bid " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1132,7 +1132,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  numPreviousSuitCards & " cards and " & numHonorsInPreviousSuit & 
 						  " honors, and " & fCardPts & "/" &fPts & 
 						  " points in hand, we should be able to make a game with little help, so bid " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 			// if this is a minor, we need 29+ pts total
@@ -1143,7 +1143,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " cards and " & numHonorsInPreviousSuit & " honors, and " & 
 						  fCardPts & "/" &fPts & 
 						  " points in hand, we should be able to make a minor suit game with little help, so bid " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -1166,7 +1166,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  " points (for a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
 					  " points in the partnership), raise to" &
 					  ((m_nBid == GetGameBid(nPartnersSuit))? " game at " : " ") &
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1191,7 +1191,7 @@ int CBidEngine::MakeRebidAsOpener()
 			{
 				status << "B3U90! We have " & m_fMinTPPoints & "-" & 
 						  " pts in the partnership, but don't like partner's suit, don't have a good second suit, and NT is not a good option, so " &
-						  (bJumpRebid? "jump rebid" : "rebid") & " the " & szPVSS & " suit at " & app_->BidToFullString(m_nBid) & ".\n";
+						  (bJumpRebid? "jump rebid" : "rebid") & " the " & szPVSS & " suit at " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 		}
@@ -1205,7 +1205,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  " (holding " & szHP & "), an unbalanced hand, and " &
 					  fCardPts & "/" & fPts & 
 					  " points, we have to show the hand's strength by jump shifting to the next best suit at " & 
-					  app_->BidToFullString(m_nBid) & ", regardless of that suit's strength.\n";
+					  BidToFullString(m_nBid) & ", regardless of that suit's strength.\n";
 		}
 		else
 		{
@@ -1217,7 +1217,7 @@ int CBidEngine::MakeRebidAsOpener()
 			status << "B3U96! With unsatisfactory support for partner's " & szPS & 
 					  " (holding " & szHP & "), " & fCardPts & "/" & fPts & 
 					  " points, and no good second suit, we have to show our strength by jump shifting to " & 
-					  app_->BidToFullString(m_nBid) & ", despite having an unbalanced hand.\n";
+					  BidToFullString(m_nBid) & ", despite having an unbalanced hand.\n";
 		}
 		return ValidateBid(m_nBid);
 
@@ -1288,7 +1288,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  szPS & " (holding " & szHP & ") and " &
 						  fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points (for a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
-						  " points in the partnership), raise to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " points in the partnership), raise to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1306,13 +1306,13 @@ int CBidEngine::MakeRebidAsOpener()
 							  m_fMinTPCPoints & "-"& m_fMaxTPCPoints &
 						      " HCPs in the partnership, and " & 
 							  ((m_nBid == BID_3NT)? "all unbid suit stopped" : " a balanced distribution") & 
-							  ", bid " & app_->BidToFullString(m_nBid) & " in preference to partner's minor.\n";
+							  ", bid " & BidToFullString(m_nBid) & " in preference to partner's minor.\n";
 				else
 					status << "B3W16! With a balanced distribution, approx. " &
 							  m_fMinTPCPoints & "-"& m_fMaxTPCPoints &
 							  " HCPs in the partnership, weak support for partner's major, and " &
 							  ((m_nBid == BID_3NT)? "all unbid suit stopped" : " a balanced distribution") &
-							  ", bid " & app_->BidToFullString(m_nBid) & ".\n";
+							  ", bid " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1329,7 +1329,7 @@ int CBidEngine::MakeRebidAsOpener()
 							  " points in hand, and a total of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " in the partnership, we can make a game contract in the suit with little help from partner, so bid " &
-							  app_->BidToFullString(m_nBid) & ".\n";
+							  BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 				// need 29+ TPs for a minor
@@ -1340,7 +1340,7 @@ int CBidEngine::MakeRebidAsOpener()
 							  numPreviousSuitCards & " cards and " & numHonorsInPreviousSuit & 
 							  " honors, and " & fCardPts & "/"& fPts & 
 							  " points in hand, we should be able to make a game in minors with little help, so bid " &
-							  app_->BidToFullString(m_nBid) & ".\n";
+							  BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 			}
@@ -1355,7 +1355,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " (holding " & szHP & 
 						  ") and a " & SuitStrengthToString(nSuit) & " second suit in " & CCard::SuitToString(nSuit) & 
 						  " (holding " & SHTS(nSuit) & "), show it in a " & 
-						  app_->BidToFullString(m_nBid) & " bid.\n";
+						  BidToFullString(m_nBid) & " bid.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1371,7 +1371,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  "-card support for partner's minor " & szPS & 
 						  " suit (holding " & szHP & 
 						  "), no rebiddable suit or good second suit, and unbalanced distribution, raise to " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1383,7 +1383,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3W36! With a rebiddable " &szPVSS & " suit and " &
 						  SLTS(nPartnersSuit) & 
 						  " support for partner's " & szPS & " (holding " & szHP & 
-						  "), rebid " & app_->BidToFullString(m_nBid) & ".\n";
+						  "), rebid " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1400,7 +1400,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " support for partner's" & (ISMINOR(nPartnersSuit)? " minor " : " ") & 
 						  szPSS & " suit (holding " & szHP & 
 						  "), and our first suit not rebiddable, we have to shift to another suit at " & 
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{
@@ -1409,7 +1409,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  " support for partner's" & (ISMINOR(nPartnersSuit)? "minor " : " ") & 
 						  szPSS & " suit (holding " & szHP & 
 						  "), and no other good suits, we're forced to rebid our " & 
-						  szPVS & " suit at " & app_->BidToFullString(m_nBid) & ".\n";
+						  szPVS & " suit at " & BidToFullString(m_nBid) & ".\n";
 			}
 			return ValidateBid(m_nBid);
 		}
@@ -1433,7 +1433,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  szPS & " (holding " & szHP & ") and " &
 					  fCardPts & "/" & fPts & "/" & fAdjPts &
 					  " points (for a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  " points in the partnership), raise to " & app_->BidToFullString(m_nBid) & ".\n";
+					  " points in the partnership), raise to " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1452,12 +1452,12 @@ int CBidEngine::MakeRebidAsOpener()
 			if (ISMINOR(nPartnersSuit))
 				status << "B3W48! With a balanced distribution and all unbid suits stopped, along with " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints & " HCPs in the partnership, bid " & 
-					      app_->BidToFullString(m_nBid) & " in preference to partner's minor.\n";
+					      BidToFullString(m_nBid) & " in preference to partner's minor.\n";
 			else
 				status << "B3W50! With a balanced distribution, all unbid suits stopped, " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " HCPs in the partnership, and weak support for partner's major " & 
-					      szPSS & " suit, bid " & app_->BidToFullString(m_nBid) & ".\n";
+					      szPSS & " suit, bid " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1473,7 +1473,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  numHonorsInPreviousSuit & " honors, and " & 
 					  fCardPts & "/" & fPts & 
 					  " points in hand, we should be able to make a game contract in the suit with little help from partner, so bid " &
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1484,7 +1484,7 @@ int CBidEngine::MakeRebidAsOpener()
 			status << "B3W56! With our strong " & numPreviousSuitCards & "-card " & 
 					  szPVSS & " suit and " & fCardPts & "/" & fPts & 
 					  " points in hand, we can make a jump rebid at " &
-					  app_->BidToFullString(m_nBid) & ".\n";
+					  BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -1497,7 +1497,7 @@ int CBidEngine::MakeRebidAsOpener()
 					  " (holding " & szHP & 
 					  "), an unbalanced hand, and a " & SuitStrengthToString(nSuit) & " second " & CCard::SuitToSingularString(nSuit) & 
 					  " suit (holding " & SHTS(nSuit) & 
-					  "), show it by jump shifting to " & app_->BidToFullString(m_nBid) & ".\n";
+					  "), show it by jump shifting to " & BidToFullString(m_nBid) & ".\n";
 		}
 		else
 		{
@@ -1505,7 +1505,7 @@ int CBidEngine::MakeRebidAsOpener()
 			m_nBid = GetJumpShiftBid(NOTRUMP,nPartnersBid);
 			status << "B3W59! With weak support for partner's " & szPS & " (holding " & szHP & 
 					  ") and no good second suit, we have show our strength by jump shifting in Notrumps to " &
-					  app_->BidToFullString(m_nBid) & ", despite the unbalanced hand.\n";
+					  BidToFullString(m_nBid) & ", despite the unbalanced hand.\n";
 		}
 		return ValidateBid(m_nBid);
 
@@ -1577,7 +1577,7 @@ int CBidEngine::MakeRebidAsOpener()
 			{
 				m_nBid = BID_3NT;
 				status << "B3Y14! With a balanced distribution and all unbid suits stopped, bid " & 
-						  app_->BidToFullString(m_nBid) & " in preference to partner's minor.\n";
+						  BidToFullString(m_nBid) & " in preference to partner's minor.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1592,7 +1592,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  numPreviousSuitCards & " cards and " & numHonorsInPreviousSuit & 
 						  " honors, and " & fCardPts & "/" & fPts & 
 						  " points in hand, we should be able to make a game contract in the suit with little help from partner, so bid " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1617,7 +1617,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3Y22! With a rebiddable " & szPVS & 
 						  " suit and " & SLTS(nPartnersSuit) & 
 						  " support for partner's " & szPS & 
-						  " (holding " & szHP & "), rebid our suit at " & app_->BidToFullString(m_nBid) & ".\n";
+						  " (holding " & szHP & "), rebid our suit at " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1645,14 +1645,14 @@ int CBidEngine::MakeRebidAsOpener()
 				m_nBid = GetCheapestShiftBid(nSuit);
 				status << "B3Y24! With weak support for partner's " & szPS & " (holding " & szHP & 
 						  ") and no rebiddable suit, we have to show our strength by shifting to " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{
 				m_nBid = GetCheapestShiftBid(NOTRUMP);
 				status << "B3Y28! With weak support for partner's " & szPS & " (holding " & szHP & 
 						  "), no rebiddable suit, and no good second suit, we have to show our strength by shifting to " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			return ValidateBid(m_nBid);
 		}
@@ -1675,7 +1675,7 @@ int CBidEngine::MakeRebidAsOpener()
 					status << "B3Y40! With a total of " &
 							  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 							  " pts in the partnership, move towards slam in partner's " &
-							  szPSS & " suit by raising to " & app_->BidToFullString(m_nBid) & ".\n";
+							  szPSS & " suit by raising to " & BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -1686,7 +1686,7 @@ int CBidEngine::MakeRebidAsOpener()
 						status << "B3Y40a! With a total of " &
 								  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 								  " pts in the partnership, bid a slam in partner's " &
-								  szPSS & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+								  szPSS & " suit with a bid of " & BidToFullString(m_nBid) & ".\n";
 					}
 					else if ((nPartnersBidLevel == 6) && (m_fMinTPPoints >= app_->GrandSlamPts() ))
 					{
@@ -1695,7 +1695,7 @@ int CBidEngine::MakeRebidAsOpener()
 						status << "B3Y40b! Partner has bid a small slam at " & 
 								  szPB & ", but with " & m_fMinTPPoints & "-" & m_fMaxTPPoints &
 								  " pts in the partnership, go ahead and raise to a grand slam at " & 
-								  app_->BidToFullString(m_nBid) & ".\n";
+								  BidToFullString(m_nBid) & ".\n";
 					}
 					else
 					{
@@ -1714,7 +1714,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3Y41! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, move towards slam in our own self-supporting " &
-						  CCard::SuitToSingularString(nPreviousSuit) & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(nPreviousSuit) & " suit with a bid of " & BidToFullString(m_nBid) & ".\n";
 			}
 			else if (IsSuitOpenable(nextBestSuit))
 			{
@@ -1723,7 +1723,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3Y42! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, bid our next best suit of " &
-						  CCard::SuitToString(nextBestSuit) & " at " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToString(nextBestSuit) & " at " & BidToFullString(m_nBid) & ".\n";
 			}
 			else if (bSemiBalanced)
 			{
@@ -1733,7 +1733,7 @@ int CBidEngine::MakeRebidAsOpener()
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " HCPs in the partnership, a " & (bBalanced? " " : "reasonably ") &
 						  "balanced hand, and poor support for partner's suits, and no strong suit of our own, push towards a slam in notrumps with a bid of " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			else if (bPreviousSuitIsRebiddable)
 			{
@@ -1742,7 +1742,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3Y44! With a total of " &
 						  m_fMinTPPoints & "-" & m_fMaxTPPoints &
 						  " pts in the partnership but poor support for partner's suits, move towards slam in our own " &
-						  CCard::SuitToSingularString(nPreviousSuit) & " suit with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(nPreviousSuit) & " suit with a bid of " & BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{
@@ -1751,7 +1751,7 @@ int CBidEngine::MakeRebidAsOpener()
 				status << "B3Y45! With a total of " &
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " HCPs in the partnership but poor support for partner's suits, and no strong suit of our own, push towards a slam in notrumps with a bid of " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			return ValidateBid(m_nBid);
 		}
@@ -1773,7 +1773,7 @@ int CBidEngine::MakeRebidAsOpener()
 
 /*
 	status << "B3<<Error>> -- fell out of rebid decision loop.  Initial bid was " & 
-			  app_->BidToFullString(nLastBid) & ", and partner's bid was " & szPB &
+			  BidToFullString(nLastBid) & ", and partner's bid was " & szPB &
 			  ".  Points are " & fCardPts & "/" & fPts & "/" & fAdjPts &
 			  "; preferred suit is " & szPrefSS & " (holding " & szHPref & "
 			  ").  Returning PASS.\n";

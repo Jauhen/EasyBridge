@@ -223,7 +223,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
       // dealer
     case TAG_DEALER:
       if (!strValue.IsEmpty() && (strValue[0] != '?'))
-        pGameRecord->m_nDealer = app_->CharToPosition(strValue[0]);
+        pGameRecord->m_nDealer = CharToPosition(strValue[0]);
       break;
 
       // vulnerability
@@ -246,7 +246,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
 
     case TAG_DECLARER:
       if (!strValue.IsEmpty() && (strValue[0] != '?'))
-        pGameRecord->m_nDeclarer = app_->CharToPosition(strValue[0]);
+        pGameRecord->m_nDeclarer = CharToPosition(strValue[0]);
       break;
 
     case TAG_CONTRACT:
@@ -419,7 +419,7 @@ int Deal::ParseBidsPBN(CArchive& ar, const CString& strValue) {
         numBids += 3;
       } else {
         // this is a bid, so record it
-        int nBid = app_->StringToBid(partString);
+        int nBid = StringToBid(partString);
         if (nBid == BID_NONE) {
           // error!
           //					AfxMessageBox("Invalid bid string!");
@@ -475,7 +475,7 @@ int Deal::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
   int nRound = 0;
   int nLen = string.GetLength();
   //
-  int nStartingPos = app_->CharToPosition(strValue[0]);
+  int nStartingPos = CharToPosition(strValue[0]);
   pGameRecord->m_nRoundLead[0] = nStartingPos;
   pGameRecord->m_numCardsPlayed = 0;
 
@@ -502,11 +502,11 @@ int Deal::ParsePlaysPBN(CArchive& ar, const CString& strValue) {
         // this is a NAG -- ignore it
       } else {
         // this is a play, so record it
-        int nCardVal = app_->StringToDeckValue(partString);
+        int nCardVal = StringToDeckValue(partString);
         int nPos = nStartingPos;
         int nPosOffset = nPlayIndex % 4;
         for (int i = 0; i < nPosOffset; i++)
-          nPos = app_->GetNextPlayer(nPos);
+          nPos = GetNextPlayer(nPos);
         //
         pGameRecord->m_nGameTrick[nRound][nPos] = nCardVal;
         pGameRecord->m_nPlayRecord[nPlayIndex] = nCardVal;
@@ -675,7 +675,7 @@ void Deal::AssignCardsPBN(const CString& str) {
   strHoldings.TrimLeft();
 
   // get the starting player
-  int nPlayer = app_->CharToPosition(strHoldings[0]);
+  int nPlayer = CharToPosition(strHoldings[0]);
   strHoldings = strHoldings.Mid(2);	// go past the "X:" mark
   strHoldings.TrimLeft();
 
@@ -728,7 +728,7 @@ void Deal::AssignCardsPBN(const CString& str) {
       AfxThrowFileException(CFileException::generic);
     }
     //
-    nPlayer = app_->GetNextPlayer(nPlayer);
+    nPlayer = GetNextPlayer(nPlayer);
   }
   //
   m_bHandsDealt = TRUE;

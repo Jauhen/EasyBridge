@@ -34,7 +34,7 @@ int CBidEngine::MakeRespondingBid()
 	if (nPartnersBid != BID_DOUBLE)
 		status << "Responding to partner's" & 
 				  ((m_numPartnerBidTurns == 1)? " opening" : " ") &
-				  " bid of " & app_->BidToFullString(nPartnersBid) & ".\n";
+				  " bid of " & BidToFullString(nPartnersBid) & ".\n";
 	else
 		status << "Responding to partner's" & 
 				  ((m_numPartnerBidTurns == 1)? " opening" : " ") & " double.\n";
@@ -145,7 +145,7 @@ int CBidEngine::MakeRespondingBid()
 				{
 					m_nBid = BID_2NT;
 					status << "B22! If partner has a max opening hand (" & nMax & 
-							  " HCPs), we can make game, so make an invitational " & app_->BidToFullString(m_nBid) &
+							  " HCPs), we can make game, so make an invitational " & BidToFullString(m_nBid) &
 							  " bid.\n";
 				}
 			} 
@@ -154,7 +154,7 @@ int CBidEngine::MakeRespondingBid()
 				// 26-30 tot HCPs:  raise to 3NT
 				m_nBid = BID_3NT;
 				status << "B30! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
-						  " combined HC points, game is reachable.  Bid " & app_->BidToFullString(m_nBid) & ".\n";
+						  " combined HC points, game is reachable.  Bid " & BidToFullString(m_nBid) & ".\n";
 			} 
 			else if ((m_fMinTPCPoints >= app_->SlamPts() -2) && (m_fMinTPCPoints <= app_->SlamPts() -1)) 
 			{
@@ -162,7 +162,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_4NT;
 				status << "B40! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " combined HC points, entertain slam possibilities with an invitational " &
-						  app_->BidToFullString(m_nBid) & " bid.\n";
+						  BidToFullString(m_nBid) & " bid.\n";
 			} 
 			else if ((m_fMinTPCPoints >= app_->SlamPts() ) && (m_fMinTPCPoints <= app_->SlamPts() +1)) 
 			{
@@ -170,7 +170,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_6NT;
 				status << "B50! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " combined HC points, a small slam should be reachable.  Bid " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			} 
 			else if ((m_fMinTPCPoints >= app_->SlamPts() +2) && (m_fMinTPCPoints <= app_->SlamPts() +3)) 
 			{
@@ -179,7 +179,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_5NT;
 				status << "B60! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " combined HC points, a grand slam may be possible if partner has a maximum opening hand.  So make an invitational bid of " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			} 
 			else 
 			{
@@ -187,7 +187,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_7NT;
 				status << "B70! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 					   	  " combined HC points, we have enough for a grand slam.  So bid " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 			}
 			//
 			return ValidateBid(m_nBid);
@@ -235,7 +235,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nSuit,4);
 				status << "C02! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card " &
-						  CCard::SuitToSingularString(nSuit) & " suit, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(nSuit) & " suit, so jump to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -250,7 +250,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = BID_3NT;
 				status << "C04! Have " & fCardPts & "/" & fPts &
 						  " points with a " & LEN(nSuit) & "-card " &
-						  CCard::SuitToSingularString(nSuit) & " (minor) suit, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(nSuit) & " (minor) suit, so jump to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -272,7 +272,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "C12! Have " & fCardPts & "/" & fPts &
 							  " points with a " & SuitStrengthToString(nSuit) & " " & CCard::SuitToSingularString(nSuit) &
 							  " suit (holding " & SHTS(nSuit) & "), so bid " & 
-							  app_->BidToFullString(m_nBid) & 
+							  BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
 				}
 				// no preferred major; look for any 4-card major
@@ -282,7 +282,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "C16! Have " & fCardPts & "/" & fPts &
 							  " points with a " & LEN(nSuit) & "-card " &
 							  CCard::SuitToSingularString(nSuit) & " suit (holding " & SHTS(nSuit) & 
-							  "), so bid " & app_->BidToFullString(m_nBid) & 
+							  "), so bid " & BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
 				}
 				// and bid
@@ -294,7 +294,7 @@ int CBidEngine::MakeRespondingBid()
 			//
 			m_nBid = BID_2NT;
 			status << "C20! Have " & fCardPts & " HCPs and no decent major suit, so bid " &
-					  app_->BidToFullString(m_nBid) & "; partner should raise to 3NT with max opening points.\n";
+					  BidToFullString(m_nBid) & "; partner should raise to 3NT with max opening points.\n";
 			return ValidateBid(m_nBid);
 
 		}
@@ -322,7 +322,7 @@ int CBidEngine::MakeRespondingBid()
 				m_nBid = MAKEBID(nSuit,4);
 				status << "E00! Have " & fCardPts & "/" & fPts &
 					      " points with a " & LEN(nSuit) & "-card " &
-						  CCard::SuitToSingularString(nSuit) & " suit, so jump to game at " & app_->BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(nSuit) & " suit, so jump to game at " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -336,7 +336,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with a " & LEN(nSuit) & "-card " &
 						  CCard::SuitToSingularString(nSuit) & " (minor) suit, so " &
 						  ((nPartnersBid == BID_1NT)? "jump to" :  "bid") &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -349,7 +349,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with a " & LEN(nSuit) & "-card major " &
 						  CCard::SuitToSingularString(nSuit) & " suit, so " &
 						  ((nPartnersBid == BID_1NT)? "jump to " :  "bid ") &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -362,7 +362,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with a " & LEN(nSuit) & "-card minor " &
 						  CCard::SuitToSingularString(nSuit) & " suit, so " & 
 						  ((nPartnersBid == BID_1NT)? "jump to" :  "bid") &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -379,7 +379,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "E16! Have " & fCardPts & "/" & fPts &
 						      " points with a " & SuitStrengthToString(nSuit) & " " & CCard::SuitToSingularString(nSuit) & 
 							  " suit (holding " & SHTS(nSuit) & "), so bid " & 
-							  app_->BidToFullString(m_nBid) & 
+							  BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
 				}
 				// no preferred major; look for any 4-card major
@@ -390,7 +390,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "E20! Have " & fCardPts & "/" & fPts &
 							  " points with a " & LEN(nSuit) & "-card " &
 							  CCard::SuitToSingularString(nSuit) & " suit (holding " & SHTS(nSuit) & 
-							  "), so bid " & app_->BidToFullString(m_nBid) & 
+							  "), so bid " & BidToFullString(m_nBid) & 
 							  (app_->GetCurrentConventionSet()->IsConventionEnabled(tidStayman)? "." : " (not playing Stayman).") & "\n";
 				}
 				// and bid
@@ -400,7 +400,7 @@ int CBidEngine::MakeRespondingBid()
 			// otherwise, with no length anywhere, default to 3NT
 			m_nBid = BID_3NT;
 			status << "E24! Have " & fCardPts & "/" & fPts &
-					  " points with no long suit, so respond with " & app_->BidToFullString(m_nBid) & ".\n";
+					  " points with no long suit, so respond with " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		}
 
@@ -421,7 +421,7 @@ int CBidEngine::MakeRespondingBid()
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "E30! With " & fCardPts & "/" & fPts &
 					  " points and a solid " & CCard::SuitToSingularString(nSuit) & " suit (holding " &
-					  SHTS(nSuit) & "), jump shift to " & app_->BidToFullString(m_nBid) & 
+					  SHTS(nSuit) & "), jump shift to " & BidToFullString(m_nBid) & 
 					  " to show slam prospects.\n";
 			return ValidateBid(m_nBid);
 		}
@@ -431,7 +431,7 @@ int CBidEngine::MakeRespondingBid()
 		m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 		status << "E40! With " & fCardPts & "/" & fPts &
 				  " points (though without a solid suit), jump shift to " & 
-				  app_->BidToFullString(m_nBid) & " to show slam prospects.\n";
+				  BidToFullString(m_nBid) & " to show slam prospects.\n";
 		return ValidateBid(m_nBid);
 
 	}
@@ -552,7 +552,7 @@ int CBidEngine::MakeRespondingBid()
 					status < "a singleton";
 				else
 					status & numSingletons & " singleton suits";
-				status < ", so make a triple raise of " & app_->BidToFullString(m_nBid) & ".\n";
+				status < ", so make a triple raise of " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -572,7 +572,7 @@ int CBidEngine::MakeRespondingBid()
 							  " points with " & SLTS(nPartnersSuit) & 
 							  " (" & szHP & ") support for partner's " & szPSS & 
 							  " suit but hold a " & SuitStrengthToString(SPADES) & " " & numCardsInSuit[SPADES] & 
-							  "-card Spade suit, so bid " & app_->BidToFullString(m_nBid) & " instead.\n";
+							  "-card Spade suit, so bid " & BidToFullString(m_nBid) & " instead.\n";
 					return ValidateBid(m_nBid);
 				}
 
@@ -589,7 +589,7 @@ int CBidEngine::MakeRespondingBid()
 							  szHP & ") " & szPSS & " trump support" &
 							  ((app_->GetCurrentConventionSet()->IsConventionEnabled(tid5CardMajors) && 
 							    (numSupportCards>=3))? " playing 5-card majors," :  ",") &
-							  " so raise to " & app_->BidToFullString(m_nBid) & ".\n";
+							  " so raise to " & BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 
@@ -607,13 +607,13 @@ int CBidEngine::MakeRespondingBid()
 								  " points with " & SLTS(nPartnersSuit) & 
 								  " (" & szHP & ") support for partner's " & szPSS & 
 								  " suit but hold a " & numCardsInSuit[SPADES] &
-								  "-card Spade suit, so bid " & app_->BidToFullString(m_nBid) & " instead.\n";
+								  "-card Spade suit, so bid " & BidToFullString(m_nBid) & " instead.\n";
 					else
 						status << "G13! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 								  " points with " & SLTS(nPartnersSuit) & 
 								  " (" & szHP & ") support for partner's " & szPSS & 
 								  " suit but hold a " & SuitStrengthToString(SPADES) & " Spade suit, so bid " &
-								  app_->BidToFullString(m_nBid) & " instead.\n";
+								  BidToFullString(m_nBid) & " instead.\n";
 					return ValidateBid(m_nBid);
 				}
 			}
@@ -629,7 +629,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "G20! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 							  " pts with an available " & numPrefSuitCards & 
 							  "-card major suit in " & szPrefS & " (" & szHPref & 
-							  "), so bid " & app_->BidToFullString(m_nBid) & 
+							  "), so bid " & BidToFullString(m_nBid) & 
 							  " over partner's minor suit " & szPB & " bid.\n";
 					return ValidateBid(m_nBid);
 				}
@@ -643,7 +643,7 @@ int CBidEngine::MakeRespondingBid()
 						status << "G28! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 								  " pts with an available " & LEN(nSuit) & 
 								  "-card major " & CCard::SuitToSingularString(nSuit) & " suit, so bid " &
-								  app_->BidToFullString(m_nBid) & " over partner's minor suit " &
+								  BidToFullString(m_nBid) & " over partner's minor suit " &
 								  szPB & " bid.\n";
 						return ValidateBid(m_nBid);
 					}
@@ -659,7 +659,7 @@ int CBidEngine::MakeRespondingBid()
 				status << "G32! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points with " & SLTS(nPartnersSuit) & " support for partner's " & szPSS & 
 						  " suit (holding " & szHP & "; bid the preferred " & szPrefSS &
-						  " suit 2/1 at " & app_->BidToFullString(m_nBid) & ".\n";
+						  " suit 2/1 at " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -672,7 +672,7 @@ int CBidEngine::MakeRespondingBid()
 				status << "G36! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points with " & SLTS(nPartnersSuit) & " support for partner's " & szPSS & 
 						  " suit (holding " & szHP & "); bid the preferred " & szPrefSS & 
-						  " suit 2/1 at " & app_->BidToFullString(m_nBid) & " (shade the 10 pt 2/1 rqmt because of the good suit).\n";
+						  " suit 2/1 at " & BidToFullString(m_nBid) & " (shade the 10 pt 2/1 rqmt because of the good suit).\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -688,7 +688,7 @@ int CBidEngine::MakeRespondingBid()
 				status << "G40! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  "% points with no good majors, no other good suit of our own, and a semi-balanced distribution with strength in " &
 						  ((numSuitsProbStopped == 4)? "all four" :  "three") &
-						  " suits, bid " & app_->BidToFullString(m_nBid) & " in preference to partner's minor.\n";
+						  " suits, bid " & BidToFullString(m_nBid) & " in preference to partner's minor.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -700,7 +700,7 @@ int CBidEngine::MakeRespondingBid()
 			{
 				m_nBid = BID_1D;
 				status << "G44! Have " & fCardPts & "/" & fPts & "/" & fAdjPts &
-						  " pts with no 4-card major suits, so bid " & app_->BidToFullString(m_nBid) &
+						  " pts with no 4-card major suits, so bid " & BidToFullString(m_nBid) &
 						  " in preference to raising partner's minor " & szPS & " suit.\n";
 				return ValidateBid(m_nBid);
 			}
@@ -718,7 +718,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with " & SLTS(nPartnersSuit) & 
 						  " support for partner's " & szPSS &
 						  " suit (holding " & szHP & ") and no good major suits, so raise to " &
-						  app_->BidToFullString(m_nBid) & ".\n";
+						  BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -791,7 +791,7 @@ int CBidEngine::MakeRespondingBid()
 					status < "a singleton suit";
 				else
 					status < numSingletons & " singleton suits";
-				status < ", so make a triple raise of " & app_->BidToFullString(m_nBid) & ".\n";
+				status < ", so make a triple raise of " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -807,7 +807,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with " & numSupportCards & 
 						  "-card trump support (holding " & szHP & 
 						  ") playing limit raises, so raise partner's " & 
-						  szPS & " to " & app_->BidToFullString(m_nBid) & ".\n";
+						  szPS & " to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -822,7 +822,7 @@ int CBidEngine::MakeRespondingBid()
 				status << "H03! We have " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points and a " & numCardsInSuit[nSuit] & 
 						  "-card " & CCard::SuitToSingularString(nSuit) & " suit, so respond with " &
-						  app_->BidToFullString(m_nBid) & " in preference to partner's minor.\n";
+						  BidToFullString(m_nBid) & " in preference to partner's minor.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -839,14 +839,14 @@ int CBidEngine::MakeRespondingBid()
 								  " and " & SLTS(nPartnersSuit) & " support for partner's " & szPSS & 
 								  " suit (holding " & szHP & 
 								  "), so show our preferred " & szPrefSS & 
-								  " suit in a " & app_->BidToFullString(m_nBid) & " bid.\n";
+								  " suit in a " & BidToFullString(m_nBid) & " bid.\n";
 					else
 						status << "H05! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & " points" &
 								  ((PlayingConvention(tidLimitRaises))? " " :  " (in between single & double raise ranges) ") &
 								  " and " & SLTS(nPartnersSuit) & 
 								  " support for partner's " & szPSS & " suit (holding " & szHP & 
 								  "), but first show our preferred " & szPrefSS & 
-								  " suit in a " & app_->BidToFullString(m_nBid) & " bid.\n";
+								  " suit in a " & BidToFullString(m_nBid) & " bid.\n";
 					return ValidateBid(m_nBid);
 				} 
 				else 
@@ -860,7 +860,7 @@ int CBidEngine::MakeRespondingBid()
 						status << "H08! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & " points" &
 								  ((PlayingConvention(tidLimitRaises))? " " :  " (in between single & double raise ranges) ") &
 								  " but prefer to show our own " & szPrefSS & 
-								  " suit instead of raising a minor, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+								  " suit instead of raising a minor, so bid " & BidToFullString(m_nBid) & ".\n";
 						return ValidateBid(m_nBid);
 					}
 				}
@@ -879,7 +879,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with " & SLTS(nPartnersSuit) & 
 						  " support for partner's " & szPSS &
 						  " suit (holding " & szHP & "), so we can raise to " & 
-						  app_->BidToFullString(m_nBid) & "\n";
+						  BidToFullString(m_nBid) & "\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -893,7 +893,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with " & SLTS(nPartnersSuit) &
 						  " support for partner's " & szPSS & 
 						  " suit (holding " & szHP & 
-						  ") and no other good suit of our own, so raise to " & app_->BidToFullString(m_nBid) & ".\n";
+						  ") and no other good suit of our own, so raise to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -908,13 +908,13 @@ int CBidEngine::MakeRespondingBid()
 					if (nPartnersSuitSupport < SS_GOOD_SUPPORT)
 						status << "H28! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							      " points but prefer not to raise a minor, so bid our " & LEN(nSuit) & 
-								  "-card major " & CCard::SuitToSingularString(nSuit) & " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
+								  "-card major " & CCard::SuitToSingularString(nSuit) & " suit instead at " & BidToFullString(m_nBid) & ".\n";
 					else
 						status << "H30! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 								  " points and " & SLTS(nPartnersSuit) & 
 								  " support for partner's " & szPS &
 								  " (holding " & szHP & "), but prefer not to raise a minor, so bid our " &
-								  LEN(nSuit) & "-card major " & CCard::SuitToSingularString(nSuit) & " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
+								  LEN(nSuit) & "-card major " & CCard::SuitToSingularString(nSuit) & " suit instead at " & BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 			}
@@ -933,14 +933,14 @@ int CBidEngine::MakeRespondingBid()
 							  " points with " & numSupportCards & 
 							  "-card support for partner's minor " & szPSS &
 							  " suit (holding " & szHP & 
-							  ") playing limit raises, and we have no other good suits, so jump raise partner to " & app_->BidToFullString(m_nBid) & ".\n";
+							  ") playing limit raises, and we have no other good suits, so jump raise partner to " & BidToFullString(m_nBid) & ".\n";
 				} 
 				else 
 				{
 					m_nBid = MAKEBID(nPartnersSuit,2);
 					status << "H42! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							  " points with no other good suits, so have to raise partner' minor " &
-							  szPSS & " suit (holding " & szHP & ") to " & app_->BidToFullString(m_nBid) & ".\n";
+							  szPSS & " suit (holding " & szHP & ") to " & BidToFullString(m_nBid) & ".\n";
 				}
 				m_nAgreedSuit = nPartnersSuit;
 				return ValidateBid(m_nBid);
@@ -960,7 +960,7 @@ int CBidEngine::MakeRespondingBid()
 							  " points, but have " & SLTS(nPartnersSuit) & 
 							  " support for partner's " & szPSS & 
 							  " suit (holding " & szHP & 
-							  "), and don't have a good suit of our own, so just shift to " & app_->BidToFullString(m_nBid) & ".\n";
+							  "), and don't have a good suit of our own, so just shift to " & BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 			}
@@ -999,7 +999,7 @@ int CBidEngine::MakeRespondingBid()
 				status << "I00! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 						  " points with " & SLTS(nPartnersSuit) & 
 						  " support for partner's " & szPSS &
-						  " suit (" & szHP & "), so make a double raise to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " suit (" & szHP & "), so make a double raise to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1020,7 +1020,7 @@ int CBidEngine::MakeRespondingBid()
 						  m_fMinTPCPoints & "-" & m_fMaxTPCPoints & 
 						  " HCPS, and all" &
 						  ((numSuitsStopped == 4)? " four" : " unbid" ) &
-						  " suits are stopped, so jump to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " suits are stopped, so jump to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1038,7 +1038,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with " & numSupportCards & 
 						  "-card support for partner's " & szPS & " (holding " & szHP & 
 						  "), which is too strong for a limit raise, so we have to temporarily shift to " & CCard::SuitToString(nSuit) & 
-						  " with a bid of " & app_->BidToFullString(m_nBid) & ".\n";
+						  " with a bid of " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1051,12 +1051,12 @@ int CBidEngine::MakeRespondingBid()
 					status << "I12! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							  " points but insufficient trump support (holding " & 
 							  szHP & ") for a double raise, so show our own " & 
-							  szPrefSS & " suit by bidding " & app_->BidToFullString(m_nBid) & ".\n";
+							  szPrefSS & " suit by bidding " & BidToFullString(m_nBid) & ".\n";
 				else
 					status << "I14! Have "  & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							  " points but we prefer to shift instead of raising a minor " &
 							  szPSS & " suit, so show our own " & szPrefSS & 
-							  " suit by bidding " & app_->BidToFullString(m_nBid) & ".\n";
+							  " suit by bidding " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1074,7 +1074,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points with " & SLTS(nPartnersSuit) & 
 						  " support for partner's major " & szPSS &
 						  " suit (holding " & szHP & "_; a double raise to " &
-						  app_->BidToFullString(m_nBid) & " is reasonable.\n";
+						  BidToFullString(m_nBid) & " is reasonable.\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1089,7 +1089,7 @@ int CBidEngine::MakeRespondingBid()
 					status << "I18! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 							  " points but prefer not to raise a minor, so bid our " &
 							  LEN(nSuit) & "-card major " & CCard::SuitToSingularString(nSuit) & 
-							  " suit instead at " & app_->BidToFullString(m_nBid) & ".\n";
+							  " suit instead at " & BidToFullString(m_nBid) & ".\n";
 					return ValidateBid(m_nBid);
 				}
 			}
@@ -1105,7 +1105,7 @@ int CBidEngine::MakeRespondingBid()
 						  " points and " & SLTS(nPartnersSuit) & 
 						  " support for partner's minor " & szPSS & 
 						  " suit (holding " & szHP & 
-						  ").  Although we'd prefer not to raise a minor, we have no other good options, so raise to " & app_->BidToFullString(m_nBid) & ".\n";
+						  ").  Although we'd prefer not to raise a minor, we have no other good options, so raise to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1117,7 +1117,7 @@ int CBidEngine::MakeRespondingBid()
 					  " points, but have only " & SLTS(nPartnersSuit) & 
 					  " support for partner's " & szPSS & 
 					  " suit (holding " & szHP & 
-					  "), and no good suit of our own, so we can only raise to " & app_->BidToFullString(m_nBid) & ".\n";
+					  "), and no good suit of our own, so we can only raise to " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 
 		}
@@ -1137,7 +1137,7 @@ int CBidEngine::MakeRespondingBid()
 			{
 				m_nBid = GetJumpShiftBid(nPrefSuit,nPartnersBid);
 				status << "J10! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
-						  " points; show strength by jump shifting to " & app_->BidToFullString(m_nBid) & ".\n";
+						  " points; show strength by jump shifting to " & BidToFullString(m_nBid) & ".\n";
 				return ValidateBid(m_nBid);
 			}
 
@@ -1148,7 +1148,7 @@ int CBidEngine::MakeRespondingBid()
 			nSuit = GetNextBestSuit(nPartnersSuit);
 			m_nBid = GetJumpShiftBid(nSuit,nPartnersBid);
 			status << "J20! Have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
-	  				  " points; show strength by jump shifting to " & app_->BidToFullString(m_nBid) & 
+	  				  " points; show strength by jump shifting to " & BidToFullString(m_nBid) & 
 					  ", even though it's not the preferred suit.\n";
 			return ValidateBid(m_nBid);
 		}
@@ -1183,7 +1183,7 @@ int CBidEngine::MakeRespondingBid()
 	//
 	// Here, reached an unknown state
 	status << "<<Error>> -- ZA0! fell out of decision loop.  Partner's bid was " & 
-			  app_->BidToFullString(nPartnersBid) & "; points are " & fCardPts & "/" & fPts & "/" & fAdjPts & 
+			  BidToFullString(nPartnersBid) & "; points are " & fCardPts & "/" & fPts & "/" & fAdjPts & 
 			  ", preferred suit is " & szPrefSS & " (holding " & szHPref & ").  Returning PASS\n";
 	return ValidateBid(m_nBid);
 

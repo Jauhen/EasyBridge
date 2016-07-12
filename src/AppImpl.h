@@ -554,6 +554,10 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
+  virtual bool HasDoc() {
+    return pDOC != nullptr;
+  }
+
   virtual std::shared_ptr<Deal> GetDeal() {
     return pDOC->GetDeal();
   }
@@ -736,144 +740,9 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
-  virtual const CString ContractToFullString(int contract, int modifier) {
-    return ::ContractToFullString(contract, modifier);
-  }
-
-  virtual const char* PositionToString(int pos) {
-    return ::PositionToString(pos);
-  }
-
-  virtual const CString BidToFullString(int bid) {
-    return ::BidToFullString(bid);
-  }
-
-  virtual const CString BidToShortString(int bid) {
-    return ::BidToShortString(bid);
-  }
-
-  virtual int GetPlayerTeam(int position) {
-    return ::GetPlayerTeam(position);
-  }
-
-  virtual int GetNextPlayer(int position) {
-    return ::GetNextPlayer(position);
-  }
-
-  virtual int GetNextSuit(int suit) {
-    return ::GetNextSuit(suit);
-  }
-
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6) {
-    return ::FormString(format, arg1, arg2, arg3, arg4, arg5, arg6);
-  }
-
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5) {
-    return ::FormString(format, arg1, arg2, arg3, arg4, arg5);
-  }
-
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) {
-    return ::FormString(format, arg1, arg2, arg3);
-  }
-
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2) {
-    return ::FormString(format, arg1, arg2);
-  }
-
-  virtual CString FormString(const char* format, int arg1, int arg2) {
-    return ::FormString(format, arg1, arg2);
-  }
-
-  virtual CString FormString(const char* format, const char* arg1, int arg2) {
-    return ::FormString(format, arg1, arg2);
-  }
-
-  virtual CString FormString(const char* format, const char* arg1) {
-    return ::FormString(format, arg1);
-  }
-
-  virtual CString FormString(const char* format, int arg1) {
-    return ::FormString(format, arg1);
-  }
-
-  virtual CString FormString(const char* format, unsigned char arg1) {
-    return ::FormString(format, arg1);
-  }
-
-  virtual CString ContractToString(int contract, int modifier) {
-    return ::ContractToString(contract, modifier);
-  }
-
-  virtual int GetPrevPlayer(int position) {
-    return ::GetPrevPlayer(position);
-  }
-
-  virtual int GetPrevSuit(int suit) {
-    return ::GetPrevSuit(suit);
-  }
-
-  virtual bool IsHonor(int faceValue) {
-    return ::IsHonor(faceValue) == TRUE;
-  }
-
-  virtual const char* TeamToString(int team) {
-    return ::TeamToString(team);
-  }
-
-  virtual int StringToDeckValue(const char* str) {
-    return ::StringToDeckValue(str);
-  }
-
-  virtual int GetRandomValue(int max) {
-    return ::GetRandomValue(max);
-  }
-
-  virtual const char* PositionToShortString(int pos) {
-    return ::PositionToShortString(pos);
-  }
-
-  virtual int GetOpposingTeam(int team) {
-    return ::GetOpposingTeam(team);
-  }
-
-  virtual int GetPartner(int pos) {
-    return ::GetPartner(pos);
-  }
-
-  virtual int StringToPosition(const char* str) {
-    return ::StringToPosition(str);
-  }
-
-  virtual const char PositionToChar(int pos) {
-    return ::PositionToChar(pos);
-  }
-
-  virtual const CString BidToPBNString(int bid) {
-    return ::BidToPBNString(bid);
-  }
-
-  virtual CString WrapInQuotes(const CString& item) {
-    return ::WrapInQuotes(item);
-  }
-
-  virtual CString StripQuotes(const CString& item) {
-    return ::StripQuotes(item);
-  }
-
-  virtual int CharToPosition(char c) {
-    return ::CharToPosition(c);
-  }
-
-  virtual int StringToBid(const char* str) {
-    return ::StringToBid(str);
-  }
-
-  virtual int ContractStringToBid(const char* str) {
-    return ::ContractStringToBid(str);
-  }
-
-  virtual int ContractParamsToBid(int suit, int level) {
-    return ::ContractParamsToBid(suit, level);
+  virtual const char* GetToday() {
+    CTime time = CTime::GetCurrentTime();
+    return time.Format("%Y.%m.%d");
   }
 
   virtual int TimeGetTime() {

@@ -67,7 +67,7 @@ void CHoldUp::Init()
 //
 CString CHoldUp::GetFullDescription()
 {
-	return app_->FormString("Hold up a round of %s.",CCard::SuitToString(m_nSuit));
+	return FormString("Hold up a round of %s.",CCard::SuitToString(m_nSuit));
 }
 
 

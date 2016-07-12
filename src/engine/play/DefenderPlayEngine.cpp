@@ -416,8 +416,8 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 	if (nRound == 0)
 	{
 		// this is the opening lead
-		status << "2PLYLEAD! Making opening lead as " & app_->PositionToString(nPlayerPos) &
-				  " against a contract of " & app_->ContractToFullString(app_->GetDeal()->GetContract(), 0) & ".\n";
+		status << "2PLYLEAD! Making opening lead as " & PositionToString(nPlayerPos) &
+				  " against a contract of " & ContractToFullString(app_->GetDeal()->GetContract(), 0) & ".\n";
 		// review partner's bidding history
 		nPartnersSuit = ReviewBiddingHistory();
 
@@ -578,7 +578,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 			int nSuit = m_pHand->GetSuitsByPreference(0);
 			CSuitHoldings& suit = m_pHand->GetSuit(nSuit);
 			CCardList& seq = suit.GetTopSequence();
-			if ((seq.GetNumCards() >= 3) && (app_->IsHonor(seq[0]->GetFaceValue())))
+			if ((seq.GetNumCards() >= 3) && (IsHonor(seq[0]->GetFaceValue())))
 			{
 				// we have a 3-card honor sequence in out favorite suit, so lead from the top
 				pLeadCard = seq[0];
@@ -867,8 +867,8 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					 // also stop developing the suit if partner and either N/S 
 					 // show out (i.e., the opponents have no entries)
 					 BOOL bPartnerShownOut = m_ppGuessedHands[m_nPartnerPosition]->IsSuitShownOut(m_nPrioritySuit);
-					 BOOL bLHOShowOut = m_ppGuessedHands[app_->GetNextPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
-					 BOOL bRHOShowOut = m_ppGuessedHands[app_->GetPrevPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
+					 BOOL bLHOShowOut = m_ppGuessedHands[GetNextPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
+					 BOOL bRHOShowOut = m_ppGuessedHands[GetPrevPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
 					 if ( (bPartnerShownOut && bLHOShowOut && !bRHOShowOut) ||
 							(bPartnerShownOut && bLHOShowOut && !bRHOShowOut) )
 					 {
@@ -1227,7 +1227,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 	// so play the winners
 	int nSuit;
 	if (ISSUIT(nTrumpSuit))
-		nSuit = app_->GetNextSuit(nTrumpSuit);
+		nSuit = GetNextSuit(nTrumpSuit);
 	else
 		nSuit = CLUBS;
 	//
@@ -1238,7 +1238,7 @@ CCard* CDefenderPlayEngine::CashWinners()
 		if (( bSuitIsSafe[i]) && (m_pHand->GetSuit(nSuit).GetNumTopCards() > 0) )
 			break;
 		// else advance to the next suit
-		nSuit = app_->GetNextSuit(nSuit);
+		nSuit = GetNextSuit(nSuit);
 	}
 	
 	// make sure we found a suit!
@@ -1945,7 +1945,7 @@ CCard* CDefenderPlayEngine::PlaySecond()
 		if (m_pLHOpponent == pDummy)
 		{
 			// playing ahead of dummy -- play the bottom honor of the sequence
-			if ((topSeq.GetNumCards() > 1) && app_->IsHonor(topSeq[0]->GetFaceValue()) && (*topSeq[0] > *pCardLed) &&
+			if ((topSeq.GetNumCards() > 1) && IsHonor(topSeq[0]->GetFaceValue()) && (*topSeq[0] > *pCardLed) &&
 				(*topSeq[0] < *pTopCard))
 			{
 				pCard = topSeq.GetBottomCard();
@@ -2171,7 +2171,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 	CPlayer* pDummy = app_->GetDeal()->GetDummyPlayer();
 	int nTopPos;
 	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard(&nTopPos);
-	CString strTopCardPos = app_->PositionToString(nTopPos);
+	CString strTopCardPos = PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
 	int nCurrentRound = app_->GetDeal()->GetPlayRound();
 	int nCurrentSeat = app_->GetDeal()->GetNumCardsPlayedInRound() + 1;

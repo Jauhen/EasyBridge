@@ -162,6 +162,7 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
+  virtual bool HasDoc() = 0;
   virtual std::shared_ptr<Deal> GetDeal() = 0;
   virtual void OnNewDocument() = 0;
   virtual void OnDealNewHand() = 0;
@@ -220,41 +221,7 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
-  virtual const CString ContractToFullString(int contract, int modifier) = 0;
-  virtual const char* PositionToString(int pos) = 0;
-  virtual const CString BidToFullString(int bid) = 0;
-  virtual const CString BidToShortString(int bid) = 0;
-  virtual int GetPlayerTeam(int position) = 0;
-  virtual int GetNextPlayer(int position) = 0;
-  virtual int GetNextSuit(int suit) = 0;
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5, const char* arg6) = 0;
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5) = 0;
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2, const char* arg3) = 0;
-  virtual CString FormString(const char* format, const char* arg1, const char* arg2) = 0;
-  virtual CString FormString(const char* format, int arg1, int arg2) = 0;
-  virtual CString FormString(const char* format, const char* arg1, int arg2) = 0;
-  virtual CString FormString(const char* format, const char* arg1) = 0;
-  virtual CString FormString(const char* format, int arg1) = 0;
-  virtual CString FormString(const char* format, unsigned char arg1) = 0;
-  virtual CString ContractToString(int contract, int modifier) = 0;
-  virtual int GetPrevPlayer(int position) = 0;
-  virtual int GetPrevSuit(int suit) = 0;
-  virtual bool IsHonor(int faceValue) = 0;
-  virtual const char* TeamToString(int team) = 0;
-  virtual int StringToDeckValue(const char* str) = 0;
-  virtual int GetRandomValue(int max) = 0;
-  virtual const char* PositionToShortString(int pos) = 0;
-  virtual int GetOpposingTeam(int team) = 0;
-  virtual int GetPartner(int pos) = 0;
-  virtual int StringToPosition(const char* str) = 0;
-  virtual const char PositionToChar(int pos) = 0;
-  virtual const CString BidToPBNString(int bid) = 0;
-  virtual CString WrapInQuotes(const CString& item) = 0;
-  virtual CString StripQuotes(const CString& item) = 0;
-  virtual int CharToPosition(char c) = 0;
-  virtual int StringToBid(const char* str) = 0;
-  virtual int ContractStringToBid(const char* str) = 0;
-  virtual int ContractParamsToBid(int suit, int level) = 0;
+  virtual const char* GetToday() = 0;
   virtual int TimeGetTime() = 0;
   virtual void DisplayScoreDialog(std::vector<CString> bonusPoints, std::vector<CString> trickPoints, CString totalPoints) = 0;
   virtual int DisplaySelectHandDialog(int position) = 0;
