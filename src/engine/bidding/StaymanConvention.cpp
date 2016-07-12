@@ -119,7 +119,7 @@ BOOL CStaymanConvention::TryConvention(const CPlayer& player,
 	//
 	int nBid = bidState.GetCheapestShiftBid(CLUBS);
 	status << "STY0! Have " & bidState.fCardPts & "/" & bidState.fPts & 
-			  " points and at least one 4+ card major suit, so bid " & app_->BidToFullString(nBid) &
+			  " points and at least one 4+ card major suit, so bid " & BidToFullString(nBid) &
 			  " (Stayman).\n";
 	//
 	bidState.SetBid(nBid);
@@ -174,7 +174,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 				{
 					status << "STYRR2! And with " & bidState.numCardsInSuit[nSuit] &  " " &
 							   CCard::SuitToString(nSuit) & " and " & bidState.fCardPts & 
-							   " HCPs, raise partner to " & app_->BidToFullString(nBid) & ".\n";
+							   " HCPs, raise partner to " & BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
@@ -193,10 +193,10 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 					if (bidState.numSupportCards >= 3)
 						status << "STYRR10! And with " & bidState.numCardsInSuit[nSuit] & " " &
 								   CCard::SuitToString(nSuit) & " and " & bidState.fCardPts & 
-								   " HCPs, raise partner to " & app_->BidToFullString(nBid) & ".\n";
+								   " HCPs, raise partner to " & BidToFullString(nBid) & ".\n";
 					else
 						status << "STYRR11! And with " & bidState.fCardPts & 
-								  " HCPs, raise partner to " & app_->BidToFullString(nBid) & ".\n";
+								  " HCPs, raise partner to " & BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
@@ -282,7 +282,7 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 		nBid = bidState.GetCheapestShiftBid(nSuit);
 		status << "STYR10! With a "& bidState.numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit, reply to partner's Stayman inquiry with a " & 
-				  app_->BidToFullString(nBid) & " bid.\n";
+				  BidToFullString(nBid) & " bid.\n";
 	} 
 	else if ((bidState.numCardsInSuit[HEARTS] >= 4) || (bidState.numCardsInSuit[SPADES] >= 4)) 
 	{
@@ -294,14 +294,14 @@ BOOL CStaymanConvention::RespondToConvention(const CPlayer& player,
 		nBid = bidState.GetCheapestShiftBid(nSuit);
 		status << "STYR11! With a "& bidState.numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) & 
 				  " suit, reply to partner's Stayman inquiry with a " & 
-				  app_->BidToFullString(nBid) & " bid.\n";
+				  BidToFullString(nBid) & " bid.\n";
 	} 
 	else 
 	{
 	 	// no go
 		nBid = bidState.GetCheapestShiftBid(DIAMONDS);
 		status << "STYR12! But we have no 4-card majors, so reply negatively to Stayman by bidding " &
-				  app_->BidToFullString(nBid) & ".\n";
+				  BidToFullString(nBid) & ".\n";
 	}
 
 	// done
@@ -344,7 +344,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	//
  	if ((nPartnersBidLevel > BID_4S) || (nPartnersBid == BID_DOUBLE) || (nPartnersBid == BID_REDOUBLE))
 	{
-		CString strTemp = app_->BidToFullString(nPartnersBid);
+		CString strTemp = BidToFullString(nPartnersBid);
 		status << "STYX01! Partner did not reply properly to our Stayman inquiry, bidding " &
 				   strTemp & ". Treat this as a simple rebid.\n";
 		bidState.SetConventionStatus(this, CONV_ERROR);
@@ -353,7 +353,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	else if (nPartnersBid == BID_PASS)
 	{
 		BOOL bInterference = ISBID(bidState.nLHOBid);
-		CString strTemp = app_->BidToFullString(nPartnersBid);
+		CString strTemp = BidToFullString(nPartnersBid);
 		status << "STYX04! Partner passed our Stayman inquiry " &
 				  (bInterference? "after interference from the opponents" : "") &
 				   ", so Stayman is no longer in effect.\n";
@@ -370,7 +370,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	{
 		// error
 		status << "STYX10! Partner did not reply properly to our Stayman query, bidding " & 
-				  app_->BidToFullString(nPartnersBid) & " instead of 2D/2H/2S.  Treat this like a simple rebid.\n";
+				  BidToFullString(nPartnersBid) & " instead of 2D/2H/2S.  Treat this like a simple rebid.\n";
 		bidState.SetConventionStatus(this, CONV_ERROR);
 		return FALSE;
 	}
@@ -379,7 +379,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	if (nPartnersSuit == DIAMONDS) 
 	{
 		// diamonds = negative response
-		status << "STYX12! Partner replied " & app_->BidToFullString(nPartnersBid) & 
+		status << "STYX12! Partner replied " & BidToFullString(nPartnersBid) & 
 				  " to our Stayman query, indicating no 4-card majors.\n";
 		nSuit = NONE;
 	} 
@@ -387,7 +387,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	{
 		// else it's a major suit response
 		nSuit = nPartnersSuit;
-		status << "STYX14! Partner replied " & app_->BidToFullString(nPartnersBid) & 
+		status << "STYX14! Partner replied " & BidToFullString(nPartnersBid) & 
 				" to our Stayman query, indicating a " &
 				((nPartnersBidLevel == 3)? "strong" : "") &
 				"4+ card " & CCard::SuitToSingularString(nSuit)& " suit.\n";
@@ -440,7 +440,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 			status << "STYX21! Partner has no 4-card major suit, but with a " & 
 					  bidState.numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) &
 					  " suit and an unbalanced hand, invite towards a contract in " & CCard::SuitToString(nSuit) &
-					  " with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " with a bid of " & BidToFullString(nBid) & ".\n";
 		}
 
 		// else bid NT
@@ -458,7 +458,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 			nBid = bidState.GetCheapestShiftBid(NOTRUMP);
 			status << "STYX31! With no major suit fit and " & 
 					  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
-					  " HCPs in the partnership, bid " & app_->BidToFullString(nBid) & ".\n";
+					  " HCPs in the partnership, bid " & BidToFullString(nBid) & ".\n";
 		} 
 		else if (bidState.m_fMinTPCPoints < app_->SlamPts() -3) 
 		{
@@ -534,7 +534,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 			status << "STY62! With " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " points in the partnership and at least " &
 					  ((nCardFit == 8)? "an " : "a ") & nCardFit &
-					  "-card fit, raise to " & app_->BidToFullString(nBid) & ", and partner might raise to game.\n";
+					  "-card fit, raise to " & BidToFullString(nBid) & ", and partner might raise to game.\n";
 		}
 		else
 		{
@@ -552,7 +552,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 		status << "STY64! With " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 				  " points in the partnership and at least " &
 				  ((nCardFit == 8)? "an " : "a ") & nCardFit &
-				  "-card fit, raise to game at " & app_->BidToFullString(nBid) & ".\n";
+				  "-card fit, raise to game at " & BidToFullString(nBid) & ".\n";
 	} 
 	else 
 	{

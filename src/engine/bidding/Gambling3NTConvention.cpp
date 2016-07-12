@@ -184,12 +184,12 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 			{
 				nBid = BID_4C;
 				if (bidState.numSuitsStopped < 3)
-					status << "G3NT13! But since we have only " & bidState.numSuitsStopped & " suits stopped, we have to respond with " & app_->BidToFullString(nBid) & 
+					status << "G3NT13! But since we have only " & bidState.numSuitsStopped & " suits stopped, we have to respond with " & BidToFullString(nBid) & 
 							  ", which partner can correct to 4D if necessary.\n";
 				else
 					status << "G3NT14! But since we are void in the " & 
 							  ((bidState.numCardsInSuit[CLUBS] == 0)? "Club" : "Diamond") &
-							  " suit, we have to respond at " & app_->BidToFullString(nBid) & 
+							  " suit, we have to respond at " & BidToFullString(nBid) & 
 							  ", which partner can correct to 4D if necessary.\n";
 				//
 				bidState.SetBid(nBid);
@@ -217,14 +217,14 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 					nBid = BID_7NT;
 					status << "G3NT21! With a total of " & 
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMinTPPoints & 
-							  " pts in the partnership, bid a grand slam directly at " & app_->BidToFullString(nBid) & ".\n";
+							  " pts in the partnership, bid a grand slam directly at " & BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
 					nBid = BID_6NT;
 					status << "G3NT22! With a total of " & 
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMinTPPoints & 
-							  " pts in the partnership, bid slam directly at " & app_->BidToFullString(nBid) & ".\n";
+							  " pts in the partnership, bid slam directly at " & BidToFullString(nBid) & ".\n";
 				}
 			}
 			else
@@ -246,9 +246,9 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 		// we must have responded with a 4C, so pass here
 		// see if partner made sense
 		if ((nPartnersBid == BID_4D) || (nPartnersBid == BID_PASS))
-			status << "G3NT40! Pass partner's " & app_->BidToFullString(nPartnersBid) & " and conclude the Gambling 3NT convention and pass.\n";
+			status << "G3NT40! Pass partner's " & BidToFullString(nPartnersBid) & " and conclude the Gambling 3NT convention and pass.\n";
 		else
-			status << "G3NT41! Partner's " & app_->BidToFullString(nPartnersBid) & " bid doesn't make sense, so end the Gambling 3NT convention and pas.\n";
+			status << "G3NT41! Partner's " & BidToFullString(nPartnersBid) & " bid doesn't make sense, so end the Gambling 3NT convention and pas.\n";
 		//
 		bidState.SetBid(BID_PASS);
 		bidState.SetConventionStatus(this, CONV_FINISHED);
@@ -323,7 +323,7 @@ BOOL CGambling3NTConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				nBid = BID_4D;
 				status << "G3NT62! But since our desired suit is Diamonds, correct to " & 
-						  app_->BidToFullString(nBid) & ".\n";
+						  BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -334,7 +334,7 @@ BOOL CGambling3NTConvention::HandleConventionResponse(const CPlayer& player,
 		else
 		{
 			// oops, error
-			status << "G3NT65! Oops, partner's " & app_->BidToFullString(nPartnersBid) & 
+			status << "G3NT65! Oops, partner's " & BidToFullString(nPartnersBid) & 
 					  " is not a proper response to our Gambling 3NT opening bid, so we have to pass.\n";
 			nBid = BID_PASS;
 		}

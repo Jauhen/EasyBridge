@@ -85,7 +85,7 @@ void CForce::Init()
 //
 CString CForce::GetFullDescription()
 {
-	return app_->FormString("Play the %s from %s to force out the opponents' %s.",
+	return FormString("Play the %s from %s to force out the opponents' %s.",
 					   CCard::CardToString(MAKEDECKVALUE(m_nSuit,m_nCardVal)),
 					   (m_nTargetHand == 0)? "hand" : "dummy",
              CCard::CardValToString(m_nTargetCardVal));

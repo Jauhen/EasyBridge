@@ -65,9 +65,9 @@ void CTypeAFinesse::Init()
 	// check the enemy and location
 	m_nTarget = (m_nEndingHand == CFinesse::IN_DUMMY)? AGAINST_LHO: AGAINST_RHO;
 	if (m_nTarget == AGAINST_LHO)
-		m_nTargetPos = app_->GetNextPlayer(m_nPlayerPosition);
+		m_nTargetPos = GetNextPlayer(m_nPlayerPosition);
 	else
-		m_nTargetPos = app_->GetPrevPlayer(m_nPlayerPosition);
+		m_nTargetPos = GetPrevPlayer(m_nPlayerPosition);
 
 	// the ending hand is the target hand (opposite of default)
 	m_nStartingHand = m_nEndingHand = m_nTargetHand;
@@ -79,10 +79,10 @@ void CTypeAFinesse::Init()
 CString CTypeAFinesse::GetFullDescription()
 {
 	CString strText;
-	return app_->FormString("Opportunistically play the %s from %s to finesse against %s.",
+	return FormString("Opportunistically play the %s from %s to finesse against %s.",
 					   m_pConsumedCard->GetFaceName(),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
-    app_->PositionToString(m_nTargetPos));
+    PositionToString(m_nTargetPos));
 	// done
 	return strText;
 }
@@ -155,7 +155,7 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					// play the finesse card
 					pPlayCard = m_pConsumedCard;
 					status << "PLAFN20! Opportunistically finesse the " & pPlayCard->GetName() & " from hand in second position against " &
-            app_->PositionToString(playEngine.GetLHOpponent()->GetPosition()) & ".\n";
+            PositionToString(playEngine.GetLHOpponent()->GetPosition()) & ".\n";
 				}
 				else
 				{
@@ -174,7 +174,7 @@ PlayResult CTypeAFinesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 					// finesse the card from dummy 
 					pPlayCard = m_pConsumedCard;
 					status << "PLAFN54! Opportunistically finesse the " & pPlayCard->GetName() & " from dummy in second position against " &
-            app_->PositionToString(playEngine.GetRHOpponent()->GetPosition()) & ".\n";
+            PositionToString(playEngine.GetRHOpponent()->GetPosition()) & ".\n";
 				}
 				else
 				{

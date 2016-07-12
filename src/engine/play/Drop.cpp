@@ -101,7 +101,7 @@ void CDrop::Init()
 CString CDrop::GetFullDescription()
 {
 	// form description
-	return app_->FormString("Play the %s from %s%s.", m_pConsumedCard->GetName(), ((m_nTargetHand == IN_HAND)? "hand" : "Dummy"), m_strDropMessage);
+	return FormString("Play the %s from %s%s.", m_pConsumedCard->GetName(), ((m_nTargetHand == IN_HAND)? "hand" : "Dummy"), m_strDropMessage);
 }
 
 

@@ -66,7 +66,7 @@ BOOL CWeakTwoBidsConvention::TryConvention(const CPlayer& player,
 				  "-card " & CCard::SuitToSingularString(nSuit) & " suit with " & 
 				  bidState.fCardPts & "/" & bidState.fPts & 
 				  " points (less than normal opening requirements), so bid a weak " &
-          app_->BidToFullString(nBid) & ".\n";
+          BidToFullString(nBid) & ".\n";
 		bidState.SetBid(nBid);
 		bidState.SetConventionStatus(this, CONV_INVOKED);
 		return TRUE;
@@ -146,7 +146,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 							  CCard::SuitToSingularString(nPartnersSuit) & " suit, so with strength in " & CCard::SuitToString(nPartnersSuit) & ", " & 
 							  bidState.numSupportCards & "-card trump support, and a total of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-							  " points in the partnership, raise to " & app_->BidToFullString(nBid) & ".\n";
+							  " points in the partnership, raise to " & BidToFullString(nBid) & ".\n";
 				}
 				else
 				{
@@ -156,7 +156,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 							  CCard::SuitToSingularString(nPartnersSuit) & " suit, but with a total of " &
 							  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 							  " pts in the partnership we lack the strength to raise further, so return to partner's suit at " &
-							  app_->BidToFullString(nBid) & ".\n";
+							  BidToFullString(nBid) & ".\n";
 				}
 			}
 			else
@@ -231,7 +231,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			bidState.SetAgreedSuit(nPartnersSuit);
 			status << "RWKT1! We have only " & fCardPts & "/" & fPts & "/" & fAdjPts &
 					  " points but have " & numSupportCards &
-					  " support cards, so make a shutout response of " & app_->BidToFullString(nBid) & ".\n";
+					  " support cards, so make a shutout response of " & BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -269,7 +269,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RWKT6! And with at least minimum (" & numSupportCards & 
 					  "-card) support for partner's " & bidState.szPS &
 					  " (holding " & bidState.szHP & 
-					  "), make a weak shutout raise of " & app_->BidToFullString(nBid) & ".\n";
+					  "), make a weak shutout raise of " & BidToFullString(nBid) & ".\n";
 		} 
 		else if ((nPrefSuit != nPartnersSuit) && (bidState.numPrefSuitCards >= 5))
 		{
@@ -279,7 +279,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RWKT8! And we don't like partner's " & 
 					  bidState.szPSS & " suit (holding " & bidState.szHP & 
 					  "), so shift to our preferred " & bidState.szPrefSS & 
-					  " suit in a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " suit in a bid of " & BidToFullString(nBid) & ".\n";
 		} 
 		else if ((bidState.numVoids == 0) && (bidState.numSingletons == 0))
 		{
@@ -287,7 +287,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			nBid = BID_2NT;
 			status << "RWKT9! And since we don't like partner's " & 
 					  bidState.szPSS & " suit (holding " & bidState.szHP & 
-					  "), and have no good suit of our own, bid " & app_->BidToFullString(nBid) & ".\n";
+					  "), and have no good suit of our own, bid " & BidToFullString(nBid) & ".\n";
 		}
 		else 
 		{
@@ -328,7 +328,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 					  " support for partner's " & bidState.szPSS & " suit (holding " & 
 					  bidState.szHP & "), and a total of " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-					  " pts in the partnership, we raise to " & app_->BidToFullString(nBid) & ".\n";
+					  " pts in the partnership, we raise to " & BidToFullString(nBid) & ".\n";
 		} 
 		// else if we otherwise have a decent fit, invite to game with 2NT
 		else if (nPartnersSuitSupport >= SS_WEAK_SUPPORT)
@@ -355,7 +355,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 						  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 						  " HCPs, and all" & 
 						  ((bidState.numSuitsStopped == 4)? " " : " unbid ") &
-						  "suits are stopped, we can bid " & app_->BidToFullString(nBid) & ".\n";
+						  "suits are stopped, we can bid " & BidToFullString(nBid) & ".\n";
 			} 
 			else 
 			{
@@ -364,7 +364,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 				status << "RWKT24! And since we lack good support for partner's " & 
 						  bidState.szPSS & " suit (holding " & bidState.szHP & 
 						  ") but have a balanced hand, albeit lacking stoppers in " &
-						  hand.GetUnstoppedSuitNames() & ", bid " & app_->BidToFullString(nBid) & ".\n";
+						  hand.GetUnstoppedSuitNames() & ", bid " & BidToFullString(nBid) & ".\n";
 			}
 		} 
 		else if (nPrefSuit == nPartnersSuit) 
@@ -376,7 +376,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RWKT26! Our support for partner's " & bidState.szPSS & 
 					  " suit isn't great (holding " & bidState.szHP & 
 					  "), but we have have no better suit, so raise partner one level to " & 
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		} 
 		else if ((bidState.numPrefSuitCards >= 6) &&
 					(bidState.nPrefSuitStrength >= SS_OPENABLE)) 
@@ -387,7 +387,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RWKT28! But we don't like partner's " & 
 					  bidState.szPSS & " suit (holding " & bidState.szHP & 
 					  "), so shift to our preferred " & bidState.szPrefSS & 
-					  " suit in a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " suit in a bid of " & BidToFullString(nBid) & ".\n";
 		} 
 		else if (numSupportCards >= 2) 
 		{
@@ -397,7 +397,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 			status << "RWKT30! We lack good support for partner's " & 
 					  bidState.szPSS & " (holding " & bidState.szHP & 
 					  "), but our hand is not appropriate for NT and we have no good suit of our own, so the best we can do is raise partner to " & 
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		} 
 		else 
 		{
@@ -430,7 +430,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 		bidState.SetAgreedSuit(nPartnersSuit);
 		status << "RWKT42! And since we have a strong holding in the " & 
 				  bidState.szPSS & " suit (" & bidState.szHP & 
-				  "), we raise to " & app_->BidToFullString(nBid) & ".\n";
+				  "), we raise to " & BidToFullString(nBid) & ".\n";
 	} 
 	else if (nPartnersSuitSupport >= SS_GOOD_SUPPORT) 
 	{
@@ -461,7 +461,7 @@ BOOL CWeakTwoBidsConvention::RespondToConvention(const CPlayer& player,
 		status << "RWKT48! We don't have very good support for partner's " & 
 				  bidState.szPSS & " suit (holding " & bidState.szHP & 
 				  ", and don't have the proper distribution for a NT response, so jump shift to " & 
-				  app_->BidToFullString(nBid) & ".  Slam possibilities may be explored later.\n";
+				  BidToFullString(nBid) & ".  Slam possibilities may be explored later.\n";
 	}
 	// report
 	bidState.SetBid(nBid);
@@ -557,7 +557,7 @@ int CWeakTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 			nBid = MAKEBID(nPartnersSuit,nPartnersBidLevel+1);
 			status << "HRWT10! And with adequate support for partner's " & bidState.szPS & 
 					  " (holding " & bidState.szHP & 
-					  "), we dutifully raise to " & app_->BidToFullString(nBid) & ".\n";
+					  "), we dutifully raise to " & BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			return TRUE;
 		}
@@ -570,7 +570,7 @@ int CWeakTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 					  bidState.szPS & " (holding " & bidState.szHP & 
 					  "), and with " & fCardPts & "/" & fPts & 
 					  " points in hand, we have to rebid our own " & 
-					  bidState.szPVS & " suit at " & app_->BidToFullString(nBid) & ".\n";
+					  bidState.szPVS & " suit at " & BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			return TRUE;
 		}
@@ -708,14 +708,14 @@ int CWeakTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 			// show the suit
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 			status << "HRWT41! Show our outside " &  (bAceFound? "Ace" : "King") & 
-					  " with a bid of " & app_->BidToFullString(nBid) & ".\n";
+					  " with a bid of " & BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
 			// bail out
 			nBid = bidState.GetCheapestShiftBid(nPreviousSuit);
 			status << "HRWT42! Unfortunately, we have no outside Aces or Kings, so bail out at " & 
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		}
 		//
 		bidState.SetBid(nBid);

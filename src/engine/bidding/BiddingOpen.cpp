@@ -108,7 +108,7 @@ int CBidEngine::MakeOpeningBid()
 				m_nBid = GetLowestOpenableBid(SUITS_ANY,OT_OPENER,1);
 				status << "A10! This exceeds the max pts for a 1NT opening (" & NTMax[0] & 
 								 "), but is less than min pts for 2NT (" & NTMin[1] & 
-								 ").  So bid the lowest openable suit of " & app_->BidToFullString(m_nBid) & 
+								 ").  So bid the lowest openable suit of " & BidToFullString(m_nBid) & 
 								 " for now, then try for a jump shift to 2NT later.\n";
 			} 
 			else 
@@ -124,7 +124,7 @@ int CBidEngine::MakeOpeningBid()
 				}
 				status << "A14! This exceeds the max pts for a 1NT opening (" & NTMax[0] &
 					      "), but is less than min pts for 2NT (" & NTMin[1] &
-						  " and we have no good openable suit, so just bid " & app_->BidToFullString(m_nBid) &
+						  " and we have no good openable suit, so just bid " & BidToFullString(m_nBid) &
 						  " for now.\n";
 			}
 			return ValidateBid(m_nBid);
@@ -146,7 +146,7 @@ int CBidEngine::MakeOpeningBid()
 			// so bid 2C
 			m_nBid = BID_2C;
 			status << "A30! This exceeds the max pts for a 2NT opening (" & NTMax[1] & 
-					   "), but a 3NT opening has been disallowed, so open with " & app_->BidToFullString(m_nBid) & ".\n";
+					   "), but a 3NT opening has been disallowed, so open with " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 
 		} 
@@ -163,7 +163,7 @@ int CBidEngine::MakeOpeningBid()
 				status << "A40! This exceeds the max pts for a 2NT opening (" &
 						  NTMax[1] & "), but is less than min pts for 3NT (" &
 						  NTMin[2] & ").  So bid the lowest openable suit of " &
-						  app_->BidToFullString(m_nBid) & " for now, then jump shift to NT later.\n";
+						  BidToFullString(m_nBid) & " for now, then jump shift to NT later.\n";
 			} 
 			else 
 			{
@@ -172,7 +172,7 @@ int CBidEngine::MakeOpeningBid()
 				status << "A42! This exceeds the max pts for a 2NT opening (" &
 						  NTMax[1] & "), but is less than min pts for 3NT (" &
 						  NTMin[2] & "), and have no good openable suit, so bid " &
-						  app_->BidToFullString(m_nBid) & " for now.\n";
+						  BidToFullString(m_nBid) & " for now.\n";
 			}
 			return ValidateBid(m_nBid);
 
@@ -235,7 +235,7 @@ escape1:
 	if (fCardPts >= app_->OpenPoints(14)) 
 	{
 		m_nBid = MAKEBID(nSuit,1);
-		status << "E01! Have " & fCardPts & " points in high cards, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+		status << "E01! Have " & fCardPts & " points in high cards, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	// case 2:  13+ HCP's && 2 QT's
@@ -243,7 +243,7 @@ escape1:
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E02! Have " & fCardPts & " points in high cards and " & numQuickTricks & 
-				  " quick tricks, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  " quick tricks, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
 	// case 3:  12+ HCP's, 2 QT's, & a rebiddable suit
@@ -253,7 +253,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E03! Have " & fCardPts & " points in high cards, " & numQuickTricks &
 				  " quick tricks, and a rebiddable suit in " & CCard::SuitToString(nSuit) & 
-				  ", so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  ", so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
 	// case 4:  12+ HCP's, 2 QT's, & a 5-card suit
@@ -263,7 +263,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E04! Have " & fCardPts & " points in high cards, " & numQuickTricks & 
 				  " quick tricks, and a " & numCardsInSuit[nSuit] & 
-				  "-card suit, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  "-card suit, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	// case 5:  12+ HCP's & a balanced dist in Weak NTs
@@ -272,7 +272,7 @@ escape1:
 	{
 		m_nBid = BID_1NT;
 		status << "E05! Have " & fCardPts & " points in high cards, a balanced hand, " &
-				  "and playing Weak No Trumps, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  "and playing Weak No Trumps, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	// case 6:  10+ HCPs opening in 3rd or 4th seat & a good suit
@@ -284,7 +284,7 @@ escape1:
 		status << "E07! Have " & fCardPts & " points in high cards in " 
 				  & ((nBiddingOrder == 2)? "3rd" :  "4th") &
 				  " position and a " & SuitStrengthToString(nSuit) & " " & CCard::SuitToSingularString(nSuit) & 
-				  " suit, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  " suit, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	// case 7:  15+ Total points and 10 HCPs, with 2 QTs
@@ -292,7 +292,7 @@ escape1:
 	{
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E08! Have " & fCardPts & "/" & fPts & " total points with " 
-				  & numQuickTricks & " QT's, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  & numQuickTricks & " QT's, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	//
@@ -304,7 +304,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E09! Have " & fCardPts & "/" & fPts & " total points with "
 				  & numQuickTricks & " QT's and a rebiddable suit, so bid "
-				  & app_->BidToFullString(m_nBid) & ".\n";
+				  & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
 	//
@@ -318,7 +318,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E10! Have " & fCardPts & "/" & fPts & " total points with "
 				  & numQuickTricks & " QT's and a " & numCardsInSuit[nSuit] & 
-				  "-card rebiddable suit, so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  "-card rebiddable suit, so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 
@@ -342,7 +342,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E21! Have " & fCardPts & " points in high cards, " & numQuickTricks & 
 				   " quick tricks, a rebiddable suit, and length in both majors " &
-				   "(optional opening condition #1), so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				   "(optional opening condition #1), so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 	//
@@ -355,7 +355,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E22! Have " & fCardPts & " points in high cards with " & numQuickTricks & 
 			      " QT's and a " & numCardsInSuit[nSuit] & 
-				  "-card suit (optional opening condition #2), so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  "-card suit (optional opening condition #2), so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
 	//
@@ -369,7 +369,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E23! Have " & fCardPts & "/" & fPts & "total points with " & numQuickTricks &
 				  " QT's and a " & SuitStrengthToString(nSuit) & " " & CCard::SuitToSingularString(nSuit) & 
-				  " suit (optional opening condition #3), so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  " suit (optional opening condition #3), so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
 	//
@@ -384,7 +384,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E24! Have " & fCardPts & "/" & fPts & " total points with " & numQuickTricks &
 				  " QT's and a " & numCardsInSuit[nSuit] &"-card " & CCard::SuitToSingularString(nSuit) & 
-				  " suit (optional opening condition #4), so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  " suit (optional opening condition #4), so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);;
 	}
 	//
@@ -399,7 +399,7 @@ escape1:
 		m_nBid = MAKEBID(nSuit,1);
 		status << "E25! Have " & fCardPts & "/" & fPts &" total points with " & numQuickTricks &
 				  " QT's and a " & numCardsInSuit[nSuit] & "-card " & CCard::SuitToSingularString(nSuit) & 
-				  " suit (optional opening condition #5), so bid " & app_->BidToFullString(m_nBid) & ".\n";
+				  " suit (optional opening condition #5), so bid " & BidToFullString(m_nBid) & ".\n";
 		return ValidateBid(m_nBid);
 	}
 
@@ -414,7 +414,7 @@ escape1:
 			m_nBid = MAKEBID(nSuit,1);
 			status << "E30! Have " & fCardPts & "/" & fPts & 
 					  " total points; shade opening requirement of 2 QT's and make do with " & numQuickTricks &
-					  " QT'in light of the high total point count; open " & app_->BidToFullString(m_nBid) & ".\n";
+					  " QT'in light of the high total point count; open " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);;
 		}
 	}

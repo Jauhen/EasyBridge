@@ -129,7 +129,7 @@ BOOL CMichaelsCueBidConvention::TryConvention(const CPlayer& player,
 	// OK, go ahead and cue-bid the enemy suit
 	int nBid = MAKEBID(nOppSuit, 2);
 	status << "MCL9! With a 2-suited hand, make a Michaels cue bid over RHO's " & CCard::SuitToString(nOppSuit) & 
-			  " with a bid of " & app_->BidToFullString(nBid) & ".\n";
+			  " with a bid of " & BidToFullString(nBid) & ".\n";
 	bidState.SetBid(nBid);
 	bidState.SetConventionStatus(this, CONV_INVOKED);
 	return TRUE;
@@ -188,13 +188,13 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 		int nOpeningBidder = app_->GetDeal()->GetOpeningBidder();
 		BOOL bLHOMajor = ISMAJOR(nOpeningBid);
-		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
+		if (ISBID(nOpeningBid) && (GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&
 			  (nPartnersSuit == bidState.nLHOSuit) && (nPartnersBidLevel == 2) &&
 			  (bidState.m_numBidsMade == 0) )
 		{
 			//
-			status << "MCLR10! Partner has made a Michaels Cue bid of " & app_->BidToFullString(nPartnersBid) &
+			status << "MCLR10! Partner has made a Michaels Cue bid of " & BidToFullString(nPartnersBid) &
 					  ", indicating 5/5 length in " &
 					  (bLHOMajor? ((bidState.nLHOSuit == HEARTS)? "Spades and a minor" : "Hearts and a minor") : "the majors") & ".\n";
 		}
@@ -281,10 +281,10 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 			{
 				if (nPartnersSuit == HEARTS)
 					status << "MCLR12! Given a choice between a " & hand.GetNumCardsInSuit(SPADES) &
-							  "-card Spade suit and an unknown minor, we're forced to ask for the minor by bidding " & app_->BidToFullString(nBid) & ".\n";
+							  "-card Spade suit and an unknown minor, we're forced to ask for the minor by bidding " & BidToFullString(nBid) & ".\n";
 				else
 					status << "MCLR12! Given a choice between a " & hand.GetNumCardsInSuit(HEARTS) &
-							  "-card Heart suit and an unknown minor, we're forced to ask for the minor by bidding " & app_->BidToFullString(nBid) & ".\n";
+							  "-card Heart suit and an unknown minor, we're forced to ask for the minor by bidding " & BidToFullString(nBid) & ".\n";
 				// this convention will go another round
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND1);
 			}
@@ -302,7 +302,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 			status << "MCLR15! With " & numTrumps & " " & CCard::SuitToString(nSuit) & " and a total of " & 
 					  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 					  " pts in the partnership, make a shutout bid in " & CCard::SuitToString(nSuit) & 
-					  " by jumping to " & app_->BidToFullString(nBid) & ".\n";
+					  " by jumping to " & BidToFullString(nBid) & ".\n";
 		}
 		else if (bidState.m_fMinTPPoints <= app_->PointCount(21))
 		{
@@ -312,7 +312,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 			{
 				status << "MCLR20! Given a choice between " & strChoices & 
 						   ", respond to partner's Michaels with the preferred " & 
-						   CCard::SuitToSingularString(nSuit) & " suit with a bid of " & app_->BidToFullString(nBid) & ".\n";
+						   CCard::SuitToSingularString(nSuit) & " suit with a bid of " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -328,7 +328,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 			{
 				status << "MCLR24! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						   " pts in the partnership and a choice between " & strChoices &
-						   ", invite game in " & CCard::SuitToString(nSuit) & " by jumping to " & app_->BidToFullString(nBid) & ".\n";
+						   ", invite game in " & CCard::SuitToString(nSuit) & " by jumping to " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -344,7 +344,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 			{
 				status << "MCLR27! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						   " pts in the partnership and a choice between " & strChoices & 
-						   ", jump to the 4-level in " & CCard::SuitToString(nSuit) & " with a bid of " & app_->BidToFullString(nBid) & ".\n";
+						   ", jump to the 4-level in " & CCard::SuitToString(nSuit) & " with a bid of " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -360,7 +360,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 			{
 				status << "MCLR30! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						   " pts in the partnership and a choice between " & strChoices & 
-						   ", jump to game in " & CCard::SuitToString(nSuit) & " at " & app_->BidToFullString(nBid) & ".\n";
+						   ", jump to game in " & CCard::SuitToString(nSuit) & " at " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -394,7 +394,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR35! Partner cue bid the enemy suit again, indicating a strong Michaels opening hand with " &
 						   app_->OpenPoints(17) & "+ pts; so with " & 
 						   bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-						   " pts in the partnership, ask for the other minor by bidding " & app_->BidToFullString(nBid) & ".\n";
+						   " pts in the partnership, ask for the other minor by bidding " & BidToFullString(nBid) & ".\n";
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 			}
 			else
@@ -404,7 +404,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR36! Partner cue bid the enemy suit again, indicating a strong Michaels opening hand with " &
 						   app_->OpenPoints(17) & "+ pts; but with " & 
 						   bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-						   " pts in the partnership, stop at game with a natural bid of " & app_->BidToFullString(nBid) & ".\n";
+						   " pts in the partnership, stop at game with a natural bid of " & BidToFullString(nBid) & ".\n";
 				bidState.SetConventionStatus(this, CONV_FINISHED);
 			}
 			// done
@@ -467,7 +467,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR46! Partner showed his minor to be " & CCard::SuitToString(nPartnersSuit) & 
 						  ", which we can support with " & hand.GetNumCardsInSuit(nPartnersSuit) &
 						  " trumps, so with " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-						  " pts in the partnership, we bid " & app_->BidToFullString(nBid) & ".\n";
+						  " pts in the partnership, we bid " & BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
@@ -487,7 +487,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR47! With " & hand.GetNumCardsInSuit(nAgreedSuit) & 
 						  "-card support for partner's " & CCard::SuitToString(nAgreedSuit) & 
 						  ", and with " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
-						  " pts in the partnership, we can go to game at " & app_->BidToFullString(nBid) & ".\n";
+						  " pts in the partnership, we can go to game at " & BidToFullString(nBid) & ".\n";
 		}
 
 		// done!
@@ -573,7 +573,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			nBid = MAKEBID(nPreviousSuit, 3);
 			status << "MCLRH12! with a strong Michaels hand (" & bidState.fPts & 
-					  " pts), cue bid the enemy suit again at " & app_->BidToFullString(nBid) & 
+					  " pts), cue bid the enemy suit again at " & BidToFullString(nBid) & 
 					  " to indicate our strength.\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
@@ -586,7 +586,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			// with a weak Michaels opener, indicate the minor
 			int nSuit = bidState.GetLongerSuit(CLUBS, DIAMONDS);
 			nBid = MAKEBID(nSuit, 3);
-			status << "MCLRH10! With the weak flavor of Michaels, respond to partner's Michaels minor inquiry with a bid of " & app_->BidToFullString(nBid) &
+			status << "MCLRH10! With the weak flavor of Michaels, respond to partner's Michaels minor inquiry with a bid of " & BidToFullString(nBid) &
 					  ", indicating " & CCard::SuitToString(nSuit) & " as the unknown minor.\n";
 			bidState.SetBid(nBid);
 			bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
@@ -618,7 +618,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				// stop at game in the cheapest suit
 				nBid = bidState.GetGameBid(nCheapestSuit);
 				status << "MCLRH22! But with only " & bidState.fPts & " pts in hand, forget about slam and stop at game in the cheapest suit ("&
-						  CCard::SuitToString(nCheapestSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToString(nCheapestSuit) & ") at " & BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 			}
 			else 
@@ -626,7 +626,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				// 8 or fewer pts -- bail out in the cheapest suit
 				nBid = bidState.GetCheapestShiftBid(nCheapestSuit);
 				status << "MCLRH23! But with only " & bidState.fPts & " pts in hand, forget about slam and bail out in the cheapest suit (" &
-						  CCard::SuitToString(nCheapestSuit) & ") at " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToString(nCheapestSuit) & ") at " & BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 			}
 			// done
@@ -659,7 +659,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				nBid = bidState.GetGameBid(nPartnersSuit);	
 				status << "MCLRH42! and since we opened Michaels with a strong hand (" & fPts &
-						  ") pts, we can raise to game at " & app_->BidToFullString(nBid) & ".\n";
+						  ") pts, we can raise to game at " & BidToFullString(nBid) & ".\n";
 			}
 		}
 		else
@@ -698,7 +698,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				int nSuit = bidState.GetLongerSuit(CLUBS, DIAMONDS);
 				nBid = bidState.GetCheapestShiftBid(nSuit);
 				status << "MCLRH50! After our second Michaels cue bid of the enemy suit, partner still wants to see the unknown minor, so show it (" &
-						  CCard::SuitToString(nSuit) & ") with a bid of " & app_->BidToFullString(nBid) & ".\n";
+						  CCard::SuitToString(nSuit) & ") with a bid of " & BidToFullString(nBid) & ".\n";
 				bidState.SetBid(nBid);
 				bidState.SetConventionStatus(this, CONV_INVOKED_ROUND3);
 				return TRUE;
@@ -718,7 +718,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 					// jump to slam
 					nBid = MAKEBID(nPartnersSuit, 6);
 					status << "MCLRH55! Partner responded to our second Michaels cue bid with a game bid of " & 
-							  bidState.szPB & ", and with " & fPts & "+ in hand, we can go ahead and jump to slam at " & app_->BidToFullString(nBid) & ".\n";
+							  bidState.szPB & ", and with " & fPts & "+ in hand, we can go ahead and jump to slam at " & BidToFullString(nBid) & ".\n";
 				}
 			}
 			else if (nPartnersBid != BID_PASS)
@@ -726,7 +726,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				// see if we should raise partner to game
 				nBid = bidState.GetGameBid(nPartnersSuit);
 				status << "MCLRH56! Partner responded to our second Michaels cue bid of the enemy suit with a bid of " & 
-						  bidState.szPB & ", an invitation to game -- so go ahead and bid game at " & app_->BidToFullString(nBid) & ".\n";
+						  bidState.szPB & ", an invitation to game -- so go ahead and bid game at " & BidToFullString(nBid) & ".\n";
 			}
 			else
 			{
@@ -763,7 +763,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				{
 					nBid = bidState.GetGameBid(nPartnersSuit);	
 					status << "MCLRH72! and since we opened Michaels with a strong hand (" & fPts &
-							  ") pts, we can raise to game at " & app_->BidToFullString(nBid) & ".\n";
+							  ") pts, we can raise to game at " & BidToFullString(nBid) & ".\n";
 				}
 			}
 			else
@@ -806,7 +806,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 				// jump to slam
 				nBid = MAKEBID(nPartnersSuit, 6);
 				status << "MCLRH81! Partner responded to our Michaels minor answer with a game bid of " & 
-						  bidState.szPB & ", and with " & fPts & "+ in hand, we can go ahead and jump to slam at " & app_->BidToFullString(nBid) & ".\n";
+						  bidState.szPB & ", and with " & fPts & "+ in hand, we can go ahead and jump to slam at " & BidToFullString(nBid) & ".\n";
 			}
 		}
 		else if (nPartnersBid != BID_PASS)
@@ -814,7 +814,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			// see if we should raise partner to game
 			nBid = bidState.GetGameBid(nPartnersSuit);
 			status << "MCLRH85! Partner responded to our Michaels minor answer with a bid of " & 
-					  bidState.szPB & ", an invitation to game -- so go ahead and bid game at " & app_->BidToFullString(nBid) & ".\n";
+					  bidState.szPB & ", an invitation to game -- so go ahead and bid game at " & BidToFullString(nBid) & ".\n";
 		}
 		else
 		{

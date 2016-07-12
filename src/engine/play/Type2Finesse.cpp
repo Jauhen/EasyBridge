@@ -91,7 +91,7 @@ CString CType2Finesse::GetFullDescription()
 	CString strText;
 	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
-		return app_->FormString("Lead the %s %s from %s and finesses it, with the { %s } in %s as possible cover cards.",
+		return FormString("Lead the %s %s from %s and finesses it, with the { %s } in %s as possible cover cards.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 						   m_pConsumedCard->GetFaceName(),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),
@@ -99,7 +99,7 @@ CString CType2Finesse::GetFullDescription()
 						   ((m_nTargetHand == IN_HAND)? "dummy" : "hand"));
 	// done
 	else
-		return app_->FormString("Lead the %s %s from %s and finesse it, with the %s in %s as cover.",
+		return FormString("Lead the %s %s from %s and finesse it, with the %s in %s as cover.",
 						   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 						   m_pConsumedCard->GetFaceName(),
 						   ((m_nTargetHand == IN_HAND)? "hand" : "dummy"),

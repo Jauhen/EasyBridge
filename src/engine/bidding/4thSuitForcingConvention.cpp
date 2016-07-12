@@ -71,7 +71,7 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 			status << "SF2! With no agreement in suits, along with " &
 					  fMinTPPoints & "-" & fMaxTPPoints &
 					  " partnership points, return to our preferred " & 
-					  bidState.szPrefSS & " suit at " & app_->BidToFullString(nBid) & ".\n";
+					  bidState.szPrefSS & " suit at " & BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			return TRUE;
 		}
@@ -86,7 +86,7 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 			status << "SF4! With no agreement in suits, but with " & 
 					  fMinTPCPoints & "-" & fMaxTPCPoints &
 					  " high card points in the partnership and no void suits, bid " &
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			return TRUE;
 		}
@@ -122,7 +122,7 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 			status << "SF4! With no agreement in suits, but with " & 
 					  fMinTPCPoints & "-" & fMaxTPCPoints &
 					  " high card points in the partnership and no void suits, bid " &
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 			bidState.SetBid(nBid);
 			return TRUE;
 		}
@@ -135,13 +135,13 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 		{
 			nBid = bidState.GetCheapestShiftBid(nPartnersPrevSuit);
 			status << "SF20! With no better options, raise partner's first suit to " &
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		}
 		else
 		{
 			nBid = MAKEBID(nPartnersSuit, nPartnersBidLevel+1);
 			status << "SF24! With no better options, raise partner's second suit to " &
-					  app_->BidToFullString(nBid) & ".\n";
+					  BidToFullString(nBid) & ".\n";
 		}
 		// done
 		bidState.SetBid(nBid);

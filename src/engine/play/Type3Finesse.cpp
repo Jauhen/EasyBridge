@@ -81,13 +81,13 @@ CString CType3Finesse::GetFullDescription()
 {
 	CString strText;
 	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
-	return app_->FormString("Lead a low %s from %s and finesse the %s in %s against %s.",
+	return FormString("Lead a low %s from %s and finesse the %s in %s against %s.",
 					   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 					   (m_nTargetHand == IN_HAND)? "dummy" : "hand",
 					   m_pConsumedCard->GetFaceName(),
 //					   CCard::SuitToString(m_nSuit),
 					   (m_nTargetHand == IN_HAND)? "hand" : "dummy",
-    app_->PositionToString(m_nTargetPos));
+    PositionToString(m_nTargetPos));
 	// done
 	return strText;
 }

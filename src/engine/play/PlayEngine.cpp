@@ -78,8 +78,8 @@ void CPlayEngine::Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOp
 	m_pPartnersHand = &m_pPartner->GetHand();
 	//
 	ASSERT(ISPOSITION(m_nPartnerPosition));
-	strcpy(szLHO, app_->PositionToString(m_pLHOpponent->GetPosition()));
-	strcpy(szRHO, app_->PositionToString(m_pRHOpponent->GetPosition()));
+	strcpy(szLHO, PositionToString(m_pLHOpponent->GetPosition()));
+	strcpy(szRHO, PositionToString(m_pRHOpponent->GetPosition()));
 	//
 	m_pHand = pHoldings; 
 	m_pCardLocation = pCardLocation; 
@@ -243,7 +243,7 @@ void CPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 				  ((app_->GetDeal()->GetNumCardsPlayedInRound() == 1)? " lead" : " play") &
 				  " the " & pCard->GetName() & ".\n";
 	else
-		status << "4PLAY! " & app_->PositionToString(nPos) &
+		status << "4PLAY! " & PositionToString(nPos) &
 				  ((app_->GetDeal()->GetNumCardsPlayedInRound() == 1)? " leads" : " plays") &
 				  " the " & pCard->GetName() & ".\n";
 
@@ -309,7 +309,7 @@ void CPlayEngine::RecordTrickUndo()
 void CPlayEngine::RecordRoundComplete(int nPos, CCard* pCard) 
 { 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	status << "4PLAY! " & app_->PositionToString(nPos) &
+	status << "4PLAY! " & PositionToString(nPos) &
 			  " wins the round.\n--------\n";
 	//
 //	AdjustHoldingsCount(pCard);
@@ -327,16 +327,16 @@ void CPlayEngine::RecordHandComplete(int nResult)
 	int nTeam = app_->GetDeal()->GetDeclaringTeam();
 	if (nResult > 0)
 	{
-		status << "3RESULT! " & app_->TeamToString(nTeam) & " made " & 
+		status << "3RESULT! " & TeamToString(nTeam) & " made " & 
 				   nResult & " overtrick" & ((nResult > 1)? "s" : "") & ".\n";
 	}
 	else if (nResult < 0)
 	{
-		status << "3RESULT! " & app_->TeamToString(nTeam) & " made the contract.\n";
+		status << "3RESULT! " & TeamToString(nTeam) & " made the contract.\n";
 	}
 	else
 	{
-		status << "3RESULT! " & app_->TeamToString(nTeam) & " were set " & 
+		status << "3RESULT! " & TeamToString(nTeam) & " were set " & 
 				  -nResult & " trick" & ((nResult < -1)? "s" : "") & ".\n";
 	}
 }
@@ -350,20 +350,20 @@ void CPlayEngine::RecordSpecialEvent(int nCode, int nParam1, int nParam2, int nP
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nPlayer = nParam1;
-	int nTeam = app_->GetPlayerTeam(nPlayer);
+	int nTeam = GetPlayerTeam(nPlayer);
 	int numTricks = nParam2;
 	//
 	switch(nCode)
 	{
   case 1: //CEasyBDoc::EVENT_CLAIMED:
 //			status << "3PLAYCL! " & TeamToString(nTeam) & " has claimed the remaining " &
-			status << "3PLAYCL! " & app_->PositionToString(nPlayer) & " has claimed the remaining " &
+			status << "3PLAYCL! " & PositionToString(nPlayer) & " has claimed the remaining " &
 				      numTricks & " tricks.\n";
 			break;
 
     case 2: //CEasyBDoc::EVENT_CONCEDED:
 //			status << "3PLAYCN! " & TeamToString(nTeam) & " has conceded the remaining " &
-			status << "3PLAYCN! " & app_->PositionToString(nPlayer) & " has conceded the remaining " &
+			status << "3PLAYCN! " & PositionToString(nPlayer) & " has conceded the remaining " &
 				      numTricks & " tricks.\n";
 			break;
 	}
@@ -424,13 +424,13 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 			CGuessedSuitHoldings& suit = pPlayerHoldings->GetSuit(nSuitLed);
 			if ((pCard->GetSuit() != nSuitLed) && (!suit.IsSuitShownOut()))
 			{
-				status << "4RCP10! " & app_->PositionToString(nPos) &
+				status << "4RCP10! " & PositionToString(nPos) &
 						  " shows out of " & CCard::SuitToString(nSuitLed) & ".\n";
 				suit.MarkSuitShownOut();
 				if (pPlayerHoldings->GetNumSuitsFullyIdentified() > 1)
 				{
 					// multiple suits identified
-					status << "4RCP1A! " & app_->PositionToString(nPos) &
+					status << "4RCP1A! " & PositionToString(nPos) &
 							  " is now known to have started with ";
 					int numTotalIdentifiedSuits = pPlayerHoldings->GetNumSuitsFullyIdentified();
 					int numIdentifiedSuits = 0;
@@ -483,14 +483,14 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 	//					fourthSuit.SetNumLikelyCards(numRemainingCards);
 						fourthSuit.SetNumRemainingCards(numRemainingCards);
 						//
-						status << "4RCP1B! Therefore, " & app_->PositionToString(nPos) &
+						status << "4RCP1B! Therefore, " & PositionToString(nPos) &
 								  " started with " & numOriginalCards & " " & CCard::SuitToString(nFourthSuit) &
 								  " and has " & numRemainingCards & " left.\n";
 					}
 				}
 				else
 				{
-					status < "RCP5A! " & app_->PositionToString(nPos) &
+					status < "RCP5A! " & PositionToString(nPos) &
 							  " is now known to have started with " &
 							  suit.GetNumOriginalCards() & " " & 
 							  ((suit.GetNumOriginalCards() == 1)? CCard::SuitToSingularString(nSuitLed) : CCard::SuitToString(nSuitLed)) & ".\n";
@@ -805,7 +805,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
 	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard(&nTopPos);
-	CString strTopCardPos = app_->PositionToString(nTopPos);
+	CString strTopCardPos = PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
   int nCurrentRound = app_->GetDeal()->GetPlayRound();
 	int nCurrentSeat = app_->GetDeal()->GetNumCardsPlayedInRound() + 1;
@@ -1045,7 +1045,7 @@ CCard* CPlayEngine::GetLeadCard()
 		// but avoid the trump suit unless there are no other winners
 		int nSuit = NONE;
 		if (ISSUIT(nTrumpSuit))
-			nSuit = app_->GetNextSuit(nTrumpSuit);
+			nSuit = GetNextSuit(nTrumpSuit);
 		else
 			nSuit= CLUBS;	// else start with the club suit
 		//
@@ -1060,7 +1060,7 @@ CCard* CPlayEngine::GetLeadCard()
 				return pLeadCard;
 			}
 			// else look at the next suit
-			nSuit = app_->GetNextSuit(nSuit);
+			nSuit = GetNextSuit(nSuit);
 		}
 	}
 
@@ -1441,7 +1441,7 @@ int CPlayEngine::GetMinCardsInSuit(int nPlayer, int nSuit) const
 			// update status
 			suit.MarkAllCardsIdentified();
 			CPlayerStatusDialog& status = *m_pStatusDlg;
-			status << "4PLEMN5! " & app_->PositionToString(nPlayer) &
+			status << "4PLEMN5! " & PositionToString(nPlayer) &
 					  " is now known to hold the remaining " & 
 					  missingCards.GetNumCards() & " " & CCard::SuitToString(nSuit) & 
 					  " (" & missingCards.GetHoldingsString() & ").\n";

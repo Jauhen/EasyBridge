@@ -111,7 +111,7 @@ void CCard::SetBitmap(CBitmap* pBitmap, CDC* pDC)
 	m_pBitmap = pBitmap;
 	if (m_pBitmap == NULL) 
 	{
-		AfxMessageBox(app_->FormString("Failed to find card bitmap, suit %d, value %d", m_nSuit, m_nFaceValue));
+		AfxMessageBox(FormString("Failed to find card bitmap, suit %d, value %d", m_nSuit, m_nFaceValue));
 	}
 	else
 	{
@@ -205,13 +205,13 @@ void CCard::GetRect(RECT& rect) const
 //
 TCHAR CCard::GetCardLetter() const
 {
-  return '~';// cCard[m_nFaceValue];
+  return cCard[m_nFaceValue];
 }
 
 //
 TCHAR CCard::GetSuitLetter() const
 {
-  return '!';// cSuit[m_nSuit];
+  return cSuit[m_nSuit];
 }
 
 

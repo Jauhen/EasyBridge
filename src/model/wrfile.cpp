@@ -176,16 +176,16 @@ BOOL Deal::WriteFile(CArchive& ar) {
   WriteString(ITEM_CONTRACT_SUIT, strTemp);
   WriteInt(ITEM_CONTRACT_LEVEL, m_nContractLevel);
   WriteInt(ITEM_CONTRACT_MODIFIER, m_bRedoubled ? 2 : m_bDoubled ? 1 : 0);
-  WriteString(ITEM_DEALER, app_->PositionToString(m_nDealer));
+  WriteString(ITEM_DEALER, PositionToString(m_nDealer));
   WriteInt(ITEM_NUM_BIDS, m_numBidsMade);
   // declarer & bidding history
   strTemp.Empty();
   int nIndex = 0;
   for (i = 0; i <= m_numBidsMade; i++) {
-    strTemp += app_->BidToShortString(m_nBiddingHistory[i]);
+    strTemp += BidToShortString(m_nBiddingHistory[i]);
     strTemp += " ";
   }
-  WriteString(ITEM_DECLARER, app_->PositionToString(m_nDeclarer));
+  WriteString(ITEM_DECLARER, PositionToString(m_nDeclarer));
   WriteString(ITEM_BIDDING_HISTORY, strTemp);
   SkipLine();
 
@@ -208,13 +208,13 @@ BOOL Deal::WriteFile(CArchive& ar) {
     // # tricks won by each side
     WriteInt(ITEM_NUM_TRICKS_WON_NS, m_numTricksWon[0]);
     WriteInt(ITEM_NUM_TRICKS_WON_EW, m_numTricksWon[1]);
-    WriteString(ITEM_GAME_LEAD, app_->PositionToString(m_nGameLead));
+    WriteString(ITEM_GAME_LEAD, PositionToString(m_nGameLead));
 
     // and the record of tricks
     for (i = 0; i<13; i++) {
       if (i <= m_numTricksPlayed) {
         strTemp.Empty();
-        strTemp += app_->PositionToString(m_nTrickLead[i]);
+        strTemp += PositionToString(m_nTrickLead[i]);
         strTemp += " ";
         for (j = 0; j<4; j++) {
           CCard* pCard = NULL;
@@ -230,7 +230,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
             strTemp += "-- ";
           }
         }
-        strTemp += app_->PositionToString(m_nTrickWinner[i]);
+        strTemp += PositionToString(m_nTrickWinner[i]);
       } else {
         strTemp = "";
       }
@@ -272,11 +272,11 @@ BOOL Deal::WriteFile(CArchive& ar) {
     // write out score record
     int numBonusScoreRecords = m_strArrayBonusPointsRecord.size();
     for (int i = 0; i<numBonusScoreRecords; i++)
-      WriteString(ITEM_BONUS_SCORE_RECORD, app_->WrapInQuotes(m_strArrayBonusPointsRecord[i]));
+      WriteString(ITEM_BONUS_SCORE_RECORD, WrapInQuotes(m_strArrayBonusPointsRecord[i]));
     //
     int numGameScoreRecords = m_strArrayTrickPointsRecord.size();
     for (i = 0; i<numGameScoreRecords; i++)
-      WriteString(ITEM_GAME_SCORE_RECORD, app_->WrapInQuotes(m_strArrayTrickPointsRecord[i]));
+      WriteString(ITEM_GAME_SCORE_RECORD, WrapInQuotes(m_strArrayTrickPointsRecord[i]));
     //
     SkipLine();
   }
@@ -431,7 +431,7 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   WriteText(ar, strBiddingHistory);
   if (ISBID(GetContract())) {
     int nDeclarer = GetDeclarerPosition();
-    CString strContract = app_->FormString("Contract: %s by %s; %s leads", GetContractString(), app_->PositionToString(nDeclarer), app_->PositionToString(app_->GetNextPlayer(nDeclarer)));
+    CString strContract = FormString("Contract: %s by %s; %s leads", GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
     //		WriteText(pFile, strContract);
   }
 

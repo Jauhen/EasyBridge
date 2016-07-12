@@ -88,7 +88,7 @@ void CCash::Init()
 //
 CString CCash::GetFullDescription()
 {
-	return app_->FormString("Cash the %s in %s.",
+	return FormString("Cash the %s in %s.",
 					   m_pConsumedCard->GetFullName(), 
 					   ((m_nTargetHand == 0)? "hand" : "dummy"));
 }
