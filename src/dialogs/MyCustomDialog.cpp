@@ -16,7 +16,7 @@
 #include "EasyB.h"
 #include "MyCustomDialog.h"
 #include "MyToolTipWnd.h"
-#include "globals.h"
+#include "model/globals.h"
 #include "subclass.h"
 
 #ifdef _DEBUG

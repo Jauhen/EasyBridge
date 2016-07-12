@@ -15,7 +15,7 @@
 #include "ObjectWithProperties.h"
 #include "GameOptsCountingPage.h"
 #include "progopts.h"
-#include "globals.h"
+#include "model/globals.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

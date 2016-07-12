@@ -24,7 +24,7 @@ class CHandHoldings;
 class CPlayerStatusDialog;
 class CCardLocation;
 class CGuessedHandHoldings;
-
+class CPlayer;
 
 //
 typedef struct {

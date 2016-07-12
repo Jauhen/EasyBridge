@@ -16,7 +16,7 @@
 #include "DispOptsMiscPage.h"
 #include "progopts.h"
 #include "viewopts.h"
-#include "globals.h"
+#include "model/globals.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
