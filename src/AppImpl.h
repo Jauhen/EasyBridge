@@ -554,6 +554,10 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
+  virtual bool HasDoc() {
+    return pDOC != nullptr;
+  }
+
   virtual std::shared_ptr<Deal> GetDeal() {
     return pDOC->GetDeal();
   }

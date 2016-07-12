@@ -162,6 +162,7 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
+  virtual bool HasDoc() = 0;
   virtual std::shared_ptr<Deal> GetDeal() = 0;
   virtual void OnNewDocument() = 0;
   virtual void OnDealNewHand() = 0;
