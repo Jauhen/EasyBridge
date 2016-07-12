@@ -17,7 +17,7 @@
 
 #include "../resource.h"       // main symbols
 #include "defines.h"        // other global info
-#include "globals.h"
+#include "model/globals.h"
 #include "ObjectWithProperties.h"
 #include "EventProcessor.h"
 #include <memory>

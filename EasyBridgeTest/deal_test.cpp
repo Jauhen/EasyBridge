@@ -27,6 +27,7 @@ protected:
     EXPECT_CALL(*app, GetProgramIncrementVersion()).WillRepeatedly(Return(2));
     EXPECT_CALL(*app, GetProgramBuildNumber()).WillRepeatedly(Return(1));
     EXPECT_CALL(*app, GetProgramBuildDate()).WillRepeatedly(Return("abc"));
+    EXPECT_CALL(*app, GetProgramVersionString()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, IsSaveIntermediatePositions()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, PositionToString(_)).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, GetCurrentConventionSet()).WillRepeatedly(Return(set));
@@ -81,6 +82,8 @@ TEST_F(DealTests, DealNumberedHand) {
   d->InitNewHand();
   d->DealNumberedHand(0, 0, 0, 1);
 
+  //string pbn = d->WriteFilePBN();
+  //EXPECT_STREQ("", pbn.c_str());
   EXPECT_TRUE(Mock::VerifyAndClearExpectations(app.get()));
 }
 

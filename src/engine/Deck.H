@@ -15,6 +15,7 @@
 #define __DECK__
 
 #include "ObjectWithProperties.h"
+#include "engine/card_constants.h"
 #include <memory>
 class AppInterface;
 class CCard;
