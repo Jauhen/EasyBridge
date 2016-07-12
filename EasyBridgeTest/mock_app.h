@@ -92,6 +92,7 @@ public:
   MOCK_METHOD0(IsDebugModeActive, bool());
 
 
+  MOCK_METHOD0(HasDoc, bool());
   MOCK_METHOD0(GetDeal, std::shared_ptr<Deal>());
   MOCK_METHOD0(OnNewDocument, void());
   MOCK_METHOD0(OnDealNewHand, void());
