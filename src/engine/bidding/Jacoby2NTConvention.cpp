@@ -43,7 +43,7 @@ BOOL CJacoby2NTConvention::TryConvention(const CPlayer& player,
 	// 2: we must not have bid yet
 	// 3: we have 13+ points and 4+ card trump support
 
-	int nOpeningBid = app_->GetOpeningBid();
+	int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 	int nPartnersBid = bidState.nPartnersBid;
 
 	// test conditions 1 - 4
@@ -119,7 +119,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 		// the requirements for a Jacoby 2NT Bid are:
 		// 1: we must have opened the bidding with 1 of a major
 		// 2: Partner responded with 2NT
-		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 
 		// test conditions
 		if ( (bidState.m_numBidTurns == 1) && (ISMAJOR(BID_SUIT(nPreviousBid))) && 

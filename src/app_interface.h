@@ -163,10 +163,6 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual std::shared_ptr<Deal> GetDeal() = 0;
-  virtual int	GetRoundLead() const = 0;
-  virtual int	GetLastValidBidTeam() const = 0;
-  virtual bool IsDocInitialized() = 0;
-  virtual int GetOpeningBid() const = 0;
   virtual int GetNumValidBidsMade() const = 0;
   virtual int GetOpeningBidder() const = 0;
   virtual int GetCurrentPlayerPosition() const = 0;

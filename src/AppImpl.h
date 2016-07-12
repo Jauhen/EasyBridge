@@ -558,22 +558,6 @@ public:
     return pDOC->GetDeal();
   }
 
-  virtual int	GetRoundLead() const {
-    return pDOC->GetDeal()->GetRoundLead();
-  }
-
-  virtual int	GetLastValidBidTeam() const {
-    return pDOC->GetDeal()->GetLastValidBidTeam();
-  }
-
-  virtual bool IsDocInitialized() {
-    return pDOC && pDOC->GetDeal()->IsInitialized();
-  }
-
-  virtual int GetOpeningBid() const {
-    return pDOC->GetDeal()->GetOpeningBid();
-  }
-
   virtual int GetNumValidBidsMade() const {
     return pDOC->GetDeal()->GetNumValidBidsMade();
   }

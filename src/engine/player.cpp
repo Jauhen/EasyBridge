@@ -462,7 +462,7 @@ void CPlayer::InitializeRestoredHand()
 	{
 		*m_pStatusDlg << "4The contract is " & app_->ContractToFullString(nContract,nModifier) & 
 					   " by " & app_->PositionToString(app_->GetDeal()->GetDeclarerPosition()) & ".\n";
-		*m_pStatusDlg << "4" & app_->PositionToString(app_->GetRoundLead()) & " leads.\n";
+		*m_pStatusDlg << "4" & app_->PositionToString(app_->GetDeal()->GetRoundLead()) & " leads.\n";
 		*m_pStatusDlg << "4====================\n";
 	}
 

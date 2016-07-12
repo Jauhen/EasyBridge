@@ -1701,7 +1701,7 @@ void CBidEngine::BiddingFinished()
 	strLine.Format("Bidding finished; contract is %s.  Declarer is %s; %s leads.",
 					app_->ContractToFullString(app_->GetDeal()->GetContract(), app_->GetDeal()->GetContractModifier()),
     app_->PositionToString(app_->GetDeal()->GetDeclarerPosition()),
-    app_->PositionToString(app_->GetRoundLead()));
+    app_->PositionToString(app_->GetDeal()->GetRoundLead()));
 	strLine += "\n=======================";
 	TraceNH(strLine);
 	app_->ResumeHints();
@@ -2422,7 +2422,7 @@ BOOL CBidEngine::TestForPenaltyDouble()
 		return FALSE;
 
 	// see which side made the last bid
-	if (app_->GetLastValidBidTeam() == app_->GetPlayerTeam(m_pPlayer->GetPosition()))
+	if (app_->GetDeal()->GetLastValidBidTeam() == app_->GetPlayerTeam(m_pPlayer->GetPosition()))
 		return FALSE;	// can't double our own contract
 
 	// make sure a valid bid was indeed made

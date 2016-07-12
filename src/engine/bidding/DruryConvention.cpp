@@ -47,7 +47,7 @@ BOOL CDruryConvention::TryConvention(const CPlayer& player,
 	// 4: Partner must have bid at the 1-level
 	// 5: we have 11-12 pts and 3+ card support
 	//
-	int nOpeningBid = app_->GetOpeningBid();
+	int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 	int nPartnersBid = bidState.nPartnersBid;
 	int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 	// test conditions 1 - 4
@@ -131,7 +131,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		// the requirements for an Drury Bid are:
 		// 1: we must have opened the bidding with 1 of a major in 3rd or 4th position
 		// 2: Partner passed at first opportunity, then bid 2C
-		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 		int nPartnersBid = bidState.nPartnersBid;
 		int numTotalBidTurns = app_->GetDeal()->GetNumBidsMade();
 

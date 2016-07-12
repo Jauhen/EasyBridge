@@ -141,7 +141,7 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 
 	// see if partner is trying to signal with his discard
 	CPlayerStatusDialog& status = *m_pStatusDlg;
-	int nRoundLead = app_->GetRoundLead();
+	int nRoundLead = app_->GetDeal()->GetRoundLead();
 	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
 	CCard* pTopCard = app_->GetCurrentTrickHighCard(0);
 	int nSuitLed = pCardLed->GetSuit();
@@ -1284,7 +1284,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 	int nOrdinal = app_->GetNumCardsPlayedInRound();
 	int nRound = app_->GetPlayRound();
 	//
-	if ((app_->GetRoundLead() == GetPartnerPosition()) && 
+	if ((app_->GetDeal()->GetRoundLead() == GetPartnerPosition()) &&
 			(nSuitLed != nTrumpSuit) && 
 					(m_pHand->GetNumCardsInSuit(nSuitLed) > 0) && 
 								(m_nSuitSignalStatus[nSuitLed] <= 1))

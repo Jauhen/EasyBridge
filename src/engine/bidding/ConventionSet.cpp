@@ -401,7 +401,7 @@ void CConventionSet::InitConventions()
 
 
 	// instruct all players to clear their convention status
-	if (app_->IsDocInitialized())
+	if (app_->GetDeal()->IsInitialized())
 	{
 		for(int i=0;i<4;i++)
 			app_->GetDeal()->GetPlayer(i)->ClearConventionStatus();

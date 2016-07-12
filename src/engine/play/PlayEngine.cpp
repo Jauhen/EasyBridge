@@ -1593,7 +1593,7 @@ void CPlayEngine::AssessPosition()
 	m_numCardsPlayed = app_->GetNumCardsPlayedInRound();
 	if (m_numCardsPlayed > 0)
 	{
-		m_nRoundLead = app_->GetRoundLead();
+		m_nRoundLead = app_->GetDeal()->GetRoundLead();
 		m_pLeadCard = app_->GetCurrentTrickCard(m_nRoundLead);
 		m_nLeadSuit = m_pLeadCard->GetSuit();
 		m_nLeadFaceValue = m_pLeadCard->GetFaceValue();

@@ -19,7 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "engine/Card.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 
 //
@@ -137,7 +137,7 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 	// make a responding bid
 	//
 	int nPartnersBid = bidState.nPartnersBid;
-	int nOpeningBid = app_->GetOpeningBid();
+	int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 	int nBid = NONE;
 
 	//

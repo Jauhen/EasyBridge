@@ -145,7 +145,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		// 2: Opponent must have bid a suit at the 1 level, and 
 		// 3: partner overcalled opponent's bid with 2NT
 		// apply tests #1, 2, and 3
-		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 		int nOpeningBidder = app_->GetOpeningBidder();
 		BOOL bOppMajor = ISMAJOR(nOpeningBid);
 		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
@@ -239,7 +239,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		//
 
 		// se if we made an invitational bid last time
-		int nOpeningBid = app_->GetOpeningBid();
+		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
 		ASSERT(ISBID(nOpeningBid));
 		int nEnemySuit = BID_SUIT(nOpeningBid);
 		BOOL bPartnerHasStrongOpener = FALSE;
