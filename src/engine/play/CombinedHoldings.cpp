@@ -767,7 +767,7 @@ void CCombinedHoldings::EvaluateHoldings()
 	strTemp.Format("  %d Possible Loser%s(vs. %d allowable)\n",
 				   m_numLosers,
 				   (m_numLosers > 1)? "s " : " ",
-					7 - app_->GetContractLevel());
+					7 - app_->GetDeal()->GetContractLevel());
 	strLine += strTemp;		 
 
 	//	strLine += "\n====================\n";

@@ -430,7 +430,7 @@ void CPlayer::InitializeRestoredHand()
 	else
 		m_bDeclarer = FALSE;
 	//
-	if (app_->GetDummyPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDummyPosition() == m_nPosition)
 		m_bDummy = TRUE;
 	else
 		m_bDummy = FALSE;
@@ -489,7 +489,7 @@ void CPlayer::InitializeSwappedHand()
 	else
 		m_bDeclarer = FALSE;
 	//
-	if (app_->GetDummyPosition() == m_nPosition)
+	if (app_->GetDeal()->GetDummyPosition() == m_nPosition)
 		m_bDummy = TRUE;
 	else
 		m_bDummy = FALSE;

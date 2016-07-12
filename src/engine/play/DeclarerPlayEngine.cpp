@@ -2692,7 +2692,7 @@ void CDeclarerPlayEngine::ReviewPlayPlan()
 
 	//
 	int nTeam = app_->GetPlayerTeam(m_pPlayer->GetPosition());
-	m_numTricksMade = app_->GetNumberOfTricksWonByTeam(nTeam);
+	m_numTricksMade = app_->GetDeal()->GetNumTricksWonByTeam(nTeam);
 	m_numTricksLeftToBeMade =  m_numRequiredTricks - m_numTricksMade;
 //	m_numSureTricks = m_pCombinedHand->GetNumMaxWinners();
 	m_numSureTricks = m_pCombinedHand->GetNumMaxTopCards();
@@ -3329,7 +3329,7 @@ void CDeclarerPlayEngine::TestPlaysAgainstPlayHistory()
 
 			// here, the two plays have the same suit and gap cards
 			// so see if the earlier play succeeded, and its target
-			int nTrickWinner = app_->GetGameTrickWinner(j);
+			int nTrickWinner = app_->GetDeal()->GetGameTrickWinner(j);
 			if ((nTrickWinner == GetPlayerPosition()) || (nTrickWinner == GetPartnerPosition()))
 			{
 				// the play succeeded -- so see if the new play's target is 
@@ -3950,7 +3950,7 @@ void CDeclarerPlayEngine::SequencePlays(BOOL bInitialPlan)
 	// opportunistic plays are generally speculative, so we cannot 
 	// play them if we have to win every trick
 	if (!bSkipOpportunisticPlays && 
-    app_->GetNumTricksRemaining() > m_numTricksLeftToBeMade)
+    app_->GetDeal()->GetNumTricksRemaining() > m_numTricksLeftToBeMade)
 	{
 		int numPlays = m_playPlan.GetSize();
 		int i = 0;
@@ -4655,7 +4655,7 @@ int CDeclarerPlayEngine::FindHoldUpPlays(CPlayList& playList, BOOL bExcludeTrump
 	int numHoldUps = 2 - nRound;
 
 	// don't hold up more than once if trying for a slam
-	numHoldUps = Min(numHoldUps, 7 - app_->GetContractLevel());
+	numHoldUps = Min(numHoldUps, 7 - app_->GetDeal()->GetContractLevel());
 
 	// adjust for previous holdup, if we played one
 	if (numHoldUps <= 0)

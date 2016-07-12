@@ -99,7 +99,7 @@ public:
   void SetDealer(int val) { m_nDealer = val;  }
   CPlayer* GetDeclarer() const { return ISPLAYER(m_nDeclarer) ? m_pPlayer[m_nDeclarer] : NULL; }
   int	GetDeclarerPosition() const { return m_nDeclarer; }
-  int GetDeclaringTeam() const { return GetPlayerTeam(m_nDeclarer); }
+  int GetDeclaringTeam() const { return app_->GetPlayerTeam(m_nDeclarer); }
   int	GetRoundLead() const { return m_nRoundLead; }
   CPlayer* GetRoundLeadPlayer() const { return m_pPlayer[m_nRoundLead]; }
   int	GetBiddingRound() const { return m_nBiddingRound; }

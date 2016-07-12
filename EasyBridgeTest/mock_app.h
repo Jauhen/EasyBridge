@@ -93,22 +93,6 @@ public:
 
 
   MOCK_METHOD0(GetDeal, std::shared_ptr<Deal>());
-  MOCK_CONST_METHOD1(GetNumberOfTricksWonByTeam, int(int team));
-  MOCK_CONST_METHOD0(GetContractLevel, int());
-  MOCK_CONST_METHOD0(GetNumTricksRemaining, int());
-  MOCK_CONST_METHOD1(GetGameTrickWinner, int(int round));
-  MOCK_CONST_METHOD0(GetDummyPlayer, CPlayer*());
-  MOCK_CONST_METHOD0(GetDummyPosition, int());
-  MOCK_CONST_METHOD1(GetGameTrickLead, int(int round));
-  MOCK_CONST_METHOD2(GetGameTrickCard, CCard*(int round, int position));
-  MOCK_CONST_METHOD1(GetNumTricksWonByTeam, int(int team));
-  MOCK_METHOD0(IsReviewingGame, bool());
-  MOCK_CONST_METHOD0(GetRoundLeadPlayer, CPlayer*());
-  MOCK_CONST_METHOD0(GetContractSuit, int());
-  MOCK_METHOD1(IsTeamVulnerable, bool(int team));
-  MOCK_CONST_METHOD0(IsDummyExposed, bool());
-  MOCK_CONST_METHOD1(GetSuitsUnbid, int(CArray<int, int> &suits));
-  MOCK_CONST_METHOD0(GetDeclaringTeam, int());
   MOCK_METHOD0(OnNewDocument, void());
   MOCK_METHOD0(OnDealNewHand, void());
   MOCK_METHOD0(EndWaitCursorDoc, void());

@@ -163,22 +163,6 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual std::shared_ptr<Deal> GetDeal() = 0;
-  virtual int GetNumberOfTricksWonByTeam(int team) const = 0;
-  virtual int GetContractLevel() const = 0;
-  virtual int GetNumTricksRemaining() const = 0;
-  virtual int GetGameTrickWinner(int round) const = 0;
-  virtual CPlayer* GetDummyPlayer() const = 0;
-  virtual int GetDummyPosition() const = 0;
-  virtual int GetGameTrickLead(int round) const = 0;
-  virtual CCard* GetGameTrickCard(int round, int position) const = 0;
-  virtual int GetNumTricksWonByTeam(int team) const = 0;
-  virtual bool IsReviewingGame() = 0;
-  virtual CPlayer* GetRoundLeadPlayer() const = 0;
-  virtual int GetContractSuit() const = 0;
-  virtual bool IsTeamVulnerable(int team) = 0;
-  virtual bool IsDummyExposed() const = 0;
-  virtual int GetSuitsUnbid(CArray<int, int> &suits) const = 0;
-  virtual int GetDeclaringTeam() const = 0;
   virtual void OnNewDocument() = 0;
   virtual void OnDealNewHand() = 0;
   virtual void EndWaitCursorDoc() = 0;

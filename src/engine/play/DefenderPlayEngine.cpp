@@ -125,7 +125,7 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 	CPlayEngine::RecordCardPlay(nPos, pCard);
 
 	// skip the rest if reviewing a game
-	if (app_->IsReviewingGame())
+	if (app_->GetDeal()->IsReviewingGame())
 		return;
 
 	// then re-evaluate holdings
@@ -179,13 +179,13 @@ void CDefenderPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 			// see if we led the previous trick in the same suit, and 
 			// partner discarded high or low
 			int nPrevRound = nRound - 1;
-			CCard* nPrevCardLed = app_->GetGameTrickCard(nPrevRound, nPlayerPos);
-			if ( (app_->GetGameTrickLead(nPrevRound) == nPlayerPos) &&
-				 (app_->GetGameTrickWinner(nPrevRound) != nPartnerPos) &&
+			CCard* nPrevCardLed = app_->GetDeal()->GetGameTrickCard(nPrevRound, nPlayerPos);
+			if ( (app_->GetDeal()->GetGameTrickLead(nPrevRound) == nPlayerPos) &&
+				 (app_->GetDeal()->GetGameTrickWinner(nPrevRound) != nPartnerPos) &&
 				 (nPrevCardLed->GetSuit() == nSuitLed) )
 			{
 				// then check partner's discards from last round
-				CCard* pPrevCard = app_->GetGameTrickCard(nPrevRound, nPartnerPos);
+				CCard* pPrevCard = app_->GetDeal()->GetGameTrickCard(nPrevRound, nPartnerPos);
 				int nPrevCardVal = pPrevCard->GetFaceValue();
 				if ( (m_nPartnerSuitPreference[nSuitLed] == 1) &&
 								(pCard->GetFaceValue() < nPrevCardVal) )
@@ -404,13 +404,13 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nRound = app_->GetDeal()->GetPlayRound();
 	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
-	int nContractLevel = app_->GetContractLevel();
+	int nContractLevel = app_->GetDeal()->GetContractLevel();
 	CCard* pLeadCard = NULL;
 	int nPlayerPos = GetPlayerPosition();
 	int nPartnerPos = GetPartnerPosition();
 	int nPartnersSuit = NONE;
 	int	nDeclarer = app_->GetDeal()->GetDeclarerPosition();
-	int nDummy = app_->GetDummyPosition();
+	int nDummy = app_->GetDeal()->GetDummyPosition();
 
 	// see if this is the first round
 	if (nRound == 0)
@@ -605,10 +605,10 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 		// on the second trick, see if we can defeat a slam contract 
 		// by playing a winner
 		int nDefendingTeam = m_pPlayer->GetTeam();
-		CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
+		CHandHoldings& dummyHand = app_->GetDeal()->GetDummyPlayer()->GetHand();
 		//
 		if ((nRound == 1) && (nContractLevel == 6) && (m_pHand->GetNumWinners() > 0) &&
-			(app_->GetNumTricksWonByTeam(nDefendingTeam) == 1))
+			(app_->GetDeal()->GetNumTricksWonByTeam(nDefendingTeam) == 1))
 		{
 			// lead an Ace if we have one
 			if (m_pHand->GetNumAces() >= 1) 
@@ -654,17 +654,17 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 
 		// if we're leading in the second or later round after winning 
 		// the prior round which partner led, return partner's suit
-		CCard* pPartnersLastCard = app_->GetGameTrickCard(nRound-1, nPartnerPos);
+		CCard* pPartnersLastCard = app_->GetDeal()->GetGameTrickCard(nRound-1, nPartnerPos);
 		int nSuit = pPartnersLastCard->GetSuit();
-		int nLead = app_->GetGameTrickLead(nRound-1);
-		if ( (app_->GetGameTrickWinner(nRound-1) == nPlayerPos) &&
-						  (app_->GetGameTrickLead(nRound-1) == nPartnerPos) &&
+		int nLead = app_->GetDeal()->GetGameTrickLead(nRound-1);
+		if ( (app_->GetDeal()->GetGameTrickWinner(nRound-1) == nPlayerPos) &&
+						  (app_->GetDeal()->GetGameTrickLead(nRound-1) == nPartnerPos) &&
 						  (m_pHand->GetNumCardsInSuit(nSuit) > 0) )
 		{
 			// but don't bother returning the suit if this is a suit contract 
 			// and dummy is void in the suit with trumps available
 			BOOL bDummyCanTrump = FALSE;
-			CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
+			CHandHoldings& dummyHand = app_->GetDeal()->GetDummyPlayer()->GetHand();
 			if ((ISSUIT(nTrumpSuit)) && (dummyHand.GetNumCardsInSuit(nSuit) == 0) &&
 										(dummyHand.GetNumTrumps() > 0))
 			{
@@ -1005,7 +1005,7 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 {
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
-	int nDummy = app_->GetDummyPosition();
+	int nDummy = app_->GetDeal()->GetDummyPosition();
 	CCard* pLeadCard = NULL;
 
 	//
@@ -1058,8 +1058,8 @@ CCard* CDefenderPlayEngine::FindLeadCardFromPartnerPreference()
 			{
 				// notrump contract
 				// see if dummy holds the top two cards in the suit
-				ASSERT(app_->GetDummyPlayer()->AreCardsExposed());
-				CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
+				ASSERT(app_->GetDeal()->GetDummyPlayer()->AreCardsExposed());
+				CHandHoldings& dummyHand = app_->GetDeal()->GetDummyPlayer()->GetHand();
 				CSuitHoldings& dummySuit = dummyHand.GetSuit(i);
 				// get the # of outstanding cards in the suit
 				// (in partner's or declarer's hands)
@@ -1195,10 +1195,10 @@ CCard* CDefenderPlayEngine::CashWinners()
 
 			// here, we found a suit with top card winners
 			// but check dummy's hand (OK since it's exposed by now)
-			int nDummy = app_->GetDummyPosition();
-			CPlayer* pPlayer = app_->GetDummyPlayer();
-			ASSERT(app_->GetDummyPlayer()->AreCardsExposed());
-			CHandHoldings& dummyHand = app_->GetDummyPlayer()->GetHand();
+			int nDummy = app_->GetDeal()->GetDummyPosition();
+			CPlayer* pPlayer = app_->GetDeal()->GetDummyPlayer();
+			ASSERT(app_->GetDeal()->GetDummyPlayer()->AreCardsExposed());
+			CHandHoldings& dummyHand = app_->GetDeal()->GetDummyPlayer()->GetHand();
 			if ((dummyHand.IsSuitVoid(i)) && (dummyHand.GetNumTrumps() > 0))
 			{
 				status << "3PLYLDWN2! We'd like to lead the " & CCard::SuitToString(i) &
@@ -1364,7 +1364,7 @@ CCard* CDefenderPlayEngine::GetDiscard()
 	CCardHoldings& origCards = m_pHand->GetInitialHand();
 	int numOrigSuitCards = origCards.GetCardsOfSuit(nSuitLed);
 	int numCards = suit.GetNumCards();
-	if ( ((app_->GetRoundLeadPlayer() == m_pLHOpponent) || (app_->GetRoundLeadPlayer() == m_pRHOpponent)) &&
+	if ( ((app_->GetDeal()->GetRoundLeadPlayer() == m_pLHOpponent) || (app_->GetDeal()->GetRoundLeadPlayer() == m_pRHOpponent)) &&
 			(numOrigSuitCards >= 2) && (numCards > numOrigSuitCards-2) && !m_bSuitLed[nSuitLed])
 	{
 		// echo hi/lo with an even # of cards, or lo/hi with an odd number
@@ -1859,8 +1859,8 @@ CCard* CDefenderPlayEngine::PlaySecond()
 
 	// get play info
 	int nDeclarerPos = app_->GetDeal()->GetDeclarerPosition();
-	int nDummyPos = app_->GetDummyPosition();
-	CPlayer* pDummy = app_->GetDummyPlayer();
+	int nDummyPos = app_->GetDeal()->GetDummyPosition();
+	CPlayer* pDummy = app_->GetDeal()->GetDummyPlayer();
 	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
@@ -2168,7 +2168,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 	// get play info
 	CCard* pCurrentCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
-	CPlayer* pDummy = app_->GetDummyPlayer();
+	CPlayer* pDummy = app_->GetDeal()->GetDummyPlayer();
 	int nTopPos;
 	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = app_->PositionToString(nTopPos);
@@ -2196,7 +2196,7 @@ CCard* CDefenderPlayEngine::PlayThird()
 	{
 		// dummy does indeed hold the top card
 		pActualTopCard = dummySuit[0];
-		nTopPos = app_->GetDummyPosition();
+		nTopPos = app_->GetDeal()->GetDummyPosition();
 		bPartnerHigh = FALSE;	// partner's no longer high (he's sober?)
 	}
 
