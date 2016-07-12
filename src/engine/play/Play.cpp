@@ -22,6 +22,7 @@
 #include "engine/play/CombinedHoldings.h"
 #include "engine/play/DeclarerPlayEngine.h"
 #include "app_interface.h"
+#include "model/deal.h"
 /*
 // required for CPlayList
 #include "BidEngine.h"
@@ -139,7 +140,7 @@ BOOL CPlay::IsPlayUsable(const CCombinedHoldings& combinedHand, const CPlayEngin
 	//
 
 	// but only do so if this is position #0 or 1
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	if (nOrdinal >= 2)
 		return TRUE;
 

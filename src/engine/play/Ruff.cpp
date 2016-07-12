@@ -20,7 +20,7 @@
 #include "engine/CardLocation.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-
+#include "model/deal.h"
 
 
 //
@@ -108,29 +108,29 @@ PlayResult CRuff::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				   CPlayerStatusDialog& status, CCard*& pPlayCard)
 {
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	int nTrumpSuit = app_->GetTrumpSuit();
-	if ((nSuitLed != nTrumpSuit) && (app_->WasTrumpPlayed()))
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
+	if ((nSuitLed != nTrumpSuit) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
 	//
-	CCard* pRoundTopCard = app_->GetCurrentTrickHighCard();
-	CCard* pDeclarerCard = app_->GetCurrentTrickCard(playEngine.GetPlayerPosition());
-	CCard* pDummysCard = app_->GetCurrentTrickCard(playEngine.GetPartnerPosition());
+	CCard* pRoundTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
+	CCard* pDeclarerCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPlayerPosition());
+	CCard* pDummysCard = app_->GetDeal()->GetCurrentTrickCard(playEngine.GetPartnerPosition());
 	CCard* pPartnersCard = bPlayingInHand? pDummysCard : pDeclarerCard;
 	BOOL bPartnerHigh = (pRoundTopCard == pPartnersCard);
 	//

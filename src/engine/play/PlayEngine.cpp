@@ -240,11 +240,11 @@ void CPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 */
 	if (nPos == m_nPosition)
 		status << "4PLAY! We" & 
-				  ((app_->GetNumCardsPlayedInRound() == 1)? " lead" : " play") &
+				  ((app_->GetDeal()->GetNumCardsPlayedInRound() == 1)? " lead" : " play") &
 				  " the " & pCard->GetName() & ".\n";
 	else
 		status << "4PLAY! " & app_->PositionToString(nPos) &
-				  ((app_->GetNumCardsPlayedInRound() == 1)? " leads" : " plays") &
+				  ((app_->GetDeal()->GetNumCardsPlayedInRound() == 1)? " leads" : " plays") &
 				  " the " & pCard->GetName() & ".\n";
 
 	// record the card played by the specified player
@@ -383,7 +383,7 @@ void CPlayEngine::RecordCardsPlayed()
 	for(int i=0;i<4;i++)
 	{
 		// record the card played by this player
-		CCard* pPlayedCard = app_->GetCurrentTrickCard(i);
+		CCard* pPlayedCard = app_->GetDeal()->GetCurrentTrickCard(i);
 		CGuessedHandHoldings* pHand = m_ppGuessedHands[i];
 		CGuessedCard* pCard = new CGuessedCard(app_, pPlayedCard,	// card
 											   FALSE,		// not outstanding
@@ -416,7 +416,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 
 		// see if the player showed out
 		CPlayerStatusDialog& status = *m_pStatusDlg;
-		CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+		CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 		if (pCard)
 		{
 			int nSuitLed = pCardLed->GetSuit();
@@ -516,7 +516,7 @@ void CPlayEngine::AdjustCardCountFromPlay(int nPos, CCard* pCard)
 	// special code -- if dummy has just been laid down, mark a suit as shown
 	// out if dummy is void in the suit
 	CPlayer* pDummy = app_->GetDummyPlayer();
-	int nRound = app_->GetPlayRound();
+	int nRound = app_->GetDeal()->GetPlayRound();
 	if ((nRound == 0) && (nPos == pDummy->GetPosition()) && (pDummy->AreCardsExposed()))
 	{
 		CHandHoldings& dummy = pDummy->GetHand();
@@ -584,7 +584,7 @@ void CPlayEngine::AdjustHoldingsCount(CCard* pCard)
 //
 CCard* CPlayEngine::PlayCard()
 {
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CCard* pCard = NULL;
 	switch(nOrdinal)
 	{
@@ -613,7 +613,7 @@ CCard* CPlayEngine::PlayCard()
 	else
 	{
 		// declarer  -- may be playing for dummy or self
-		if (app_->GetCurrentPlayer() == m_pPartner)
+		if (app_->GetDeal()->GetCurrentPlayer() == m_pPartner)
 			ASSERT(m_pPartnersHand->HasCard(pCard));
 		else
 			ASSERT(m_pHand->HasCard(pCard));
@@ -660,8 +660,8 @@ CCard* CPlayEngine::PlaySecond()
 	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCardLed->GetSuit();
 	int nFaceValue = pCardLed->GetFaceValue();
-	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard();
-	int nTrumpSuit = app_->GetTrumpSuit();
+	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	CSuitHoldings& suit = m_pHand->GetSuit(nSuitLed);
 	// card to play
 	CCard* pCard = NULL;
@@ -804,16 +804,16 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 	CCard* pCurrentCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	int nSuitLed = pCurrentCard->GetSuit();
 	int nTopPos;
-	CCard* pCurrTopCard = app_->GetCurrentTrickHighCard(&nTopPos);
+	CCard* pCurrTopCard = app_->GetDeal()->GetCurrentTrickHighCard(&nTopPos);
 	CString strTopCardPos = app_->PositionToString(nTopPos);
 	BOOL bPartnerHigh = FALSE;
-  int nCurrentRound = app_->GetPlayRound();
-	int nCurrentSeat = app_->GetNumCardsPlayedInRound() + 1;
-	CCard* pPartnersCard = app_->GetCurrentTrickCard(m_pPartner->GetPosition());
+  int nCurrentRound = app_->GetDeal()->GetPlayRound();
+	int nCurrentSeat = app_->GetDeal()->GetNumCardsPlayedInRound() + 1;
+	CCard* pPartnersCard = app_->GetDeal()->GetCurrentTrickCard(m_pPartner->GetPosition());
 	if (pPartnersCard == pCurrTopCard)
 		bPartnerHigh = TRUE;
 	// 
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	int numCardsInSuitLed = m_pHand->GetNumCardsInSuit(nSuitLed);
 	// card to play
 	CCard* pCard = NULL;
@@ -821,7 +821,7 @@ CCard* CPlayEngine::PlayBestCard(int nPosition)
 	// 
 	// first see if somebody trumped in this hand
 	//
-	if ((app_->WasTrumpPlayed()) && (nTrumpSuit != nSuitLed))
+	if ((app_->GetDeal()->WasTrumpPlayed()) && (nTrumpSuit != nSuitLed))
 	{
 		// a trump has been played 
 		// see whether it was played by partner or by an opponent
@@ -1036,7 +1036,7 @@ CCard* CPlayEngine::GetLeadCard()
 	// default implementation 
 	CPlayerStatusDialog& status = *m_pStatusDlg;
 	CCard* pLeadCard = NULL;
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	
 	// look to see if we have any winners
 	if (m_pHand->GetNumWinners() > 0)
@@ -1589,12 +1589,12 @@ int CPlayEngine::GetMaxStartingCardsInSuit(int nPlayer, int nSuit) const
 //
 void CPlayEngine::AssessPosition()
 {
-	m_nRound = app_->GetNumTricksPlayed();
-	m_numCardsPlayed = app_->GetNumCardsPlayedInRound();
+	m_nRound = app_->GetDeal()->GetNumTricksPlayed();
+	m_numCardsPlayed = app_->GetDeal()->GetNumCardsPlayedInRound();
 	if (m_numCardsPlayed > 0)
 	{
 		m_nRoundLead = app_->GetDeal()->GetRoundLead();
-		m_pLeadCard = app_->GetCurrentTrickCard(m_nRoundLead);
+		m_pLeadCard = app_->GetDeal()->GetCurrentTrickCard(m_nRoundLead);
 		m_nLeadSuit = m_pLeadCard->GetSuit();
 		m_nLeadFaceValue = m_pLeadCard->GetFaceValue();
 	}

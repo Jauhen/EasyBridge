@@ -1730,7 +1730,7 @@ CCard* CHandHoldings::GetDiscard()
 	CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 	ASSERT(pLeadCard);
 	int nSuitLed = pLeadCard->GetSuit();
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 
 	// see if we have cards in the suit led
 	CSuitHoldings& suit = m_suit[nSuitLed];
@@ -1900,7 +1900,7 @@ CCard* CHandHoldings::GetDiscard()
 //
 int CHandHoldings::GetNumTrumps() const
 {
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	if (!ISSUIT(nTrumpSuit))
 		return 0;
 	//

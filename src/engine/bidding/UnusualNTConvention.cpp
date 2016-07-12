@@ -146,7 +146,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 		// 3: partner overcalled opponent's bid with 2NT
 		// apply tests #1, 2, and 3
 		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
-		int nOpeningBidder = app_->GetOpeningBidder();
+		int nOpeningBidder = app_->GetDeal()->GetOpeningBidder();
 		BOOL bOppMajor = ISMAJOR(nOpeningBid);
 		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&

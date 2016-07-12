@@ -163,21 +163,6 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual std::shared_ptr<Deal> GetDeal() = 0;
-  virtual int GetNumValidBidsMade() const = 0;
-  virtual int GetOpeningBidder() const = 0;
-  virtual int GetCurrentPlayerPosition() const = 0;
-  virtual int GetNumCardsPlayedInRound() const = 0;
-  virtual CPlayer* GetCurrentPlayer() const = 0;
-  virtual CCard* GetCurrentTrickCardByOrder(int order) const = 0;
-  virtual int GetTrumpSuit() const = 0;
-  virtual bool WasTrumpPlayed() const = 0;
-  virtual CCard* GetCurrentTrickCard(int position) const = 0;
-  virtual CCard* GetCurrentTrickHighCard() const = 0;
-  virtual CCard* GetCurrentTrickHighCard(int* pos) const = 0;
-  virtual void ClaimTricks(Position position, int tricks = 0) = 0;
-  virtual int GetPlayRound() const = 0;
-  virtual int GetNumTricksPlayed() const = 0;
-  virtual int GetNumCardsPlayedInGame() const = 0;
   virtual int GetNumberOfTricksWonByTeam(int team) const = 0;
   virtual int GetContractLevel() const = 0;
   virtual int GetNumTricksRemaining() const = 0;

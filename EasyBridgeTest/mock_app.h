@@ -93,21 +93,6 @@ public:
 
 
   MOCK_METHOD0(GetDeal, std::shared_ptr<Deal>());
-  MOCK_CONST_METHOD0(GetNumValidBidsMade, int());
-  MOCK_CONST_METHOD0(GetOpeningBidder, int());
-  MOCK_CONST_METHOD0(GetCurrentPlayerPosition, int());
-  MOCK_CONST_METHOD0(GetNumCardsPlayedInRound, int());
-  MOCK_CONST_METHOD0(GetCurrentPlayer, CPlayer*());
-  MOCK_CONST_METHOD1(GetCurrentTrickCardByOrder, CCard*(int order));
-  MOCK_CONST_METHOD0(GetTrumpSuit, int());
-  MOCK_CONST_METHOD0(WasTrumpPlayed, bool());
-  MOCK_CONST_METHOD1(GetCurrentTrickCard, CCard*(int position));
-  MOCK_CONST_METHOD0(GetCurrentTrickHighCard, CCard*());
-  MOCK_CONST_METHOD1(GetCurrentTrickHighCard, CCard*(int* pos));
-  MOCK_METHOD2(ClaimTricks, void(Position position, int tricks));
-  MOCK_CONST_METHOD0(GetPlayRound, int());
-  MOCK_CONST_METHOD0(GetNumTricksPlayed, int());
-  MOCK_CONST_METHOD0(GetNumCardsPlayedInGame, int());
   MOCK_CONST_METHOD1(GetNumberOfTricksWonByTeam, int(int team));
   MOCK_CONST_METHOD0(GetContractLevel, int());
   MOCK_CONST_METHOD0(GetNumTricksRemaining, int());

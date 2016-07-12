@@ -22,6 +22,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "DeclarerPlayEngine.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 //
 //==================================================================
@@ -90,11 +91,11 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	// check which hand this is
 	CPlayer* pPlayer = playEngine.GetPlayer();
 	CDeclarerPlayEngine& declarerEngine = (CDeclarerPlayEngine&) playEngine;
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CString strRHO = app_->PositionToString(app_->GetPrevPlayer(playEngine.GetPlayerPosition()));
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//
 	BOOL bPlayViable = FALSE;
@@ -107,7 +108,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	}
 
 	//
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	switch(nOrdinal)
 	{
 		case 1:

@@ -186,7 +186,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 
 		// apply tests #1, 2, and 3
 		int nOpeningBid = app_->GetDeal()->GetOpeningBid();
-		int nOpeningBidder = app_->GetOpeningBidder();
+		int nOpeningBidder = app_->GetDeal()->GetOpeningBidder();
 		BOOL bLHOMajor = ISMAJOR(nOpeningBid);
 		if (ISBID(nOpeningBid) && (app_->GetPlayerTeam(nOpeningBidder) != player.GetTeam()) &&
 			 ((nOpeningBid >= BID_1C) && (nOpeningBid <= BID_1S)) &&

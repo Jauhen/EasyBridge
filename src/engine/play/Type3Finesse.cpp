@@ -25,7 +25,7 @@
 #include "engine/CardLocation.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-
+#include "model/deal.h"
 
 
 //
@@ -80,7 +80,7 @@ void CType3Finesse::Init()
 CString CType3Finesse::GetFullDescription()
 {
 	CString strText;
-	int nTrumpSuit = app_->GetTrumpSuit();
+	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	return app_->FormString("Lead a low %s from %s and finesse the %s in %s against %s.",
 					   ((m_nSuit == nTrumpSuit)? "trump" : CCard::SuitToSingularString(m_nSuit)),
 					   (m_nTargetHand == IN_HAND)? "dummy" : "hand",
@@ -109,24 +109,24 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 	//                      or play low if West plays the Ace.
 
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetDeal()->GetTrumpSuit()) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	CCard* pOppCard = NULL;
-	CCard* pTopCard = app_->GetCurrentTrickHighCard();
+	CCard* pTopCard = app_->GetDeal()->GetCurrentTrickHighCard();
 	CString strRHO = bPlayingInHand? playEngine.szRHO : playEngine.szLHO;
 
 	// test preconditions
@@ -306,7 +306,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				return PLAY_POSTPONE;
 			}
 			// check the intervening opponent's card
-			pOppCard = app_->GetCurrentTrickCardByOrder(1);
+			pOppCard = app_->GetDeal()->GetCurrentTrickCardByOrder(1);
 			// check if RHO showed out
 			if (pOppCard->GetSuit() != nSuitLed)
 			{
@@ -404,7 +404,7 @@ PlayResult CType3Finesse::Perform(CPlayEngine& playEngine, CCombinedHoldings& co
 				return PLAY_POSTPONE;
 			}
 			// check RHO's card
-			pOppCard = app_->GetCurrentTrickCardByOrder(2);
+			pOppCard = app_->GetDeal()->GetCurrentTrickCardByOrder(2);
 			// check if RHO showed out
 			if (pOppCard->GetSuit() != nSuitLed)
 			{

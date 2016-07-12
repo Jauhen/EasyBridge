@@ -19,6 +19,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "engine/handopts.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 //
@@ -82,21 +83,21 @@ int CCombinedHoldings::GetNumCardsInSuit(int nSuit) const
 	{ VERIFY((nSuit>=0)&&(nSuit<=3)); return m_pSuit[nSuit]->GetNumCards(); }
 
 int CCombinedHoldings::GetNumTrumps() const
-	{	int nTrumpSuit = app_->GetTrumpSuit();
+	{	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 		if (!ISSUIT(nTrumpSuit))
 			return 0;
 		return GetNumCardsInSuit(nTrumpSuit);
 	}
 
 int CCombinedHoldings::GetNumDeclarerTrumps() const
-	{	int nTrumpSuit = app_->GetTrumpSuit();
+	{	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 		if (!ISSUIT(nTrumpSuit))
 			return 0;
 		return m_pPlayerHand->GetNumCardsInSuit(nTrumpSuit);
 	}
 
 int CCombinedHoldings::GetNumDummyTrumps() const
-	{	int nTrumpSuit = app_->GetTrumpSuit();
+	{	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 		if (!ISSUIT(nTrumpSuit))
 			return 0;
 		return m_pPartnerHand->GetNumCardsInSuit(nTrumpSuit);

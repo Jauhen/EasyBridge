@@ -267,7 +267,7 @@ CCard* CPlayer::PlayCard()
 #else
 		// do a sanity check
 		CCard* pPlayCard = m_pPlayEngine->PlayCard();
-		if (app_->GetNumCardsPlayedInRound() > 0)
+		if (app_->GetDeal()->GetNumCardsPlayedInRound() > 0)
 		{
 			CCard* pLeadCard = app_->GetDeal()->GetCurrentTrickCardLed();
 			if (pPlayCard->GetSuit() != pLeadCard->GetSuit())
@@ -515,7 +515,7 @@ void CPlayer::InitializeSwappedHand()
 	if ( (m_nPosition == SOUTH) ||
 		 ((app_->GetDeal()->GetDeclarerPosition() == NORTH) && (m_nPosition == NORTH)) )
 		ExposeCards(TRUE, FALSE);
-	else if (m_bDummy && (app_->GetNumCardsPlayedInGame() > 0))
+	else if (m_bDummy && (app_->GetDeal()->GetNumCardsPlayedInGame() > 0))
 		ExposeCards(TRUE, FALSE);
 	else
 		ExposeCards(FALSE, FALSE);

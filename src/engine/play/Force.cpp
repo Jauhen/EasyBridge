@@ -23,7 +23,7 @@
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
-
+#include "model/deal.h"
 
 
 //
@@ -104,21 +104,21 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 	// a "force" is a play of the lowest possible card that will force out
 	// a key enemy card
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = NONE;
 	if (pCardLed)
 		nSuitLed = pCardLed->GetSuit();
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetDeal()->GetTrumpSuit()) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 
@@ -306,7 +306,7 @@ PlayResult CForce::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedH
 				 (!bPlayingInHand && (m_nTargetHand == IN_DUMMY)) )
 			{
 				// see if RHO played the target card
-				CCard* pRHOCard = app_->GetCurrentTrickCardByOrder(1);
+				CCard* pRHOCard = app_->GetDeal()->GetCurrentTrickCardByOrder(1);
 				if (pRHOCard->GetFaceValue() >= m_nTargetCardVal)
 				{
 					status << "5PLFR50! RHO played the " & CCard::CardValToString(m_nTargetCardVal) &

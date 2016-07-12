@@ -76,7 +76,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 		nSuit = DIAMONDS;
 
 	// test for std and ACOL Gambling 3NT conditions
-	int numValidBidsMade = app_->GetNumValidBidsMade();
+	int numValidBidsMade = app_->GetDeal()->GetNumValidBidsMade();
 	if ( bStandardGambling3NT && (numValidBidsMade  == 0) && (ISSUIT(nSuit)) &&
 		 (bidState.fCardPts >= app_->OpenPoints(10)) && (bidState.fCardPts <= app_->OpenPoints(12)) &&
 		 (bidState.numVoids == 0) && !bSmallSingletons &&

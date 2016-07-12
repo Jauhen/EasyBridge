@@ -22,6 +22,7 @@
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/PlayerStatusDialog.h"
 #include "app_interface.h"
+#include "model/deal.h"
 
 
 //
@@ -116,19 +117,19 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 	// this code is almost, but not quite, the same as a cash
 
 	// check which hand this is
-	int nOrdinal = app_->GetNumCardsPlayedInRound();
+	int nOrdinal = app_->GetDeal()->GetNumCardsPlayedInRound();
 	CPlayer* pPlayer = playEngine.GetPlayer();
-	BOOL bPlayingInHand = (app_->GetCurrentPlayer() == pPlayer);
+	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
 	CSuitHoldings& playerSuit = playerHand.GetSuit(m_nSuit);
 	CSuitHoldings& dummySuit = dummyHand.GetSuit(m_nSuit);
 	CCombinedSuitHoldings& combinedSuit = combinedHand.GetSuit(m_nSuit);
-	CCard* pCardLed = app_->GetCurrentTrickCardByOrder(0);
+	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	// see if a trump was played in this round
 	BOOL bTrumped = FALSE;
-	if ((nSuitLed != app_->GetTrumpSuit()) && (app_->WasTrumpPlayed()))
+	if ((nSuitLed != app_->GetDeal()->GetTrumpSuit()) && (app_->GetDeal()->WasTrumpPlayed()))
 		bTrumped = TRUE;
 	pPlayCard = NULL;
 	BOOL bDropSucceeded = FALSE;
@@ -199,7 +200,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 			}
 
 			// see if LHO dropped a key card
-			pLHOCard = app_->GetCurrentTrickCardByOrder(0);
+			pLHOCard = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 			if (m_pEnemyOrKeyCardsList->HasCard(pLHOCard))
 				bLHODropped = TRUE;
 
@@ -249,7 +250,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 			}
 
 			// see if RHO dropped a key card
-			pRHOCard = app_->GetCurrentTrickCardByOrder(1);
+			pRHOCard = app_->GetDeal()->GetCurrentTrickCardByOrder(1);
 			if (m_pEnemyOrKeyCardsList->HasCard(pRHOCard))
 				bDropSucceeded = TRUE;
 
@@ -294,7 +295,7 @@ PlayResult CDrop::Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHa
 				return PLAY_INACTIVE;
 
 			// see if we succeeded -- i.e., RHO dropped the desired card
-			pRHOCard = app_->GetCurrentTrickCardByOrder(2);
+			pRHOCard = app_->GetDeal()->GetCurrentTrickCardByOrder(2);
 			if (m_pEnemyOrKeyCardsList->HasCard(pRHOCard))
 				bDropSucceeded = TRUE;
 

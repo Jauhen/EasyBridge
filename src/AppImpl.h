@@ -558,66 +558,6 @@ public:
     return pDOC->GetDeal();
   }
 
-  virtual int GetNumValidBidsMade() const {
-    return pDOC->GetDeal()->GetNumValidBidsMade();
-  }
-
-  virtual int GetOpeningBidder() const {
-    return pDOC->GetDeal()->GetOpeningBidder();
-  }
-
-  virtual int GetCurrentPlayerPosition() const {
-    return pDOC->GetDeal()->GetCurrentPlayerPosition();
-  }
-
-  virtual int GetNumCardsPlayedInRound() const {
-    return pDOC->GetDeal()->GetNumCardsPlayedInRound();
-  }
-
-  virtual CPlayer* GetCurrentPlayer() const {
-    return pDOC->GetDeal()->GetCurrentPlayer();
-  }
-
-  virtual CCard* GetCurrentTrickCardByOrder(int order) const {
-    return pDOC->GetDeal()->GetCurrentTrickCardByOrder(order);
-  }
-
-  virtual int GetTrumpSuit() const {
-    return pDOC->GetDeal()->GetTrumpSuit();
-  }
-
-  virtual bool WasTrumpPlayed() const {
-    return pDOC->GetDeal()->WasTrumpPlayed() == TRUE;
-  }
-
-  virtual CCard* GetCurrentTrickCard(int position) const {
-    return pDOC->GetDeal()->GetCurrentTrickCard(position);
-  }
-
-  virtual CCard* GetCurrentTrickHighCard() const {
-    return pDOC->GetDeal()->GetCurrentTrickHighCard();
-  }
-
-  virtual CCard* GetCurrentTrickHighCard(int* pos) const {
-    return pDOC->GetDeal()->GetCurrentTrickHighCard(pos);
-  }
-
-  virtual void ClaimTricks(Position position, int tricks = 0) {
-    pDOC->GetDeal()->ClaimTricks(position, tricks);
-  }
-
-  virtual int GetPlayRound() const {
-    return pDOC->GetDeal()->GetPlayRound();
-  }
-
-  virtual int GetNumTricksPlayed() const {
-    return pDOC->GetDeal()->GetNumTricksPlayed();
-  }
-
-  virtual int GetNumCardsPlayedInGame() const {
-    return pDOC->GetDeal()->GetNumCardsPlayedInGame();
-  }
-
   virtual int GetNumberOfTricksWonByTeam(int team) const {
     return pDOC->GetDeal()->GetNumTricksWonByTeam(team);
   }
