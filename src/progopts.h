@@ -15,9 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbAutoBidStart,
-	tbAutoJumpCursor,
-	tbAutoPlayLastCard,
 	tbAutoShowBidHistory,
 	tbAutoShowPlayHistory,
 	tbAutoHideBidHistory,

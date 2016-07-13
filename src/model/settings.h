@@ -97,52 +97,52 @@ public:
   // program status
   //
   int		m_nGameMode;			// 0=practice, 1=rubber
-  BOOL	m_bBiddingInProgress;	// bidding
-  BOOL	m_bGameInProgress;		// playing tricks
-  BOOL	m_bRubberInProgress;	// playing rubber?
-  BOOL	m_bDuplicateScoring;	// duplicate scoring?
+  bool	m_bBiddingInProgress;	// bidding
+  bool	m_bGameInProgress;		// playing tricks
+  bool	m_bRubberInProgress;	// playing rubber?
+  bool	m_bDuplicateScoring;	// duplicate scoring?
   int		m_nAutoHintMode;		// Auto Hint in effect?
   int		m_nAutoHintTraceLevel;  // Auto Hint trace level
-  BOOL	m_bFirstTimeRunning;	// first time running?
+  bool	m_bFirstTimeRunning;	// first time running?
 
                               // debug options
-  BOOL	m_bDebugMode;			// debug mode
+  bool	m_bDebugMode;			// debug mode
   int		m_nTestMode;
-  BOOL	m_bShowCardsFaceUp;
-  BOOL	m_bManualPlayMode;
+  bool	m_bShowCardsFaceUp;
+  bool	m_bManualPlayMode;
   int		m_nPlayMode;
-  BOOL	m_bPlayModeLocked;
-  BOOL	m_bAutoTestMode;
+  bool	m_bPlayModeLocked;
+  bool	m_bAutoTestMode;
 
   // game options
-  BOOL	m_bAutoBidStart;
-  BOOL	m_bAutoJumpCursor;
-  BOOL	m_bAutoPlayLastCard;
-  BOOL	m_bEnableAnalysisTracing;
-  BOOL	m_bEnableAnalysisDuringHints;
+  bool	m_bAutoBidStart;
+  bool	m_bAutoJumpCursor;
+  bool	m_bAutoPlayLastCard;
+  bool	m_bEnableAnalysisTracing;
+  bool	m_bEnableAnalysisDuringHints;
   int		m_nAnalysisTraceLevel;
-  BOOL	m_bShowCommentIdentifiers;
-  BOOL	m_bInsertBiddingPause;
+  bool	m_bShowCommentIdentifiers;
+  bool	m_bInsertBiddingPause;
   int		m_nBiddingPauseLength;
-  BOOL	m_bInsertPlayPause;
+  bool	m_bInsertPlayPause;
   int		m_nPlayPauseLength;
-  BOOL	m_bComputerCanClaim;
-  BOOL	m_bShowPassedHands;
-  BOOL	m_bAllowRebidPassedHands;
+  bool	m_bComputerCanClaim;
+  bool	m_bShowPassedHands;
+  bool	m_bAllowRebidPassedHands;
   int		m_nPassedHandWaitInterval;
-  BOOL	m_bAutoShowBidHistory;
-  BOOL	m_bAutoShowPlayHistory;
-  BOOL	m_bAutoHideBidHistory;
-  BOOL	m_bAutoHidePlayHistory;
-  BOOL	m_bAutoShowNNetOutputWhenTraining;
-  BOOL 	m_bShowLayoutOnEdit;
+  bool	m_bAutoShowBidHistory;
+  bool	m_bAutoShowPlayHistory;
+  bool	m_bAutoHideBidHistory;
+  bool	m_bAutoHidePlayHistory;
+  bool	m_bAutoShowNNetOutputWhenTraining;
+  bool 	m_bShowLayoutOnEdit;
 
   // bidding config
   double		m_fBiddingAggressiveness;
-  BOOL		m_bManualBidding;		// transient
+  bool		m_bManualBidding;		// transient
   /*
   int			m_nBiddingEngine;
-  BOOL		m_bNNetTrainingMode;
+  bool		m_bNNetTrainingMode;
   int			m_numNNetHiddenLayers;
   int			m_numNNetNodesPerHiddenLayer;
   CString		m_strNeuralNetFile;
@@ -161,19 +161,19 @@ public:
   double	m_fCustomQueenValue;
   double	m_fCustomJackValue;
   double	m_fCustomTenValue;
-  BOOL	m_bAcelessPenalty;
-  BOOL	m_b4AceBonus;
-  BOOL	m_bPenalizeUGHonors;
-  BOOL	m_bCountShortSuits;
+  bool	m_bAcelessPenalty;
+  bool	m_b4AceBonus;
+  bool	m_bPenalizeUGHonors;
+  bool	m_bCountShortSuits;
 
   // deal options
   int 	m_nReqPointsGame[4][2];
   int 	m_nReqPointsSlam[3][2];
   int 	m_nPointsAbsGameLimits[4][2];
   int 	m_nPointsAbsSlamLimits[3][2];
-  BOOL	m_bBalanceTeamHands;
-  BOOL	m_bGiveSouthBestHandInPartnership;
-  BOOL	m_bGiveSouthBestHandInGame;
+  bool	m_bBalanceTeamHands;
+  bool	m_bGiveSouthBestHandInPartnership;
+  bool	m_bGiveSouthBestHandInGame;
   int 	m_nMinCardsInMajor;
   int 	m_nMinCardsInMinor;
   int		m_nMinSuitDistTable[2][4][2];
@@ -181,22 +181,22 @@ public:
   int 	m_nMinTopMajorCard;
   int 	m_nMinTopMinorCard;
   int 	m_nMaxImbalanceForNT;
-  BOOL	m_bNeedTwoBalancedTrumpHands;
+  bool	m_bNeedTwoBalancedTrumpHands;
   int		m_numAcesForSlam[3];
   int		m_numKingsForSlam[3];
-  BOOL	m_bEnableDealNumbering;
+  bool	m_bEnableDealNumbering;
   // scoring options
-  BOOL	m_bScoreHonorsBonuses;
+  bool	m_bScoreHonorsBonuses;
 
-  BOOL	m_bEnableSpokenBids;
-  BOOL	m_bSaveIntermediatePositions;
-  BOOL	m_bExposePBNGameCards;
+  bool	m_bEnableSpokenBids;
+  bool	m_bSaveIntermediatePositions;
+  bool	m_bExposePBNGameCards;
   CString	m_strGIBPath;
-  BOOL	m_bEnableGIBForDeclarer;
-  BOOL	m_bEnableGIBForDefender;
+  bool	m_bEnableGIBForDeclarer;
+  bool	m_bEnableGIBForDefender;
   int		m_nGIBAnalysisTime;
   int		m_nGIBSampleSize;
-  BOOL	m_bShowGIBOutput;
+  bool	m_bShowGIBOutput;
 
 };
 

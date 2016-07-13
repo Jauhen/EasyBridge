@@ -1344,7 +1344,7 @@ void CEasyBDoc::AdvanceToNextPlayer() {
   if (bManualPlay) {
     // this is a human player
     // first see if autoplay last card option is enabled
-    if (theApp.GetValue(tbAutoPlayLastCard)) {
+    if (theApp.GetAutoPlayLastCard()) {
       CPlayer* pPlayer = deal_->GetCurrentPlayer();
       if (pPlayer->TestForAutoPlayLastCard()) {
         return;
@@ -1352,7 +1352,7 @@ void CEasyBDoc::AdvanceToNextPlayer() {
     }
 
     // jump the cursor if appropriate
-    if (theApp.GetValue(tbAutoJumpCursor)) {
+    if (theApp.GetAutoJumpCursor()) {
       pVIEW->JumpCursor();
     }
 

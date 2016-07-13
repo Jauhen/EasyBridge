@@ -3197,7 +3197,7 @@ void CEasyBView::BeginPlay()
 	pMAINFRAME->SetAllIndicators();
 	//
 	if ((pDOC->GetDeal()->GetCurrentPlayer()->IsHumanPlayer()) &&
-		(theApp.GetValue(tbAutoJumpCursor)))
+		(theApp.GetAutoJumpCursor()))
 		JumpCursor();
 
 	// get the ball rolling

@@ -555,12 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbAutoBidStart:
-			return (LPVOID) m_bAutoBidStart;
-		case tbAutoJumpCursor:
-			return (LPVOID) m_bAutoJumpCursor;
-		case tbAutoPlayLastCard:
-			return (LPVOID) m_bAutoPlayLastCard;
 		case tbAutoShowBidHistory:
 			return (LPVOID) m_bAutoShowBidHistory;
 		case tbAutoShowPlayHistory:
@@ -894,15 +888,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbAutoBidStart:
-			m_bAutoBidStart = bVal;
-			break;
-		case tbAutoJumpCursor:
-			m_bAutoJumpCursor = bVal;
-			break;
-		case tbAutoPlayLastCard:
-			m_bAutoPlayLastCard = bVal;
-			break;
 		case tbAutoShowBidHistory:
 			m_bAutoShowBidHistory = bVal;
 			break;
