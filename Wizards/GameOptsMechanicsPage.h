@@ -9,7 +9,7 @@
 //
 // GameOptsMechanicsPage.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsMechanicsPage dialog
@@ -24,12 +24,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  Settings&	m_app;
 
 
 // Construction
 public:
-	CGameOptsMechanicsPage(CObjectWithProperties* pApp=NULL);
+	CGameOptsMechanicsPage(Settings* pApp=NULL);
 	~CGameOptsMechanicsPage();
 
 // Dialog Data

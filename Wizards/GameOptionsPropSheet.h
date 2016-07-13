@@ -16,6 +16,7 @@ class CGameOptsCountingPage;
 class CGameOptsScoringPage;
 class CGameOptsFilesPage;
 class CGameOptsGIBPage;
+class Settings;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,7 +28,7 @@ class AFX_EXT_CLASS CGameOptionsPropSheet : public CPropertySheet
 
 // Construction
 public:
-	CGameOptionsPropSheet(CObjectWithProperties* pApp=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+	CGameOptionsPropSheet(Settings* pApp=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 
 // Attributes
 public:

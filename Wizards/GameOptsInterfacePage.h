@@ -16,7 +16,7 @@
 // GameOptsInterfacePage.h : header file
 //
 class CObjectWithProperties;
-
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsInterfacePage dialog
@@ -31,11 +31,11 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 // Construction
 public:
-	CGameOptsInterfacePage(CObjectWithProperties* pApp=NULL);
+	CGameOptsInterfacePage(Settings* pApp=NULL);
 	~CGameOptsInterfacePage();
 
 private:

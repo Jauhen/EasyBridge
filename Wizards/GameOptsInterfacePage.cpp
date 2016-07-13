@@ -12,9 +12,8 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
 #include "GameOptsInterfacePage.h"
-#include "progopts.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,7 +26,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsInterfacePage, CPropertyPage)
 
-CGameOptsInterfacePage::CGameOptsInterfacePage(CObjectWithProperties* pApp) : 
+CGameOptsInterfacePage::CGameOptsInterfacePage(Settings* pApp) :
 		CPropertyPage(CGameOptsInterfacePage::IDD),
 		m_app(*pApp)
 {
@@ -42,13 +41,13 @@ CGameOptsInterfacePage::CGameOptsInterfacePage(CObjectWithProperties* pApp) :
 	m_nBiddingPause = 0;
 	m_nPlayPause = 0;
 	//}}AFX_DATA_INIT
-	m_bAutoPlayLastCard = m_app.GetValue(tbAutoPlayLastCard);
-	m_bAutoJumpCursor = m_app.GetValue(tbAutoJumpCursor);
-	m_bInsertBiddingPause = m_app.GetValue(tbInsertBiddingPause);
-	m_bInsertPlayPause = m_app.GetValue(tbInsertPlayPause);
-	m_bEnableSpokenBids = m_app.GetValue(tbEnableSpokenBids);
-	m_nBiddingPause = m_app.GetValue(tnBiddingPauseLength);
-	m_nPlayPause = m_app.GetValue(tnPlayPauseLength);
+	m_bAutoPlayLastCard = m_app.GetAutoPlayLastCard();
+	m_bAutoJumpCursor = m_app.GetAutoJumpCursor();
+	m_bInsertBiddingPause = m_app.GetInsertBiddingPause();
+	m_bInsertPlayPause = m_app.GetInsertPlayPause();
+	m_bEnableSpokenBids = m_app.GetEnableSpokenBids();
+	m_nBiddingPause = m_app.GetBiddingPauseLength();
+	m_nPlayPause = m_app.GetPlayPauseLength();
 }
 
 CGameOptsInterfacePage::~CGameOptsInterfacePage()
@@ -137,13 +136,13 @@ void CGameOptsInterfacePage::UpdatePauseLabels()
 void CGameOptsInterfacePage::Update()
 {
 	// store results
-	m_app.SetValue(tbAutoPlayLastCard, m_bAutoPlayLastCard);
-	m_app.SetValue(tbAutoJumpCursor, m_bAutoJumpCursor);
-	m_app.SetValue(tbInsertBiddingPause, m_bInsertBiddingPause);
-	m_app.SetValue(tnBiddingPauseLength, m_nBiddingPause);
-	m_app.SetValue(tbInsertPlayPause, m_bInsertPlayPause);
-	m_app.SetValue(tnPlayPauseLength, m_nPlayPause);
-	m_app.SetValue(tbEnableSpokenBids, m_bEnableSpokenBids);
+	m_app.SetAutoPlayLastCard(m_bAutoPlayLastCard);
+	m_app.SetAutoJumpCursor(m_bAutoJumpCursor);
+	m_app.SetInsertBiddingPause(m_bInsertBiddingPause);
+	m_app.SetBiddingPauseLength(m_nBiddingPause);
+	m_app.SetInsertPlayPause(m_bInsertPlayPause);
+	m_app.SetPlayPauseLength(m_nPlayPause);
+	m_app.SetEnableSpokenBids(m_bEnableSpokenBids);
 }
 
 

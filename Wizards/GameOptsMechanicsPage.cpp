@@ -11,6 +11,7 @@
 //
 
 #include "stdafx.h"
+#include "model/settings.h"
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "GameOptsMechanicsPage.h"
@@ -26,7 +27,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsMechanicsPage, CPropertyPage)
 
-CGameOptsMechanicsPage::CGameOptsMechanicsPage(CObjectWithProperties* pApp) : 
+CGameOptsMechanicsPage::CGameOptsMechanicsPage(Settings* pApp) :
 		CPropertyPage(CGameOptsMechanicsPage::IDD),
 		m_app(*pApp)
 {
@@ -39,13 +40,13 @@ CGameOptsMechanicsPage::CGameOptsMechanicsPage(CObjectWithProperties* pApp) :
 	m_bEnableAnalysisDuringHints = FALSE;
 	m_nTraceLevel = -1;
 	//}}AFX_DATA_INIT
-	m_bAutoBidStart = m_app.GetValue(tbAutoBidStart);
-	m_bAllowRebidPassedHand = m_app.GetValue(tbAllowRebidPassedHands);
-	m_bShowPassedHands = m_app.GetValue(tbShowPassedHands);
-	m_bEnableAnalysisTracing = m_app.GetValue(tbEnableAnalysisTracing);
-	m_bEnableAnalysisDuringHints = m_app.GetValue(tbEnableAnalysisDuringHints);
-	m_nTraceLevel = m_app.GetValue(tnAnalysisTraceLevel) - 1;
-	m_bComputerCanClaim = m_app.GetValue(tbComputerCanClaim);
+	m_bAutoBidStart = m_app.GetAutoBidStart();
+	m_bAllowRebidPassedHand = m_app.GetAllowRebidPassedHands();
+	m_bShowPassedHands = m_app.GetShowPassedHands();
+	m_bEnableAnalysisTracing = m_app.GetEnableAnalysisTracing();
+	m_bEnableAnalysisDuringHints = m_app.GetEnableAnalysisDuringHints();
+	m_nTraceLevel = m_app.GetAnalysisTraceLevel() - 1;
+	m_bComputerCanClaim = m_app.GetComputerCanClaim();
 }
 
 CGameOptsMechanicsPage::~CGameOptsMechanicsPage()
@@ -84,13 +85,13 @@ END_MESSAGE_MAP()
 void CGameOptsMechanicsPage::Update()
 {
 	// store results
-	m_app.SetValue(tbAutoBidStart, m_bAutoBidStart);
-	m_app.SetValue(tbComputerCanClaim, m_bComputerCanClaim);
-	m_app.SetValue(tbAllowRebidPassedHands, m_bAllowRebidPassedHand);
-	m_app.SetValue(tbShowPassedHands, m_bShowPassedHands);
-	m_app.SetValue(tbEnableAnalysisTracing, m_bEnableAnalysisTracing);
-	m_app.SetValue(tnAnalysisTraceLevel, m_nTraceLevel + 1);
-	m_app.SetValue(tbEnableAnalysisDuringHints, m_bEnableAnalysisDuringHints);
+	m_app.SetAutoBidStart(m_bAutoBidStart);
+	m_app.SetComputerCanClaim(m_bComputerCanClaim);
+	m_app.SetAllowRebidPassedHands(m_bAllowRebidPassedHand);
+	m_app.SetShowPassedHands(m_bShowPassedHands);
+	m_app.SetEnableAnalysisTracing(m_bEnableAnalysisTracing);
+	m_app.SetAnalysisTraceLevel(m_nTraceLevel + 1);
+	m_app.SetEnableAnalysisDuringHints(m_bEnableAnalysisDuringHints);
 }
 
 

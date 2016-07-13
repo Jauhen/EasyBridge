@@ -10,6 +10,7 @@
 // GameOptsCountingPage.h : header file
 //
 class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsCountingPage dialog
@@ -24,12 +25,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  Settings&	m_app;
 
 
 // Construction
 public:
-	CGameOptsCountingPage(CObjectWithProperties* pApp=NULL);
+	CGameOptsCountingPage(Settings* pApp=NULL);
 	~CGameOptsCountingPage();
 
 // Dialog Data

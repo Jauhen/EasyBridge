@@ -12,9 +12,9 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
+#include "model/settings.h"
 #include "GameOptsFilesPage.h"
-#include "progopts.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,7 +27,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsFilesPage, CPropertyPage)
 
-CGameOptsFilesPage::CGameOptsFilesPage(CObjectWithProperties* pApp) : 
+CGameOptsFilesPage::CGameOptsFilesPage(Settings* pApp) :
 		CPropertyPage(CGameOptsFilesPage::IDD),
 		m_app(*pApp)
 {
@@ -35,8 +35,8 @@ CGameOptsFilesPage::CGameOptsFilesPage(CObjectWithProperties* pApp) :
 	m_bSaveIntermediatePositions = FALSE;
 	m_bExposePBNGameCards = FALSE;
 	//}}AFX_DATA_INIT
-	m_bSaveIntermediatePositions = m_app.GetValue(tbSaveIntermediatePositions);
-	m_bExposePBNGameCards = m_app.GetValue(tbExposePBNGameCards);
+	m_bSaveIntermediatePositions = m_app.GetSaveIntermediatePositions();
+	m_bExposePBNGameCards = m_app.GetExposePBNGameCards();
 }
 
 CGameOptsFilesPage::~CGameOptsFilesPage()
@@ -67,7 +67,7 @@ END_MESSAGE_MAP()
 void CGameOptsFilesPage::Update()
 {
 	// store results
-	m_app.SetValue(tbSaveIntermediatePositions, m_bSaveIntermediatePositions);
-	m_app.SetValue(tbExposePBNGameCards, m_bExposePBNGameCards);
+	m_app.SetSaveIntermediatePositions(m_bSaveIntermediatePositions);
+	m_app.SetExposePBNGameCards(m_bExposePBNGameCards);
 }
 

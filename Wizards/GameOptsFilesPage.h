@@ -15,7 +15,7 @@
 #endif // _MSC_VER > 1000
 // GameOptsFilesPage.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsFilesPage dialog
@@ -30,12 +30,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  Settings&	m_app;
 
 
 // Construction
 public:
-	CGameOptsFilesPage(CObjectWithProperties* pApp=NULL);
+	CGameOptsFilesPage(Settings* pApp=NULL);
 	~CGameOptsFilesPage();
 
 // Dialog Data

@@ -12,9 +12,8 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
 #include "GameOptsCountingPage.h"
-#include "progopts.h"
+#include "model/settings.h"
 #include "model/globals.h"
 
 #ifdef _DEBUG
@@ -27,7 +26,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsCountingPage, CPropertyPage)
 
-CGameOptsCountingPage::CGameOptsCountingPage(CObjectWithProperties* pApp) : 
+CGameOptsCountingPage::CGameOptsCountingPage(Settings* pApp) : 
 		CPropertyPage(CGameOptsCountingPage::IDD),
 		m_app(*pApp)
 {
@@ -43,12 +42,12 @@ CGameOptsCountingPage::CGameOptsCountingPage(CObjectWithProperties* pApp) :
 	m_fJackValue = 0.0;
 	m_fTenValue = 0.0;
 	//}}AFX_DATA_INIT
-	m_nHonorsValuationMode = m_app.GetValue(tnHonorsValuationMode);
-	m_fAceValue = m_app.GetValueDouble(tfCustomAceValue);
-	m_fKingValue = m_app.GetValueDouble(tfCustomKingValue);
-	m_fQueenValue = m_app.GetValueDouble(tfCustomQueenValue);
-	m_fJackValue = m_app.GetValueDouble(tfCustomJackValue);
-	m_fTenValue = m_app.GetValueDouble(tfCustomTenValue);
+	m_nHonorsValuationMode = m_app.GetHonorsValuationMode();
+	m_fAceValue = m_app.GetCustomAceValue();
+	m_fKingValue = m_app.GetCustomKingValue();
+	m_fQueenValue = m_app.GetCustomQueenValue();
+	m_fJackValue = m_app.GetCustomJackValue();
+	m_fTenValue = m_app.GetCustomTenValue();
 	//
 /*
 	m_bAcelessPenalty = m_app.GetValue(tbAcelessPenalty);
@@ -137,7 +136,7 @@ void CGameOptsCountingPage::OnValuationModeChange()
 void CGameOptsCountingPage::Update()
 {
 	// store results
-	m_app.SetValue(tnHonorsValuationMode, m_nHonorsValuationMode);
+	m_app.SetHonorsValuationMode(m_nHonorsValuationMode);
 	if (m_nHonorsValuationMode == 2)
 	{
 		// warn if total is not 10 pts
@@ -145,11 +144,11 @@ void CGameOptsCountingPage::Update()
 		if ((fTotal < 9.9) || (fTotal >= 10.1))
 			AfxMessageBox(FormString(_T("Warning -- your honors values total to %.2f.  If they do not add up to 10, the bidding engine may not function properly."), fTotal));
 		//
-		m_app.SetValueDouble(tfCustomAceValue, m_fAceValue);
-		m_app.SetValueDouble(tfCustomKingValue, m_fKingValue);
-		m_app.SetValueDouble(tfCustomQueenValue, m_fQueenValue);
-		m_app.SetValueDouble(tfCustomJackValue, m_fJackValue);
-		m_app.SetValueDouble(tfCustomTenValue, m_fTenValue);
+		m_app.SetCustomAceValue(m_fAceValue);
+		m_app.SetCustomKingValue(m_fKingValue);
+		m_app.SetCustomQueenValue(m_fQueenValue);
+		m_app.SetCustomJackValue(m_fJackValue);
+		m_app.SetCustomTenValue(m_fTenValue);
 	}
 	//
 /*

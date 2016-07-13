@@ -141,6 +141,9 @@
     <ClCompile Include="..\src\model\Globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\model\settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyBWizards.rc">
@@ -269,6 +272,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\model\settings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,7 +19,7 @@ protected:
     app = make_shared<MockApp>();
     deck = make_shared<CDeck>(app);
 
-    CConventionSet* set = new CConventionSet(app);
+    set = new CConventionSet(app);
 
     EXPECT_CALL(*app, GetProgramTitle()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, GetProgramMajorVersion()).WillRepeatedly(Return(4));
@@ -58,12 +58,14 @@ protected:
   }
 
   virtual ~DealTests() {
+    delete set;
     deck.reset();
     app.reset();
   }
 
   shared_ptr<MockApp> app;
   shared_ptr<CDeck> deck;
+  CConventionSet* set;
 };
 
 TEST_F(DealTests, InitNewHand) {
@@ -127,6 +129,8 @@ TEST_F(DealTests, DealNumberedHand) {
     "*\n"
     "[GENERATOR \"Easy Bridge version abc\"]\n"
     "[DESCRIPTION \"\"]\n";
+
+  d.reset();
 
   EXPECT_STREQ(expectedPbn, pbn.c_str());
   EXPECT_TRUE(Mock::VerifyAndClearExpectations(app.get()));

@@ -913,7 +913,7 @@ BOOL CEasyBView::OnCommand(WPARAM wParam, LPARAM lParam)
 			// hide the card layout dialog, just in case
 			((CCardLayoutDialog*) pMAINFRAME->GetDialog(twLayoutDialog))->ShowWindow(SW_HIDE);
 			// and bid immediately if so ordered
-			if (theApp.GetValue(tbAutoBidStart)) 
+			if (theApp.GetAutoBidStart()) 
 			{
 				OnBidCurrentHand();
 			} 
@@ -1054,7 +1054,7 @@ bool CEasyBView::Notify(long lCode, long param1, long param2, long param3)
 			// hide the card layout dialog, just in case
 			((CCardLayoutDialog*) pMAINFRAME->GetDialog(twLayoutDialog))->ShowWindow(SW_HIDE);
 			// and bid immediately if so ordered
-			if (theApp.GetValue(tbAutoBidStart)) 
+			if (theApp.GetAutoBidStart()) 
 			{
 				OnBidCurrentHand();
 			} 
