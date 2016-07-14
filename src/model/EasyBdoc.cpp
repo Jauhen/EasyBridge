@@ -550,7 +550,7 @@ void CEasyBDoc::OnPlayRubber() {
   // see if we're currently playing rubber
   if (!theApp.IsRubberInProgress()) {
     // set rubber mode
-    theApp.SetValue(tbRubberInProgress, TRUE);
+    theApp.SetRubberInProgress(true);
     pMAINFRAME->SetModeIndicator("Match");
     OnNewDocument();
     OnDealNewHand();
@@ -802,7 +802,7 @@ void CEasyBDoc::OnViewScore() {
 
 //
 void CEasyBDoc::OnUpdateRestartCurrentHand(CCmdUI* pCmdUI) {
-  if (theApp.GetValue(tbGameInProgress))
+  if (theApp.GetGameInProgress())
     pCmdUI->Enable(TRUE);
   else
     pCmdUI->Enable(FALSE);

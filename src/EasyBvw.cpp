@@ -2158,7 +2158,7 @@ void CEasyBView::OnDraw(CDC* pDC)
 		default:
 			// normal play mode
 			DrawPlayingField(pDC);
-			if (theApp.GetValue(tbGameInProgress))
+			if (theApp.GetGameInProgress())
 				DisplayTricks();
 			break;
 	}
@@ -2646,7 +2646,7 @@ void CEasyBView::OnLayoutCards()
 	{
 		// starting layout
 		// confirm
-		if (theApp.GetValue(tbGameInProgress) && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
+		if (theApp.GetGameInProgress() && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
 		{
 			if (AfxMessageBox("This will cancel the game in progress.  Do you wish to continue?", MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 				return;
@@ -2667,10 +2667,10 @@ void CEasyBView::OnLayoutCards()
 		pDOC->GetDeal()->SetDealNumberAvailable(FALSE);
 
 		// if in the course of play, restore initial hands 
-		if (theApp.GetValue(tbGameInProgress))
+		if (theApp.GetGameInProgress())
 		{
 			pDOC->GetDeal()->RestoreInitialHands();
-			theApp.SetValue(tbGameInProgress, FALSE);
+			theApp.SetGameInProgress(false);
 		}
 
 		// clear display
@@ -2769,7 +2769,7 @@ void CEasyBView::OnEditExistingHands()
 		return;
 	}
 	// confirm
-	if (theApp.GetValue(tbGameInProgress) && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
+	if (theApp.GetGameInProgress() && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
 	{
 		if (AfxMessageBox("This will cancel the game in progress.  Do you wish to continue?", MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 			return;
@@ -2792,10 +2792,10 @@ void CEasyBView::OnEditExistingHands()
 	pDOC->GetDeal()->SetDealNumberAvailable(FALSE);
 
 	// if in the course of play, restore initial hands 
-	if (theApp.GetValue(tbGameInProgress))
+	if (theApp.GetGameInProgress())
 	{
 		pDOC->GetDeal()->RestoreInitialHands();
-		theApp.SetValue(tbGameInProgress, FALSE);
+		theApp.SetGameInProgress(false);
 	}
 
 	// and turn on card layout mode
@@ -3193,7 +3193,7 @@ void CEasyBView::BeginPlay()
 
 	//
 	SetCurrentMode(MODE_WAITCARDPLAY);
-	theApp.SetValue(tbGameInProgress, TRUE);
+	theApp.SetGameInProgress(true);
 	pMAINFRAME->SetAllIndicators();
 	//
 	if ((pDOC->GetDeal()->GetCurrentPlayer()->IsHumanPlayer()) &&

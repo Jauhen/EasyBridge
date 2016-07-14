@@ -1773,7 +1773,7 @@ void CMainFrame::SetModeIndicator(LPCTSTR szText)
 	{
 		if (pDOC->GetDeal()->IsAutoReplayMode())
 			m_pWndStatusBar->SetPaneText(4,"Replay");
-		else if (theApp.GetValue(tbRubberInProgress))
+		else if (theApp.GetRubberInProgress())
 			m_pWndStatusBar->SetPaneText(4,"Match");
 		else if (pDOC->GetDeal()->IsReviewingGame())
 			m_pWndStatusBar->SetPaneText(4,"Review");

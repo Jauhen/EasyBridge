@@ -106,6 +106,10 @@ public:
   void SetCollapseGameReviewDialog(bool val) { m_bCollapseGameReviewDialog = val; }
   bool GetBiddingInProgress() const { return m_bBiddingInProgress; }
   void SetBiddingInProgress(bool val) { m_bBiddingInProgress = val; }
+  bool GetGameInProgress() const { return m_bGameInProgress; }
+  void SetGameInProgress(bool val) { m_bGameInProgress = val; }
+  bool GetRubberInProgress() const { return m_bRubberInProgress; }
+  void SetRubberInProgress(bool val) { m_bRubberInProgress = val; }
 
 
   static double m_fDefaultMajorSuitGamePts;

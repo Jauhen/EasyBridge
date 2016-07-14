@@ -269,7 +269,7 @@ void CEasyBView::DrawPlayingField(CDC* pDC)
 	}
 
 	// and any trick cards on the table
-	if (theApp.GetValue(tbGameInProgress) || pDOC->GetDeal()->IsReviewingGame() ||
+	if (theApp.GetGameInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
 					(m_nCurrMode == MODE_CARDLAYOUT))
 		DrawTableCards(pDC, bFullDraw);
 }

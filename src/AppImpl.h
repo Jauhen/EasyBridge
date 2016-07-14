@@ -260,11 +260,11 @@ public:
   }
 
   virtual void SetRubberInProgress(bool value) {
-    theApp.SetValue(tbRubberInProgress, value);
+    theApp.SetRubberInProgress(value);
   }
 
   virtual void SetGameInProgress(bool value) {
-    theApp.SetValue(tbGameInProgress, value);
+    theApp.SetGameInProgress(value);
   }
 
   virtual void SetBiddingInProgress(bool value) {

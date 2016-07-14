@@ -15,8 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbGameInProgress,
-	tbRubberInProgress,
 	tbUsingDuplicateScoring,
 	tbDebugMode,
 	tbAutoTestMode,

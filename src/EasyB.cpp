@@ -555,10 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbGameInProgress:
-			return (LPVOID) m_bGameInProgress;
-		case tbRubberInProgress:
-			return (LPVOID) m_bRubberInProgress;
 		case tbUsingDuplicateScoring:
 			return (LPVOID) m_bDuplicateScoring;
 			break;
@@ -874,12 +870,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbGameInProgress:
-			m_bGameInProgress = bVal;
-			break;
-		case tbRubberInProgress:
-			m_bRubberInProgress = bVal;
-			break;
 		case tbUsingDuplicateScoring:
 			m_bDuplicateScoring = bVal;
 			break;
