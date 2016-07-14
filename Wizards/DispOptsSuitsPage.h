@@ -9,6 +9,7 @@
 //
 // dis_suit.h : header file
 //
+class Settings;
 class CObjectWithProperties;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -23,14 +24,14 @@ public:
 	BOOL Update();
 
 // data
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
 
 
 // Construction
 public:
-	CDispOptsSuitsPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsSuitsPage(Settings* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsSuitsPage();
 
 // Dialog Data

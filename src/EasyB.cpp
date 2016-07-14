@@ -555,16 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbAutoShowBidHistory:
-			return (LPVOID) m_bAutoShowBidHistory;
-		case tbAutoShowPlayHistory:
-			return (LPVOID) m_bAutoShowPlayHistory;
-		case tbAutoHideBidHistory:
-			return (LPVOID) m_bAutoHideBidHistory;
-		case tbAutoHidePlayHistory:
-			return (LPVOID) m_bAutoHidePlayHistory;
-		case tbAutoShowNNetOutputWhenTraining:
-			return (LPVOID) m_bAutoShowNNetOutputWhenTraining;
 		case tbCollapseGameReviewDialog:
 			return (LPVOID) m_bCollapseGameReviewDialog;
 		case tbBiddingInProgress:
@@ -888,21 +878,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbAutoShowBidHistory:
-			m_bAutoShowBidHistory = bVal;
-			break;
-		case tbAutoShowPlayHistory:
-			m_bAutoShowPlayHistory = bVal;
-			break;
-		case tbAutoHideBidHistory:
-			m_bAutoHideBidHistory = bVal;
-			break;
-		case tbAutoHidePlayHistory:
-			m_bAutoHidePlayHistory = bVal;
-			break;
-		case tbAutoShowNNetOutputWhenTraining:
-			m_bAutoShowNNetOutputWhenTraining = bVal;
-			break;
 		case tbCollapseGameReviewDialog:
 			m_bCollapseGameReviewDialog = bVal;
 			break;

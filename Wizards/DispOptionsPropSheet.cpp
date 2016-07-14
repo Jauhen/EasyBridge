@@ -31,14 +31,14 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CDispOptionsPropSheet, CPropertySheet)
 
-CDispOptionsPropSheet::CDispOptionsPropSheet(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck, CWnd* pParentWnd, UINT iSelectPage) :
+CDispOptionsPropSheet::CDispOptionsPropSheet(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Display Options"), pParentWnd, iSelectPage)
 {
 	// create the pages
 	m_pSuitsPage = new CDispOptsSuitsPage(pApp, pFrame, pView);
 	m_pCardsPage = new CDispOptsCardsPage(pApp, pFrame, pView);
 	m_pCardBacksPage = new CDispOptsCardBacksPage(pApp, pFrame, pView, pDeck);
-	m_pDialogsPage = new CDispOptsDialogsPage(pApp, pFrame, pView);
+	m_pDialogsPage = new CDispOptsDialogsPage(pApp);
 	m_pFontsPage = new CDispOptsFontsPage(pApp, pFrame, pView);
 	m_pMiscPage = new CDispOptsMiscPage(pApp, pFrame, pView);
 

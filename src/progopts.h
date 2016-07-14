@@ -15,11 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbAutoShowBidHistory,
-	tbAutoShowPlayHistory,
-	tbAutoHideBidHistory,
-	tbAutoHidePlayHistory,
-	tbAutoShowNNetOutputWhenTraining,
 	tbCollapseGameReviewDialog,
 	tbCollapseRoundFinishedDialog,
 	tbBiddingInProgress,

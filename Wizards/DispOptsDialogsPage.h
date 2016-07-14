@@ -15,8 +15,7 @@
 #endif // _MSC_VER >= 1000
 // DisplayOptsDialogsPage.h : header file
 //
-class CObjectWithProperties;
-
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsDialogsPage dialog
@@ -31,14 +30,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
-	CObjectWithProperties&	m_frame;
-	CObjectWithProperties&	m_view;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDispOptsDialogsPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsDialogsPage(Settings* pApp=NULL);
 	~CDispOptsDialogsPage();
 
 // Dialog Data

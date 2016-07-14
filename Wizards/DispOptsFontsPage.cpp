@@ -15,7 +15,7 @@
 #include "ObjectWithProperties.h"
 #include "DispOptsFontsPage.h"
 #include "MainFrameOpts.h"
-#include "progopts.h"
+#include "model/settings.h"
 #include "model/Globals.h"
 
 #ifdef _DEBUG
@@ -29,7 +29,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsFontsPage, CPropertyPage)
 
-CDispOptsFontsPage::CDispOptsFontsPage(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) : 
+CDispOptsFontsPage::CDispOptsFontsPage(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
 		CPropertyPage(CDispOptsFontsPage::IDD),
 		m_app(*pApp), m_frame(*pFrame), m_view(*pView) 
 {
@@ -44,7 +44,7 @@ CDispOptsFontsPage::CDispOptsFontsPage(CObjectWithProperties* pApp, CObjectWithP
 	m_lfAutoHint = *((LOGFONT*) m_frame.GetValuePV(tpLogFontAutoHint));
 	m_lfHistory = *((LOGFONT*) m_frame.GetValuePV(tpLogFontHistory));
 	m_lfAnalysis = *((LOGFONT*) m_frame.GetValue(tpLogFontAnalysis));
-	m_bUseSuitSymbols = (BOOL) m_app.GetValue(tbUseSuitSymbols);
+	m_bUseSuitSymbols = (BOOL) m_app.GetUseSuitSymbols();
 	//
 	m_bFontModified = false;
 	m_bWarned = false;
@@ -221,7 +221,7 @@ BOOL CDispOptsFontsPage::Update()
 	m_frame.SetValuePV(tpLogFontAutoHint, &m_lfAutoHint);
 	m_frame.SetValuePV(tpLogFontHistory,  &m_lfHistory);
 	m_frame.SetValuePV(tpLogFontAnalysis, &m_lfAnalysis);
-	m_app.SetValue(tbUseSuitSymbols, m_bUseSuitSymbols);
+	m_app.SetUseSuitSymbols(m_bUseSuitSymbols);
 	return m_bFontModified;
 }
 

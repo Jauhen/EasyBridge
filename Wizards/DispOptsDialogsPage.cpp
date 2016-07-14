@@ -12,9 +12,8 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
 #include "DispOptsDialogsPage.h"
-#include "progopts.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,9 +26,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsDialogsPage, CPropertyPage)
 
-CDispOptsDialogsPage::CDispOptsDialogsPage(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) : 
+CDispOptsDialogsPage::CDispOptsDialogsPage(Settings* pApp) : 
 		CPropertyPage(CDispOptsDialogsPage::IDD),
-		m_app(*pApp), m_frame(*pFrame), m_view(*pView)
+		m_app(*pApp)
 {
 	//{{AFX_DATA_INIT(CDispOptsDialogsPage)
 	m_bAutoShowBidHistory = FALSE;
@@ -39,12 +38,12 @@ CDispOptsDialogsPage::CDispOptsDialogsPage(CObjectWithProperties* pApp, CObjectW
 	m_bShowLayoutOnEdit = FALSE;
 	m_bAutoShowNNetOutputWhenTraining = FALSE;
 	//}}AFX_DATA_INIT
-	m_bAutoShowBidHistory = m_app.GetValue(tbAutoShowBidHistory);
-	m_bAutoShowPlayHistory = m_app.GetValue(tbAutoShowPlayHistory);
-	m_bAutoHideBidHistory = m_app.GetValue(tbAutoHideBidHistory);
-	m_bAutoHidePlayHistory = m_app.GetValue(tbAutoHidePlayHistory);
-	m_bAutoShowNNetOutputWhenTraining = m_app.GetValue(tbAutoShowNNetOutputWhenTraining);
-	m_bShowLayoutOnEdit = m_app.GetValue(tbShowLayoutOnEdit);
+	m_bAutoShowBidHistory = m_app.GetAutoShowBidHistory();
+	m_bAutoShowPlayHistory = m_app.GetAutoShowPlayHistory();
+	m_bAutoHideBidHistory = m_app.GetAutoHideBidHistory();
+	m_bAutoHidePlayHistory = m_app.GetAutoHidePlayHistory();
+	m_bAutoShowNNetOutputWhenTraining = m_app.GetAutoShowNNetOutputWhenTraining();
+	m_bShowLayoutOnEdit = m_app.GetShowLayoutOnEdit();
 }
 
 CDispOptsDialogsPage::~CDispOptsDialogsPage()
@@ -91,12 +90,12 @@ BOOL CDispOptsDialogsPage::Update()
 		 bModified = TRUE;
 */
 	//
-	m_app.SetValue(tbAutoShowBidHistory, m_bAutoShowBidHistory);
-	m_app.SetValue(tbAutoShowPlayHistory, m_bAutoShowPlayHistory);
-	m_app.SetValue(tbAutoHideBidHistory, m_bAutoHideBidHistory);
-	m_app.SetValue(tbAutoHidePlayHistory, m_bAutoHidePlayHistory);
-	m_app.SetValue(tbAutoShowNNetOutputWhenTraining, m_bAutoShowNNetOutputWhenTraining);
-	m_app.SetValue(tbShowLayoutOnEdit, m_bShowLayoutOnEdit);
+	m_app.SetAutoShowBidHistory(m_bAutoShowBidHistory);
+	m_app.SetAutoShowPlayHistory(m_bAutoShowPlayHistory);
+	m_app.SetAutoHideBidHistory(m_bAutoHideBidHistory);
+	m_app.SetAutoHidePlayHistory(m_bAutoHidePlayHistory);
+	m_app.SetAutoShowNNetOutputWhenTraining(m_bAutoShowNNetOutputWhenTraining);
+	m_app.SetShowLayoutOnEdit(m_bShowLayoutOnEdit);
 	//
 	return bModified;
 }

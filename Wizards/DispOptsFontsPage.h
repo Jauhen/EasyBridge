@@ -16,6 +16,7 @@
 // DispOptsFontsPage.h : header file
 //
 class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsFontsPage dialog
@@ -35,7 +36,7 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
 	//
@@ -49,7 +50,7 @@ private:
 
 // Construction
 public:
-	CDispOptsFontsPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsFontsPage(Settings* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsFontsPage();
 
 // Dialog Data

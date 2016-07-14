@@ -26,7 +26,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsCardsPage, CPropertyPage)
 
-CDispOptsCardsPage::CDispOptsCardsPage(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) : 
+CDispOptsCardsPage::CDispOptsCardsPage(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
 		CPropertyPage(CDispOptsCardsPage::IDD),
 		m_app(*pApp), m_frame(*pFrame), m_view(*pView)
 {

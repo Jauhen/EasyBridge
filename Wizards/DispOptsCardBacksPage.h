@@ -16,6 +16,7 @@
 // DispOptsCardBacksPage.h : header file
 //
 class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsCardBacksPage dialog
@@ -30,7 +31,7 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
 	CObjectWithProperties&	m_deck;
@@ -40,7 +41,7 @@ private:
 
 // Construction
 public:
-	CDispOptsCardBacksPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, CObjectWithProperties* pDeck=NULL);
+	CDispOptsCardBacksPage(Settings* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, CObjectWithProperties* pDeck=NULL);
 	~CDispOptsCardBacksPage();
 
 public:

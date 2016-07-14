@@ -15,11 +15,12 @@ namespace UnitTests {
 
 class DealTests : public Test {
 protected:
-  DealTests() {
+  DealTests() {}
+  virtual void SetUp() {
     app = make_shared<MockApp>();
     deck = make_shared<CDeck>(app);
 
-    set = new CConventionSet(app);
+    set = unique_ptr<CConventionSet>(new CConventionSet(app));
 
     EXPECT_CALL(*app, GetProgramTitle()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, GetProgramMajorVersion()).WillRepeatedly(Return(4));
@@ -29,7 +30,7 @@ protected:
     EXPECT_CALL(*app, GetProgramBuildDate()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, GetProgramVersionString()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, IsSaveIntermediatePositions()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*app, GetCurrentConventionSet()).WillRepeatedly(Return(set));
+    EXPECT_CALL(*app, GetCurrentConventionSet()).WillRepeatedly(Return(set.get()));
     EXPECT_CALL(*app, IsMainFrameExists()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, SetBiddingInProgress(false)).Times(AnyNumber());
     EXPECT_CALL(*app, SetGameInProgress(false)).Times(AnyNumber());
@@ -57,15 +58,14 @@ protected:
     deck->InitializeCards();
   }
 
-  virtual ~DealTests() {
-    delete set;
-    deck.reset();
-    app.reset();
+  virtual ~DealTests() {}
+
+  virtual void TearDown() {
   }
 
   shared_ptr<MockApp> app;
   shared_ptr<CDeck> deck;
-  CConventionSet* set;
+  unique_ptr<CConventionSet> set;
 };
 
 TEST_F(DealTests, InitNewHand) {
@@ -110,18 +110,18 @@ TEST_F(DealTests, DealNumberedHand) {
     "[CONTRACT \"?\"]\n"
     "[RESULT \"?\"]\n"
     "{\n"
-    "                S: A J 4 \r\n"
-    "                H: T 9 \r\n"
-    "                D: Q 7 6 3 \r\n"
-    "                C: A 8 7 4 \r\n"
-    "S: T 7 6 3 2                    S: K Q 5 \r\n"
-    "H: J 8 6                        H: K 5 4 3 \r\n"
-    "D: T 8 4                        D: J 5 \r\n"
-    "C: 3 2                          C: Q J 6 5 \r\n"
-    "                S: 9 8 \r\n"
-    "                H: A Q 7 2 \r\n"
-    "                D: A K 9 2 \r\n"
-    "                C: K T 9 \r\n"
+    "                S: A J 4 \n"
+    "                H: T 9 \n"
+    "                D: Q 7 6 3 \n"
+    "                C: A 8 7 4 \n"
+    "S: T 7 6 3 2                    S: K Q 5 \n"
+    "H: J 8 6                        H: K 5 4 3 \n"
+    "D: T 8 4                        D: J 5 \n"
+    "C: 3 2                          C: Q J 6 5 \n"
+    "                S: 9 8 \n"
+    "                H: A Q 7 2 \n"
+    "                D: A K 9 2 \n"
+    "                C: K T 9 \n"
     "}\n"
     "[AUCTION \"S\"]\n"
     "*\n"

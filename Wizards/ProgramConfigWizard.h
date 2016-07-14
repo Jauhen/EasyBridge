@@ -26,7 +26,7 @@ class CProgConfigGameMechanicsPage;
 class CProgConfigPausesPage;
 class CProgConfigBiddingPage;
 class CProgConfigFinishPage;
-
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CProgramConfigWizard
@@ -48,7 +48,7 @@ public:
 private:
 	CProgConfigWizardData*		m_pData;
 	//
-	CObjectWithProperties&		m_app;
+	Settings&		m_app;
 	CObjectWithProperties&		m_frame;
 	CObjectWithProperties&		m_view;
 	CObjectWithProperties&		m_conventionSet;
@@ -65,7 +65,7 @@ private:
 
 // Construction
 public:
-	CProgramConfigWizard(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, 
+	CProgramConfigWizard(Settings* pApp, CObjectWithProperties* pFrame, 
 						 CObjectWithProperties* pView,  CObjectWithProperties* pConventionSet,
 						 CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 

@@ -10,6 +10,7 @@
 // dis_misc.h : header file
 //
 class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsMiscPage dialog
@@ -27,7 +28,7 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
 	//
@@ -36,7 +37,7 @@ private:
 
 // Construction
 public:
-	CDispOptsMiscPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsMiscPage(Settings* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsMiscPage();
 
 // Dialog Data

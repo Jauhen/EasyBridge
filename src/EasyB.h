@@ -123,31 +123,8 @@ private:
 	//
 	CDocument* m_pActiveDocument;
 	//
-	int		m_nCurrConventionSet;
-	int		m_numConventionSets;
-	int		m_nSuitSeqList[5][4];
-	int		m_nSuitSequence[4];
-	int		m_nDummySuitSequence[4];
-	int		m_nSuitSeqOption;
-	BOOL	m_bLowResOption;
-	BOOL	m_bToggleResolutionMode;
-	BOOL	m_bLayoutFollowsDisplayOrder;
-	BOOL	m_bShowDummyTrumpsOnLeft;
 
 
-	// display options
-	BOOL	m_bAutoAlignDialogs;
-	BOOL	m_bShowStartupAnimation;
-	BOOL	m_bShowSplashWindow;
-	BOOL    m_bShowBackgroundBitmap;
-	BOOL	m_bShowDailyTipDialog;
-	BOOL	m_bShowScreenSizeWarning;
-	int		m_nBitmapDisplayMode;
-	BOOL	m_bScaleLargeBitmaps;
-	int		m_nBackgroundColor;
-	BOOL	m_bUseSuitSymbols;
-	BOOL	m_bCollapseGameReviewDialog;
-	BOOL	m_bCollapseRoundFinishedDialog;
 
 
 	// GIB options

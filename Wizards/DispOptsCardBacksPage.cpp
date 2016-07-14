@@ -27,7 +27,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsCardBacksPage, CPropertyPage)
 
-CDispOptsCardBacksPage::CDispOptsCardBacksPage(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck) :
+CDispOptsCardBacksPage::CDispOptsCardBacksPage(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck) :
 		CPropertyPage(CDispOptsCardBacksPage::IDD),
 		m_app(*pApp), m_frame(*pFrame), m_view(*pView), m_deck(*pDeck)
 {

@@ -68,7 +68,40 @@ public:
   void SetEnableGIBForDefender(bool val) { m_bEnableGIBForDefender = val; }
   int GetGIBAnalysisTime() const { return m_nGIBAnalysisTime; }
   void SetGIBAnalysisTime(int val) { m_nGIBAnalysisTime = val; }
-
+  bool GetAutoShowBidHistory() const { return m_bAutoShowBidHistory; }
+  void SetAutoShowBidHistory(bool val) { m_bAutoShowBidHistory = val; }
+  bool GetAutoShowPlayHistory() const { return m_bAutoShowPlayHistory; }
+  void SetAutoShowPlayHistory(bool val) { m_bAutoShowPlayHistory = val; }
+  bool GetAutoHideBidHistory() const { return m_bAutoHideBidHistory; }
+  void SetAutoHideBidHistory(bool val) { m_bAutoHideBidHistory = val; }
+  bool GetAutoHidePlayHistory() const { return m_bAutoHidePlayHistory; }
+  void SetAutoHidePlayHistory(bool val) { m_bAutoHidePlayHistory = val; }
+  bool GetAutoShowNNetOutputWhenTraining() const { return m_bAutoShowNNetOutputWhenTraining; }
+  void SetAutoShowNNetOutputWhenTraining(bool val) { m_bAutoShowNNetOutputWhenTraining = val; }
+  bool GetShowLayoutOnEdit() const { return m_bShowLayoutOnEdit; }
+  void SetShowLayoutOnEdit(bool val) { m_bShowLayoutOnEdit = val; }
+  int GetAutoHintMode() const { return m_nAutoHintMode; }
+  void SetAutoHintMode(int val) { m_nAutoHintMode = val; }
+  bool GetShowSplashWindow() const { return m_bShowSplashWindow; }
+  void SetShowSplashWindow(bool val) { m_bShowSplashWindow = val; }
+  bool GetShowBackgroundBitmap() const { return m_bShowBackgroundBitmap; }
+  void SetShowBackgroundBitmap(bool val) { m_bShowBackgroundBitmap = val; }
+  int GetSuitSequenceOption() const { return m_nSuitSeqOption; }
+  void SetSuitSequenceOption(int val) { m_nSuitSeqOption = val; }
+  bool GetUseSuitSymbols() const { return m_bUseSuitSymbols; }
+  void SetUseSuitSymbols(bool val) { m_bUseSuitSymbols = val; }
+  bool GetShowDummyTrumpsOnLeft() const { return m_bShowDummyTrumpsOnLeft; }
+  void SetShowDummyTrumpsOnLeft(bool val) { m_bShowDummyTrumpsOnLeft = val; }
+  int GetBitmapDisplayMode() const { return m_nBitmapDisplayMode; }
+  void SetBitmapDisplayMode(int val) { m_nBitmapDisplayMode = val; }
+  bool GetScaleLargeBitmaps() const { return m_bScaleLargeBitmaps; }
+  void SetScaleLargeBitmaps(bool val) { m_bScaleLargeBitmaps = val; }
+  int GetBackgroundColor() const { return m_nBackgroundColor; }
+  void SetBackgroundColor(int val) { m_nBackgroundColor = val; }
+  bool GetLowResOption() const { return m_bLowResOption; }
+  void SetLowResOption(bool val) { m_bLowResOption = val; }
+  bool GetToggleResolutionMode() const { return m_bToggleResolutionMode; }
+  void SetToggleResolutionMode(bool val) { m_bToggleResolutionMode = val; }
 
 
 
@@ -197,6 +230,31 @@ public:
   int		m_nGIBAnalysisTime;
   int		m_nGIBSampleSize;
   bool	m_bShowGIBOutput;
+
+  // display options
+  BOOL	m_bAutoAlignDialogs;
+  BOOL	m_bShowStartupAnimation;
+  BOOL	m_bShowSplashWindow;
+  BOOL    m_bShowBackgroundBitmap;
+  BOOL	m_bShowDailyTipDialog;
+  BOOL	m_bShowScreenSizeWarning;
+  int		m_nBitmapDisplayMode;
+  BOOL	m_bScaleLargeBitmaps;
+  int		m_nBackgroundColor;
+  BOOL	m_bUseSuitSymbols;
+  BOOL	m_bCollapseGameReviewDialog;
+  BOOL	m_bCollapseRoundFinishedDialog;
+
+  int		m_nCurrConventionSet;
+  int		m_numConventionSets;
+  int		m_nSuitSeqList[5][4];
+  int		m_nSuitSequence[4];
+  int		m_nDummySuitSequence[4];
+  int		m_nSuitSeqOption;
+  BOOL	m_bLowResOption;
+  BOOL	m_bToggleResolutionMode;
+  BOOL	m_bLayoutFollowsDisplayOrder;
+  BOOL	m_bShowDummyTrumpsOnLeft;
 
 };
 

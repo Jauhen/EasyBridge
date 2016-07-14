@@ -265,17 +265,17 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     pMAINFRAME->MakeDialogVisible(twGameReviewDialog);
     // see if a contract has been set
     if (ISBID(deal_->GetContract())) {
-      if (theApp.GetValue(tbAutoHideBidHistory)) {
+      if (theApp.GetAutoHideBidHistory()) {
         pMAINFRAME->HideDialog(twBiddingHistoryDialog);
       }
-      if (theApp.GetValue(tbAutoShowPlayHistory)) {
+      if (theApp.GetAutoShowPlayHistory()) {
         pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
       }
     } else {
-      if (theApp.GetValue(tbAutoShowBidHistory)) {
+      if (theApp.GetAutoShowBidHistory()) {
         pMAINFRAME->MakeDialogVisible(twBiddingHistoryDialog);
       }
-      if (theApp.GetValue(tbAutoHidePlayHistory)) {
+      if (theApp.GetAutoHidePlayHistory()) {
         pMAINFRAME->HideDialog(twPlayHistoryDialog);
       }
     }

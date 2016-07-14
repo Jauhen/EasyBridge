@@ -3501,7 +3501,7 @@ CString Deal::FormatOriginalHands() {
       strHands += northCards[nIndex]->GetCardLetter();
       strHands += ' ';
     }
-    strHands += "\r\n";
+    strHands += "\n";
   }
 
   // write out West & East
@@ -3531,7 +3531,7 @@ CString Deal::FormatOriginalHands() {
       strHands += eastCards[nIndex]->GetCardLetter();
       strHands += ' ';
     }
-    strHands += "\r\n";
+    strHands += "\n";
   }
   strHands += strTemp;
 
@@ -3546,7 +3546,7 @@ CString Deal::FormatOriginalHands() {
       strHands += southCards[nIndex]->GetCardLetter();
       strHands += ' ';
     }
-    strHands += "\r\n";
+    strHands += "\n";
   }
 
   //

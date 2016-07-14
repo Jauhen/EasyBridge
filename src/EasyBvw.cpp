@@ -2982,7 +2982,7 @@ void CEasyBView::OnBidCurrentHand()
 	SuppressRefresh();
 
 	// hide the play history dialog if auto mode is on
-	if (theApp.GetValue(tbAutoHidePlayHistory))
+	if (theApp.GetAutoHidePlayHistory())
 		pMAINFRAME->HideDialog(twPlayHistoryDialog);
 	//
 	pMAINFRAME->ClearStatusMessage();
@@ -3027,7 +3027,7 @@ void CEasyBView::OnBidCurrentHand()
 	}
 
 	// show bidding history
-	if (theApp.GetValue(tbAutoShowBidHistory))
+	if (theApp.GetAutoShowBidHistory())
 		pMAINFRAME->MakeDialogVisible(twBiddingHistoryDialog);
 
 	// make sure south's hand is exposed
@@ -3069,9 +3069,9 @@ void CEasyBView::OnBidCurrentHand()
 void CEasyBView::GameLoaded() 
 {
 	// show/hide dialogs
-	if (theApp.GetValue(tbAutoHideBidHistory))
+	if (theApp.GetAutoHideBidHistory())
 		pMAINFRAME->HideDialog(twBiddingHistoryDialog);
-	if (theApp.GetValue(tbAutoShowPlayHistory))
+	if (theApp.GetAutoShowPlayHistory())
 		pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
 
 	// set mode to "click to begin"
@@ -3180,9 +3180,9 @@ void CEasyBView::BeginPlay()
 	BOOL bPlayDlgWasVisible = pMAINFRAME->IsDialogVisible(twPlayHistoryDialog);
 	
 	// show/hide dialogs
-	if (theApp.GetValue(tbAutoHideBidHistory))
+	if (theApp.GetAutoHideBidHistory())
 		pMAINFRAME->HideDialog(twBiddingHistoryDialog);
-	if (theApp.GetValue(tbAutoShowPlayHistory))
+	if (theApp.GetAutoShowPlayHistory())
 		pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
 
 	//
@@ -3210,8 +3210,8 @@ void CEasyBView::BeginPlay()
 	EnableRefresh();
 	
 	// may need to invalidate (redraw cards) if showing/hidings dialogs
-	if ((theApp.GetValue(tbAutoHideBidHistory) && bBidDlgWasVisible) || 
-		(theApp.GetValue(tbAutoShowPlayHistory) && !bPlayDlgWasVisible) )
+	if ((theApp.GetAutoHideBidHistory() && bBidDlgWasVisible) || 
+		(theApp.GetAutoShowPlayHistory() && !bPlayDlgWasVisible) )
 		Refresh(TRUE);
 	else
 		Refresh(FALSE);
