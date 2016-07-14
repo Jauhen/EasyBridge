@@ -669,7 +669,7 @@ void CBidDialog::InitBiddingSequence()
 
 	// and start bidding, if appropriate
 	// but return if just initializing
-	if (!theApp.IsBiddingInProgress())
+	if (!theApp.GetBiddingInProgress())
 		return;
 	int nDealer = pDOC->GetDeal()->GetDealer();
 	if ((nDealer != SOUTH) || m_bTrainingMode)
@@ -771,7 +771,7 @@ void CBidDialog::DealNewHands()
 BOOL CBidDialog::BiddingDone()
 {
 	// this may be called twice due to delayed <space> key rollover
-	if (!theApp.GetValue(tbBiddingInProgress))
+	if (!theApp.GetBiddingInProgress())
 		return FALSE;
 	//
 	m_nCurrMode = BD_MODE_DONE;
@@ -785,7 +785,7 @@ BOOL CBidDialog::BiddingDone()
 	
 	// mark the bidding finished here so that if the user presses <space>,
 	// we don't try to provide another bidding hint!
-	theApp.SetValue(tbBiddingInProgress, FALSE);
+	theApp.SetBiddingInProgress(false);
 	m_bidFinishedDialog.SetText(strTemp);
 	if (m_bidFinishedDialog.DoModal())
 	{
@@ -800,7 +800,7 @@ BOOL CBidDialog::BiddingDone()
 	else
 	{
 		// rebid or redeal
-		theApp.SetValue(tbBiddingInProgress, TRUE);
+		theApp.SetBiddingInProgress(true);
 		if (m_bidFinishedDialog.m_nResultCode == 0)
 		{
 			PostMessage(WM_COMMAND, IDC_BID_RESTART);
@@ -825,7 +825,7 @@ void CBidDialog::OnCancel()
 */
 	// clear out bidding info
 	pDOC->GetDeal()->ClearBiddingInfo();
-	theApp.SetValue(tbBiddingInProgress, FALSE);
+	theApp.SetBiddingInProgress(false);
 	pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
 //	EndDialog(FALSE);
 	ShowWindow(SW_HIDE);
@@ -836,7 +836,7 @@ void CBidDialog::CancelImmediate()
 {
 	// cancels immediately and uses SendMessage() insetad of Post()
 	pDOC->GetDeal()->ClearBiddingInfo();
-	theApp.SetValue(tbBiddingInProgress, FALSE);
+	theApp.SetBiddingInProgress(false);
 	pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
 //	EndDialog(FALSE);
 }

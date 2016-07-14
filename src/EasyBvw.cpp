@@ -819,7 +819,7 @@ void CEasyBView::OnActivateView(BOOL bActivate, CView* pActivateView,
 		ASSERT(pActivateView == this);
 		OnDoRealize();
 		// make sure the bidding dialog is showing
-		if (theApp.IsBiddingInProgress()) 
+		if (theApp.GetBiddingInProgress()) 
 			pMAINFRAME->MakeDialogVisible(twBidDialog);
 	}
 }
@@ -2659,7 +2659,7 @@ void CEasyBView::OnLayoutCards()
 		// hide supplementary dialogs
 		SuppressRefresh();
 		pMAINFRAME->HideAllDialogs();
-		if (theApp.IsBiddingInProgress())
+		if (theApp.GetBiddingInProgress())
 			pMAINFRAME->GetBidDialog()->CancelImmediate();
 //		UpdateWindow();
 
@@ -2781,7 +2781,7 @@ void CEasyBView::OnEditExistingHands()
 	// hide supplementary dialogs
 	SuppressRefresh();
 	pMAINFRAME->HideAllDialogs();
-	if (theApp.IsBiddingInProgress())
+	if (theApp.GetBiddingInProgress())
 		pMAINFRAME->GetBidDialog()->CancelImmediate();
 
 	//
@@ -2942,7 +2942,7 @@ void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI)
 	}
 	//
 	BOOL foo = pDOC->GetDeal()->IsHandsDealt();
-	BOOL ack = theApp.GetValue(tbBiddingInProgress);
+	BOOL ack = theApp.GetBiddingInProgress();
 	//
 	if ((!pDOC->GetDeal()->IsHandsDealt()) ||
 //				(theApp.GetValue(tbBiddingInProgress)) ||
@@ -2971,7 +2971,7 @@ void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI)
 void CEasyBView::OnBidCurrentHand() 
 {
 	// see if we're restarting bidding
-	if (theApp.IsBiddingInProgress())
+	if (theApp.GetBiddingInProgress())
 	{
 		pDOC->GetDeal()->RestartBidding();
 		pMAINFRAME->GetBidDialog()->InitBiddingSequence();
@@ -3041,7 +3041,7 @@ void CEasyBView::OnBidCurrentHand()
 	Refresh(TRUE);	// make sure to invalidate
 
 	//
-	theApp.SetValue(tbBiddingInProgress, TRUE);
+	theApp.SetBiddingInProgress(true);
 //	pMAINFRAME->SetModeIndicator(" Bid ");
 	pMAINFRAME->SetAllIndicators();
 	CBidDialog* pBidDlg = pMAINFRAME->GetBidDialog();

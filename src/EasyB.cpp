@@ -555,10 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbCollapseGameReviewDialog:
-			return (LPVOID) m_bCollapseGameReviewDialog;
-		case tbBiddingInProgress:
-			return (LPVOID) m_bBiddingInProgress;
 		case tbGameInProgress:
 			return (LPVOID) m_bGameInProgress;
 		case tbRubberInProgress:
@@ -878,12 +874,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbCollapseGameReviewDialog:
-			m_bCollapseGameReviewDialog = bVal;
-			break;
-		case tbBiddingInProgress:
-			m_bBiddingInProgress = bVal;
-			break;
 		case tbGameInProgress:
 			m_bGameInProgress = bVal;
 			break;

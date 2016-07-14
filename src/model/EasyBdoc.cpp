@@ -185,8 +185,8 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   pVIEW->SuppressRefresh();
 
   // close bidding dialog if it's open
-  if (theApp.IsBiddingInProgress()) {
-    theApp.SetValue(tbBiddingInProgress, FALSE);
+  if (theApp.GetBiddingInProgress()) {
+    theApp.SetBiddingInProgress(false);
     pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
   }
 
@@ -582,7 +582,7 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
   BOOL bEnable = TRUE;
 
   // disable if not bidding or playing
-  if (!theApp.IsBiddingInProgress() && !theApp.IsGameInProgress())
+  if (!theApp.GetBiddingInProgress() && !theApp.IsGameInProgress())
     bEnable = FALSE;
 
   // disable if game is over
@@ -599,7 +599,7 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
     bEnable = FALSE;
 
   // hints are invalid if the user ignored our previous bidding hint
-  if (theApp.IsBiddingInProgress() && !deal_->IsHintFollowed())
+  if (theApp.GetBiddingInProgress() && !deal_->IsHintFollowed())
     bEnable = FALSE;
 
   // allow the user to click <space> to clear a trick
@@ -1098,7 +1098,7 @@ void CEasyBDoc::OnSwapCardsClockwise() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    deal_->RotatePlayersHands(0, TRUE, theApp.IsBiddingInProgress());
+    deal_->RotatePlayersHands(0, TRUE, theApp.GetBiddingInProgress());
   } else {
     // play has started
     deal_->RotatePartialHands(1);
@@ -1113,7 +1113,7 @@ void CEasyBDoc::OnSwapCardsCounterclockwise() {
   CWaitCursor wait;
   if (!theApp.IsGameInProgress()) {
     // not started playing yet
-    deal_->RotatePlayersHands(1, TRUE, theApp.IsBiddingInProgress());
+    deal_->RotatePlayersHands(1, TRUE, theApp.GetBiddingInProgress());
   } else {
     // play has started
     deal_->RotatePartialHands(3);

@@ -2141,7 +2141,7 @@ void CMainFrame::OnDisplayOptions()
 //
 void CMainFrame::OnUpdateBiddingOptions(CCmdUI* pCmdUI) 
 {
-	if (theApp.IsBiddingInProgress())
+	if (theApp.GetBiddingInProgress())
 		pCmdUI->Enable(FALSE);
 	else
 		pCmdUI->Enable(TRUE);

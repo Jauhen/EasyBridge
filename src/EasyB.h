@@ -83,7 +83,6 @@ public:
 	int	GetSuitSequenceOption() const { return m_nSuitSeqOption; }
 	LPCTSTR GetSuitName(int nSuit) const { return szSuitName[nSuit]; }
 	BOOL InExpressAutoPlay() const { return (m_nPlayMode == PLAY_FULL_AUTO_EXPRESS); }
-	BOOL IsBiddingInProgress() const { return m_bBiddingInProgress; }
 	BOOL IsGameInProgress() const { return m_bGameInProgress; }
 	BOOL IsRubberInProgress() const { return m_bRubberInProgress; }
 	BOOL IsUsingDuplicateScoring() const { return m_bDuplicateScoring; }

@@ -268,7 +268,7 @@ public:
   }
 
   virtual void SetBiddingInProgress(bool value) {
-    theApp.SetValue(tbBiddingInProgress, value);
+    theApp.SetBiddingInProgress(value);
   }
 
   virtual const char* GetProgramTitle() {
@@ -304,7 +304,7 @@ public:
   }
 
   virtual bool IsBiddingInProgress() {
-    return theApp.IsBiddingInProgress() == TRUE;
+    return theApp.GetBiddingInProgress();
   }
 
   virtual CString GetProgramVersionString() {

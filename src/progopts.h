@@ -15,9 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbCollapseGameReviewDialog,
-	tbCollapseRoundFinishedDialog,
-	tbBiddingInProgress,
 	tbGameInProgress,
 	tbRubberInProgress,
 	tbUsingDuplicateScoring,

@@ -102,7 +102,10 @@ public:
   void SetLowResOption(bool val) { m_bLowResOption = val; }
   bool GetToggleResolutionMode() const { return m_bToggleResolutionMode; }
   void SetToggleResolutionMode(bool val) { m_bToggleResolutionMode = val; }
-
+  bool GetCollapseGameReviewDialog() const { return m_bCollapseGameReviewDialog; }
+  void SetCollapseGameReviewDialog(bool val) { m_bCollapseGameReviewDialog = val; }
+  bool GetBiddingInProgress() const { return m_bBiddingInProgress; }
+  void SetBiddingInProgress(bool val) { m_bBiddingInProgress = val; }
 
 
   static double m_fDefaultMajorSuitGamePts;

@@ -224,7 +224,7 @@ BOOL CGameReviewDialog::OnInitDialog()
 										IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 
 	// collapse if desired
-	m_bCollapsed = theApp.GetValue(tbCollapseGameReviewDialog);
+	m_bCollapsed = theApp.GetCollapseGameReviewDialog();
 	CollapseWindow(m_bCollapsed);
 
 	// done
@@ -884,7 +884,7 @@ void CGameReviewDialog::OnExpandCollapse()
 		CollapseWindow(TRUE);
 	}
 	//
-	theApp.SetValue(tbCollapseGameReviewDialog, m_bCollapsed);
+	theApp.SetCollapseGameReviewDialog(m_bCollapsed);
 }
 
 
