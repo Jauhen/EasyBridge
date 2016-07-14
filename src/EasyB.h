@@ -83,9 +83,6 @@ public:
 	int	GetSuitSequenceOption() const { return m_nSuitSeqOption; }
 	LPCTSTR GetSuitName(int nSuit) const { return szSuitName[nSuit]; }
 	BOOL InExpressAutoPlay() const { return (m_nPlayMode == PLAY_FULL_AUTO_EXPRESS); }
-	BOOL IsGameInProgress() const { return m_bGameInProgress; }
-	BOOL IsRubberInProgress() const { return m_bRubberInProgress; }
-	BOOL IsUsingDuplicateScoring() const { return m_bDuplicateScoring; }
 	BOOL IsAutoHintEnabled() const { return (m_nAutoHintMode > 0); }
 	int GetAutoHintLevel() const { return m_nAutoHintMode; }
 	int GetNumAcesRequiredForSlam(int nIndex) const { return m_numAcesForSlam[nIndex]; }

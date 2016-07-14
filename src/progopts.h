@@ -15,7 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbUsingDuplicateScoring,
 	tbDebugMode,
 	tbAutoTestMode,
 	tbManualBidding,

@@ -296,11 +296,11 @@ public:
   }
 
   virtual bool IsRubberInProgress() {
-    return theApp.IsRubberInProgress() == TRUE;
+    return theApp.GetRubberInProgress();
   }
 
   virtual bool IsGameInProgress() {
-    return theApp.IsGameInProgress() == TRUE;
+    return theApp.GetGameInProgress();
   }
 
   virtual bool IsBiddingInProgress() {
@@ -352,7 +352,7 @@ public:
   }
 
   virtual bool IsUsingDuplicateScoring() {
-    return theApp.IsUsingDuplicateScoring() == TRUE;
+    return theApp.GetUsingDuplicateScoring();
   }
 
   virtual bool IsDebugModeActive() {

@@ -173,7 +173,7 @@ void CStatusCardLocationsPage::Update()
 	// return if not all inits are complete
 	if (!m_bInitialized)
 		return;
-	if ((pDOC == NULL) || !pDOC->GetDeal()->IsHandsDealt() || !theApp.IsGameInProgress())
+	if ((pDOC == NULL) || !pDOC->GetDeal()->IsHandsDealt() || !theApp.GetGameInProgress())
 		return;
 
 	//

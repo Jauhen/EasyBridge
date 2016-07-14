@@ -1588,7 +1588,7 @@ void CEasyBView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		// else we're not dragging a card
 		// see if we're waiting for a mouse click from the user
-		if (!theApp.IsGameInProgress())
+		if (!theApp.GetGameInProgress())
 			return;
 		CPlayer* pPlayer = pDOC->GetDeal()->GetCurrentPlayer();
 		int nCurrPlayerPos = pPlayer->GetPosition();
@@ -2368,7 +2368,7 @@ void CEasyBView::OnUndoCard()
 void CEasyBView::OnUpdateUndoTrick(CCmdUI* pCmdUI) 
 {
 //	if (!theApp.IsGameInProgress() || (pDOC->GetNumCardsPlayedInRound() == 0))
-	if (!theApp.IsGameInProgress() || 
+	if (!theApp.GetGameInProgress() || 
 		((pDOC->GetDeal()->GetNumTricksPlayed() == 0) && (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 0)) )
 		pCmdUI->Enable(FALSE);
 }
@@ -2559,7 +2559,7 @@ void CEasyBView::OnLayoutCards()
 			if (!ISPLAYER(nDealer))
 				nDealer = SOUTH;
 			handDialog.m_nPosition = nDealer;
-			BOOL bDuplicate = theApp.IsUsingDuplicateScoring();
+			BOOL bDuplicate = theApp.GetUsingDuplicateScoring();
 			if (bDuplicate)
 				handDialog.m_bCollapsed = FALSE;
 
@@ -2801,7 +2801,7 @@ void CEasyBView::OnEditExistingHands()
 	// and turn on card layout mode
 	pMAINFRAME->DisplayTricks(FALSE);
 	pMAINFRAME->DisplayContract(FALSE);
-	if (theApp.IsRubberInProgress())
+	if (theApp.GetRubberInProgress())
 		pMAINFRAME->DisplayVulnerable(TRUE);
 	else
 		pMAINFRAME->DisplayVulnerable(FALSE);
@@ -2820,7 +2820,7 @@ void CEasyBView::OnEditExistingHands()
 	//
 	BOOL bUpdated = FALSE;
 	CDC* pDC = GetDC();
-	if (theApp.IsGameInProgress()) 
+	if (theApp.GetGameInProgress()) 
 	{
 		OnEraseBkgnd(pDC);
 		ResetSuitOffsets();
@@ -2932,7 +2932,7 @@ void CEasyBView::OnDistributeRandom()
 //
 void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI) 
 {
-	if (theApp.IsGameInProgress()) 
+	if (theApp.GetGameInProgress()) 
 	{
 		pCmdUI->SetText("Rebid Current Hand\tF3");	
 	} 
@@ -3007,7 +3007,7 @@ void CEasyBView::OnBidCurrentHand()
 	}
 
 	// rebidding the hand after game is underway?
-	if (theApp.IsGameInProgress() || (m_nCurrMode == MODE_GAMEREVIEW))
+	if (theApp.GetGameInProgress() || (m_nCurrMode == MODE_GAMEREVIEW))
 	{
 		// if in the midst of game review, hide the game review dialog
 		if (m_nCurrMode == MODE_GAMEREVIEW)

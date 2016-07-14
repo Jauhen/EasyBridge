@@ -1255,7 +1255,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 
 	// adjust any table cards
 	// and any trick cards on the table
-	if (theApp.IsGameInProgress())
+	if (theApp.GetGameInProgress())
 	{
 		int numCards = pDOC->GetDeal()->GetNumCardsPlayedInRound();
 		int nPos = pDOC->GetDeal()->GetRoundLead();

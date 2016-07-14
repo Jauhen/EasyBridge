@@ -555,9 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbUsingDuplicateScoring:
-			return (LPVOID) m_bDuplicateScoring;
-			break;
 		case tbDebugMode:
 			return (LPVOID) m_bDebugMode;
 		case tbManualBidding:
@@ -870,9 +867,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbUsingDuplicateScoring:
-			m_bDuplicateScoring = bVal;
-			break;
 		case tbDebugMode:
 			m_bDebugMode = bVal;
 			break;

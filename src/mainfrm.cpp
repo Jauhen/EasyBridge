@@ -1610,7 +1610,7 @@ void CMainFrame::DisplayTricks(BOOL bClear)
 void CMainFrame::DisplayContract(BOOL bClear)
 {
 	CString strMessage;
-	if ((bClear) || (!theApp.IsGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
+	if ((bClear) || (!theApp.GetGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
 	{
 		strMessage = "";
 	} 
@@ -1645,7 +1645,7 @@ void CMainFrame::DisplayContract(BOOL bClear)
 void CMainFrame::DisplayDeclarer(BOOL bClear)
 {
 	CString strMessage;
-	if ((bClear) || (!theApp.IsGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
+	if ((bClear) || (!theApp.GetGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
 	{
 		strMessage = "";
 	} 
@@ -1662,8 +1662,8 @@ void CMainFrame::DisplayDeclarer(BOOL bClear)
 void CMainFrame::DisplayVulnerable(BOOL bClear) 
 {
 	CString strMessage;
-	if (theApp.IsRubberInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
-				theApp.IsUsingDuplicateScoring())
+	if (theApp.GetRubberInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
+				theApp.GetUsingDuplicateScoring())
 	{
 		switch(pDOC->GetDeal()->GetVulnerableTeam())
 		{
@@ -2495,21 +2495,21 @@ void CMainFrame::OnUpdatePlayModeLock(CCmdUI* pCmdUI)
 void CMainFrame::OnPlayModeNormal() 
 {
 	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL, 1);	// override lock
-	if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeManual() 
 {
 	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_MANUAL, 1);
-	if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeManualDefend() 
 {
 	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_MANUAL_DEFEND, 1);
-	if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
@@ -2517,9 +2517,9 @@ void CMainFrame::OnPlayModeFullAuto()
 {
 	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO, 1);
 	HideDialog(twAutoHintDialog);
-	if ((theApp.IsGameInProgress()) && 
+	if ((theApp.GetGameInProgress()) && 
 		(pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
-    pDOC->AdvanceToNextPlayer();
+	  pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeLock() 
@@ -2560,7 +2560,7 @@ void CMainFrame::OnManualPlay()
 		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_MANUAL, 1);
 	}
 	//
-	if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 

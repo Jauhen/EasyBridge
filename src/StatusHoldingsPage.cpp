@@ -172,7 +172,7 @@ void CStatusHoldingsPage::Update()
 	// return if not all inits are complete
 	if ((!m_bInitialized) || (pDOC == NULL))
 		return;
-	if (!theApp.IsGameInProgress())
+	if (!theApp.GetGameInProgress())
 		return;
 
 	// clear existing items

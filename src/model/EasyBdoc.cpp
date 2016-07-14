@@ -301,7 +301,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   // there are currently only two entry points -- 
   // just prior to bidding, or just prior to play
   //
-  if (theApp.IsGameInProgress()) {
+  if (theApp.GetGameInProgress()) {
     // init players with the new hands
     for (int i = 0; i < 4; i++) {
       deal_->GetPlayer(i)->InitializeRestoredHand();
@@ -502,7 +502,7 @@ void CEasyBDoc::OnUpdateClearAll(CCmdUI* pCmdUI) {
 
 //
 void CEasyBDoc::OnClearAll() {
-  if (theApp.IsRubberInProgress()) {
+  if (theApp.GetRubberInProgress()) {
     if (AfxMessageBox("This will end the rubber.  Do you wish to continue?", MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
       return;
   }
@@ -528,7 +528,7 @@ void CEasyBDoc::OnClearAll() {
 
 //
 void CEasyBDoc::OnUpdatePlayRubber(CCmdUI* pCmdUI) {
-  if (!theApp.IsRubberInProgress()) {
+  if (!theApp.GetRubberInProgress()) {
     pCmdUI->SetText("Play Rubber\tShift+F2");
     pCmdUI->SetCheck(0);
   } else {
@@ -548,7 +548,7 @@ void CEasyBDoc::OnUpdatePlayRubber(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnPlayRubber() {
   // see if we're currently playing rubber
-  if (!theApp.IsRubberInProgress()) {
+  if (!theApp.GetRubberInProgress()) {
     // set rubber mode
     theApp.SetRubberInProgress(true);
     pMAINFRAME->SetModeIndicator("Match");
@@ -582,11 +582,11 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
   BOOL bEnable = TRUE;
 
   // disable if not bidding or playing
-  if (!theApp.GetBiddingInProgress() && !theApp.IsGameInProgress())
+  if (!theApp.GetBiddingInProgress() && !theApp.GetGameInProgress())
     bEnable = FALSE;
 
   // disable if game is over
-  if (theApp.IsGameInProgress() && (deal_->GetNumTricksPlayed() == 13))
+  if (theApp.GetGameInProgress() && (deal_->GetNumTricksPlayed() == 13))
     bEnable = FALSE;
 
   // disable if at the end of a trick
@@ -594,7 +594,7 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
   //		bEnable = FALSE;
 
   // disable if not our turn
-  if (theApp.IsGameInProgress() &&
+  if (theApp.GetGameInProgress() &&
     (!ISPLAYER(deal_->GetCurrentPlayerPosition()) || !deal_->GetCurrentPlayer()->IsHumanPlayer()))
     bEnable = FALSE;
 
@@ -657,7 +657,7 @@ void CEasyBDoc::OnDealNewHand() {
   deal_->DealHands();
 
   // if using duplicate scoring, update vulnerability display
-  if (theApp.IsUsingDuplicateScoring())
+  if (theApp.GetUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }
 
@@ -687,7 +687,7 @@ void CEasyBDoc::OnDealNumberedHand() {
       dealNumDlg.m_nSpecialDealCode, dealNumDlg.m_nDealNumber);
 
   // if using duplicate scoring, update vulnerability display
-  if (theApp.IsUsingDuplicateScoring())
+  if (theApp.GetUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }
 
@@ -781,7 +781,7 @@ void CEasyBDoc::OnNewGame() {
 
 //
 void CEasyBDoc::OnUpdateViewScore(CCmdUI* pCmdUI) {
-  if (theApp.IsRubberInProgress())
+  if (theApp.GetRubberInProgress())
     pCmdUI->Enable(TRUE);
   else
     pCmdUI->Enable(FALSE);
@@ -880,7 +880,7 @@ void CEasyBDoc::OnPlayConcedeTricks() {
 
 //
 void CEasyBDoc::OnUpdateGameAutoPlay(CCmdUI* pCmdUI) {
-  if ((theApp.IsGameInProgress()) &&
+  if ((theApp.GetGameInProgress()) &&
     //		((m_nCurrPlayer == NORTH) || (m_nCurrPlayer == SOUTH)) &&
     (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pCmdUI->Enable(TRUE);
@@ -906,7 +906,7 @@ void CEasyBDoc::OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI) {
   else
     pCmdUI->SetCheck(0);
   //
-  if (theApp.IsGameInProgress() &&
+  if (theApp.GetGameInProgress() &&
     ((pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY) ||
     (pVIEW->GetCurrentMode() == CEasyBView::MODE_CLICKFORNEXTTRICK) ||
       (deal_->IsAutoReplayMode())))
@@ -958,7 +958,7 @@ void CEasyBDoc::OnUpdateGameAutoPlayExpress(CCmdUI* pCmdUI) {
   else
     pCmdUI->SetCheck(0);
   //
-  if (theApp.IsGameInProgress() &&
+  if (theApp.GetGameInProgress() &&
     ((pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY) ||
     (pVIEW->GetCurrentMode() == CEasyBView::MODE_CLICKFORNEXTTRICK) ||
       (deal_->IsAutoReplayMode())))
@@ -1015,7 +1015,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
       pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
     }
     //
-    if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
+    if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
       AdvanceToNextPlayer();
     }
   }
@@ -1060,7 +1060,7 @@ void CEasyBDoc::OnUpdateSwapCards(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnSwapPositionEast() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetGameInProgress()) {
     // not started playing yet
     deal_->SwapPlayersHands(SOUTH, EAST);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_EAST);
@@ -1072,7 +1072,7 @@ void CEasyBDoc::OnSwapPositionEast() {
 //
 void CEasyBDoc::OnSwapPositionNorth() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetGameInProgress()) {
     // not started playing yet
     deal_->SwapPlayersHands(SOUTH, NORTH);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_NORTH);
@@ -1084,7 +1084,7 @@ void CEasyBDoc::OnSwapPositionNorth() {
 //
 void CEasyBDoc::OnSwapPositionWest() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetGameInProgress()) {
     // not started playing yet
     deal_->SwapPlayersHands(SOUTH, WEST);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_WEST);
@@ -1096,7 +1096,7 @@ void CEasyBDoc::OnSwapPositionWest() {
 //
 void CEasyBDoc::OnSwapCardsClockwise() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetGameInProgress()) {
     // not started playing yet
     deal_->RotatePlayersHands(0, TRUE, theApp.GetBiddingInProgress());
   } else {
@@ -1111,7 +1111,7 @@ void CEasyBDoc::OnSwapCardsClockwise() {
 //
 void CEasyBDoc::OnSwapCardsCounterclockwise() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetGameInProgress()) {
     // not started playing yet
     deal_->RotatePlayersHands(1, TRUE, theApp.GetBiddingInProgress());
   } else {

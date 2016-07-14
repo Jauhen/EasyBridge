@@ -276,7 +276,7 @@ void CStatusPlayPlanPage::UpdateToolTipText(CPoint point)
 	CPoint clientPoint = point;
 	m_listPlayPlan.ScreenToClient(&clientPoint);
 	// get the declarer & his play engine
-	if (!theApp.IsGameInProgress())
+	if (!theApp.GetGameInProgress())
 		return;
 	CPlayer* pPlayer = pDOC->GetDeal()->GetDeclarer();
 	CDeclarerPlayEngine* pPlayEngine = pPlayer->GetDeclarerEngine();
@@ -373,7 +373,7 @@ void CStatusPlayPlanPage::Update()
 	// return if not all inits are complete
 	if ((!m_bInitialized) || (pDOC == NULL))
 		return;
-	if (!theApp.IsGameInProgress())
+	if (!theApp.GetGameInProgress())
 	{
 		m_strDeclarer = "None";
 		UpdateData(FALSE);
