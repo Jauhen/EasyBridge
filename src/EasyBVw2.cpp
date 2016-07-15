@@ -29,7 +29,7 @@ void CEasyBView::PromptLead()
 {
 	//
 	if ((!pDOC->GetDeal()->GetCurrentPlayer()->IsHumanPlayer()) &&
-		(!theApp.GetValue(tbManualPlayMode)))
+		(!theApp.GetManualPlayMode()))
 		return;
 	//
 	CString strMessage;

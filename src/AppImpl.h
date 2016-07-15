@@ -112,7 +112,7 @@ public:
   }
 
   virtual bool IsInManualCardPlayMode() {
-    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL;
+    return theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL;
   }
 
   virtual bool AreCardsFaceUp() {
@@ -248,15 +248,15 @@ public:
   }
 
   virtual bool IsFullAutoPlayMode() {
-    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO;
+    return theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO;
   }
 
   virtual bool IsFullAutoExpressPlayMode() {
-    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO_EXPRESS;
+    return theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO_EXPRESS;
   }
 
   virtual void SetNormalPlayMode() {
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
+    theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL);
   }
 
   virtual void SetRubberInProgress(bool value) {

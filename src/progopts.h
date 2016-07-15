@@ -15,8 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbManualPlayMode,
-	tnCardPlayMode,
 	tbPlayModeLocked,
 	tbShowCardsFaceUp,
 	tbShowLayoutOnEdit,

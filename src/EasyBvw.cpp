@@ -1592,7 +1592,7 @@ void CEasyBView::OnMouseMove(UINT nFlags, CPoint point)
 			return;
 		CPlayer* pPlayer = pDOC->GetDeal()->GetCurrentPlayer();
 		int nCurrPlayerPos = pPlayer->GetPosition();
-		int nPlayMode = theApp.GetValue(tnCardPlayMode);
+		int nPlayMode = theApp.GetCardPlayMode();
 		BOOL bManualPlay;
 		if ( (pPlayer && pPlayer->IsHumanPlayer()) ||
 			 (nPlayMode == CEasyBApp::PLAY_MANUAL) ||
@@ -2457,8 +2457,8 @@ void CEasyBView::OnUndoTrick()
 	}
 */
 	//
-	if (bImmediateRestart && (theApp.GetValue(tnCardPlayMode) != CEasyBApp::PLAY_FULL_AUTO) &&
-				(theApp.GetValue(tnCardPlayMode) != CEasyBApp::PLAY_FULL_AUTO_EXPRESS))
+	if (bImmediateRestart && (theApp.GetCardPlayMode() != CEasyBApp::PLAY_FULL_AUTO) &&
+				(theApp.GetCardPlayMode() != CEasyBApp::PLAY_FULL_AUTO_EXPRESS))
 	{
     pDOC->AdvanceToNextPlayer();
 	}

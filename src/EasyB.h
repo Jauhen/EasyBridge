@@ -45,7 +45,6 @@ extern const LPCTSTR szSuitName[];
 class CEasyBApp : public Settings, public CWinApp, public CObjectWithProperties, public CEventProcessor
 {
 public:
-	enum { PLAY_NORMAL, PLAY_MANUAL, PLAY_MANUAL_DEFEND, PLAY_FULL_AUTO, PLAY_FULL_AUTO_EXPRESS };
 
 // public routines
 public:

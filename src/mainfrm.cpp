@@ -2468,22 +2468,22 @@ void CMainFrame::OnTrainingMode()
 //
 void CMainFrame::OnUpdatePlayModeNormal(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_NORMAL)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_NORMAL)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeManual(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeManualDefend(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL_DEFEND)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL_DEFEND)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeFullAuto(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeLock(CCmdUI* pCmdUI) 
@@ -2494,28 +2494,28 @@ void CMainFrame::OnUpdatePlayModeLock(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnPlayModeNormal() 
 {
-	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL, 1);	// override lock
+	theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL, true);	// override lock
 	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeManual() 
 {
-	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_MANUAL, 1);
+	theApp.SetCardPlayMode(CEasyBApp::PLAY_MANUAL, true);
 	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeManualDefend() 
 {
-	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_MANUAL_DEFEND, 1);
+	theApp.SetCardPlayMode(CEasyBApp::PLAY_MANUAL_DEFEND, true);
 	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeFullAuto() 
 {
-	theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO, 1);
+	theApp.SetCardPlayMode(CEasyBApp::PLAY_FULL_AUTO, true);
 	HideDialog(twAutoHintDialog);
 	if ((theApp.GetGameInProgress()) && 
 		(pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
@@ -2544,20 +2544,20 @@ void CMainFrame::OnManualBidding()
 //
 void CMainFrame::OnUpdateManualPlay(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL)? 1 : 0);
 }
 
 void CMainFrame::OnManualPlay() 
 {
-	if (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL)
+	if (theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL)
 	{
 		// is manual, set to normal
-		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL, 1);
+		theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL, true);
 	}
 	else
 	{
 		// is NOT manual, set to manual
-		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_MANUAL, 1);
+		theApp.SetCardPlayMode(CEasyBApp::PLAY_MANUAL, true);
 	}
 	//
 	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))

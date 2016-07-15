@@ -901,7 +901,7 @@ void CEasyBDoc::OnGameAutoPlay() {
 //
 void CEasyBDoc::OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI) {
   //
-  if (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO)
+  if (theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO)
     pCmdUI->SetCheck(1);
   else
     pCmdUI->SetCheck(0);
@@ -923,7 +923,7 @@ void CEasyBDoc::OnGameAutoPlayAll() {
 
   //
   CPlayerStatusDialog& status = deal_->GetCurrentPlayer()->GetStatusDialog();
-  if (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO) {
+  if (theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO) {
     // check if we're in computer replay
     if (deal_->IsAutoReplayMode()) {
       deal_->SetAutoReplayMode(FALSE);
@@ -935,7 +935,7 @@ void CEasyBDoc::OnGameAutoPlayAll() {
       pMAINFRAME->SetStatusMessage("Auto play disabled.");
       status << "4PLYAUTO2a! Computer autoplay cancelled.\n";
     }
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
+    theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL);
     if (((deal_->GetCurrentPlayerPosition() == NORTH) || (deal_->GetCurrentPlayerPosition() == SOUTH)) &&
         (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
       AdvanceToNextPlayer();
@@ -987,7 +987,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
       pMAINFRAME->SetStatusMessage("Full auto play disabled.");
       status << "4PLYAUTO3a! Computer autoplay cancelled.\n";
     }
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
+    theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL);
     pVIEW->EnableRefresh();
     EndWaitCursor();
     if (((deal_->GetCurrentPlayerPosition() == NORTH) || (deal_->GetCurrentPlayerPosition() == SOUTH)) &&
@@ -1001,7 +1001,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
     else
       pMAINFRAME->SetStatusMessage("Full auto play in progress...");
     status << "4PLYAUTO3b! The computer is playing the hands to completion...\n";
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
+    theApp.SetCardPlayMode(CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
     deal_->SetExpressPlayMode(TRUE);
     BeginWaitCursor();
 
@@ -1325,11 +1325,11 @@ void CEasyBDoc::OnFileProperties() {
 void CEasyBDoc::AdvanceToNextPlayer() {
   // see whether this is a human or computer player
   BOOL bManualPlay = FALSE;
-  int nPlayMode = theApp.GetValue(tnCardPlayMode);
+  int nPlayMode = theApp.GetCardPlayMode();
   if (deal_->GetCurrentPlayer()->IsHumanPlayer() && 
       (nPlayMode != CEasyBApp::PLAY_FULL_AUTO && nPlayMode != CEasyBApp::PLAY_FULL_AUTO_EXPRESS)) {
     bManualPlay = TRUE;
-  } else if ((theApp.GetValue(tbManualPlayMode)) ||
+  } else if ((theApp.GetManualPlayMode()) ||
       (nPlayMode == CEasyBApp::PLAY_MANUAL) ||
       ((nPlayMode == CEasyBApp::PLAY_MANUAL_DEFEND) && (deal_->GetCurrentPlayer()->IsDefending()))) {
     bManualPlay = TRUE;

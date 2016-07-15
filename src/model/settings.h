@@ -3,6 +3,9 @@
 
 class Settings {
 public:
+  enum { PLAY_NORMAL, PLAY_MANUAL, PLAY_MANUAL_DEFEND, PLAY_FULL_AUTO, PLAY_FULL_AUTO_EXPRESS };
+
+
   Settings();
   ~Settings();
 
@@ -122,7 +125,14 @@ public:
   void SetShowCommentIdentifiers(bool val) { m_bShowCommentIdentifiers = val; }
   int GetPassedHandWaitInterval() const { return m_nPassedHandWaitInterval; }
   void SetPassedHandWaitInterval(int val) { m_nPassedHandWaitInterval = val; }
-
+  bool GetManualPlayMode() const { return m_bManualPlayMode; }
+  void SetManualPlayMode(bool val) { m_bManualPlayMode = val; }
+  int GetCardPlayMode() const { return m_bManualPlayMode ? Settings::PLAY_MANUAL : m_nPlayMode; }
+  void SetCardPlayMode(int val, bool forse = false) { 
+	  if (!m_bPlayModeLocked || forse) {
+		  m_nPlayMode = val;
+	  }
+  }
 
 
 

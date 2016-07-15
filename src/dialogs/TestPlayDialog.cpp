@@ -329,7 +329,7 @@ void CTestPlayDialog::OnStart()
 		long lStartTime = timeGetTime();
 
 		// now play out the hand -- play on full auto
-		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
+		theApp.SetCardPlayMode(CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
 		pDOC->GetDeal()->SetExpressPlayMode(TRUE);
 		pDOC->GetDeal()->InvokeNextPlayer();
 

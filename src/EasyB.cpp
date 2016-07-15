@@ -554,13 +554,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbManualPlayMode:
-			return (LPVOID) m_bManualPlayMode;
-		case tnCardPlayMode:
-			if (m_bManualPlayMode)
-				return (LPVOID) PLAY_MANUAL;
-			else
-				return (LPVOID) m_nPlayMode;
 		case tbPlayModeLocked:
 			return (LPVOID) m_bPlayModeLocked;
 		case tbShowCardsFaceUp:
@@ -832,13 +825,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbManualPlayMode:
-			m_bManualPlayMode = bVal;
-			break;
-		case tnCardPlayMode:
-			if (!m_bPlayModeLocked || (nIndex1 > 0))
-				m_nPlayMode = nVal;
-			break;
 		case tbPlayModeLocked:
 			m_bPlayModeLocked = bVal;
 			break;
