@@ -15,9 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbDebugMode,
-	tbAutoTestMode,
-	tbManualBidding,
 	tbEnableAnalysisTracing,
 	tbEnableAnalysisDuringHints,
 	tnAutoHintMode,

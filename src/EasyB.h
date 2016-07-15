@@ -68,7 +68,6 @@ public:
 	CWnd* GetFrame() { return m_pMainWnd; }
 	int GetMinimumOpeningValue(CPlayer* pPlayer=NULL) const;
 	// inline functions
-	BOOL IsDebugModeActive() const { return m_bDebugMode; }
 	BOOL AreCardsFaceUp() const;
 	void SetCardsFaceUp(BOOL bFaceUp); 
 	int GetLHO(int nPos) const { return GetNextPlayer(nPos); }

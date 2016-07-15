@@ -634,7 +634,7 @@ void CBidDialog::InitBiddingSequence()
 	m_bUseSuitSymbols = theApp.GetValue(tbUseSuitSymbols);
 
 	// get manual bid option
-	m_bManualBidding = theApp.GetValue(tbManualBidding);
+	m_bManualBidding = theApp.GetManualBidding();
 
 	// get pause option
 	m_bInsertBiddingPause = theApp.GetValue(tbInsertBiddingPause);

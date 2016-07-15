@@ -320,7 +320,7 @@ public:
   }
 
   virtual bool IsInAutoTestMode() {
-    return theApp.GetValue(tbAutoTestMode) == TRUE;
+    return theApp.GetAutoTestMode();
   }
 
   virtual const char* GetProgramDirectory() {
@@ -356,7 +356,7 @@ public:
   }
 
   virtual bool IsDebugModeActive() {
-    return theApp.IsDebugModeActive() == TRUE;
+    return theApp.GetDebugMode();
   }
 
   //////////////////////////////////////////////////////////////////////////

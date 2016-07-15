@@ -555,12 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbDebugMode:
-			return (LPVOID) m_bDebugMode;
-		case tbManualBidding:
-			return (LPVOID) m_bManualBidding;
-		case tbAutoTestMode:
-			return (LPVOID) m_bAutoTestMode;
 		case tnAutoHintMode:
 			return (LPVOID) m_nAutoHintMode;
 		case tnAutoHintTraceLevel:
@@ -867,15 +861,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbDebugMode:
-			m_bDebugMode = bVal;
-			break;
-		case tbManualBidding:
-			m_bManualBidding = bVal;
-			break;
-		case tbAutoTestMode:
-			m_bAutoTestMode = bVal;
-			break;
 		case tnAutoHintMode:
 			m_nAutoHintMode = nVal;
 			break;

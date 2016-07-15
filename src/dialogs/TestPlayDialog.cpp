@@ -278,7 +278,7 @@ void CTestPlayDialog::OnStart()
 #endif
 
 	// 
-	theApp.SetValue(tbAutoTestMode, TRUE);
+	theApp.SetAutoTestMode(true);
 	m_strStatus = "Auto play in progress...";
 	UpdateData(FALSE);
 
@@ -390,7 +390,7 @@ void CTestPlayDialog::OnStart()
 	theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
 
 	//
-	theApp.SetValue(tbAutoTestMode, FALSE);
+	theApp.SetAutoTestMode(false);
 	GetDlgItem(ID_START)->EnableWindow(TRUE);
 	GetDlgItem(ID_STOP)->EnableWindow(FALSE);
 	m_bPlayActive = FALSE;

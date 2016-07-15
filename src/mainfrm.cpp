@@ -2530,15 +2530,15 @@ void CMainFrame::OnPlayModeLock()
 //
 void CMainFrame::OnUpdateManualBidding(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(theApp.GetValue(tbManualBidding));
+	pCmdUI->SetCheck(theApp.GetManualBidding());
 	pCmdUI->Enable(TRUE);
 }
 
 void CMainFrame::OnManualBidding() 
 {
-	theApp.SetValue(tbManualBidding, !theApp.GetValue(tbManualBidding));
+	theApp.SetManualBidding(!theApp.GetManualBidding());
 	if (m_pBidDlg && m_pBidDlg->IsWindowVisible())
-		m_pBidDlg->EnableManualBidding(theApp.GetValue(tbManualBidding));
+		m_pBidDlg->EnableManualBidding(theApp.GetManualBidding());
 }
 
 //

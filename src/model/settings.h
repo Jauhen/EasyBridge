@@ -110,6 +110,12 @@ public:
   void SetGameInProgress(bool val) { m_bGameInProgress = val; }
   bool GetRubberInProgress() const { return m_bRubberInProgress; }
   void SetRubberInProgress(bool val) { m_bRubberInProgress = val; }
+  bool GetDebugMode() const { return m_bDebugMode; }
+  void SetDebugMode(bool val) { m_bDebugMode = val; }
+  bool GetAutoTestMode() const { return m_bAutoTestMode; }
+  void SetAutoTestMode(bool val) { m_bAutoTestMode = val; }
+  bool GetManualBidding() const { return m_bManualBidding; }
+  void SetManualBidding(bool val) { m_bManualBidding = val; }
 
 
   static double m_fDefaultMajorSuitGamePts;

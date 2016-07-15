@@ -1372,7 +1372,7 @@ void CEasyBDoc::AdvanceToNextPlayer() {
     pVIEW->SetCurrentMode(CEasyBView::MODE_NONE);	// clear up loose ends
     BOOL bExpressMode = theApp.InExpressAutoPlay();
     // prompt if not in express mode
-    if (!bExpressMode && !theApp.GetValue(tbAutoTestMode)) {
+    if (!bExpressMode && !theApp.GetAutoTestMode()) {
       CWaitCursor wait;
       CString strMessage;
       if ((!deal_->GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDeclarer)) ||
