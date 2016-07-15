@@ -270,11 +270,11 @@ void CTestPlayDialog::OnStart()
 	pDOC->GetDeal()->ClearAllInfo();
 
 	// save settings
-	BOOL bOldClaimSetting = theApp.GetValue(tbComputerCanClaim);
-	theApp.SetValue(tbComputerCanClaim, FALSE);
-	BOOL bOldAnalysisSetting = theApp.GetValue(tbEnableAnalysisTracing);
+	BOOL bOldClaimSetting = theApp.GetComputerCanClaim();
+	theApp.SetComputerCanClaim(false);
+	BOOL bOldAnalysisSetting = theApp.GetEnableAnalysisTracing();
 #ifndef _TESTING
-	theApp.SetValue(tbEnableAnalysisTracing, FALSE);
+	theApp.SetEnableAnalysisTracing(false);
 #endif
 
 	// 
@@ -386,8 +386,8 @@ void CTestPlayDialog::OnStart()
 	pDOC->GetDeal()->ClearAllInfo();
 
 	// restore settings
-	theApp.SetValue(tbComputerCanClaim, bOldClaimSetting);
-	theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
+	theApp.SetComputerCanClaim(bOldClaimSetting);
+	theApp.SetEnableAnalysisTracing(bOldAnalysisSetting);
 
 	//
 	theApp.SetAutoTestMode(false);

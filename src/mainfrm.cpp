@@ -972,7 +972,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pWndStatus->ShowWindow(SW_HIDE);
 
 	// update the player status dialog's hint trace level
-	CPlayerStatusDialog::SetHintTraceLevel(theApp.GetValue(tnAutoHintTraceLevel));
+	CPlayerStatusDialog::SetHintTraceLevel(theApp.GetAutoHintTraceLevel());
 
 
 	// Define the image list to use with the tab control
@@ -2013,7 +2013,7 @@ void CMainFrame::OnProgConfigWizard()
 		CWelcomeWnd* pWelcomeDialog = new CWelcomeWnd;
 		pWelcomeDialog->Create(this);
 		// set to show help rules if necesary
-		pWelcomeDialog->SetShowRulesHelp((theApp.GetValue(tnAutoHintMode) == 2));
+		pWelcomeDialog->SetShowRulesHelp((theApp.GetAutoHintMode() == 2));
 		//
 		pWelcomeDialog->ShowWindow(SW_SHOW);
 		// and turn off the first time flag
@@ -2167,7 +2167,7 @@ void CMainFrame::OnGameOptions()
 //
 void CMainFrame::OnUpdateToggleAnalysisTracing(CCmdUI* pCmdUI) 
 {
-	if (theApp.GetValue(tbEnableAnalysisTracing))
+	if (theApp.GetEnableAnalysisTracing())
 		pCmdUI->SetCheck(1);
 	else
 		pCmdUI->SetCheck(0);
@@ -2176,8 +2176,8 @@ void CMainFrame::OnUpdateToggleAnalysisTracing(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnToggleAnalysisTracing() 
 {
-	BOOL bEnable = !theApp.GetValue(tbEnableAnalysisTracing);
-	theApp.SetValue(tbEnableAnalysisTracing, bEnable);
+	BOOL bEnable = !theApp.GetEnableAnalysisTracing();
+	theApp.SetEnableAnalysisTracing(bEnable);
 	if (bEnable)
 		SetStatusMessage("Computer analysis tracing enabled.");
 	else
@@ -2423,7 +2423,7 @@ void CMainFrame::OnDebugMode()
 //
 void CMainFrame::OnUpdateGameAutoHint(CCmdUI* pCmdUI) 
 {
-	int nMode = theApp.GetValue(tnAutoHintMode);
+	int nMode = theApp.GetAutoHintMode();
 	pCmdUI->SetCheck(nMode? 1 : 0);
 	pCmdUI->Enable(TRUE);
 }
@@ -2431,8 +2431,8 @@ void CMainFrame::OnUpdateGameAutoHint(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnGameAutoHint() 
 {
-	int nMode = !theApp.GetValue(tnAutoHintMode);
-	theApp.SetValue(tnAutoHintMode, nMode);
+	int nMode = !theApp.GetAutoHintMode();
+	theApp.SetAutoHintMode(nMode);
 	if (nMode)
 	{
 		// show autohint dialog and hint if necessary
@@ -2567,14 +2567,14 @@ void CMainFrame::OnManualPlay()
 //
 void CMainFrame::OnUpdateShowCommentIdentifiers(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(theApp.GetValue(tbShowCommentIdentifiers));
+	pCmdUI->SetCheck(theApp.GetShowCommentIdentifiers());
 	pCmdUI->Enable(TRUE);
 }
 
 //
 void CMainFrame::OnShowCommentIdentifiers() 
 {
-	theApp.SetValue(tbShowCommentIdentifiers, !theApp.GetValue(tbShowCommentIdentifiers));
+	theApp.SetShowCommentIdentifiers(!theApp.GetShowCommentIdentifiers());
 }
 
 

@@ -83,7 +83,6 @@ public:
 	LPCTSTR GetSuitName(int nSuit) const { return szSuitName[nSuit]; }
 	BOOL InExpressAutoPlay() const { return (m_nPlayMode == PLAY_FULL_AUTO_EXPRESS); }
 	BOOL IsAutoHintEnabled() const { return (m_nAutoHintMode > 0); }
-	int GetAutoHintLevel() const { return m_nAutoHintMode; }
 	int GetNumAcesRequiredForSlam(int nIndex) const { return m_numAcesForSlam[nIndex]; }
 	int GetNumKingsRequiredForSlam(int nIndex) const { return m_numKingsForSlam[nIndex]; }
 	void SetNumAcesRequiredForSlam(int nIndex, int nCount) { m_numAcesForSlam[nIndex] = nCount; }

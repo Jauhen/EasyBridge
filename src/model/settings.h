@@ -116,6 +116,14 @@ public:
   void SetAutoTestMode(bool val) { m_bAutoTestMode = val; }
   bool GetManualBidding() const { return m_bManualBidding; }
   void SetManualBidding(bool val) { m_bManualBidding = val; }
+  int GetAutoHintTraceLevel() const { return m_nAutoHintTraceLevel; }
+  void SetAutoHintTraceLevel(int val) { m_nAutoHintTraceLevel = val; }
+  bool GetShowCommentIdentifiers() const { return m_bShowCommentIdentifiers; }
+  void SetShowCommentIdentifiers(bool val) { m_bShowCommentIdentifiers = val; }
+  int GetPassedHandWaitInterval() const { return m_nPassedHandWaitInterval; }
+  void SetPassedHandWaitInterval(int val) { m_nPassedHandWaitInterval = val; }
+
+
 
 
   static double m_fDefaultMajorSuitGamePts;
@@ -142,133 +150,132 @@ public:
   //
   // program status
   //
-  int		m_nGameMode;			// 0=practice, 1=rubber
-  bool	m_bBiddingInProgress;	// bidding
-  bool	m_bGameInProgress;		// playing tricks
-  bool	m_bRubberInProgress;	// playing rubber?
-  bool	m_bDuplicateScoring;	// duplicate scoring?
-  int		m_nAutoHintMode;		// Auto Hint in effect?
-  int		m_nAutoHintTraceLevel;  // Auto Hint trace level
-  bool	m_bFirstTimeRunning;	// first time running?
+  int m_nGameMode; // 0=practice, 1=rubber
+  bool m_bBiddingInProgress; // bidding
+  bool m_bGameInProgress; // playing tricks
+  bool m_bRubberInProgress; // playing rubber?
+  bool m_bDuplicateScoring; // duplicate scoring?
+  int m_nAutoHintMode; // Auto Hint in effect?
+  int m_nAutoHintTraceLevel;  // Auto Hint trace level
+  bool m_bFirstTimeRunning; // first time running?
 
                               // debug options
-  bool	m_bDebugMode;			// debug mode
-  int		m_nTestMode;
-  bool	m_bShowCardsFaceUp;
-  bool	m_bManualPlayMode;
-  int		m_nPlayMode;
-  bool	m_bPlayModeLocked;
-  bool	m_bAutoTestMode;
+  bool m_bDebugMode; // debug mode
+  int m_nTestMode;
+  bool m_bShowCardsFaceUp;
+  bool m_bManualPlayMode;
+  int m_nPlayMode;
+  bool m_bPlayModeLocked;
+  bool m_bAutoTestMode;
 
   // game options
-  bool	m_bAutoBidStart;
-  bool	m_bAutoJumpCursor;
-  bool	m_bAutoPlayLastCard;
-  bool	m_bEnableAnalysisTracing;
-  bool	m_bEnableAnalysisDuringHints;
-  int		m_nAnalysisTraceLevel;
-  bool	m_bShowCommentIdentifiers;
-  bool	m_bInsertBiddingPause;
-  int		m_nBiddingPauseLength;
-  bool	m_bInsertPlayPause;
-  int		m_nPlayPauseLength;
-  bool	m_bComputerCanClaim;
-  bool	m_bShowPassedHands;
-  bool	m_bAllowRebidPassedHands;
-  int		m_nPassedHandWaitInterval;
-  bool	m_bAutoShowBidHistory;
-  bool	m_bAutoShowPlayHistory;
-  bool	m_bAutoHideBidHistory;
-  bool	m_bAutoHidePlayHistory;
-  bool	m_bAutoShowNNetOutputWhenTraining;
-  bool 	m_bShowLayoutOnEdit;
+  bool m_bAutoBidStart;
+  bool m_bAutoJumpCursor;
+  bool m_bAutoPlayLastCard;
+  bool m_bEnableAnalysisTracing;
+  bool m_bEnableAnalysisDuringHints;
+  int m_nAnalysisTraceLevel;
+  bool m_bShowCommentIdentifiers;
+  bool m_bInsertBiddingPause;
+  int m_nBiddingPauseLength;
+  bool m_bInsertPlayPause;
+  int m_nPlayPauseLength;
+  bool m_bComputerCanClaim;
+  bool m_bShowPassedHands;
+  bool m_bAllowRebidPassedHands;
+  int m_nPassedHandWaitInterval;
+  bool m_bAutoShowBidHistory;
+  bool m_bAutoShowPlayHistory;
+  bool m_bAutoHideBidHistory;
+  bool m_bAutoHidePlayHistory;
+  bool m_bAutoShowNNetOutputWhenTraining;
+  bool  m_bShowLayoutOnEdit;
 
   // bidding config
-  double		m_fBiddingAggressiveness;
-  bool		m_bManualBidding;		// transient
+  double m_fBiddingAggressiveness;
+  bool m_bManualBidding; // transient
   /*
-  int			m_nBiddingEngine;
-  bool		m_bNNetTrainingMode;
-  int			m_numNNetHiddenLayers;
-  int			m_numNNetNodesPerHiddenLayer;
-  CString		m_strNeuralNetFile;
-  CNeuralNet*	m_pNeuralNet;
+  int m_nBiddingEngine;
+  bool m_bNNetTrainingMode;
+  int m_numNNetHiddenLayers;
+  int m_numNNetNodesPerHiddenLayer;
+  CString m_strNeuralNetFile;
+  CNeuralNet* m_pNeuralNet;
   */
 
                               // counting options
-  int		m_nHonorsValuationMode;
-  double	m_fAceValue;
-  double	m_fKingValue;
-  double	m_fQueenValue;
-  double	m_fJackValue;
+  int m_nHonorsValuationMode;
+  double m_fAceValue;
+  double m_fKingValue;
+  double m_fQueenValue;
+  double m_fJackValue;
   double  m_fTenValue;
-  double	m_fCustomAceValue;
-  double	m_fCustomKingValue;
-  double	m_fCustomQueenValue;
-  double	m_fCustomJackValue;
-  double	m_fCustomTenValue;
-  bool	m_bAcelessPenalty;
-  bool	m_b4AceBonus;
-  bool	m_bPenalizeUGHonors;
-  bool	m_bCountShortSuits;
+  double m_fCustomAceValue;
+  double m_fCustomKingValue;
+  double m_fCustomQueenValue;
+  double m_fCustomJackValue;
+  double m_fCustomTenValue;
+  bool m_bAcelessPenalty;
+  bool m_b4AceBonus;
+  bool m_bPenalizeUGHonors;
+  bool m_bCountShortSuits;
 
   // deal options
-  int 	m_nReqPointsGame[4][2];
-  int 	m_nReqPointsSlam[3][2];
-  int 	m_nPointsAbsGameLimits[4][2];
-  int 	m_nPointsAbsSlamLimits[3][2];
-  bool	m_bBalanceTeamHands;
-  bool	m_bGiveSouthBestHandInPartnership;
-  bool	m_bGiveSouthBestHandInGame;
-  int 	m_nMinCardsInMajor;
-  int 	m_nMinCardsInMinor;
-  int		m_nMinSuitDistTable[2][4][2];
-  int		m_nMinSuitDist[2];
-  int 	m_nMinTopMajorCard;
-  int 	m_nMinTopMinorCard;
-  int 	m_nMaxImbalanceForNT;
-  bool	m_bNeedTwoBalancedTrumpHands;
-  int		m_numAcesForSlam[3];
-  int		m_numKingsForSlam[3];
-  bool	m_bEnableDealNumbering;
+  int  m_nReqPointsGame[4][2];
+  int  m_nReqPointsSlam[3][2];
+  int  m_nPointsAbsGameLimits[4][2];
+  int  m_nPointsAbsSlamLimits[3][2];
+  bool m_bBalanceTeamHands;
+  bool m_bGiveSouthBestHandInPartnership;
+  bool m_bGiveSouthBestHandInGame;
+  int  m_nMinCardsInMajor;
+  int  m_nMinCardsInMinor;
+  int m_nMinSuitDistTable[2][4][2];
+  int m_nMinSuitDist[2];
+  int  m_nMinTopMajorCard;
+  int  m_nMinTopMinorCard;
+  int  m_nMaxImbalanceForNT;
+  bool m_bNeedTwoBalancedTrumpHands;
+  int m_numAcesForSlam[3];
+  int m_numKingsForSlam[3];
+  bool m_bEnableDealNumbering;
   // scoring options
-  bool	m_bScoreHonorsBonuses;
+  bool m_bScoreHonorsBonuses;
 
-  bool	m_bEnableSpokenBids;
-  bool	m_bSaveIntermediatePositions;
-  bool	m_bExposePBNGameCards;
-  CString	m_strGIBPath;
-  bool	m_bEnableGIBForDeclarer;
-  bool	m_bEnableGIBForDefender;
-  int		m_nGIBAnalysisTime;
-  int		m_nGIBSampleSize;
-  bool	m_bShowGIBOutput;
+  bool m_bEnableSpokenBids;
+  bool m_bSaveIntermediatePositions;
+  bool m_bExposePBNGameCards;
+  CString m_strGIBPath;
+  bool m_bEnableGIBForDeclarer;
+  bool m_bEnableGIBForDefender;
+  int m_nGIBAnalysisTime;
+  int m_nGIBSampleSize;
+  bool m_bShowGIBOutput;
 
   // display options
-  BOOL	m_bAutoAlignDialogs;
-  BOOL	m_bShowStartupAnimation;
-  BOOL	m_bShowSplashWindow;
-  BOOL    m_bShowBackgroundBitmap;
-  BOOL	m_bShowDailyTipDialog;
-  BOOL	m_bShowScreenSizeWarning;
-  int		m_nBitmapDisplayMode;
-  BOOL	m_bScaleLargeBitmaps;
-  int		m_nBackgroundColor;
-  BOOL	m_bUseSuitSymbols;
-  BOOL	m_bCollapseGameReviewDialog;
-  BOOL	m_bCollapseRoundFinishedDialog;
+  bool m_bAutoAlignDialogs;
+  bool m_bShowStartupAnimation;
+  bool m_bShowSplashWindow;
+  bool m_bShowBackgroundBitmap;
+  bool m_bShowDailyTipDialog;
+  bool m_bShowScreenSizeWarning;
+  int m_nBitmapDisplayMode;
+  bool m_bScaleLargeBitmaps;
+  int m_nBackgroundColor;
+  bool m_bUseSuitSymbols;
+  bool m_bCollapseGameReviewDialog;
+  bool m_bCollapseRoundFinishedDialog;
 
-  int		m_nCurrConventionSet;
-  int		m_numConventionSets;
-  int		m_nSuitSeqList[5][4];
-  int		m_nSuitSequence[4];
-  int		m_nDummySuitSequence[4];
-  int		m_nSuitSeqOption;
-  BOOL	m_bLowResOption;
-  BOOL	m_bToggleResolutionMode;
-  BOOL	m_bLayoutFollowsDisplayOrder;
-  BOOL	m_bShowDummyTrumpsOnLeft;
-
+  int m_nCurrConventionSet;
+  int m_numConventionSets;
+  int m_nSuitSeqList[5][4];
+  int m_nSuitSequence[4];
+  int m_nDummySuitSequence[4];
+  int m_nSuitSeqOption;
+  bool m_bLowResOption;
+  bool m_bToggleResolutionMode;
+  bool m_bLayoutFollowsDisplayOrder;
+  bool m_bShowDummyTrumpsOnLeft;
 };
 
 #endif

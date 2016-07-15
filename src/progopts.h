@@ -15,21 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tbEnableAnalysisTracing,
-	tbEnableAnalysisDuringHints,
-	tnAutoHintMode,
-	tnAutoHintTraceLevel,
-	tnAnalysisTraceLevel,
-	tbShowCommentIdentifiers,
-	tbInsertBiddingPause,
-	tnBiddingPauseLength,
-	tbInsertPlayPause,
-	tnPlayPauseLength,
-	tnPlayPauseInterval,
-	tbComputerCanClaim,
-	tbShowPassedHands,
-	tbAllowRebidPassedHands,
-	tnPassedHandWaitInterval,
 	tbManualPlayMode,
 	tnCardPlayMode,
 	tbPlayModeLocked,

@@ -637,9 +637,9 @@ void CBidDialog::InitBiddingSequence()
 	m_bManualBidding = theApp.GetManualBidding();
 
 	// get pause option
-	m_bInsertBiddingPause = theApp.GetValue(tbInsertBiddingPause);
+	m_bInsertBiddingPause = theApp.GetInsertBiddingPause();
 	if (m_bInsertBiddingPause)
-		m_nBiddingPauseLength = theApp.GetValue(tnBiddingPauseLength) * 100;
+		m_nBiddingPauseLength = theApp.GetBiddingPauseLength() * 100;
 	else
 		m_nBiddingPauseLength = 0;
 
@@ -712,10 +712,10 @@ void CBidDialog::DealNewHands()
 	// hand got passed out, so deal again
 	// but first show the original hands if desired
 	BOOL bRebid = FALSE;
-	BOOL bEnableRebidOption = theApp.GetValue(tbAllowRebidPassedHands);
+	BOOL bEnableRebidOption = theApp.GetAllowRebidPassedHands();
 	BOOL bShowAndHide = FALSE;
 	BOOL bFaceUpState = theApp.AreCardsFaceUp();
-	if (theApp.GetValue(tbShowPassedHands) && bEnableRebidOption && !bFaceUpState)
+	if (theApp.GetShowPassedHands() && bEnableRebidOption && !bFaceUpState)
 		bShowAndHide = TRUE;
 	//
 	if (bShowAndHide)

@@ -24,11 +24,11 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual bool IsEnableAnalysisTracing() {
-    return theApp.GetValue(tbEnableAnalysisTracing) == TRUE;
+    return theApp.GetEnableAnalysisTracing();
   }
 
   virtual int AnalysisTraceLevel() {
-    return theApp.GetValue(tnAnalysisTraceLevel);
+    return theApp.GetAnalysisTraceLevel();
   }
 
   virtual bool InExpressAutoPlay() {
@@ -36,11 +36,11 @@ public:
   }
 
   virtual bool IsEnableAnalysisDuringHints() {
-    return theApp.GetValue(tbEnableAnalysisDuringHints) == TRUE;
+    return theApp.GetEnableAnalysisDuringHints();
   }
 
   virtual bool IsShowCommentIdentifiers() {
-    return theApp.GetValue(tbShowCommentIdentifiers) == TRUE;
+    return theApp.GetShowCommentIdentifiers();
   }
 
   virtual std::shared_ptr<ConventionPool> GetConventionPool() {
@@ -132,7 +132,7 @@ public:
   }
 
   virtual bool IsComputerCanClaim() {
-    return theApp.GetValue(tbComputerCanClaim) == TRUE;
+    return theApp.GetComputerCanClaim();
   }
 
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
@@ -168,15 +168,15 @@ public:
   }
 
   virtual int GetAutoHintMode() {
-    return theApp.GetValue(tnAutoHintMode);
+    return theApp.GetAutoHintMode();
   }
 
   virtual bool IsInsertBiddingPause() {
-    return theApp.GetValue(tbInsertBiddingPause) == TRUE;
+    return theApp.GetInsertBiddingPause();
   }
 
   virtual int GetPlayPauseLength() {
-    return theApp.GetValue(tnPlayPauseLength);
+    return theApp.GetPlayPauseLength();
   }
 
   virtual std::shared_ptr<CDeck> GetDeck() {

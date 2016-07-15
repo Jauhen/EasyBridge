@@ -555,34 +555,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tnAutoHintMode:
-			return (LPVOID) m_nAutoHintMode;
-		case tnAutoHintTraceLevel:
-			return (LPVOID) m_nAutoHintTraceLevel;
-		case tbEnableAnalysisTracing:
-			return (LPVOID) m_bEnableAnalysisTracing;
-		case tbEnableAnalysisDuringHints:
-			return (LPVOID) m_bEnableAnalysisDuringHints;
-		case tnAnalysisTraceLevel:
-			return (LPVOID) m_nAnalysisTraceLevel;
-		case tbShowCommentIdentifiers:
-			return (LPVOID) m_bShowCommentIdentifiers;
-		case tbInsertBiddingPause:
-			return (LPVOID) m_bInsertBiddingPause;
-		case tnBiddingPauseLength:
-			return (LPVOID) m_nBiddingPauseLength;
-		case tbInsertPlayPause:
-			return (LPVOID) m_bInsertPlayPause;
-		case tnPlayPauseLength:
-			return (LPVOID) m_nPlayPauseLength;
-		case tbComputerCanClaim:
-			return (LPVOID) m_bComputerCanClaim;
-		case tbShowPassedHands:
-			return (LPVOID) m_bShowPassedHands;
-		case tbAllowRebidPassedHands:
-			return (LPVOID) m_bAllowRebidPassedHands;
-		case tnPassedHandWaitInterval:
-			return (LPVOID) m_nPassedHandWaitInterval;
 		case tbManualPlayMode:
 			return (LPVOID) m_bManualPlayMode;
 		case tnCardPlayMode:
@@ -861,48 +833,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tnAutoHintMode:
-			m_nAutoHintMode = nVal;
-			break;
-		case tnAutoHintTraceLevel:
-			m_nAutoHintTraceLevel = nVal;
-			break;
-		case tbEnableAnalysisTracing:
-			m_bEnableAnalysisTracing = bVal;
-			break;
-		case tbEnableAnalysisDuringHints:
-			m_bEnableAnalysisDuringHints = bVal;
-			break;
-		case tnAnalysisTraceLevel:
-			m_nAnalysisTraceLevel = nVal;
-			break;
-		case tbShowCommentIdentifiers:
-			m_bShowCommentIdentifiers = bVal;
-			break;
-		case tbInsertBiddingPause:
-			m_bInsertBiddingPause = bVal;
-			break;
-		case tnBiddingPauseLength:
-			m_nBiddingPauseLength = nVal;
-			break;
-		case tbInsertPlayPause:
-			m_bInsertPlayPause = bVal;
-			break;
-		case tnPlayPauseLength:
-			m_nPlayPauseLength = nVal;
-			break;
-		case tbComputerCanClaim:
-			m_bComputerCanClaim = bVal;
-			break;
-		case tbShowPassedHands:
-			m_bShowPassedHands = bVal;
-			break;
-		case tbAllowRebidPassedHands:
-			m_bAllowRebidPassedHands = bVal;
-			break;
-		case tnPassedHandWaitInterval:
-			m_nPassedHandWaitInterval = nVal;
-			break;
 		case tbManualPlayMode:
 			m_bManualPlayMode = bVal;
 			break;

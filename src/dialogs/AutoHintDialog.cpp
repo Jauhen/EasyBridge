@@ -114,7 +114,7 @@ BOOL CAutoHintDialog::OnInitDialog()
 	m_numVisibleRows = rect.Height() / nFontHeight;
 
 	// set the trace level
-	m_nHintLevel = theApp.GetValue(tnAutoHintTraceLevel) - 1;
+	m_nHintLevel = theApp.GetAutoHintTraceLevel() - 1;
 	UpdateData(FALSE);
 
 	//
@@ -297,6 +297,6 @@ void CAutoHintDialog::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CAutoHintDialog::OnChangeHintLevel() 
 {
 	UpdateData(TRUE);	
-	theApp.SetValue(tnAutoHintTraceLevel, m_nHintLevel+1);
+	theApp.SetAutoHintTraceLevel(m_nHintLevel + 1);
 	CPlayerStatusDialog::SetHintTraceLevel(m_nHintLevel + 1);
 }

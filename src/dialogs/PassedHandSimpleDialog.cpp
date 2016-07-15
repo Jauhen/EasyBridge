@@ -59,7 +59,7 @@ BOOL CPassedHandSimpleDialog::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	//
-	int nInterval = theApp.GetValue(tnPassedHandWaitInterval);
+	int nInterval = theApp.GetPassedHandWaitInterval();
 	SetTimer(0, nInterval, NULL);
 	CenterWindow();
 

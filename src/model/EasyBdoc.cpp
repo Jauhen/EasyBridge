@@ -316,8 +316,8 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     int numRounds = deal_->GetNumTricksPlayed();
     deal_->SetNumTricksPlayed(0);	// reset
     if (numRounds > 0) {
-      BOOL bOldAnalysisSetting = theApp.GetValue(tbEnableAnalysisTracing);
-      theApp.SetValue(tbEnableAnalysisTracing, FALSE);
+      BOOL bOldAnalysisSetting = theApp.GetEnableAnalysisTracing();
+      theApp.SetEnableAnalysisTracing(false);
       //
       deal_->SetBatchMode(TRUE);
       for (int i = 0; i < 4; i++) {
@@ -375,7 +375,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
       for (int i = 0; i < 4; i++) {
         deal_->GetPlayer(i)->ResumeTrace();
       }
-      theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
+      theApp.SetEnableAnalysisTracing(bOldAnalysisSetting);
       pMAINFRAME->LockStatusBar(FALSE);
       pMAINFRAME->SetStatusText("Done.");
       deal_->SetBatchMode(FALSE);
@@ -918,7 +918,7 @@ void CEasyBDoc::OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnGameAutoPlayAll() {
   // clear hints if enabled
-  if (theApp.GetValue(tnAutoHintMode) > 0)
+  if (theApp.GetAutoHintMode() > 0)
     pMAINFRAME->ClearAutoHints();
 
   //
@@ -970,7 +970,7 @@ void CEasyBDoc::OnUpdateGameAutoPlayExpress(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnGameAutoPlayExpress() {
   // clear hints if enabled
-  if (theApp.GetValue(tnAutoHintMode) > 0)
+  if (theApp.GetAutoHintMode() > 0)
     pMAINFRAME->ClearAutoHints();
 
   //
