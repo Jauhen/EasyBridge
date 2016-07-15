@@ -10,7 +10,6 @@
 //
 
 #include "stdafx.h"
-#include "engine/playeropts.h"
 #include "model/filecodePBN.h"
 #include "engine/Player.h"
 #include "engine/Card.h"

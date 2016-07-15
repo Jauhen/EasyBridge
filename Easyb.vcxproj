@@ -483,7 +483,6 @@
     <ClInclude Include="src\engine\play\Play.h" />
     <ClInclude Include="src\engine\play\PlayEngine.H" />
     <ClInclude Include="src\engine\PLAYER.H" />
-    <ClInclude Include="src\engine\playeropts.h" />
     <ClInclude Include="src\engine\PlayerStatusDialog.H" />
     <ClInclude Include="src\engine\play\PlayList.h" />
     <ClInclude Include="src\progopts.h" />

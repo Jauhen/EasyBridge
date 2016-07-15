@@ -17,7 +17,6 @@
 #include "subclass.h"
 #include "progopts.h"
 #include "engine/player.h"
-#include "engine/playeropts.h"
 #include "analysisDialog.h"
 #include "../Help/HelpCode.h"
 
@@ -308,7 +307,7 @@ void CAnalysisDialog::OnSysCommand(UINT nID, LPARAM lParam)
 	} 
 	else if (nID == ID_CLEAR_ANALYSIS) 
 	{
-		pDOC->GetDeal()->GetPlayer(m_nPlayer)->SetValueString(tszAnalysis, "");
+		pDOC->GetDeal()->GetPlayer(m_nPlayer)->SetAnalysis("");
 	}
 	else if (nID == ID_SET_ANALYSIS_FONT) 
 	{

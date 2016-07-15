@@ -511,9 +511,6 @@
     <ClInclude Include="src\engine\Handopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\playeropts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\play\PlayList.h">
       <Filter>Header Files</Filter>
     </ClInclude>

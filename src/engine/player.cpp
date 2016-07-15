@@ -14,7 +14,6 @@
 #include "stdafx.h"
 #include "engine/card_constants.h"
 #include "engine/Card.h"
-#include "engine/playeropts.h"
 #include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
 #include "engine/play/HandHoldings.h"
@@ -862,19 +861,6 @@ LPVOID CPlayer::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch (nItem)
 	{
-		case tnPosition:
-			return (LPVOID) m_nPosition;
-		case tnSkillLevel:
-			return (LPVOID) m_nSkillLevel;
-		case tbDummy:
-			return (LPVOID) m_bDummy;
-		case tbTeamIsVulnerable:
-			return (LPVOID) m_bTeamIsVulnerable;
-		case tpPartner:
-			return (LPVOID) m_pPartner;
-		// game info
-		case tszAnalysis:
-			return (LPVOID) m_pStatusDlg->GetText();
 
 		//
 		// the following get passed into m_pHand
@@ -1006,18 +992,13 @@ LPVOID CPlayer::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 	return NULL;
 }
 
-//
-double CPlayer::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex3)
-{
-	switch (nItem)
-	{
-		case tfQuickTricks:	
-			return m_pHand->GetNumQuickTricks();
-		default:
-			AfxMessageBox("Unhandled Call to CPlayer::GetValue");
-			return 1;
-	}
-	return 0;
+void CPlayer::SetAnalysis(CString str) {
+	m_pStatusDlg->Clear();
+	*m_pStatusDlg << str;
+}
+
+const char* CPlayer::GetAnalysis() {
+	return m_pStatusDlg->GetText();
 }
 
 //
@@ -1031,27 +1012,6 @@ int CPlayer::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int n
 	//
 	switch (nItem)
 	{
-		case tnPosition:
-			m_nPosition = (Position) nVal;
-			break;
-		case tnSkillLevel:
-			m_nSkillLevel = nVal;
-			break;
-		case tbDummy:
-			m_bDummy = bVal;
-			break;
-		case tbTeamIsVulnerable:
-			m_bTeamIsVulnerable = bVal;
-			break;
-		case tpPartner:
-			m_pPartner = (CPlayer*) value;
-			break;
-		// game info
-		case tszAnalysis:
-			m_pStatusDlg->Clear();
-			*m_pStatusDlg << sVal;
-			break;
-			
 		//
 		// the following get passed to m_pHand
 		//
@@ -1195,11 +1155,6 @@ int CPlayer::SetValue(int nItem, double fValue, int nIndex1, int nIndex2, int nI
 //	return 0;
 }
 
-// conversion functions
-LPCTSTR CPlayer::GetValueString(int nItem, int nIndex1, int nIndex2, int nIndex3)
-{
-	return (LPCTSTR) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
 
 void CPlayer::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3)
 {

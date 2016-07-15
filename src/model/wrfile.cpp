@@ -10,7 +10,6 @@
 //
 
 #include "stdafx.h"
-#include "engine/playeropts.h"
 #include "model/filecode.h"
 #include "engine/Player.h"
 #include "engine/Card.h"
@@ -315,7 +314,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
     if (m_bSavePlayerAnalysis[i]) {
       // save out the player analysis text
       WriteBlockHeader(BLOCK_PLAYER_ANALYSIS + i);
-      WriteString(0, m_pPlayer[i]->GetValueString(tszAnalysis));
+      WriteString(0, m_pPlayer[i]->GetAnalysis());
       SkipLine();
     }
   }
