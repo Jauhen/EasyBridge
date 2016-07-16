@@ -14,17 +14,6 @@
 
 // program option settings
 enum progopts {
-	//
-	tszProgramPath,
-	tszProgramDirectory,
-	tszAboutDialogWAV,
-	tnProgramMajorVersion,
-	tnProgramMinorVersion,
-	tnProgramIncrementVersion,
-	tnProgramBuildNumber,
-	tstrProgramBuildDate,
-	tstrSpecialBuildCode,
-	tstrProgramVersionString,
 	tnSuitSequence,
 	tnDummySuitSequence,
 	tnSuitSequenceList,
@@ -34,12 +23,6 @@ enum progopts {
 	tbLayoutFollowsDisplayOrder,
 	tbShowDummyTrumpsOnLeft,
 	tnWindowsSystemMode,
-	tpvActiveDocument,
-	tpvSplashWindow,
-	tstrProgramCopyright,
-	tstrProgramTitle,
-	tszPlayerPosition,
-	tszSuitName,
 	// deal parameters 
 	tnRequiredPointsForGame,	// [4][2]
 	tnRequiredPointsForSlam,	// [3][2]

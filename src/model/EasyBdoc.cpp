@@ -167,9 +167,6 @@ BOOL CEasyBDoc::OnNewDocument() {
 
   deal_->InitNewDocument();
 
-  // (SDI documents will reuse this document)
-  theApp.SetValuePV(tpvActiveDocument, this);
-
   // clear doc title
   CDocument::SetTitle("");
 
@@ -233,9 +230,6 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   ASSERT(nStart >= 0);
   deal_->SetTitle(strPath.Mid(nStart + 1));
   CDocument::SetTitle(deal_->GetTitle());
-
-  // set active document
-  theApp.SetValuePV(tpvActiveDocument, this);
 
   // set contract and vulnerability info
   if (ISBID(deal_->GetContract())) {

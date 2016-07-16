@@ -554,28 +554,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tszProgramPath:
-			return (LPVOID) (LPCTSTR) m_strProgPath;
-		case tszProgramDirectory:
-			return (LPVOID) (LPCTSTR) m_strProgDirectory;
-//		case tszAboutDialogWAV:
-//			return (LPVOID) (LPCTSTR) tszAppAboutWAVFile;
-		case tstrProgramCopyright:
-			return (LPVOID) (LPCTSTR) m_strProgCopyright;
-		case tnProgramMajorVersion:
-			return (LPVOID) m_nProgMajorVersion;
-		case tnProgramMinorVersion:
-			return (LPVOID) m_nProgMinorVersion;
-		case tnProgramIncrementVersion:
-			return (LPVOID) m_nProgIncrementVersion;
-		case tnProgramBuildNumber:
-			return (LPVOID) m_nProgBuildNumber;
-		case tstrProgramBuildDate:
-			return (LPVOID) (LPCTSTR) m_strProgBuildDate;
-		case tstrSpecialBuildCode:
-			return (LPVOID) (LPCTSTR) m_strSpecialBuildCode;
-		case tstrProgramVersionString:
-			return (LPVOID) (LPCTSTR) GetProgramVersionString();
 		case tnSuitSequenceList:
 			return (LPVOID) m_nSuitSeqList[nIndex1][nIndex2];
 		case tnSuitSequenceOption:
@@ -594,16 +572,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 			return (LPVOID) m_nDummySuitSequence[nIndex1];
 		case tnWindowsSystemMode:
 			return (LPVOID) m_nWinMode;
-		case tpvActiveDocument:
-			return (LPVOID) m_pActiveDocument;
-		case tpvSplashWindow:
-			return (LPVOID) NULL;	//
-		case tstrProgramTitle:
-			return (LPVOID) (LPCTSTR) m_strProgTitle;
-		case tszPlayerPosition:
-			return (LPVOID) szPosition[nIndex1];
-		case tszSuitName:
-			return (LPVOID) szSuitName[nIndex1];
 
 		// GIB Info
 		case tszGIBPath:
@@ -774,37 +742,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tszProgramPath:
-//			m_strProgPath = sVal;
-			break;
-		case tszProgramDirectory:
-//			m_strProgDirectory = sVal;
-			break;
-		case tszAboutDialogWAV:
-			break;
-		case tstrProgramCopyright:
-			m_strProgCopyright = sVal;
-			break;
-		case tnProgramMajorVersion:
-//			m_nProgMajorVersion = nVal;
-			break;
-		case tnProgramMinorVersion:
-//			m_nProgMinorVersion = nVal;
-			break;
-		case tnProgramIncrementVersion:
-//			m_nProgIncrementVersion = nVal;
-			break;
-		case tnProgramBuildNumber:
-//			m_nProgBuildNumber = nVal;
-			break;
-		case tstrProgramBuildDate:
-			m_strProgBuildDate = sVal;
-			break;
-		case tstrSpecialBuildCode:
-			m_strSpecialBuildCode = sVal;
-			break;
-		case tstrProgramVersionString:
-			break;
 		case tnSuitSequence:
 			m_nSuitSequence[nIndex1] = nVal;
 			break;
@@ -831,18 +768,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			m_bShowDummyTrumpsOnLeft = bVal;
 			break;
 		case tnWindowsSystemMode:
-			break;
-		case tpvActiveDocument:
-			m_pActiveDocument = (CDocument*) value;
-			break;
-		case tpvSplashWindow:
-			break;
-		case tstrProgramTitle:
-			m_strProgTitle = sVal;
-			break;
-		case tszPlayerPosition:
-			break;
-		case tszSuitName:
 			break;
 
 		// GIB Info
@@ -1095,23 +1020,23 @@ int CEasyBApp::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIn
 CString CEasyBApp::GetProgramVersionString()
 {
 	return FormString("Version %d.%d.%d%s",
-					  theApp.GetValue(tnProgramMajorVersion),
-					  theApp.GetValue(tnProgramMinorVersion),
-					  theApp.GetValue(tnProgramIncrementVersion),
-					  theApp.GetValueString(tstrSpecialBuildCode));
+					  theApp.GetProgramMajorVersion(),
+					  theApp.GetProgramMinorVersion(),
+					  theApp.GetProgramIncrementVersion(),
+					  theApp.GetSpecialBuildCode());
 }
 
 //
 CString CEasyBApp::GetFullProgramVersionString()
 {
-	CString strVersion, strSpecialBuildCode = theApp.GetValueString(tstrSpecialBuildCode);
+	CString strVersion, strSpecialBuildCode = theApp.GetSpecialBuildCode();
 	strVersion.Format("Version %d.%d.%d%s",
-					  theApp.GetValue(tnProgramMajorVersion),
-					  theApp.GetValue(tnProgramMinorVersion),
-					  theApp.GetValue(tnProgramIncrementVersion),
+					  theApp.GetProgramMajorVersion(),
+					  theApp.GetProgramMinorVersion(),
+					  theApp.GetProgramIncrementVersion(),
 					  strSpecialBuildCode);
 	//
-	int nBuild = theApp.GetValue(tnProgramBuildNumber);
+	int nBuild = theApp.GetProgramBuildNumber();
 	if (nBuild > 0)
 		strVersion += FormString(_T(", Build #%d"), nBuild);
 	//
@@ -1638,12 +1563,12 @@ BOOL CAboutDlg::OnInitDialog()
 	m_hyperLinkEMail.SetURL(_T("mailto:shan@nyx.net"));
 	m_hyperLinkURL.SetURL(_T("http://www.nyx.net/~shan/EasyBridge.html"));
 	// show copyright info
-	SetDlgItemText(IDC_STATIC_COPYRIGHT, theApp.GetValueString(tstrProgramCopyright));	
+	SetDlgItemText(IDC_STATIC_COPYRIGHT, theApp.GetProgramCopyright());	
 	// show version number		  
 	strTemp = theApp.GetFullProgramVersionString();
 	SetDlgItemText(IDC_STATIC_VERSION, (LPCTSTR)strTemp);	
 	// show misc info
-	strTemp.Format("Build Date: %s", theApp.GetValueString(tstrProgramBuildDate));
+	strTemp.Format("Build Date: %s", theApp.GetProgramBuildDate());
 	SetDlgItemText(IDC_STATIC_DATE, (LPCTSTR)strTemp);	
 
 	// show platform info

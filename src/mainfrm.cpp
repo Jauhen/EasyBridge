@@ -2099,8 +2099,8 @@ void CMainFrame::OnHelpMisc()
 
 void CMainFrame::OnHelpReadme() 
 {
-	CString strFile = CString(theApp.GetValueString(tszProgramDirectory)) + _T('\\') + _T("README.Doc");
-	ShellExecute(pMAINFRAME->GetSafeHwnd(), _T("open"), strFile, NULL, theApp.GetValueString(tszProgramDirectory), SW_SHOWNORMAL);
+	CString strFile = CString(theApp.GetProgramDirectory()) + _T('\\') + _T("README.Doc");
+	ShellExecute(pMAINFRAME->GetSafeHwnd(), _T("open"), strFile, NULL, theApp.GetProgramDirectory(), SW_SHOWNORMAL);
 }
 
 void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point) 

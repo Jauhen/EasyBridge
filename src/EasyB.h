@@ -101,24 +101,6 @@ public:
 
 // pricate data
 private:
-	// prog info
-	CString		m_strProgTitle;
-	CString		m_strProgPath;
-	CString		m_strProgDirectory;
-	int			m_nProgVersion[4];
-	int			m_nProgMajorVersion;
-	int			m_nProgMinorVersion;
-	int			m_nProgIncrementVersion;
-	int			m_nProgBuildNumber;
-	CString	    m_strProgCopyright;
-	CString		m_strProgBuildDate;
-	CString		m_strSpecialBuildCode;
-	//
-	CDocument* m_pActiveDocument;
-	//
-
-
-
 
 	// GIB options
 	CGIB*	m_pGIBWrapper;

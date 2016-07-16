@@ -272,27 +272,27 @@ public:
   }
 
   virtual const char* GetProgramTitle() {
-    return (LPCTSTR)theApp.GetValue(tstrProgramTitle); 
+    return theApp.GetProgramTitle(); 
   }
 
   virtual int GetProgramMajorVersion() {
-    return theApp.GetValue(tnProgramMajorVersion);
+    return theApp.GetProgramMajorVersion();
   }
 
   virtual int GetProgramMinorVersion() {
-    return theApp.GetValue(tnProgramMinorVersion);
+    return theApp.GetProgramMinorVersion();
   }
 
   virtual int GetProgramIncrementVersion() {
-    return theApp.GetValue(tnProgramIncrementVersion);
+    return theApp.GetProgramIncrementVersion();
   }
 
   virtual int GetProgramBuildNumber() {
-    return theApp.GetValue(tnProgramBuildNumber);
+    return theApp.GetProgramBuildNumber();
   }
 
   virtual const char* GetProgramBuildDate() {
-    return (LPCTSTR)theApp.GetValue(tstrProgramBuildDate);
+    return theApp.GetProgramBuildDate();
   }
 
   virtual bool IsRubberInProgress() {
@@ -324,7 +324,7 @@ public:
   }
 
   virtual const char* GetProgramDirectory() {
-    return (LPCTSTR)theApp.GetValue(tszProgramDirectory);
+    return theApp.GetProgramDirectory();
   }
 
   virtual bool IsExposePBNGameCards() {

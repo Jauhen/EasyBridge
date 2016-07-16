@@ -129,9 +129,9 @@ public:
   void SetManualPlayMode(bool val) { m_bManualPlayMode = val; }
   int GetCardPlayMode() const { return m_bManualPlayMode ? Settings::PLAY_MANUAL : m_nPlayMode; }
   void SetCardPlayMode(int val, bool forse = false) { 
-	  if (!m_bPlayModeLocked || forse) {
-		  m_nPlayMode = val;
-	  }
+   if (!m_bPlayModeLocked || forse) {
+   m_nPlayMode = val;
+   }
   }
   bool GetPlayModeLocked() const { return m_bPlayModeLocked; }
   void SetPlayModeLocked(bool val) { m_bPlayModeLocked = val; }
@@ -149,6 +149,24 @@ public:
   void SetWin32(bool val) { m_bWin32 = val; }
   bool GetFirstTimeRunning() const { return m_bFirstTimeRunning; }
   void SetFirstTimeRunning(bool val) { m_bFirstTimeRunning = val; }
+  const char* GetProgramDirectory() const { return m_strProgDirectory; }
+  void GetProgramDirectory(CString val) { m_strProgDirectory = val; }
+  int GetProgramMajorVersion() const { return m_nProgMajorVersion; }
+  void SetProgramMajorVersion(int val) { m_nProgMajorVersion = val; }
+  int GetProgramMinorVersion() const { return m_nProgMinorVersion; }
+  void SetProgramMinorVersion(int val) { m_nProgMinorVersion = val; }
+  int GetProgramIncrementVersion() const { return m_nProgIncrementVersion; }
+  void SetProgramIncrementVersion(int val) { m_nProgIncrementVersion = val; }
+  int GetProgramBuildNumber() const { return m_nProgBuildNumber; }
+  void SetProgramBuildNumber(int val) { m_nProgBuildNumber = val; }
+  const char* GetProgramBuildDate() const { return m_strProgBuildDate; }
+  void GetProgramBuildDate(CString val) { m_strProgBuildDate = val; }
+  const char* GetSpecialBuildCode() const { return m_strSpecialBuildCode; }
+  void GetSpecialBuildCode(CString val) { m_strSpecialBuildCode = val; }
+  const char* GetProgramCopyright() const { return m_strProgCopyright; }
+  void GetProgramCopyright(CString val) { m_strProgCopyright = val; }
+  const char* GetProgramTitle() const { return m_strProgTitle; }
+  void GetProgramTitle(CString val) { m_strProgTitle = val; }
 
 
 
@@ -311,6 +329,19 @@ public:
   int m_nWinBuildNum;  // Windows Platform Build #
   int m_nWinMode;      // 0 = NT, 1 = Chicago, 2 = Win32s
   bool m_bWin32;       // Win32 flag
+
+  // prog info
+  CString m_strProgTitle;
+  CString m_strProgPath;
+  CString m_strProgDirectory;
+  int m_nProgVersion[4];
+  int m_nProgMajorVersion;
+  int m_nProgMinorVersion;
+  int m_nProgIncrementVersion;
+  int m_nProgBuildNumber;
+  CString m_strProgCopyright;
+  CString m_strProgBuildDate;
+  CString m_strSpecialBuildCode;
 
 };
 
