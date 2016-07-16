@@ -312,7 +312,7 @@ public:
   }
 
   virtual bool IsSaveIntermediatePositions() {
-    return theApp.GetValue(tbSaveIntermediatePositions) == TRUE;
+    return theApp.GetSaveIntermediatePositions();
   }
 
   virtual bool IsScoreHonorsBonuses() {
@@ -328,11 +328,11 @@ public:
   }
 
   virtual bool IsExposePBNGameCards() {
-    return theApp.GetValue(tbExposePBNGameCards) == TRUE;
+    return theApp.GetExposePBNGameCards();
   }
 
   virtual bool IsUseSuitSymbols() {
-    return theApp.GetValue(tbUseSuitSymbols) ==  TRUE;
+    return theApp.GetUseSuitSymbols();
   }
   
   virtual bool IsShowDummyTrumpsOnLeft() {
@@ -340,7 +340,7 @@ public:
   }
 
   virtual void SetShowCardsFaceUp(bool value) {
-    theApp.SetValue(tbShowCardsFaceUp, value);
+    theApp.SetShowCardsFaceUp(value);
   }
 
   virtual void InitDummySuitSequence(int trump, int dummy_position) {

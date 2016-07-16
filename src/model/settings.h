@@ -133,6 +133,22 @@ public:
 		  m_nPlayMode = val;
 	  }
   }
+  bool GetPlayModeLocked() const { return m_bPlayModeLocked; }
+  void SetPlayModeLocked(bool val) { m_bPlayModeLocked = val; }
+  bool GetShowCardsFaceUp() const { return m_bShowCardsFaceUp; }
+  void SetShowCardsFaceUp(bool val) { m_bShowCardsFaceUp = val; }
+  bool GetShowDailyTipDialog() const { return m_bShowDailyTipDialog; }
+  void SetShowDailyTipDialog(bool val) { m_bShowDailyTipDialog = val; }
+  bool GetShowScreenSizeWarning() const { return m_bShowScreenSizeWarning; }
+  void SetShowScreenSizeWarning(bool val) { m_bShowScreenSizeWarning = val; }
+  int GetWindowsMajorVersion() const { return m_nWinMajorVer; }
+  void SetWindowsMajorVersion(int val) { m_nWinMajorVer = val; }
+  int GetWindowsMinorVersion() const { return m_nWinMinorVer; }
+  void SetWindowsMinorVersion(int val) { m_nWinMinorVer = val; }
+  bool GetWin32() const { return m_bWin32; }
+  void SetWin32(bool val) { m_bWin32 = val; }
+  bool GetFirstTimeRunning() const { return m_bFirstTimeRunning; }
+  void SetFirstTimeRunning(bool val) { m_bFirstTimeRunning = val; }
 
 
 
@@ -286,6 +302,16 @@ public:
   bool m_bToggleResolutionMode;
   bool m_bLayoutFollowsDisplayOrder;
   bool m_bShowDummyTrumpsOnLeft;
+
+  //
+  // Platform info
+  //
+  int m_nWinMajorVer;  // Windows Platform Major Version #
+  int m_nWinMinorVer;  // Windows Platform Minor Version #
+  int m_nWinBuildNum;  // Windows Platform Build #
+  int m_nWinMode;      // 0 = NT, 1 = Chicago, 2 = Win32s
+  bool m_bWin32;       // Win32 flag
+
 };
 
 #endif

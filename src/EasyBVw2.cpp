@@ -827,7 +827,7 @@ void CEasyBView::DoOpeningSequence()
 
 	// need to turn cards face up
 	BOOL bCardsFaceUpMode = theApp.AreCardsFaceUp();
-	theApp.SetValue(tbShowCardsFaceUp, TRUE);
+	theApp.SetShowCardsFaceUp(true);
 
 	//
 	ClearPrompt();
@@ -908,7 +908,7 @@ void CEasyBView::DoOpeningSequence()
 	ReleaseDC(pDC);
 
 	// restore cards face up status
-	theApp.SetValue(tbShowCardsFaceUp, bCardsFaceUpMode);
+	theApp.SetShowCardsFaceUp(bCardsFaceUpMode);
 
 	//
 	m_bOpeningSequenceDone = TRUE;
@@ -1157,7 +1157,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		m_nCardXGap = (cx - nSpaceUsed) / 9;
 
 		// warn if the screen is too small
-		if ((m_nCardXGap < 9) && theApp.GetValue(tbShowScreenSizeWarning))
+		if ((m_nCardXGap < 9) && theApp.GetShowScreenSizeWarning())
 		{
 			CScreenSizeWarningDlg dlg;
 			dlg.DoModal();

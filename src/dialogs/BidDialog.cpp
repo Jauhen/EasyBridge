@@ -631,7 +631,7 @@ void CBidDialog::InitBiddingSequence()
 		return;
 
 	// get display mode
-	m_bUseSuitSymbols = theApp.GetValue(tbUseSuitSymbols);
+	m_bUseSuitSymbols = theApp.GetUseSuitSymbols();
 
 	// get manual bid option
 	m_bManualBidding = theApp.GetManualBidding();
@@ -644,7 +644,7 @@ void CBidDialog::InitBiddingSequence()
 		m_nBiddingPauseLength = 0;
 
 	// get speech option
-	m_bSpeechEnabled = theApp.GetValue(tbEnableSpokenBids);
+	m_bSpeechEnabled = theApp.GetEnableSpokenBids();
 
 	// get bidding engine info
 //	m_nBiddingEngine = theApp.GetValue(tnBiddingEngine);
@@ -720,7 +720,7 @@ void CBidDialog::DealNewHands()
 	//
 	if (bShowAndHide)
 	{
-		theApp.SetValue(tbShowCardsFaceUp, TRUE);
+		theApp.SetShowCardsFaceUp(true);
 		pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, TRUE);
 	}
 
@@ -740,7 +740,7 @@ void CBidDialog::DealNewHands()
 
 	// restore cards face-down status
 	if (bShowAndHide)
-		theApp.SetValue(tbShowCardsFaceUp, bFaceUpState);
+		theApp.SetShowCardsFaceUp(bFaceUpState);
 
 	// see if we should redeal or rebid
 	if (bRebid)

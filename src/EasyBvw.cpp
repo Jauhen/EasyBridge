@@ -1995,7 +1995,7 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC)
 	//
 	CEasyBDoc* pDoc = GetDocument();
 	BOOL bUseBitmap = ((m_bCanDisplayBitmap) && (m_bBitmapAvailable) && 
-						(m_bViewInitialized) && theApp.GetValue(tbShowBackgroundBitmap) );
+						(m_bViewInitialized) && theApp.GetShowBackgroundBitmap() );
 
 	// see if the background bitmap is big enough to cover the screen
 	CRect rect;
@@ -2023,7 +2023,7 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC)
 		//
 		if ((m_customDIB.DibHeight() < rect.Height()) && (m_customDIB.DibWidth() < rect.Width()))
 		{
-			if (theApp.GetValue(tnBitmapDisplayMode) == 0)
+			if (theApp.GetBitmapDisplayMode() == 0)
 			{
 				// tile
 				m_customDIB.Draw(pDC, rect);
@@ -2031,13 +2031,13 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC)
 			else
 			{
 				// draw centered
-				m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetValue(tbScaleLargeBitmaps));
+				m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetScaleLargeBitmaps());
 			}
 		}
 		else
 		{
 			// bitmap is bigger than the window, so just draw (centered)
-			m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetValue(tbScaleLargeBitmaps));
+			m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetScaleLargeBitmaps());
 		}
 	} 
 
@@ -2054,7 +2054,7 @@ void CEasyBView::EraseBackground(CDC& dc)
 		return;
 	//
 	CBrush *pOldBrush,newBrush;
-	newBrush.CreateSolidBrush(theApp.GetValue(tnBackgroundColor));
+	newBrush.CreateSolidBrush(theApp.GetBackgroundColor());
 	pOldBrush = (CBrush*) dc.SelectObject(&newBrush);
 	CRect rect;
 	dc.GetClipBox(&rect);     // Erase the area needed
@@ -2143,7 +2143,7 @@ void CEasyBView::OnDraw(CDC* pDC)
 
 			// force a repaint to show a bitmap
 			if ((m_bCanDisplayBitmap) && (m_bBitmapAvailable) &&
-				(theApp.GetValue(tbShowBackgroundBitmap)))
+				(theApp.GetShowBackgroundBitmap()))
 				Invalidate();
 		}
 	}
@@ -2836,7 +2836,7 @@ void CEasyBView::OnEditExistingHands()
 	//
 	m_nPlayerCardLimit = 13;
 	pMAINFRAME->GetDialog(twLayoutDialog)->SendMessage(WM_COMMAND, WMS_SET_CARD_LIMIT, 13);
-	if (theApp.GetValue(tbShowLayoutOnEdit)) 
+	if (theApp.GetShowLayoutOnEdit()) 
 	{
 		m_bLayoutDlgActive = TRUE;
 		CCardLayoutDialog* pDlg = (CCardLayoutDialog*) pMAINFRAME->GetDialog(twLayoutDialog);

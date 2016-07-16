@@ -592,7 +592,7 @@ BOOL CHistoryWnd::OnHelpInfo(HELPINFO* pHelpInfo)
 // 
 void CHistoryWnd::SetBiddingHistory(LPCTSTR szText) 
 {
-	BOOL bUseSuitSymbols = theApp.GetValue(tbUseSuitSymbols);
+	BOOL bUseSuitSymbols = theApp.GetUseSuitSymbols();
 	if (bUseSuitSymbols)
 		m_editBidding.LockWindowUpdate();
 	//
@@ -614,7 +614,7 @@ void CHistoryWnd::SetBiddingHistory(LPCTSTR szText)
 // 
 void CHistoryWnd::SetPlayHistory(LPCTSTR szText) 
 {
-	BOOL bUseSuitSymbols = theApp.GetValue(tbUseSuitSymbols);
+	BOOL bUseSuitSymbols = theApp.GetUseSuitSymbols();
 	if (bUseSuitSymbols)
 		m_editPlay.LockWindowUpdate();
 	//

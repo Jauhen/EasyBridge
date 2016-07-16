@@ -147,7 +147,7 @@ BOOL CBidDialogLarge::OnHelpInfo(HELPINFO* pHelpInfo)
 //
 void CBidDialogLarge::EnableButtonImages(BOOL bEnable)
 {
-	if ((bEnable) && (theApp.GetValue(tnWindowsMajorVersion) >= 4))
+	if ((bEnable) && (theApp.GetWindowsMajorVersion() >= 4))
 	{
 		// set button icons
 		for(int i=0;i<5;i++)

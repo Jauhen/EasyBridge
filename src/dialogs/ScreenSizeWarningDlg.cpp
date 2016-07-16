@@ -31,7 +31,7 @@ CScreenSizeWarningDlg::CScreenSizeWarningDlg(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CScreenSizeWarningDlg)
 	m_bDontShowDialog = FALSE;
 	//}}AFX_DATA_INIT
-	m_bDontShowDialog = !theApp.GetValue(tbShowScreenSizeWarning);
+	m_bDontShowDialog = !theApp.GetShowScreenSizeWarning();
 }
 
 
@@ -58,7 +58,7 @@ void CScreenSizeWarningDlg::OnClose()
 {
 	// see if we need to prevent thsi dialog from appearing in the future
 	UpdateData(TRUE);
-	theApp.SetValue(tbShowScreenSizeWarning, !m_bDontShowDialog);
+	theApp.SetShowScreenSizeWarning(!m_bDontShowDialog);
 	CDialog::OnClose();
 }
 
@@ -70,6 +70,6 @@ void CScreenSizeWarningDlg::OnTellMeMore()
 void CScreenSizeWarningDlg::OnOK() 
 {
 	UpdateData(TRUE);
-	theApp.SetValue(tbShowScreenSizeWarning, !m_bDontShowDialog);
+	theApp.SetShowScreenSizeWarning(!m_bDontShowDialog);
 	EndDialog(0);
 }

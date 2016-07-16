@@ -49,7 +49,7 @@ CMyFileDialog::CMyFileDialog(BOOL bOpenFileDialog,
 	
 	// customize the dialog appropriately
 	m_ofn.Flags |= OFN_ENABLETEMPLATE;
-	if (theApp.GetValue(tnWindowsMajorVersion) < 4)
+	if (theApp.GetWindowsMajorVersion() < 4)
 	{
 		// old-style customization
 		m_ofn.Flags &= ~OFN_EXPLORER;

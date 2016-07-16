@@ -361,7 +361,7 @@ void CMainFrame::Terminate()
 {
 	// save settings
 	if (m_pDailyTipDialog)
-		theApp.SetValue(tbShowDailyTipDialog, m_pDailyTipDialog->m_bShowAtStartup);
+		theApp.SetShowDailyTipDialog(m_pDailyTipDialog->m_bShowAtStartup);
 
 	// save history dialog font
 	WriteProfileFont(szHistoryFont, &m_lfHistory);
@@ -843,7 +843,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		if (!m_symbolFont.CreateFontIndirect(&m_lfSymbol)) 
 		{
 			// symbol font is unavailable!
-			theApp.SetValue(tbUseSuitSymbols, FALSE);
+			theApp.SetUseSuitSymbols(false);
 		}
 
 		// create autohint font from logical font
@@ -1057,14 +1057,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// whew! we're finally done
 	// if this is teh first time running, show the config wizard
-	if (theApp.GetValue(tbFirstTimeRunning))
+	if (theApp.GetFirstTimeRunning())
 	{
 		PostMessage(WM_COMMAND, ID_PROG_CONFIG_WIZARD, 0);
 	}
 	else
 	{
 		// else show the daily tip dialog
-		if (theApp.GetValue(tbShowDailyTipDialog))
+		if (theApp.GetShowDailyTipDialog())
 			PostMessage(WM_COMMAND, ID_HELP_TIP_OF_THE_DAY);
 	}
 
@@ -1578,7 +1578,7 @@ void CMainFrame::RestoreAllDialogs()
 void CMainFrame::SetNonBoldDialogFont(CDialog* pDialog)
 {
 	//
-	if ((!pDialog) || (theApp.GetValue(tbWin32)))
+	if ((!pDialog) || (theApp.GetWin32()))
 		return;
 	// Send WM_SETFONT message to child controls 
 	pDialog->SendMessageToDescendants(WM_SETFONT, (UINT) m_dialogFont.m_hObject, 0L, FALSE); 
@@ -2004,7 +2004,7 @@ void CMainFrame::OnProgConfigWizard()
 		configWizard.SaveOptions();
 
 	// 
-	if (theApp.GetValue(tbFirstTimeRunning))
+	if (theApp.GetFirstTimeRunning())
 	{
 		// refresh and wait
 		UpdateWindow();
@@ -2017,7 +2017,7 @@ void CMainFrame::OnProgConfigWizard()
 		//
 		pWelcomeDialog->ShowWindow(SW_SHOW);
 		// and turn off the first time flag
-		theApp.SetValue(tbFirstTimeRunning, FALSE);
+		theApp.SetFirstTimeRunning(false);
 	}
 }
 
@@ -2060,7 +2060,7 @@ void CMainFrame::OnHelpTipOfTheDay()
 		m_pDailyTipDialog->Create(this);
 	}
 	//
-	m_pDailyTipDialog->m_bShowAtStartup = theApp.GetValue(tbShowDailyTipDialog);
+	m_pDailyTipDialog->m_bShowAtStartup = theApp.GetShowDailyTipDialog();
 	m_pDailyTipDialog->UpdateData(FALSE);
 	m_pDailyTipDialog->LoadRandomTip();
 	m_pDailyTipDialog->ShowWindow(SW_SHOW);
@@ -2488,7 +2488,7 @@ void CMainFrame::OnUpdatePlayModeFullAuto(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnUpdatePlayModeLock(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(theApp.GetValue(tbPlayModeLocked));
+	pCmdUI->SetCheck(theApp.GetPlayModeLocked());
 }
 
 //
@@ -2524,7 +2524,7 @@ void CMainFrame::OnPlayModeFullAuto()
 //
 void CMainFrame::OnPlayModeLock() 
 {
-	theApp.SetValue(tbPlayModeLocked, !theApp.GetValue(tbPlayModeLocked));
+	theApp.SetPlayModeLocked(!theApp.GetPlayModeLocked());
 }
 
 //

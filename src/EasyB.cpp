@@ -554,57 +554,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tbPlayModeLocked:
-			return (LPVOID) m_bPlayModeLocked;
-		case tbShowCardsFaceUp:
-			return (LPVOID) m_bShowCardsFaceUp;
-		case tbShowLayoutOnEdit:
-			return (LPVOID) m_bShowLayoutOnEdit;
-		case tbAutoAlignDialogs:
-			return (LPVOID) m_bAutoAlignDialogs;
-		case tbShowStartupAnimation:
-			return (LPVOID) m_bShowStartupAnimation;
-		case tbShowBackgroundBitmap:
-			return (LPVOID) m_bShowBackgroundBitmap;
-		case tnBackgroundColor:
-			return (LPVOID) m_nBackgroundColor;
-		case tbUseSuitSymbols:
-			return (LPVOID) m_bUseSuitSymbols;
-		case tnBitmapDisplayMode:
-			return (LPVOID) m_nBitmapDisplayMode;
-		case tbScaleLargeBitmaps:
-			return (LPVOID) m_bScaleLargeBitmaps;
-		case tbShowSplashWindow:
-			return (LPVOID) m_bShowSplashWindow;
-		case tbEnableSpokenBids:
-			return (LPVOID) m_bEnableSpokenBids;
-		case tbSaveIntermediatePositions:
-			return (LPVOID) m_bSaveIntermediatePositions;
-		case tbExposePBNGameCards:
-			return (LPVOID) m_bExposePBNGameCards;
-		case tbShowDailyTipDialog:
-			return (LPVOID) m_bShowDailyTipDialog;
-		case tbShowScreenSizeWarning:
-			return (LPVOID) m_bShowScreenSizeWarning;
-		//
-		case tnWindowsBuildNumber:
-			return (LPVOID) m_nWinBuildNum;
-		case tnWindowsMajorVersion:
-			return (LPVOID) m_nWinMajorVer;
-		case tnWindowsMinorVersion:
-			return (LPVOID) m_nWinMinorVer;
-		case tbWin32:
-			return (LPVOID) m_bWin32;
-		case tnSplashTime:
-			return (LPVOID) m_dwSplashTime;
-		case tnumConventionSets:
-			return (LPVOID) m_numConventionSets;
-		case tnCurrentConventionSet:
-			return (LPVOID) m_nCurrConventionSet;
-		case tbFirstTimeRunning:
-			return (LPVOID) m_bFirstTimeRunning;
-		case tnGameMode:
-			return (LPVOID) m_nGameMode;
 		case tszProgramPath:
 			return (LPVOID) (LPCTSTR) m_strProgPath;
 		case tszProgramDirectory:
@@ -825,78 +774,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tbPlayModeLocked:
-			m_bPlayModeLocked = bVal;
-			break;
-		case tbShowCardsFaceUp:
-			m_bShowCardsFaceUp = bVal;
-			break;
-		case tbShowLayoutOnEdit:
-			m_bShowLayoutOnEdit = bVal;
-			break;
-		case tbAutoAlignDialogs:
-			m_bAutoAlignDialogs = bVal;
-			break;
-		case tbShowStartupAnimation:
-			m_bShowStartupAnimation = bVal;
-			break;
-		case tbShowBackgroundBitmap:
-			m_bShowBackgroundBitmap = bVal;
-			break;
-		case tnBitmapDisplayMode:
-			m_nBitmapDisplayMode = nVal;
-			break;
-		case tbScaleLargeBitmaps:
-			m_bScaleLargeBitmaps = bVal;
-			break;
-		case tnBackgroundColor:
-			m_nBackgroundColor = nVal;
-			break;
-		case tbUseSuitSymbols:
-			m_bUseSuitSymbols = bVal;
-			break;
-		case tbShowSplashWindow:
-			m_bShowSplashWindow = bVal;
-			break;
-		case tbEnableSpokenBids:
-			m_bEnableSpokenBids = bVal;
-			break;
-		case tbSaveIntermediatePositions:
-			m_bSaveIntermediatePositions = bVal;
-			break;
-		case tbExposePBNGameCards:
-			m_bExposePBNGameCards = bVal;
-			break;
-		case tbShowDailyTipDialog:
-			m_bShowDailyTipDialog = bVal;
-			break;
-		case tbShowScreenSizeWarning:
-			m_bShowScreenSizeWarning = bVal;
-			break;
-		//
-		case tnWindowsBuildNumber:
-			break;
-		case tnWindowsMajorVersion:
-			break;
-		case tnWindowsMinorVersion:
-			break;
-		case tbWin32:
-			break;
-		case tnSplashTime:
-			m_dwSplashTime = nVal;
-			break;
-		case tnumConventionSets:
-			m_numConventionSets = nVal;
-			break;
-		case tnCurrentConventionSet:
-			m_nCurrConventionSet = nVal;
-			break;
-		case tnGameMode:
-			m_nGameMode = nVal;
-			break;
-		case tbFirstTimeRunning:
-			m_bFirstTimeRunning = bVal;
-			break;
 		case tszProgramPath:
 //			m_strProgPath = sVal;
 			break;
@@ -1772,8 +1649,8 @@ BOOL CAboutDlg::OnInitDialog()
 	// show platform info
 	if (theApp.GetValue(tnWindowsSystemMode) == 0)
 		strTemp.Format("Platform: Windows NT version %d.%d",
-						   theApp.GetValue(tnWindowsMajorVersion),
-						   theApp.GetValue(tnWindowsMinorVersion));
+						   theApp.GetWindowsMajorVersion(),
+						   theApp.GetWindowsMinorVersion());
 	else if (theApp.GetValue(tnWindowsSystemMode) == 1)
 		strTemp.Format("Platform: Windows 95");
 //						   theApp.GetValue(tnWindowsMajorVersion),
@@ -1784,8 +1661,8 @@ BOOL CAboutDlg::OnInitDialog()
 //						   theApp.GetValue(tnWindowsMinorVersion));
 	else if (theApp.GetValue(tnWindowsSystemMode) == 9)
 		strTemp.Format("Platform: Win32s version %d.%d",
-						   theApp.GetValue(tnWindowsMajorVersion),
-						   theApp.GetValue(tnWindowsMinorVersion));
+						   theApp.GetWindowsMajorVersion(),
+						   theApp.GetWindowsMinorVersion());
 	SetDlgItemText(IDC_STATIC_PLATFORM, strTemp);	
 
 	// show e-mail address
