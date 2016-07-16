@@ -596,40 +596,6 @@ double CEasyBApp::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex
 {
 	switch(nItem)
 	{
-		//
-		case tfDefaultMajorSuitGamePts:
-			return m_fDefaultMajorSuitGamePts;
-		case tfDefaultMinorSuitGamePts:
-			return m_fDefaultMinorSuitGamePts;
-		case tfDefaultNTGamePts:
-			return m_fDefaultNTGamePts;
-		case tfDefault4LevelPts:
-			return m_fDefault4LevelPts;
-		case tfDefault3LevelPts:
-			return m_fDefault3LevelPts;
-		case tfDefault2LevelPts:
-			return m_fDefault2LevelPts;
-		case tfDefaultSlamPts:
-			return m_fDefaultSlamPts;
-		case tfDefaultGrandSlamPts:
-			return m_fDefaultGrandSlamPts;
-		//
-		case tfMajorSuitGamePts:
-			return m_fMajorSuitGamePts;
-		case tfMinorSuitGamePts:
-			return m_fMinorSuitGamePts;
-		case tfNTGamePts:
-			return m_fNTGamePts;
-		case tf4LevelPts:
-			return m_f4LevelPts;
-		case tf3LevelPts:
-			return m_f3LevelPts;
-		case tf2LevelPts:
-			return m_f2LevelPts;
-		case tfSlamPts:
-			return m_fSlamPts;
-		case tfGrandSlamPts:
-			return m_fGrandSlamPts;
 		// 
 		case tfBiddingAggressiveness:
 			return m_fBiddingAggressiveness;
@@ -718,44 +684,6 @@ int CEasyBApp::SetValueDouble(int nItem, double fValue, int nIndex1, int nIndex2
 {
 	switch(nItem)
 	{
-		//
-		case tfDefaultMajorSuitGamePts:
-			m_fDefaultMajorSuitGamePts = fValue;
-			m_fDefault4LevelPts = fValue;
-			m_fDefault3LevelPts = m_fDefault4LevelPts - 3;
-			m_fDefault2LevelPts = m_fDefault3LevelPts - 3;
-			break;
-		case tfDefaultMinorSuitGamePts:
-			m_fDefaultMinorSuitGamePts = fValue;
-			break;
-		case tfDefaultNTGamePts:
-			m_fDefaultNTGamePts = fValue;
-			break;
-		case tfDefaultSlamPts:
-			m_fDefaultSlamPts = fValue;
-			break;
-		case tfDefaultGrandSlamPts:
-			m_fDefaultGrandSlamPts = fValue;
-			break;
-		//
-		case tfMajorSuitGamePts:
-			m_fMajorSuitGamePts = fValue;
-			m_f4LevelPts = fValue;
-			m_f3LevelPts = m_f4LevelPts - 3;
-			m_f2LevelPts = m_f3LevelPts - 3;
-			break;
-		case tfMinorSuitGamePts:
-			m_fMinorSuitGamePts = fValue;
-			break;
-		case tfNTGamePts:
-			m_fNTGamePts = fValue;
-			break;
-		case tfSlamPts:
-			m_fSlamPts = fValue;
-			break;
-		case tfGrandSlamPts:
-			m_fGrandSlamPts = fValue;
-			break;
 		// 
 		case tfBiddingAggressiveness:
 			m_fBiddingAggressiveness = fValue;

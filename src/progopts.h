@@ -15,24 +15,6 @@
 // program option settings
 enum progopts {
 	//
-	tfDefaultMajorSuitGamePts,
-	tfDefaultMinorSuitGamePts,
-	tfDefaultNTGamePts,
-	tfDefault4LevelPts,
-	tfDefault3LevelPts,
-	tfDefault2LevelPts,
-	tfDefaultSlamPts,
-	tfDefaultGrandSlamPts,
-	//
-	tfMajorSuitGamePts,
-	tfMinorSuitGamePts,
-	tfNTGamePts,
-	tf4LevelPts,
-	tf3LevelPts,
-	tf2LevelPts,
-	tfSlamPts,
-	tfGrandSlamPts,
-	//
 	tb4AceBonus,
 	tbAcelessPenalty,
 	tbCountShortSuits,
