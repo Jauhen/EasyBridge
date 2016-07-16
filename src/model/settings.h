@@ -167,6 +167,10 @@ public:
   void GetProgramCopyright(CString val) { m_strProgCopyright = val; }
   const char* GetProgramTitle() const { return m_strProgTitle; }
   void GetProgramTitle(CString val) { m_strProgTitle = val; }
+  bool GetLayoutFollowsDisplayOrder() const { return m_bLayoutFollowsDisplayOrder; }
+  void SetLayoutFollowsDisplayOrder(bool val) { m_bLayoutFollowsDisplayOrder = val; }
+  int GetWindowsSystemMode() const { return m_nWinMode; }
+  void SetWindowsSystemMode(int val) { m_nWinMode = val; }
 
 
 

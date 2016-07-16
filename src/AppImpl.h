@@ -184,7 +184,7 @@ public:
   }
 
   virtual bool IsLowResOption() {
-    return theApp.GetValue(tbLowResOption) == TRUE;
+    return theApp.GetLowResOption();
   }
 
   virtual bool IsEnableDealNumbering() {
@@ -336,7 +336,7 @@ public:
   }
   
   virtual bool IsShowDummyTrumpsOnLeft() {
-    return theApp.GetValue(tbShowDummyTrumpsOnLeft) == TRUE;
+    return theApp.GetShowDummyTrumpsOnLeft();
   }
 
   virtual void SetShowCardsFaceUp(bool value) {

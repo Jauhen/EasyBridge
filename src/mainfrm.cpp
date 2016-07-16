@@ -606,7 +606,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		m_bHighResDisplay = FALSE;
 
 	// check the low-res option
-	BOOL bLowResOption = theApp.GetValue(tbLowResOption);
+	BOOL bLowResOption = theApp.GetLowResOption();
 
 	// call init routine to read in saved params
 	Initialize();

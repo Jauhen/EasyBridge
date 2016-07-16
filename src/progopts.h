@@ -14,14 +14,6 @@
 
 // program option settings
 enum progopts {
-	tnSuitSequence,
-	tnDummySuitSequence,
-	tnSuitSequenceList,
-	tnSuitSequenceOption,
-	tbLowResOption,
-	tbToggleResolutionMode,
-	tbLayoutFollowsDisplayOrder,
-	tbShowDummyTrumpsOnLeft,
 	tnWindowsSystemMode,
 	// deal parameters 
 	tnRequiredPointsForGame,	// [4][2]

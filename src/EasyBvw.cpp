@@ -133,7 +133,7 @@ CEasyBView::CEasyBView()
 	// load the default background bitmap
 	m_defaultBitmap.LoadBitmap(IDB_DEFAULT_BACKGROUND);
 	// load the mini-card bitmaps
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = theApp.GetLowResOption();
 	if (bSmallCards)
 	{
 		m_winnersBitmap.LoadBitmap(IDBS_WINNERS);
@@ -2186,7 +2186,7 @@ void CEasyBView::DisplayTricks(CDC* pSentDC)
 	int nPrevMode = pDC->SetBkMode(TRANSPARENT);
 
 	// new version -- draw cards criss-crossed
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = theApp.GetLowResOption();
 	int nWinnerWidth = bSmallCards? smallWinnerBitmapSize.cx : winnerBitmapSize.cx;
 	int nWinnerHeight = bSmallCards? smallWinnerBitmapSize.cy : winnerBitmapSize.cy;
 	int nLoserWidth = bSmallCards? smallLoserBitmapSize.cx : loserBitmapSize.cx;

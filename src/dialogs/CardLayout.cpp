@@ -42,7 +42,7 @@ CCardLayoutDialog::CCardLayoutDialog(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_nCardLimit = 0;
 	m_nPlayer = SOUTH;
-	m_bUseSuitDisplayOrder = theApp.GetValue(tbLayoutFollowsDisplayOrder);
+	m_bUseSuitDisplayOrder = theApp.GetLayoutFollowsDisplayOrder();
 }
 
 
@@ -250,7 +250,7 @@ void CCardLayoutDialog::ForceRefresh()
 void CCardLayoutDialog::OnDisplayOrder() 
 {
 	UpdateData(TRUE);
-	theApp.SetValue(tbLayoutFollowsDisplayOrder, m_bUseSuitDisplayOrder);
+	theApp.SetLayoutFollowsDisplayOrder(m_bUseSuitDisplayOrder);
 	ForceRefresh();
 }
 

@@ -1048,7 +1048,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	if (!m_bViewInitialized)
 		return;
 	
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = theApp.GetLowResOption();
 	m_nCardWidth = theApp.GetDeck()->GetCardWidth();
 	m_nCardHeight = theApp.GetDeck()->GetCardHeight();
 	//

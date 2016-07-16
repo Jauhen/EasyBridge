@@ -554,25 +554,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		case tnSuitSequenceList:
-			return (LPVOID) m_nSuitSeqList[nIndex1][nIndex2];
-		case tnSuitSequenceOption:
-			return (LPVOID) m_nSuitSeqOption;
-		case tbLowResOption:
-			return (LPVOID) m_bLowResOption;
-		case tbToggleResolutionMode:
-			return (LPVOID) m_bToggleResolutionMode;
-		case tbLayoutFollowsDisplayOrder:
-			return (LPVOID) m_bLayoutFollowsDisplayOrder;
-		case tbShowDummyTrumpsOnLeft:
-			return (LPVOID) m_bShowDummyTrumpsOnLeft;
-		case tnSuitSequence:
-			return (LPVOID) m_nSuitSequence[nIndex1];
-		case tnDummySuitSequence:
-			return (LPVOID) m_nDummySuitSequence[nIndex1];
-		case tnWindowsSystemMode:
-			return (LPVOID) m_nWinMode;
-
 		// GIB Info
 		case tszGIBPath:
 			return (LPVOID) (LPCTSTR) m_strGIBPath;
@@ -742,34 +723,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		case tnSuitSequence:
-			m_nSuitSequence[nIndex1] = nVal;
-			break;
-		case tnDummySuitSequence:
-			m_nDummySuitSequence[nIndex1] = nVal;
-			break;
-		case tnSuitSequenceList:
-			m_nSuitSeqList[nIndex1][nIndex2] = nVal;
-			break;
-		case tnSuitSequenceOption:
-			m_nSuitSeqOption = nVal;
-			SetSuitSequence(m_nSuitSeqOption);
-			break;
-		case tbLowResOption:
-			m_bLowResOption = bVal;
-			break;
-		case tbToggleResolutionMode:
-			m_bToggleResolutionMode = bVal;
-			break;
-		case tbLayoutFollowsDisplayOrder:
-			m_bLayoutFollowsDisplayOrder = bVal;
-			break;
-		case tbShowDummyTrumpsOnLeft:
-			m_bShowDummyTrumpsOnLeft = bVal;
-			break;
-		case tnWindowsSystemMode:
-			break;
-
 		// GIB Info
 		case tszGIBPath:
 			m_strGIBPath = sVal;
@@ -1572,19 +1525,19 @@ BOOL CAboutDlg::OnInitDialog()
 	SetDlgItemText(IDC_STATIC_DATE, (LPCTSTR)strTemp);	
 
 	// show platform info
-	if (theApp.GetValue(tnWindowsSystemMode) == 0)
+	if (theApp.GetWindowsSystemMode() == 0)
 		strTemp.Format("Platform: Windows NT version %d.%d",
 						   theApp.GetWindowsMajorVersion(),
 						   theApp.GetWindowsMinorVersion());
-	else if (theApp.GetValue(tnWindowsSystemMode) == 1)
+	else if (theApp.GetWindowsSystemMode() == 1)
 		strTemp.Format("Platform: Windows 95");
 //						   theApp.GetValue(tnWindowsMajorVersion),
 //						   theApp.GetValue(tnWindowsMinorVersion));
-	else if (theApp.GetValue(tnWindowsSystemMode) == 2)
+	else if (theApp.GetWindowsSystemMode() == 2)
 		strTemp.Format("Platform: Windows 98");
 //						   theApp.GetValue(tnWindowsMajorVersion),
 //						   theApp.GetValue(tnWindowsMinorVersion));
-	else if (theApp.GetValue(tnWindowsSystemMode) == 9)
+	else if (theApp.GetWindowsSystemMode() == 9)
 		strTemp.Format("Platform: Win32s version %d.%d",
 						   theApp.GetWindowsMajorVersion(),
 						   theApp.GetWindowsMinorVersion());
