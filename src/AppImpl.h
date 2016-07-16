@@ -120,7 +120,7 @@ public:
   }
 
   virtual bool IsEnableGIBForDeclarer() {
-    return theApp.GetValue(tbEnableGIBForDeclarer) == TRUE;
+    return theApp.GetEnableGIBForDeclarer();
   }
 
   virtual CGIB& GetGIB() {
@@ -140,7 +140,7 @@ public:
   }
 
   virtual bool IsEnableGIBForDefender() {
-    return theApp.GetValue(tbEnableGIBForDefender) == TRUE;
+    return theApp.GetEnableGIBForDefender();
   }
 
   virtual double GetHonorValue(int faceValue) {

@@ -1369,8 +1369,8 @@ void CEasyBDoc::AdvanceToNextPlayer() {
     if (!bExpressMode && !theApp.GetAutoTestMode()) {
       CWaitCursor wait;
       CString strMessage;
-      if ((!deal_->GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDeclarer)) ||
-          (deal_->GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDefender))) {
+      if ((!deal_->GetCurrentPlayer()->IsDefending() && theApp.GetEnableGIBForDeclarer()) ||
+          (deal_->GetCurrentPlayer()->IsDefending() && theApp.GetEnableGIBForDefender())) {
         strMessage.Format("%s is playing (GIB)...", PositionToString(deal_->GetCurrentPlayerPosition()));
       }
       else {

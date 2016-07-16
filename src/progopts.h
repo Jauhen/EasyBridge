@@ -14,13 +14,6 @@
 
 // program option settings
 enum progopts {
-	// GIB options
-	tszGIBPath,
-	tbEnableGIBForDeclarer,
-	tbEnableGIBForDefender,
-	tnGIBAnalysisTime,
-	tnGIBSampleSize,
-	tbShowGIBOutput,
 	// counting options
 	tnAggressivenessRating,
 	tnHonorsValuationMode,

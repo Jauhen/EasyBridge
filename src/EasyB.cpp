@@ -554,18 +554,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch(nItem)
 	{
-		// GIB Info
-		case tszGIBPath:
-			return (LPVOID) (LPCTSTR) m_strGIBPath;
-		case tbEnableGIBForDeclarer:
-			return (LPVOID) m_bEnableGIBForDeclarer;
-		case tbEnableGIBForDefender:
-			return (LPVOID) m_bEnableGIBForDefender;
-		case tnGIBAnalysisTime:
-			return (LPVOID) m_nGIBAnalysisTime;
-		case tnGIBSampleSize:
-			return (LPVOID) m_nGIBSampleSize;
-
 /*
 		case tnBiddingEngine:
 			return (LPVOID) m_nBiddingEngine;
@@ -685,24 +673,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 	//
 	switch(nItem)
 	{
-		// GIB Info
-		case tszGIBPath:
-			m_strGIBPath = sVal;
-			break;
-		case tbEnableGIBForDeclarer:
-			m_bEnableGIBForDeclarer = bVal;
-			break;
-		case tbEnableGIBForDefender:
-			m_bEnableGIBForDefender = bVal;
-			break;
-		case tnGIBAnalysisTime:
-			m_nGIBAnalysisTime = nVal;
-			break;
-		case tnGIBSampleSize:
-			m_nGIBSampleSize = nVal;
-			break;
-
-
 /*
 		case tnBiddingEngine:
 			m_nBiddingEngine = nVal;

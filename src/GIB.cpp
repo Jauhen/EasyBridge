@@ -58,7 +58,7 @@ int CGIB::Invoke(CPlayer* pPlayer, CHandHoldings* pHand, CHandHoldings* pDummyHa
 	// create the GIB monitor dialog
 	//
 	CGIBDialog	gibDialog(pMAINFRAME);
-	int nProcessingTime = theApp.GetValue(tnGIBAnalysisTime);
+	int nProcessingTime = theApp.GetGIBAnalysisTime();
 	gibDialog.m_nProcessTime = nProcessingTime;
 //	gibDialog.m_hEventCancel = m_hEventCancel;
 
@@ -167,7 +167,7 @@ int CGIB::Invoke(CPlayer* pPlayer, CHandHoldings* pHand, CHandHoldings* pDummyHa
 	//
 	CString strGIBText = "========================================\n";
 	strGIBText += FormString("Launching %s %s\n",
-							 theApp.GetValueString(tszGIBPath),
+							 theApp.GetGIBPath(),
 							 strShortParameters);
 //	strGIBText += FormString("Input file contents:\n%s", strFileContents);
 	strGIBText += "Awaiting Responses...\n";
@@ -349,7 +349,7 @@ int CGIB::Invoke(CPlayer* pPlayer, CHandHoldings* pHand, CHandHoldings* pDummyHa
 BOOL CGIB::LaunchProgram(PROCESS_INFORMATION& piProcInfo) const
 { 
 	// get app path
-	CString strPath = theApp.GetValueString(tszGIBPath);
+	CString strPath = theApp.GetGIBPath();
 	if (strPath.IsEmpty())
 		return FALSE;	// error!
 

@@ -209,6 +209,7 @@ public:
 
 
 
+
   static double m_fDefaultMajorSuitGamePts;
   static double m_fDefaultMinorSuitGamePts;
   static double m_fDefaultNTGamePts;

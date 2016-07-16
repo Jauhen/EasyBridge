@@ -110,7 +110,7 @@ void CStatusGIBMonitorPage::Update()
 {
 	if (!m_bInitialized)
 		return;
-	if (theApp.GetValue(tbEnableGIBForDeclarer) || theApp.GetValue(tbEnableGIBForDefender))
+	if (theApp.GetEnableGIBForDeclarer() || theApp.GetEnableGIBForDefender())
 		m_edit.SetWindowText(pMAINFRAME->GetValueString(tszGIBMonitorText));	
 	else
 		m_edit.SetWindowText("GIB is not enabled.");	
