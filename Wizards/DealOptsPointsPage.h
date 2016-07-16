@@ -9,7 +9,7 @@
 //
 // dealgmpg.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsPointsPage dialog
@@ -28,12 +28,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDealOptsPointsPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsPointsPage(Settings* pApp=NULL);
 	~CDealOptsPointsPage();
 
 // Dialog Data

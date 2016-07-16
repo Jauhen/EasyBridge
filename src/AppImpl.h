@@ -188,7 +188,7 @@ public:
   }
 
   virtual bool IsEnableDealNumbering() {
-    return theApp.GetValue(tbEnableDealNumbering) == TRUE;
+    return theApp.GetEnableDealNumbering();
   }
 
   virtual void SetFeedbackText(const char* msg) {
@@ -196,55 +196,55 @@ public:
   }
 
   virtual int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) {
-    return theApp.GetValue(tnRequiredPointsForGame, suitCode, side);
+    return theApp.GetRequiredPointsForGame(suitCode, side);
   }
 
   virtual int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) {
-    return theApp.GetValue(tnRequiredPointsForSlam, suitCode, side);
+    return theApp.GetRequiredPointsForSlam(suitCode, side);
   }
 
   virtual int GetMinSuitDistributions(int code) {
-    return theApp.GetValue(tnMinSuitDistributions, code);
+    return theApp.GetMinSuitDistributions(code);
   }
 
   virtual int GetMinSuitDistributionsTable(int code, int distribution, int hand) {
-    return theApp.GetValue(tnMinSuitDistributionTable, code, distribution, hand);
+    return theApp.GetMinSuitDistributionTable(code, distribution, hand);
   }
 
   virtual int GetMaxImbalanceForNT() {
-    return theApp.GetValue(tnMaxImbalanceForNT);
+    return theApp.GetMaxImbalanceForNT();
   }
 
   virtual bool IsNeedTwoBalancedTrumpHands() {
-    return theApp.GetValue(tbNeedTwoBalancedTrumpHands) == TRUE;
+    return theApp.GetNeedTwoBalancedTrumpHands();
   }
 
   virtual int GetMinCardsInMajor() {
-    return theApp.GetValue(tnMinCardsInMajor);
+    return theApp.GetMinCardsInMajor();
   }
 
   virtual int GetMinTopMajorCard() {
-    return theApp.GetValue(tnMinTopMajorCard);
+    return theApp.GetMinTopMajorCard();
   }
 
   virtual int GetMinCardsInMinor() {
-    return theApp.GetValue(tnMinCardsInMinor);
+    return theApp.GetMinCardsInMinor();
   }
 
   virtual int GetMinTopMinorCard() {
-    return theApp.GetValue(tnMinTopMinorCard);
+    return theApp.GetMinTopMinorCard();
   }
 
   virtual int GetAcesForSlam(int slamCode) {
-    return theApp.GetValue(tnumAcesForSlam, slamCode);
+    return theApp.GetAcesForSlam(slamCode);
   }
 
   virtual int GetKingsForSlam(int slamCode) {
-    return theApp.GetValue(tnumKingsForSlam, slamCode);
+    return theApp.GetKingsForSlam(slamCode);
   }
 
   virtual bool IsBalaceTeamHands() {
-    return theApp.GetValue(tbBalanceTeamHands) == TRUE;
+    return theApp.GetBalanceTeamHands();
   }
 
   virtual bool IsFullAutoPlayMode() {

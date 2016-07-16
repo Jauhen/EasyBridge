@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
+#include "model/settings.h"
 #include "DealOptsMinorsPage.h"
 #include "progopts.h"
 
@@ -28,7 +28,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDealOptsMinorsPage, CPropertyPage)
 
-CDealOptsMinorsPage::CDealOptsMinorsPage(CObjectWithProperties* pApp) : 
+CDealOptsMinorsPage::CDealOptsMinorsPage(Settings* pApp) : 
 		CPropertyPage(CDealOptsMinorsPage::IDD),
 		m_app(*pApp)
 {
@@ -37,9 +37,9 @@ CDealOptsMinorsPage::CDealOptsMinorsPage(CObjectWithProperties* pApp) :
 	m_nMinSuitTopper = -1;
 	m_nMinTeamDistribution = -1;
 	//}}AFX_DATA_INIT
-	m_nMinCardsInMinor = m_app.GetValue(tnMinCardsInMinor) - 7;
-	m_nMinSuitTopper = ACE - m_app.GetValue(tnMinTopMinorCard);
-	m_nMinTeamDistribution = m_app.GetValue(tnMinSuitDistributions,0);
+	m_nMinCardsInMinor = m_app.GetMinCardsInMinor() - 7;
+	m_nMinSuitTopper = ACE - m_app.GetMinTopMinorCard();
+	m_nMinTeamDistribution = m_app.GetMinSuitDistributions(0);
 }
 
 CDealOptsMinorsPage::~CDealOptsMinorsPage()
@@ -72,8 +72,8 @@ END_MESSAGE_MAP()
 void CDealOptsMinorsPage::Update()
 {
 	// store results
-	m_app.SetValue(tnMinCardsInMinor, m_nMinCardsInMinor + 7);
-	m_app.SetValue(tnMinTopMinorCard, ACE - m_nMinSuitTopper);
-	m_app.SetValue(tnMinSuitDistributions, m_nMinTeamDistribution, 0);
+	m_app.SetMinCardsInMinor(m_nMinCardsInMinor + 7);
+	m_app.SetMinTopMinorCard(ACE - m_nMinSuitTopper);
+	m_app.SetMinSuitDistributions(m_nMinTeamDistribution, 0);
 }
 

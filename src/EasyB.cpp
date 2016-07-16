@@ -566,44 +566,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 		case tnGIBSampleSize:
 			return (LPVOID) m_nGIBSampleSize;
 
-		// deal parameters
-		case tnRequiredPointsForGame:	// [4][2]
-			return (LPVOID) m_nReqPointsGame[nIndex1][nIndex2];
-		case tnRequiredPointsForSlam:	// [3][2]
-			return (LPVOID) m_nReqPointsSlam[nIndex1][nIndex2];
-		case tnPointsAbsoluteGameLimits:
-			return (LPVOID) m_nPointsAbsGameLimits[nIndex1][nIndex2];
-		case tnPointsAbsoluteSlamLimits:
-			return (LPVOID) m_nPointsAbsSlamLimits[nIndex1][nIndex2];
-		case tbBalanceTeamHands:
-			return (LPVOID) m_bBalanceTeamHands;
-		case tbGiveSouthBestHandInPartnership:
-			return (LPVOID) m_bGiveSouthBestHandInPartnership;
-		case tbGiveSouthBestHandInGame:
-			return (LPVOID) m_bGiveSouthBestHandInGame;
-		case tnMinCardsInMajor:
-			return (LPVOID) m_nMinCardsInMajor;
-		case tnMinCardsInMinor:
-			return (LPVOID) m_nMinCardsInMinor;
-		case tnMinSuitDistributionTable:
-			return (LPVOID) m_nMinSuitDistTable[nIndex1][nIndex2][nIndex3];
-		case tnMinSuitDistributions:
-			return (LPVOID) m_nMinSuitDist[nIndex1];
-		case tnMinTopMajorCard:
-			return (LPVOID) m_nMinTopMajorCard;
-		case tnMinTopMinorCard:
-			return (LPVOID) m_nMinTopMinorCard;
-		case tnMaxImbalanceForNT:
-			return (LPVOID) m_nMaxImbalanceForNT;
-		case tbNeedTwoBalancedTrumpHands:
-			return (LPVOID) m_bNeedTwoBalancedTrumpHands;
-		case tnumAcesForSlam:
-			return (LPVOID) m_numAcesForSlam[nIndex1];
-		case tnumKingsForSlam:
-			return (LPVOID) m_numKingsForSlam[nIndex1];
-		case tbEnableDealNumbering:
-			return (LPVOID) m_bEnableDealNumbering;
-
 /*
 		case tnBiddingEngine:
 			return (LPVOID) m_nBiddingEngine;
@@ -740,61 +702,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			m_nGIBSampleSize = nVal;
 			break;
 
-		// deal parameters
-		case tnRequiredPointsForGame:	// [4][2]
-			m_nReqPointsGame[nIndex1][nIndex2] = nVal;
-			break;
-		case tnRequiredPointsForSlam:	// [3][2]
-			m_nReqPointsSlam[nIndex1][nIndex2] = nVal;
-			break;
-		case tnPointsAbsoluteGameLimits:
-			m_nPointsAbsGameLimits[nIndex1][nIndex2] = nVal;
-			break;
-		case tnPointsAbsoluteSlamLimits:
-			m_nPointsAbsSlamLimits[nIndex1][nIndex2] = nVal;
-			break;
-		case tbBalanceTeamHands:
-			m_bBalanceTeamHands = bVal;
-			break;
-		case tbGiveSouthBestHandInPartnership:
-			m_bGiveSouthBestHandInPartnership = bVal;
-			break;
-		case tbGiveSouthBestHandInGame:
-			m_bGiveSouthBestHandInGame = bVal;
-			break;
-		case tnMinCardsInMajor:
-			m_nMinCardsInMajor = nVal;
-			break;
-		case tnMinCardsInMinor:
-			m_nMinCardsInMinor = nVal;
-			break;
-		case tnMinSuitDistributionTable:
-			m_nMinSuitDistTable[nIndex1][nIndex2][nIndex3] = nVal;
-			break;
-		case tnMinSuitDistributions:
-			m_nMinSuitDist[nIndex1] = nVal;
-			break;
-		case tnMinTopMajorCard:
-			m_nMinTopMajorCard = nVal;
-			break;
-		case tnMinTopMinorCard:
-			m_nMinTopMinorCard = nVal;
-			break;
-		case tnMaxImbalanceForNT:
-			m_nMaxImbalanceForNT = nVal;
-			break;
-		case tbNeedTwoBalancedTrumpHands:
-			m_bNeedTwoBalancedTrumpHands = bVal;
-			break;
-		case tnumAcesForSlam:
-			m_numAcesForSlam[nIndex1] = nVal;
-			break;
-		case tnumKingsForSlam:
-			m_numKingsForSlam[nIndex1] = nVal;
-			break;
-		case tbEnableDealNumbering:
-			m_bEnableDealNumbering = bVal;
-			break;
 
 /*
 		case tnBiddingEngine:

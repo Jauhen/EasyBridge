@@ -9,7 +9,7 @@
 //
 // dealmnpg.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsMinorsPage dialog
@@ -26,12 +26,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDealOptsMinorsPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsMinorsPage(Settings* pApp=NULL);
 	~CDealOptsMinorsPage();
 
 // Dialog Data

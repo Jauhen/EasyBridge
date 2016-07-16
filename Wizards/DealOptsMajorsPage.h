@@ -9,7 +9,7 @@
 //
 // dealmjpg.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsMajorsPage dialog
@@ -26,12 +26,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDealOptsMajorsPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsMajorsPage(Settings* pApp=NULL);
 	~CDealOptsMajorsPage();
 
 // Dialog Data

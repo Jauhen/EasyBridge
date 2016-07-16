@@ -9,7 +9,7 @@
 //
 // DealOptsMiscPage.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsMiscPage dialog
@@ -26,12 +26,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDealOptsMiscPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsMiscPage(Settings* pApp=NULL);
 	~CDealOptsMiscPage();
 
 // Dialog Data

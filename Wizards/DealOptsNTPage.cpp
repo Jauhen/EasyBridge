@@ -12,7 +12,7 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
+#include "model/settings.h"
 #include "DealOptsNTPage.h"
 #include "progopts.h"
 
@@ -26,7 +26,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDealOptsNoTrumpPage, CPropertyPage)
 
-CDealOptsNoTrumpPage::CDealOptsNoTrumpPage(CObjectWithProperties* pApp) : 
+CDealOptsNoTrumpPage::CDealOptsNoTrumpPage(Settings* pApp) : 
 		CPropertyPage(CDealOptsNoTrumpPage::IDD),
 		m_app(*pApp)
 {
@@ -34,7 +34,7 @@ CDealOptsNoTrumpPage::CDealOptsNoTrumpPage(CObjectWithProperties* pApp) :
 	m_bNeedTwoBalancedHands = FALSE;
 	//}}AFX_DATA_INIT
 //	m_nMaxImbalanceForNT = m_app.m_nMaxImbalanceForNT;
-	m_bNeedTwoBalancedHands = m_app.GetValue(tbNeedTwoBalancedTrumpHands);
+	m_bNeedTwoBalancedHands = m_app.GetNeedTwoBalancedTrumpHands();
 }
 
 CDealOptsNoTrumpPage::~CDealOptsNoTrumpPage()
@@ -64,5 +64,5 @@ void CDealOptsNoTrumpPage::Update()
 {
 	// store results
 //	m_app.m_nMaxImbalanceForNT = m_nMaxImbalanceForNT;
-	m_app.SetValue(tbNeedTwoBalancedTrumpHands, m_bNeedTwoBalancedHands);
+	m_app.SetNeedTwoBalancedTrumpHands(m_bNeedTwoBalancedHands);
 }

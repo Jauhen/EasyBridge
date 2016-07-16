@@ -171,6 +171,41 @@ public:
   void SetLayoutFollowsDisplayOrder(bool val) { m_bLayoutFollowsDisplayOrder = val; }
   int GetWindowsSystemMode() const { return m_nWinMode; }
   void SetWindowsSystemMode(int val) { m_nWinMode = val; }
+  int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) const { return m_nReqPointsGame[suitCode][side]; }
+  void SetRequiredPointsForGame(int val, int suitCode, int side /* 0 - min, 1 - max */) { m_nReqPointsGame[suitCode][side] = val; }
+  int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) const { return m_nReqPointsSlam[suitCode][side]; }
+  void SetRequiredPointsForSlam(int val, int suitCode, int side /* 0 - min, 1 - max */) { m_nReqPointsSlam[suitCode][side] = val; }
+  int GetPointsAbsoluteGameLimits(int suitCode, int side /* 0 - min, 1 - max */) const { return m_nPointsAbsGameLimits[suitCode][side]; }
+  void SetPointsAbsoluteGameLimits(int val, int suitCode, int side /* 0 - min, 1 - max */) { m_nPointsAbsGameLimits[suitCode][side] = val; }
+  int GetPointsAbsoluteSlamLimits(int suitCode, int side /* 0 - min, 1 - max */) const { return m_nPointsAbsSlamLimits[suitCode][side]; }
+  void SetPointsAbsoluteSlamLimits(int val, int suitCode, int side /* 0 - min, 1 - max */) { m_nPointsAbsSlamLimits[suitCode][side] = val; }
+  int GetMinCardsInMinor() const { return m_nMinCardsInMinor; }
+  void SetMinCardsInMinor(int val) { m_nMinCardsInMinor = val; }
+  int GetMinTopMinorCard() const { return m_nMinTopMinorCard; }
+  void SetMinTopMinorCard(int val) { m_nMinTopMinorCard = val; }
+  int GetMinSuitDistributions(int type) const { return m_nMinSuitDist[type]; }
+  void SetMinSuitDistributions(int val, int type) { m_nMinSuitDist[type] = val; }
+  int GetMinCardsInMajor() const { return m_nMinCardsInMajor; }
+  void SetMinCardsInMajor(int val) { m_nMinCardsInMajor = val; }
+  int GetMinTopMajorCard() const { return m_nMinTopMajorCard; }
+  void SetMinTopMajorCard(int val) { m_nMinTopMajorCard = val; }
+  bool GetNeedTwoBalancedTrumpHands() const { return m_bNeedTwoBalancedTrumpHands; }
+  void SetNeedTwoBalancedTrumpHands(bool val) { m_bNeedTwoBalancedTrumpHands = val; }
+  int GetAcesForSlam(int type) const { return m_numAcesForSlam[type]; }
+  void SetAcesForSlam(int val, int type) { m_numAcesForSlam[type] = val; }
+  int GetKingsForSlam(int type) const { return m_numKingsForSlam[type]; }
+  void SetKingsForSlam(int val, int type) { m_numKingsForSlam[type] = val; }
+  bool GetBalanceTeamHands() const { return m_bBalanceTeamHands; }
+  void SetBalanceTeamHands(bool val) { m_bBalanceTeamHands = val; }
+  bool GetGiveSouthBestHandInPartnership() const { return m_bGiveSouthBestHandInPartnership; }
+  void SetGiveSouthBestHandInPartnership(bool val) { m_bGiveSouthBestHandInPartnership = val; }
+  bool GetEnableDealNumbering() const { return m_bEnableDealNumbering; }
+  void SetEnableDealNumbering(bool val) { m_bEnableDealNumbering = val; }
+  int GetMinSuitDistributionTable(int code, int distribution, int hand) const {
+	  return m_nMinSuitDistTable[code][distribution][hand];
+  }
+  int GetMaxImbalanceForNT() const { return m_nMaxImbalanceForNT; }
+  void SetMaxImbalanceForNT(int val) { m_nMaxImbalanceForNT = val; }
 
 
 

@@ -14,26 +14,6 @@
 
 // program option settings
 enum progopts {
-	tnWindowsSystemMode,
-	// deal parameters 
-	tnRequiredPointsForGame,	// [4][2]
-	tnRequiredPointsForSlam,	// [3][2]
-	tnPointsAbsoluteGameLimits,	// [4][2]
-	tnPointsAbsoluteSlamLimits,	// [3][2]
-	tbBalanceTeamHands,
-	tbGiveSouthBestHandInPartnership,
-	tbGiveSouthBestHandInGame,
-	tnMinCardsInMajor,
-	tnMinCardsInMinor,
-	tnMinSuitDistributionTable,	// [2][4][2]
-	tnMinSuitDistributions,		// [2]
-	tnMinTopMajorCard,
-	tnMinTopMinorCard,
-	tnMaxImbalanceForNT,
-	tbNeedTwoBalancedTrumpHands,
-	tnumAcesForSlam,	// [3]
-	tnumKingsForSlam,	// [3]
-	tbEnableDealNumbering,
 	// GIB options
 	tszGIBPath,
 	tbEnableGIBForDeclarer,

@@ -9,7 +9,7 @@
 //
 // DealOptsSlamPage.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsSlamPage dialog
@@ -26,12 +26,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDealOptsSlamPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsSlamPage(Settings* pApp=NULL);
 	~CDealOptsSlamPage();
 
 // Dialog Data

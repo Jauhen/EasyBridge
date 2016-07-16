@@ -9,7 +9,7 @@
 //
 // DealOptsNoTrumpPage.h : header file
 //
-class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsNoTrumpPage dialog
@@ -26,12 +26,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 
 
 // Construction
 public:
-	CDealOptsNoTrumpPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsNoTrumpPage(Settings* pApp=NULL);
 	~CDealOptsNoTrumpPage();
 
 // Dialog Data
