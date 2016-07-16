@@ -575,8 +575,6 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 			return (LPVOID) m_bScoreHonorsBonuses;
 
 		// counting options
-		case tnHonorsValuationMode:
-			return (LPVOID) m_nHonorsValuationMode;
 		case tb4AceBonus:
 			return (LPVOID) m_b4AceBonus;
 		case tbAcelessPenalty:
@@ -598,16 +596,6 @@ double CEasyBApp::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex
 {
 	switch(nItem)
 	{
-		case tfAceValue:
-			return m_fAceValue;
-		case tfKingValue:
-			return m_fKingValue;
-		case tfQueenValue:
-			return m_fQueenValue;
-		case tfJackValue:
-			return m_fJackValue;
-		case tfTenValue:
-			return m_fTenValue;
 		//
 		case tfDefaultMajorSuitGamePts:
 			return m_fDefaultMajorSuitGamePts;
@@ -645,17 +633,6 @@ double CEasyBApp::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex
 		// 
 		case tfBiddingAggressiveness:
 			return m_fBiddingAggressiveness;
-		//
-		case tfCustomAceValue:
-			return m_fCustomAceValue;
-		case tfCustomKingValue:
-			return m_fCustomKingValue;
-		case tfCustomQueenValue:
-			return m_fCustomQueenValue;
-		case tfCustomJackValue:
-			return m_fCustomJackValue;
-		case tfCustomTenValue:
-			return m_fCustomTenValue;
 		default:
 			AfxMessageBox("Unhandled Call to CEasyBApp::GetValueDouble()");
 			return 0;
@@ -701,9 +678,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			break;
 
 		// counting options
-		case tnHonorsValuationMode:
-			m_nHonorsValuationMode = nVal;
-			break;
 		case tb4AceBonus:
 			m_b4AceBonus = bVal;
 			break;
@@ -744,21 +718,6 @@ int CEasyBApp::SetValueDouble(int nItem, double fValue, int nIndex1, int nIndex2
 {
 	switch(nItem)
 	{
-		case tfAceValue:
-			m_fAceValue = fValue;
-			break;
-		case tfKingValue:
-			m_fKingValue = fValue;
-			break;
-		case tfQueenValue:
-			m_fQueenValue = fValue;
-			break;
-		case tfJackValue:
-			m_fJackValue = fValue;
-			break;
-		case tfTenValue:
-			m_fTenValue = fValue;
-			break;
 		//
 		case tfDefaultMajorSuitGamePts:
 			m_fDefaultMajorSuitGamePts = fValue;
@@ -801,22 +760,6 @@ int CEasyBApp::SetValueDouble(int nItem, double fValue, int nIndex1, int nIndex2
 		case tfBiddingAggressiveness:
 			m_fBiddingAggressiveness = fValue;
 			InitPointCountRequirements();
-			break;
-		//
-		case tfCustomAceValue:
-			m_fCustomAceValue = fValue;
-			break;
-		case tfCustomKingValue:
-			m_fCustomKingValue = fValue;
-			break;
-		case tfCustomQueenValue:
-			m_fCustomQueenValue = fValue;
-			break;
-		case tfCustomJackValue:
-			m_fCustomJackValue = fValue;
-			break;
-		case tfCustomTenValue:
-			m_fCustomTenValue = fValue;
 			break;
 		default:
 			AfxMessageBox("Unhandled Call to CEasyBApp::SetValueDouble()");

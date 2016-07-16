@@ -14,19 +14,6 @@
 
 // program option settings
 enum progopts {
-	// counting options
-	tnAggressivenessRating,
-	tnHonorsValuationMode,
-	tfAceValue,
-	tfKingValue,
-	tfQueenValue,
-	tfJackValue,
-	tfTenValue,
-	tfCustomAceValue,
-	tfCustomKingValue,
-	tfCustomQueenValue,
-	tfCustomJackValue,
-	tfCustomTenValue,
 	//
 	tfDefaultMajorSuitGamePts,
 	tfDefaultMinorSuitGamePts,
