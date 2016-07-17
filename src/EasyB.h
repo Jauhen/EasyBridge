@@ -42,22 +42,12 @@ extern const LPCTSTR szSuitName[];
 #define DllImport   __declspec( dllimport )
 
 
-class CEasyBApp : public Settings, public CWinApp, public CObjectWithProperties, public CEventProcessor
+class CEasyBApp : public Settings, public CWinApp, public CEventProcessor
 {
 public:
 
 // public routines
 public:
-	// property get/set operations
-	LPVOID GetValuePV(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	LPCTSTR GetValueString(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	double GetValueDouble(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int GetValue(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValuePV(int nItem, LPVOID value, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, double fValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, LPCTSTR szValue=NULL, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, int nValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValueDouble(int nItem, double fValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
 	// Event Processor
 	bool Notify(long lCode, long param1=0, long param2=0, long param3=0) { return false; }
 	//

@@ -393,7 +393,6 @@ public:
   CString m_strProgCopyright;
   CString m_strProgBuildDate;
   CString m_strSpecialBuildCode;
-
 };
 
 #endif
