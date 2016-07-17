@@ -152,19 +152,19 @@ public:
   }
 
   virtual bool IsAcelessPenalty() {
-    return theApp.GetValue(tbAcelessPenalty) == TRUE;
+    return theApp.GetAcelessPenalty();
   }
 
   virtual bool IsFourAceBonus() {
-    return theApp.GetValue(tb4AceBonus) == TRUE;
+    return theApp.Get4AceBonus();
   }
 
   virtual bool IsCountShortSuits() {
-    return theApp.GetValue(tbCountShortSuits) == TRUE;
+    return theApp.GetCountShortSuits();
   }
 
   virtual bool IsPenalizeUGHonors() {
-    return theApp.GetValue(tbPenalizeUGHonors) == TRUE;
+    return theApp.GetPenalizeUGHonors();
   }
 
   virtual int GetAutoHintMode() {
@@ -316,7 +316,7 @@ public:
   }
 
   virtual bool IsScoreHonorsBonuses() {
-    return theApp.GetValue(tbScoreHonorsBonuses) == TRUE;
+    return theApp.GetScoreHonorsBonuses();
   }
 
   virtual bool IsInAutoTestMode() {

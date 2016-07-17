@@ -26,7 +26,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsOpenPage, CPropertyPage)
 
-CBidOptsOpenPage::CBidOptsOpenPage(CObjectWithProperties* pApp, CObjectWithProperties* pConventionSet) : 
+CBidOptsOpenPage::CBidOptsOpenPage(Settings* pApp, CObjectWithProperties* pConventionSet) :
 		CPropertyPage(CBidOptsOpenPage::IDD),
 		m_app(*pApp), m_conventionSet(*pConventionSet)
 {

@@ -14,7 +14,7 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "BidOptsConfigPage.h"
-#include "progopts.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,7 +27,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsConfigPage, CPropertyPage)
 
-CBidOptsConfigPage::CBidOptsConfigPage(CObjectWithProperties* pApp, CObjectWithProperties* pConventionSet) : 
+CBidOptsConfigPage::CBidOptsConfigPage(Settings* pApp, CObjectWithProperties* pConventionSet) : 
 		CPropertyPage(CBidOptsConfigPage::IDD),
 		m_app(*pApp), m_conventionSet(*pConventionSet)
 {
@@ -37,7 +37,7 @@ CBidOptsConfigPage::CBidOptsConfigPage(CObjectWithProperties* pApp, CObjectWithP
 	m_strNeuralNetFilePath = _T("");
 	//}}AFX_DATA_INIT
 	//
-	m_nAggressiveness = (int) m_app.GetValueDouble(tfBiddingAggressiveness);
+	m_nAggressiveness = (int) m_app.GetBiddingAggressiveness();
 /*
 	m_nBiddingEngine = m_app.GetValue(tnBiddingEngine);
 	m_strNeuralNetFilePath = m_app.GetValueString(tszNeuralNetFile);
@@ -183,7 +183,7 @@ void CBidOptsConfigPage::SetNeuralNetFile(BOOL bNew)
 //
 void CBidOptsConfigPage::Update()
 {
-	m_app.SetValueDouble(tfBiddingAggressiveness, (double) m_nAggressiveness);
+	m_app.SetBiddingAggressiveness(m_nAggressiveness);
 /*
 //	m_app.SetValue(tnBiddingEngine, m_nBiddingEngine);
 //	m_app.SetValue(tszNeuralNetFile, m_strNeuralNetFilePath);

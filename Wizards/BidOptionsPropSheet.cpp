@@ -20,6 +20,7 @@
 #include "BidOptsMiscPage.h"
 #include "BidOptsOpenPage.h"
 #include "BidOptionsPropSheet.h"
+#include "model/settings.h"
 #include "HelpCode.h"
 
 #ifdef _DEBUG
@@ -32,7 +33,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CBidOptionsPropSheet, CPropertySheet)
 
-CBidOptionsPropSheet::CBidOptionsPropSheet(CObjectWithProperties* pApp, CObjectWithProperties* pConventionSet, CWnd* pParentWnd, UINT iSelectPage) :
+CBidOptionsPropSheet::CBidOptionsPropSheet(Settings* pApp, CObjectWithProperties* pConventionSet, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Bidding Conventions"), pParentWnd, iSelectPage)
 {
 	// create the pages

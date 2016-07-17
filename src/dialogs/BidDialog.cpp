@@ -557,11 +557,11 @@ void CBidDialog::OnAutotrain()
 			{
 				// get the computer's bid
 				CBidEngine* pBidEngine = pDOC->GetDeal()->GetCurrentPlayer()->GetBidEngine();
-				theApp.SetValue(tnBiddingEngine, 1);
+				//theApp.SetValue(tnBiddingEngine, 1);
 				int nNetBid = pBidEngine->Bid();
-				theApp.SetValue(tnBiddingEngine, 0);
+				//theApp.SetValue(tnBiddingEngine, 0);
 				int nRuleBid = pBidEngine->Bid();
-				theApp.SetValue(tnBiddingEngine, 1);
+				//theApp.SetValue(tnBiddingEngine, 1);
 				numBids++;
 				if (nNetBid != BID_PASS)
 					numNonPassBids++;

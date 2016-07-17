@@ -9,6 +9,7 @@
 //
 // BidOptsGeneralPage.h : header file
 //
+class Settings;
 class CObjectWithProperties;
 
 
@@ -27,12 +28,12 @@ private:
 
 // Construction
 public:
-	CBidOptsGeneralPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsGeneralPage(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsGeneralPage();
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_conventionSet;
 
 

@@ -10,6 +10,7 @@
 // BidOptsMiscPage.h : header file
 //
 class CObjectWithProperties;
+class Settings;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,13 +28,13 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_conventionSet;
 
 
 // Construction
 public:
-	CBidOptsMiscPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsMiscPage(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsMiscPage();
 
 // Dialog Data

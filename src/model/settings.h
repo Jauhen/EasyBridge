@@ -12,7 +12,7 @@ public:
   void Initialize();
   void InitHonorsValuations();
   void RefreshProperties();
-
+  void InitPointCountRequirements();
 
 
   bool GetAutoBidStart() const { return m_bAutoBidStart; }
@@ -206,8 +206,19 @@ public:
   }
   int GetMaxImbalanceForNT() const { return m_nMaxImbalanceForNT; }
   void SetMaxImbalanceForNT(int val) { m_nMaxImbalanceForNT = val; }
-
-
+  bool Get4AceBonus() const { return m_b4AceBonus; }
+  void Set4AceBonus(bool val) { m_b4AceBonus = val; }
+  bool GetAcelessPenalty() const { return m_bAcelessPenalty; }
+  void SetAcelessPenalty(bool val) { m_bAcelessPenalty = val; }
+  bool GetCountShortSuits() const { return m_bCountShortSuits; }
+  void SetCountShortSuits(bool val) { m_bCountShortSuits = val; }
+  bool GetPenalizeUGHonors() const { return m_bPenalizeUGHonors; }
+  void SetPenalizeUGHonors(bool val) { m_bPenalizeUGHonors = val; }
+  double GetBiddingAggressiveness() const { return m_fBiddingAggressiveness; }
+  void SetBiddingAggressiveness(double val) { 
+	  m_fBiddingAggressiveness = val; 
+	  InitPointCountRequirements();
+  }
 
 
   static double m_fDefaultMajorSuitGamePts;

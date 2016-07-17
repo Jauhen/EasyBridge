@@ -107,3 +107,21 @@ void Settings::InitHonorsValuations() {
   m_fHonorValue[JACK] = m_fJackValue;
   m_fHonorValue[TEN] = m_fTenValue;
 }
+
+
+
+//
+// InitPointCountRequirements()
+//
+void Settings::InitPointCountRequirements() {
+	// adjust point count requirements
+	m_fMajorSuitGamePts = m_fDefaultMajorSuitGamePts - m_fBiddingAggressiveness;
+	m_fMinorSuitGamePts = m_fDefaultMinorSuitGamePts - m_fBiddingAggressiveness;
+	m_fNTGamePts = m_fDefaultNTGamePts - m_fBiddingAggressiveness;
+	m_f4LevelPts = m_fDefault4LevelPts - m_fBiddingAggressiveness;
+	m_f3LevelPts = m_fDefault3LevelPts - m_fBiddingAggressiveness;
+	m_f2LevelPts = m_fDefault2LevelPts - m_fBiddingAggressiveness;
+	m_fSlamPts = m_fDefaultSlamPts - m_fBiddingAggressiveness;
+	m_fGrandSlamPts = m_fDefaultGrandSlamPts - m_fBiddingAggressiveness;
+}
+

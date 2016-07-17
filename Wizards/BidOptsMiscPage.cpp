@@ -27,7 +27,7 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsMiscPage, CPropertyPage)
 
-CBidOptsMiscPage::CBidOptsMiscPage(CObjectWithProperties* pApp, CObjectWithProperties* pm_conventionSet) : 
+CBidOptsMiscPage::CBidOptsMiscPage(Settings* pApp, CObjectWithProperties* pm_conventionSet) :
 		CPropertyPage(CBidOptsMiscPage::IDD),
 		m_app(*pApp), m_conventionSet(*pm_conventionSet)
 {

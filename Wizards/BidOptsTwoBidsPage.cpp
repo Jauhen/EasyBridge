@@ -26,7 +26,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsTwoBidsPage, CPropertyPage)
 
-CBidOptsTwoBidsPage::CBidOptsTwoBidsPage(CObjectWithProperties* pApp, CObjectWithProperties* pm_conventionSet) : 
+CBidOptsTwoBidsPage::CBidOptsTwoBidsPage(Settings* pApp, CObjectWithProperties* pm_conventionSet) :
 		CPropertyPage(CBidOptsTwoBidsPage::IDD),
 		m_app(*pApp), m_conventionSet(*pm_conventionSet)
 {

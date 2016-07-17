@@ -17,7 +17,7 @@ class CBidOptsNoTrumpsPage;
 class CBidOptsMiscPage;
 class CBidOptsOpenPage;
 class CObjectWithProperties;
-
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CBidOptionsPropSheet
@@ -28,7 +28,7 @@ class AFX_EXT_CLASS CBidOptionsPropSheet : public CPropertySheet
 
 // Construction
 public:
-	CBidOptionsPropSheet(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+	CBidOptionsPropSheet(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 	virtual ~CBidOptionsPropSheet();
 
 // Attributes

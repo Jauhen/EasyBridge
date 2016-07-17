@@ -76,7 +76,6 @@ public:
 	void SetSuitSequence(int nIndex, int nValue) { m_nSuitSequence[nIndex] = nValue; }
 	int	GetDummySuitSequence(int nIndex) const { return m_nDummySuitSequence[nIndex]; }
 	void InitDummySuitSequence(int nTrumpSuit, int nDummyPosition=NONE);
-	void InitPointCountRequirements();
 	double GetBiddingAgressiveness() const { return m_fBiddingAggressiveness; }
 	int	GetSuitSequenceOption() const { return m_nSuitSeqOption; }
 	LPCTSTR GetSuitName(int nSuit) const { return szSuitName[nSuit]; }

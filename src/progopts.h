@@ -14,20 +14,4 @@
 
 // program option settings
 enum progopts {
-	//
-	tb4AceBonus,
-	tbAcelessPenalty,
-	tbCountShortSuits,
-	tbPenalizeUGHonors,
-	// bidding config
-	tnBiddingEngine,
-	tbNNetTrainingMode,
-	tfBiddingAggressiveness,
-	tszNeuralNetFile,
-	tnumNeuralNetInputs,
-	tnumNeuralNetOutputs,
-	tnumNeuralNetHiddenLayers,
-	tnumNeuralNetUnitsPerHiddenLayer,
-	// scoring options
-	tbScoreHonorsBonuses,
 };

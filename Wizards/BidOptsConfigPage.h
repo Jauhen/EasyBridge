@@ -15,6 +15,7 @@
 #endif // _MSC_VER > 1000
 // BidConfigPage.h : header file
 //
+class Settings;
 class CObjectWithProperties;
 
 
@@ -36,7 +37,7 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_conventionSet;
 	//
 	int		m_numNNetHiddenLayers;
@@ -45,7 +46,7 @@ private:
 
 // Construction
 public:
-	CBidOptsConfigPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsConfigPage(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsConfigPage();
 
 // Dialog Data

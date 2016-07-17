@@ -571,18 +571,7 @@ LPVOID CEasyBApp::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 			return (LPVOID) m_numNNetNodesPerHiddenLayer;
 */
 		// scoring options
-		case tbScoreHonorsBonuses:
-			return (LPVOID) m_bScoreHonorsBonuses;
 
-		// counting options
-		case tb4AceBonus:
-			return (LPVOID) m_b4AceBonus;
-		case tbAcelessPenalty:
-			return (LPVOID) m_bAcelessPenalty;
-		case tbCountShortSuits:
-			return (LPVOID) m_bCountShortSuits;
-		case tbPenalizeUGHonors:
-			return (LPVOID) m_bPenalizeUGHonors;
 		//
 		default:
 			AfxMessageBox("Unhandled Call to CEasyBApp::GetValuePV()");
@@ -596,9 +585,6 @@ double CEasyBApp::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex
 {
 	switch(nItem)
 	{
-		// 
-		case tfBiddingAggressiveness:
-			return m_fBiddingAggressiveness;
 		default:
 			AfxMessageBox("Unhandled Call to CEasyBApp::GetValueDouble()");
 			return 0;
@@ -638,25 +624,6 @@ int CEasyBApp::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int
 			break;
 */
 
-		// scoring options
-		case tbScoreHonorsBonuses:
-			m_bScoreHonorsBonuses = bVal;
-			break;
-
-		// counting options
-		case tb4AceBonus:
-			m_b4AceBonus = bVal;
-			break;
-		case tbAcelessPenalty:
-			m_bAcelessPenalty = bVal;
-			break;
-		case tbCountShortSuits:
-			m_bCountShortSuits = bVal;
-			break;
-		case tbPenalizeUGHonors:
-			m_bPenalizeUGHonors = bVal;
-			break;
-
 		//
 		default:
 			AfxMessageBox("Unhandled Call to CEasyBApp::SetValuePV()");
@@ -684,11 +651,6 @@ int CEasyBApp::SetValueDouble(int nItem, double fValue, int nIndex1, int nIndex2
 {
 	switch(nItem)
 	{
-		// 
-		case tfBiddingAggressiveness:
-			m_fBiddingAggressiveness = fValue;
-			InitPointCountRequirements();
-			break;
 		default:
 			AfxMessageBox("Unhandled Call to CEasyBApp::SetValueDouble()");
 			return 0;
@@ -1071,23 +1033,6 @@ void CEasyBApp::InitSettings()
 	// done
 }
 
-
-
-//
-// InitPointCountRequirements()
-//
-void CEasyBApp::InitPointCountRequirements()
-{
-	// adjust point count requirements
-	m_fMajorSuitGamePts = m_fDefaultMajorSuitGamePts - m_fBiddingAggressiveness;
-	m_fMinorSuitGamePts = m_fDefaultMinorSuitGamePts - m_fBiddingAggressiveness;
-	m_fNTGamePts = m_fDefaultNTGamePts - m_fBiddingAggressiveness;
-	m_f4LevelPts = m_fDefault4LevelPts - m_fBiddingAggressiveness;
-	m_f3LevelPts = m_fDefault3LevelPts - m_fBiddingAggressiveness;
-	m_f2LevelPts = m_fDefault2LevelPts - m_fBiddingAggressiveness;
-	m_fSlamPts = m_fDefaultSlamPts - m_fBiddingAggressiveness;
-	m_fGrandSlamPts = m_fDefaultGrandSlamPts - m_fBiddingAggressiveness;
-}
 
 
 

@@ -10,6 +10,7 @@
 // BidOptsTwoBidsPage.h : header file
 //
 class CObjectWithProperties;
+class Settings;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,13 +28,13 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+	Settings&	m_app;
 	CObjectWithProperties&	m_conventionSet;
 
 
 // Construction
 public:
-	CBidOptsTwoBidsPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsTwoBidsPage(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsTwoBidsPage();
 
 // Dialog Data
