@@ -23,7 +23,6 @@
 #include "ProgConfigBiddingPage.h"
 #include "ProgConfigFinishPage.h"
 #include "ObjectWithProperties.h"
-#include "progopts.h"
 #include "engine/bidding/ConvCodes.h"
 #include "HelpCode.h"
 #include "model/settings.h"

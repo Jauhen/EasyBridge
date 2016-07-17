@@ -485,7 +485,6 @@
     <ClInclude Include="src\engine\PLAYER.H" />
     <ClInclude Include="src\engine\PlayerStatusDialog.H" />
     <ClInclude Include="src\engine\play\PlayList.h" />
-    <ClInclude Include="src\progopts.h" />
     <ClInclude Include="src\dialogs\roundfinisheddialog.h" />
     <ClInclude Include="src\engine\play\Ruff.h" />
     <ClInclude Include="src\dialogs\saveopts.h" />

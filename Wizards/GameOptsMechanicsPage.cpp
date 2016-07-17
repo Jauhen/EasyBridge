@@ -15,7 +15,6 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "GameOptsMechanicsPage.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

@@ -14,7 +14,6 @@
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "HistoryWnd.h"
-#include "progopts.h"
 #include "Subclass.h"
 #include "../Help/Helpcode.h"
 

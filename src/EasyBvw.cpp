@@ -17,7 +17,6 @@
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "EasyBvw.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "dialogs/BidDialog.h"
 #include "dialogs/GameReviewDialog.h"

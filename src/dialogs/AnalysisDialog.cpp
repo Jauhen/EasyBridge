@@ -15,7 +15,6 @@
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "subclass.h"
-#include "progopts.h"
 #include "engine/player.h"
 #include "analysisDialog.h"
 #include "../Help/HelpCode.h"

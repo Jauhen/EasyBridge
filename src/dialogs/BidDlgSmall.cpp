@@ -13,7 +13,6 @@
 #include "easyb.h"
 #include "model/easybDoc.h"
 #include "BidDlgSmall.h"
-#include "progopts.h"
 #include "engine/Player.h"
 #include "subclass.h"
 #include "../Help/Helpcode.h"

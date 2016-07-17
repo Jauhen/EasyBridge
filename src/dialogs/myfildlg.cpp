@@ -14,7 +14,6 @@
 #include "model/EasyBdoc.h"
 #include "myfildlg.h"
 #include "saveopts.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

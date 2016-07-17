@@ -15,7 +15,6 @@
 #include "mainfrm.h"
 #include "mainframeopts.h"
 #include "EasyBvw.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "engine/Player.h"
 #include "engine/bidding/BidEngine.H"

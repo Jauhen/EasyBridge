@@ -12,7 +12,6 @@
 #include "stdafx.h"
 #include "easyb.h"
 #include "PassedHandSimpleDialog.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

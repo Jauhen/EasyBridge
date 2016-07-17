@@ -20,7 +20,6 @@
 #include "EasyBvw.h"
 #include "engine/Player.h"
 #include "engine/Deck.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "dialogs/CardLayout.h"
 #include "dialogs/FileComments.h"

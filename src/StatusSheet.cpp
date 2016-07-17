@@ -14,7 +14,6 @@
 #include "Mainfrm.h"
 #include "StatusSheet.h"
 #include "StatusWnd.h"
-#include "progopts.h"
 #include "../Help/Helpcode.h"
 
 #ifdef _DEBUG

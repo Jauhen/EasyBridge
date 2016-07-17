@@ -13,7 +13,6 @@
 #include "EasyB.h"
 #include "model/EasyBDoc.h"
 #include "saveopts.h"
-#include "progopts.h"
 #include "../Help/HelpCode.h"
 
 #ifdef _DEBUG

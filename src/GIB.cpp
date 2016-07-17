@@ -16,7 +16,6 @@
 #include "engine/Player.h"
 #include "GIB.h"
 #include "engine/play/HandHoldings.h"
-#include "progopts.h"
 #include "mainfrm.h"
 #include "dialogs/GIBDialog.h"
 #include "MyException.h"

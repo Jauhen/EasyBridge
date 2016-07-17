@@ -14,7 +14,6 @@
 #include "resource.h"
 #include "model/settings.h"
 #include "DealOptsMiscPage.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

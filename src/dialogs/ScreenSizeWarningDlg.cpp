@@ -12,7 +12,6 @@
 #include "stdafx.h"
 #include "easyb.h"
 #include "ScreenSizeWarningDlg.h"
-#include "progopts.h"
 #include "../Help/Helpcode.h"
 
 #ifdef _DEBUG

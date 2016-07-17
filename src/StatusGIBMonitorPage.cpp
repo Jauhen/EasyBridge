@@ -13,7 +13,6 @@
 #include "easyb.h"
 #include "mainfrm.h"
 #include "mainframeopts.h"
-#include "progopts.h"
 #include "StatusGIBMonitorPage.h"
 #include "subclass.h"
 

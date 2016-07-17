@@ -14,7 +14,6 @@
 #include "resource.h"
 #include "model/settings.h"
 #include "DealOptsNTPage.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE

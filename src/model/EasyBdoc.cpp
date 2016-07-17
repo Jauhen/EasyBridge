@@ -25,7 +25,6 @@
 #include "dialogs/BidDialog.h"
 #include "NeuralNet.h"
 #include "dialogs/scoredialog.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "MyException.h"
 #include "model/GameRecord.h"

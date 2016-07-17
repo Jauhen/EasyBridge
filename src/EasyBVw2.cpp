@@ -15,7 +15,6 @@
 #include "engine/Player.h"
 #include "engine/deck.h"
 #include "engine/card.h"
-#include "progopts.h"
 #include "DrawParameters.h"
 #include "dialogs/ScreenSizeWarningDlg.h"
 #include <limits.h>

@@ -17,7 +17,6 @@
 #include "engine/Player.h"
 #include "TestPlayDialog.h"
 #include "subclass.h"
-#include "progopts.h"
 #include "MainFrameopts.h"
 #include "mmsystem.h"
 

@@ -16,7 +16,6 @@
 #include "model/EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "progopts.h"
 #include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
 #include "dealparm.h"

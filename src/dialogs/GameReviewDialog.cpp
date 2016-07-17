@@ -22,7 +22,6 @@
 #include "engine/Deck.h"
 #include "engine/Player.h"
 #include "Subclass.h"
-#include "progopts.h"
 #include "../Help/Helpcode.h"
 
 #ifdef _DEBUG

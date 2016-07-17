@@ -571,9 +571,6 @@
     <ClInclude Include="src\ObjectWithProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\progopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\StatusAnalysesPage.h">
       <Filter>Header Files</Filter>
     </ClInclude>

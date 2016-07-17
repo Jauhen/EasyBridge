@@ -14,7 +14,6 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "DispOptsMiscPage.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "model/globals.h"
 #include "model/settings.h"

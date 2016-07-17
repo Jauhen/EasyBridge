@@ -15,7 +15,6 @@
 #include "model/EasyBdoc.h"
 #include "mainfrm.h"
 #include "EasyBvw.h"
-#include "progopts.h"
 
 
 
