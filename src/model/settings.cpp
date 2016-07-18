@@ -349,7 +349,7 @@ void Settings::InitializeAll() {
 	m_bScoreHonorsBonuses = ReadIntConfig(szScoringOptions, szScoreHonorsBonuses, FALSE);
 
 	// get bidding config options
-	m_fBiddingAggressiveness = std::stod(ReadStringConfig(szBiddingConfigOptions, szBiddingAggressiveness, 0));
+	m_fBiddingAggressiveness = std::stod(ReadStringConfig(szBiddingConfigOptions, szBiddingAggressiveness, "0.0"));
 	/*
 	m_nBiddingEngine = ReadIntConfig(szBiddingConfigOptions, szBiddingEngine, 0);
 	m_numNNetHiddenLayers = ReadIntConfig(szBiddingConfigOptions, szNumNNetHiddenLayers, tnumNNetHiddenLayers);

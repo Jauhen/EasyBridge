@@ -257,6 +257,9 @@
     <ClInclude Include="..\src\model\Globals.h">
       <Filter>sources\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\model\settings.h">
+      <Filter>sources\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -507,6 +510,12 @@
     </ClCompile>
     <ClCompile Include="..\src\model\Globals.cpp">
       <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\model\settings.cpp">
+      <Filter>sources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="settings_test.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
