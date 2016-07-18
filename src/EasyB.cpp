@@ -11,6 +11,7 @@
 //
 
 #include "stdafx.h"
+#include <string>
 #include "EasyB.h"
 #include "mainfrm.h"
 #include "model/EasyBdoc.h"
@@ -18,7 +19,6 @@
 #include "engine/Player.h"
 #include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
-#include "dealparm.h"
 #include "engine/bidding/ConventionSet.h"
 #include "engine/bidding/convention_pool.h"
 #include "engine/deck.h"
@@ -36,24 +36,10 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
 
-// default order in which suits get displayed, left to right
-const int defSuitDisplaySequence[5][4] = {
-	{ SPADES, HEARTS, CLUBS, DIAMONDS },
-	{ SPADES, HEARTS, DIAMONDS, CLUBS },
-	{ DIAMONDS, CLUBS, HEARTS, SPADES },
-	{ CLUBS, DIAMONDS, HEARTS, SPADES },
-	{ HEARTS, SPADES, DIAMONDS, CLUBS },
-};
-const int tnumSuitSequences = sizeof(defSuitDisplaySequence) / sizeof(int[4]);
 
 //const LPCTSTR szPosition[4] = { "South", "West", "North", "East" };
 
 //const LPCTSTR tszAppAboutWAVFile = _T("Ocean.wav");
-
-LPCTSTR tszDefaultAceValue			= _T("4");
-LPCTSTR tszDefaultKingValue			= _T("3");
-LPCTSTR tszDefaultQueenValue		= _T("2");
-LPCTSTR tszDefaultJackValue			= _T("1");
 
 // global pointer to the current convention set
 CConventionSet* pCurrConvSet = NULL;
@@ -64,17 +50,6 @@ const int tnumNNetInputs				= 350;
 const int tnumNNetOutputs				= 608;
 const int tnumNNetHiddenLayers			= 1;
 const int tnumNNetNodesPerHiddenLayer	= 100;
-
-
-const double c_tfDefaultMajorSuitGamePts = 26;
-const double c_tfDefaultMinorSuitGamePts = 29;
-const double c_tfDefaultNTGamePts = 26;
-const double c_tfDefault4LevelPts = 26;
-const double c_tfDefault3LevelPts = 23;
-const double c_tfDefault2LevelPts = 20;
-const double c_tfDefaultSlamPts = 33;
-const double c_tfDefaultGrandSlamPts = 37;
-
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -120,456 +95,19 @@ CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
 }
 
 
-// display options
-static TCHAR BASED_CODE szDisplayOptions[] = _T("Display Options");
-static TCHAR BASED_CODE szSuitSequence[] = _T("Suit Display Order");
-static TCHAR BASED_CODE szLowResOption[] = _T("Low Resolution Option");
-static TCHAR BASED_CODE szLayoutFollowsDisplayOrder[] = _T("Card Layout Dialog follows Display Suit Order");
-static TCHAR BASED_CODE szShowDummyTrumpsOnLeft[] = _T("Show Dummy Trumps on Left");
-static TCHAR BASED_CODE szShowStartupAnimation[] = _T("Show Startup Animation");
-static TCHAR BASED_CODE szShowSplashWindow[] = _T("Show Splash Window");
-static TCHAR BASED_CODE szShowDailyTips[] = _T("Show Tip of the Day");
-static TCHAR BASED_CODE szShowScreenSizeWarning[] = _T("Show Screen Size Warning");
-static TCHAR BASED_CODE szShowBackgroundBitmap[] = _T("Show Background Bitmap Display");
-static TCHAR BASED_CODE szBitmapDisplayMode[] = _T("Background Bitmap Display Mode (0=Tile, 1=Center)");
-static TCHAR BASED_CODE szScaleLargeBitmaps[] = _T("Scale Large Background Bitmaps");
-static TCHAR BASED_CODE szBackgroundColor[] = _T("Window Background Color");
-static TCHAR BASED_CODE szUseSuitSymbols[] = _T("Use Suit Symbols Instead of Letters");
-static TCHAR BASED_CODE szShowLayoutOnEdit[] = _T("Automatically Show Card Layout Dialog When Editing Existing Hands");
-static TCHAR BASED_CODE szCollapseGameReviewDialog[] = _T("Hide tags list in Game Review dialog");
-
-// game options
-static TCHAR BASED_CODE szGameOptions[] = _T("Game Options");
-static TCHAR BASED_CODE szAutoBidStart[] = _T("Auto Start Bidding after Deal");
-static TCHAR BASED_CODE szEnableAnalysisTracing[] = _T("Enable Computer Player Analysis Tracing");
-static TCHAR BASED_CODE szEnableAnalysisDuringHints[] = _T("Enable Analysis Tracing When Obtaining Hints");
-static TCHAR BASED_CODE szAutoHintMode[] = _T("Auto Hint Level");
-static TCHAR BASED_CODE szAutoHintTraceLevel[] = _T("Auto Hint Trace Level");
-static TCHAR BASED_CODE szAnalysisTraceLevel[] = _T("Computer Player Analysis Trace Level");
-//static TCHAR BASED_CODE szShowCommentIdentifiers[] = _T("Suppress Comment Identifier Codes");
-static TCHAR BASED_CODE szShowCommentIdentifiers[] = _T("Show Comment Identifier Codes");
-static TCHAR BASED_CODE szInsertBiddingPause[] = _T("Insert Pause between Bids");
-static TCHAR BASED_CODE szBiddingPauseLength[] = _T("Pause Length between Bids (tenths of a second)");
-static TCHAR BASED_CODE szInsertPlayPause[] = _T("Insert Pause between Plays");
-static TCHAR BASED_CODE szPlayPauseLength[] = _T("Pause Length between Plays (tenths of a second)");
-static TCHAR BASED_CODE szComputerCanClaim[] = _T("Computer Player Can Claim Remaining Tricks");
-static TCHAR BASED_CODE szShowPassedHands[] = _T("Show All Four Hands When a Hand Is Passed Out");
-static TCHAR BASED_CODE szAllowRebidPassedHands[] = _T("Allow Rebid On a Passed Hand");
-static TCHAR BASED_CODE szPassedHandWaitInterval[] = _T("Time to Wait After Passed Hand to Deal New Hand");
-static TCHAR BASED_CODE szAutoShowBidHistory[] = _T("Automatically Show Bid History When Biddding");
-static TCHAR BASED_CODE szAutoShowPlayHistory[] = _T("Automatically Show Play History During Play");
-static TCHAR BASED_CODE szAutoHideBidHistory[] = _T("Automatically Hide Bid History During Play");
-static TCHAR BASED_CODE szAutoHidePlayHistory[] = _T("Automatically Hide Play History When Bidding");
-//static TCHAR BASED_CODE szAutoShowNNetOutputWhenTraining[] = _T("Automatically show Neural Net Output Dialog When in Training Mode");
-static TCHAR BASED_CODE szPlayMode[] = _T("Game Play Mode");
-static TCHAR BASED_CODE szPlayModeLocked[] = _T("Game Play Mode Locked");
-static TCHAR BASED_CODE szAutoJumpCursor[] = _T("Automatically Jump the Cursor");
-static TCHAR BASED_CODE szAutoPlayLastCard[] = _T("Automatically play the last card in the suit led");
-static TCHAR BASED_CODE szEnableSpokenBids[] = _T("Enable Spoken Bids");
-static TCHAR BASED_CODE szSaveIntermediatePositions[] = _T("Save Intermediate Positions When Saving Hands");
-static TCHAR BASED_CODE szExposePBNGameCards[] = _T("Expose All Cards When a PBN Game Is Loaded");
-
-// GIB options
-static TCHAR BASED_CODE szGIBOptions[] = _T("GIB Options");
-static TCHAR BASED_CODE szGIBPath[] = _T("GIB Executable Path");
-static TCHAR BASED_CODE szEnableGIBForDeclarer[] = _T("Enable GIB for Declarer Play");
-static TCHAR BASED_CODE szEnableGIBForDefender[] = _T("Enable GIB for Defender Play");
-static TCHAR BASED_CODE szGIBAnalysisTime[] = _T("GIB Max Analysis Time");
-static TCHAR BASED_CODE szGIBSampleSize[] = _T("GIB Monte Carlo Deal Sample Size");
-static TCHAR BASED_CODE szShowGIBOutput[] = _T("Show GIB Program Output");
-
-// counting options
-static TCHAR BASED_CODE szCountingOptions[] = _T("Counting Options");
-static TCHAR BASED_CODE szAggressivenessRating[] = _T("Bidding Aggressiveness Rating (-2 to + 2)");
-static TCHAR BASED_CODE szHonorsValuationMode[] = _T("Honors Valuation Mode");
-static TCHAR BASED_CODE szCustomAceValue[] = _T("Custom Value of an Ace");
-static TCHAR BASED_CODE szCustomKingValue[] = _T("Custom value of a King");
-static TCHAR BASED_CODE szCustomQueenValue[] = _T("Custom value of a Queen");
-static TCHAR BASED_CODE szCustomJackValue[] = _T("Custom value of a Jack");
-static TCHAR BASED_CODE szMajorSuitGamePts[] = _T("Default Points needed for Game in a Major Suit");
-static TCHAR BASED_CODE szMinorSuitGamePts[] = _T("Default Points needed for Game in a Minor Suit");
-static TCHAR BASED_CODE szNTGamePts[] = _T("Default Points needed for Game in No Trump");
-static TCHAR BASED_CODE sz4LevelPts[] = _T("Default Points needed for a Level 4 Countract");
-static TCHAR BASED_CODE sz3LevelPts[] = _T("Default Points needed for a Level 3 Countract");
-static TCHAR BASED_CODE sz2LevelPts[] = _T("Default Points needed for a Level 2 Countract");
-static TCHAR BASED_CODE szSlamPts[] = _T("Default Points needed for a Small Slam bid");
-static TCHAR BASED_CODE szGrandSlamPts[] = _T("Default Points needed for a Grand Slam bid");
-static TCHAR BASED_CODE szAcelessPenalty[] = _T("Deduct 1 pt for Aceless Hand");
-static TCHAR BASED_CODE sz4AceBonus[] = _T("Add 1 pt for Holding All 4 Aces");
-static TCHAR BASED_CODE szPenalizeUGHonors[] = _T("Penalize Unguarded/Poorly Guarded Honors");
-static TCHAR BASED_CODE szCountShortSuits[] = _T("Count Points for Short Suits When Opening");
-
-// deal options
-static TCHAR BASED_CODE szDealOptions[] = _T("Deal Options");
-static TCHAR BASED_CODE szMinGamePts[] = _T("Min Points for Game Hand");
-static TCHAR BASED_CODE szMaxGamePts[] = _T("Max Points for Game Hand");
-static TCHAR BASED_CODE szMinMinorGamePts[] = _T("Min Points for Minor Game Hand");
-static TCHAR BASED_CODE szMaxMinorGamePts[] = _T("Max Points for Minor Game Hand");
-static TCHAR BASED_CODE szMinMajorGamePts[] = _T("Min Points for Major Game Hand");
-static TCHAR BASED_CODE szMaxMajorGamePts[] = _T("Max Points for Major Game Hand");
-static TCHAR BASED_CODE szMinNoTrumpGamePts[] = _T("Min Points for No Trump Game Hand");
-static TCHAR BASED_CODE szMaxNoTrumpGamePts[] = _T("Max Points for No Trump Game Hand");
-static TCHAR BASED_CODE szMinSlamPts[] = _T("Min Points for Slam Hand");
-static TCHAR BASED_CODE szMaxSlamPts[] = _T("Max Points for Slam Hand");
-static TCHAR BASED_CODE szMinSmallSlamPts[] = _T("Min Points for Small Slam Hand");
-static TCHAR BASED_CODE szMaxSmallSlamPts[] = _T("Max Points for Small Slam Hand");
-static TCHAR BASED_CODE szMinGrandSlamPts[] = _T("Min Points for Grand Slam Hand");
-static TCHAR BASED_CODE szMaxGrandSlamPts[] = _T("Max Points for Grand Slam Hand");
-static TCHAR BASED_CODE szBalanceTeamHands[] = _T("Try to Balance Partnership Hands Points");
-static TCHAR BASED_CODE szMinCardsInMajor[] = _T("Min # Cards in Major Suit");
-static TCHAR BASED_CODE szMinCardsInMinor[] = _T("Min # Cards in Minor Suit");
-static TCHAR BASED_CODE szMinSuitDistMinor[] = _T("Min Distribution for Minor Suit");
-static TCHAR BASED_CODE szMinSuitDistMajor[] = _T("Min Distribution for Major Suit");
-static TCHAR BASED_CODE szMinTopMajorCard[] = _T("Min Top Cards in Major Suit");
-static TCHAR BASED_CODE szMinTopMinorCard[] = _T("Min Top Cards in Minor Suit");
-static TCHAR BASED_CODE szMaxImbalanceForNT[] = _T("Max Imbalance for NT Game");
-static TCHAR BASED_CODE szNeedTwoBalancedHandsForNT[] = _T("Need 2 Balanced Hands for NT Game");
-static TCHAR BASED_CODE szAcesNeededForSlam[] = _T("Number of Aces to Deal for Slam Hand");
-static TCHAR BASED_CODE szAcesNeededForSmallSlam[] = _T("Min Number of Aces to Deal for Small Slam Hand");
-static TCHAR BASED_CODE szAcesNeededForGrandSlam[] = _T("Min Number of Aces to Deal for Grand Slam Hand");
-static TCHAR BASED_CODE szKingsNeededForSlam[] = _T("Min Number of Kings to Deal for Slam Hand");
-static TCHAR BASED_CODE szKingsNeededForSmallSlam[] = _T("Min Number of Kings to Deal for Small Slam Hand");
-static TCHAR BASED_CODE szKingsNeededForGrandSlam[] = _T("Min Number of Kings to Deal for Grand Slam Hand");
-static TCHAR BASED_CODE szEnableDealNumbering[] = _T("Enable Deal Numbering and Recall");
-
-// scoring options
-static TCHAR BASED_CODE szScoringOptions[] = _T("Scoring Options");
-static TCHAR BASED_CODE szUseDuplicateScoring[] = _T("Use Duplicate Scoring");
-static TCHAR BASED_CODE szScoreHonorsBonuses[] = _T("Score Honors Bonuses");
-
-// convention settings
-static TCHAR BASED_CODE szCurrConventionSet[] = _T("Current Convention Set");
-
-// bidding config 
-static TCHAR BASED_CODE szBiddingConfigOptions[] = _T("Bidding Configuration");
-//static TCHAR BASED_CODE szBiddingEngine[] = _T("Bidding Engine (0 = Rule-Based, 1 = Neural Net)");
-static TCHAR BASED_CODE szBiddingAggressiveness[] = _T("Bidding Aggressiveness (-2 to +2)");
-/*
-static TCHAR BASED_CODE szNumNNetHiddenLayers[] = _T("Default Neural Hidden Layers");
-static TCHAR BASED_CODE szNumNNetNodesPerHiddenLayer[] = _T("Default Neural Nodes Per Hidden Layer");
-static TCHAR BASED_CODE szNeuralNetFile[] = _T("Nueral Net File");
-*/
-
-// play options
-static TCHAR BASED_CODE szPlayOptions[] = _T("Game Play Options");
-
-// debug options
-static TCHAR BASED_CODE szDebugOptions[] = _T("Debug Options");
-static TCHAR BASED_CODE szEnableDebugMode[] = _T("Enable Debug Mode");
-static TCHAR BASED_CODE szExposeAllCards[] = _T("Expose All Cards");
-
-
 //
 void CEasyBApp::Initialize()
 {
-	// read in display options
-	m_nSuitSeqOption = GetProfileInt(szDisplayOptions, szSuitSequence, 0);
-	m_bLayoutFollowsDisplayOrder = GetProfileInt(szDisplayOptions, szLayoutFollowsDisplayOrder, TRUE);
-	m_bLowResOption = GetProfileInt(szDisplayOptions, szLowResOption, FALSE);
-	m_bShowDummyTrumpsOnLeft = GetProfileInt(szDisplayOptions, szShowDummyTrumpsOnLeft, TRUE);
-	m_bShowStartupAnimation = GetProfileInt(szDisplayOptions, szShowStartupAnimation, FALSE);
-	m_bShowSplashWindow = GetProfileInt(szDisplayOptions, szShowSplashWindow, TRUE);
-	m_bShowDailyTipDialog = GetProfileInt(szDisplayOptions, szShowDailyTips, TRUE);
-	m_bShowScreenSizeWarning = GetProfileInt(szDisplayOptions, szShowScreenSizeWarning, TRUE);
-	m_bShowBackgroundBitmap = GetProfileInt(szDisplayOptions, szShowBackgroundBitmap, TRUE);
-	m_nBitmapDisplayMode = GetProfileInt(szDisplayOptions, szBitmapDisplayMode, 1);
-	m_bScaleLargeBitmaps = GetProfileInt(szDisplayOptions, szScaleLargeBitmaps, FALSE);
-	m_nBackgroundColor = GetProfileInt(szDisplayOptions, szBackgroundColor, RGB(0,128,0));
-	m_bUseSuitSymbols = GetProfileInt(szDisplayOptions, szUseSuitSymbols, FALSE);
-	m_bShowLayoutOnEdit = GetProfileInt(szDisplayOptions, szShowLayoutOnEdit, FALSE);
-	m_bCollapseGameReviewDialog = GetProfileInt(szDisplayOptions, szCollapseGameReviewDialog, FALSE);
-
-	// read in game options
-	m_bAutoBidStart = GetProfileInt(szGameOptions, szAutoBidStart, TRUE);
-	m_bEnableAnalysisTracing = GetProfileInt(szGameOptions, szEnableAnalysisTracing, FALSE);
-	m_bEnableAnalysisDuringHints = GetProfileInt(szGameOptions, szEnableAnalysisDuringHints, TRUE);
-	m_nAnalysisTraceLevel = GetProfileInt(szGameOptions, szAnalysisTraceLevel, 3);
-#ifdef _DEBUG
-	m_bShowCommentIdentifiers = GetProfileInt(szGameOptions, szShowCommentIdentifiers, TRUE);
-#else
-	m_bShowCommentIdentifiers = GetProfileInt(szGameOptions, szShowCommentIdentifiers, FALSE);
-#endif
-	m_nAutoHintMode = GetProfileInt(szGameOptions, szAutoHintMode, 0);
-	m_nAutoHintTraceLevel = GetProfileInt(szGameOptions, szAutoHintTraceLevel, 2);
-	m_bInsertBiddingPause = GetProfileInt(szGameOptions, szInsertBiddingPause, TRUE);
-	m_nBiddingPauseLength = GetProfileInt(szGameOptions, szBiddingPauseLength, 3);
-	m_bInsertPlayPause = GetProfileInt(szGameOptions, szInsertPlayPause, TRUE);
-	m_nPlayPauseLength = GetProfileInt(szGameOptions, szPlayPauseLength, 10);
-	m_bComputerCanClaim = GetProfileInt(szGameOptions, szComputerCanClaim, FALSE);
-	m_bShowPassedHands = GetProfileInt(szGameOptions, szShowPassedHands, TRUE);
-	m_bAllowRebidPassedHands = GetProfileInt(szGameOptions, szAllowRebidPassedHands, FALSE);
-	m_nPassedHandWaitInterval = GetProfileInt(szGameOptions, szPassedHandWaitInterval, 1100);
-	m_bAutoShowBidHistory = GetProfileInt(szGameOptions, szAutoShowBidHistory, TRUE);
-	m_bAutoShowPlayHistory = GetProfileInt(szGameOptions, szAutoShowPlayHistory, TRUE);
-	m_bAutoHideBidHistory = GetProfileInt(szGameOptions, szAutoHideBidHistory, FALSE);
-	m_bAutoHidePlayHistory = GetProfileInt(szGameOptions, szAutoHidePlayHistory, FALSE);
-//	m_bAutoShowNNetOutputWhenTraining = GetProfileInt(szGameOptions, szAutoShowNNetOutputWhenTraining, TRUE);
-	m_bAutoJumpCursor = GetProfileInt(szGameOptions, szAutoJumpCursor, FALSE);
-	m_bAutoPlayLastCard = GetProfileInt(szGameOptions, szAutoPlayLastCard, TRUE);
-//	m_bEnableSpokenBids = GetProfileInt(szGameOptions, szEnableSpokenBids, FALSE);
-	m_bSaveIntermediatePositions = GetProfileInt(szGameOptions, szSaveIntermediatePositions, TRUE);
-	m_bExposePBNGameCards = GetProfileInt(szGameOptions, szExposePBNGameCards, TRUE);
-#ifdef _DEBUG
-	m_nPlayMode = GetProfileInt(szGameOptions, szPlayMode, PLAY_NORMAL);
-	m_bPlayModeLocked = GetProfileInt(szGameOptions, szPlayModeLocked, FALSE);
-#else
-	m_nPlayMode = m_bPlayModeLocked = FALSE;
-#endif
-
-	// counting parameters
-	m_nHonorsValuationMode = GetProfileInt(szCountingOptions, szHonorsValuationMode, 0);
-	m_fCustomAceValue = atof(GetProfileString(szCountingOptions, szCustomAceValue, tszDefaultAceValue));
-	m_fCustomKingValue = atof(GetProfileString(szCountingOptions, szCustomKingValue, tszDefaultKingValue));
-	m_fCustomQueenValue = atof(GetProfileString(szCountingOptions, szCustomQueenValue, tszDefaultQueenValue));
-	m_fCustomJackValue = atof(GetProfileString(szCountingOptions, szCustomJackValue, tszDefaultJackValue));
-	m_fDefaultMajorSuitGamePts = atof(GetProfileString(szCountingOptions, szMajorSuitGamePts, FormString("%f", c_tfDefaultMajorSuitGamePts)));
-	m_fDefaultMinorSuitGamePts = atof(GetProfileString(szCountingOptions, szMinorSuitGamePts, FormString("%f", c_tfDefaultMinorSuitGamePts)));
-	m_fDefaultNTGamePts = atof(GetProfileString(szCountingOptions, szNTGamePts, FormString("%f", c_tfDefaultNTGamePts)));
-	m_fDefault4LevelPts = atof(GetProfileString(szCountingOptions, sz4LevelPts, FormString("%f", c_tfDefault4LevelPts)));
-	m_fDefault3LevelPts = atof(GetProfileString(szCountingOptions, sz3LevelPts, FormString("%f", c_tfDefault3LevelPts)));
-	m_fDefault2LevelPts = atof(GetProfileString(szCountingOptions, sz2LevelPts, FormString("%f", c_tfDefault2LevelPts)));
-	m_fDefaultSlamPts = atof(GetProfileString(szCountingOptions, szSlamPts, FormString("%f", c_tfDefaultSlamPts)));
-	m_fDefaultGrandSlamPts = atof(GetProfileString(szCountingOptions, szGrandSlamPts, FormString("%f", c_tfDefaultGrandSlamPts)));
-/*
-	m_bAcelessPenalty = GetProfileInt(szCountingOptions, szAcelessPenalty, TRUE);
-	m_b4AceBonus = GetProfileInt(szCountingOptions, sz4AceBonus, TRUE);
-	m_bPenalizeUGHonors = GetProfileInt(szCountingOptions, szPenalizeUGHonors, FALSE);
-	m_bCountShortSuits = GetProfileInt(szCountingOptions, szCountShortSuits, TRUE);
-*/
-	m_bAcelessPenalty = TRUE;
-	m_b4AceBonus = TRUE;
-	m_bPenalizeUGHonors = TRUE;
-	m_bCountShortSuits = TRUE;
-
-	// get GIB options
-	m_strGIBPath = GetProfileString(szGIBOptions, szGIBPath, "C:\\");
-	m_bEnableGIBForDeclarer = GetProfileInt(szGIBOptions, szEnableGIBForDeclarer, FALSE);
-//	m_bEnableGIBForDefender = GetProfileInt(szGIBOptions, szEnableGIBForDefender, FALSE);
-	m_bEnableGIBForDefender = FALSE;
-	m_nGIBAnalysisTime = GetProfileInt(szGIBOptions, szGIBAnalysisTime, 30);
-	m_nGIBSampleSize = GetProfileInt(szGIBOptions, szGIBSampleSize, 100);
-	m_bShowGIBOutput = GetProfileInt(szGIBOptions, szShowGIBOutput, FALSE);
-
-//	m_nCurrConventionSet = GetProfileInt(szBiddingConventions, szCurrConvSet, 0);
-	m_nCurrConventionSet = 0;	
-
-	// get deal options
-	m_nReqPointsGame[0][0] = GetProfileInt(szDealOptions, szMinGamePts, nDefReqPointsGame[0][0]);
-	m_nReqPointsGame[0][1] = GetProfileInt(szDealOptions, szMaxGamePts, nDefReqPointsGame[0][1]);
-	m_nReqPointsGame[1][0] = GetProfileInt(szDealOptions, szMinMinorGamePts, nDefReqPointsGame[1][0]);
-	m_nReqPointsGame[1][1] = GetProfileInt(szDealOptions, szMaxMinorGamePts, nDefReqPointsGame[1][1]);
-	m_nReqPointsGame[2][0] = GetProfileInt(szDealOptions, szMinMajorGamePts, nDefReqPointsGame[2][0]);
-	m_nReqPointsGame[2][1] = GetProfileInt(szDealOptions, szMaxMajorGamePts, nDefReqPointsGame[2][1]);
-	m_nReqPointsGame[3][0] = GetProfileInt(szDealOptions, szMinNoTrumpGamePts, nDefReqPointsGame[3][0]);
-	m_nReqPointsGame[3][1] = GetProfileInt(szDealOptions, szMaxNoTrumpGamePts, nDefReqPointsGame[3][1]);
-	m_nReqPointsSlam[0][0] = GetProfileInt(szDealOptions, szMinSlamPts, nDefReqPointsSlam[0][0]);
-	m_nReqPointsSlam[0][1] = GetProfileInt(szDealOptions, szMaxSlamPts, nDefReqPointsSlam[0][1]);
-	m_nReqPointsSlam[1][0] = GetProfileInt(szDealOptions, szMinSmallSlamPts, nDefReqPointsSlam[1][0]);
-	m_nReqPointsSlam[1][1] = GetProfileInt(szDealOptions, szMaxSmallSlamPts, nDefReqPointsSlam[1][1]);
-	m_nReqPointsSlam[2][0] = GetProfileInt(szDealOptions, szMinGrandSlamPts, nDefReqPointsSlam[2][0]);
-	m_nReqPointsSlam[2][1] = GetProfileInt(szDealOptions, szMaxGrandSlamPts, nDefReqPointsSlam[2][1]);
-	m_bBalanceTeamHands = GetProfileInt(szDealOptions, szBalanceTeamHands, bDefBalanceTeamHands);
-	//
-	m_nMinCardsInMajor = GetProfileInt(szDealOptions, szMinCardsInMajor, nDefMinCardsInMajor);
-	m_nMinCardsInMinor = GetProfileInt(szDealOptions, szMinCardsInMinor, nDefMinCardsInMinor);
-	m_nMinSuitDist[0] = GetProfileInt(szDealOptions, szMinSuitDistMinor, nDefMinSuitDist[0]);
-	m_nMinSuitDist[1] = GetProfileInt(szDealOptions, szMinSuitDistMajor, nDefMinSuitDist[1]);
-	m_nMinTopMajorCard = GetProfileInt(szDealOptions, szMinTopMajorCard, nDefMinTopMajorCard);
-	m_nMinTopMinorCard = GetProfileInt(szDealOptions, szMinTopMinorCard, nDefMinTopMinorCard);
-//	m_nMaxImbalanceForNT = GetProfileInt(szDealOptions, szMaxImbalanceForNT, nDefMaxBalancedForNT);
-	m_nMaxImbalanceForNT = nDefMaxBalancedForNT;
-	m_bNeedTwoBalancedTrumpHands = GetProfileInt(szDealOptions, szNeedTwoBalancedHandsForNT, bDefNeedTwoBalancedTrumpHands);
-	m_numAcesForSlam[0] = GetProfileInt(szDealOptions, szAcesNeededForSlam, nDefNumAcesForSlam[0]);
-	m_numAcesForSlam[1] = GetProfileInt(szDealOptions, szAcesNeededForSmallSlam, nDefNumAcesForSlam[1]);
-	m_numAcesForSlam[2] = GetProfileInt(szDealOptions, szAcesNeededForGrandSlam, nDefNumAcesForSlam[2]);
-	m_numKingsForSlam[0] = GetProfileInt(szDealOptions, szAcesNeededForSlam, nDefNumKingsForSlam[0]);
-	m_numKingsForSlam[1] = GetProfileInt(szDealOptions, szAcesNeededForSmallSlam, nDefNumKingsForSlam[1]);
-	m_numKingsForSlam[2] = GetProfileInt(szDealOptions, szAcesNeededForGrandSlam, nDefNumKingsForSlam[2]);
-	m_bEnableDealNumbering = GetProfileInt(szDealOptions, szEnableDealNumbering, TRUE);
-
-	// get scoring options
-	m_bDuplicateScoring = GetProfileInt(szScoringOptions, szUseDuplicateScoring, FALSE);
-	m_bScoreHonorsBonuses = GetProfileInt(szScoringOptions, szScoreHonorsBonuses, FALSE);
-
-	// get bidding config options
-	m_fBiddingAggressiveness = atof(GetProfileString(szBiddingConfigOptions, szBiddingAggressiveness, 0));
-/*
-	m_nBiddingEngine = GetProfileInt(szBiddingConfigOptions, szBiddingEngine, 0);
-	m_numNNetHiddenLayers = GetProfileInt(szBiddingConfigOptions, szNumNNetHiddenLayers, tnumNNetHiddenLayers);
-	m_numNNetNodesPerHiddenLayer = GetProfileInt(szBiddingConfigOptions, szNumNNetNodesPerHiddenLayer, tnumNNetNodesPerHiddenLayer);
-	m_strNeuralNetFile = GetProfileString(szBiddingConfigOptions, szNeuralNetFile, _T(""));
-*/
-	// get debug options
-	m_bDebugMode = GetProfileInt(szDebugOptions, szEnableDebugMode, TRUE);
-	m_bShowCardsFaceUp = GetProfileInt(szDebugOptions, szExposeAllCards, FALSE);
+	InitializeAll();
 }
 
 //
 void CEasyBApp::Terminate()
 {
-	// read in display options
-	WriteProfileInt(szDisplayOptions, szSuitSequence, m_nSuitSeqOption);
-	WriteProfileInt(szDisplayOptions, szLayoutFollowsDisplayOrder, m_bLayoutFollowsDisplayOrder);
-	WriteProfileInt(szDisplayOptions, szLowResOption, m_bToggleResolutionMode? !m_bLowResOption : m_bLowResOption);
-	WriteProfileInt(szDisplayOptions, szShowDummyTrumpsOnLeft, m_bShowDummyTrumpsOnLeft);
-	WriteProfileInt(szDisplayOptions, szShowStartupAnimation, m_bShowStartupAnimation);
-	WriteProfileInt(szDisplayOptions, szShowSplashWindow, m_bShowSplashWindow);
-	WriteProfileInt(szDisplayOptions, szShowDailyTips, m_bShowDailyTipDialog);
-	WriteProfileInt(szDisplayOptions, szShowScreenSizeWarning, m_bShowScreenSizeWarning);
-	WriteProfileInt(szDisplayOptions, szShowBackgroundBitmap, m_bShowBackgroundBitmap);
-	WriteProfileInt(szDisplayOptions, szBitmapDisplayMode, m_nBitmapDisplayMode);
-	WriteProfileInt(szDisplayOptions, szScaleLargeBitmaps, m_bScaleLargeBitmaps);
-	WriteProfileInt(szDisplayOptions, szBackgroundColor, m_nBackgroundColor);
-	WriteProfileInt(szDisplayOptions, szUseSuitSymbols, m_bUseSuitSymbols);
-	WriteProfileInt(szDisplayOptions, szShowLayoutOnEdit, m_bShowLayoutOnEdit);
-	WriteProfileInt(szDisplayOptions, szCollapseGameReviewDialog, m_bCollapseGameReviewDialog);
-
-	// write out game options
-	WriteProfileInt(szGameOptions, szAutoBidStart, m_bAutoBidStart);
-	WriteProfileInt(szGameOptions, szEnableAnalysisTracing, m_bEnableAnalysisTracing);
-	WriteProfileInt(szGameOptions, szEnableAnalysisDuringHints, m_bEnableAnalysisDuringHints);
-	WriteProfileInt(szGameOptions, szAutoHintMode, m_nAutoHintMode);
-	WriteProfileInt(szGameOptions, szAutoHintTraceLevel, m_nAutoHintTraceLevel);
-	WriteProfileInt(szGameOptions, szAnalysisTraceLevel, m_nAnalysisTraceLevel);
-	WriteProfileInt(szGameOptions, szShowCommentIdentifiers, m_bShowCommentIdentifiers);
-	WriteProfileInt(szGameOptions, szInsertBiddingPause, m_bInsertBiddingPause);
-	WriteProfileInt(szGameOptions, szBiddingPauseLength, m_nBiddingPauseLength);
-	WriteProfileInt(szGameOptions, szInsertPlayPause, m_bInsertPlayPause);
-	WriteProfileInt(szGameOptions, szPlayPauseLength, m_nPlayPauseLength);
-	WriteProfileInt(szGameOptions, szComputerCanClaim, m_bComputerCanClaim);
-	WriteProfileInt(szGameOptions, szShowPassedHands, m_bShowPassedHands);
-	WriteProfileInt(szGameOptions, szAllowRebidPassedHands, m_bAllowRebidPassedHands);
-	WriteProfileInt(szGameOptions, szPassedHandWaitInterval, m_nPassedHandWaitInterval);
-	WriteProfileInt(szGameOptions, szAutoShowBidHistory, m_bAutoShowBidHistory);
-	WriteProfileInt(szGameOptions, szAutoShowPlayHistory, m_bAutoShowPlayHistory);
-	WriteProfileInt(szGameOptions, szAutoHideBidHistory, m_bAutoHideBidHistory);
-	WriteProfileInt(szGameOptions, szAutoHidePlayHistory, m_bAutoHidePlayHistory);
-//	WriteProfileInt(szGameOptions, szAutoShowNNetOutputWhenTraining, m_bAutoShowNNetOutputWhenTraining);
-	WriteProfileInt(szGameOptions, szAutoJumpCursor, m_bAutoJumpCursor);
-	WriteProfileInt(szGameOptions, szAutoPlayLastCard, m_bAutoPlayLastCard);
-//	WriteProfileInt(szGameOptions, szEnableSpokenBids, m_bEnableSpokenBids);
-	WriteProfileInt(szGameOptions, szSaveIntermediatePositions, m_bSaveIntermediatePositions);
-	WriteProfileInt(szGameOptions, szExposePBNGameCards, m_bExposePBNGameCards);
-#ifdef _DEBUG
-	WriteProfileInt(szGameOptions, szPlayMode, m_nPlayMode);
-	WriteProfileInt(szGameOptions, szPlayModeLocked, m_bPlayModeLocked);
-#endif
-
-	// write out counting parameters
-	WriteProfileInt(szCountingOptions, szHonorsValuationMode, m_nHonorsValuationMode);
-	if (m_nHonorsValuationMode == 2)
-	{
-		WriteProfileString(szCountingOptions, szCustomAceValue, FormString(_T("%.4f"),m_fCustomAceValue));
-		WriteProfileString(szCountingOptions, szCustomKingValue, FormString(_T("%.4f"),m_fCustomKingValue));
-		WriteProfileString(szCountingOptions, szCustomQueenValue, FormString(_T("%.4f"),m_fCustomQueenValue));
-		WriteProfileString(szCountingOptions, szCustomJackValue, FormString(_T("%.4f"),m_fCustomJackValue));
-	}
-	WriteProfileString(szCountingOptions, szMajorSuitGamePts, FormString("%f", m_fDefaultMajorSuitGamePts));
-	WriteProfileString(szCountingOptions, szMinorSuitGamePts, FormString("%f", m_fDefaultMinorSuitGamePts));
-	WriteProfileString(szCountingOptions, szNTGamePts, FormString("%f", m_fDefaultNTGamePts));
-	WriteProfileString(szCountingOptions, sz4LevelPts, FormString("%f", m_fDefault4LevelPts));
-	WriteProfileString(szCountingOptions, sz3LevelPts, FormString("%f", m_fDefault3LevelPts));
-	WriteProfileString(szCountingOptions, sz2LevelPts, FormString("%f", m_fDefault2LevelPts));
-	WriteProfileString(szCountingOptions, szSlamPts, FormString("%f", m_fDefaultSlamPts));
-	WriteProfileString(szCountingOptions, szGrandSlamPts, FormString("%f", m_fDefaultGrandSlamPts));
-/*
-	WriteProfileInt(szCountingOptions, szAcelessPenalty, m_bAcelessPenalty);
-	WriteProfileInt(szCountingOptions, sz4AceBonus, m_b4AceBonus);
-	WriteProfileInt(szCountingOptions, szPenalizeUGHonors, m_bPenalizeUGHonors);
-	WriteProfileInt(szCountingOptions, szCountShortSuits, m_bCountShortSuits);
-*/
-
-	// write out GIB options
-	WriteProfileString(szGIBOptions, szGIBPath, m_strGIBPath);
-	WriteProfileInt(szGIBOptions, szEnableGIBForDeclarer, m_bEnableGIBForDeclarer);
-//	WriteProfileInt(szGIBOptions, szEnableGIBForDefender, m_bEnableGIBForDefender);
-	WriteProfileInt(szGIBOptions, szGIBAnalysisTime, m_nGIBAnalysisTime);
-	WriteProfileInt(szGIBOptions, szGIBSampleSize, m_nGIBSampleSize);
-	WriteProfileInt(szGIBOptions, szShowGIBOutput, m_bShowGIBOutput);
-
-
-	// write out deal options
-	WriteProfileInt(szDealOptions, szMinGamePts, m_nReqPointsGame[0][0]);
-	WriteProfileInt(szDealOptions, szMaxGamePts, m_nReqPointsGame[0][1]);
-	WriteProfileInt(szDealOptions, szMinMinorGamePts, m_nReqPointsGame[1][0]);
-	WriteProfileInt(szDealOptions, szMaxMinorGamePts, m_nReqPointsGame[1][1]);
-	WriteProfileInt(szDealOptions, szMinMajorGamePts, m_nReqPointsGame[2][0]);
-	WriteProfileInt(szDealOptions, szMaxMajorGamePts, m_nReqPointsGame[2][1]);
-	WriteProfileInt(szDealOptions, szMinNoTrumpGamePts, m_nReqPointsGame[3][0]);
-	WriteProfileInt(szDealOptions, szMaxNoTrumpGamePts, m_nReqPointsGame[3][1]);
-	WriteProfileInt(szDealOptions, szMinSlamPts, m_nReqPointsSlam[0][0]);
-	WriteProfileInt(szDealOptions, szMaxSlamPts, m_nReqPointsSlam[0][1]);
-	WriteProfileInt(szDealOptions, szMinSmallSlamPts, m_nReqPointsSlam[1][0]);
-	WriteProfileInt(szDealOptions, szMaxSmallSlamPts, m_nReqPointsSlam[1][1]);
-	WriteProfileInt(szDealOptions, szMinGrandSlamPts, m_nReqPointsSlam[2][0]);
-	WriteProfileInt(szDealOptions, szMaxGrandSlamPts, m_nReqPointsSlam[2][1]);
-	WriteProfileInt(szDealOptions, szBalanceTeamHands, m_bBalanceTeamHands);
-	WriteProfileInt(szDealOptions, szMinCardsInMajor, m_nMinCardsInMajor);
-	WriteProfileInt(szDealOptions, szMinCardsInMinor, m_nMinCardsInMinor);
-	WriteProfileInt(szDealOptions, szMinSuitDistMinor, m_nMinSuitDist[0]);
-	WriteProfileInt(szDealOptions, szMinSuitDistMajor, m_nMinSuitDist[1]);
-	WriteProfileInt(szDealOptions, szMinTopMajorCard, m_nMinTopMajorCard);
-	WriteProfileInt(szDealOptions, szMinTopMinorCard, m_nMinTopMinorCard);
-//	WriteProfileInt(szDealOptions, szMaxImbalanceForNT, m_nMaxImbalanceForNT);
-	WriteProfileInt(szDealOptions, szNeedTwoBalancedHandsForNT, m_bNeedTwoBalancedTrumpHands);
-	WriteProfileInt(szDealOptions, szAcesNeededForSlam, m_numAcesForSlam[0]);
-	WriteProfileInt(szDealOptions, szAcesNeededForSmallSlam, m_numAcesForSlam[1]);
-	WriteProfileInt(szDealOptions, szAcesNeededForGrandSlam, m_numAcesForSlam[2]);
-	WriteProfileInt(szDealOptions, szKingsNeededForSlam, m_numKingsForSlam[0]);
-	WriteProfileInt(szDealOptions, szKingsNeededForSmallSlam, m_numKingsForSlam[1]);
-	WriteProfileInt(szDealOptions, szKingsNeededForGrandSlam, m_numKingsForSlam[2]);
-	WriteProfileInt(szDealOptions, szEnableDealNumbering, m_bEnableDealNumbering);
-
-	// write out bidding config options
-//	WriteProfileInt(szBiddingConfigOptions, szBiddingEngine, m_nBiddingEngine);
-	WriteProfileString(szBiddingConfigOptions, szBiddingAggressiveness, FormString("%f", m_fBiddingAggressiveness));
-/*
-	WriteProfileInt(szBiddingConfigOptions, szNumNNetHiddenLayers, m_numNNetHiddenLayers);
-	WriteProfileInt(szBiddingConfigOptions, szNumNNetNodesPerHiddenLayer, m_numNNetNodesPerHiddenLayer);
-	WriteProfileString(szBiddingConfigOptions, szNeuralNetFile, m_strNeuralNetFile );
-*/
-	// save scoring options
-	WriteProfileInt(szScoringOptions, szUseDuplicateScoring, m_bDuplicateScoring);
-	WriteProfileInt(szScoringOptions, szScoreHonorsBonuses, m_bScoreHonorsBonuses);
-
-	//
-	//	WriteProfileInt(szBiddingConventions, szCurrConvSet, m_nCurrConvSet);
-	// write out play options
-
-	// write out debug options
-	// get debug options
-	WriteProfileInt(szDebugOptions, szEnableDebugMode, m_bDebugMode);
-	WriteProfileInt(szDebugOptions, szExposeAllCards, m_bShowCardsFaceUp);
+	TerminateAll();
 }
 
 
-
-//
-CString CEasyBApp::GetProgramVersionString()
-{
-	return FormString("Version %d.%d.%d%s",
-					  theApp.GetProgramMajorVersion(),
-					  theApp.GetProgramMinorVersion(),
-					  theApp.GetProgramIncrementVersion(),
-					  theApp.GetSpecialBuildCode());
-}
-
-//
-CString CEasyBApp::GetFullProgramVersionString()
-{
-	CString strVersion, strSpecialBuildCode = theApp.GetSpecialBuildCode();
-	strVersion.Format("Version %d.%d.%d%s",
-					  theApp.GetProgramMajorVersion(),
-					  theApp.GetProgramMinorVersion(),
-					  theApp.GetProgramIncrementVersion(),
-					  strSpecialBuildCode);
-	//
-	int nBuild = theApp.GetProgramBuildNumber();
-	if (nBuild > 0)
-		strVersion += FormString(_T(", Build #%d"), nBuild);
-	//
-	return strVersion;
-}
 
 
 
@@ -727,10 +265,10 @@ BOOL CEasyBApp::InitInstance()
 
 	// check for the registry key indicating first time running
 	static TCHAR BASED_CODE szFirstTime[] = _T("First Time Running");
-	if (GetProfileInt(szGameOptions, szFirstTime, 0) > 0)
+	if (GetProfileInt("Game Options", szFirstTime, 0) > 0)
 	{
 		m_bFirstTimeRunning = TRUE;
-		WriteProfileInt(szGameOptions, szFirstTime, 0);
+		WriteProfileInt("Game Options", szFirstTime, 0);
 	}
 	else
 	{
@@ -835,45 +373,8 @@ int CEasyBApp::ExitInstance()
 //
 void CEasyBApp::InitSettings()
 {
-	// init flags
-	m_nTestMode = 0;
-	m_bBiddingInProgress = FALSE;
-	m_bGameInProgress = FALSE;
-	m_bRubberInProgress = FALSE;
-	m_bAutoTestMode = FALSE;
+	Settings::InitSettings();
 
-	//
-	m_bToggleResolutionMode = FALSE;
-
-	//
-	InitPointCountRequirements();
-	InitHonorsValuations();
-
-	// #### TEMP ####
-	m_nGameMode = 0;
-	m_bManualPlayMode = FALSE;
-
-	//
-	// set default point limits
-	//
-	int i,j,k;
-	for(i=0;i<2;i++)
-		for(j=0;j<4;j++)
-			for(k=0;k<2;k++)
-				m_nMinSuitDistTable[i][j][k] = nDefMinSuitDistTable[i][j][k];
-	for(i=0;i<4;i++)
-		for(j=0;j<2;j++)
-			m_nPointsAbsGameLimits[i][j] = nDefPointsAbsGameLimits[i][j];
-	for(i=0;i<3;i++)
-		for(j=0;j<2;j++)
-			m_nPointsAbsSlamLimits[i][j] = nDefPointsSlamLimits[i][j];
-
-	// set suit sequence
-	for(i=0;i<tnumSuitSequences;i++)
-		for(j=0;j<4;j++)
-			m_nSuitSeqList[i][j] = defSuitDisplaySequence[i][j];
-	//
-	SetSuitSequence(m_nSuitSeqOption);
 
 	// load program title string
 	m_strProgTitle.LoadString(IDS_APPTITLE);
@@ -894,13 +395,27 @@ void CEasyBApp::InitSettings()
 
 	// perform play class static initialization
 	CPlay::ClassInitialize();
-
 	// done
 }
 
 
 
+int CEasyBApp::ReadIntConfig(const char* section, const char* entry, int defaultValue) {
+	return GetProfileInt(section, entry, defaultValue);
+}
 
+std::string CEasyBApp::ReadStringConfig(const char* section, const char* entry, const char* defaultValue) {
+	CString val = GetProfileString(section, entry, defaultValue);
+	return std::string(val.GetString());
+}
+
+void CEasyBApp::WriteIntConfig(const char* section, const char* entry, int value) {
+	WriteProfileInt(section, entry, value);
+}
+
+void CEasyBApp::WriteStringConfig(const char* section, const char* entry, const char* value) {
+	WriteProfileString(section, entry, value);
+}
 
 
 /*
@@ -1203,88 +718,4 @@ void CEasyBApp::OnAppAbout()
 
 /////////////////////////////////////////////////////////////////////////////
 // CEasyBApp commands
-
-
-
-//
-void CEasyBApp::SetSuitSequence(int nSeq)
-{
-	if ((nSeq < 0) || (nSeq >= tnumSuitSequences))
-		return;
-	//
-	m_nSuitSeqOption = nSeq;
-	for(int i=0;i<4;i++)
-		m_nSuitSequence[i] = m_nSuitSeqList[nSeq][i];
-
-	// init dummy's suit sequence
-	InitDummySuitSequence(NONE);
-}
-
-
-//
-void CEasyBApp::InitDummySuitSequence(int nTrumpSuit, int nDummyPosition)
-{
-	// set special dummy sequence, if desired
-	if (ISSUIT(nTrumpSuit) && ISPLAYER(nDummyPosition) && m_bShowDummyTrumpsOnLeft)
-	{
-		// check who's dummy
-		if (nDummyPosition == WEST)
-		{
-			// if dummy is West, the trump suit goes LAST (on the left)
-			m_nDummySuitSequence[3] = nTrumpSuit;
-			for(int i=0,nIndex=0;i<3;i++)
-			{
-				if (m_nSuitSequence[nIndex] != nTrumpSuit)
-					m_nDummySuitSequence[i] = m_nSuitSequence[nIndex];
-				else
-					i--;
-				nIndex++;
-			}
-		}
-		else
-		{
-			// otherwise the trump suit goes first
-			m_nDummySuitSequence[0] = nTrumpSuit;
-			for(int i=1,nIndex=0;i<4;i++)
-			{
-				if (m_nSuitSequence[nIndex] != nTrumpSuit)
-					m_nDummySuitSequence[i] = m_nSuitSequence[nIndex];
-				else
-					i--;
-				nIndex++;
-			}
-		}
-	}
-	else
-	{
-		// dummy's sequence is the same as everyone else
-		for(int i=0;i<4;i++)
-			m_nDummySuitSequence[i] = m_nSuitSequence[i];
-	}
-}
-
-
-
-//
-int CEasyBApp::GetMinimumOpeningValue(CPlayer* pPlayer) const
-{
-	//
-	int nOpeningPos;
-	if (pPlayer)
-		nOpeningPos = pPlayer->GetValue(tnOpeningPosition);
-	if ((pPlayer == NULL) || (nOpeningPos < 0) || (nOpeningPos > 3))
-		return 10;
-	BOOL b3rd4thPos = FALSE;
-	if ((nOpeningPos == 2) || (nOpeningPos == 3))
-		b3rd4thPos = TRUE;
-	//
-	if (b3rd4thPos)
-		return 10;
-//	else if ((CURR_CONVENTIONSET.nAllowable1Openings & OB_11_HCPS_RBS_LM) ||
-//			 (CURR_CONVENTIONSET.nAllowable1Openings & OB_11_HCPS_6CS))
-//		return 11;
-	else
-		return 12;
-}
-
 

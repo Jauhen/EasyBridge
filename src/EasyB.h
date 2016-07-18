@@ -31,7 +31,6 @@ class CGIB;
 class CConventionSet;
 class CSplashWnd;
 class CNeuralNet;
-extern const LPCTSTR szSuitName[];
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,38 +50,19 @@ public:
 	// Event Processor
 	bool Notify(long lCode, long param1=0, long param2=0, long param3=0) { return false; }
 	//
-	CString GetProgramTitle() { return m_strProgTitle; }
-	CString GetProgramVersionString();
-	CString GetFullProgramVersionString();
 	CWnd* GetFrame() { return m_pMainWnd; }
-	int GetMinimumOpeningValue(CPlayer* pPlayer=NULL) const;
 	// inline functions
 	BOOL AreCardsFaceUp() const;
 	void SetCardsFaceUp(BOOL bFaceUp); 
-	int GetLHO(int nPos) const { return GetNextPlayer(nPos); }
-	int GetRHO(int nPos) const { return GetPrevPlayer(nPos); }
-	int	GetCurrentConvention() const { return m_nCurrConventionSet; }
-	int	GetSuitSequence(int nIndex) const { return m_nSuitSequence[nIndex]; }
-	void SetSuitSequence(int nIndex, int nValue) { m_nSuitSequence[nIndex] = nValue; }
-	int	GetDummySuitSequence(int nIndex) const { return m_nDummySuitSequence[nIndex]; }
-	void InitDummySuitSequence(int nTrumpSuit, int nDummyPosition=NONE);
-	double GetBiddingAgressiveness() const { return m_fBiddingAggressiveness; }
-	int	GetSuitSequenceOption() const { return m_nSuitSeqOption; }
-	LPCTSTR GetSuitName(int nSuit) const { return szSuitName[nSuit]; }
-	BOOL InExpressAutoPlay() const { return (m_nPlayMode == PLAY_FULL_AUTO_EXPRESS); }
-	BOOL IsAutoHintEnabled() const { return (m_nAutoHintMode > 0); }
-	int GetNumAcesRequiredForSlam(int nIndex) const { return m_numAcesForSlam[nIndex]; }
-	int GetNumKingsRequiredForSlam(int nIndex) const { return m_numKingsForSlam[nIndex]; }
-	void SetNumAcesRequiredForSlam(int nIndex, int nCount) { m_numAcesForSlam[nIndex] = nCount; }
-	void SetNumKingsRequiredForSlam(int nIndex, int nCount) { m_numKingsForSlam[nIndex] = nCount; }
-	double GetHonorValue() const;
 	CGIB* GetGIB() { return m_pGIBWrapper; }
-  std::shared_ptr<ConventionPool> GetConventionPool() {
-    return conventionPool_;
-  };
-  std::shared_ptr<CDeck> GetDeck() {
-    return deck_;
-  }
+  std::shared_ptr<ConventionPool> GetConventionPool() { return conventionPool_; };
+  std::shared_ptr<CDeck> GetDeck() { return deck_; }
+
+  virtual int ReadIntConfig(const char* section, const char* entry, int defaultValue);
+  virtual std::string ReadStringConfig(const char* section, const char* entry, const char* defaultValue);
+  virtual void WriteIntConfig(const char* section, const char* entry, int value);
+  virtual void WriteStringConfig(const char* section, const char* entry, const char* value);
+
 //	CNeuralNet* GetNeuralNet() { return m_pNeuralNet; }
 
 // static data
@@ -109,11 +89,6 @@ private:
 	void Initialize();
 	void Terminate();
 	void InitSettings();
-	void InitNeuralNet();
-	void CloseNeuralNet();
-	void SetSuitSequence(int nSeq);
-	// helpful functions
-	int	MinimumOpeningValue(CPlayer* pPlayer=NULL);
 
 // Overrides
 	// ClassWizard generated virtual function overrides

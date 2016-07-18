@@ -38,7 +38,6 @@ public:
   virtual CConventionSet* GetCurrentConventionSet() = 0;
   virtual double OpenPoints(double points) = 0;
   virtual double PointCount(double points) = 0;
-  virtual int GetMinimumOpeningValue(CPlayer* player) const = 0;
   virtual int GetProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
   virtual void WriteProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
   virtual bool IsInManualCardPlayMode() = 0;

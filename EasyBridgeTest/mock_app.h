@@ -25,7 +25,6 @@ public:
   MOCK_METHOD0(GetCurrentConventionSet, CConventionSet*());
   MOCK_METHOD1(OpenPoints, double(double points));
   MOCK_METHOD1(PointCount, double(double points));
-  MOCK_CONST_METHOD1(GetMinimumOpeningValue, int(CPlayer* player));
   MOCK_METHOD3(GetProfileInt, int(const char* appName, const char* keyName, int defaultValue));
   MOCK_METHOD3(WriteProfileInt, void(const char* appName, const char* keyName, int defaultValue));
   MOCK_METHOD0(IsInManualCardPlayMode, bool());

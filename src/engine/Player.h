@@ -48,6 +48,8 @@ public:
 	void InitializePlayer(Position nPos, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent);
 	void InitializeEngines();
 
+	int GetMinimumOpeningValue();
+
 	//
 	// Hand-related routines
 	// (delegated to the m_pHand object)

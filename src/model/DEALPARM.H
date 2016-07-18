@@ -9,7 +9,8 @@
 //
 // Default deal parameters file
 //
-
+#ifndef EZ_MODEL_DEALPARAM_
+#define EZ_MODEL_DEALPARAM_
 
 // default min and max partnership point totals for various hands
 int nDefReqPointsGame[4][2] = {
@@ -66,3 +67,4 @@ int nDefNumKingsForSlam[3] = {
 	3, 3, 4	
 };
 
+#endif // EZ_MODEL_DEALPARAM_

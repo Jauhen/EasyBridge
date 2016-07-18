@@ -1,6 +1,12 @@
 #ifndef EZ_MODEL_SETTINGS_
 #define EZ_MODEL_SETTINGS_
 
+#include <string>
+
+class CPlayer;
+extern const LPCTSTR szSuitName[];
+
+
 class Settings {
 public:
   enum { PLAY_NORMAL, PLAY_MANUAL, PLAY_MANUAL_DEFEND, PLAY_FULL_AUTO, PLAY_FULL_AUTO_EXPRESS };
@@ -9,10 +15,35 @@ public:
   Settings();
   ~Settings();
 
-  void Initialize();
+  virtual int ReadIntConfig(const char* section, const char* entry, int defaultValue);
+  virtual std::string ReadStringConfig(const char* section, const char* entry, const char* defaultValue);
+  virtual void WriteIntConfig(const char* section, const char* entry, int value) {};
+  virtual void WriteStringConfig(const char* section, const char* entry, const char* value) {};
+
+  void InitializeAll();
+  void TerminateAll();
   void InitHonorsValuations();
   void RefreshProperties();
   void InitPointCountRequirements();
+  void InitSettings();
+  CString GetProgramVersionString();
+  CString GetFullProgramVersionString();
+  void SetSuitSequence(int nSeq);
+
+  int	GetCurrentConvention() const { return m_nCurrConventionSet; }
+  int	GetSuitSequence(int nIndex) const { return m_nSuitSequence[nIndex]; }
+  void SetSuitSequence(int nIndex, int nValue) { m_nSuitSequence[nIndex] = nValue; }
+  int	GetDummySuitSequence(int nIndex) const { return m_nDummySuitSequence[nIndex]; }
+  void InitDummySuitSequence(int nTrumpSuit, int nDummyPosition = -1);
+  double GetBiddingAgressiveness() const { return m_fBiddingAggressiveness; }
+  LPCTSTR GetSuitName(int nSuit) const { return szSuitName[nSuit]; }
+  BOOL InExpressAutoPlay() const { return (m_nPlayMode == PLAY_FULL_AUTO_EXPRESS); }
+  BOOL IsAutoHintEnabled() const { return (m_nAutoHintMode > 0); }
+  int GetNumAcesRequiredForSlam(int nIndex) const { return m_numAcesForSlam[nIndex]; }
+  int GetNumKingsRequiredForSlam(int nIndex) const { return m_numKingsForSlam[nIndex]; }
+  void SetNumAcesRequiredForSlam(int nIndex, int nCount) { m_numAcesForSlam[nIndex] = nCount; }
+  void SetNumKingsRequiredForSlam(int nIndex, int nCount) { m_numKingsForSlam[nIndex] = nCount; }
+
 
 
   bool GetAutoBidStart() const { return m_bAutoBidStart; }
@@ -63,7 +94,7 @@ public:
   void SetSaveIntermediatePositions(bool val) { m_bSaveIntermediatePositions = val; }
   bool GetExposePBNGameCards() const { return m_bExposePBNGameCards; }
   void SetExposePBNGameCards(bool val) { m_bExposePBNGameCards = val; }
-  CString GetGIBPath() const { return m_strGIBPath; }
+  CString GetGIBPath() const { return CString(m_strGIBPath.c_str()); }
   void SetGIBPath(CString val) { m_strGIBPath = val; }
   bool GetEnableGIBForDeclarer() const { return m_bEnableGIBForDeclarer; }
   void SetEnableGIBForDeclarer(bool val) { m_bEnableGIBForDeclarer = val; }
@@ -340,7 +371,7 @@ public:
   bool m_bEnableSpokenBids;
   bool m_bSaveIntermediatePositions;
   bool m_bExposePBNGameCards;
-  CString m_strGIBPath;
+  std::string m_strGIBPath;
   bool m_bEnableGIBForDeclarer;
   bool m_bEnableGIBForDefender;
   int m_nGIBAnalysisTime;

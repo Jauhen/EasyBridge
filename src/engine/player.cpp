@@ -1170,3 +1170,13 @@ int CPlayer::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nInde
 {
 	return SetValuePV(nItem, (LPVOID) nValue, nIndex1, nIndex2, nIndex3);
 }
+
+
+int CPlayer::GetMinimumOpeningValue() {
+	int nOpeningPos = (int)m_pBidder->GetValuePV(tnOpeningPosition);
+	if (nOpeningPos < 0 || nOpeningPos > 3)
+		return 10;
+	bool b3rd4thPos = nOpeningPos == 2 || nOpeningPos == 3;
+
+	return b3rd4thPos ? 10 : 12;
+}

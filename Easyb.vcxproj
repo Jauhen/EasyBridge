@@ -420,7 +420,7 @@
     <ClInclude Include="src\engine\bidding\ConventionSet.h" />
     <ClInclude Include="src\engine\bidding\CueBidConvention.h" />
     <ClInclude Include="src\dialogs\DealNumberDialog.h" />
-    <ClInclude Include="src\DEALPARM.H" />
+    <ClInclude Include="src\model\DEALPARM.H" />
     <ClInclude Include="src\engine\Deck.H" />
     <ClInclude Include="src\engine\deckopts.h" />
     <ClInclude Include="src\engine\play\DeclarerPlayEngine.H" />

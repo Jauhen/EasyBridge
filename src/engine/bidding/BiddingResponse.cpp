@@ -455,7 +455,7 @@ int CBidEngine::MakeRespondingBid()
 	{
 
 		//
-		m_fPartnersMin = app_->GetMinimumOpeningValue(m_pPartner);
+		m_fPartnersMin = m_pPartner->GetMinimumOpeningValue();
 		m_fPartnersMax = app_->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)) - 1;
 		//
 		if ((m_pPartner->GetOpeningPosition() == 0) ||		

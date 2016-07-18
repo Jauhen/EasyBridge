@@ -162,7 +162,7 @@ int CBidEngine::MakeRebidAsResponder()
 */
 		{
 			// else a plain old 1-level opening
-			m_fPartnersMin = app_->GetMinimumOpeningValue(m_pPartner);
+			m_fPartnersMin = m_pPartner->GetMinimumOpeningValue();
 			m_fPartnersMax = 16;
 			status << "2B4C4! Partner made a minimum rebid of his " & szPSS & 
 					  " suit at " & szPB & ", showing " & m_fPartnersMin & "-" & m_fPartnersMax & 

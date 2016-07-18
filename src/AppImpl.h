@@ -99,10 +99,6 @@ public:
     return points - theApp.GetBiddingAgressiveness()*0.5;
   }
 
-  virtual int GetMinimumOpeningValue(CPlayer* player) const {
-    return theApp.GetMinimumOpeningValue(player);
-  }
-
   virtual int GetProfileInt(const char* app, const char* key, int defaultValue) {
     return theApp.GetProfileInt(app, key, defaultValue);
   }
