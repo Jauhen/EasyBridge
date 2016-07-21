@@ -20,8 +20,8 @@ public:
   virtual void WriteIntConfig(const char* section, const char* entry, int value) {};
   virtual void WriteStringConfig(const char* section, const char* entry, const char* value) {};
 
-  void InitializeAll();
-  void TerminateAll();
+  void Initialize();
+  void Terminate();
   void InitHonorsValuations();
   void RefreshProperties();
   void InitPointCountRequirements();

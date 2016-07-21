@@ -86,8 +86,6 @@ private:
 public:
 	CEasyBApp(std::shared_ptr<AppInterface> app);
 private:
-	void Initialize();
-	void Terminate();
 	void InitSettings();
 
 // Overrides

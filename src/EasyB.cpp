@@ -95,22 +95,6 @@ CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
 }
 
 
-//
-void CEasyBApp::Initialize()
-{
-	InitializeAll();
-}
-
-//
-void CEasyBApp::Terminate()
-{
-	TerminateAll();
-}
-
-
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -238,7 +222,7 @@ BOOL CEasyBApp::InitInstance()
 	Enable3dControls();
 
 	// load main program settings from the registry
-	Initialize();
+  Initialize();
 
 	// show splash window
 	if (false && (m_lpCmdLine[0] == 0) && (m_bShowSplashWindow) && !m_bShowStartupAnimation) 

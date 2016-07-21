@@ -218,7 +218,7 @@ static TCHAR BASED_CODE szEnableDebugMode[] = _T("Enable Debug Mode");
 static TCHAR BASED_CODE szExposeAllCards[] = _T("Expose All Cards");
 
 
-void Settings::InitializeAll() {
+void Settings::Initialize() {
 	// read in display options
 	m_nSuitSeqOption = ReadIntConfig(szDisplayOptions, szSuitSequence, 0);
 	m_bLayoutFollowsDisplayOrder = ReadIntConfig(szDisplayOptions, szLayoutFollowsDisplayOrder, TRUE);
@@ -362,7 +362,7 @@ void Settings::InitializeAll() {
 }
 
 //
-void Settings::TerminateAll() {
+void Settings::Terminate() {
 	// read in display options
 	WriteIntConfig(szDisplayOptions, szSuitSequence, m_nSuitSeqOption);
 	WriteIntConfig(szDisplayOptions, szLayoutFollowsDisplayOrder, m_bLayoutFollowsDisplayOrder);
