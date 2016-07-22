@@ -2387,7 +2387,7 @@ void CMainFrame::OnShowStatus()
 
 void CMainFrame::OnUpdateExposeAllCards(CCmdUI* pCmdUI) 
 {
-	BOOL bShowCardsUp = theApp.AreCardsFaceUp();
+	BOOL bShowCardsUp = theApp.AreCardsFaceUpSettings();
 	pCmdUI->SetCheck(bShowCardsUp);
 	if (pVIEW && pVIEW->GetCurrentMode() == CEasyBView::MODE_CARDLAYOUT)
 		pCmdUI->Enable(FALSE);
@@ -2395,7 +2395,7 @@ void CMainFrame::OnUpdateExposeAllCards(CCmdUI* pCmdUI)
 
 void CMainFrame::OnExposeAllCards() 
 {
-	theApp.SetCardsFaceUp(!theApp.AreCardsFaceUp());
+	theApp.SetCardsFaceUp(!theApp.AreCardsFaceUpSettings());
 }
 
 

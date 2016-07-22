@@ -103,7 +103,7 @@ CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
 /////////////////////////////////////////////////////////////////////////////
 
 //
-BOOL CEasyBApp::AreCardsFaceUp() const 
+BOOL CEasyBApp::AreCardsFaceUpSettings() const
 { 
 	// see if the face-up flag is set
 	if (m_bShowCardsFaceUp)

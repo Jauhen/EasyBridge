@@ -713,7 +713,7 @@ void CBidDialog::DealNewHands()
 	BOOL bRebid = FALSE;
 	BOOL bEnableRebidOption = theApp.GetAllowRebidPassedHands();
 	BOOL bShowAndHide = FALSE;
-	BOOL bFaceUpState = theApp.AreCardsFaceUp();
+	BOOL bFaceUpState = theApp.AreCardsFaceUpSettings();
 	if (theApp.GetShowPassedHands() && bEnableRebidOption && !bFaceUpState)
 		bShowAndHide = TRUE;
 	//

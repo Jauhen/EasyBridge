@@ -52,7 +52,7 @@ public:
 	//
 	CWnd* GetFrame() { return m_pMainWnd; }
 	// inline functions
-	BOOL AreCardsFaceUp() const;
+	BOOL AreCardsFaceUpSettings() const;
 	void SetCardsFaceUp(BOOL bFaceUp); 
 	CGIB* GetGIB() { return m_pGIBWrapper; }
   std::shared_ptr<ConventionPool> GetConventionPool() { return conventionPool_; };

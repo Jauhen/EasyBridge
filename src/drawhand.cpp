@@ -245,7 +245,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 			//
 			if ( (m_nCurrMode == MODE_CARDLAYOUT) || (m_nCurrMode == MODE_EDITHANDS) ||
 				 (pDOC->GetDeal()->GetDeclarerPosition() == NORTH) ||
-				 (theApp.AreCardsFaceUp()) ) 
+				 (theApp.AreCardsFaceUpSettings()) )
 			{
 				// show grouped cards
 				if (!bCardPlayed)
@@ -377,7 +377,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 	int x = m_drawPoint[nPos].x;
 	int y = m_drawPoint[nPos].y;
 
-	if (!theApp.AreCardsFaceUp()) 
+	if (!theApp.AreCardsFaceUpSettings())
 	{
 		//
 		// non-dummy north, face down, 
@@ -814,7 +814,7 @@ void CEasyBView::DrawVert(CDC* pDC, Position nPos, int nDisplaySuit,
 		return;
 	// else draw
 	int nSuitsShown = 0;
-	BOOL bFaceUp = theApp.AreCardsFaceUp() || PLAYER(nPos).AreCardsExposed();
+	BOOL bFaceUp = theApp.AreCardsFaceUpSettings() || PLAYER(nPos).AreCardsExposed();
 	for(i=nStartSuit=0;i<=nEndSuit;i++) 
 	{
 		if (bFaceUp && m_bOffsetVertSuits) 
@@ -870,14 +870,14 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 	int x = m_drawPoint[nPos].x;
 	int y = m_drawPoint[nPos].y;
 	//
-	if (!theApp.AreCardsFaceUp()) 
+	if (!theApp.AreCardsFaceUpSettings())
 	{
 		//
 		// non-dummy east-west, face DOWN, partial draw
 		//
 
 		// adjust clear area
-		BOOL bFaceUp = theApp.AreCardsFaceUp() || PLAYER(nPos).AreCardsExposed();
+		BOOL bFaceUp = theApp.AreCardsFaceUpSettings() || PLAYER(nPos).AreCardsExposed();
 		if (bFaceUp && !m_bOffsetVertSuits) 
 		{
 			if (nPos == WEST)
@@ -940,7 +940,7 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 		eraseRect.right = pCard1->GetXPosition() + m_nCardWidth;
 		eraseRect.bottom = pCard2->GetYPosition() + m_nCardHeight;
 		// expand rect if drawing with vert suit offsets
-		if ( (theApp.AreCardsFaceUp() || PLAYER(nPos).AreCardsExposed()) && m_bOffsetVertSuits) 
+		if ( (theApp.AreCardsFaceUpSettings() || PLAYER(nPos).AreCardsExposed()) && m_bOffsetVertSuits)
 		{
 			eraseRect.left = m_drawPoint[nPos].x - m_nHorizSuitOffset;
 			eraseRect.right = m_drawPoint[nPos].x + m_nCardWidth + m_nHorizSuitOffset;

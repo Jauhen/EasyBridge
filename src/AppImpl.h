@@ -112,7 +112,7 @@ public:
   }
 
   virtual bool AreCardsFaceUp() {
-    return theApp.AreCardsFaceUp() == TRUE;
+    return theApp.AreCardsFaceUpSettings() == TRUE;
   }
 
   virtual bool IsEnableGIBForDeclarer() {

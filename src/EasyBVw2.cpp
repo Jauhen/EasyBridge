@@ -477,7 +477,7 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 
 	// now draw the played card on the table
 	// if the hand is hidden, make sure the draw starts at the hand origin
-	if ( (!pCard->IsCardFaceUp()) && (!theApp.AreCardsFaceUp()) )
+	if ( (!pCard->IsCardFaceUp()) && (!theApp.AreCardsFaceUpSettings()) )
 		pCard->MoveTo(pDC, 	m_drawPoint[nPos].x, m_drawPoint[nPos].y, FALSE);
 
 	// then expose the card
@@ -825,7 +825,7 @@ void CEasyBView::DoOpeningSequence()
 	int distance,nGranularity;
 
 	// need to turn cards face up
-	BOOL bCardsFaceUpMode = theApp.AreCardsFaceUp();
+	BOOL bCardsFaceUpMode = theApp.AreCardsFaceUpSettings();
 	theApp.SetShowCardsFaceUp(true);
 
 	//
@@ -1094,7 +1094,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		//
 		int nSpaceUsed;
 		// spacers = edges to left/right of E/W cards, plus gapes between S and E/W
-		if (theApp.AreCardsFaceUp())
+		if (theApp.AreCardsFaceUpSettings())
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + m_nHorizSuitOffset*2 + 2 + 2;
 		else
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + 2 + 2;
@@ -1149,7 +1149,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		// gap between horizontally laid out cards
 		int nSpaceUsed;
 		int nSeparation = 4 + (dx / 20);
-		if (theApp.AreCardsFaceUp())
+		if (theApp.AreCardsFaceUpSettings())
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + m_nHorizSuitOffset*2 + 6 + nSeparation*2;
 		else
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + 6 + nSeparation*2;
