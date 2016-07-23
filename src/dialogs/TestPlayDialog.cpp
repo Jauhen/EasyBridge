@@ -269,15 +269,15 @@ void CTestPlayDialog::OnStart()
 	pDOC->GetDeal()->ClearAllInfo();
 
 	// save settings
-	BOOL bOldClaimSetting = theApp.GetComputerCanClaim();
-	theApp.SetComputerCanClaim(false);
-	BOOL bOldAnalysisSetting = theApp.GetEnableAnalysisTracing();
+	BOOL bOldClaimSetting = theApp.GetSettings()->GetComputerCanClaim();
+	theApp.GetSettings()->SetComputerCanClaim(false);
+	BOOL bOldAnalysisSetting = theApp.GetSettings()->GetEnableAnalysisTracing();
 #ifndef _TESTING
-	theApp.SetEnableAnalysisTracing(false);
+	theApp.GetSettings()->SetEnableAnalysisTracing(false);
 #endif
 
 	// 
-	theApp.SetAutoTestMode(true);
+	theApp.GetSettings()->SetAutoTestMode(true);
 	m_strStatus = "Auto play in progress...";
 	UpdateData(FALSE);
 
@@ -328,7 +328,7 @@ void CTestPlayDialog::OnStart()
 		long lStartTime = timeGetTime();
 
 		// now play out the hand -- play on full auto
-		theApp.SetCardPlayMode(CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
+		theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_FULL_AUTO_EXPRESS);
 		pDOC->GetDeal()->SetExpressPlayMode(TRUE);
 		pDOC->GetDeal()->InvokeNextPlayer();
 
@@ -385,11 +385,11 @@ void CTestPlayDialog::OnStart()
 	pDOC->GetDeal()->ClearAllInfo();
 
 	// restore settings
-	theApp.SetComputerCanClaim(bOldClaimSetting);
-	theApp.SetEnableAnalysisTracing(bOldAnalysisSetting);
+	theApp.GetSettings()->SetComputerCanClaim(bOldClaimSetting);
+	theApp.GetSettings()->SetEnableAnalysisTracing(bOldAnalysisSetting);
 
 	//
-	theApp.SetAutoTestMode(false);
+	theApp.GetSettings()->SetAutoTestMode(false);
 	GetDlgItem(ID_START)->EnableWindow(TRUE);
 	GetDlgItem(ID_STOP)->EnableWindow(FALSE);
 	m_bPlayActive = FALSE;

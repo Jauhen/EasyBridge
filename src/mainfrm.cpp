@@ -360,7 +360,7 @@ void CMainFrame::Terminate()
 {
 	// save settings
 	if (m_pDailyTipDialog)
-		theApp.SetShowDailyTipDialog(m_pDailyTipDialog->m_bShowAtStartup);
+		theApp.GetSettings()->SetShowDailyTipDialog(m_pDailyTipDialog->m_bShowAtStartup);
 
 	// save history dialog font
 	WriteProfileFont(szHistoryFont, &m_lfHistory);
@@ -605,7 +605,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		m_bHighResDisplay = FALSE;
 
 	// check the low-res option
-	BOOL bLowResOption = theApp.GetLowResOption();
+	BOOL bLowResOption = theApp.GetSettings()->GetLowResOption();
 
 	// call init routine to read in saved params
 	Initialize();
@@ -842,7 +842,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		if (!m_symbolFont.CreateFontIndirect(&m_lfSymbol)) 
 		{
 			// symbol font is unavailable!
-			theApp.SetUseSuitSymbols(false);
+			theApp.GetSettings()->SetUseSuitSymbols(false);
 		}
 
 		// create autohint font from logical font
@@ -971,7 +971,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pWndStatus->ShowWindow(SW_HIDE);
 
 	// update the player status dialog's hint trace level
-	CPlayerStatusDialog::SetHintTraceLevel(theApp.GetAutoHintTraceLevel());
+	CPlayerStatusDialog::SetHintTraceLevel(theApp.GetSettings()->GetAutoHintTraceLevel());
 
 
 	// Define the image list to use with the tab control
@@ -1056,14 +1056,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// whew! we're finally done
 	// if this is teh first time running, show the config wizard
-	if (theApp.GetFirstTimeRunning())
+	if (theApp.GetSettings()->GetFirstTimeRunning())
 	{
 		PostMessage(WM_COMMAND, ID_PROG_CONFIG_WIZARD, 0);
 	}
 	else
 	{
 		// else show the daily tip dialog
-		if (theApp.GetShowDailyTipDialog())
+		if (theApp.GetSettings()->GetShowDailyTipDialog())
 			PostMessage(WM_COMMAND, ID_HELP_TIP_OF_THE_DAY);
 	}
 
@@ -1577,10 +1577,10 @@ void CMainFrame::RestoreAllDialogs()
 void CMainFrame::SetNonBoldDialogFont(CDialog* pDialog)
 {
 	//
-	if ((!pDialog) || (theApp.GetWin32()))
+	if ((!pDialog) || (theApp.GetSettings()->GetWin32()))
 		return;
 	// Send WM_SETFONT message to child controls 
-	pDialog->SendMessageToDescendants(WM_SETFONT, (UINT) m_dialogFont.m_hObject, 0L, FALSE); 
+	pDialog->SendMessageToDescendants(WM_SETFONT, (WPARAM) m_dialogFont.m_hObject, 0L, FALSE); 
 }
 
 
@@ -1609,7 +1609,7 @@ void CMainFrame::DisplayTricks(BOOL bClear)
 void CMainFrame::DisplayContract(BOOL bClear)
 {
 	CString strMessage;
-	if ((bClear) || (!theApp.GetGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
+	if ((bClear) || (!theApp.GetSettings()->GetGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
 	{
 		strMessage = "";
 	} 
@@ -1644,7 +1644,7 @@ void CMainFrame::DisplayContract(BOOL bClear)
 void CMainFrame::DisplayDeclarer(BOOL bClear)
 {
 	CString strMessage;
-	if ((bClear) || (!theApp.GetGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
+	if ((bClear) || (!theApp.GetSettings()->GetGameInProgress() && !pDOC->GetDeal()->IsReviewingGame()))
 	{
 		strMessage = "";
 	} 
@@ -1661,8 +1661,8 @@ void CMainFrame::DisplayDeclarer(BOOL bClear)
 void CMainFrame::DisplayVulnerable(BOOL bClear) 
 {
 	CString strMessage;
-	if (theApp.GetRubberInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
-				theApp.GetUsingDuplicateScoring())
+	if (theApp.GetSettings()->GetRubberInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
+				theApp.GetSettings()->GetUsingDuplicateScoring())
 	{
 		switch(pDOC->GetDeal()->GetVulnerableTeam())
 		{
@@ -1772,7 +1772,7 @@ void CMainFrame::SetModeIndicator(LPCTSTR szText)
 	{
 		if (pDOC->GetDeal()->IsAutoReplayMode())
 			m_pWndStatusBar->SetPaneText(4,"Replay");
-		else if (theApp.GetRubberInProgress())
+		else if (theApp.GetSettings()->GetRubberInProgress())
 			m_pWndStatusBar->SetPaneText(4,"Match");
 		else if (pDOC->GetDeal()->IsReviewingGame())
 			m_pWndStatusBar->SetPaneText(4,"Review");
@@ -1844,7 +1844,7 @@ void CMainFrame::SetFeedbackText(LPCTSTR szText)
 	m_strFeedback = szText;
 	if (m_pWndStatus)
 	{
-		m_pWndStatus->SendMessage(WM_COMMAND, WMS_SET_FEEDBACK_TEXT, (long)szText);
+		m_pWndStatus->SendMessage(WM_COMMAND, WMS_SET_FEEDBACK_TEXT, (LPARAM)szText);
 		m_pWndStatus->UpdateWindow();
 	}
 }
@@ -1854,7 +1854,7 @@ void CMainFrame::SetGIBMonitorText(LPCTSTR szText)
 	m_strGIBMonitor = szText;
 	if (m_pWndStatus)
 	{
-		m_pWndStatus->SendMessage(WM_COMMAND, WMS_SET_GIB_TEXT, (long)(LPCTSTR)m_strGIBMonitor);
+		m_pWndStatus->SendMessage(WM_COMMAND, WMS_SET_GIB_TEXT, (LPARAM)(LPCTSTR)m_strGIBMonitor);
 		m_pWndStatus->UpdateWindow();
 	}
 }
@@ -1864,7 +1864,7 @@ void CMainFrame::AppendGIBMonitorText(LPCTSTR szText)
 	m_strGIBMonitor += szText;
 	if (m_pWndStatus)
 	{
-		m_pWndStatus->SendMessage(WM_COMMAND, WMS_SET_GIB_TEXT, (long)(LPCTSTR)m_strGIBMonitor);
+		m_pWndStatus->SendMessage(WM_COMMAND, WMS_SET_GIB_TEXT, (LPARAM)(LPCTSTR)m_strGIBMonitor);
 		m_pWndStatus->UpdateWindow();
 	}
 }
@@ -1995,7 +1995,7 @@ void CMainFrame::OnProgConfigWizard()
 {
 	// why is the cast necessary? (VC++ won't acceept it otherwise!)
 //	CProgramConfigWizard configWizard(&theApp, pDOC, pMAINFRAME, pVIEW, pCurrConvSet);
-	CProgramConfigWizard configWizard(&theApp, pMAINFRAME, pVIEW, (CObjectWithProperties*)pCurrConvSet);
+	CProgramConfigWizard configWizard(theApp.GetSettings(), pMAINFRAME, pVIEW, (CObjectWithProperties*)pCurrConvSet);
 	configWizard.InitOptions(FALSE);
 
 	//
@@ -2003,7 +2003,7 @@ void CMainFrame::OnProgConfigWizard()
 		configWizard.SaveOptions();
 
 	// 
-	if (theApp.GetFirstTimeRunning())
+	if (theApp.GetSettings()->GetFirstTimeRunning())
 	{
 		// refresh and wait
 		UpdateWindow();
@@ -2012,11 +2012,11 @@ void CMainFrame::OnProgConfigWizard()
 		CWelcomeWnd* pWelcomeDialog = new CWelcomeWnd;
 		pWelcomeDialog->Create(this);
 		// set to show help rules if necesary
-		pWelcomeDialog->SetShowRulesHelp((theApp.GetAutoHintMode() == 2));
+		pWelcomeDialog->SetShowRulesHelp((theApp.GetSettings()->GetAutoHintMode() == 2));
 		//
 		pWelcomeDialog->ShowWindow(SW_SHOW);
 		// and turn off the first time flag
-		theApp.SetFirstTimeRunning(false);
+		theApp.GetSettings()->SetFirstTimeRunning(false);
 	}
 }
 
@@ -2059,7 +2059,7 @@ void CMainFrame::OnHelpTipOfTheDay()
 		m_pDailyTipDialog->Create(this);
 	}
 	//
-	m_pDailyTipDialog->m_bShowAtStartup = theApp.GetShowDailyTipDialog();
+	m_pDailyTipDialog->m_bShowAtStartup = theApp.GetSettings()->GetShowDailyTipDialog();
 	m_pDailyTipDialog->UpdateData(FALSE);
 	m_pDailyTipDialog->LoadRandomTip();
 	m_pDailyTipDialog->ShowWindow(SW_SHOW);
@@ -2088,7 +2088,7 @@ void CMainFrame::OnHelpGlossary()
 
 void CMainFrame::OnHelpSearch() 
 {
-	WinHelp((UINT)"",HELP_PARTIALKEY);
+	WinHelp((WPARAM)"",HELP_PARTIALKEY);
 }
 
 void CMainFrame::OnHelpMisc() 
@@ -2098,8 +2098,8 @@ void CMainFrame::OnHelpMisc()
 
 void CMainFrame::OnHelpReadme() 
 {
-	CString strFile = CString(theApp.GetProgramDirectory()) + _T('\\') + _T("README.Doc");
-	ShellExecute(pMAINFRAME->GetSafeHwnd(), _T("open"), strFile, NULL, theApp.GetProgramDirectory(), SW_SHOWNORMAL);
+	CString strFile = CString(theApp.GetSettings()->GetProgramDirectory()) + _T('\\') + _T("README.Doc");
+	ShellExecute(pMAINFRAME->GetSafeHwnd(), _T("open"), strFile, NULL, theApp.GetSettings()->GetProgramDirectory(), SW_SHOWNORMAL);
 }
 
 void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point) 
@@ -2121,7 +2121,7 @@ void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point)
 //
 void CMainFrame::OnDisplayOptions() 
 {
-	CDispOptionsPropSheet dispOptsDialog(&theApp, pMAINFRAME, pVIEW, theApp.GetDeck().get(), this);
+	CDispOptionsPropSheet dispOptsDialog(theApp.GetSettings(), pMAINFRAME, pVIEW, theApp.GetDeck().get(), this);
 	//
 	if (dispOptsDialog.DoModal() == IDOK)
 	{
@@ -2129,7 +2129,7 @@ void CMainFrame::OnDisplayOptions()
 		if ( dispOptsDialog.m_bGlobalDisplayAffected ||
 			 ((dispOptsDialog.m_bDisplayAffected) && pDOC->GetDeal()->IsHandsDealt()) )
 		{
-			theApp.InitDummySuitSequence(pDOC->GetDeal()->GetTrumpSuit(), pDOC->GetDeal()->GetDummyPosition());
+			theApp.GetSettings()->InitDummySuitSequence(pDOC->GetDeal()->GetTrumpSuit(), pDOC->GetDeal()->GetDummyPosition());
 			for(int i=0;i<4;i++)
 				PLAYER(i).SortHand();
 			pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, TRUE);
@@ -2140,7 +2140,7 @@ void CMainFrame::OnDisplayOptions()
 //
 void CMainFrame::OnUpdateBiddingOptions(CCmdUI* pCmdUI) 
 {
-	if (theApp.GetBiddingInProgress())
+	if (theApp.GetSettings()->GetBiddingInProgress())
 		pCmdUI->Enable(FALSE);
 	else
 		pCmdUI->Enable(TRUE);
@@ -2149,7 +2149,7 @@ void CMainFrame::OnUpdateBiddingOptions(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnBiddingOptions() 
 {
-	CBidOptionsPropSheet biddingOptsDialog(&theApp, (CObjectWithProperties*)pCurrConvSet, this);
+	CBidOptionsPropSheet biddingOptsDialog(theApp.GetSettings(), (CObjectWithProperties*)pCurrConvSet, this);
 	if (biddingOptsDialog.DoModal() == IDOK)
 		biddingOptsDialog.UpdateAllPages();
 }
@@ -2158,7 +2158,7 @@ void CMainFrame::OnBiddingOptions()
 //
 void CMainFrame::OnGameOptions() 
 {
-	CGameOptionsPropSheet gameOptsDlg(&theApp, this);		
+	CGameOptionsPropSheet gameOptsDlg(theApp.GetSettings(), this);
 	if (gameOptsDlg.DoModal() == IDOK)
 		gameOptsDlg.UpdateAllPages();
 }
@@ -2166,7 +2166,7 @@ void CMainFrame::OnGameOptions()
 //
 void CMainFrame::OnUpdateToggleAnalysisTracing(CCmdUI* pCmdUI) 
 {
-	if (theApp.GetEnableAnalysisTracing())
+	if (theApp.GetSettings()->GetEnableAnalysisTracing())
 		pCmdUI->SetCheck(1);
 	else
 		pCmdUI->SetCheck(0);
@@ -2175,8 +2175,8 @@ void CMainFrame::OnUpdateToggleAnalysisTracing(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnToggleAnalysisTracing() 
 {
-	BOOL bEnable = !theApp.GetEnableAnalysisTracing();
-	theApp.SetEnableAnalysisTracing(bEnable);
+	BOOL bEnable = !theApp.GetSettings()->GetEnableAnalysisTracing();
+	theApp.GetSettings()->SetEnableAnalysisTracing(bEnable);
 	if (bEnable)
 		SetStatusMessage("Computer analysis tracing enabled.");
 	else
@@ -2192,7 +2192,7 @@ void CMainFrame::OnUpdateDealOptions(CCmdUI* pCmdUI)
 
 void CMainFrame::OnDealOptions() 
 {
-	CDealOptionsPropSheet dealDialog(&theApp, this);
+	CDealOptionsPropSheet dealDialog(theApp.GetSettings(), this);
 	if (dealDialog.DoModal() == IDOK)
 		dealDialog.UpdateAllPages();
 }
@@ -2422,7 +2422,7 @@ void CMainFrame::OnDebugMode()
 //
 void CMainFrame::OnUpdateGameAutoHint(CCmdUI* pCmdUI) 
 {
-	int nMode = theApp.GetAutoHintMode();
+	int nMode = theApp.GetSettings()->GetAutoHintMode();
 	pCmdUI->SetCheck(nMode? 1 : 0);
 	pCmdUI->Enable(TRUE);
 }
@@ -2430,8 +2430,8 @@ void CMainFrame::OnUpdateGameAutoHint(CCmdUI* pCmdUI)
 //
 void CMainFrame::OnGameAutoHint() 
 {
-	int nMode = !theApp.GetAutoHintMode();
-	theApp.SetAutoHintMode(nMode);
+	int nMode = !theApp.GetSettings()->GetAutoHintMode();
+	theApp.GetSettings()->SetAutoHintMode(nMode);
 	if (nMode)
 	{
 		// show autohint dialog and hint if necessary
@@ -2467,113 +2467,113 @@ void CMainFrame::OnTrainingMode()
 //
 void CMainFrame::OnUpdatePlayModeNormal(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_NORMAL)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_NORMAL)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeManual(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_MANUAL)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeManualDefend(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL_DEFEND)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_MANUAL_DEFEND)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeFullAuto(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_FULL_AUTO)? 1 : 0);
 }
 //
 void CMainFrame::OnUpdatePlayModeLock(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(theApp.GetPlayModeLocked());
+	pCmdUI->SetCheck(theApp.GetSettings()->GetPlayModeLocked());
 }
 
 //
 void CMainFrame::OnPlayModeNormal() 
 {
-	theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL, true);	// override lock
-	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_NORMAL, true);	// override lock
+	if ((theApp.GetSettings()->GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeManual() 
 {
-	theApp.SetCardPlayMode(CEasyBApp::PLAY_MANUAL, true);
-	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_MANUAL, true);
+	if ((theApp.GetSettings()->GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeManualDefend() 
 {
-	theApp.SetCardPlayMode(CEasyBApp::PLAY_MANUAL_DEFEND, true);
-	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_MANUAL_DEFEND, true);
+	if ((theApp.GetSettings()->GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeFullAuto() 
 {
-	theApp.SetCardPlayMode(CEasyBApp::PLAY_FULL_AUTO, true);
+	theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_FULL_AUTO, true);
 	HideDialog(twAutoHintDialog);
-	if ((theApp.GetGameInProgress()) && 
+	if ((theApp.GetSettings()->GetGameInProgress()) &&
 		(pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
 	  pDOC->AdvanceToNextPlayer();
 }
 //
 void CMainFrame::OnPlayModeLock() 
 {
-	theApp.SetPlayModeLocked(!theApp.GetPlayModeLocked());
+	theApp.GetSettings()->SetPlayModeLocked(!theApp.GetSettings()->GetPlayModeLocked());
 }
 
 //
 void CMainFrame::OnUpdateManualBidding(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(theApp.GetManualBidding());
+	pCmdUI->SetCheck(theApp.GetSettings()->GetManualBidding());
 	pCmdUI->Enable(TRUE);
 }
 
 void CMainFrame::OnManualBidding() 
 {
-	theApp.SetManualBidding(!theApp.GetManualBidding());
+	theApp.GetSettings()->SetManualBidding(!theApp.GetSettings()->GetManualBidding());
 	if (m_pBidDlg && m_pBidDlg->IsWindowVisible())
-		m_pBidDlg->EnableManualBidding(theApp.GetManualBidding());
+		m_pBidDlg->EnableManualBidding(theApp.GetSettings()->GetManualBidding());
 }
 
 //
 void CMainFrame::OnUpdateManualPlay(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck((theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL)? 1 : 0);
+	pCmdUI->SetCheck((theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_MANUAL)? 1 : 0);
 }
 
 void CMainFrame::OnManualPlay() 
 {
-	if (theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL)
+	if (theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_MANUAL)
 	{
 		// is manual, set to normal
-		theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL, true);
+		theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_NORMAL, true);
 	}
 	else
 	{
 		// is NOT manual, set to manual
-		theApp.SetCardPlayMode(CEasyBApp::PLAY_MANUAL, true);
+		theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_MANUAL, true);
 	}
 	//
-	if ((theApp.GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
+	if ((theApp.GetSettings()->GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pDOC->AdvanceToNextPlayer();
 }
 
 //
 void CMainFrame::OnUpdateShowCommentIdentifiers(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(theApp.GetShowCommentIdentifiers());
+	pCmdUI->SetCheck(theApp.GetSettings()->GetShowCommentIdentifiers());
 	pCmdUI->Enable(TRUE);
 }
 
 //
 void CMainFrame::OnShowCommentIdentifiers() 
 {
-	theApp.SetShowCommentIdentifiers(!theApp.GetShowCommentIdentifiers());
+	theApp.GetSettings()->SetShowCommentIdentifiers(!theApp.GetSettings()->GetShowCommentIdentifiers());
 }
 
 

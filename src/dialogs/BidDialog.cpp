@@ -630,20 +630,20 @@ void CBidDialog::InitBiddingSequence()
 		return;
 
 	// get display mode
-	m_bUseSuitSymbols = theApp.GetUseSuitSymbols();
+	m_bUseSuitSymbols = theApp.GetSettings()->GetUseSuitSymbols();
 
 	// get manual bid option
-	m_bManualBidding = theApp.GetManualBidding();
+	m_bManualBidding = theApp.GetSettings()->GetManualBidding();
 
 	// get pause option
-	m_bInsertBiddingPause = theApp.GetInsertBiddingPause();
+	m_bInsertBiddingPause = theApp.GetSettings()->GetInsertBiddingPause();
 	if (m_bInsertBiddingPause)
-		m_nBiddingPauseLength = theApp.GetBiddingPauseLength() * 100;
+		m_nBiddingPauseLength = theApp.GetSettings()->GetBiddingPauseLength() * 100;
 	else
 		m_nBiddingPauseLength = 0;
 
 	// get speech option
-	m_bSpeechEnabled = theApp.GetEnableSpokenBids();
+	m_bSpeechEnabled = theApp.GetSettings()->GetEnableSpokenBids();
 
 	// get bidding engine info
 //	m_nBiddingEngine = theApp.GetValue(tnBiddingEngine);
@@ -668,7 +668,7 @@ void CBidDialog::InitBiddingSequence()
 
 	// and start bidding, if appropriate
 	// but return if just initializing
-	if (!theApp.GetBiddingInProgress())
+	if (!theApp.GetSettings()->GetBiddingInProgress())
 		return;
 	int nDealer = pDOC->GetDeal()->GetDealer();
 	if ((nDealer != SOUTH) || m_bTrainingMode)
@@ -711,15 +711,15 @@ void CBidDialog::DealNewHands()
 	// hand got passed out, so deal again
 	// but first show the original hands if desired
 	BOOL bRebid = FALSE;
-	BOOL bEnableRebidOption = theApp.GetAllowRebidPassedHands();
+	BOOL bEnableRebidOption = theApp.GetSettings()->GetAllowRebidPassedHands();
 	BOOL bShowAndHide = FALSE;
 	BOOL bFaceUpState = theApp.AreCardsFaceUpSettings();
-	if (theApp.GetShowPassedHands() && bEnableRebidOption && !bFaceUpState)
+	if (theApp.GetSettings()->GetShowPassedHands() && bEnableRebidOption && !bFaceUpState)
 		bShowAndHide = TRUE;
 	//
 	if (bShowAndHide)
 	{
-		theApp.SetShowCardsFaceUp(true);
+		theApp.GetSettings()->SetShowCardsFaceUp(true);
 		pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, TRUE);
 	}
 
@@ -739,7 +739,7 @@ void CBidDialog::DealNewHands()
 
 	// restore cards face-down status
 	if (bShowAndHide)
-		theApp.SetShowCardsFaceUp(bFaceUpState);
+		theApp.GetSettings()->SetShowCardsFaceUp(bFaceUpState);
 
 	// see if we should redeal or rebid
 	if (bRebid)
@@ -770,7 +770,7 @@ void CBidDialog::DealNewHands()
 BOOL CBidDialog::BiddingDone()
 {
 	// this may be called twice due to delayed <space> key rollover
-	if (!theApp.GetBiddingInProgress())
+	if (!theApp.GetSettings()->GetBiddingInProgress())
 		return FALSE;
 	//
 	m_nCurrMode = BD_MODE_DONE;
@@ -784,7 +784,7 @@ BOOL CBidDialog::BiddingDone()
 	
 	// mark the bidding finished here so that if the user presses <space>,
 	// we don't try to provide another bidding hint!
-	theApp.SetBiddingInProgress(false);
+	theApp.GetSettings()->SetBiddingInProgress(false);
 	m_bidFinishedDialog.SetText(strTemp);
 	if (m_bidFinishedDialog.DoModal())
 	{
@@ -799,7 +799,7 @@ BOOL CBidDialog::BiddingDone()
 	else
 	{
 		// rebid or redeal
-		theApp.SetBiddingInProgress(true);
+		theApp.GetSettings()->SetBiddingInProgress(true);
 		if (m_bidFinishedDialog.m_nResultCode == 0)
 		{
 			PostMessage(WM_COMMAND, IDC_BID_RESTART);
@@ -824,7 +824,7 @@ void CBidDialog::OnCancel()
 */
 	// clear out bidding info
 	pDOC->GetDeal()->ClearBiddingInfo();
-	theApp.SetBiddingInProgress(false);
+	theApp.GetSettings()->SetBiddingInProgress(false);
 	pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
 //	EndDialog(FALSE);
 	ShowWindow(SW_HIDE);
@@ -835,7 +835,7 @@ void CBidDialog::CancelImmediate()
 {
 	// cancels immediately and uses SendMessage() insetad of Post()
 	pDOC->GetDeal()->ClearBiddingInfo();
-	theApp.SetBiddingInProgress(false);
+	theApp.GetSettings()->SetBiddingInProgress(false);
 	pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
 //	EndDialog(FALSE);
 }

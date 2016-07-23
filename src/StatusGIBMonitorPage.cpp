@@ -72,7 +72,7 @@ BOOL CStatusGIBMonitorPage::OnInitDialog()
 	if (!m_edit.Create(ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL,
 						 rect, this, IDC_EDIT))
 		return -1;	// oops!
-	m_edit.SendMessage(WM_SETFONT, (UINT)GetStockObject(ANSI_VAR_FONT), 0L);
+	m_edit.SendMessage(WM_SETFONT, (WPARAM)GetStockObject(ANSI_VAR_FONT), 0L);
 	m_edit.HideSelection(TRUE, TRUE);
 	
 	// set flags
@@ -109,7 +109,7 @@ void CStatusGIBMonitorPage::Update()
 {
 	if (!m_bInitialized)
 		return;
-	if (theApp.GetEnableGIBForDeclarer() || theApp.GetEnableGIBForDefender())
+	if (theApp.GetSettings()->GetEnableGIBForDeclarer() || theApp.GetSettings()->GetEnableGIBForDefender())
 		m_edit.SetWindowText(pMAINFRAME->GetValueString(tszGIBMonitorText));	
 	else
 		m_edit.SetWindowText("GIB is not enabled.");	

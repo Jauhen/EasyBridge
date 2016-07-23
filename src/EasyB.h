@@ -41,7 +41,7 @@ class CNeuralNet;
 #define DllImport   __declspec( dllimport )
 
 
-class CEasyBApp : public Settings, public CWinApp, public CEventProcessor
+class CEasyBApp : private Settings, public CWinApp, public CEventProcessor
 {
 public:
 
@@ -57,6 +57,7 @@ public:
 	CGIB* GetGIB() { return m_pGIBWrapper; }
   std::shared_ptr<ConventionPool> GetConventionPool() { return conventionPool_; };
   std::shared_ptr<CDeck> GetDeck() { return deck_; }
+  Settings* GetSettings() { return settings_; }
 
   virtual int ReadIntConfig(const char* section, const char* entry, int defaultValue);
   virtual std::string ReadStringConfig(const char* section, const char* entry, const char* defaultValue);
@@ -70,6 +71,7 @@ public:
 
 // pricate data
 private:
+  Settings* settings_;
 
 	// GIB options
 	CGIB*	m_pGIBWrapper;

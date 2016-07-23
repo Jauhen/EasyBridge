@@ -135,7 +135,7 @@ BOOL CStatusSheet::OnCommand(WPARAM wParam, LPARAM lParam)
 void CStatusSheet::Update(int nPage)
 {
 	// don't update if in express play mode
-	if (theApp.InExpressAutoPlay())
+	if (theApp.GetSettings()->InExpressAutoPlay())
 		return;
 
 	//

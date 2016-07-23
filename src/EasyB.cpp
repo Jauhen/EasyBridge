@@ -89,7 +89,7 @@ END_MESSAGE_MAP()
 CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
   conventionPool_ = std::make_shared<ConventionPool>(app);
   deck_ = std::make_shared<CDeck>(app);
-
+  settings_ = this;
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
@@ -106,7 +106,7 @@ CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
 BOOL CEasyBApp::AreCardsFaceUpSettings() const
 { 
 	// see if the face-up flag is set
-	if (GetShowCardsFaceUp())
+	if (settings_->GetShowCardsFaceUp())
 		return TRUE;
 
 	// else see if we're doing something that causes cards to be face up
@@ -116,7 +116,7 @@ BOOL CEasyBApp::AreCardsFaceUpSettings() const
 //
 void CEasyBApp::SetCardsFaceUp(BOOL bFaceUp) 
 { 
-  SetShowCardsFaceUp(bFaceUp);
+  settings_->SetShowCardsFaceUp(bFaceUp);
 	pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, TRUE);
 }
 
@@ -135,7 +135,8 @@ BOOL CEasyBApp::InitInstance()
 	OSVERSIONINFO versionInfo;
 	versionInfo.dwOSVersionInfoSize = sizeof(versionInfo);
 	GetVersionEx(&versionInfo);
-  SetVersion(versionInfo);
+  settings_->SetVersion(versionInfo);
+
   if (versionInfo.dwPlatformId == VER_PLATFORM_WIN32s) {
     SetHandleCount(100);
   } else if(versionInfo.dwPlatformId != VER_PLATFORM_WIN32_NT) {
@@ -152,44 +153,44 @@ BOOL CEasyBApp::InitInstance()
 	VERIFY(pVersionBuffer);
 	GetFileVersionInfo(szProgPath, (DWORD)0, nFileVersionInfoSize, pVersionBuffer);
   progPath.ReleaseBuffer();
-  SetProgPath(progPath);
+  settings_->SetProgPath(progPath);
 
   UINT nInfoLength;
 
 	// get version # string
 	LPVOID pVersionData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\ProductVersion"), &pVersionData, &nInfoLength);
-  ParseVersion((LPCTSTR)pVersionData);
+  settings_->ParseVersion((LPCTSTR)pVersionData);
 
 	// get copyright string
 	LPVOID pCopyrightData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\LegalCopyright"), &pCopyrightData, &nInfoLength);
-  SetProgramCopyright((LPCTSTR)pCopyrightData);
+  settings_->SetProgramCopyright((LPCTSTR)pCopyrightData);
 
 	// get build #
 	LPVOID pBuildNumData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\PrivateBuild"), &pBuildNumData, &nInfoLength);
-  ParseBuildNumber((LPCTSTR)pBuildNumData);
+  settings_->ParseBuildNumber((LPCTSTR)pBuildNumData);
 
 	// get build date	
 	LPVOID pBuildDateData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\Comments"), &pBuildDateData, &nInfoLength);
-	SetProgramBuildDate((LPCTSTR) pBuildDateData);
+  settings_->SetProgramBuildDate((LPCTSTR) pBuildDateData);
 
 	// get special code
 	LPVOID pSpecialBuildData;
 	if (VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\SpecialBuild"), &pSpecialBuildData, &nInfoLength))
-		SetSpecialBuildCode((LPCTSTR) pSpecialBuildData);
+    settings_->SetSpecialBuildCode((LPCTSTR) pSpecialBuildData);
 	else
-    SetSpecialBuildCode("");
+    settings_->SetSpecialBuildCode("");
 
 	// free the version memory
 	free(pVersionBuffer);
 	
-  ExtractStartupDirectory();
+  settings_->ExtractStartupDirectory();
 
 	// set registry info
-	if (GetWin32())
+	if (settings_->GetWin32())
 #ifdef RDEBUG
 		SetRegistryKey("Steve's Software (RDebug)");	// ReleaseDebug
 #elif defined _DEBUG
@@ -202,7 +203,7 @@ BOOL CEasyBApp::InitInstance()
 	Enable3dControls();
 
 	// load main program settings from the registry
-  Initialize();
+  settings_->Initialize();
 
 	// show splash window
 	if (false && (m_lpCmdLine[0] == 0) && IsShowSplashWindow())
@@ -221,7 +222,7 @@ BOOL CEasyBApp::InitInstance()
 	LoadStdProfileSettings(5);  // Load standard INI file options (including MRU)
 
 	// and do other inits
-	InitSettings();
+  InitSettings();
 
 	//
 	// primary inits done, ready to proceed with creating the doc/view
@@ -231,12 +232,12 @@ BOOL CEasyBApp::InitInstance()
 	static TCHAR BASED_CODE szFirstTime[] = _T("First Time Running");
 	if (GetProfileInt("Game Options", szFirstTime, 0) > 0)
 	{
-    SetFirstTimeRunning(true);
+    settings_->SetFirstTimeRunning(true);
 		WriteProfileInt("Game Options", szFirstTime, 0);
 	}
 	else
 	{
-    SetFirstTimeRunning(false);
+    settings_->SetFirstTimeRunning(false);
   }
 
 	// Register the application's document templates.  Document templates
@@ -315,7 +316,7 @@ int CEasyBApp::ExitInstance()
 	CPlay::ClassTerminate();
 	
 	// and save application settings
-	Terminate();
+  settings_->Terminate();
 	
 	//
 	return CWinApp::ExitInstance();
@@ -331,13 +332,12 @@ int CEasyBApp::ExitInstance()
 //
 void CEasyBApp::InitSettings()
 {
-	Settings::InitSettings();
-
+  settings_->InitSettings();
 
 	// load program title string
   CString title {};
   title.LoadString(IDS_APPTITLE);
-  SetProgramTitle(title);
+  settings_->SetProgramTitle(title);
 
 	// create the GIB Wrapper
 	m_pGIBWrapper = new CGIB();
@@ -547,31 +547,31 @@ BOOL CAboutDlg::OnInitDialog()
 	m_hyperLinkEMail.SetURL(_T("mailto:shan@nyx.net"));
 	m_hyperLinkURL.SetURL(_T("http://www.nyx.net/~shan/EasyBridge.html"));
 	// show copyright info
-	SetDlgItemText(IDC_STATIC_COPYRIGHT, theApp.GetProgramCopyright());	
+	SetDlgItemText(IDC_STATIC_COPYRIGHT, theApp.GetSettings()->GetProgramCopyright());
 	// show version number		  
-	strTemp = theApp.GetFullProgramVersionString();
+	strTemp = theApp.GetSettings()->GetFullProgramVersionString();
 	SetDlgItemText(IDC_STATIC_VERSION, (LPCTSTR)strTemp);	
 	// show misc info
-	strTemp.Format("Build Date: %s", theApp.GetProgramBuildDate());
+	strTemp.Format("Build Date: %s", theApp.GetSettings()->GetProgramBuildDate());
 	SetDlgItemText(IDC_STATIC_DATE, (LPCTSTR)strTemp);	
 
 	// show platform info
-	if (theApp.GetWindowsSystemMode() == 0)
+	if (theApp.GetSettings()->GetWindowsSystemMode() == 0)
 		strTemp.Format("Platform: Windows NT version %d.%d",
-						   theApp.GetWindowsMajorVersion(),
-						   theApp.GetWindowsMinorVersion());
-	else if (theApp.GetWindowsSystemMode() == 1)
+						   theApp.GetSettings()->GetWindowsMajorVersion(),
+						   theApp.GetSettings()->GetWindowsMinorVersion());
+	else if (theApp.GetSettings()->GetWindowsSystemMode() == 1)
 		strTemp.Format("Platform: Windows 95");
 //						   theApp.GetValue(tnWindowsMajorVersion),
 //						   theApp.GetValue(tnWindowsMinorVersion));
-	else if (theApp.GetWindowsSystemMode() == 2)
+	else if (theApp.GetSettings()->GetWindowsSystemMode() == 2)
 		strTemp.Format("Platform: Windows 98");
 //						   theApp.GetValue(tnWindowsMajorVersion),
 //						   theApp.GetValue(tnWindowsMinorVersion));
-	else if (theApp.GetWindowsSystemMode() == 9)
+	else if (theApp.GetSettings()->GetWindowsSystemMode() == 9)
 		strTemp.Format("Platform: Win32s version %d.%d",
-						   theApp.GetWindowsMajorVersion(),
-						   theApp.GetWindowsMinorVersion());
+						   theApp.GetSettings()->GetWindowsMajorVersion(),
+						   theApp.GetSettings()->GetWindowsMinorVersion());
 	SetDlgItemText(IDC_STATIC_PLATFORM, strTemp);	
 
 	// show e-mail address

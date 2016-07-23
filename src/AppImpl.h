@@ -24,23 +24,23 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual bool IsEnableAnalysisTracing() {
-    return theApp.GetEnableAnalysisTracing();
+    return theApp.GetSettings()->GetEnableAnalysisTracing();
   }
 
   virtual int AnalysisTraceLevel() {
-    return theApp.GetAnalysisTraceLevel();
+    return theApp.GetSettings()->GetAnalysisTraceLevel();
   }
 
   virtual bool InExpressAutoPlay() {
-    return theApp.InExpressAutoPlay() == TRUE;
+    return theApp.GetSettings()->InExpressAutoPlay() == TRUE;
   }
 
   virtual bool IsEnableAnalysisDuringHints() {
-    return theApp.GetEnableAnalysisDuringHints();
+    return theApp.GetSettings()->GetEnableAnalysisDuringHints();
   }
 
   virtual bool IsShowCommentIdentifiers() {
-    return theApp.GetShowCommentIdentifiers();
+    return theApp.GetSettings()->GetShowCommentIdentifiers();
   }
 
   virtual std::shared_ptr<ConventionPool> GetConventionPool() {
@@ -48,43 +48,43 @@ public:
   }
 
   virtual double GamePts() {
-    return CEasyBApp::m_fNTGamePts;
+    return Settings::m_fNTGamePts;
   }
 
   virtual double MajorSuitGamePts() {
-    return CEasyBApp::m_fMajorSuitGamePts;
+    return Settings::m_fMajorSuitGamePts;
   }
 
   virtual double MinorSuitGamePts() {
-    return CEasyBApp::m_fMinorSuitGamePts;
+    return Settings::m_fMinorSuitGamePts;
   }
 
   virtual double NTGamePts() {
-    return CEasyBApp::m_fNTGamePts;
+    return Settings::m_fNTGamePts;
   }
 
   virtual double FourthLevelPts() {
-    return CEasyBApp::m_f4LevelPts;
+    return Settings::m_f4LevelPts;
   }
 
   virtual double ThirdLevelPts() {
-    return CEasyBApp::m_f3LevelPts;
+    return Settings::m_f3LevelPts;
   }
 
   virtual double SecondLevelPts() {
-    return CEasyBApp::m_f2LevelPts;
+    return Settings::m_f2LevelPts;
   }
 
   virtual double SlamPts() {
-    return CEasyBApp::m_fSlamPts;
+    return Settings::m_fSlamPts;
   }
 
   virtual double SmallSlamPts() {
-    return CEasyBApp::m_fSlamPts;
+    return Settings::m_fSlamPts;
   }
 
   virtual double GrandSlamPts() {
-    return CEasyBApp::m_fGrandSlamPts;
+    return Settings::m_fGrandSlamPts;
   }
 
   virtual CConventionSet* GetCurrentConventionSet() {
@@ -92,11 +92,11 @@ public:
   }
 
   virtual double OpenPoints(double points) {
-    return points - theApp.GetBiddingAgressiveness()*0.5;
+    return points - theApp.GetSettings()->GetBiddingAgressiveness()*0.5;
   }
 
   virtual double PointCount(double points) {
-    return points - theApp.GetBiddingAgressiveness()*0.5;
+    return points - theApp.GetSettings()->GetBiddingAgressiveness()*0.5;
   }
 
   virtual int GetProfileInt(const char* app, const char* key, int defaultValue) {
@@ -108,7 +108,7 @@ public:
   }
 
   virtual bool IsInManualCardPlayMode() {
-    return theApp.GetCardPlayMode() == CEasyBApp::PLAY_MANUAL;
+    return theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_MANUAL;
   }
 
   virtual bool AreCardsFaceUp() {
@@ -116,7 +116,7 @@ public:
   }
 
   virtual bool IsEnableGIBForDeclarer() {
-    return theApp.GetEnableGIBForDeclarer();
+    return theApp.GetSettings()->GetEnableGIBForDeclarer();
   }
 
   virtual CGIB& GetGIB() {
@@ -124,11 +124,11 @@ public:
   }
 
   virtual bool IsInExpressAutoPlay() {
-    return theApp.InExpressAutoPlay() == TRUE;
+    return theApp.GetSettings()->InExpressAutoPlay() == TRUE;
   }
 
   virtual bool IsComputerCanClaim() {
-    return theApp.GetComputerCanClaim();
+    return theApp.GetSettings()->GetComputerCanClaim();
   }
 
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
@@ -136,43 +136,43 @@ public:
   }
 
   virtual bool IsEnableGIBForDefender() {
-    return theApp.GetEnableGIBForDefender();
+    return theApp.GetSettings()->GetEnableGIBForDefender();
   }
 
   virtual double GetHonorValue(int faceValue) {
-    return theApp.m_fHonorValue[faceValue];
+    return Settings::m_fHonorValue[faceValue];
   }
 
   virtual int GetSuitSequence(int index) const {
-    return theApp.GetSuitSequence(index);
+    return theApp.GetSettings()->GetSuitSequence(index);
   }
 
   virtual bool IsAcelessPenalty() {
-    return theApp.GetAcelessPenalty();
+    return theApp.GetSettings()->GetAcelessPenalty();
   }
 
   virtual bool IsFourAceBonus() {
-    return theApp.Get4AceBonus();
+    return theApp.GetSettings()->Get4AceBonus();
   }
 
   virtual bool IsCountShortSuits() {
-    return theApp.GetCountShortSuits();
+    return theApp.GetSettings()->GetCountShortSuits();
   }
 
   virtual bool IsPenalizeUGHonors() {
-    return theApp.GetPenalizeUGHonors();
+    return theApp.GetSettings()->GetPenalizeUGHonors();
   }
 
   virtual int GetAutoHintMode() {
-    return theApp.GetAutoHintMode();
+    return theApp.GetSettings()->GetAutoHintMode();
   }
 
   virtual bool IsInsertBiddingPause() {
-    return theApp.GetInsertBiddingPause();
+    return theApp.GetSettings()->GetInsertBiddingPause();
   }
 
   virtual int GetPlayPauseLength() {
-    return theApp.GetPlayPauseLength();
+    return theApp.GetSettings()->GetPlayPauseLength();
   }
 
   virtual std::shared_ptr<CDeck> GetDeck() {
@@ -180,11 +180,11 @@ public:
   }
 
   virtual bool IsLowResOption() {
-    return theApp.GetLowResOption();
+    return theApp.GetSettings()->GetLowResOption();
   }
 
   virtual bool IsEnableDealNumbering() {
-    return theApp.GetEnableDealNumbering();
+    return theApp.GetSettings()->GetEnableDealNumbering();
   }
 
   virtual void SetFeedbackText(const char* msg) {
@@ -192,167 +192,167 @@ public:
   }
 
   virtual int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) {
-    return theApp.GetRequiredPointsForGame(suitCode, side);
+    return theApp.GetSettings()->GetRequiredPointsForGame(suitCode, side);
   }
 
   virtual int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) {
-    return theApp.GetRequiredPointsForSlam(suitCode, side);
+    return theApp.GetSettings()->GetRequiredPointsForSlam(suitCode, side);
   }
 
   virtual int GetMinSuitDistributions(int code) {
-    return theApp.GetMinSuitDistributions(code);
+    return theApp.GetSettings()->GetMinSuitDistributions(code);
   }
 
   virtual int GetMinSuitDistributionsTable(int code, int distribution, int hand) {
-    return theApp.GetMinSuitDistributionTable(code, distribution, hand);
+    return theApp.GetSettings()->GetMinSuitDistributionTable(code, distribution, hand);
   }
 
   virtual int GetMaxImbalanceForNT() {
-    return theApp.GetMaxImbalanceForNT();
+    return theApp.GetSettings()->GetMaxImbalanceForNT();
   }
 
   virtual bool IsNeedTwoBalancedTrumpHands() {
-    return theApp.GetNeedTwoBalancedTrumpHands();
+    return theApp.GetSettings()->GetNeedTwoBalancedTrumpHands();
   }
 
   virtual int GetMinCardsInMajor() {
-    return theApp.GetMinCardsInMajor();
+    return theApp.GetSettings()->GetMinCardsInMajor();
   }
 
   virtual int GetMinTopMajorCard() {
-    return theApp.GetMinTopMajorCard();
+    return theApp.GetSettings()->GetMinTopMajorCard();
   }
 
   virtual int GetMinCardsInMinor() {
-    return theApp.GetMinCardsInMinor();
+    return theApp.GetSettings()->GetMinCardsInMinor();
   }
 
   virtual int GetMinTopMinorCard() {
-    return theApp.GetMinTopMinorCard();
+    return theApp.GetSettings()->GetMinTopMinorCard();
   }
 
   virtual int GetAcesForSlam(int slamCode) {
-    return theApp.GetAcesForSlam(slamCode);
+    return theApp.GetSettings()->GetAcesForSlam(slamCode);
   }
 
   virtual int GetKingsForSlam(int slamCode) {
-    return theApp.GetKingsForSlam(slamCode);
+    return theApp.GetSettings()->GetKingsForSlam(slamCode);
   }
 
   virtual bool IsBalaceTeamHands() {
-    return theApp.GetBalanceTeamHands();
+    return theApp.GetSettings()->GetBalanceTeamHands();
   }
 
   virtual bool IsFullAutoPlayMode() {
-    return theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO;
+    return theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_FULL_AUTO;
   }
 
   virtual bool IsFullAutoExpressPlayMode() {
-    return theApp.GetCardPlayMode() == CEasyBApp::PLAY_FULL_AUTO_EXPRESS;
+    return theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_FULL_AUTO_EXPRESS;
   }
 
   virtual void SetNormalPlayMode() {
-    theApp.SetCardPlayMode(CEasyBApp::PLAY_NORMAL);
+    theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_NORMAL);
   }
 
   virtual void SetRubberInProgress(bool value) {
-    theApp.SetRubberInProgress(value);
+    theApp.GetSettings()->SetRubberInProgress(value);
   }
 
   virtual void SetGameInProgress(bool value) {
-    theApp.SetGameInProgress(value);
+    theApp.GetSettings()->SetGameInProgress(value);
   }
 
   virtual void SetBiddingInProgress(bool value) {
-    theApp.SetBiddingInProgress(value);
+    theApp.GetSettings()->SetBiddingInProgress(value);
   }
 
   virtual const char* GetProgramTitle() {
-    return theApp.GetProgramTitle(); 
+    return theApp.GetSettings()->GetProgramTitle();
   }
 
   virtual int GetProgramMajorVersion() {
-    return theApp.GetProgramMajorVersion();
+    return theApp.GetSettings()->GetProgramMajorVersion();
   }
 
   virtual int GetProgramMinorVersion() {
-    return theApp.GetProgramMinorVersion();
+    return theApp.GetSettings()->GetProgramMinorVersion();
   }
 
   virtual int GetProgramIncrementVersion() {
-    return theApp.GetProgramIncrementVersion();
+    return theApp.GetSettings()->GetProgramIncrementVersion();
   }
 
   virtual int GetProgramBuildNumber() {
-    return theApp.GetProgramBuildNumber();
+    return theApp.GetSettings()->GetProgramBuildNumber();
   }
 
   virtual const char* GetProgramBuildDate() {
-    return theApp.GetProgramBuildDate();
+    return theApp.GetSettings()->GetProgramBuildDate();
   }
 
   virtual bool IsRubberInProgress() {
-    return theApp.GetRubberInProgress();
+    return theApp.GetSettings()->GetRubberInProgress();
   }
 
   virtual bool IsGameInProgress() {
-    return theApp.GetGameInProgress();
+    return theApp.GetSettings()->GetGameInProgress();
   }
 
   virtual bool IsBiddingInProgress() {
-    return theApp.GetBiddingInProgress();
+    return theApp.GetSettings()->GetBiddingInProgress();
   }
 
   virtual CString GetProgramVersionString() {
-    return theApp.GetProgramVersionString();
+    return theApp.GetSettings()->GetProgramVersionString();
   }
 
   virtual bool IsSaveIntermediatePositions() {
-    return theApp.GetSaveIntermediatePositions();
+    return theApp.GetSettings()->GetSaveIntermediatePositions();
   }
 
   virtual bool IsScoreHonorsBonuses() {
-    return theApp.GetScoreHonorsBonuses();
+    return theApp.GetSettings()->GetScoreHonorsBonuses();
   }
 
   virtual bool IsInAutoTestMode() {
-    return theApp.GetAutoTestMode();
+    return theApp.GetSettings()->GetAutoTestMode();
   }
 
   virtual const char* GetProgramDirectory() {
-    return theApp.GetProgramDirectory();
+    return theApp.GetSettings()->GetProgramDirectory();
   }
 
   virtual bool IsExposePBNGameCards() {
-    return theApp.GetExposePBNGameCards();
+    return theApp.GetSettings()->GetExposePBNGameCards();
   }
 
   virtual bool IsUseSuitSymbols() {
-    return theApp.GetUseSuitSymbols();
+    return theApp.GetSettings()->GetUseSuitSymbols();
   }
   
   virtual bool IsShowDummyTrumpsOnLeft() {
-    return theApp.GetShowDummyTrumpsOnLeft();
+    return theApp.GetSettings()->GetShowDummyTrumpsOnLeft();
   }
 
   virtual void SetShowCardsFaceUp(bool value) {
-    theApp.SetShowCardsFaceUp(value);
+    theApp.GetSettings()->SetShowCardsFaceUp(value);
   }
 
   virtual void InitDummySuitSequence(int trump, int dummy_position) {
-    theApp.InitDummySuitSequence(trump, dummy_position);
+    theApp.GetSettings()->InitDummySuitSequence(trump, dummy_position);
   }
 
   virtual bool IsAutoHintEnabled() {
-    return theApp.IsAutoHintEnabled() == TRUE;
+    return theApp.GetSettings()->IsAutoHintEnabled() == TRUE;
   }
 
   virtual bool IsUsingDuplicateScoring() {
-    return theApp.GetUsingDuplicateScoring();
+    return theApp.GetSettings()->GetUsingDuplicateScoring();
   }
 
   virtual bool IsDebugModeActive() {
-    return theApp.GetDebugMode();
+    return theApp.GetSettings()->GetDebugMode();
   }
 
   //////////////////////////////////////////////////////////////////////////

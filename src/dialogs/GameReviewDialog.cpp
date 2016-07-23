@@ -223,7 +223,7 @@ BOOL CGameReviewDialog::OnInitDialog()
 										IMAGE_ICON, 0, 0, LR_DEFAULTCOLOR);
 
 	// collapse if desired
-	m_bCollapsed = theApp.GetCollapseGameReviewDialog();
+	m_bCollapsed = theApp.GetSettings()->GetCollapseGameReviewDialog();
 	CollapseWindow(m_bCollapsed);
 
 	// done
@@ -403,7 +403,7 @@ void CGameReviewDialog::SetGameIndex(int nGame, BOOL bRefresh)
 		m_numTricksAvailable = 0;
 
 	// reset suit sequence
-	theApp.InitDummySuitSequence(BID_SUIT(pGameRecord->m_nContract), GetPartner(pGameRecord->m_nDeclarer));
+	theApp.GetSettings()->InitDummySuitSequence(BID_SUIT(pGameRecord->m_nContract), GetPartner(pGameRecord->m_nDeclarer));
 
 	// enable/disable play controls
 	GetDlgItem(IDC_PREV)->EnableWindow(FALSE);
@@ -883,7 +883,7 @@ void CGameReviewDialog::OnExpandCollapse()
 		CollapseWindow(TRUE);
 	}
 	//
-	theApp.SetCollapseGameReviewDialog(m_bCollapsed);
+	theApp.GetSettings()->SetCollapseGameReviewDialog(m_bCollapsed);
 }
 
 

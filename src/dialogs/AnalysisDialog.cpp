@@ -283,7 +283,7 @@ void CAnalysisDialog::OnSysCommand(UINT nID, LPARAM lParam)
 		// write
 		CString strTemp;
 		strTemp.Format("EasyBridge Analysis record\r\nProgram version %s",
-							theApp.GetProgramVersionString());
+							theApp.GetSettings()->GetProgramVersionString());
 		file.Write((LPCTSTR)strTemp,strTemp.GetLength());
 		//
 		CTime time = CTime::GetCurrentTime();
