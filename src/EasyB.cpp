@@ -106,7 +106,7 @@ CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
 BOOL CEasyBApp::AreCardsFaceUpSettings() const
 { 
 	// see if the face-up flag is set
-	if (m_bShowCardsFaceUp)
+	if (GetShowCardsFaceUp())
 		return TRUE;
 
 	// else see if we're doing something that causes cards to be face up
@@ -116,7 +116,7 @@ BOOL CEasyBApp::AreCardsFaceUpSettings() const
 //
 void CEasyBApp::SetCardsFaceUp(BOOL bFaceUp) 
 { 
-	m_bShowCardsFaceUp = bFaceUp; 
+  SetShowCardsFaceUp(bFaceUp);
 	pVIEW->Notify(WM_COMMAND, WMS_RESET_DISPLAY, TRUE);
 }
 
@@ -135,81 +135,61 @@ BOOL CEasyBApp::InitInstance()
 	OSVERSIONINFO versionInfo;
 	versionInfo.dwOSVersionInfoSize = sizeof(versionInfo);
 	GetVersionEx(&versionInfo);
-	m_nWinMajorVer = versionInfo.dwMajorVersion;
-	m_nWinMinorVer = versionInfo.dwMinorVersion;
-	m_nWinBuildNum = versionInfo.dwBuildNumber;
-	// set platform code -- 0 = NT, 1 = Chicago, 2 = Win32s
-	if (versionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT) 
-	{
-		// Windows NT
-		m_nWinMode = 0;
-		m_bWin32 = TRUE;
-	} 
-	else if (versionInfo.dwPlatformId == VER_PLATFORM_WIN32s) 
-	{
-		// Win32s
-		m_nWinMode = 9;
-		m_bWin32 = FALSE;
-		SetHandleCount(100);
-	} 
-	else 
-	{
-		// Windows 95 or 98
-		if ((m_nWinMajorVer == 4) && (m_nWinMinorVer == 1))
-			m_nWinMode = 2;	// version 4.1 = Win98
-		else
-			m_nWinMode = 1;	// version 4.0 = Win95
-		m_bWin32 = TRUE;
-		AfxEnableWin40Compatibility( );
-	}
+  SetVersion(versionInfo);
+  if (versionInfo.dwPlatformId == VER_PLATFORM_WIN32s) {
+    SetHandleCount(100);
+  } else if(versionInfo.dwPlatformId != VER_PLATFORM_WIN32_NT) {
+    AfxEnableWin40Compatibility();
+  }
 
 	// obtain program version info
-	LPTSTR szProgPath = m_strProgPath.GetBuffer(1024);
+  CString progPath {};
+	LPTSTR szProgPath = progPath.GetBuffer(1024);
 	GetModuleFileName(m_hInstance, szProgPath, 1023);
 	DWORD dummy;
 	DWORD nFileVersionInfoSize = ::GetFileVersionInfoSize(szProgPath, &dummy);
 	LPVOID pVersionBuffer = malloc(nFileVersionInfoSize);
 	VERIFY(pVersionBuffer);
 	GetFileVersionInfo(szProgPath, (DWORD)0, nFileVersionInfoSize, pVersionBuffer);
-	m_strProgPath.ReleaseBuffer();
-	UINT nInfoLength;
+  progPath.ReleaseBuffer();
+  SetProgPath(progPath);
+
+  UINT nInfoLength;
 
 	// get version # string
 	LPVOID pVersionData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\ProductVersion"), &pVersionData, &nInfoLength);
-	sscanf((LPCTSTR)pVersionData,"%d.%d.%d",&m_nProgMajorVersion,&m_nProgMinorVersion,&m_nProgIncrementVersion);
+  ParseVersion((LPCTSTR)pVersionData);
 
 	// get copyright string
 	LPVOID pCopyrightData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\LegalCopyright"), &pCopyrightData, &nInfoLength);
-	m_strProgCopyright = (LPCTSTR) pCopyrightData;
+  SetProgramCopyright((LPCTSTR)pCopyrightData);
 
 	// get build #
 	LPVOID pBuildNumData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\PrivateBuild"), &pBuildNumData, &nInfoLength);
-	sscanf((LPCTSTR)pBuildNumData, "Build #%d", &m_nProgBuildNumber);
+  ParseBuildNumber((LPCTSTR)pBuildNumData);
 
 	// get build date	
 	LPVOID pBuildDateData;
 	VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\Comments"), &pBuildDateData, &nInfoLength);
-	m_strProgBuildDate = (LPCTSTR) pBuildDateData;
+	SetProgramBuildDate((LPCTSTR) pBuildDateData);
 
 	// get special code
 	LPVOID pSpecialBuildData;
 	if (VerQueryValue(pVersionBuffer, TEXT("\\StringFileInfo\\040904b0\\SpecialBuild"), &pSpecialBuildData, &nInfoLength))
-		m_strSpecialBuildCode = (LPCTSTR) pSpecialBuildData;
+		SetSpecialBuildCode((LPCTSTR) pSpecialBuildData);
 	else
-		m_strSpecialBuildCode = _T("");
+    SetSpecialBuildCode("");
 
 	// free the version memory
 	free(pVersionBuffer);
 	
-	// extract the program startup directory
-	int nIndex = m_strProgPath.ReverseFind('\\');
-	m_strProgDirectory = m_strProgPath.Left(nIndex);
+  ExtractStartupDirectory();
 
 	// set registry info
-	if (m_bWin32) 
+	if (GetWin32())
 #ifdef RDEBUG
 		SetRegistryKey("Steve's Software (RDebug)");	// ReleaseDebug
 #elif defined _DEBUG
@@ -225,7 +205,7 @@ BOOL CEasyBApp::InitInstance()
   Initialize();
 
 	// show splash window
-	if (false && (m_lpCmdLine[0] == 0) && (m_bShowSplashWindow) && !m_bShowStartupAnimation) 
+	if (false && (m_lpCmdLine[0] == 0) && IsShowSplashWindow())
 //			&& (!m_bFirstTimeRunning)) 
 	{
 		m_pSplash = new CSplashWnd;
@@ -251,13 +231,13 @@ BOOL CEasyBApp::InitInstance()
 	static TCHAR BASED_CODE szFirstTime[] = _T("First Time Running");
 	if (GetProfileInt("Game Options", szFirstTime, 0) > 0)
 	{
-		m_bFirstTimeRunning = TRUE;
+    SetFirstTimeRunning(true);
 		WriteProfileInt("Game Options", szFirstTime, 0);
 	}
 	else
 	{
-		m_bFirstTimeRunning = FALSE;
-	}
+    SetFirstTimeRunning(false);
+  }
 
 	// Register the application's document templates.  Document templates
 	//  serve as the connection between documents, frame windows and views.
@@ -313,10 +293,6 @@ BOOL CEasyBApp::InitInstance()
 }
 
 
-
-
-
-
 //
 int CEasyBApp::ExitInstance() 
 {
@@ -324,12 +300,10 @@ int CEasyBApp::ExitInstance()
 	deck_->Terminate();
 
 	// and delete the conventions
-	int i;
-	for(i=0;i<m_numConventionSets;i++)
-	{
-		pConventionSet[i]->Terminate();	// save settings
-		delete pConventionSet[i];		// then delete
-	}
+  for (int i = 0; i < GetConventionSetsNumber(); i++) {
+    pConventionSet[i]->Terminate();	// save settings
+    delete pConventionSet[i];		// then delete
+  }
 	
 	// delete the GIB wrapper
 	delete m_pGIBWrapper;
@@ -361,7 +335,9 @@ void CEasyBApp::InitSettings()
 
 
 	// load program title string
-	m_strProgTitle.LoadString(IDS_APPTITLE);
+  CString title {};
+  title.LoadString(IDS_APPTITLE);
+  SetProgramTitle(title);
 
 	// create the GIB Wrapper
 	m_pGIBWrapper = new CGIB();
@@ -370,8 +346,6 @@ void CEasyBApp::InitSettings()
 //	m_gibWrapper.Initialize();
 
 	// initialize conventions
-	m_nCurrConventionSet = 0;
-	m_numConventionSets = 1;
 	pConventionSet[0] = new CConventionSet(appImpl);
 	pConventionSet[0]->Initialize("Default");	// read in settings
 	pConventionSet[0]->InitConventions();		// and prepare conventions

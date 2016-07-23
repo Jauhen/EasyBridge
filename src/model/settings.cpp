@@ -550,6 +550,8 @@ void Settings::InitSettings() {
 		}
 	}
 
+  m_nCurrConventionSet = 0;
+  m_numConventionSets = 1;
 }
 
 
@@ -702,4 +704,28 @@ int Settings::ReadIntConfig(const char* section, const char* entry, int defaultV
 
 std::string Settings::ReadStringConfig(const char* section, const char* entry, const char* defaultValue) {
 	return std::string(defaultValue);
+}
+
+
+void Settings::SetVersion(OSVERSIONINFO versionInfo) {
+  m_nWinMajorVer = versionInfo.dwMajorVersion;
+  m_nWinMinorVer = versionInfo.dwMinorVersion;
+  m_nWinBuildNum = versionInfo.dwBuildNumber;
+  // set platform code -- 0 = NT, 1 = Chicago, 2 = Win32s
+  if (versionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT) {
+    // Windows NT
+    m_nWinMode = 0;
+    m_bWin32 = TRUE;
+  } else if (versionInfo.dwPlatformId == VER_PLATFORM_WIN32s) {
+    // Win32s
+    m_nWinMode = 9;
+    m_bWin32 = FALSE;
+  } else {
+    // Windows 95 or 98
+    if ((m_nWinMajorVer == 4) && (m_nWinMinorVer == 1))
+      m_nWinMode = 2;	// version 4.1 = Win98
+    else
+      m_nWinMode = 1;	// version 4.0 = Win95
+    m_bWin32 = TRUE;
+  }
 }

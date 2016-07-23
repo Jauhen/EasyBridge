@@ -605,7 +605,7 @@ public:
   }
 
   virtual void PlayCard(CCard* card, int shift) {
-    pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + shift, (int)card);
+    pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + shift, (WPARAM)card);
   }
 
   virtual int GetSuitToScreenIndex(int suit) {

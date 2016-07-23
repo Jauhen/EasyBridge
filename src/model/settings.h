@@ -29,6 +29,7 @@ public:
   CString GetProgramVersionString();
   CString GetFullProgramVersionString();
   void SetSuitSequence(int nSeq);
+  void SetVersion(OSVERSIONINFO versionInfo);
 
   int	GetCurrentConvention() const { return m_nCurrConventionSet; }
   int	GetSuitSequence(int nIndex) const { return m_nSuitSequence[nIndex]; }
@@ -191,13 +192,13 @@ public:
   int GetProgramBuildNumber() const { return m_nProgBuildNumber; }
   void SetProgramBuildNumber(int val) { m_nProgBuildNumber = val; }
   const char* GetProgramBuildDate() const { return m_strProgBuildDate; }
-  void GetProgramBuildDate(CString val) { m_strProgBuildDate = val; }
+  void SetProgramBuildDate(CString val) { m_strProgBuildDate = val; }
   const char* GetSpecialBuildCode() const { return m_strSpecialBuildCode; }
-  void GetSpecialBuildCode(CString val) { m_strSpecialBuildCode = val; }
+  void SetSpecialBuildCode(CString val) { m_strSpecialBuildCode = val; }
   const char* GetProgramCopyright() const { return m_strProgCopyright; }
-  void GetProgramCopyright(CString val) { m_strProgCopyright = val; }
+  void SetProgramCopyright(const char* val) { m_strProgCopyright = val; }
   const char* GetProgramTitle() const { return m_strProgTitle; }
-  void GetProgramTitle(CString val) { m_strProgTitle = val; }
+  void SetProgramTitle(CString val) { m_strProgTitle = val; }
   bool GetLayoutFollowsDisplayOrder() const { return m_bLayoutFollowsDisplayOrder; }
   void SetLayoutFollowsDisplayOrder(bool val) { m_bLayoutFollowsDisplayOrder = val; }
   int GetWindowsSystemMode() const { return m_nWinMode; }
@@ -250,6 +251,24 @@ public:
 	  m_fBiddingAggressiveness = val; 
 	  InitPointCountRequirements();
   }
+  void SetProgPath(CString str) { m_strProgPath = str; }
+  void ParseVersion(const char* str) {
+    sscanf(str, "%d.%d.%d", &m_nProgMajorVersion, &m_nProgMinorVersion, &m_nProgIncrementVersion);
+  }
+  void ParseBuildNumber(const char* str) {
+    sscanf(str, "Build #%d", &m_nProgBuildNumber);
+  }
+  void ExtractStartupDirectory() {
+    // extract the program startup directory
+    int nIndex = m_strProgPath.ReverseFind('\\');
+    m_strProgDirectory = m_strProgPath.Left(nIndex);
+  }
+  bool IsShowSplashWindow() {
+    return m_bShowSplashWindow && !m_bShowStartupAnimation;
+  }
+  int GetConventionSetsNumber() const {
+    return m_numConventionSets;
+  }
 
 
   static double m_fDefaultMajorSuitGamePts;
@@ -272,7 +291,7 @@ public:
   //
   static double m_fHonorValue[15];
 
-//private:
+ private:
   //
   // program status
   //
