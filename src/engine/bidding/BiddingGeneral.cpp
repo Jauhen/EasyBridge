@@ -23,6 +23,8 @@
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
 #include "model/deal.h"
+#include "model/globals.h"
+
 
 //
 //---------------------------------------------------------------

@@ -10,6 +10,7 @@
 //
 
 #include "stdafx.h"
+#include "model/globals.h"
 #include "model/filecode.h"
 #include "engine/Player.h"
 #include "engine/Card.h"

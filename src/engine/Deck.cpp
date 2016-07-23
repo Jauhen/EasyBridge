@@ -19,6 +19,7 @@
 #include <sys/types.h>
 #include <sys/timeb.h>
 #include "app_interface.h"
+#include "EasyB.h"
 
 
 //
@@ -142,7 +143,7 @@ void CDeck::InitializeBitmaps()
 
 	// see whether we're using small cards
 	BOOL bSmallCards = app_->IsLowResOption();
-	int nBase = bSmallCards? IDBS_CARDS_BASE : IDB_CARDS_BASE;
+	int nBase = bSmallCards ? IDBS_CARDS_BASE : IDB_CARDS_BASE;
 	
 	if (bSmallCards)
 	{

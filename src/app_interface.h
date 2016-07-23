@@ -1,9 +1,16 @@
 #pragma once
+#include <memory>
+#include <vector>
+#include "engine/card_constants.h"
 
-#include "EasyB.h"
-
+class Settings;
+class ConventionPool;
 class Deal;
+class CConventionSet;
 class CGIB;
+class CCard;
+class CDeck;
+class CPlayer;
 class CHandHoldings;
 class CPlayerStatusDialog;
 class CRoundFinishedDialog;
@@ -19,6 +26,7 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
+  virtual std::shared_ptr<Settings> GetSettings() = 0;
   virtual bool IsEnableAnalysisTracing() = 0;
   virtual int AnalysisTraceLevel() = 0;
   virtual bool InExpressAutoPlay() = 0;

@@ -1,6 +1,9 @@
 #ifndef EZ_CARD_CONTANTS_
 #define EZ_CARD_CONTANTS_
 
+// constant suit symbol
+const unsigned char tSuitLetter = _T('§');
+
 // basic alias
 typedef int BID;
 typedef CArray<int, int> CIntArray;

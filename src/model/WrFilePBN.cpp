@@ -15,6 +15,7 @@
 #include "engine/Card.h"
 #include "engine/play/HandHoldings.h"
 #include "engine/play/CardHoldings.h"
+#include "model/globals.h"
 #include "model/deal.h"
 #include "model/file_exporter.h"
 

@@ -19,6 +19,7 @@
 #include "engine/bidding/Bidparams.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/globals.h"
 
 
 

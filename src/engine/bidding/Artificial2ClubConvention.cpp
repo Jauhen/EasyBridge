@@ -12,6 +12,7 @@
 
 #include "stdafx.h"
 #include "app_interface.h"
+#include "model/globals.h"
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/Artificial2ClubConvention.h"
 #include "engine/bidding/ConventionSet.h"

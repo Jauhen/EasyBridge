@@ -14,6 +14,7 @@
 #define __GUESSEDCARD__
 
 #include "app_interface.h"
+#include "model/Globals.h"
 #include "engine/card.h"
 
 

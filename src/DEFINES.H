@@ -18,8 +18,6 @@
 // forward declaration
 class CCard;
 
-// constant suit symbol
-const unsigned char tSuitLetter = _T('§');
 
 #include "engine/card_constants.h"
 
@@ -29,7 +27,6 @@ const unsigned char tSuitLetter = _T('§');
 #define pVIEW			 (CEasyBView::m_pView)
 #define DECK			 theApp.m_deck
 #define PLAYER(x)		 (*(CEasyBDoc::GetDoc()->GetDeal()->GetPlayer(x)))
-#define	ABS(x)			 ((x>=0)?x:-x)
 
 #define SETSTATUSMSG(x)		((CMainFrame*)theApp.GetFrame())->SetStatusText(x)
 #define RESETSTATUSMSG()	((CMainFrame*)theApp.GetFrame())->SetStatusText(AFX_IDS_IDLEMESSAGE)
@@ -41,9 +38,6 @@ const unsigned char tSuitLetter = _T('§');
 #define SHOW_FEEDBACK() ((CMainFrame*)theApp.GetFrame())->MakeStatusDialogVisible()
 #define FEEDBACK(s)  ((CMainFrame*)theApp.GetFrame())->SetFeedbackText(s)
 
-//
-#define MIN(a,b) ( ((a) <= (b))? (a): (b) )
-#define MAX(a,b) ( ((a) >= (b))? (a): (b) )
 
 
 // Windoze user messages

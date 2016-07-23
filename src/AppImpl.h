@@ -12,6 +12,7 @@
 #include "MainFrameopts.h"
 #include "GIB.h"
 
+
 class AppImpl : public AppInterface {
 public:
   AppImpl() {}
@@ -22,6 +23,10 @@ public:
   // The App
   //
   //////////////////////////////////////////////////////////////////////////
+
+  virtual std::shared_ptr<Settings> GetSettings() {
+    return theApp.GetSettings();
+  }
 
   virtual bool IsEnableAnalysisTracing() {
     return theApp.GetSettings()->GetEnableAnalysisTracing();
