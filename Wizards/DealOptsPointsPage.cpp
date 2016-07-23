@@ -27,9 +27,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDealOptsPointsPage, CPropertyPage)
 
-CDealOptsPointsPage::CDealOptsPointsPage(Settings* pApp) : 
+CDealOptsPointsPage::CDealOptsPointsPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CDealOptsPointsPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CDealOptsPointsPage)
 	m_nMinGamePts = 0;
@@ -143,68 +143,68 @@ BOOL CDealOptsPointsPage::OnInitDialog()
 
 void CDealOptsPointsPage::InitSpinButtons()
 {
-	m_nMinGamePts = m_app.GetRequiredPointsForGame(0,0);
-	m_nMaxGamePts = m_app.GetRequiredPointsForGame(0,1);
-	m_nMinMinorGamePts = m_app.GetRequiredPointsForGame(1,0);
-	m_nMaxMinorGamePts = m_app.GetRequiredPointsForGame(1,1);
-	m_nMinMajorGamePts = m_app.GetRequiredPointsForGame(2,0);
-	m_nMaxMajorGamePts = m_app.GetRequiredPointsForGame(2,1);
-	m_nMinNoTrumpGamePts = m_app.GetRequiredPointsForGame(3,0);
-	m_nMaxNoTrumpGamePts = m_app.GetRequiredPointsForGame(3,1);
-	m_nMinSlamPts = m_app.GetRequiredPointsForSlam(0,0);
-	m_nMaxSlamPts = m_app.GetRequiredPointsForSlam(0,1);
-	m_nMinSmallSlamPts = m_app.GetRequiredPointsForSlam(1,0);
-	m_nMaxSmallSlamPts = m_app.GetRequiredPointsForSlam(1,1);
-	m_nMinGrandSlamPts = m_app.GetRequiredPointsForSlam(2,0);
-	m_nMaxGrandSlamPts = m_app.GetRequiredPointsForSlam(2,1);
+	m_nMinGamePts = m_app->GetRequiredPointsForGame(0,0);
+	m_nMaxGamePts = m_app->GetRequiredPointsForGame(0,1);
+	m_nMinMinorGamePts = m_app->GetRequiredPointsForGame(1,0);
+	m_nMaxMinorGamePts = m_app->GetRequiredPointsForGame(1,1);
+	m_nMinMajorGamePts = m_app->GetRequiredPointsForGame(2,0);
+	m_nMaxMajorGamePts = m_app->GetRequiredPointsForGame(2,1);
+	m_nMinNoTrumpGamePts = m_app->GetRequiredPointsForGame(3,0);
+	m_nMaxNoTrumpGamePts = m_app->GetRequiredPointsForGame(3,1);
+	m_nMinSlamPts = m_app->GetRequiredPointsForSlam(0,0);
+	m_nMaxSlamPts = m_app->GetRequiredPointsForSlam(0,1);
+	m_nMinSmallSlamPts = m_app->GetRequiredPointsForSlam(1,0);
+	m_nMaxSmallSlamPts = m_app->GetRequiredPointsForSlam(1,1);
+	m_nMinGrandSlamPts = m_app->GetRequiredPointsForSlam(2,0);
+	m_nMaxGrandSlamPts = m_app->GetRequiredPointsForSlam(2,1);
 	//
-	m_sbMinGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(0,0),
-							m_app.GetPointsAbsoluteGameLimits(0,1));
+	m_sbMinGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(0,0),
+							m_app->GetPointsAbsoluteGameLimits(0,1));
 	m_sbMinGamePts.SetPos(m_nMinGamePts);
-	m_sbMaxGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(0,0),
-						    m_app.GetPointsAbsoluteGameLimits(0,1));
+	m_sbMaxGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(0,0),
+						    m_app->GetPointsAbsoluteGameLimits(0,1));
 	m_sbMaxGamePts.SetPos(m_nMaxGamePts);
 	//
-	m_sbMinMinorGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(1,0),
-								  m_app.GetPointsAbsoluteGameLimits(1,1));
+	m_sbMinMinorGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(1,0),
+								  m_app->GetPointsAbsoluteGameLimits(1,1));
 	m_sbMinMinorGamePts.SetPos(m_nMinMinorGamePts);
-	m_sbMaxMinorGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(1,0),
-								 m_app.GetPointsAbsoluteGameLimits(1,1));
+	m_sbMaxMinorGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(1,0),
+								 m_app->GetPointsAbsoluteGameLimits(1,1));
 	m_sbMaxMinorGamePts.SetPos(m_nMaxMinorGamePts);
 	//
-	m_sbMinMajorGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(2,0),
-								 m_app.GetPointsAbsoluteGameLimits(2,1));
+	m_sbMinMajorGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(2,0),
+								 m_app->GetPointsAbsoluteGameLimits(2,1));
 	m_sbMinMajorGamePts.SetPos(m_nMinMajorGamePts);
-	m_sbMaxMajorGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(2,0),
-							     m_app.GetPointsAbsoluteGameLimits(2,1));
+	m_sbMaxMajorGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(2,0),
+							     m_app->GetPointsAbsoluteGameLimits(2,1));
 	m_sbMaxMajorGamePts.SetPos(m_nMaxMajorGamePts);
 	//
-	m_sbMinNTGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(3,0),
-							  m_app.GetPointsAbsoluteGameLimits(3,1));
+	m_sbMinNTGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(3,0),
+							  m_app->GetPointsAbsoluteGameLimits(3,1));
 	m_sbMinNTGamePts.SetPos(m_nMinNoTrumpGamePts);
-	m_sbMaxNTGamePts.SetRange(m_app.GetPointsAbsoluteGameLimits(3,0),
-						     m_app.GetPointsAbsoluteGameLimits(3,1));
+	m_sbMaxNTGamePts.SetRange(m_app->GetPointsAbsoluteGameLimits(3,0),
+						     m_app->GetPointsAbsoluteGameLimits(3,1));
 	m_sbMaxNTGamePts.SetPos(m_nMaxNoTrumpGamePts);
 	//
-	m_sbMinSlamPts.SetRange(m_app.GetPointsAbsoluteSlamLimits(0,0),
-							m_app.GetPointsAbsoluteSlamLimits(0,1));
+	m_sbMinSlamPts.SetRange(m_app->GetPointsAbsoluteSlamLimits(0,0),
+							m_app->GetPointsAbsoluteSlamLimits(0,1));
 	m_sbMinSlamPts.SetPos(m_nMinSlamPts);
-	m_sbMaxSlamPts.SetRange(m_app.GetPointsAbsoluteSlamLimits(0,0),
-							m_app.GetPointsAbsoluteSlamLimits(0,1));
+	m_sbMaxSlamPts.SetRange(m_app->GetPointsAbsoluteSlamLimits(0,0),
+							m_app->GetPointsAbsoluteSlamLimits(0,1));
 	m_sbMaxSlamPts.SetPos(m_nMaxSlamPts);
 	//
-	m_sbMinSmallSlamPts.SetRange(m_app.GetPointsAbsoluteSlamLimits(1,0),
-			 				     m_app.GetPointsAbsoluteSlamLimits(1,1));
+	m_sbMinSmallSlamPts.SetRange(m_app->GetPointsAbsoluteSlamLimits(1,0),
+			 				     m_app->GetPointsAbsoluteSlamLimits(1,1));
 	m_sbMinSmallSlamPts.SetPos(m_nMinSmallSlamPts);
-	m_sbMaxSmallSlamPts.SetRange(m_app.GetPointsAbsoluteSlamLimits(1,0),
-								 m_app.GetPointsAbsoluteSlamLimits(1,1));
+	m_sbMaxSmallSlamPts.SetRange(m_app->GetPointsAbsoluteSlamLimits(1,0),
+								 m_app->GetPointsAbsoluteSlamLimits(1,1));
 	m_sbMaxSmallSlamPts.SetPos(m_nMaxSmallSlamPts);
 	//
-	m_sbMinGrandSlamPts.SetRange(m_app.GetPointsAbsoluteSlamLimits(2,0),
-								 m_app.GetPointsAbsoluteSlamLimits(2,1));
+	m_sbMinGrandSlamPts.SetRange(m_app->GetPointsAbsoluteSlamLimits(2,0),
+								 m_app->GetPointsAbsoluteSlamLimits(2,1));
 	m_sbMinGrandSlamPts.SetPos(m_nMinGrandSlamPts);
-	m_sbMaxGrandSlamPts.SetRange(m_app.GetPointsAbsoluteSlamLimits(2,0),
-								 m_app.GetPointsAbsoluteSlamLimits(2,1));
+	m_sbMaxGrandSlamPts.SetRange(m_app->GetPointsAbsoluteSlamLimits(2,0),
+								 m_app->GetPointsAbsoluteSlamLimits(2,1));
 	m_sbMaxGrandSlamPts.SetPos(m_nMaxGrandSlamPts);
 	// done
 	UpdateData(FALSE);
@@ -246,19 +246,19 @@ void CDealOptsPointsPage::Update()
 	if (m_nMaxGrandSlamPts < m_nMinGrandSlamPts)
 		m_nMaxGrandSlamPts = m_nMinGrandSlamPts;
 	// store results
-	m_app.SetRequiredPointsForGame(m_nMinGamePts,0,0);
-	m_app.SetRequiredPointsForGame(m_nMaxGamePts,0,1);
-	m_app.SetRequiredPointsForGame(m_nMinMinorGamePts,1,0);
-	m_app.SetRequiredPointsForGame(m_nMaxMinorGamePts,1,1);
-	m_app.SetRequiredPointsForGame(m_nMinMajorGamePts,2,0);
-	m_app.SetRequiredPointsForGame(m_nMaxMajorGamePts,2,1);
-	m_app.SetRequiredPointsForGame(m_nMinNoTrumpGamePts,3,0);
-	m_app.SetRequiredPointsForGame(m_nMaxNoTrumpGamePts,3,1);
-	m_app.SetRequiredPointsForSlam(m_nMinSlamPts,0,0);
-	m_app.SetRequiredPointsForSlam(m_nMaxSlamPts,0,1);
-	m_app.SetRequiredPointsForSlam(m_nMinSmallSlamPts,1,0);
-	m_app.SetRequiredPointsForSlam(m_nMaxSmallSlamPts,1,1);
-	m_app.SetRequiredPointsForSlam(m_nMinGrandSlamPts,2,0);
-	m_app.SetRequiredPointsForSlam(m_nMaxGrandSlamPts,2,1);
+	m_app->SetRequiredPointsForGame(m_nMinGamePts,0,0);
+	m_app->SetRequiredPointsForGame(m_nMaxGamePts,0,1);
+	m_app->SetRequiredPointsForGame(m_nMinMinorGamePts,1,0);
+	m_app->SetRequiredPointsForGame(m_nMaxMinorGamePts,1,1);
+	m_app->SetRequiredPointsForGame(m_nMinMajorGamePts,2,0);
+	m_app->SetRequiredPointsForGame(m_nMaxMajorGamePts,2,1);
+	m_app->SetRequiredPointsForGame(m_nMinNoTrumpGamePts,3,0);
+	m_app->SetRequiredPointsForGame(m_nMaxNoTrumpGamePts,3,1);
+	m_app->SetRequiredPointsForSlam(m_nMinSlamPts,0,0);
+	m_app->SetRequiredPointsForSlam(m_nMaxSlamPts,0,1);
+	m_app->SetRequiredPointsForSlam(m_nMinSmallSlamPts,1,0);
+	m_app->SetRequiredPointsForSlam(m_nMaxSmallSlamPts,1,1);
+	m_app->SetRequiredPointsForSlam(m_nMinGrandSlamPts,2,0);
+	m_app->SetRequiredPointsForSlam(m_nMaxGrandSlamPts,2,1);
 }
 

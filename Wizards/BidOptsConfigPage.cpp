@@ -27,9 +27,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsConfigPage, CPropertyPage)
 
-CBidOptsConfigPage::CBidOptsConfigPage(Settings* pApp, CObjectWithProperties* pConventionSet) : 
+CBidOptsConfigPage::CBidOptsConfigPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pConventionSet) :
 		CPropertyPage(CBidOptsConfigPage::IDD),
-		m_app(*pApp), m_conventionSet(*pConventionSet)
+		m_app(pApp), m_conventionSet(*pConventionSet)
 {
 	//{{AFX_DATA_INIT(CBidOptsConfigPage)
 	m_nBiddingEngine = -1;
@@ -37,12 +37,12 @@ CBidOptsConfigPage::CBidOptsConfigPage(Settings* pApp, CObjectWithProperties* pC
 	m_strNeuralNetFilePath = _T("");
 	//}}AFX_DATA_INIT
 	//
-	m_nAggressiveness = (int) m_app.GetBiddingAggressiveness();
+	m_nAggressiveness = (int) m_app->GetBiddingAggressiveness();
 /*
-	m_nBiddingEngine = m_app.GetValue(tnBiddingEngine);
-	m_strNeuralNetFilePath = m_app.GetValueString(tszNeuralNetFile);
-	m_numNNetHiddenLayers = m_app.GetValue(tnumNeuralNetHiddenLayers);
-	m_numNNetNodesPerHiddenLayer = m_app.GetValue(tnumNeuralNetUnitsPerHiddenLayer);
+	m_nBiddingEngine = m_app->GetValue(tnBiddingEngine);
+	m_strNeuralNetFilePath = m_app->GetValueString(tszNeuralNetFile);
+	m_numNNetHiddenLayers = m_app->GetValue(tnumNeuralNetHiddenLayers);
+	m_numNNetNodesPerHiddenLayer = m_app->GetValue(tnumNeuralNetUnitsPerHiddenLayer);
 */
 }
 
@@ -183,17 +183,17 @@ void CBidOptsConfigPage::SetNeuralNetFile(BOOL bNew)
 //
 void CBidOptsConfigPage::Update()
 {
-	m_app.SetBiddingAggressiveness(m_nAggressiveness);
+	m_app->SetBiddingAggressiveness(m_nAggressiveness);
 /*
-//	m_app.SetValue(tnBiddingEngine, m_nBiddingEngine);
-//	m_app.SetValue(tszNeuralNetFile, m_strNeuralNetFilePath);
+//	m_app->SetValue(tnBiddingEngine, m_nBiddingEngine);
+//	m_app->SetValue(tszNeuralNetFile, m_strNeuralNetFilePath);
 
 	// set neural net file path if changed
-	if (m_strNeuralNetFilePath.CompareNoCase(m_app.GetValueString(tszNeuralNetFile)) != 0)
+	if (m_strNeuralNetFilePath.CompareNoCase(m_app->GetValueString(tszNeuralNetFile)) != 0)
 	{
-		m_app.SetValue(tnumNeuralNetHiddenLayers, m_numNNetHiddenLayers);
-		m_app.SetValue(tnumNeuralNetUnitsPerHiddenLayer, m_numNNetNodesPerHiddenLayer);
-		m_app.SetValue(tszNeuralNetFile, m_strNeuralNetFilePath);
+		m_app->SetValue(tnumNeuralNetHiddenLayers, m_numNNetHiddenLayers);
+		m_app->SetValue(tnumNeuralNetUnitsPerHiddenLayer, m_numNNetNodesPerHiddenLayer);
+		m_app->SetValue(tszNeuralNetFile, m_strNeuralNetFilePath);
 	}
 */
 }

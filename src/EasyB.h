@@ -18,7 +18,6 @@
 #include "../resource.h"       // main symbols
 #include "defines.h"        // other global info
 #include "model/globals.h"
-#include "ObjectWithProperties.h"
 #include "EventProcessor.h"
 #include <memory>
 #include "model/settings.h"
@@ -41,6 +40,8 @@ class CNeuralNet;
 #define DllImport   __declspec( dllimport )
 
 
+// HACK(Jauhen): The only reason Settings is parent of CEasyBApp is a need 
+// of usage of overloaded ReadIntConfig and so on.
 class CEasyBApp : private Settings, public CWinApp, public CEventProcessor
 {
 public:
@@ -57,7 +58,7 @@ public:
 	CGIB* GetGIB() { return m_pGIBWrapper; }
   std::shared_ptr<ConventionPool> GetConventionPool() { return conventionPool_; };
   std::shared_ptr<CDeck> GetDeck() { return deck_; }
-  Settings* GetSettings() { return settings_; }
+  std::shared_ptr<Settings> GetSettings() { return settings_; }
 
   virtual int ReadIntConfig(const char* section, const char* entry, int defaultValue);
   virtual std::string ReadStringConfig(const char* section, const char* entry, const char* defaultValue);
@@ -71,7 +72,6 @@ public:
 
 // pricate data
 private:
-  Settings* settings_;
 
 	// GIB options
 	CGIB*	m_pGIBWrapper;
@@ -83,6 +83,7 @@ private:
   // global deck objects
   std::shared_ptr<CDeck>	deck_;
   std::shared_ptr<ConventionPool> conventionPool_;
+  std::shared_ptr<Settings> settings_;
 
 // internal routines
 public:

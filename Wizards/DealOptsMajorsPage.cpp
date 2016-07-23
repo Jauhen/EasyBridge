@@ -27,18 +27,18 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDealOptsMajorsPage, CPropertyPage)
 
-CDealOptsMajorsPage::CDealOptsMajorsPage(Settings* pApp) : 
+CDealOptsMajorsPage::CDealOptsMajorsPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CDealOptsMajorsPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CDealOptsMajorsPage)
 	m_nMinCardsInSuit = -1;
 	m_nMinSuitTopper = -1;
 	m_nMinTeamDistribution = -1;
 	//}}AFX_DATA_INIT
-	m_nMinCardsInSuit = m_app.GetMinCardsInMajor() - 7;
-	m_nMinSuitTopper = ACE - m_app.GetMinTopMajorCard();
-	m_nMinTeamDistribution = m_app.GetMinSuitDistributions(1);
+	m_nMinCardsInSuit = m_app->GetMinCardsInMajor() - 7;
+	m_nMinSuitTopper = ACE - m_app->GetMinTopMajorCard();
+	m_nMinTeamDistribution = m_app->GetMinSuitDistributions(1);
 }
 
 CDealOptsMajorsPage::~CDealOptsMajorsPage()
@@ -71,7 +71,7 @@ END_MESSAGE_MAP()
 void CDealOptsMajorsPage::Update()
 {
 	// store results
-	m_app.SetMinCardsInMajor(m_nMinCardsInSuit + 7);
-	m_app.SetMinTopMajorCard(ACE - m_nMinSuitTopper);
-	m_app.SetMinSuitDistributions(m_nMinTeamDistribution, 1);
+	m_app->SetMinCardsInMajor(m_nMinCardsInSuit + 7);
+	m_app->SetMinTopMajorCard(ACE - m_nMinSuitTopper);
+	m_app->SetMinSuitDistributions(m_nMinTeamDistribution, 1);
 }

@@ -1061,7 +1061,7 @@ void CBidDialog::RepositionWindow()
 //
 BOOL CBidDialog::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult) {
   TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
-  UINT nID = pNMHDR->idFrom;
+  UINT_PTR nID = pNMHDR->idFrom;
   int nIndex;
   //
   if (pTTT->uFlags & TTF_IDISHWND) {

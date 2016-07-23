@@ -26,6 +26,7 @@
 #include "engine/bidding/ConvCodes.h"
 #include "HelpCode.h"
 #include "model/settings.h"
+#include <memory>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -38,11 +39,11 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CProgramConfigWizard, CPropertySheet)
 
-CProgramConfigWizard::CProgramConfigWizard(Settings* pApp, CObjectWithProperties* pFrame, 
+CProgramConfigWizard::CProgramConfigWizard(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame,
 										   CObjectWithProperties* pView,  CObjectWithProperties* pConventionSet,
 										   CWnd* pParentWnd, UINT iSelectPage)
 	: CPropertySheet(_T("Program Configuration Wizard"), pParentWnd, iSelectPage),
-	  m_app(*pApp), m_frame(*pFrame), m_view(*pView), m_conventionSet(*pConventionSet)
+	  m_app(pApp), m_frame(*pFrame), m_view(*pView), m_conventionSet(*pConventionSet)
 {
 	// create the data obejct
 	m_pData				= new CProgConfigWizardData;
@@ -110,35 +111,35 @@ void CProgramConfigWizard::InitOptions(BOOL bFirstTime)
 	//
 
 	// Help Level Page
-	m_pData->m_nHelpLevel = 2 - m_app.GetAutoHintMode();
+	m_pData->m_nHelpLevel = 2 - m_app->GetAutoHintMode();
 	if (m_pData->m_nHelpLevel < 0)
 		m_pData->m_nHelpLevel = 0;
 	if (m_pData->m_nHelpLevel > 2)
 		m_pData->m_nHelpLevel = 2;
-	m_pData->m_bShowAnalysis = m_app.GetEnableAnalysisTracing();
+	m_pData->m_bShowAnalysis = m_app->GetEnableAnalysisTracing();
 
 	// View Page
-	m_pData->m_bShowBidHistory = m_app.GetAutoShowBidHistory();
-	m_pData->m_bShowPlayHistory = m_app.GetAutoShowPlayHistory();
-	m_pData->m_bHideBanner = !m_app.GetShowSplashWindow();
-	m_pData->m_bDisableBitmap = !m_app.GetShowBackgroundBitmap();
-	m_pData->m_bUseSuitSymbols = m_app.GetUseSuitSymbols();
+	m_pData->m_bShowBidHistory = m_app->GetAutoShowBidHistory();
+	m_pData->m_bShowPlayHistory = m_app->GetAutoShowPlayHistory();
+	m_pData->m_bHideBanner = !m_app->GetShowSplashWindow();
+	m_pData->m_bDisableBitmap = !m_app->GetShowBackgroundBitmap();
+	m_pData->m_bUseSuitSymbols = m_app->GetUseSuitSymbols();
 
 	// Game Mechanics Page
-	m_pData->m_bScoreDuplicate = m_app.GetUsingDuplicateScoring();
-	m_pData->m_bIgnoreHonorsBonuses = !m_app.GetScoreHonorsBonuses();
+	m_pData->m_bScoreDuplicate = m_app->GetUsingDuplicateScoring();
+	m_pData->m_bIgnoreHonorsBonuses = !m_app->GetScoreHonorsBonuses();
 
 	// Suits Display Page
-	m_pData->m_nSuitDisplayOrder = m_app.GetSuitSequenceOption();
-	m_pData->m_bShowDummyTrumpsOnLeft = m_app.GetShowDummyTrumpsOnLeft();
+	m_pData->m_nSuitDisplayOrder = m_app->GetSuitSequenceOption();
+	m_pData->m_bShowDummyTrumpsOnLeft = m_app->GetShowDummyTrumpsOnLeft();
 
 	// Bidding Pause Page
-	if (m_app.GetInsertBiddingPause())
+	if (m_app->GetInsertBiddingPause())
 		m_pData->m_nBiddingPauseSetting = 1;
 	else
 		m_pData->m_nBiddingPauseSetting = 0;
 	//
-	if (m_app.GetInsertPlayPause())
+	if (m_app->GetInsertPlayPause())
 		m_pData->m_nPlayPauseSetting = 1;
 	else
 		m_pData->m_nPlayPauseSetting = 0;
@@ -160,70 +161,70 @@ void CProgramConfigWizard::SaveOptions()
 	//
 
 	// Help Level Page
-	m_app.SetAutoHintMode(-(m_pData->m_nHelpLevel - 2));
-	m_app.SetEnableAnalysisTracing(m_pData->m_bShowAnalysis);
+	m_app->SetAutoHintMode(-(m_pData->m_nHelpLevel - 2));
+	m_app->SetEnableAnalysisTracing(m_pData->m_bShowAnalysis);
 
 	// View Page
-	m_app.SetAutoShowBidHistory(m_pData->m_bShowBidHistory);
-	m_app.SetAutoShowPlayHistory(m_pData->m_bShowPlayHistory);
-	m_app.SetShowSplashWindow(!m_pData->m_bHideBanner);
-	m_app.SetShowBackgroundBitmap(!m_pData->m_bDisableBitmap);
-	m_app.SetUseSuitSymbols(m_pData->m_bUseSuitSymbols);
+	m_app->SetAutoShowBidHistory(m_pData->m_bShowBidHistory);
+	m_app->SetAutoShowPlayHistory(m_pData->m_bShowPlayHistory);
+	m_app->SetShowSplashWindow(!m_pData->m_bHideBanner);
+	m_app->SetShowBackgroundBitmap(!m_pData->m_bDisableBitmap);
+	m_app->SetUseSuitSymbols(m_pData->m_bUseSuitSymbols);
 
 	// Game Mechanics Page
-	m_app.SetUsingDuplicateScoring(m_pData->m_bScoreDuplicate);
-	m_app.SetScoreHonorsBonuses(!m_pData->m_bIgnoreHonorsBonuses);
+	m_app->SetUsingDuplicateScoring(m_pData->m_bScoreDuplicate);
+	m_app->SetScoreHonorsBonuses(!m_pData->m_bIgnoreHonorsBonuses);
 
 	// Suits Display Page
-	m_app.SetSuitSequenceOption(m_pData->m_nSuitDisplayOrder);
-	m_app.SetShowDummyTrumpsOnLeft(m_pData->m_bShowDummyTrumpsOnLeft);
+	m_app->SetSuitSequenceOption(m_pData->m_nSuitDisplayOrder);
+	m_app->SetShowDummyTrumpsOnLeft(m_pData->m_bShowDummyTrumpsOnLeft);
 
 	// Pauses Page
 	switch(m_pData->m_nBiddingPauseSetting)
 	{
 		case 0:
-			m_app.SetInsertBiddingPause(FALSE);
-			m_app.SetBiddingPauseLength(0);
+			m_app->SetInsertBiddingPause(FALSE);
+			m_app->SetBiddingPauseLength(0);
 			break;
 		case 1:
-			m_app.SetInsertBiddingPause(TRUE);
-			m_app.SetBiddingPauseLength(3);
+			m_app->SetInsertBiddingPause(TRUE);
+			m_app->SetBiddingPauseLength(3);
 			break;
 		case 2:
-			m_app.SetInsertBiddingPause(TRUE);
-			m_app.SetBiddingPauseLength(5);
+			m_app->SetInsertBiddingPause(TRUE);
+			m_app->SetBiddingPauseLength(5);
 			break;
 		case 3:
-			m_app.SetInsertBiddingPause(TRUE);
-			m_app.SetBiddingPauseLength(10);
+			m_app->SetInsertBiddingPause(TRUE);
+			m_app->SetBiddingPauseLength(10);
 			break;
 		case 4:
-			m_app.SetInsertBiddingPause(TRUE);
-			m_app.SetBiddingPauseLength(20);
+			m_app->SetInsertBiddingPause(TRUE);
+			m_app->SetBiddingPauseLength(20);
 			break;
 	}
 	//
 	switch(m_pData->m_nPlayPauseSetting)
 	{
 		case 0:
-			m_app.SetInsertPlayPause(FALSE);
-			m_app.SetPlayPauseLength(0);
+			m_app->SetInsertPlayPause(FALSE);
+			m_app->SetPlayPauseLength(0);
 			break;
 		case 1:
-			m_app.SetInsertPlayPause(TRUE);
-			m_app.SetPlayPauseLength(3);
+			m_app->SetInsertPlayPause(TRUE);
+			m_app->SetPlayPauseLength(3);
 			break;
 		case 2:
-			m_app.SetInsertPlayPause(TRUE);
-			m_app.SetPlayPauseLength(5);
+			m_app->SetInsertPlayPause(TRUE);
+			m_app->SetPlayPauseLength(5);
 			break;
 		case 3:
-			m_app.SetInsertPlayPause(TRUE);
-			m_app.SetPlayPauseLength(10);
+			m_app->SetInsertPlayPause(TRUE);
+			m_app->SetPlayPauseLength(10);
 			break;
 		case 4:
-			m_app.SetInsertPlayPause(TRUE);
-			m_app.SetPlayPauseLength(20);
+			m_app->SetInsertPlayPause(TRUE);
+			m_app->SetPlayPauseLength(20);
 			break;
 	}
 

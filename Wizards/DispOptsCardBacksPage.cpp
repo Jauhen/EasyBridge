@@ -27,9 +27,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsCardBacksPage, CPropertyPage)
 
-CDispOptsCardBacksPage::CDispOptsCardBacksPage(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck) :
+CDispOptsCardBacksPage::CDispOptsCardBacksPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck) :
 		CPropertyPage(CDispOptsCardBacksPage::IDD),
-		m_app(*pApp), m_frame(*pFrame), m_view(*pView), m_deck(*pDeck)
+		m_app(pApp), m_frame(*pFrame), m_view(*pView), m_deck(*pDeck)
 {
 	//{{AFX_DATA_INIT(CDispOptsCardBacksPage)
 		// NOTE: the ClassWizard will add member initialization here

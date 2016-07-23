@@ -26,19 +26,19 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDealOptsMiscPage, CPropertyPage)
 
-CDealOptsMiscPage::CDealOptsMiscPage(Settings* pApp) :
+CDealOptsMiscPage::CDealOptsMiscPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CDealOptsMiscPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CDealOptsMiscPage)
 	m_bBalanceHands = FALSE;
 	m_bGiveSouthBestHand = FALSE;
 	m_bEnableDealNumbering = FALSE;
 	//}}AFX_DATA_INIT
-	m_bBalanceHands = m_app.GetBalanceTeamHands();
-	m_bGiveSouthBestHand = m_app.GetGiveSouthBestHandInPartnership();
-	m_bEnableDealNumbering = m_app.GetEnableDealNumbering();
-	//m_bGiveSouthBestHandInGame = m_app.GetValue(tbGiveSouthBestHandInGame);
+	m_bBalanceHands = m_app->GetBalanceTeamHands();
+	m_bGiveSouthBestHand = m_app->GetGiveSouthBestHandInPartnership();
+	m_bEnableDealNumbering = m_app->GetEnableDealNumbering();
+	//m_bGiveSouthBestHandInGame = m_app->GetValue(tbGiveSouthBestHandInGame);
 }
 
 CDealOptsMiscPage::~CDealOptsMiscPage()
@@ -70,9 +70,9 @@ END_MESSAGE_MAP()
 void CDealOptsMiscPage::Update()
 {
 	// validate inputs
-	m_app.SetGiveSouthBestHandInPartnership(m_bGiveSouthBestHand);
-	//m_app.SetValue(tbGiveSouthBestHandInGame,m_bGiveSouthBestHandInGame);
-	m_app.SetBalanceTeamHands(m_bBalanceHands);
-	m_app.SetEnableDealNumbering(m_bEnableDealNumbering);
+	m_app->SetGiveSouthBestHandInPartnership(m_bGiveSouthBestHand);
+	//m_app->SetValue(tbGiveSouthBestHandInGame,m_bGiveSouthBestHandInGame);
+	m_app->SetBalanceTeamHands(m_bBalanceHands);
+	m_app->SetEnableDealNumbering(m_bEnableDealNumbering);
 }
 

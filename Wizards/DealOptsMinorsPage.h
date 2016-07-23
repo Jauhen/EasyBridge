@@ -9,6 +9,7 @@
 //
 // dealmnpg.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,12 +27,12 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsMinorsPage(Settings* pApp=NULL);
+	CDealOptsMinorsPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsMinorsPage();
 
 // Dialog Data

@@ -27,16 +27,16 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsFilesPage, CPropertyPage)
 
-CGameOptsFilesPage::CGameOptsFilesPage(Settings* pApp) :
+CGameOptsFilesPage::CGameOptsFilesPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CGameOptsFilesPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CGameOptsFilesPage)
 	m_bSaveIntermediatePositions = FALSE;
 	m_bExposePBNGameCards = FALSE;
 	//}}AFX_DATA_INIT
-	m_bSaveIntermediatePositions = m_app.GetSaveIntermediatePositions();
-	m_bExposePBNGameCards = m_app.GetExposePBNGameCards();
+	m_bSaveIntermediatePositions = m_app->GetSaveIntermediatePositions();
+	m_bExposePBNGameCards = m_app->GetExposePBNGameCards();
 }
 
 CGameOptsFilesPage::~CGameOptsFilesPage()
@@ -67,7 +67,7 @@ END_MESSAGE_MAP()
 void CGameOptsFilesPage::Update()
 {
 	// store results
-	m_app.SetSaveIntermediatePositions(m_bSaveIntermediatePositions);
-	m_app.SetExposePBNGameCards(m_bExposePBNGameCards);
+	m_app->SetSaveIntermediatePositions(m_bSaveIntermediatePositions);
+	m_app->SetExposePBNGameCards(m_bExposePBNGameCards);
 }
 

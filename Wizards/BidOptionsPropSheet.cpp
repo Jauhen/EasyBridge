@@ -33,7 +33,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CBidOptionsPropSheet, CPropertySheet)
 
-CBidOptionsPropSheet::CBidOptionsPropSheet(Settings* pApp, CObjectWithProperties* pConventionSet, CWnd* pParentWnd, UINT iSelectPage) :
+CBidOptionsPropSheet::CBidOptionsPropSheet(std::shared_ptr<Settings> pApp, CObjectWithProperties* pConventionSet, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Bidding Conventions"), pParentWnd, iSelectPage)
 {
 	// create the pages

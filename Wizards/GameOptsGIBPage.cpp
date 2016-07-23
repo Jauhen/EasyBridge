@@ -26,9 +26,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsGIBPage, CPropertyPage)
 
-CGameOptsGIBPage::CGameOptsGIBPage(Settings* pApp) : 
+CGameOptsGIBPage::CGameOptsGIBPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CGameOptsGIBPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CGameOptsGIBPage)
 	m_nAnalysisTime = 0;
@@ -37,11 +37,11 @@ CGameOptsGIBPage::CGameOptsGIBPage(Settings* pApp) :
 	m_bEnableGIBDeclarerPlay = FALSE;
 	//}}AFX_DATA_INIT
 	//
-	m_strGIBPath = m_app.GetGIBPath();
-	m_bEnableGIBDeclarerPlay = m_app.GetEnableGIBForDeclarer();
-	m_bEnableGIBDefenderPlay = m_app.GetEnableGIBForDefender();
-	m_nAnalysisTime = m_app.GetGIBAnalysisTime();
-//	m_nSampleSize = m_app.GetValue(tnGIBSampleSize);
+	m_strGIBPath = m_app->GetGIBPath();
+	m_bEnableGIBDeclarerPlay = m_app->GetEnableGIBForDeclarer();
+	m_bEnableGIBDefenderPlay = m_app->GetEnableGIBForDefender();
+	m_nAnalysisTime = m_app->GetGIBAnalysisTime();
+//	m_nSampleSize = m_app->GetValue(tnGIBSampleSize);
 }
 
 CGameOptsGIBPage::~CGameOptsGIBPage()
@@ -130,11 +130,11 @@ void CGameOptsGIBPage::OnBrowse()
 void CGameOptsGIBPage::Update()
 {
 	// store results
-	m_app.SetGIBPath(m_strGIBPath);
-	m_app.SetEnableGIBForDeclarer(m_bEnableGIBDeclarerPlay);
-	m_app.SetEnableGIBForDefender(m_bEnableGIBDefenderPlay);
-	m_app.SetGIBAnalysisTime(m_nAnalysisTime);
-//	m_app.SetValue(tnGIBSampleSize, m_nSampleSize);
+	m_app->SetGIBPath(m_strGIBPath);
+	m_app->SetEnableGIBForDeclarer(m_bEnableGIBDeclarerPlay);
+	m_app->SetEnableGIBForDefender(m_bEnableGIBDefenderPlay);
+	m_app->SetGIBAnalysisTime(m_nAnalysisTime);
+//	m_app->SetValue(tnGIBSampleSize, m_nSampleSize);
 }
 
 

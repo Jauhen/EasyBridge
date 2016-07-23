@@ -15,6 +15,7 @@
 #endif // _MSC_VER > 1000
 // GameOptsFilesPage.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,12 +31,12 @@ public:
 
 // data
 private:
-  Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CGameOptsFilesPage(Settings* pApp=NULL);
+	CGameOptsFilesPage(std::shared_ptr<Settings> pApp=NULL);
 	~CGameOptsFilesPage();
 
 // Dialog Data

@@ -9,7 +9,7 @@
 //
 // GameOptsCountingPage.h : header file
 //
-class CObjectWithProperties;
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -25,12 +25,12 @@ public:
 
 // data
 private:
-  Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CGameOptsCountingPage(Settings* pApp=NULL);
+	CGameOptsCountingPage(std::shared_ptr<Settings> pApp=NULL);
 	~CGameOptsCountingPage();
 
 // Dialog Data

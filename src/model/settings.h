@@ -253,10 +253,10 @@ public:
   }
   void SetProgPath(CString str) { m_strProgPath = str; }
   void ParseVersion(const char* str) {
-    sscanf(str, "%d.%d.%d", &m_nProgMajorVersion, &m_nProgMinorVersion, &m_nProgIncrementVersion);
+    sscanf_s(str, "%d.%d.%d", &m_nProgMajorVersion, &m_nProgMinorVersion, &m_nProgIncrementVersion);
   }
   void ParseBuildNumber(const char* str) {
-    sscanf(str, "Build #%d", &m_nProgBuildNumber);
+    sscanf_s(str, "Build #%d", &m_nProgBuildNumber);
   }
   void ExtractStartupDirectory() {
     // extract the program startup directory

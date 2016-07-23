@@ -124,7 +124,7 @@ BOOL CAnalysisDialog::OnInitDialog()
 	// set the edit control's font
 	SendDlgItemMessage(IDC_EDIT,
 		 			   WM_SETFONT, 
-					   (LONG)m_pFont->m_hObject,
+					   (WPARAM)m_pFont->m_hObject,
 					   FALSE);
 	// and set window info
 	CString strTemp;
@@ -239,7 +239,7 @@ BOOL CAnalysisDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 		case WMS_SET_ANALYSIS_FONT:
 			SendDlgItemMessage(IDC_EDIT,
 			 				   WM_SETFONT, 
-							   (LONG)pMAINFRAME->m_analysisFont.m_hObject,
+							   (WPARAM)pMAINFRAME->m_analysisFont.m_hObject,
 							   FALSE);
 			return TRUE;
 		case WMS_SETTEXT:

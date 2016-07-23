@@ -9,6 +9,7 @@
 //
 // dealmjpg.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,12 +27,12 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsMajorsPage(Settings* pApp=NULL);
+	CDealOptsMajorsPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsMajorsPage();
 
 // Dialog Data

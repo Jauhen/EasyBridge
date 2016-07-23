@@ -20,6 +20,7 @@
 #include "DispOptsFontsPage.h"
 #include "DispOptionsPropSheet.h"
 #include "HelpCode.h"
+#include <memory>
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -31,7 +32,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CDispOptionsPropSheet, CPropertySheet)
 
-CDispOptionsPropSheet::CDispOptionsPropSheet(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck, CWnd* pParentWnd, UINT iSelectPage) :
+CDispOptionsPropSheet::CDispOptionsPropSheet(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Display Options"), pParentWnd, iSelectPage)
 {
 	// create the pages

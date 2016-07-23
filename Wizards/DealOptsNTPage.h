@@ -9,6 +9,7 @@
 //
 // DealOptsNoTrumpPage.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,12 +27,12 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsNoTrumpPage(Settings* pApp=NULL);
+	CDealOptsNoTrumpPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsNoTrumpPage();
 
 // Dialog Data

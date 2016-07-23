@@ -26,9 +26,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsCountingPage, CPropertyPage)
 
-CGameOptsCountingPage::CGameOptsCountingPage(Settings* pApp) : 
+CGameOptsCountingPage::CGameOptsCountingPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CGameOptsCountingPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CGameOptsCountingPage)
 	m_bAcelessPenalty = FALSE;
@@ -42,18 +42,18 @@ CGameOptsCountingPage::CGameOptsCountingPage(Settings* pApp) :
 	m_fJackValue = 0.0;
 	m_fTenValue = 0.0;
 	//}}AFX_DATA_INIT
-	m_nHonorsValuationMode = m_app.GetHonorsValuationMode();
-	m_fAceValue = m_app.GetCustomAceValue();
-	m_fKingValue = m_app.GetCustomKingValue();
-	m_fQueenValue = m_app.GetCustomQueenValue();
-	m_fJackValue = m_app.GetCustomJackValue();
-	m_fTenValue = m_app.GetCustomTenValue();
+	m_nHonorsValuationMode = m_app->GetHonorsValuationMode();
+	m_fAceValue = m_app->GetCustomAceValue();
+	m_fKingValue = m_app->GetCustomKingValue();
+	m_fQueenValue = m_app->GetCustomQueenValue();
+	m_fJackValue = m_app->GetCustomJackValue();
+	m_fTenValue = m_app->GetCustomTenValue();
 	//
 /*
-	m_bAcelessPenalty = m_app.GetValue(tbAcelessPenalty);
-	m_b4AceBonus = m_app.GetValue(tb4AceBonus);
-	m_bPenalizeUGHonors = m_app.GetValue(tbPenalizeUGHonors);
-	m_bCountShortSuits = m_app.GetValue(tbCountShortSuits);
+	m_bAcelessPenalty = m_app->GetValue(tbAcelessPenalty);
+	m_b4AceBonus = m_app->GetValue(tb4AceBonus);
+	m_bPenalizeUGHonors = m_app->GetValue(tbPenalizeUGHonors);
+	m_bCountShortSuits = m_app->GetValue(tbCountShortSuits);
 */
 }
 
@@ -136,7 +136,7 @@ void CGameOptsCountingPage::OnValuationModeChange()
 void CGameOptsCountingPage::Update()
 {
 	// store results
-	m_app.SetHonorsValuationMode(m_nHonorsValuationMode);
+	m_app->SetHonorsValuationMode(m_nHonorsValuationMode);
 	if (m_nHonorsValuationMode == 2)
 	{
 		// warn if total is not 10 pts
@@ -144,21 +144,21 @@ void CGameOptsCountingPage::Update()
 		if ((fTotal < 9.9) || (fTotal >= 10.1))
 			AfxMessageBox(FormString(_T("Warning -- your honors values total to %.2f.  If they do not add up to 10, the bidding engine may not function properly."), fTotal));
 		//
-		m_app.SetCustomAceValue(m_fAceValue);
-		m_app.SetCustomKingValue(m_fKingValue);
-		m_app.SetCustomQueenValue(m_fQueenValue);
-		m_app.SetCustomJackValue(m_fJackValue);
-		m_app.SetCustomTenValue(m_fTenValue);
+		m_app->SetCustomAceValue(m_fAceValue);
+		m_app->SetCustomKingValue(m_fKingValue);
+		m_app->SetCustomQueenValue(m_fQueenValue);
+		m_app->SetCustomJackValue(m_fJackValue);
+		m_app->SetCustomTenValue(m_fTenValue);
 	}
 	//
 /*
-	m_app.SetValue(tbAcelessPenalty, m_bAcelessPenalty);
-	m_app.SetValue(tb4AceBonus, m_b4AceBonus);
-	m_app.SetValue(tbPenalizeUGHonors, m_bPenalizeUGHonors);
-	m_app.SetValue(tbCountShortSuits, m_bCountShortSuits);
+	m_app->SetValue(tbAcelessPenalty, m_bAcelessPenalty);
+	m_app->SetValue(tb4AceBonus, m_b4AceBonus);
+	m_app->SetValue(tbPenalizeUGHonors, m_bPenalizeUGHonors);
+	m_app->SetValue(tbCountShortSuits, m_bCountShortSuits);
 */
 	//
-	m_app.RefreshProperties();	// ####!!!!!#####
+	m_app->RefreshProperties();	// ####!!!!!#####
 }
 
 

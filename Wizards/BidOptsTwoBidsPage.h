@@ -9,6 +9,7 @@
 //
 // BidOptsTwoBidsPage.h : header file
 //
+#include <memory>
 class CObjectWithProperties;
 class Settings;
 
@@ -28,13 +29,13 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_conventionSet;
 
 
 // Construction
 public:
-	CBidOptsTwoBidsPage(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsTwoBidsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsTwoBidsPage();
 
 // Dialog Data

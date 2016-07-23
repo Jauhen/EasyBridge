@@ -26,9 +26,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsOpenPage, CPropertyPage)
 
-CBidOptsOpenPage::CBidOptsOpenPage(Settings* pApp, CObjectWithProperties* pConventionSet) :
+CBidOptsOpenPage::CBidOptsOpenPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pConventionSet) :
 		CPropertyPage(CBidOptsOpenPage::IDD),
-		m_app(*pApp), m_conventionSet(*pConventionSet)
+		m_app(pApp), m_conventionSet(*pConventionSet)
 {
 	//{{AFX_DATA_INIT(CBidOptsOpenPage)
 	m_b13TPsLs = FALSE;

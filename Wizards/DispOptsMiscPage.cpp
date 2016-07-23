@@ -28,9 +28,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsMiscPage, CPropertyPage)
 
-CDispOptsMiscPage::CDispOptsMiscPage(Settings* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) : 
+CDispOptsMiscPage::CDispOptsMiscPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
 		CPropertyPage(CDispOptsMiscPage::IDD),
-		m_app(*pApp), m_frame(*pFrame), m_view(*pView)
+		m_app(pApp), m_frame(*pFrame), m_view(*pView)
 {
 	//{{AFX_DATA_INIT(CDispOptsMiscPage)
 	m_bShowSplashWindow = FALSE;
@@ -41,14 +41,14 @@ CDispOptsMiscPage::CDispOptsMiscPage(Settings* pApp, CObjectWithProperties* pFra
 	m_strFilePath = _T("");
 	m_bLowResOption = FALSE;
 	//}}AFX_DATA_INIT
-//	m_bAutoAlignDialogs = m_app.GetValue(tbAutoAlignDialogs);
-//	m_bShowStartupAnimation = m_app.GetValue(tbShowStartupAnimation);
-	m_bShowBackgroundBitmap = m_app.GetShowBackgroundBitmap();
-	m_nBitmapMode = m_app.GetBitmapDisplayMode();
-	m_bScaleLargeBitmaps = m_app.GetScaleLargeBitmaps();
-	m_bShowSplashWindow = m_app.GetShowSplashWindow();
-	m_nBackgroundColor = m_app.GetBackgroundColor();
-	m_bLowResOption = m_app.GetLowResOption();
+//	m_bAutoAlignDialogs = m_app->GetValue(tbAutoAlignDialogs);
+//	m_bShowStartupAnimation = m_app->GetValue(tbShowStartupAnimation);
+	m_bShowBackgroundBitmap = m_app->GetShowBackgroundBitmap();
+	m_nBitmapMode = m_app->GetBitmapDisplayMode();
+	m_bScaleLargeBitmaps = m_app->GetScaleLargeBitmaps();
+	m_bShowSplashWindow = m_app->GetShowSplashWindow();
+	m_nBackgroundColor = m_app->GetBackgroundColor();
+	m_bLowResOption = m_app->GetLowResOption();
 	m_strFilePath = m_view.GetValueString(tszBackgroundBitmap);
 }
 
@@ -205,7 +205,7 @@ void CDispOptsMiscPage::OnShowLowResOption()
 {
 	UpdateData(TRUE);
 	//
-	if (m_bLowResOption != m_app.GetLowResOption())
+	if (m_bLowResOption != m_app->GetLowResOption())
 		AfxMessageBox("This change will not take effect until you restart the program.", MB_ICONINFORMATION | MB_OK);
 }
 
@@ -215,29 +215,29 @@ BOOL CDispOptsMiscPage::Update()
 {
 	// store results & return if changes affect the display
 	BOOL bChanged = FALSE;
-	if ( (m_bShowBackgroundBitmap != m_app.GetShowBackgroundBitmap()) ||
-		 (m_nBitmapMode != m_app.GetBitmapDisplayMode()) ||
-		 (m_bScaleLargeBitmaps != m_app.GetScaleLargeBitmaps()) ||
-	 	 (m_nBackgroundColor != m_app.GetBackgroundColor()) ||
+	if ( (m_bShowBackgroundBitmap != m_app->GetShowBackgroundBitmap()) ||
+		 (m_nBitmapMode != m_app->GetBitmapDisplayMode()) ||
+		 (m_bScaleLargeBitmaps != m_app->GetScaleLargeBitmaps()) ||
+	 	 (m_nBackgroundColor != m_app->GetBackgroundColor()) ||
 		 (m_strFilePath != m_view.GetValue(tszBackgroundBitmap)) )
 		bChanged = TRUE;
 
 	// update resolution setting in deferred mode
-	if (m_bLowResOption != m_app.GetLowResOption())
+	if (m_bLowResOption != m_app->GetLowResOption())
 	{
-		m_app.SetToggleResolutionMode(TRUE);
+		m_app->SetToggleResolutionMode(TRUE);
 //		deck.InitializeBitmaps();
 	}
 
 	//
-//	m_app.SetValue(tbAutoAlignDialogs, m_bAutoAlignDialogs);
-//	m_app.SetValue(tbShowStartupAnimation, m_bShowStartupAnimation);
+//	m_app->SetValue(tbAutoAlignDialogs, m_bAutoAlignDialogs);
+//	m_app->SetValue(tbShowStartupAnimation, m_bShowStartupAnimation);
 	m_view.SetValuePV(tszBackgroundBitmap, (LPVOID)(LPCTSTR)m_strFilePath);
-	m_app.SetShowBackgroundBitmap(m_bShowBackgroundBitmap);
-	m_app.SetBitmapDisplayMode(m_nBitmapMode);
-	m_app.SetScaleLargeBitmaps(m_bScaleLargeBitmaps);
-	m_app.SetBackgroundColor(m_nBackgroundColor);
-	m_app.SetShowSplashWindow(m_bShowSplashWindow);
+	m_app->SetShowBackgroundBitmap(m_bShowBackgroundBitmap);
+	m_app->SetBitmapDisplayMode(m_nBitmapMode);
+	m_app->SetScaleLargeBitmaps(m_bScaleLargeBitmaps);
+	m_app->SetBackgroundColor(m_nBackgroundColor);
+	m_app->SetShowSplashWindow(m_bShowSplashWindow);
 	//
 	return bChanged;
 }

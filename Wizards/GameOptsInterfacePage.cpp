@@ -26,9 +26,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsInterfacePage, CPropertyPage)
 
-CGameOptsInterfacePage::CGameOptsInterfacePage(Settings* pApp) :
+CGameOptsInterfacePage::CGameOptsInterfacePage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CGameOptsInterfacePage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CGameOptsInterfacePage)
 	m_bAutoPlayLastCard = FALSE;
@@ -41,13 +41,13 @@ CGameOptsInterfacePage::CGameOptsInterfacePage(Settings* pApp) :
 	m_nBiddingPause = 0;
 	m_nPlayPause = 0;
 	//}}AFX_DATA_INIT
-	m_bAutoPlayLastCard = m_app.GetAutoPlayLastCard();
-	m_bAutoJumpCursor = m_app.GetAutoJumpCursor();
-	m_bInsertBiddingPause = m_app.GetInsertBiddingPause();
-	m_bInsertPlayPause = m_app.GetInsertPlayPause();
-	m_bEnableSpokenBids = m_app.GetEnableSpokenBids();
-	m_nBiddingPause = m_app.GetBiddingPauseLength();
-	m_nPlayPause = m_app.GetPlayPauseLength();
+	m_bAutoPlayLastCard = m_app->GetAutoPlayLastCard();
+	m_bAutoJumpCursor = m_app->GetAutoJumpCursor();
+	m_bInsertBiddingPause = m_app->GetInsertBiddingPause();
+	m_bInsertPlayPause = m_app->GetInsertPlayPause();
+	m_bEnableSpokenBids = m_app->GetEnableSpokenBids();
+	m_nBiddingPause = m_app->GetBiddingPauseLength();
+	m_nPlayPause = m_app->GetPlayPauseLength();
 }
 
 CGameOptsInterfacePage::~CGameOptsInterfacePage()
@@ -136,13 +136,13 @@ void CGameOptsInterfacePage::UpdatePauseLabels()
 void CGameOptsInterfacePage::Update()
 {
 	// store results
-	m_app.SetAutoPlayLastCard(m_bAutoPlayLastCard);
-	m_app.SetAutoJumpCursor(m_bAutoJumpCursor);
-	m_app.SetInsertBiddingPause(m_bInsertBiddingPause);
-	m_app.SetBiddingPauseLength(m_nBiddingPause);
-	m_app.SetInsertPlayPause(m_bInsertPlayPause);
-	m_app.SetPlayPauseLength(m_nPlayPause);
-	m_app.SetEnableSpokenBids(m_bEnableSpokenBids);
+	m_app->SetAutoPlayLastCard(m_bAutoPlayLastCard);
+	m_app->SetAutoJumpCursor(m_bAutoJumpCursor);
+	m_app->SetInsertBiddingPause(m_bInsertBiddingPause);
+	m_app->SetBiddingPauseLength(m_nBiddingPause);
+	m_app->SetInsertPlayPause(m_bInsertPlayPause);
+	m_app->SetPlayPauseLength(m_nPlayPause);
+	m_app->SetEnableSpokenBids(m_bEnableSpokenBids);
 }
 
 

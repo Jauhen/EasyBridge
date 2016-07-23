@@ -15,6 +15,8 @@
 #endif // _MSC_VER >= 1000
 // DisplayOptsDialogsPage.h : header file
 //
+#include <memory>
+
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,12 +32,12 @@ public:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDispOptsDialogsPage(Settings* pApp=NULL);
+	CDispOptsDialogsPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDispOptsDialogsPage();
 
 // Dialog Data

@@ -26,9 +26,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsTwoBidsPage, CPropertyPage)
 
-CBidOptsTwoBidsPage::CBidOptsTwoBidsPage(Settings* pApp, CObjectWithProperties* pm_conventionSet) :
+CBidOptsTwoBidsPage::CBidOptsTwoBidsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pm_conventionSet) :
 		CPropertyPage(CBidOptsTwoBidsPage::IDD),
-		m_app(*pApp), m_conventionSet(*pm_conventionSet)
+		m_app(pApp), m_conventionSet(*pm_conventionSet)
 {
 	//{{AFX_DATA_INIT(CBidOptsTwoBidsPage)
 	m_nTwoBidsMode = -1;

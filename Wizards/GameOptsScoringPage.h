@@ -9,6 +9,7 @@
 //
 // GameOptsScoringPage.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -24,12 +25,12 @@ public:
 
 // data
 private:
-  Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CGameOptsScoringPage(Settings* pApp=NULL);
+	CGameOptsScoringPage(std::shared_ptr<Settings> pApp=NULL);
 	~CGameOptsScoringPage();
 
 // Dialog Data

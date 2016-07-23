@@ -9,6 +9,7 @@
 //
 // dealgmpg.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -28,12 +29,12 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsPointsPage(Settings* pApp=NULL);
+	CDealOptsPointsPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsPointsPage();
 
 // Dialog Data

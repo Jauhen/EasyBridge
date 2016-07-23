@@ -73,7 +73,7 @@ BOOL CFileCommentsDialog::OnInitDialog()
 	// set the edit control's font
 	SendDlgItemMessage(IDC_EDIT,
 		 			   WM_SETFONT, 
-					   (LONG)pMAINFRAME->m_standardFont.m_hObject,
+					   (WPARAM)pMAINFRAME->m_standardFont.m_hObject,
 					   FALSE);
 	// and set window info
 	CEdit* pEdit = (CEdit*) GetDlgItem(IDC_EDIT);

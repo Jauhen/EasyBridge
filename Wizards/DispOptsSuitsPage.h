@@ -9,6 +9,8 @@
 //
 // dis_suit.h : header file
 //
+#include <memory>
+
 class Settings;
 class CObjectWithProperties;
 
@@ -24,14 +26,14 @@ public:
 	BOOL Update();
 
 // data
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
 
 
 // Construction
 public:
-	CDispOptsSuitsPage(Settings* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsSuitsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsSuitsPage();
 
 // Dialog Data

@@ -70,7 +70,7 @@ CConventionSet* pConventionSet[100];
 
 BEGIN_MESSAGE_MAP(CEasyBApp, CWinApp)
 	//{{AFX_MSG_MAP(CEasyBApp)
-	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
+	ON_COMMAND(ID_APP_ABOUT, &CEasyBApp::OnAppAbout)
 	//}}AFX_MSG_MAP
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
@@ -86,10 +86,15 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CEasyBApp construction
 
+struct null_deleter {
+  void operator()(void const *) const {}
+};
+
 CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
   conventionPool_ = std::make_shared<ConventionPool>(app);
   deck_ = std::make_shared<CDeck>(app);
-  settings_ = this;
+  std::shared_ptr<Settings> set(static_cast<Settings*>(this), null_deleter());
+  settings_ = set;
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }

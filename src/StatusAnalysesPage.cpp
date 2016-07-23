@@ -119,7 +119,7 @@ BOOL CStatusAnalysesPage::OnInitDialog()
 		m_edit[i].Create(ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL, rect, this, IDC_EDIT1+i);
 		m_edit[i].HideSelection(TRUE, TRUE);
 		// and set font
-		m_edit[i].SendMessage(WM_SETFONT, (LONG)m_pFont->m_hObject, FALSE);
+		m_edit[i].SendMessage(WM_SETFONT, (WPARAM)m_pFont->m_hObject, FALSE);
 	}
 
 	// get text metrics

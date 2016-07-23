@@ -26,9 +26,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsMechanicsPage, CPropertyPage)
 
-CGameOptsMechanicsPage::CGameOptsMechanicsPage(Settings* pApp) :
+CGameOptsMechanicsPage::CGameOptsMechanicsPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CGameOptsMechanicsPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CGameOptsMechanicsPage)
 	m_bAutoBidStart = FALSE;
@@ -39,13 +39,13 @@ CGameOptsMechanicsPage::CGameOptsMechanicsPage(Settings* pApp) :
 	m_bEnableAnalysisDuringHints = FALSE;
 	m_nTraceLevel = -1;
 	//}}AFX_DATA_INIT
-	m_bAutoBidStart = m_app.GetAutoBidStart();
-	m_bAllowRebidPassedHand = m_app.GetAllowRebidPassedHands();
-	m_bShowPassedHands = m_app.GetShowPassedHands();
-	m_bEnableAnalysisTracing = m_app.GetEnableAnalysisTracing();
-	m_bEnableAnalysisDuringHints = m_app.GetEnableAnalysisDuringHints();
-	m_nTraceLevel = m_app.GetAnalysisTraceLevel() - 1;
-	m_bComputerCanClaim = m_app.GetComputerCanClaim();
+	m_bAutoBidStart = m_app->GetAutoBidStart();
+	m_bAllowRebidPassedHand = m_app->GetAllowRebidPassedHands();
+	m_bShowPassedHands = m_app->GetShowPassedHands();
+	m_bEnableAnalysisTracing = m_app->GetEnableAnalysisTracing();
+	m_bEnableAnalysisDuringHints = m_app->GetEnableAnalysisDuringHints();
+	m_nTraceLevel = m_app->GetAnalysisTraceLevel() - 1;
+	m_bComputerCanClaim = m_app->GetComputerCanClaim();
 }
 
 CGameOptsMechanicsPage::~CGameOptsMechanicsPage()
@@ -84,13 +84,13 @@ END_MESSAGE_MAP()
 void CGameOptsMechanicsPage::Update()
 {
 	// store results
-	m_app.SetAutoBidStart(m_bAutoBidStart);
-	m_app.SetComputerCanClaim(m_bComputerCanClaim);
-	m_app.SetAllowRebidPassedHands(m_bAllowRebidPassedHand);
-	m_app.SetShowPassedHands(m_bShowPassedHands);
-	m_app.SetEnableAnalysisTracing(m_bEnableAnalysisTracing);
-	m_app.SetAnalysisTraceLevel(m_nTraceLevel + 1);
-	m_app.SetEnableAnalysisDuringHints(m_bEnableAnalysisDuringHints);
+	m_app->SetAutoBidStart(m_bAutoBidStart);
+	m_app->SetComputerCanClaim(m_bComputerCanClaim);
+	m_app->SetAllowRebidPassedHands(m_bAllowRebidPassedHand);
+	m_app->SetShowPassedHands(m_bShowPassedHands);
+	m_app->SetEnableAnalysisTracing(m_bEnableAnalysisTracing);
+	m_app->SetAnalysisTraceLevel(m_nTraceLevel + 1);
+	m_app->SetEnableAnalysisDuringHints(m_bEnableAnalysisDuringHints);
 }
 
 

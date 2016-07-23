@@ -9,6 +9,7 @@
 //
 // DealOptsSlamPage.h : header file
 //
+#include <memory>
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -26,12 +27,12 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsSlamPage(Settings* pApp=NULL);
+	CDealOptsSlamPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsSlamPage();
 
 // Dialog Data

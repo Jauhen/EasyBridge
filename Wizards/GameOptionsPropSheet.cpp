@@ -31,7 +31,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CGameOptionsPropSheet, CPropertySheet)
 
-CGameOptionsPropSheet::CGameOptionsPropSheet(Settings* pApp, CWnd* pParentWnd, UINT iSelectPage) :
+CGameOptionsPropSheet::CGameOptionsPropSheet(std::shared_ptr<Settings> pApp, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Game Options"), pParentWnd, iSelectPage)
 {
 	// create all pages

@@ -9,6 +9,8 @@
 //
 // CGameOptionsPropSheet.h : header file
 //
+#include <memory>
+
 class CObjectWithProperties;
 class CGameOptsMechanicsPage;
 class CGameOptsInterfacePage;
@@ -28,7 +30,7 @@ class AFX_EXT_CLASS CGameOptionsPropSheet : public CPropertySheet
 
 // Construction
 public:
-	CGameOptionsPropSheet(Settings* pApp=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+	CGameOptionsPropSheet(std::shared_ptr<Settings> pApp=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 
 // Attributes
 public:

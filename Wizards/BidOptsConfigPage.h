@@ -15,6 +15,8 @@
 #endif // _MSC_VER > 1000
 // BidConfigPage.h : header file
 //
+#include <memory>
+
 class Settings;
 class CObjectWithProperties;
 
@@ -37,7 +39,7 @@ private:
 
 // data
 private:
-	Settings&	m_app;
+  std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_conventionSet;
 	//
 	int		m_numNNetHiddenLayers;
@@ -46,7 +48,7 @@ private:
 
 // Construction
 public:
-	CBidOptsConfigPage(Settings* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsConfigPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsConfigPage();
 
 // Dialog Data

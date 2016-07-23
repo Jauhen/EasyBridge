@@ -9,6 +9,7 @@
 //
 // DealOptionsPropSheet.h : header file
 //
+#include <memory>
 class Settings;
 class CDealOptsPointsPage;
 class CDealOptsMinorsPage;
@@ -27,7 +28,7 @@ class AFX_EXT_CLASS CDealOptionsPropSheet : public CPropertySheet
 
 // Construction
 public:
-	CDealOptionsPropSheet(Settings* pApp=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage=0);
+	CDealOptionsPropSheet(std::shared_ptr<Settings> pApp=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage=0);
 	virtual ~CDealOptionsPropSheet();
 
 // Attributes
