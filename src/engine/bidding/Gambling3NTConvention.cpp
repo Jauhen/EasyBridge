@@ -79,7 +79,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 	// test for std and ACOL Gambling 3NT conditions
 	int numValidBidsMade = app_->GetDeal()->GetNumValidBidsMade();
 	if ( bStandardGambling3NT && (numValidBidsMade  == 0) && (ISSUIT(nSuit)) &&
-		 (bidState.fCardPts >= app_->OpenPoints(10)) && (bidState.fCardPts <= app_->OpenPoints(12)) &&
+		 (bidState.fCardPts >= app_->GetSettings()->OpenPoints(10)) && (bidState.fCardPts <= app_->GetSettings()->OpenPoints(12)) &&
 		 (bidState.numVoids == 0) && !bSmallSingletons &&
 		 (bidState.numSuitsStopped == 1) )
 	{
@@ -90,7 +90,7 @@ BOOL CGambling3NTConvention::TryConvention(const CPlayer& player,
 				  " go ahead and bid a Gambling 3NT.\n";
 	}
 	else if ( !bStandardGambling3NT && (numValidBidsMade == 0) && (ISSUIT(nSuit)) &&
-			 (bidState.fCardPts >= app_->OpenPoints(16)) && (bidState.fCardPts <= app_->OpenPoints(21)) &&
+			 (bidState.fCardPts >= app_->GetSettings()->OpenPoints(16)) && (bidState.fCardPts <= app_->GetSettings()->OpenPoints(21)) &&
 			 (bidState.numVoids == 0) && !bSmallSingletons &&
 			 (bidState.numSuitsStopped >= 3) )
 	{
@@ -168,7 +168,7 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 		{
 			// standard Gambling 3NT
 			status << "G3NT10! Partner bid a Gambling 3NT, indicating " &
-					   app_->OpenPoints(10) & "-" & app_->OpenPoints(12) & " HCPs, a solid 7+ card minor, "
+					   app_->GetSettings()->OpenPoints(10) & "-" & app_->GetSettings()->OpenPoints(12) & " HCPs, a solid 7+ card minor, "
 					   " no voids or small singletons, and no outside stoppers.\n";
 
 			// revalue partnership totals
@@ -203,7 +203,7 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 			// ACOL Gambling 3NT
 			// pass unless there's interest in slam
 			status << "G3NT20! Partner bid an ACOL Gambling 3NT, indicating " &
-					   app_->OpenPoints(16) & "-" & app_->OpenPoints(21) & " HCPs, a solid 7+ card minor, "
+					   app_->GetSettings()->OpenPoints(16) & "-" & app_->GetSettings()->OpenPoints(21) & " HCPs, a solid 7+ card minor, "
 					   " no voids or small singletons, and stoppers in at least 2 outside suits.\n";
 
 			// revalue partnership totals

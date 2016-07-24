@@ -54,7 +54,7 @@ BOOL CMichaelsCueBidConvention::TryConvention(const CPlayer& player,
 
 	// test conditions 1, 2, & 4
 	if ( ((bidState.nRHOBid >= BID_1C) && (bidState.nRHOBid <= BID_1S)) &&
-		 ( ((bidState.fPts >= app_->OpenPoints(6)) && (bidState.fPts <= app_->OpenPoints(11))) || ((bidState.fPts >= app_->OpenPoints(17))/*&& (bidState.fPts <= 18)*/) ) &&
+		 ( ((bidState.fPts >= app_->GetSettings()->OpenPoints(6)) && (bidState.fPts <= app_->GetSettings()->OpenPoints(11))) || ((bidState.fPts >= app_->GetSettings()->OpenPoints(17))/*&& (bidState.fPts <= 18)*/) ) &&
  		  (bidState.m_numBidTurns == 0) && (bidState.m_numPartnerBidTurns == 0) )
 	{
 		 // passed
@@ -295,7 +295,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR13! We'd like to bid 2NT to ask for partner's minor, but we can't do so after RHO's interference, so we have to pass.\n";
 			}
 		}
-		else if ((numTrumps >= 5) && (bidState.m_fMinTPPoints <= app_->PointCount(20)) &&
+		else if ((numTrumps >= 5) && (bidState.m_fMinTPPoints <= app_->GetSettings()->PointCount(20)) &&
 			ISMAJOR(nSuit) && (MAKEBID(nSuit, 4) > nLastValidBid))
 		{
 			// make a preemptive bid if possible
@@ -305,7 +305,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 					  " pts in the partnership, make a shutout bid in " & CCard::SuitToString(nSuit) & 
 					  " by jumping to " & BidToFullString(nBid) & ".\n";
 		}
-		else if (bidState.m_fMinTPPoints <= app_->PointCount(21))
+		else if (bidState.m_fMinTPPoints <= app_->GetSettings()->PointCount(21))
 		{
 			// respond at the 2-level
 			nBid = bidState.GetCheapestShiftBid(nSuit, nLastValidBid);
@@ -321,7 +321,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR21! After RHO interference, we don't have the points to go to the 3-level in response to partner's Michaels, so pass.\n";
 			}
 		}
-		else if (bidState.m_fMinTPPoints <= app_->PointCount(24))
+		else if (bidState.m_fMinTPPoints <= app_->GetSettings()->PointCount(24))
 		{
 			// bid at the 3-level
 			nBid = MAKEBID(nSuit, 3);
@@ -337,7 +337,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				status << "MCLR25! After RHO interference, we don't have the points to go to the 4-level in response to partner's Michaels, so pass.\n";
 			}
 		}
-		else if (ISMINOR(nSuit) && (bidState.m_fMinTPPoints <= app_->PointCount(27)))
+		else if (ISMINOR(nSuit) && (bidState.m_fMinTPPoints <= app_->GetSettings()->PointCount(27)))
 		{
 			// with 25+ pts, bid game
 			nBid = bidState.GetGameBid(nSuit);
@@ -385,15 +385,15 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		if (nPartnersSuit == nPartnersPrevSuit)
 		{
 			// partner has 17+ pts
-			bidState.AdjustPartnershipPoints(app_->OpenPoints(17), MIN(17,40 - bidState.fCardPts));
+			bidState.AdjustPartnershipPoints(app_->GetSettings()->OpenPoints(17), MIN(17,40 - bidState.fCardPts));
 
 			// bid 4NT to ask for the minor again
-			if (fPts >= app_->PointCount(15))
+			if (fPts >= app_->GetSettings()->PointCount(15))
 			{
 				// else make a natural game bid
 				nBid = BID_4NT;
 				status << "MCLR35! Partner cue bid the enemy suit again, indicating a strong Michaels opening hand with " &
-						   app_->OpenPoints(17) & "+ pts; so with " & 
+						   app_->GetSettings()->OpenPoints(17) & "+ pts; so with " & 
 						   bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						   " pts in the partnership, ask for the other minor by bidding " & BidToFullString(nBid) & ".\n";
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
@@ -403,7 +403,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 				// else make a natural 3NT game bid
 				nBid = BID_3NT;
 				status << "MCLR36! Partner cue bid the enemy suit again, indicating a strong Michaels opening hand with " &
-						   app_->OpenPoints(17) & "+ pts; but with " & 
+						   app_->GetSettings()->OpenPoints(17) & "+ pts; but with " & 
 						   bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 						   " pts in the partnership, stop at game with a natural bid of " & BidToFullString(nBid) & ".\n";
 				bidState.SetConventionStatus(this, CONV_FINISHED);
@@ -570,7 +570,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 
 		// if we're holding the STRONG Michaels hand indicate it by cue-bidding the
 		// enemy suit again
-		if (bidState.fPts >= app_->PointCount(17))
+		if (bidState.fPts >= app_->GetSettings()->PointCount(17))
 		{
 			nBid = MAKEBID(nPreviousSuit, 3);
 			status << "MCLRH12! with a strong Michaels hand (" & bidState.fPts & 
@@ -606,15 +606,15 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 
 			// respond affirmatively only with a strong hand
 			status << "2MCLRH20! Partner cue bid the enemy suit, which is a game or slam try.\n";
-			if (bidState.fPts >= app_->PointCount(17))
+			if (bidState.fPts >= app_->GetSettings()->PointCount(17))
 			{
 				// jump into Blackwood
 				status << "MCLRH21! And with " & bidState.fPts & " pts in hand, proceed towards slam in the preferred "&
 						  CCard::SuitToSingularString(bidState.nPrefSuit) & " suit.\n";
 				bidState.InvokeBlackwood(bidState.nPrefSuit);
 			}
-			else if ( (ISMAJOR(nCheapestSuit) && (bidState.fPts >= app_->PointCount(9))) ||
-				(ISMINOR(nCheapestSuit) && (bidState.fPts >= app_->PointCount(12))) )
+			else if ( (ISMAJOR(nCheapestSuit) && (bidState.fPts >= app_->GetSettings()->PointCount(9))) ||
+				(ISMINOR(nCheapestSuit) && (bidState.fPts >= app_->GetSettings()->PointCount(12))) )
 			{
 				// stop at game in the cheapest suit
 				nBid = bidState.GetGameBid(nCheapestSuit);
@@ -650,7 +650,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			status << "2MCLRH40! Partner responded to our Michaels Cue bid with a bid of " & 
 					  bidState.szPB & ", a possible invitation to game.\n";
 			// go to game with 17+ pts (strong hand)
-			if (fPts < app_->PointCount(17))
+			if (fPts < app_->GetSettings()->PointCount(17))
 			{
 				nBid = BID_PASS;	
 				status << "MCLRH41! But since we opened Michaels with a weak hand (" & fPts &
@@ -690,7 +690,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		// did we have the strong hand?
-		if (bidState.fPts >= app_->PointCount(17))
+		if (bidState.fPts >= app_->GetSettings()->PointCount(17))
 		{
 			// see what partner's reaction was
 			if (nPartnersSuit == BID_4NT)
@@ -708,7 +708,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 			// else partner's bid was natural
 			if (bidState.IsGameBid(nPartnersBid))
 			{
-				if (fPts < app_->PointCount(20))
+				if (fPts < app_->GetSettings()->PointCount(20))
 				{
 					status << "MCLRH55! Partner responded to our second Michaels cue bid with a game bid of " & 
 							  bidState.szPB & ", so we should pass.\n";
@@ -754,7 +754,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 						  bidState.szPB & ", a possible invitation to game.\n";
 
 				// go to game with 17+ pts (strong hand)
-				if (fPts < app_->PointCount(17))
+				if (fPts < app_->GetSettings()->PointCount(17))
 				{
 					nBid = BID_PASS;	
 					status << "MCLRH72! But since we opened Michaels with a weak hand (" & fPts &
@@ -796,7 +796,7 @@ BOOL CMichaelsCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		// to see our minor, _then_ bid
 		if (bidState.IsGameBid(nPartnersBid))
 		{
-			if (fPts < app_->PointCount(20))
+			if (fPts < app_->GetSettings()->PointCount(20))
 			{
 				status << "MCLRH80! Partner responded to our Michaels minor answer with a game bid of " & 
 						  bidState.szPB & ", so we should pass.\n";

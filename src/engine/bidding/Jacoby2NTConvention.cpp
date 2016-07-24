@@ -50,7 +50,7 @@ BOOL CJacoby2NTConvention::TryConvention(const CPlayer& player,
 	// test conditions 1 - 4
 	if ( ISBID(nOpeningBid) && (nOpeningBid == nPartnersBid) && 
 		 (ISMAJOR(BID_SUIT(bidState.nPartnersBid))) && (bidState.nPartnersBidLevel == 1) &&
-		 (bidState.m_numBidTurns == 0) && (bidState.fPts >= app_->OpenPoints(13)) &&
+		 (bidState.m_numBidTurns == 0) && (bidState.fPts >= app_->GetSettings()->OpenPoints(13)) &&
 		 (bidState.numSupportCards >= 4) )
 	{
 		 // passed the test
@@ -135,7 +135,7 @@ BOOL CJacoby2NTConvention::RespondToConvention(const CPlayer& player,
 		}
 
 		status << "J2N20! Partner has made a Jacoby 2NT inquiry bid, indicating " & 
-				  app_->OpenPoints(13) & " pts and 4+ card support.\n";
+				  app_->GetSettings()->OpenPoints(13) & " pts and 4+ card support.\n";
 
 		// adjust points as declarer
 		int nSuit = bidState.nPreviousSuit;
@@ -280,7 +280,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 			// partner responded in the suit at the 3-level, for 18+ pts
 			status << "J2N40! Partner responded to our Jacoby 2NT inquiry by rebidding his " & 
 					   CCard::SuitToSingularString(nPrevSuit) & " suit at the 3-level, indicating " & 
-					   app_->OpenPoints(18) & "+ points.\n";
+					   app_->GetSettings()->OpenPoints(18) & "+ points.\n";
 
 			// revalue partnership totals
 			bidState.AdjustPartnershipPoints(18, app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints));
@@ -289,7 +289,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner responded in a different suit at the 3-level
 			status << "J2N41! Partner responded to our Jacoby 2NT inquiry by bidding the " & 
-					   CCard::SuitToSingularString(nSuit) & " suit at the 3-level, indicating " & app_->OpenPoints(15) & "-" & app_->OpenPoints(17) & 
+					   CCard::SuitToSingularString(nSuit) & " suit at the 3-level, indicating " & app_->GetSettings()->OpenPoints(15) & "-" & app_->GetSettings()->OpenPoints(17) & 
 					   " points and a singleton or void in " & CCard::SuitToString(nSuit) & ".\n";
 
 			// revalue partnership totals
@@ -299,7 +299,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner responded with 3NT
 			status << "J2N42! Partner responded to our Jacoby 2NT inquiry by bidding 3NT, indicating " &
-					   app_->OpenPoints(15) & "-" & app_->OpenPoints(17) & " points with a balanced hand.\n";
+					   app_->GetSettings()->OpenPoints(15) & "-" & app_->GetSettings()->OpenPoints(17) & " points with a balanced hand.\n";
 
 			// revalue partnership totals
 			bidState.AdjustPartnershipPoints(15, 17);
@@ -309,7 +309,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 			// partner responded in a different suit at the 4-level
 			status << "J2N44! Partner responded to our Jacoby 2NT inquiry by bidding the " & 
 					   CCard::SuitToSingularString(nSuit) & " suit at the 4-level, indicating a strong 5-card side suit and " & 
-					   app_->OpenPoints(15) & "-" & app_->OpenPoints(17) & " points in the hand.\n";
+					   app_->GetSettings()->OpenPoints(15) & "-" & app_->GetSettings()->OpenPoints(17) & " points in the hand.\n";
 
 			// revalue partnership totals
 			bidState.AdjustPartnershipPoints(15, 17);
@@ -319,7 +319,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 			// partner responded in the original suit at the 4-level
 			status << "J2N44! Partner responded to our Jacoby 2NT inquiry by rebidding his " & 
 					   CCard::SuitToSingularString(nSuit) & " suit at the 4-level, indicating a minimum opener of approx. " & 
-					   app_->OpenPoints(12) & "-" & app_->OpenPoints(14) & " points in the hand.\n";
+					   app_->GetSettings()->OpenPoints(12) & "-" & app_->GetSettings()->OpenPoints(14) & " points in the hand.\n";
 
 			// revalue partnership totals
 			bidState.AdjustPartnershipPoints(12, 14);

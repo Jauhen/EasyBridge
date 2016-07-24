@@ -151,7 +151,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		}
 
 		status << "DRUR10! Partner has made a Drury bid of 2 Club, indicating " & 
-				  app_->OpenPoints(11) & "-" & app_->OpenPoints(12) &" pts and 3+ card support.\n";
+				  app_->GetSettings()->OpenPoints(11) & "-" & app_->GetSettings()->OpenPoints(12) &" pts and 3+ card support.\n";
 
 		// delay adjusting points until later count as declarer
 		int nSuit = bidState.nPreviousSuit;
@@ -161,7 +161,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		bidState.AdjustPartnershipPoints(11, 12);
 
 		// if we opened light, respond in the suit at the 2-level
-		if (fCardPts <= app_->PointCount(12))
+		if (fCardPts <= app_->GetSettings()->PointCount(12))
 		{
 			// we opened with <= 11 pts (actual, before adjusting for trump fit)
 			nBid = MAKEBID(nSuit, 2);
@@ -235,7 +235,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner opened with normal values (12+ HCPs)
 			status << "DRUR40! Partner responded to our Drury with a bid of 2D, indicating a normal opening hand of " &
-					  app_->OpenPoints(12) & "+ HCPs.\n";
+					  app_->GetSettings()->OpenPoints(12) & "+ HCPs.\n";
 
 			// revalue hand
 			double fPts = bidState.fAdjPts = hand.RevalueHand(REVALUE_DUMMY, nSuit, TRUE);

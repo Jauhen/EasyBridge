@@ -270,6 +270,18 @@ public:
     return m_numConventionSets;
   }
 
+  double OpenPoints(double points) {
+    return points - GetBiddingAgressiveness()*0.5;
+  }
+
+  double PointCount(double points) {
+    return points - GetBiddingAgressiveness()*0.5;
+  }
+  bool IsInManualCardPlayMode() {
+    return GetCardPlayMode() == Settings::PLAY_MANUAL;
+  }
+
+
 
   static double m_fDefaultMajorSuitGamePts;
   static double m_fDefaultMinorSuitGamePts;

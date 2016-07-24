@@ -24,7 +24,7 @@
 #include "engine/play/DefenderPlayEngine.h"
 #include "model/deal.h"
 #include "app_interface.h"
-
+#include "model/settings.h"
 
 
 
@@ -387,7 +387,7 @@ void CDefenderPlayEngine::AssessPosition()
 	CPlayEngine::AssessPosition();
 
 	// then perform class-specific operations
-	m_bUsingGIB = app_->IsEnableGIBForDefender();
+	m_bUsingGIB = app_->GetSettings()->GetEnableGIBForDefender();
 }
 
 

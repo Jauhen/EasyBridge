@@ -32,12 +32,12 @@
 
 
 // honors values
-#define HONOR_VALUE(x)	theApp.m_fHonorValue[x]
-#define ACE_VALUE		theApp.m_fHonorValue[ACE]
-#define KING_VALUE		theApp.m_fHonorValue[KING]
-#define QUEEN_VALUE		theApp.m_fHonorValue[QUEEN]
-#define JACK_VALUE		theApp.m_fHonorValue[JACK]
-#define TEN_VALUE		theApp.m_fHonorValue[TEN]
+#define HONOR_VALUE(x) Settings::m_fHonorValue[x]
+#define ACE_VALUE Settings::m_fHonorValue[ACE]
+#define KING_VALUE Settings::m_fHonorValue[KING]
+#define QUEEN_VALUE Settings::m_fHonorValue[QUEEN]
+#define JACK_VALUE Settings::m_fHonorValue[JACK]
+#define TEN_VALUE Settings::m_fHonorValue[TEN]
 
 //
 /*

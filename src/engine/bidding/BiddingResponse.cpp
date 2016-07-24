@@ -457,7 +457,7 @@ int CBidEngine::MakeRespondingBid()
 
 		//
 		m_fPartnersMin = m_pPartner->GetMinimumOpeningValue();
-		m_fPartnersMax = app_->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)) - 1;
+		m_fPartnersMax = app_->GetSettings()->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)) - 1;
 		//
 		if ((m_pPartner->GetOpeningPosition() == 0) ||		
 				(m_pPartner->GetOpeningPosition() == 1)) 
@@ -486,14 +486,14 @@ int CBidEngine::MakeRespondingBid()
 		// also pass if we have < 6 unadjusted pts with nothing but 
 		// support for partner's minor
 		//
-		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts < app_->OpenPoints(6))) ||
-			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts < app_->OpenPoints(6))) ||
-			(ISMINOR(nPartnersSuit) && (fPts < app_->OpenPoints(6))) ) 
+		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts < app_->GetSettings()->OpenPoints(6))) ||
+			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts < app_->GetSettings()->OpenPoints(6))) ||
+			(ISMINOR(nPartnersSuit) && (fPts < app_->GetSettings()->OpenPoints(6))) ) 
 		{
 			// pass
 			m_nBid = BID_PASS;
 			// check if the extra support points are wasted
-			if ((fAdjPts > app_->OpenPoints(5)) && (nPartnersSuitSupport < SS_WEAK_SUPPORT))
+			if ((fAdjPts > app_->GetSettings()->OpenPoints(5)) && (nPartnersSuitSupport < SS_WEAK_SUPPORT))
 				status << "F02! But we have only " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points with weak trump support, so we have to pass.\n";
 			else if (ISMAJOR(nPartnersSuit))
@@ -524,20 +524,20 @@ int CBidEngine::MakeRespondingBid()
 		// for responding are stricter if we're responding to a minor
 		//
 		if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-							(fPts >= app_->OpenPoints(6)) && (fPts < app_->OpenPoints(11))) ||
+							(fPts >= app_->GetSettings()->OpenPoints(6)) && (fPts < app_->GetSettings()->OpenPoints(11))) ||
 			 (ISMAJOR(nPartnersSuit) && 
 							(nPartnersSuitSupport >= SS_WEAK_SUPPORT) && 
-				 			(fAdjPts >= app_->OpenPoints(6)) && (fAdjPts < app_->OpenPoints(11))) || 
+				 			(fAdjPts >= app_->GetSettings()->OpenPoints(6)) && (fAdjPts < app_->GetSettings()->OpenPoints(11))) || 
 			 (ISMINOR(nPartnersSuit) && 
 							(nPartnersSuitSupport >= SS_WEAK_SUPPORT) && 
-				 			(fPts >= app_->OpenPoints(6)) && (fAdjPts < app_->OpenPoints(11))) ) 
+				 			(fPts >= app_->GetSettings()->OpenPoints(6)) && (fAdjPts < app_->GetSettings()->OpenPoints(11))) ) 
 		{
 
 			// look for a triple raise in a major suit
 			// need 5+ trumps, 6-10 HCPs, 
 			// and a void or a singleton
 			if ((ISMAJOR(nPartnersSuit)) && 
-				(fCardPts >= app_->OpenPoints(6)) && (fCardPts < app_->OpenPoints(10)) &&
+				(fCardPts >= app_->GetSettings()->OpenPoints(6)) && (fCardPts < app_->GetSettings()->OpenPoints(10)) &&
 				(numSupportCards >= 5) &&
 				((numVoids > 0) || (numSingletons > 0)) ) 
 			{
@@ -652,7 +652,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 			// bid 2/1 with 10 HCPs and a good suit
-			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->OpenPoints(10)) &&
+			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->GetSettings()->OpenPoints(10)) &&
 					(nPrefSuitStrength >= SS_OPENABLE)) 
 			{
 				// move to the 2 level with the lower suit
@@ -665,7 +665,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 			// bid 2/1 with 9 pts and a really good suit
-			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->OpenPoints(9)) &&
+			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->GetSettings()->OpenPoints(9)) &&
 					 (nPrefSuitStrength >= SS_STRONG) && (bPrefSuitIsSolid)) 
 			{
 				// move to the 2 level with the lower suit
@@ -696,7 +696,7 @@ int CBidEngine::MakeRespondingBid()
 			// bid a higher minor if possible
 			// i.e., Diamonds over clubs
 			if ((nPartnersSuit == CLUBS) && 
-				(nPrefSuit == DIAMONDS) && (fPts >= app_->OpenPoints(6)) &&
+				(nPrefSuit == DIAMONDS) && (fPts >= app_->GetSettings()->OpenPoints(6)) &&
 				(nPrefSuitStrength >= SS_OPENABLE)) 
 			{
 				m_nBid = BID_1D;
@@ -767,16 +767,16 @@ int CBidEngine::MakeRespondingBid()
 		// but if playing limit raises, can raise w/ 4 trumps
 		//
 		if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-						(fPts >= app_->OpenPoints(11)) && (fPts < app_->OpenPoints(13))) ||
+						(fPts >= app_->GetSettings()->OpenPoints(11)) && (fPts < app_->GetSettings()->OpenPoints(13))) ||
 			 ((nPartnersSuitSupport >= SS_WEAK_SUPPORT) &&
-					    (fAdjPts >= app_->OpenPoints(11)) && (fAdjPts < app_->OpenPoints(13))) ) 
+					    (fAdjPts >= app_->GetSettings()->OpenPoints(11)) && (fAdjPts < app_->GetSettings()->OpenPoints(13))) ) 
 		{
 
 			// note, however, that this point range can still
 			// look attractive for a triple raise if we have
 			// less than 10 High Card points
 			if ((ISMAJOR(nPartnersSuit)) && 
-				(fCardPts > app_->OpenPoints(5)) && (fCardPts < app_->OpenPoints(10)) &&
+				(fCardPts > app_->GetSettings()->OpenPoints(5)) && (fCardPts < app_->GetSettings()->OpenPoints(10)) &&
 				(numSupportCards >= 5) &&
 				((numVoids > 0) || (numSingletons > 0)) ) 
 			{
@@ -799,7 +799,7 @@ int CBidEngine::MakeRespondingBid()
 			// look for a limit raise of partner's major suit
 			if ((ISMAJOR(nPartnersSuit)) &&
 				  (PlayingConvention(tidLimitRaises)) &&
-									(fAdjPts >= app_->OpenPoints(11)) && 
+									(fAdjPts >= app_->GetSettings()->OpenPoints(11)) && 
 									(numSupportCards >= 4)) 
 			{	
 				m_nAgreedSuit = nPartnersSuit;
@@ -871,7 +871,7 @@ int CBidEngine::MakeRespondingBid()
 			// major opening to a 2 or 3 level
 			// raise to the 3 level with 11-12 pts 
 			// only if holding _very_ strong trump support
-			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts >= app_->OpenPoints(11)) && 
+			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts >= app_->GetSettings()->OpenPoints(11)) && 
 							(nPartnersSuitSupport > SS_GOOD_SUPPORT)) 
 			{
 				m_nAgreedSuit = nPartnersSuit;
@@ -885,7 +885,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 	 		// else raise a major suit to 2 with 11-12.5 pts and weak trump support
-			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts < app_->OpenPoints(13)) &&
+			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts < app_->GetSettings()->OpenPoints(13)) &&
 							(nPartnersSuitSupport >= SS_WEAK_SUPPORT)) 
 			{
 				m_nAgreedSuit = nPartnersSuit;
@@ -983,9 +983,9 @@ int CBidEngine::MakeRespondingBid()
 		// (13-18 orig pts or 13-18.5 reval. pts w/ trump support)
 		// 
 		if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-						(fPts >= app_->OpenPoints(13)) && (fPts < app_->OpenPoints(19))) ||
+						(fPts >= app_->GetSettings()->OpenPoints(13)) && (fPts < app_->GetSettings()->OpenPoints(19))) ||
 			 ((nPartnersSuitSupport >= SS_WEAK_SUPPORT) &&
-			 			(fAdjPts >= app_->OpenPoints(13)) && (fAdjPts < app_->OpenPoints(19))) ) 
+			 			(fAdjPts >= app_->GetSettings()->OpenPoints(13)) && (fAdjPts < app_->GetSettings()->OpenPoints(19))) ) 
 		{
 
 			// see if we have good support for partner's major suit
@@ -1066,7 +1066,7 @@ int CBidEngine::MakeRespondingBid()
 				   
 			if ((!PlayingConvention(tidLimitRaises)) &&
 				(ISMAJOR(nPartnersSuit)) && 
-				(fAdjPts >= app_->OpenPoints(16)) && (numSupportCards >= 4)) 
+				(fAdjPts >= app_->GetSettings()->OpenPoints(16)) && (numSupportCards >= 4)) 
 			{
 				// we can sneak in a double raise with 16+ pts & 4 small trumps
 				m_nAgreedSuit = nPartnersSuit;
@@ -1129,8 +1129,8 @@ int CBidEngine::MakeRespondingBid()
 		// Responding to a 1-bid, with 19+ pts in hand
 		// Make a jump response in a new suit
 		// 
-		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts >= app_->OpenPoints(19))) ||
-			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts >= app_->OpenPoints(19))) ) 
+		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts >= app_->GetSettings()->OpenPoints(19))) ||
+			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts >= app_->GetSettings()->OpenPoints(19))) ) 
 		{
 		
 			// if we have a different preferred suit, respond in that

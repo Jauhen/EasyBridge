@@ -168,8 +168,8 @@ int CBidEngine::MakeRebidAsOpener()
 	{
 
 		//
-		m_fPartnersMin = app_->OpenPoints(6);
-		m_fPartnersMax = app_->OpenPoints(10);
+		m_fPartnersMin = app_->GetSettings()->OpenPoints(6);
+		m_fPartnersMax = app_->GetSettings()->OpenPoints(10);
 		//
 		status << "B3J00! With a 1NT response, partner is showing " &
 				  m_fPartnersMin & "-" & m_fPartnersMax & 
@@ -813,12 +813,12 @@ int CBidEngine::MakeRebidAsOpener()
 	{
 
 		//
-		m_fPartnersMin = app_->OpenPoints(6);
-		m_fPartnersMax = app_->OpenPoints(18);
+		m_fPartnersMin = app_->GetSettings()->OpenPoints(6);
+		m_fPartnersMax = app_->GetSettings()->OpenPoints(18);
 		// adjust max downwards if partner previously passed
 		if (nPartnersPrevBid == BID_PASS)
 		{
-			m_fPartnersMax = app_->OpenPoints(12);
+			m_fPartnersMax = app_->GetSettings()->OpenPoints(12);
 			status << "2B3U00a! Partner has made a 1 over 1 bid after an earlier pass, " & szPS & " over " & szPVS & 
 					  ", which shows " & m_fPartnersMin & "-" & m_fPartnersMax & 
 					  " points and is forcing for one round.\n";
@@ -1244,12 +1244,12 @@ int CBidEngine::MakeRebidAsOpener()
 	{
 
 		//
-		m_fPartnersMin = app_->OpenPoints(10);
-		m_fPartnersMax = app_->OpenPoints(18);
+		m_fPartnersMin = app_->GetSettings()->OpenPoints(10);
+		m_fPartnersMax = app_->GetSettings()->OpenPoints(18);
 		// adjust max downwards if partner previously passed
 		if (nPartnersPrevBid == BID_PASS)
 		{
-			m_fPartnersMax = app_->OpenPoints(12);
+			m_fPartnersMax = app_->GetSettings()->OpenPoints(12);
 			status << "2B3W00a! Partner has made a 2 over 1 bid following an earlier pass, " & szPS & " over " & szPVS & 
 					  ", which shows " & m_fPartnersMin & "-" & m_fPartnersMax & 
 					  " points and is forcing for one round.\n";
@@ -1545,8 +1545,8 @@ int CBidEngine::MakeRebidAsOpener()
 		}
 		else
 		{
-			m_fPartnersMin = app_->OpenPoints(19);
-			m_fPartnersMax = MIN(app_->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)), 40 - fCardPts);
+			m_fPartnersMin = app_->GetSettings()->OpenPoints(19);
+			m_fPartnersMax = MIN(app_->GetSettings()->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)), 40 - fCardPts);
 		}
 		status << "2B3Y00! Partner has made a jump shift to " & szPB & " after our opening " &
 				   szPVB & " bid, which indicates " & m_fPartnersMin  &

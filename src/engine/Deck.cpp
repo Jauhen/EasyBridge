@@ -100,7 +100,7 @@ void CDeck::Initialize()
 {
   InitializeCards();
 	// read in some values
-	m_nCurrCardBack = app_->GetProfileInt(szDeckSettings, szCurrentCardBack, 0);
+	m_nCurrCardBack = app_->GetSettings()->ReadIntConfig(szDeckSettings, szCurrentCardBack, 0);
   // init the time
   m_nPrevTime = time(NULL);
 
@@ -228,7 +228,7 @@ void CDeck::InitializeBitmaps()
 void CDeck::Terminate() 
 {
 	// write out some settings
-	app_->WriteProfileInt(szDeckSettings, szCurrentCardBack, m_nCurrCardBack);
+	app_->GetSettings()->WriteIntConfig(szDeckSettings, szCurrentCardBack, m_nCurrCardBack);
 
 	//
 	int nSuit,nValue,nCount=0;

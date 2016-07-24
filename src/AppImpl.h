@@ -36,56 +36,16 @@ public:
     return pCurrConvSet;
   }
 
-  virtual double OpenPoints(double points) {
-    return points - theApp.GetSettings()->GetBiddingAgressiveness()*0.5;
-  }
-
-  virtual double PointCount(double points) {
-    return points - theApp.GetSettings()->GetBiddingAgressiveness()*0.5;
-  }
-
-  virtual int GetProfileInt(const char* app, const char* key, int defaultValue) {
-    return theApp.GetProfileInt(app, key, defaultValue);
-  }
-
-  virtual void WriteProfileInt(const char* app, const char* key, int defaultValue) {
-    theApp.WriteProfileInt(app, key, defaultValue);
-  }
-
-  virtual bool IsInManualCardPlayMode() {
-    return theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_MANUAL;
-  }
-
   virtual bool AreCardsFaceUp() {
     return theApp.AreCardsFaceUpSettings() == TRUE;
-  }
-
-  virtual bool IsEnableGIBForDeclarer() {
-    return theApp.GetSettings()->GetEnableGIBForDeclarer();
   }
 
   virtual CGIB& GetGIB() {
     return *(theApp.GetGIB());
   }
 
-  virtual bool IsComputerCanClaim() {
-    return theApp.GetSettings()->GetComputerCanClaim();
-  }
-
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
     return gib.Invoke(player, hand, dummyHand, statusDialog);
-  }
-
-  virtual bool IsEnableGIBForDefender() {
-    return theApp.GetSettings()->GetEnableGIBForDefender();
-  }
-
-  virtual double GetHonorValue(int faceValue) {
-    return Settings::m_fHonorValue[faceValue];
-  }
-
-  virtual int GetSuitSequence(int index) const {
-    return theApp.GetSettings()->GetSuitSequence(index);
   }
 
   virtual bool IsAcelessPenalty() {

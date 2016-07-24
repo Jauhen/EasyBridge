@@ -42,9 +42,7 @@ protected:
     EXPECT_CALL(*app, ClearMode(false)).Times(AnyNumber());
     EXPECT_CALL(*app, IsFullAutoPlayMode()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsFullAutoExpressPlayMode()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*app, GetSuitSequence(_)).WillRepeatedly(Return('H'));
     EXPECT_CALL(*app, GetSuitToScreenIndex(_)).WillRepeatedly(Return(2));
-    EXPECT_CALL(*app, GetHonorValue(_)).WillRepeatedly(Return(1));
     EXPECT_CALL(*app, IsCountShortSuits()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsPenalizeUGHonors()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsAcelessPenalty()).WillRepeatedly(Return(false));

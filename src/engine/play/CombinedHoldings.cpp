@@ -20,6 +20,7 @@
 #include "engine/handopts.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 //
@@ -381,7 +382,7 @@ void CCombinedHoldings::Sort()
 		}
 		m_strHolding += strTemp;
 		// then the screen-order holding
-		int nSuit = app_->GetSuitSequence(i);
+		int nSuit = app_->GetSettings()->GetSuitSequence(i);
 		strTemp.Format("%c:", CCard::GetSuitLetter(nSuit));
 		if (m_pSuit[i]->GetLength() == 0) 
 		{
