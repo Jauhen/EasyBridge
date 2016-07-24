@@ -9,7 +9,8 @@
 //
 // GameOptsScoringPage.h : header file
 //
-class CObjectWithProperties;
+#include <memory>
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsScoringPage dialog
@@ -24,12 +25,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CGameOptsScoringPage(CObjectWithProperties* pApp=NULL);
+	CGameOptsScoringPage(std::shared_ptr<Settings> pApp=NULL);
 	~CGameOptsScoringPage();
 
 // Dialog Data

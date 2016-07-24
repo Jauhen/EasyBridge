@@ -16,6 +16,7 @@
 #include "engine/bidding/CueBidConvention.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 //
@@ -518,7 +519,7 @@ BOOL CCueBidConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		//
-		if ((bidState.m_fMinTPPoints < app_->SlamPts() ) || (!bAllFourControls))
+		if ((bidState.m_fMinTPPoints < PTS_SLAM ) || (!bAllFourControls))
 		{
 			// gotta stop below slam
 			nBid = bidState.GetCheapestShiftBid(nAgreedSuit);

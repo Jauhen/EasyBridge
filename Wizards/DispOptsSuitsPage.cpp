@@ -14,7 +14,8 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "DispOptsSuitsPage.h"
-#include "progopts.h"
+#include "model/settings.h"
+#include <memory>
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -26,16 +27,16 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsSuitsPage, CPropertyPage)
 
-CDispOptsSuitsPage::CDispOptsSuitsPage(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) : 
+CDispOptsSuitsPage::CDispOptsSuitsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
 		CPropertyPage(CDispOptsSuitsPage::IDD),
-		m_app(*pApp), m_frame(*pFrame), m_view(*pView)
+		m_app(pApp), m_frame(*pFrame), m_view(*pView)
 {
 	//{{AFX_DATA_INIT(CDispOptsSuitsPage)
 	m_nSuitSeqOption = -1;
 	m_bShowDummyTrumpsOnLeft = FALSE;
 	//}}AFX_DATA_INIT
-	m_nSuitSeqOption = m_app.GetValue(tnSuitSequenceOption);
-	m_bShowDummyTrumpsOnLeft = m_app.GetValue(tbShowDummyTrumpsOnLeft);
+	m_nSuitSeqOption = m_app->GetSuitSequenceOption();
+	m_bShowDummyTrumpsOnLeft = m_app->GetShowDummyTrumpsOnLeft();
 }
 
 CDispOptsSuitsPage::~CDispOptsSuitsPage()
@@ -69,11 +70,11 @@ BOOL CDispOptsSuitsPage::Update()
 {
 	// store results & return if changes affect the display
 	BOOL bChanged = FALSE;
-	if ( (m_nSuitSeqOption != m_app.GetValue(tnSuitSequenceOption)) ||
-		 (m_bShowDummyTrumpsOnLeft != m_app.GetValue(tbShowDummyTrumpsOnLeft)) )
+	if ( (m_nSuitSeqOption != m_app->GetSuitSequenceOption()) ||
+		 (m_bShowDummyTrumpsOnLeft != m_app->GetShowDummyTrumpsOnLeft()) )
 		bChanged = TRUE;
-	m_app.SetValue(tnSuitSequenceOption, m_nSuitSeqOption);
-	m_app.SetValue(tbShowDummyTrumpsOnLeft, m_bShowDummyTrumpsOnLeft);
+	m_app->SetSuitSequenceOption(m_nSuitSeqOption);
+	m_app->SetShowDummyTrumpsOnLeft(m_bShowDummyTrumpsOnLeft);
 	//
 	return bChanged;
 }

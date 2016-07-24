@@ -23,6 +23,10 @@
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
 #include "model/deal.h"
+#include "model/globals.h"
+#include "model/settings.h"
+
+
 
 //
 //---------------------------------------------------------------
@@ -62,7 +66,7 @@ int CBidEngine::RespondToTripleRaise()
 	//
 	// < 3 TPs:  pass
 	//		
-	if (m_fMinTPPoints < app_->SlamPts() )
+	if (m_fMinTPPoints < PTS_SLAM )
 	{
 		m_nBid = BID_PASS;
 		status << "Q10! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
@@ -81,7 +85,7 @@ int CBidEngine::RespondToTripleRaise()
 	else 
 	{
 		// oops, too high -- bid slam directly
-		if ((m_fMinTPPoints >= app_->GrandSlamPts() ) && (nPartnersBidLevel <= 6))
+		if ((m_fMinTPPoints >= PTS_GRAND_SLAM ) && (nPartnersBidLevel <= 6))
 		{
 			m_nBid = MAKEBID(m_nAgreedSuit, 7);
 			status << "Q20! With " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
@@ -154,7 +158,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	//
 	// 18-22 pts:  pass
 	//		
-	if (m_fMinTPPoints <= app_->GamePts() -4) 
+	if (m_fMinTPPoints <= PTS_GAME -4) 
 	{
 		m_nBid = BID_PASS;
 		if (nPartnersBid > nOpponentsBid)
@@ -171,7 +175,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	// with 23-25 pts and 6-7 playing tricks, bid a support suit
 	// with 24-25 pts and 7+ playing tricks, bid 3 of the suit to invite game
 	//		
-	if ((m_fMinTPPoints >= app_->GamePts() -4) && (m_fMinTPPoints < app_->GamePts() )) 
+	if ((m_fMinTPPoints >= PTS_GAME -4) && (m_fMinTPPoints < PTS_GAME )) 
 	{
 		//
 		// first see if partner has already made a game-level bid
@@ -242,7 +246,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 
 			// else w/ 6-7 playing tricks, look at point count
 			// bid 3 with only 22 TPs
-			if (m_fMinTPPoints == app_->GamePts() -3) 
+			if (m_fMinTPPoints == PTS_GAME -3) 
 			{
 				m_nBid = MAKEBID(m_nAgreedSuit,3);
 				status << "R12! Using the modified trick count, we have " & nTricks & 
@@ -282,7 +286,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 	//  with a major suit, bid game
 	//  with a minor, bid a support suit or game
 	//		
-	if ((m_fMinTPPoints >= app_->GamePts() ) && (m_fMinTPPoints < app_->SlamPts() )) 
+	if ((m_fMinTPPoints >= PTS_GAME ) && (m_fMinTPPoints < PTS_SLAM )) 
 	{
 		if (IsGameBid(nPartnersBid)) 
 		{
@@ -311,7 +315,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 		//
 		// first see if we can play in notrumps (need 26+ HCPs)
 		//
-		if ((m_fMinTPCPoints >= app_->NTGamePts() ) && (nPartnersBidLevel <= 3) &&
+		if ((m_fMinTPCPoints >= PTS_NT_GAME ) && (nPartnersBidLevel <= 3) &&
 					(m_pHand->AllOtherSuitsStopped(m_nAgreedSuit))) 
 		{
 			// jump to 3NT
@@ -324,7 +328,7 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 
 		// otherwise try for a game in minors; 
 		// show a support suit with < 29 TPs
-		if (m_fMinTPPoints < app_->MinorSuitGamePts() )
+		if (m_fMinTPPoints < PTS_MINOR_GAME )
 		{
 			// find a support suit, if appropriate
 			if (nPartnersBidLevel < 3)
@@ -457,7 +461,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 	//
 	// 24-30 total min pts:  move towards game
 	//		
-	if (m_fMinTPPoints <= app_->MinorSuitGamePts() +1) 
+	if (m_fMinTPPoints <= PTS_MINOR_GAME +1) 
 	{
 		//
 		// first see if partner has already made a game-level bid
@@ -491,12 +495,12 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			if (ISMAJOR(m_nAgreedSuit)) 
 			{
 				// bid at the 3-level or straight to game
-				if ((m_fMinTPPoints >= app_->GamePts() ) && (nPartnersBidLevel < 4))
+				if ((m_fMinTPPoints >= PTS_GAME ) && (nPartnersBidLevel < 4))
 				{
 					m_nBid = MAKEBID(m_nAgreedSuit,4);
 					status << "S10! We have " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 							  " total points in the partnership, so bid" &
-							  ((m_fMinTPPoints >= app_->GamePts() )? " game at " :  " ") & BidToFullString(m_nBid) & ".\n";
+							  ((m_fMinTPPoints >= PTS_GAME )? " game at " :  " ") & BidToFullString(m_nBid) & ".\n";
 				}
 				else
 				{
@@ -512,7 +516,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			// need zero voids and singletons, 26 HCPs,
 			// & all suits stopped
 			if ((numVoids == 0) && (numSingletons == 0) &&
-						(m_fMinTPCPoints >= app_->NTGamePts() ) && (nPartnersBidLevel <= 3) &&
+						(m_fMinTPCPoints >= PTS_NT_GAME ) && (nPartnersBidLevel <= 3) &&
 						m_pHand->AllOtherSuitsStopped(m_nAgreedSuit)) 
 			{
 				m_nBid = BID_3NT;
@@ -523,7 +527,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			}
 
 			// with a minor and < 26 pts, pass
-			if (m_fMinTPPoints < app_->MinorSuitGamePts() -3) 
+			if (m_fMinTPPoints < PTS_MINOR_GAME -3) 
 			{
 				// find a support suit
 				m_nBid = BID_PASS;
@@ -533,7 +537,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 			}
 
 			// else with 26-28 pts, steer towards a minor game
-			if (m_fMinTPPoints < app_->MinorSuitGamePts() ) 
+			if (m_fMinTPPoints < PTS_MINOR_GAME ) 
 			{
 				// bid a support suit if possible
 				if (nPartnersBidLevel < 4)
@@ -556,7 +560,7 @@ int CBidEngine::RespondToDoubleRaise(int nPartnersBid)
 
 			// here, we have a minor suit with 29-30 total pts;
 			// try for a game at the 5-level
-			if (m_fMinTPPoints >= app_->MinorSuitGamePts() ) 
+			if (m_fMinTPPoints >= PTS_MINOR_GAME ) 
 			{
 				if (nPartnersBidLevel <= 4)
 				{
@@ -1251,22 +1255,22 @@ BOOL CBidEngine::BidNoTrump(int nLevel, double fMinPts, double fMaxPts,
 BOOL CBidEngine::BidNoTrumpAsAppropriate(bool bMustBeBalanced, StoppedCode enCode, int nSuit)
 {
 	// bid 2NT with 23-25 HCPs
-	if (BidNoTrump(2,app_->NTGamePts() -3,app_->NTGamePts() -1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(2,PTS_NT_GAME -3,PTS_NT_GAME -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// or 3NT with 26-31 HCPs
-	if (BidNoTrump(3,app_->NTGamePts() ,app_->SlamPts() -1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(3,PTS_NT_GAME ,PTS_SLAM -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// a bid of 4NT is invitational to a small slam
-	if (BidNoTrump(4,app_->SlamPts() -2,app_->SlamPts() -1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(4,PTS_SLAM -2,PTS_SLAM -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// bid 6NT directly with with 33-34 pts
-	if (BidNoTrump(6,app_->SlamPts() ,app_->SlamPts() +1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(6,PTS_SLAM ,PTS_SLAM +1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// a bid of 5NT is invitational to a grand slam
-	if (BidNoTrump(5,app_->GrandSlamPts() -2,app_->GrandSlamPts() -1,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(5,PTS_GRAND_SLAM -2,PTS_GRAND_SLAM -1,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	// bid 7NT directly with 37+ pts
-	if (BidNoTrump(7,app_->GrandSlamPts() ,0,bMustBeBalanced,enCode,nSuit))
+	if (BidNoTrump(7,PTS_GRAND_SLAM ,0,bMustBeBalanced,enCode,nSuit))
 		return TRUE;
 	//
 	return FALSE;

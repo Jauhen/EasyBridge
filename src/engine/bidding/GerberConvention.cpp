@@ -17,6 +17,8 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
+
 
 //
 //==================================================================
@@ -100,13 +102,13 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 		// bid a grand slam if we have 37+ pts and the trump ace
 		// or a small slam with 32+ points
 		// or make the cheapest shift bid otherwise (D'oh!)
-		if ((fMinTPPoints >= app_->GrandSlamPts() +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
+		if ((fMinTPPoints >= PTS_GRAND_SLAM +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
 		{
 			nBid = MAKEBID(nEventualSuit, 7);
 			status << "2GERBX1! but since we have the points for a grand slam and we hold the trump ace, go ahead and bid " & 
 					  BidToFullString(nBid) & ".\n";
 		}
-		else if (fMinTPPoints >= app_->SlamPts() )
+		else if (fMinTPPoints >= PTS_SLAM )
 		{
 			nBid = MAKEBID(nEventualSuit, 6);
 			status << "2GERBX2! but since we have the points for a small slam, go ahead and bid " & 
@@ -134,13 +136,13 @@ BOOL CGerberConvention::InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, 
 		// bid a grand slam if we have 37+ pts and the trump ace
 		// or a small slam with 32+ points
 		// or make the cheapest shift bid otherwise (D'oh!)
-		if ((fMinTPPoints >= app_->SlamPts() +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
+		if ((fMinTPPoints >= PTS_SLAM +1) && (hand.SuitHasCard(nEventualSuit, ACE)))
 		{
 			nBid = MAKEBID(nEventualSuit, 7);
 			status << "2GERBY1! so since we have the points for a grand slam, go ahead and bid " & 
 					  BidToFullString(nBid) & ".\n";
 		}
-		else if (fMinTPPoints >= app_->SlamPts() )
+		else if (fMinTPPoints >= PTS_SLAM )
 		{
 			nBid = MAKEBID(nEventualSuit, 6);
 			status << "2GERBY2! so since we have the points for a small slam, go ahead and bid " & 
@@ -363,7 +365,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 		if (numTotalAces == 4)
 		{
 			// if we're close to a grand slam, go for it
-			if (fMinTPPoints >= app_->GrandSlamPts() -1)
+			if (fMinTPPoints >= PTS_GRAND_SLAM -1)
 			{
 				nBid = BID_5NT;
 				status << "GRB32! Our team holds all four aces, so proceed to 5NT to ask for kings.\n";
@@ -382,7 +384,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// oops, we don't have all 4 aces, so we gotta stop
 			// if we have 3 or fewer aces and less than 32 pts. then really panic
-			if ((numTotalAces <= 3) && (bidState.m_fMinTPPoints < app_->SlamPts() ))
+			if ((numTotalAces <= 3) && (bidState.m_fMinTPPoints < PTS_SLAM ))
 			{
 				int nTestBid = bidState.GetCheapestShiftBid(nAgreedSuit);
 				if (nTestBid <= BID_5NT)
@@ -488,7 +490,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 					  " points in the partnership, so go ahead and bid " & 
 					  BidToFullString(nBid) & ".\n";
 		}
-		else if ((numTotalKings == 3) && (fMinTPPoints >= app_->GrandSlamPts() ))
+		else if ((numTotalKings == 3) && (fMinTPPoints >= PTS_GRAND_SLAM ))
 		{
 			// we're missing a king but have good pts, so go for a grand
 			nBid = MAKEBID(nAgreedSuit, 7);
@@ -496,7 +498,7 @@ BOOL CGerberConvention::HandleConventionResponse(const CPlayer& player,
 					  fMinTPPoints & "-" & fMaxTPPoints & 
 					  " points in the partnership, we can go ahead and bid " & BidToFullString(nBid) & ".\n";
 		}
-		else if ((numTotalKings >= 3) && (fMinTPPoints >= app_->GrandSlamPts() +1))
+		else if ((numTotalKings >= 3) && (fMinTPPoints >= PTS_GRAND_SLAM +1))
 		{
 			// we're missing two kings but have good pts, so go for a grand
 			nBid = MAKEBID(nAgreedSuit, 7);

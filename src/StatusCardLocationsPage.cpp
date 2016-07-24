@@ -173,7 +173,7 @@ void CStatusCardLocationsPage::Update()
 	// return if not all inits are complete
 	if (!m_bInitialized)
 		return;
-	if ((pDOC == NULL) || !pDOC->GetDeal()->IsHandsDealt() || !theApp.IsGameInProgress())
+	if ((pDOC == NULL) || !pDOC->GetDeal()->IsHandsDealt() || !theApp.GetSettings()->GetGameInProgress())
 		return;
 
 	//
@@ -203,7 +203,7 @@ void CStatusCardLocationsPage::Update()
 	// and show the card info
 	for(int nIndex=0;nIndex<4;nIndex++)
 	{
-		int nSuit = theApp.GetSuitSequence(nIndex);
+		int nSuit = theApp.GetSettings()->GetSuitSequence(nIndex);
 		// first show the list of played cards
 		m_listHoldings.InsertItem(nIndex, "", nSuit);
 		// then set played cards field

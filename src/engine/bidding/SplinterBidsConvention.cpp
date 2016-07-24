@@ -15,6 +15,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/SplinterBidsConvention.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 
@@ -189,7 +190,7 @@ BOOL CSplinterBidsConvention::RespondToConvention(const CPlayer& player,
 
 
 	// with a bare minimum holding, stop at game
-	if (bidState.m_fMaxTPPoints < app_->SlamPts() )
+	if (bidState.m_fMaxTPPoints < PTS_SLAM )
 	{
 		// can't hope to make a slam, so stop at game
 		int nBid = bidState.GetGameBid(bidState.nPreviousSuit);

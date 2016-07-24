@@ -17,7 +17,6 @@
 #include "engine/Player.h"
 #include "TestPlayDialog.h"
 #include "subclass.h"
-#include "progopts.h"
 #include "MainFrameopts.h"
 #include "mmsystem.h"
 
@@ -270,15 +269,15 @@ void CTestPlayDialog::OnStart()
 	pDOC->GetDeal()->ClearAllInfo();
 
 	// save settings
-	BOOL bOldClaimSetting = theApp.GetValue(tbComputerCanClaim);
-	theApp.SetValue(tbComputerCanClaim, FALSE);
-	BOOL bOldAnalysisSetting = theApp.GetValue(tbEnableAnalysisTracing);
+	BOOL bOldClaimSetting = theApp.GetSettings()->GetComputerCanClaim();
+	theApp.GetSettings()->SetComputerCanClaim(false);
+	BOOL bOldAnalysisSetting = theApp.GetSettings()->GetEnableAnalysisTracing();
 #ifndef _TESTING
-	theApp.SetValue(tbEnableAnalysisTracing, FALSE);
+	theApp.GetSettings()->SetEnableAnalysisTracing(false);
 #endif
 
 	// 
-	theApp.SetValue(tbAutoTestMode, TRUE);
+	theApp.GetSettings()->SetAutoTestMode(true);
 	m_strStatus = "Auto play in progress...";
 	UpdateData(FALSE);
 
@@ -329,7 +328,7 @@ void CTestPlayDialog::OnStart()
 		long lStartTime = timeGetTime();
 
 		// now play out the hand -- play on full auto
-		theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
+		theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_FULL_AUTO_EXPRESS);
 		pDOC->GetDeal()->SetExpressPlayMode(TRUE);
 		pDOC->GetDeal()->InvokeNextPlayer();
 
@@ -386,11 +385,11 @@ void CTestPlayDialog::OnStart()
 	pDOC->GetDeal()->ClearAllInfo();
 
 	// restore settings
-	theApp.SetValue(tbComputerCanClaim, bOldClaimSetting);
-	theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
+	theApp.GetSettings()->SetComputerCanClaim(bOldClaimSetting);
+	theApp.GetSettings()->SetEnableAnalysisTracing(bOldAnalysisSetting);
 
 	//
-	theApp.SetValue(tbAutoTestMode, FALSE);
+	theApp.GetSettings()->SetAutoTestMode(false);
 	GetDlgItem(ID_START)->EnableWindow(TRUE);
 	GetDlgItem(ID_STOP)->EnableWindow(FALSE);
 	m_bPlayActive = FALSE;

@@ -9,7 +9,8 @@
 //
 // GameOptsGIBPage.h : header file
 //
-class CObjectWithProperties;
+#include <memory>
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsGIBPage dialog
@@ -24,12 +25,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CGameOptsGIBPage(CObjectWithProperties* pApp=NULL);
+	CGameOptsGIBPage(std::shared_ptr<Settings> pApp=NULL);
 	~CGameOptsGIBPage();
 
 // Dialog Data

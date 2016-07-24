@@ -19,6 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 //
@@ -51,7 +52,7 @@ BOOL CUnusualNTConvention::TryConvention(const CPlayer& player,
 
 	// test conditions 1, 2, & 4
 	if ( ((bidState.nRHOBid >= BID_1C) && (bidState.nRHOBid <= BID_1S)) &&
-		 ( ((bidState.fPts >= app_->OpenPoints(6)) && (bidState.fPts <= app_->OpenPoints(11))) || ((bidState.fPts >= app_->OpenPoints(17))/*&& (bidState.fPts <= 18)*/) ) &&
+		 ( ((bidState.fPts >= app_->GetSettings()->OpenPoints(6)) && (bidState.fPts <= app_->GetSettings()->OpenPoints(11))) || ((bidState.fPts >= app_->GetSettings()->OpenPoints(17))/*&& (bidState.fPts <= 18)*/) ) &&
  		  (bidState.m_numBidTurns == 0) && (bidState.m_numPartnerBidTurns == 0) )
 	{
 		 // passed the test
@@ -187,7 +188,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 //		bidState.SetConventionStatus(this, CONV_FINISHED);
 
 		// if we have the points for a slam or game; else bid at the 3-level
-		if (bidState.m_fMinTPPoints >= app_->SlamPts() )
+		if (bidState.m_fMinTPPoints >= PTS_SLAM )
 		{
 			// cue-bid the enemy suit for a slam try
 			nBid = bidState.GetCheapestShiftBid(nLHOSuit, app_->GetDeal()->GetLastValidBid());
@@ -296,7 +297,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 				bidState.AdjustPartnershipPoints(17, Min(17,40));
 				//
 				status << "UNTR50! After our cue-bid of the enemy suit, partner has NOT bid the lower of his two suits, "
-						  " indicating a strong opening Unusual NT hand with " & app_->OpenPoints(17) & 
+						  " indicating a strong opening Unusual NT hand with " & app_->GetSettings()->OpenPoints(17) & 
 						  "+ pts, for a total in the partnership of " & 
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMinTPPoints & " pts.\n";
 				// drop in to later code						  
@@ -319,7 +320,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 			{
 				status << "UNTR60! Partner has made another bid after his opening Unusual NT bid and our response of " & 
 						  BidToFullString(bidState.nPreviousBid) & ", indicate a strong opening Unusual NT hand with " &
-						  app_->OpenPoints(17) & "+ pts, for a total in the partnership of " & 
+						  app_->GetSettings()->OpenPoints(17) & "+ pts, for a total in the partnership of " & 
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & " pts.\n";
 				// drop in to later code						  
 				bPartnerHasStrongOpener = TRUE;
@@ -342,7 +343,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 					  
 			// if we have the points, go to slam or game in our last bid suit
 			int nSuit = bidState.nPreviousSuit;
-			if (bidState.m_fMinTPPoints >= app_->SlamPts() )
+			if (bidState.m_fMinTPPoints >= PTS_SLAM )
 			{
 				// slam calls us!
 				status << "UNTR71! So we can proceed towards slam.\n";
@@ -451,7 +452,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			status << "UNTRH20! Partner cue bid the enemy suit, which is a game or slam try.\n";
 			int nSuit = NONE;
-			if (bidState.fPts >= app_->PointCount(17))
+			if (bidState.fPts >= app_->GetSettings()->PointCount(17))
 			{
 				// we have a strong opener, so respond in the higher suit
 				if ((nEnemySuit == CLUBS) || (nEnemySuit == DIAMONDS))
@@ -482,7 +483,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 
 		// now see how we should respond
 		// 17+ points calls for a cue bid to show our strength
-		if ((bidState.fPts >= app_->PointCount(17)) && (!bidState.IsGameBid(nPartnersBid)))
+		if ((bidState.fPts >= app_->GetSettings()->PointCount(17)) && (!bidState.IsGameBid(nPartnersBid)))
 		{
 			// here we cue bid the enemy suit, and wait for partner to make 
 			// the next move
@@ -512,7 +513,7 @@ BOOL CUnusualNTConvention::HandleConventionResponse(const CPlayer& player,
 			status << "UNTRH40! Partner responded to our Unusual NT bid with a bid of " & 
 					  bidState.szPB & ", a possible invitation to game.\n";
 			// 
-			if (fPts < app_->PointCount(17))
+			if (fPts < app_->GetSettings()->PointCount(17))
 			{
 				nBid = BID_PASS;	
 				status << "UNTRH41! But since we opened Unusual NT with a weak hand (" & fPts &

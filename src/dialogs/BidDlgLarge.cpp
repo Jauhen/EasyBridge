@@ -14,7 +14,6 @@
 #include "model/EasyBdoc.h"
 #include "mainfrm.h"
 #include "EasyBvw.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "engine/Player.h"
 #include "BidDlgLarge.h"
@@ -147,7 +146,7 @@ BOOL CBidDialogLarge::OnHelpInfo(HELPINFO* pHelpInfo)
 //
 void CBidDialogLarge::EnableButtonImages(BOOL bEnable)
 {
-	if ((bEnable) && (theApp.GetValue(tnWindowsMajorVersion) >= 4))
+	if ((bEnable) && (theApp.GetSettings()->GetWindowsMajorVersion() >= 4))
 	{
 		// set button icons
 		for(int i=0;i<5;i++)

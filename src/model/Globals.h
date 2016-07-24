@@ -14,6 +14,12 @@
 #ifndef __GLOBALS__
 #define __GLOBALS__
 
+//
+#define MIN(a,b) ( ((a) <= (b))? (a): (b) )
+#define MAX(a,b) ( ((a) >= (b))? (a): (b) )
+#define	ABS(x)			 ((x>=0)?x:-x)
+
+
 //extern const LPCTSTR szSuitName[];
 
 // utility templates

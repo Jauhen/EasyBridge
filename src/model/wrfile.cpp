@@ -10,11 +10,12 @@
 //
 
 #include "stdafx.h"
-#include "engine/playeropts.h"
+#include "model/globals.h"
 #include "model/filecode.h"
 #include "engine/Player.h"
 #include "engine/Card.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -60,12 +61,12 @@ BOOL Deal::WriteFile(CArchive& ar) {
   // first the file ID
   //
   WriteBlockHeader(BLOCK_FILEINFO);
-  WriteString(ITEM_PROGRAM_ID, app_->GetProgramTitle());
-  WriteInt(ITEM_MAJOR_VERSIONNO, app_->GetProgramMajorVersion());
-  WriteInt(ITEM_MINOR_VERSIONNO, app_->GetProgramMinorVersion());
-  WriteInt(ITEM_INCREMENT_VERSIONNO, app_->GetProgramIncrementVersion());
-  WriteInt(ITEM_BUILD_NUMBER, app_->GetProgramBuildNumber());
-  WriteString(ITEM_BUILD_DATE, app_->GetProgramBuildDate());
+  WriteString(ITEM_PROGRAM_ID, app_->GetSettings()->GetProgramTitle());
+  WriteInt(ITEM_MAJOR_VERSIONNO, app_->GetSettings()->GetProgramMajorVersion());
+  WriteInt(ITEM_MINOR_VERSIONNO, app_->GetSettings()->GetProgramMinorVersion());
+  WriteInt(ITEM_INCREMENT_VERSIONNO, app_->GetSettings()->GetProgramIncrementVersion());
+  WriteInt(ITEM_BUILD_NUMBER, app_->GetSettings()->GetProgramBuildNumber());
+  WriteString(ITEM_BUILD_DATE, app_->GetSettings()->GetProgramBuildDate());
   CTime time = CTime::GetCurrentTime();
   strTemp.Format(" %s", (LPCTSTR)time.Format("%c"));
   WriteString(ITEM_FILE_DATE, strTemp);
@@ -168,9 +169,9 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   WriteBlockHeader(BLOCK_GAMEINFO);
   WriteInt(ITEM_VIEW_STATUS_CODE, app_->GetCurrentMode());
-  WriteBool(ITEM_RUBBER_IN_PROGRESS, app_->IsRubberInProgress());
-  WriteBool(ITEM_GAME_IN_PROGRESS, app_->IsGameInProgress());
-  WriteBool(ITEM_BIDDING_IN_PROGRESS, app_->IsBiddingInProgress());
+  WriteBool(ITEM_RUBBER_IN_PROGRESS, app_->GetSettings()->GetRubberInProgress());
+  WriteBool(ITEM_GAME_IN_PROGRESS, app_->GetSettings()->GetGameInProgress());
+  WriteBool(ITEM_BIDDING_IN_PROGRESS, app_->GetSettings()->GetBiddingInProgress());
   WriteBool(ITEM_HANDS_DEALT, m_bHandsDealt);
   strTemp.Format("%s", CCard::SuitToString(m_nContractSuit));
   WriteString(ITEM_CONTRACT_SUIT, strTemp);
@@ -249,7 +250,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   // match info
   //
-  if (app_->IsRubberInProgress()) {
+  if (app_->GetSettings()->GetRubberInProgress()) {
     // write block header
     WriteBlockHeader(BLOCK_MATCHINFO);
 
@@ -315,7 +316,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
     if (m_bSavePlayerAnalysis[i]) {
       // save out the player analysis text
       WriteBlockHeader(BLOCK_PLAYER_ANALYSIS + i);
-      WriteString(0, m_pPlayer[i]->GetValueString(tszAnalysis));
+      WriteString(0, m_pPlayer[i]->GetAnalysis());
       SkipLine();
     }
   }

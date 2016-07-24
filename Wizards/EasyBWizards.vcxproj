@@ -284,6 +284,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\src\model\Globals.cpp" />
+    <ClCompile Include="..\src\model\settings.cpp" />
     <ClCompile Include="BidOptionsPropSheet.cpp" />
     <ClCompile Include="BidOptsConfigPage.cpp" />
     <ClCompile Include="BidOptsGeneralPage.cpp" />
@@ -348,6 +349,7 @@
     <ResourceCompile Include="EasyBWizards.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\model\settings.h" />
     <ClInclude Include="BidOptionsPropSheet.h" />
     <ClInclude Include="BidOptsConfigPage.h" />
     <ClInclude Include="BidOptsGeneralPage.h" />

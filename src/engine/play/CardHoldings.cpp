@@ -17,7 +17,7 @@
 #include "engine/play/CardHoldings.h"
 #include "engine/bidding/BidParams.h"
 #include "app_interface.h"
-
+#include "model/settings.h"
 
 
 //
@@ -174,7 +174,7 @@ double CCardHoldings::CountPoints(const BOOL bForceCount)
 	{
 		int nFaceVal = m_cards[i]->GetFaceValue();
 		if (nFaceVal >= 10)
-			m_numHCPoints += app_->GetHonorValue(nFaceVal);
+			m_numHCPoints += HONOR_VALUE(nFaceVal);
 	}
 
 	// done

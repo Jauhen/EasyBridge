@@ -12,6 +12,8 @@
 #ifndef __ROUNDFINISHED__
 #define __ROUNDFINISHED__
 
+#include "EasyB.h"
+
 
 /////////////////////////////////////////////////////////////////////////////
 // CRoundFinishedDialog dialog

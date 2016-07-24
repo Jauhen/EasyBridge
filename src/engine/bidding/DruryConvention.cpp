@@ -20,6 +20,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 
@@ -150,7 +151,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		}
 
 		status << "DRUR10! Partner has made a Drury bid of 2 Club, indicating " & 
-				  app_->OpenPoints(11) & "-" & app_->OpenPoints(12) &" pts and 3+ card support.\n";
+				  app_->GetSettings()->OpenPoints(11) & "-" & app_->GetSettings()->OpenPoints(12) &" pts and 3+ card support.\n";
 
 		// delay adjusting points until later count as declarer
 		int nSuit = bidState.nPreviousSuit;
@@ -160,7 +161,7 @@ BOOL CDruryConvention::RespondToConvention(const CPlayer& player,
 		bidState.AdjustPartnershipPoints(11, 12);
 
 		// if we opened light, respond in the suit at the 2-level
-		if (fCardPts <= app_->PointCount(12))
+		if (fCardPts <= app_->GetSettings()->PointCount(12))
 		{
 			// we opened with <= 11 pts (actual, before adjusting for trump fit)
 			nBid = MAKEBID(nSuit, 2);
@@ -234,14 +235,14 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 		{
 			// partner opened with normal values (12+ HCPs)
 			status << "DRUR40! Partner responded to our Drury with a bid of 2D, indicating a normal opening hand of " &
-					  app_->OpenPoints(12) & "+ HCPs.\n";
+					  app_->GetSettings()->OpenPoints(12) & "+ HCPs.\n";
 
 			// revalue hand
 			double fPts = bidState.fAdjPts = hand.RevalueHand(REVALUE_DUMMY, nSuit, TRUE);
 			bidState.AdjustPartnershipPoints(12, app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints));
 			
 			//
-			if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )
+			if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME )
 			{
 				nBid = MAKEBID(nSuit, 4);
 				status << "DRUR42! And with an adjusted count of " & 
@@ -249,7 +250,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
 						  " pts, we can go ahead and bid game at " & BidToFullString(nBid) & ".\n";
 			}
-			else if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts()  - 3)
+			else if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME  - 3)
 			{
 				nBid = MAKEBID(nSuit, 3);
 				status << "DRUR43! With an adjusted point of " & 

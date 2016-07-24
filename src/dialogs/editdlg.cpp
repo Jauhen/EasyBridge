@@ -69,7 +69,7 @@ BOOL CEditDialog::OnInitDialog()
 	CFont* pFont = (CFont*) pMAINFRAME->GetValuePV(tpFontFixed);
 	SendDlgItemMessage(IDC_EDIT, 
 					   WM_SETFONT, 
-					   (LONG)pFont->m_hObject, 
+					   (WPARAM)pFont->m_hObject,
 					   FALSE);
 	//
 	CEdit* pEdit = (CEdit*) GetDlgItem(IDC_EDIT);

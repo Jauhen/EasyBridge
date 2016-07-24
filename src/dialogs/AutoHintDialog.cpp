@@ -16,7 +16,6 @@
 #include "MainFrameOpts.h"
 #include "AutoHintDialog.h"
 #include "engine/PlayerStatusDialog.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -93,7 +92,7 @@ BOOL CAutoHintDialog::OnInitDialog()
 
 	// set its font
 	m_pFont = (CFont*) pMAINFRAME->GetValuePV(tpFontAutoHint);
-	m_edit.SendMessage(WM_SETFONT, (LONG)m_pFont->m_hObject, FALSE);
+	m_edit.SendMessage(WM_SETFONT, (WPARAM)m_pFont->m_hObject, FALSE);
 
 	// and size window
 	m_bInitialized = TRUE;
@@ -114,7 +113,7 @@ BOOL CAutoHintDialog::OnInitDialog()
 	m_numVisibleRows = rect.Height() / nFontHeight;
 
 	// set the trace level
-	m_nHintLevel = theApp.GetValue(tnAutoHintTraceLevel) - 1;
+	m_nHintLevel = theApp.GetSettings()->GetAutoHintTraceLevel() - 1;
 	UpdateData(FALSE);
 
 	//
@@ -297,6 +296,6 @@ void CAutoHintDialog::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 void CAutoHintDialog::OnChangeHintLevel() 
 {
 	UpdateData(TRUE);	
-	theApp.SetValue(tnAutoHintTraceLevel, m_nHintLevel+1);
+	theApp.GetSettings()->SetAutoHintTraceLevel(m_nHintLevel + 1);
 	CPlayerStatusDialog::SetHintTraceLevel(m_nHintLevel + 1);
 }

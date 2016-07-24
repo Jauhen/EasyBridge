@@ -20,6 +20,7 @@
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 //
@@ -51,7 +52,7 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 	// test conditions 1, 2, 3, and 5
 	if ((bidState.m_bPartnerOpenedForTeam) && (bidState.m_numBidTurns <= 1) &&
 		(bidState.nLHOBid <= BID_PASS) && (bidState.nRHOBid > BID_PASS) &&
-		(bidState.nRHOBid <= BID_2S) && (bidState.fCardPts >= app_->OpenPoints(6)))
+		(bidState.nRHOBid <= BID_2S) && (bidState.fCardPts >= app_->GetSettings()->OpenPoints(6)))
 	{
 		 // passed the initial tests
 	}
@@ -73,12 +74,12 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 		// see if we can raise partner at the 2-level
 		if (app_->GetCurrentConventionSet()->IsConventionEnabled(tidLimitRaises))
 		{
-			if ((bidState.numSupportCards >= 3) && (bidState.fPts >= app_->OpenPoints(6)))
+			if ((bidState.numSupportCards >= 3) && (bidState.fPts >= app_->GetSettings()->OpenPoints(6)))
 			{
 				// we can raise partner at the 2-level, so forget the neg double
 				return FALSE;
 			}
-			else if (bidState.numSupportCards >= 3) && (bidState.fPts >= app_->OpenPoints(6)))
+			else if (bidState.numSupportCards >= 3) && (bidState.fPts >= app_->GetSettings()->OpenPoints(6)))
 			{
 				// likewise, w/o limit raises
 				return FALSE;
@@ -86,14 +87,14 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 		}
 */
 		if ((bidState.numSupportCards >= 3) &&
-			(bidState.numSupportCards >= 3) && (bidState.fPts >= app_->OpenPoints(6)))
+			(bidState.numSupportCards >= 3) && (bidState.fPts >= app_->GetSettings()->OpenPoints(6)))
 		{
 			// if we can raise partner at the 2-level, forget the neg double
 			if (app_->GetCurrentConventionSet()->IsConventionEnabled(tidLimitRaises) && 
-						(bidState.fPts >= app_->OpenPoints(11)) && (bidState.fPts < app_->OpenPoints(13)))
+						(bidState.fPts >= app_->GetSettings()->OpenPoints(11)) && (bidState.fPts < app_->GetSettings()->OpenPoints(13)))
 				return FALSE;	// limit raise
 			else if (!app_->GetCurrentConventionSet()->IsConventionEnabled(tidLimitRaises) && 
-						(bidState.fPts >= app_->OpenPoints(13)) && (bidState.fPts < app_->OpenPoints(17)))
+						(bidState.fPts >= app_->GetSettings()->OpenPoints(13)) && (bidState.fPts < app_->GetSettings()->OpenPoints(17)))
 				return FALSE;	// single raise
 		}
 		// check up to 2 suits
@@ -109,13 +110,13 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 	if (nRHOBidLevel == 2) 
 	{
 		// see if we can safely raise partner at the 2-level
-		if ((bidState.numSupportCards >= 3) && (bidState.fPts >= app_->OpenPoints(6)) && (bidState.nPartnersSuit > nRHOSuit))
+		if ((bidState.numSupportCards >= 3) && (bidState.fPts >= app_->GetSettings()->OpenPoints(6)) && (bidState.nPartnersSuit > nRHOSuit))
 		{
 			// we can raise partner at the 2-level, so forget the neg double
 			return FALSE;
 		}
 		// see if we can raise partner to the 3-level (either 11 or 13 pts)
-		double nReqPts = app_->GetCurrentConventionSet()->IsConventionEnabled(tidLimitRaises)? app_->OpenPoints(11) : app_->OpenPoints(13);
+		double nReqPts = app_->GetCurrentConventionSet()->IsConventionEnabled(tidLimitRaises)? app_->GetSettings()->OpenPoints(11) : app_->GetSettings()->OpenPoints(13);
 		if ((bidState.numSupportCards >= 4) && (bidState.fPts >= nReqPts))
 		{
 			// we can raise partner to the 3-level, so forget the neg double
@@ -129,9 +130,9 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 			if (bidState.IsSuitShiftable(nSuit))
 			{
 				// we can shift to the suit, but see if we have the pts
-				if ((nSuit < bidState.nPartnersSuit) && (bidState.fPts >= app_->OpenPoints(10)))
+				if ((nSuit < bidState.nPartnersSuit) && (bidState.fPts >= app_->GetSettings()->OpenPoints(10)))
 					return FALSE;	// can shift to a lower suit at the 2-level
-				else if ((nSuit > bidState.nPartnersSuit) && (bidState.fPts >= app_->OpenPoints(19)))
+				else if ((nSuit > bidState.nPartnersSuit) && (bidState.fPts >= app_->GetSettings()->OpenPoints(19)))
 					return FALSE;	// can (jump) shift to a higher suit at the 2-level
 			}
 		}
@@ -164,7 +165,7 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 		// at the 1-level, need 4+ cards in each unbid major and 6+ pts
 		if ( ((nMajorSuits[0]) && (hand.GetNumCardsInSuit(HEARTS) < 4)) || 
 			 ((nMajorSuits[1]) && (hand.GetNumCardsInSuit(SPADES) < 4)) ||
-			 (bidState.fPts < app_->OpenPoints(6)))
+			 (bidState.fPts < app_->GetSettings()->OpenPoints(6)))
 			return FALSE;
 	}
 	else
@@ -172,14 +173,14 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 		// at the 2-level, need 5+ cards in each unbid major and 11+ pts
 		if ( ((nMajorSuits[0]) && (hand.GetNumCardsInSuit(HEARTS) < 5)) || 
 			 ((nMajorSuits[1]) && (hand.GetNumCardsInSuit(SPADES) < 5)) ||
-			 (bidState.fPts < app_->OpenPoints(11)))
+			 (bidState.fPts < app_->GetSettings()->OpenPoints(11)))
 			return FALSE;
 	}
 
 	//
 	// finally, see if we have _too many_ points for a neg. double (19+)
 	//
-	if (bidState.fPts >= app_->OpenPoints(19))
+	if (bidState.fPts >= app_->GetSettings()->OpenPoints(19))
 	{
 //		status << "NEGDBLX! We have the holdings for a negative double, but our " &
 //				  bidState.fPts & " points are too much\n";
@@ -268,8 +269,8 @@ BOOL CNegativeDoublesConvention::RespondToConvention(const CPlayer& player,
 	if (bidState.nLHOBidLevel == 1)
 	{
 		// 6-9 pts for a neg dbl the 1-level
-		bidState.m_fPartnersMin = app_->OpenPoints(6);
-		bidState.m_fPartnersMax = Min(app_->OpenPoints(9),40 - bidState.fCardPts);
+		bidState.m_fPartnersMin = app_->GetSettings()->OpenPoints(6);
+		bidState.m_fPartnersMax = Min(app_->GetSettings()->OpenPoints(9),40 - bidState.fCardPts);
 		bidState.m_fMinTPPoints = bidState.fPts + bidState.m_fPartnersMin;
 		bidState.m_fMaxTPPoints = bidState.fPts + bidState.m_fPartnersMax;
 		bidState.m_fMinTPCPoints = bidState.fCardPts + bidState.m_fPartnersMin;
@@ -283,8 +284,8 @@ BOOL CNegativeDoublesConvention::RespondToConvention(const CPlayer& player,
 	else
 	{
 		// 11-18 pts for a neg double at the 2 level
-		bidState.m_fPartnersMin = app_->OpenPoints(11);
-		bidState.m_fPartnersMax = Min(app_->OpenPoints(18),40 - bidState.fCardPts);
+		bidState.m_fPartnersMin = app_->GetSettings()->OpenPoints(11);
+		bidState.m_fPartnersMax = Min(app_->GetSettings()->OpenPoints(18),40 - bidState.fCardPts);
 		bidState.m_fMinTPPoints = bidState.fPts + bidState.m_fPartnersMin;
 		bidState.m_fMaxTPPoints = bidState.fPts + bidState.m_fPartnersMax;
 		bidState.m_fMinTPCPoints = bidState.fCardPts + bidState.m_fPartnersMin;
@@ -645,9 +646,9 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				// raise a major to game with 23-31 pts and 4 trumps
 				//					  or with 26-31 pts and 3 trumps
 				// or raise to the 3-level with 20-24 pts and 3 trumps
-				if ( (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->MajorSuitGamePts() -3,31,SUPLEN_4)) ||
-				     (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->MajorSuitGamePts() ,31,SUPLEN_3)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,app_->MajorSuitGamePts() -6,24,SUPLEN_3)))
+				if ( (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_MAJOR_GAME -3,31,SUPLEN_4)) ||
+				     (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_MAJOR_GAME ,31,SUPLEN_3)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,PTS_MAJOR_GAME -6,24,SUPLEN_3)))
 				{
 					if (!bPartnerJumped)
 						status << "NGDRb71a! (we can assume partner has some strength in the " & bidState.szPSS & 
@@ -659,10 +660,10 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				//                    or with 29-32 pts and 3 trumps
 				// or raise to the 4-level with 26-28 pts and 3 trumps
 				// or raise to the 3-level with 23-25 pts and 3 trumps
-				if ( (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,app_->MinorSuitGamePts() -1,app_->SlamPts() -1,SUPLEN_4)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,app_->MinorSuitGamePts() ,app_->SlamPts() -1,SUPLEN_3)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() -1,SUPLEN_3)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_3,app_->MinorSuitGamePts() -6,app_->MinorSuitGamePts() -4,SUPLEN_3)) )
+				if ( (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,PTS_MINOR_GAME -1,PTS_SLAM -1,SUPLEN_4)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,PTS_MINOR_GAME ,PTS_SLAM -1,SUPLEN_3)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_4,PTS_MINOR_GAME -3,PTS_MINOR_GAME -1,SUPLEN_3)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_3,PTS_MINOR_GAME -6,PTS_MINOR_GAME -4,SUPLEN_3)) )
 				{
 					if (!bPartnerJumped)
 						status << "NGDRb71b! We can assume partner has some strength in the " & bidState.szPSS & 
@@ -821,8 +822,8 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				// partner raised below game
 				// re-raise if possible
-				if ( (ISMAJOR(nPreviousSuit) && (fMinTPPoints >= app_->MajorSuitGamePts() )) ||
-					 (ISMINOR(nPreviousSuit) && (fMinTPPoints >= app_->MinorSuitGamePts() )) )
+				if ( (ISMAJOR(nPreviousSuit) && (fMinTPPoints >= PTS_MAJOR_GAME )) ||
+					 (ISMINOR(nPreviousSuit) && (fMinTPPoints >= PTS_MINOR_GAME )) )
 				{
 					nBid = bidState.GetGameBid(nPreviousSuit);
 					status << "NGDRc20! With a total of " & 
@@ -884,7 +885,7 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			int nSuit = bidState.GetFourthSuit(nPreviousSuit, nPartnersSuit, nPartnersPrevSuit);
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 
-			if ((fMinTPPoints >= app_->GamePts() ) && (nBid < bidState.GetGameBid(nSuit)))
+			if ((fMinTPPoints >= PTS_GAME ) && (nBid < bidState.GetGameBid(nSuit)))
 			{
 				status << "NGDRc40! With a total of " & 
 						  fMinTPPoints & "-" & fMaxTPPoints & 
@@ -900,7 +901,7 @@ BOOL CNegativeDoublesConvention::HandleConventionResponse(const CPlayer& player,
 							  fMinTPPoints & "-" & fMaxTPPoints & 
 							  " pts in the partnership, partner has gone to game in his suit at " &
 							  bidState.szPB & ", so pass.\n";
-				else if (fMinTPPoints >= app_->GamePts() )
+				else if (fMinTPPoints >= PTS_GAME )
 					status << "NGDRc46! With a total of " & 
 							  fMinTPPoints & "-" & fMaxTPPoints & 
 							  " pts in the partnership, but having run out of bidding room, we have to bail out and pass.\n";

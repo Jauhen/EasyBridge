@@ -12,9 +12,8 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
+#include "model/settings.h"
 #include "DealOptsSlamPage.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -26,9 +25,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDealOptsSlamPage, CPropertyPage)
 
-CDealOptsSlamPage::CDealOptsSlamPage(CObjectWithProperties* pApp) : 
+CDealOptsSlamPage::CDealOptsSlamPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CDealOptsSlamPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CDealOptsSlamPage)
 	m_numAcesForGenericSlam = -1;
@@ -37,12 +36,12 @@ CDealOptsSlamPage::CDealOptsSlamPage(CObjectWithProperties* pApp) :
 	m_numKingsForSmallSlam = -1;
 	m_numKingsForGrandSlam = -1;
 	//}}AFX_DATA_INIT
-	m_numAcesForGenericSlam = 4 - m_app.GetValue(tnumAcesForSlam, 0);
-	m_numAcesForSmallSlam = 4 - m_app.GetValue(tnumAcesForSlam, 1);
-//	m_numAcesForGrandSlam = 4 - m_app.GetValue(tnumAcesForSlam, 2);
-	m_numKingsForGenericSlam =  4 - m_app.GetValue(tnumKingsForSlam, 0);
-	m_numKingsForSmallSlam = 4 - m_app.GetValue(tnumKingsForSlam, 1);
-	m_numKingsForGrandSlam = 4 - m_app.GetValue(tnumKingsForSlam, 2);
+	m_numAcesForGenericSlam = 4 - m_app->GetAcesForSlam(0);
+	m_numAcesForSmallSlam = 4 - m_app->GetAcesForSlam(1);
+//	m_numAcesForGrandSlam = 4 - m_app->GetValue(tnumAcesForSlam, 2);
+	m_numKingsForGenericSlam =  4 - m_app->GetKingsForSlam(0);
+	m_numKingsForSmallSlam = 4 - m_app->GetKingsForSlam(1);
+	m_numKingsForGrandSlam = 4 - m_app->GetKingsForSlam(2);
 }
 
 CDealOptsSlamPage::~CDealOptsSlamPage()
@@ -77,10 +76,10 @@ END_MESSAGE_MAP()
 void CDealOptsSlamPage::Update()
 {
 	// store results
-	m_app.SetValue(tnumAcesForSlam, (4 - m_numAcesForGenericSlam), 0);
-	m_app.SetValue(tnumAcesForSlam, (4 - m_numAcesForSmallSlam), 1);
-//	m_app.SetValue(tnumAcesForSlam, (4 - m_numAcesForGrandSlam), 2);
-	m_app.SetValue(tnumKingsForSlam, (4 - m_numKingsForGenericSlam), 0);
-	m_app.SetValue(tnumKingsForSlam, (4 - m_numKingsForSmallSlam), 1);
-	m_app.SetValue(tnumKingsForSlam, (4 - m_numKingsForGrandSlam), 2);
+	m_app->SetAcesForSlam((4 - m_numAcesForGenericSlam), 0);
+	m_app->SetAcesForSlam((4 - m_numAcesForSmallSlam), 1);
+//	m_app->SetValue(tnumAcesForSlam, (4 - m_numAcesForGrandSlam), 2);
+	m_app->SetKingsForSlam((4 - m_numKingsForGenericSlam), 0);
+	m_app->SetKingsForSlam((4 - m_numKingsForSmallSlam), 1);
+	m_app->SetKingsForSlam((4 - m_numKingsForGrandSlam), 2);
 }

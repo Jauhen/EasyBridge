@@ -25,7 +25,6 @@
 #include "dialogs/BidDialog.h"
 #include "NeuralNet.h"
 #include "dialogs/scoredialog.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "MyException.h"
 #include "model/GameRecord.h"
@@ -167,9 +166,6 @@ BOOL CEasyBDoc::OnNewDocument() {
 
   deal_->InitNewDocument();
 
-  // (SDI documents will reuse this document)
-  theApp.SetValuePV(tpvActiveDocument, this);
-
   // clear doc title
   CDocument::SetTitle("");
 
@@ -185,8 +181,8 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   pVIEW->SuppressRefresh();
 
   // close bidding dialog if it's open
-  if (theApp.IsBiddingInProgress()) {
-    theApp.SetValue(tbBiddingInProgress, FALSE);
+  if (theApp.GetSettings()->GetBiddingInProgress()) {
+    theApp.GetSettings()->SetBiddingInProgress(false);
     pVIEW->Notify(WM_COMMAND, WMS_BIDDING_CANCELLED);
   }
 
@@ -234,16 +230,13 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   deal_->SetTitle(strPath.Mid(nStart + 1));
   CDocument::SetTitle(deal_->GetTitle());
 
-  // set active document
-  theApp.SetValuePV(tpvActiveDocument, this);
-
   // set contract and vulnerability info
   if (ISBID(deal_->GetContract())) {
     pMAINFRAME->DisplayContract();
     pMAINFRAME->DisplayDeclarer();
     pMAINFRAME->DisplayVulnerable();
     // reset suit sequence
-    theApp.InitDummySuitSequence(deal_->GetContractSuit(), deal_->GetDummyPosition());
+    theApp.GetSettings()->InitDummySuitSequence(deal_->GetContractSuit(), deal_->GetDummyPosition());
   } else {
     // clear all
     pMAINFRAME->ClearAllIndicators();
@@ -265,17 +258,17 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     pMAINFRAME->MakeDialogVisible(twGameReviewDialog);
     // see if a contract has been set
     if (ISBID(deal_->GetContract())) {
-      if (theApp.GetValue(tbAutoHideBidHistory)) {
+      if (theApp.GetSettings()->GetAutoHideBidHistory()) {
         pMAINFRAME->HideDialog(twBiddingHistoryDialog);
       }
-      if (theApp.GetValue(tbAutoShowPlayHistory)) {
+      if (theApp.GetSettings()->GetAutoShowPlayHistory()) {
         pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
       }
     } else {
-      if (theApp.GetValue(tbAutoShowBidHistory)) {
+      if (theApp.GetSettings()->GetAutoShowBidHistory()) {
         pMAINFRAME->MakeDialogVisible(twBiddingHistoryDialog);
       }
-      if (theApp.GetValue(tbAutoHidePlayHistory)) {
+      if (theApp.GetSettings()->GetAutoHidePlayHistory()) {
         pMAINFRAME->HideDialog(twPlayHistoryDialog);
       }
     }
@@ -301,7 +294,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   // there are currently only two entry points -- 
   // just prior to bidding, or just prior to play
   //
-  if (theApp.IsGameInProgress()) {
+  if (theApp.GetSettings()->GetGameInProgress()) {
     // init players with the new hands
     for (int i = 0; i < 4; i++) {
       deal_->GetPlayer(i)->InitializeRestoredHand();
@@ -316,8 +309,8 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
     int numRounds = deal_->GetNumTricksPlayed();
     deal_->SetNumTricksPlayed(0);	// reset
     if (numRounds > 0) {
-      BOOL bOldAnalysisSetting = theApp.GetValue(tbEnableAnalysisTracing);
-      theApp.SetValue(tbEnableAnalysisTracing, FALSE);
+      BOOL bOldAnalysisSetting = theApp.GetSettings()->GetEnableAnalysisTracing();
+      theApp.GetSettings()->SetEnableAnalysisTracing(false);
       //
       deal_->SetBatchMode(TRUE);
       for (int i = 0; i < 4; i++) {
@@ -375,7 +368,7 @@ BOOL CEasyBDoc::OnOpenDocument(LPCTSTR lpszPathName) {
       for (int i = 0; i < 4; i++) {
         deal_->GetPlayer(i)->ResumeTrace();
       }
-      theApp.SetValue(tbEnableAnalysisTracing, bOldAnalysisSetting);
+      theApp.GetSettings()->SetEnableAnalysisTracing(bOldAnalysisSetting);
       pMAINFRAME->LockStatusBar(FALSE);
       pMAINFRAME->SetStatusText("Done.");
       deal_->SetBatchMode(FALSE);
@@ -502,7 +495,7 @@ void CEasyBDoc::OnUpdateClearAll(CCmdUI* pCmdUI) {
 
 //
 void CEasyBDoc::OnClearAll() {
-  if (theApp.IsRubberInProgress()) {
+  if (theApp.GetSettings()->GetRubberInProgress()) {
     if (AfxMessageBox("This will end the rubber.  Do you wish to continue?", MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
       return;
   }
@@ -528,7 +521,7 @@ void CEasyBDoc::OnClearAll() {
 
 //
 void CEasyBDoc::OnUpdatePlayRubber(CCmdUI* pCmdUI) {
-  if (!theApp.IsRubberInProgress()) {
+  if (!theApp.GetSettings()->GetRubberInProgress()) {
     pCmdUI->SetText("Play Rubber\tShift+F2");
     pCmdUI->SetCheck(0);
   } else {
@@ -548,9 +541,9 @@ void CEasyBDoc::OnUpdatePlayRubber(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnPlayRubber() {
   // see if we're currently playing rubber
-  if (!theApp.IsRubberInProgress()) {
+  if (!theApp.GetSettings()->GetRubberInProgress()) {
     // set rubber mode
-    theApp.SetValue(tbRubberInProgress, TRUE);
+    theApp.GetSettings()->SetRubberInProgress(true);
     pMAINFRAME->SetModeIndicator("Match");
     OnNewDocument();
     OnDealNewHand();
@@ -558,9 +551,9 @@ void CEasyBDoc::OnPlayRubber() {
     // cancel rubber
     OnClearAll();
     /*
-    theApp.SetValue(tbRubberInProgress, FALSE);
+    theApp.GetSettings()->SetValue(tbRubberInProgress, FALSE);
     pMAINFRAME->SetModeIndicator("");
-    theApp.SetValue(tbGameInProgress, FALSE);
+    theApp.GetSettings()->SetValue(tbGameInProgress, FALSE);
     ClearHands();
     ClearMatchInfo();
     pVIEW->ClearMode();
@@ -582,11 +575,11 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
   BOOL bEnable = TRUE;
 
   // disable if not bidding or playing
-  if (!theApp.IsBiddingInProgress() && !theApp.IsGameInProgress())
+  if (!theApp.GetSettings()->GetBiddingInProgress() && !theApp.GetSettings()->GetGameInProgress())
     bEnable = FALSE;
 
   // disable if game is over
-  if (theApp.IsGameInProgress() && (deal_->GetNumTricksPlayed() == 13))
+  if (theApp.GetSettings()->GetGameInProgress() && (deal_->GetNumTricksPlayed() == 13))
     bEnable = FALSE;
 
   // disable if at the end of a trick
@@ -594,12 +587,12 @@ void CEasyBDoc::OnUpdateGameHint(CCmdUI* pCmdUI) {
   //		bEnable = FALSE;
 
   // disable if not our turn
-  if (theApp.IsGameInProgress() &&
+  if (theApp.GetSettings()->GetGameInProgress() &&
     (!ISPLAYER(deal_->GetCurrentPlayerPosition()) || !deal_->GetCurrentPlayer()->IsHumanPlayer()))
     bEnable = FALSE;
 
   // hints are invalid if the user ignored our previous bidding hint
-  if (theApp.IsBiddingInProgress() && !deal_->IsHintFollowed())
+  if (theApp.GetSettings()->GetBiddingInProgress() && !deal_->IsHintFollowed())
     bEnable = FALSE;
 
   // allow the user to click <space> to clear a trick
@@ -657,7 +650,7 @@ void CEasyBDoc::OnDealNewHand() {
   deal_->DealHands();
 
   // if using duplicate scoring, update vulnerability display
-  if (theApp.IsUsingDuplicateScoring())
+  if (theApp.GetSettings()->GetUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }
 
@@ -687,7 +680,7 @@ void CEasyBDoc::OnDealNumberedHand() {
       dealNumDlg.m_nSpecialDealCode, dealNumDlg.m_nDealNumber);
 
   // if using duplicate scoring, update vulnerability display
-  if (theApp.IsUsingDuplicateScoring())
+  if (theApp.GetSettings()->GetUsingDuplicateScoring())
     pMAINFRAME->DisplayVulnerable();
 }
 
@@ -781,7 +774,7 @@ void CEasyBDoc::OnNewGame() {
 
 //
 void CEasyBDoc::OnUpdateViewScore(CCmdUI* pCmdUI) {
-  if (theApp.IsRubberInProgress())
+  if (theApp.GetSettings()->GetRubberInProgress())
     pCmdUI->Enable(TRUE);
   else
     pCmdUI->Enable(FALSE);
@@ -802,7 +795,7 @@ void CEasyBDoc::OnViewScore() {
 
 //
 void CEasyBDoc::OnUpdateRestartCurrentHand(CCmdUI* pCmdUI) {
-  if (theApp.GetValue(tbGameInProgress))
+  if (theApp.GetSettings()->GetGameInProgress())
     pCmdUI->Enable(TRUE);
   else
     pCmdUI->Enable(FALSE);
@@ -880,7 +873,7 @@ void CEasyBDoc::OnPlayConcedeTricks() {
 
 //
 void CEasyBDoc::OnUpdateGameAutoPlay(CCmdUI* pCmdUI) {
-  if ((theApp.IsGameInProgress()) &&
+  if ((theApp.GetSettings()->GetGameInProgress()) &&
     //		((m_nCurrPlayer == NORTH) || (m_nCurrPlayer == SOUTH)) &&
     (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY))
     pCmdUI->Enable(TRUE);
@@ -901,12 +894,12 @@ void CEasyBDoc::OnGameAutoPlay() {
 //
 void CEasyBDoc::OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI) {
   //
-  if (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO)
+  if (theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_FULL_AUTO)
     pCmdUI->SetCheck(1);
   else
     pCmdUI->SetCheck(0);
   //
-  if (theApp.IsGameInProgress() &&
+  if (theApp.GetSettings()->GetGameInProgress() &&
     ((pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY) ||
     (pVIEW->GetCurrentMode() == CEasyBView::MODE_CLICKFORNEXTTRICK) ||
       (deal_->IsAutoReplayMode())))
@@ -918,12 +911,12 @@ void CEasyBDoc::OnUpdateGameAutoPlayAll(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnGameAutoPlayAll() {
   // clear hints if enabled
-  if (theApp.GetValue(tnAutoHintMode) > 0)
+  if (theApp.GetSettings()->GetAutoHintMode() > 0)
     pMAINFRAME->ClearAutoHints();
 
   //
   CPlayerStatusDialog& status = deal_->GetCurrentPlayer()->GetStatusDialog();
-  if (theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO) {
+  if (theApp.GetSettings()->GetCardPlayMode() == Settings::PLAY_FULL_AUTO) {
     // check if we're in computer replay
     if (deal_->IsAutoReplayMode()) {
       deal_->SetAutoReplayMode(FALSE);
@@ -935,7 +928,7 @@ void CEasyBDoc::OnGameAutoPlayAll() {
       pMAINFRAME->SetStatusMessage("Auto play disabled.");
       status << "4PLYAUTO2a! Computer autoplay cancelled.\n";
     }
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
+    theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_NORMAL);
     if (((deal_->GetCurrentPlayerPosition() == NORTH) || (deal_->GetCurrentPlayerPosition() == SOUTH)) &&
         (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
       AdvanceToNextPlayer();
@@ -953,12 +946,12 @@ void CEasyBDoc::OnGameAutoPlayAll() {
 //
 void CEasyBDoc::OnUpdateGameAutoPlayExpress(CCmdUI* pCmdUI) {
   //
-  if (theApp.InExpressAutoPlay())
+  if (theApp.GetSettings()->InExpressAutoPlay())
     pCmdUI->SetCheck(1);
   else
     pCmdUI->SetCheck(0);
   //
-  if (theApp.IsGameInProgress() &&
+  if (theApp.GetSettings()->GetGameInProgress() &&
     ((pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY) ||
     (pVIEW->GetCurrentMode() == CEasyBView::MODE_CLICKFORNEXTTRICK) ||
       (deal_->IsAutoReplayMode())))
@@ -970,12 +963,12 @@ void CEasyBDoc::OnUpdateGameAutoPlayExpress(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnGameAutoPlayExpress() {
   // clear hints if enabled
-  if (theApp.GetValue(tnAutoHintMode) > 0)
+  if (theApp.GetSettings()->GetAutoHintMode() > 0)
     pMAINFRAME->ClearAutoHints();
 
   //
   CPlayerStatusDialog& status = deal_->GetCurrentPlayer()->GetStatusDialog();
-  if (theApp.InExpressAutoPlay()) {
+  if (theApp.GetSettings()->InExpressAutoPlay()) {
     // check if we're in computer replay
     if (deal_->IsAutoReplayMode()) {
       deal_->SetAutoReplayMode(FALSE);
@@ -987,7 +980,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
       pMAINFRAME->SetStatusMessage("Full auto play disabled.");
       status << "4PLYAUTO3a! Computer autoplay cancelled.\n";
     }
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
+    theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_NORMAL);
     pVIEW->EnableRefresh();
     EndWaitCursor();
     if (((deal_->GetCurrentPlayerPosition() == NORTH) || (deal_->GetCurrentPlayerPosition() == SOUTH)) &&
@@ -1001,7 +994,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
     else
       pMAINFRAME->SetStatusMessage("Full auto play in progress...");
     status << "4PLYAUTO3b! The computer is playing the hands to completion...\n";
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_FULL_AUTO_EXPRESS);
+    theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_FULL_AUTO_EXPRESS);
     deal_->SetExpressPlayMode(TRUE);
     BeginWaitCursor();
 
@@ -1015,7 +1008,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
       pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
     }
     //
-    if ((theApp.IsGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
+    if ((theApp.GetSettings()->GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
       AdvanceToNextPlayer();
     }
   }
@@ -1050,7 +1043,7 @@ void CEasyBDoc::OnGameAutoTest() {
 
 //
 void CEasyBDoc::OnUpdateSwapCards(CCmdUI* pCmdUI) {
-  //	if ((theApp.IsGameInProgress()) || (!m_bHandsDealt))
+  //	if ((theApp.GetSettings()->IsGameInProgress()) || (!m_bHandsDealt))
   if (!deal_->IsHandsDealt())
     pCmdUI->Enable(FALSE);
   else
@@ -1060,7 +1053,7 @@ void CEasyBDoc::OnUpdateSwapCards(CCmdUI* pCmdUI) {
 //
 void CEasyBDoc::OnSwapPositionEast() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetSettings()->GetGameInProgress()) {
     // not started playing yet
     deal_->SwapPlayersHands(SOUTH, EAST);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_EAST);
@@ -1072,7 +1065,7 @@ void CEasyBDoc::OnSwapPositionEast() {
 //
 void CEasyBDoc::OnSwapPositionNorth() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetSettings()->GetGameInProgress()) {
     // not started playing yet
     deal_->SwapPlayersHands(SOUTH, NORTH);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_NORTH);
@@ -1084,7 +1077,7 @@ void CEasyBDoc::OnSwapPositionNorth() {
 //
 void CEasyBDoc::OnSwapPositionWest() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetSettings()->GetGameInProgress()) {
     // not started playing yet
     deal_->SwapPlayersHands(SOUTH, WEST);
     pMAINFRAME->SetDefaultSwapCommand(ID_SWAP_POSITION_WEST);
@@ -1096,9 +1089,9 @@ void CEasyBDoc::OnSwapPositionWest() {
 //
 void CEasyBDoc::OnSwapCardsClockwise() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetSettings()->GetGameInProgress()) {
     // not started playing yet
-    deal_->RotatePlayersHands(0, TRUE, theApp.IsBiddingInProgress());
+    deal_->RotatePlayersHands(0, TRUE, theApp.GetSettings()->GetBiddingInProgress());
   } else {
     // play has started
     deal_->RotatePartialHands(1);
@@ -1111,9 +1104,9 @@ void CEasyBDoc::OnSwapCardsClockwise() {
 //
 void CEasyBDoc::OnSwapCardsCounterclockwise() {
   CWaitCursor wait;
-  if (!theApp.IsGameInProgress()) {
+  if (!theApp.GetSettings()->GetGameInProgress()) {
     // not started playing yet
-    deal_->RotatePlayersHands(1, TRUE, theApp.IsBiddingInProgress());
+    deal_->RotatePlayersHands(1, TRUE, theApp.GetSettings()->GetBiddingInProgress());
   } else {
     // play has started
     deal_->RotatePartialHands(3);
@@ -1325,13 +1318,13 @@ void CEasyBDoc::OnFileProperties() {
 void CEasyBDoc::AdvanceToNextPlayer() {
   // see whether this is a human or computer player
   BOOL bManualPlay = FALSE;
-  int nPlayMode = theApp.GetValue(tnCardPlayMode);
+  int nPlayMode = theApp.GetSettings()->GetCardPlayMode();
   if (deal_->GetCurrentPlayer()->IsHumanPlayer() && 
-      (nPlayMode != CEasyBApp::PLAY_FULL_AUTO && nPlayMode != CEasyBApp::PLAY_FULL_AUTO_EXPRESS)) {
+      (nPlayMode != Settings::PLAY_FULL_AUTO && nPlayMode != Settings::PLAY_FULL_AUTO_EXPRESS)) {
     bManualPlay = TRUE;
-  } else if ((theApp.GetValue(tbManualPlayMode)) ||
-      (nPlayMode == CEasyBApp::PLAY_MANUAL) ||
-      ((nPlayMode == CEasyBApp::PLAY_MANUAL_DEFEND) && (deal_->GetCurrentPlayer()->IsDefending()))) {
+  } else if ((theApp.GetSettings()->GetManualPlayMode()) ||
+      (nPlayMode == Settings::PLAY_MANUAL) ||
+      ((nPlayMode == Settings::PLAY_MANUAL_DEFEND) && (deal_->GetCurrentPlayer()->IsDefending()))) {
     bManualPlay = TRUE;
   }
 
@@ -1344,7 +1337,7 @@ void CEasyBDoc::AdvanceToNextPlayer() {
   if (bManualPlay) {
     // this is a human player
     // first see if autoplay last card option is enabled
-    if (theApp.GetValue(tbAutoPlayLastCard)) {
+    if (theApp.GetSettings()->GetAutoPlayLastCard()) {
       CPlayer* pPlayer = deal_->GetCurrentPlayer();
       if (pPlayer->TestForAutoPlayLastCard()) {
         return;
@@ -1352,7 +1345,7 @@ void CEasyBDoc::AdvanceToNextPlayer() {
     }
 
     // jump the cursor if appropriate
-    if (theApp.GetValue(tbAutoJumpCursor)) {
+    if (theApp.GetSettings()->GetAutoJumpCursor()) {
       pVIEW->JumpCursor();
     }
 
@@ -1370,13 +1363,13 @@ void CEasyBDoc::AdvanceToNextPlayer() {
   } else {
     // this is a computer player
     pVIEW->SetCurrentMode(CEasyBView::MODE_NONE);	// clear up loose ends
-    BOOL bExpressMode = theApp.InExpressAutoPlay();
+    BOOL bExpressMode = theApp.GetSettings()->InExpressAutoPlay();
     // prompt if not in express mode
-    if (!bExpressMode && !theApp.GetValue(tbAutoTestMode)) {
+    if (!bExpressMode && !theApp.GetSettings()->GetAutoTestMode()) {
       CWaitCursor wait;
       CString strMessage;
-      if ((!deal_->GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDeclarer)) ||
-          (deal_->GetCurrentPlayer()->IsDefending() && theApp.GetValue(tbEnableGIBForDefender))) {
+      if ((!deal_->GetCurrentPlayer()->IsDefending() && theApp.GetSettings()->GetEnableGIBForDeclarer()) ||
+          (deal_->GetCurrentPlayer()->IsDefending() && theApp.GetSettings()->GetEnableGIBForDefender())) {
         strMessage.Format("%s is playing (GIB)...", PositionToString(deal_->GetCurrentPlayerPosition()));
       }
       else {

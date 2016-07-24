@@ -15,7 +15,6 @@
 #include "engine/Player.h"
 #include "engine/deck.h"
 #include "engine/card.h"
-#include "progopts.h"
 #include "DrawParameters.h"
 #include "dialogs/ScreenSizeWarningDlg.h"
 #include <limits.h>
@@ -29,7 +28,7 @@ void CEasyBView::PromptLead()
 {
 	//
 	if ((!pDOC->GetDeal()->GetCurrentPlayer()->IsHumanPlayer()) &&
-		(!theApp.GetValue(tbManualPlayMode)))
+		(!theApp.GetSettings()->GetManualPlayMode()))
 		return;
 	//
 	CString strMessage;
@@ -269,7 +268,7 @@ void CEasyBView::DrawPlayingField(CDC* pDC)
 	}
 
 	// and any trick cards on the table
-	if (theApp.GetValue(tbGameInProgress) || pDOC->GetDeal()->IsReviewingGame() ||
+	if (theApp.GetSettings()->GetGameInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
 					(m_nCurrMode == MODE_CARDLAYOUT))
 		DrawTableCards(pDC, bFullDraw);
 }
@@ -357,7 +356,7 @@ void CEasyBView::DrawCardLayoutMode(CDC* pDC, BOOL bDrawPile, BOOL bDrawHands)
 		y = m_rectLayout.top;
 		for(i=0;i<4;i++) 
 		{
-			nSuit = theApp.GetSuitSequence(i);
+			nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			x = m_rectLayout.left;
 			for(j=12;j>=0;j--) 
 			{
@@ -450,7 +449,7 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 	FEEDBACK(strLine);
 
 	// skip drawing if in express play mode, OR if updates are disabled
-	if (theApp.InExpressAutoPlay() || (m_nSuppressRefresh > 0))
+	if (theApp.GetSettings()->InExpressAutoPlay() || (m_nSuppressRefresh > 0))
 	{
 		if ((pDOC->GetDeal()->GetNumTricksPlayed() == 0) &&
 				(pDOC->GetDeal()->GetNumCardsPlayedInRound() == 1))
@@ -478,7 +477,7 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard)
 
 	// now draw the played card on the table
 	// if the hand is hidden, make sure the draw starts at the hand origin
-	if ( (!pCard->IsCardFaceUp()) && (!theApp.AreCardsFaceUp()) )
+	if ( (!pCard->IsCardFaceUp()) && (!theApp.AreCardsFaceUpSettings()) )
 		pCard->MoveTo(pDC, 	m_drawPoint[nPos].x, m_drawPoint[nPos].y, FALSE);
 
 	// then expose the card
@@ -679,14 +678,14 @@ void CEasyBView::ClearTableRegion(CDC* pSentDC)
 				// first convert screen pos to suit #
 				if ((m_nCurrMode == MODE_CARDLAYOUT) || (m_nCurrMode == MODE_EDITHANDS))
 				{
-					nSuit = theApp.GetSuitSequence(i);
+					nSuit = theApp.GetSettings()->GetSuitSequence(i);
 				}
 				else 
 				{
 					if (PLAYER(nPlayer).IsDummy())
-						nSuit = theApp.GetDummySuitSequence(i);
+						nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 					else
-						nSuit = theApp.GetSuitSequence(i);
+						nSuit = theApp.GetSettings()->GetSuitSequence(i);
 				}
 				DisplayHand((Position)nPlayer, nSuit);
 			}
@@ -706,7 +705,7 @@ void CEasyBView::ResetSuitSequence()
 	{
 		for(int j=0;j<4;j++) 
 		{
-			if (theApp.GetSuitSequence(j) == i) 
+			if (theApp.GetSettings()->GetSuitSequence(j) == i)
 				m_nSuitToScreenIndex[i] = j;
 		}
 	}
@@ -723,7 +722,7 @@ void CEasyBView::ResetDummySuitSequence()
 	{
 		for(int j=0;j<4;j++) 
 		{
-			if (theApp.GetDummySuitSequence(j) == i) 
+			if (theApp.GetSettings()->GetDummySuitSequence(j) == i)
 				m_nDummySuitToScreenIndex[i] = j;
 		}
 	}
@@ -826,8 +825,8 @@ void CEasyBView::DoOpeningSequence()
 	int distance,nGranularity;
 
 	// need to turn cards face up
-	BOOL bCardsFaceUpMode = theApp.AreCardsFaceUp();
-	theApp.SetValue(tbShowCardsFaceUp, TRUE);
+	BOOL bCardsFaceUpMode = theApp.AreCardsFaceUpSettings();
+	theApp.GetSettings()->SetShowCardsFaceUp(true);
 
 	//
 	ClearPrompt();
@@ -908,7 +907,7 @@ void CEasyBView::DoOpeningSequence()
 	ReleaseDC(pDC);
 
 	// restore cards face up status
-	theApp.SetValue(tbShowCardsFaceUp, bCardsFaceUpMode);
+	theApp.GetSettings()->SetShowCardsFaceUp(bCardsFaceUpMode);
 
 	//
 	m_bOpeningSequenceDone = TRUE;
@@ -1048,7 +1047,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 	if (!m_bViewInitialized)
 		return;
 	
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = theApp.GetSettings()->GetLowResOption();
 	m_nCardWidth = theApp.GetDeck()->GetCardWidth();
 	m_nCardHeight = theApp.GetDeck()->GetCardHeight();
 	//
@@ -1095,7 +1094,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		//
 		int nSpaceUsed;
 		// spacers = edges to left/right of E/W cards, plus gapes between S and E/W
-		if (theApp.AreCardsFaceUp())
+		if (theApp.AreCardsFaceUpSettings())
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + m_nHorizSuitOffset*2 + 2 + 2;
 		else
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + 2 + 2;
@@ -1150,14 +1149,14 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 		// gap between horizontally laid out cards
 		int nSpaceUsed;
 		int nSeparation = 4 + (dx / 20);
-		if (theApp.AreCardsFaceUp())
+		if (theApp.AreCardsFaceUpSettings())
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + m_nHorizSuitOffset*2 + 6 + nSeparation*2;
 		else
 			nSpaceUsed = m_nCardWidth*6 + m_nSuitSpacer*3 + 6 + nSeparation*2;
 		m_nCardXGap = (cx - nSpaceUsed) / 9;
 
 		// warn if the screen is too small
-		if ((m_nCardXGap < 9) && theApp.GetValue(tbShowScreenSizeWarning))
+		if ((m_nCardXGap < 9) && theApp.GetSettings()->GetShowScreenSizeWarning())
 		{
 			CScreenSizeWarningDlg dlg;
 			dlg.DoModal();
@@ -1255,7 +1254,7 @@ void CEasyBView::SetViewParameters(int cx, int cy)
 
 	// adjust any table cards
 	// and any trick cards on the table
-	if (theApp.IsGameInProgress())
+	if (theApp.GetSettings()->GetGameInProgress())
 	{
 		int numCards = pDOC->GetDeal()->GetNumCardsPlayedInRound();
 		int nPos = pDOC->GetDeal()->GetRoundLead();

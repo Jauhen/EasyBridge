@@ -12,6 +12,7 @@
 #include "MainFrameopts.h"
 #include "GIB.h"
 
+
 class AppImpl : public AppInterface {
 public:
   AppImpl() {}
@@ -23,341 +24,38 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
-  virtual bool IsEnableAnalysisTracing() {
-    return theApp.GetValue(tbEnableAnalysisTracing) == TRUE;
-  }
-
-  virtual int AnalysisTraceLevel() {
-    return theApp.GetValue(tnAnalysisTraceLevel);
-  }
-
-  virtual bool InExpressAutoPlay() {
-    return theApp.InExpressAutoPlay() == TRUE;
-  }
-
-  virtual bool IsEnableAnalysisDuringHints() {
-    return theApp.GetValue(tbEnableAnalysisDuringHints) == TRUE;
-  }
-
-  virtual bool IsShowCommentIdentifiers() {
-    return theApp.GetValue(tbShowCommentIdentifiers) == TRUE;
+  virtual std::shared_ptr<Settings> GetSettings() {
+    return theApp.GetSettings();
   }
 
   virtual std::shared_ptr<ConventionPool> GetConventionPool() {
     return theApp.GetConventionPool();
   }
 
-  virtual double GamePts() {
-    return CEasyBApp::m_fNTGamePts;
-  }
-
-  virtual double MajorSuitGamePts() {
-    return CEasyBApp::m_fMajorSuitGamePts;
-  }
-
-  virtual double MinorSuitGamePts() {
-    return CEasyBApp::m_fMinorSuitGamePts;
-  }
-
-  virtual double NTGamePts() {
-    return CEasyBApp::m_fNTGamePts;
-  }
-
-  virtual double FourthLevelPts() {
-    return CEasyBApp::m_f4LevelPts;
-  }
-
-  virtual double ThirdLevelPts() {
-    return CEasyBApp::m_f3LevelPts;
-  }
-
-  virtual double SecondLevelPts() {
-    return CEasyBApp::m_f2LevelPts;
-  }
-
-  virtual double SlamPts() {
-    return CEasyBApp::m_fSlamPts;
-  }
-
-  virtual double SmallSlamPts() {
-    return CEasyBApp::m_fSlamPts;
-  }
-
-  virtual double GrandSlamPts() {
-    return CEasyBApp::m_fGrandSlamPts;
-  }
-
   virtual CConventionSet* GetCurrentConventionSet() {
     return pCurrConvSet;
   }
 
-  virtual double OpenPoints(double points) {
-    return points - theApp.GetBiddingAgressiveness()*0.5;
-  }
-
-  virtual double PointCount(double points) {
-    return points - theApp.GetBiddingAgressiveness()*0.5;
-  }
-
-  virtual int GetMinimumOpeningValue(CPlayer* player) const {
-    return theApp.GetMinimumOpeningValue(player);
-  }
-
-  virtual int GetProfileInt(const char* app, const char* key, int defaultValue) {
-    return theApp.GetProfileInt(app, key, defaultValue);
-  }
-
-  virtual void WriteProfileInt(const char* app, const char* key, int defaultValue) {
-    theApp.WriteProfileInt(app, key, defaultValue);
-  }
-
-  virtual bool IsInManualCardPlayMode() {
-    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_MANUAL;
-  }
-
   virtual bool AreCardsFaceUp() {
-    return theApp.AreCardsFaceUp() == TRUE;
-  }
-
-  virtual bool IsEnableGIBForDeclarer() {
-    return theApp.GetValue(tbEnableGIBForDeclarer) == TRUE;
+    return theApp.AreCardsFaceUpSettings() == TRUE;
   }
 
   virtual CGIB& GetGIB() {
     return *(theApp.GetGIB());
   }
 
-  virtual bool IsInExpressAutoPlay() {
-    return theApp.InExpressAutoPlay() == TRUE;
-  }
-
-  virtual bool IsComputerCanClaim() {
-    return theApp.GetValue(tbComputerCanClaim) == TRUE;
-  }
-
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) {
     return gib.Invoke(player, hand, dummyHand, statusDialog);
-  }
-
-  virtual bool IsEnableGIBForDefender() {
-    return theApp.GetValue(tbEnableGIBForDefender) == TRUE;
-  }
-
-  virtual double GetHonorValue(int faceValue) {
-    return theApp.m_fHonorValue[faceValue];
-  }
-
-  virtual int GetSuitSequence(int index) const {
-    return theApp.GetSuitSequence(index);
-  }
-
-  virtual bool IsAcelessPenalty() {
-    return theApp.GetValue(tbAcelessPenalty) == TRUE;
-  }
-
-  virtual bool IsFourAceBonus() {
-    return theApp.GetValue(tb4AceBonus) == TRUE;
-  }
-
-  virtual bool IsCountShortSuits() {
-    return theApp.GetValue(tbCountShortSuits) == TRUE;
-  }
-
-  virtual bool IsPenalizeUGHonors() {
-    return theApp.GetValue(tbPenalizeUGHonors) == TRUE;
-  }
-
-  virtual int GetAutoHintMode() {
-    return theApp.GetValue(tnAutoHintMode);
-  }
-
-  virtual bool IsInsertBiddingPause() {
-    return theApp.GetValue(tbInsertBiddingPause) == TRUE;
-  }
-
-  virtual int GetPlayPauseLength() {
-    return theApp.GetValue(tnPlayPauseLength);
   }
 
   virtual std::shared_ptr<CDeck> GetDeck() {
     return theApp.GetDeck();
   }
 
-  virtual bool IsLowResOption() {
-    return theApp.GetValue(tbLowResOption) == TRUE;
-  }
-
-  virtual bool IsEnableDealNumbering() {
-    return theApp.GetValue(tbEnableDealNumbering) == TRUE;
-  }
-
   virtual void SetFeedbackText(const char* msg) {
     ((CMainFrame*)theApp.GetFrame())->SetFeedbackText(msg);
   }
 
-  virtual int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) {
-    return theApp.GetValue(tnRequiredPointsForGame, suitCode, side);
-  }
-
-  virtual int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) {
-    return theApp.GetValue(tnRequiredPointsForSlam, suitCode, side);
-  }
-
-  virtual int GetMinSuitDistributions(int code) {
-    return theApp.GetValue(tnMinSuitDistributions, code);
-  }
-
-  virtual int GetMinSuitDistributionsTable(int code, int distribution, int hand) {
-    return theApp.GetValue(tnMinSuitDistributionTable, code, distribution, hand);
-  }
-
-  virtual int GetMaxImbalanceForNT() {
-    return theApp.GetValue(tnMaxImbalanceForNT);
-  }
-
-  virtual bool IsNeedTwoBalancedTrumpHands() {
-    return theApp.GetValue(tbNeedTwoBalancedTrumpHands) == TRUE;
-  }
-
-  virtual int GetMinCardsInMajor() {
-    return theApp.GetValue(tnMinCardsInMajor);
-  }
-
-  virtual int GetMinTopMajorCard() {
-    return theApp.GetValue(tnMinTopMajorCard);
-  }
-
-  virtual int GetMinCardsInMinor() {
-    return theApp.GetValue(tnMinCardsInMinor);
-  }
-
-  virtual int GetMinTopMinorCard() {
-    return theApp.GetValue(tnMinTopMinorCard);
-  }
-
-  virtual int GetAcesForSlam(int slamCode) {
-    return theApp.GetValue(tnumAcesForSlam, slamCode);
-  }
-
-  virtual int GetKingsForSlam(int slamCode) {
-    return theApp.GetValue(tnumKingsForSlam, slamCode);
-  }
-
-  virtual bool IsBalaceTeamHands() {
-    return theApp.GetValue(tbBalanceTeamHands) == TRUE;
-  }
-
-  virtual bool IsFullAutoPlayMode() {
-    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO;
-  }
-
-  virtual bool IsFullAutoExpressPlayMode() {
-    return theApp.GetValue(tnCardPlayMode) == CEasyBApp::PLAY_FULL_AUTO_EXPRESS;
-  }
-
-  virtual void SetNormalPlayMode() {
-    theApp.SetValue(tnCardPlayMode, CEasyBApp::PLAY_NORMAL);
-  }
-
-  virtual void SetRubberInProgress(bool value) {
-    theApp.SetValue(tbRubberInProgress, value);
-  }
-
-  virtual void SetGameInProgress(bool value) {
-    theApp.SetValue(tbGameInProgress, value);
-  }
-
-  virtual void SetBiddingInProgress(bool value) {
-    theApp.SetValue(tbBiddingInProgress, value);
-  }
-
-  virtual const char* GetProgramTitle() {
-    return (LPCTSTR)theApp.GetValue(tstrProgramTitle); 
-  }
-
-  virtual int GetProgramMajorVersion() {
-    return theApp.GetValue(tnProgramMajorVersion);
-  }
-
-  virtual int GetProgramMinorVersion() {
-    return theApp.GetValue(tnProgramMinorVersion);
-  }
-
-  virtual int GetProgramIncrementVersion() {
-    return theApp.GetValue(tnProgramIncrementVersion);
-  }
-
-  virtual int GetProgramBuildNumber() {
-    return theApp.GetValue(tnProgramBuildNumber);
-  }
-
-  virtual const char* GetProgramBuildDate() {
-    return (LPCTSTR)theApp.GetValue(tstrProgramBuildDate);
-  }
-
-  virtual bool IsRubberInProgress() {
-    return theApp.IsRubberInProgress() == TRUE;
-  }
-
-  virtual bool IsGameInProgress() {
-    return theApp.IsGameInProgress() == TRUE;
-  }
-
-  virtual bool IsBiddingInProgress() {
-    return theApp.IsBiddingInProgress() == TRUE;
-  }
-
-  virtual CString GetProgramVersionString() {
-    return theApp.GetProgramVersionString();
-  }
-
-  virtual bool IsSaveIntermediatePositions() {
-    return theApp.GetValue(tbSaveIntermediatePositions) == TRUE;
-  }
-
-  virtual bool IsScoreHonorsBonuses() {
-    return theApp.GetValue(tbScoreHonorsBonuses) == TRUE;
-  }
-
-  virtual bool IsInAutoTestMode() {
-    return theApp.GetValue(tbAutoTestMode) == TRUE;
-  }
-
-  virtual const char* GetProgramDirectory() {
-    return (LPCTSTR)theApp.GetValue(tszProgramDirectory);
-  }
-
-  virtual bool IsExposePBNGameCards() {
-    return theApp.GetValue(tbExposePBNGameCards) == TRUE;
-  }
-
-  virtual bool IsUseSuitSymbols() {
-    return theApp.GetValue(tbUseSuitSymbols) ==  TRUE;
-  }
-  
-  virtual bool IsShowDummyTrumpsOnLeft() {
-    return theApp.GetValue(tbShowDummyTrumpsOnLeft) == TRUE;
-  }
-
-  virtual void SetShowCardsFaceUp(bool value) {
-    theApp.SetValue(tbShowCardsFaceUp, value);
-  }
-
-  virtual void InitDummySuitSequence(int trump, int dummy_position) {
-    theApp.InitDummySuitSequence(trump, dummy_position);
-  }
-
-  virtual bool IsAutoHintEnabled() {
-    return theApp.IsAutoHintEnabled() == TRUE;
-  }
-
-  virtual bool IsUsingDuplicateScoring() {
-    return theApp.IsUsingDuplicateScoring() == TRUE;
-  }
-
-  virtual bool IsDebugModeActive() {
-    return theApp.IsDebugModeActive() == TRUE;
-  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -609,7 +307,7 @@ public:
   }
 
   virtual void PlayCard(CCard* card, int shift) {
-    pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + shift, (int)card);
+    pVIEW->PostMessage(WM_COMMAND, WMS_CARD_PLAY + shift, (WPARAM)card);
   }
 
   virtual int GetSuitToScreenIndex(int suit) {

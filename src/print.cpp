@@ -15,7 +15,6 @@
 #include "model/EasyBdoc.h"
 #include "mainfrm.h"
 #include "EasyBvw.h"
-#include "progopts.h"
 
 
 
@@ -121,8 +120,8 @@ void CEasyBView::OnPrint(CDC* pDC, CPrintInfo* pInfo)
 {
 	// format header
 	CTime time = CTime::GetCurrentTime();
-	CString strHeaderLeft = FormString("Easy Bridge %s", theApp.GetProgramVersionString());
-	CString strHeaderRight = theApp.GetValueString(tstrProgramCopyright);
+	CString strHeaderLeft = FormString("Easy Bridge %s", theApp.GetSettings()->GetProgramVersionString());
+	CString strHeaderRight = theApp.GetSettings()->GetProgramCopyright();
 	CString strFooterLeft = FormString("Page 1 of 1");
 	CString strFooterRight = FormString("%s", time.Format("%B %d, %Y  %I:%M %p"));
 

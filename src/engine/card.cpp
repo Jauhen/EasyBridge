@@ -15,7 +15,7 @@
 #include "engine/deck.h"
 #include "math.h"
 #include "app_interface.h"
-
+#include "model/globals.h"
 
 // class static data
 int CCard::m_nCardWidth = -1;

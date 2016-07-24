@@ -32,12 +32,12 @@
 
 
 // honors values
-#define HONOR_VALUE(x)	theApp.m_fHonorValue[x]
-#define ACE_VALUE		theApp.m_fHonorValue[ACE]
-#define KING_VALUE		theApp.m_fHonorValue[KING]
-#define QUEEN_VALUE		theApp.m_fHonorValue[QUEEN]
-#define JACK_VALUE		theApp.m_fHonorValue[JACK]
-#define TEN_VALUE		theApp.m_fHonorValue[TEN]
+#define HONOR_VALUE(x) Settings::m_fHonorValue[x]
+#define ACE_VALUE Settings::m_fHonorValue[ACE]
+#define KING_VALUE Settings::m_fHonorValue[KING]
+#define QUEEN_VALUE Settings::m_fHonorValue[QUEEN]
+#define JACK_VALUE Settings::m_fHonorValue[JACK]
+#define TEN_VALUE Settings::m_fHonorValue[TEN]
 
 //
 /*
@@ -49,17 +49,17 @@
 */
 
 // game points macros
-#define PTS_GAME 			CEasyBApp::m_fNTGamePts
-#define PTS_MAJOR_GAME		CEasyBApp::m_fMajorSuitGamePts
-#define PTS_MINOR_GAME		CEasyBApp::m_fMinorSuitGamePts
-#define PTS_NT_GAME 			CEasyBApp::m_fNTGamePts
-#define PTS_4LEVEL			CEasyBApp::m_f4LevelPts
-#define PTS_3LEVEL			CEasyBApp::m_f3LevelPts
-#define PTS_2LEVEL			CEasyBApp::m_f2LevelPts
+#define PTS_GAME 			Settings::m_fGamePts
+#define PTS_MAJOR_GAME		Settings::m_fMajorSuitGamePts
+#define PTS_MINOR_GAME		Settings::m_fMinorSuitGamePts
+#define PTS_NT_GAME 			Settings::m_fNTGamePts
+#define PTS_4LEVEL			Settings::m_f4LevelPts
+#define PTS_3LEVEL			Settings::m_f3LevelPts
+#define PTS_2LEVEL			Settings::m_f2LevelPts
 //
-#define PTS_SLAM			CEasyBApp::m_fSlamPts
-#define PTS_SMALL_SLAM		CEasyBApp::m_fSlamPts
-#define PTS_GRAND_SLAM		CEasyBApp::m_fGrandSlamPts
+#define PTS_SLAM			Settings::m_fSlamPts
+#define PTS_SMALL_SLAM		Settings::m_fSlamPts
+#define PTS_GRAND_SLAM		Settings::m_fGrandSlamPts
 
 // opening points macros
 // deduct 0.5 pts for each aggressiveness tick

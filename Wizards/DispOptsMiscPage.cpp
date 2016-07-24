@@ -14,9 +14,9 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "DispOptsMiscPage.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "model/globals.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -28,9 +28,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsMiscPage, CPropertyPage)
 
-CDispOptsMiscPage::CDispOptsMiscPage(CObjectWithProperties* pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) : 
+CDispOptsMiscPage::CDispOptsMiscPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
 		CPropertyPage(CDispOptsMiscPage::IDD),
-		m_app(*pApp), m_frame(*pFrame), m_view(*pView)
+		m_app(pApp), m_frame(*pFrame), m_view(*pView)
 {
 	//{{AFX_DATA_INIT(CDispOptsMiscPage)
 	m_bShowSplashWindow = FALSE;
@@ -41,14 +41,14 @@ CDispOptsMiscPage::CDispOptsMiscPage(CObjectWithProperties* pApp, CObjectWithPro
 	m_strFilePath = _T("");
 	m_bLowResOption = FALSE;
 	//}}AFX_DATA_INIT
-//	m_bAutoAlignDialogs = m_app.GetValue(tbAutoAlignDialogs);
-//	m_bShowStartupAnimation = m_app.GetValue(tbShowStartupAnimation);
-	m_bShowBackgroundBitmap = m_app.GetValue(tbShowBackgroundBitmap);
-	m_nBitmapMode = m_app.GetValue(tnBitmapDisplayMode);
-	m_bScaleLargeBitmaps = m_app.GetValue(tbScaleLargeBitmaps);
-	m_bShowSplashWindow = m_app.GetValue(tbShowSplashWindow);
-	m_nBackgroundColor = m_app.GetValue(tnBackgroundColor);
-	m_bLowResOption = m_app.GetValue(tbLowResOption);
+//	m_bAutoAlignDialogs = m_app->GetValue(tbAutoAlignDialogs);
+//	m_bShowStartupAnimation = m_app->GetValue(tbShowStartupAnimation);
+	m_bShowBackgroundBitmap = m_app->GetShowBackgroundBitmap();
+	m_nBitmapMode = m_app->GetBitmapDisplayMode();
+	m_bScaleLargeBitmaps = m_app->GetScaleLargeBitmaps();
+	m_bShowSplashWindow = m_app->GetShowSplashWindow();
+	m_nBackgroundColor = m_app->GetBackgroundColor();
+	m_bLowResOption = m_app->GetLowResOption();
 	m_strFilePath = m_view.GetValueString(tszBackgroundBitmap);
 }
 
@@ -205,7 +205,7 @@ void CDispOptsMiscPage::OnShowLowResOption()
 {
 	UpdateData(TRUE);
 	//
-	if (m_bLowResOption != m_app.GetValue(tbLowResOption))
+	if (m_bLowResOption != m_app->GetLowResOption())
 		AfxMessageBox("This change will not take effect until you restart the program.", MB_ICONINFORMATION | MB_OK);
 }
 
@@ -215,29 +215,29 @@ BOOL CDispOptsMiscPage::Update()
 {
 	// store results & return if changes affect the display
 	BOOL bChanged = FALSE;
-	if ( (m_bShowBackgroundBitmap != m_app.GetValue(tbShowBackgroundBitmap)) ||
-		 (m_nBitmapMode != m_app.GetValue(tnBitmapDisplayMode)) ||
-		 (m_bScaleLargeBitmaps != m_app.GetValue(tbScaleLargeBitmaps)) ||
-	 	 (m_nBackgroundColor != m_app.GetValue(tnBackgroundColor)) ||
+	if ( (m_bShowBackgroundBitmap != m_app->GetShowBackgroundBitmap()) ||
+		 (m_nBitmapMode != m_app->GetBitmapDisplayMode()) ||
+		 (m_bScaleLargeBitmaps != m_app->GetScaleLargeBitmaps()) ||
+	 	 (m_nBackgroundColor != m_app->GetBackgroundColor()) ||
 		 (m_strFilePath != m_view.GetValue(tszBackgroundBitmap)) )
 		bChanged = TRUE;
 
 	// update resolution setting in deferred mode
-	if (m_bLowResOption != m_app.GetValue(tbLowResOption))
+	if (m_bLowResOption != m_app->GetLowResOption())
 	{
-		m_app.SetValue(tbToggleResolutionMode, TRUE);
+		m_app->SetToggleResolutionMode(TRUE);
 //		deck.InitializeBitmaps();
 	}
 
 	//
-//	m_app.SetValue(tbAutoAlignDialogs, m_bAutoAlignDialogs);
-//	m_app.SetValue(tbShowStartupAnimation, m_bShowStartupAnimation);
+//	m_app->SetValue(tbAutoAlignDialogs, m_bAutoAlignDialogs);
+//	m_app->SetValue(tbShowStartupAnimation, m_bShowStartupAnimation);
 	m_view.SetValuePV(tszBackgroundBitmap, (LPVOID)(LPCTSTR)m_strFilePath);
-	m_app.SetValue(tbShowBackgroundBitmap, m_bShowBackgroundBitmap);
-	m_app.SetValue(tnBitmapDisplayMode, m_nBitmapMode);
-	m_app.SetValue(tbScaleLargeBitmaps, m_bScaleLargeBitmaps);
-	m_app.SetValue(tnBackgroundColor, m_nBackgroundColor);
-	m_app.SetValue(tbShowSplashWindow, m_bShowSplashWindow);
+	m_app->SetShowBackgroundBitmap(m_bShowBackgroundBitmap);
+	m_app->SetBitmapDisplayMode(m_nBitmapMode);
+	m_app->SetScaleLargeBitmaps(m_bScaleLargeBitmaps);
+	m_app->SetBackgroundColor(m_nBackgroundColor);
+	m_app->SetShowSplashWindow(m_bShowSplashWindow);
 	//
 	return bChanged;
 }

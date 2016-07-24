@@ -13,6 +13,7 @@
 #include "app_interface.h"
 #include "model/GameRecord.h"
 #include "model/filecodePBN.h"
+#include "model/globals.h"
 
 // the list of required PBN 2.0 tags
 extern const char* tszTagName[];

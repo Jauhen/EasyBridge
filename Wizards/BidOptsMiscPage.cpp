@@ -27,9 +27,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsMiscPage, CPropertyPage)
 
-CBidOptsMiscPage::CBidOptsMiscPage(CObjectWithProperties* pApp, CObjectWithProperties* pm_conventionSet) : 
+CBidOptsMiscPage::CBidOptsMiscPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pm_conventionSet) :
 		CPropertyPage(CBidOptsMiscPage::IDD),
-		m_app(*pApp), m_conventionSet(*pm_conventionSet)
+		m_app(pApp), m_conventionSet(*pm_conventionSet)
 {
 	//{{AFX_DATA_INIT(CBidOptsMiscPage)
 	m_nJumpOvercalls = -1;

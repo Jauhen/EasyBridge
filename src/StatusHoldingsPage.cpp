@@ -172,7 +172,7 @@ void CStatusHoldingsPage::Update()
 	// return if not all inits are complete
 	if ((!m_bInitialized) || (pDOC == NULL))
 		return;
-	if (!theApp.IsGameInProgress())
+	if (!theApp.GetSettings()->GetGameInProgress())
 		return;
 
 	// clear existing items
@@ -190,7 +190,7 @@ void CStatusHoldingsPage::Update()
 	// now list information for each suit
 	for(int i=0;i<4;i++)
 	{
-		int nSuit = theApp.GetSuitSequence(i);
+		int nSuit = theApp.GetSettings()->GetSuitSequence(i);
 		CCombinedSuitHoldings& suit = combinedHand.GetSuit(nSuit);
 
 		// insert dummy column

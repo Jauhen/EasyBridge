@@ -17,6 +17,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 
@@ -320,7 +321,7 @@ BOOL CStrongTwoBidsConvention::HandleConventionResponse(const CPlayer& player,
 
 		// after a negative response, bid 3NT if balanced
 		// with 26+ HCPs
-		if ((bBalanced) && (bidState.m_fMinTPCPoints >= app_->NTGamePts() )) 
+		if ((bBalanced) && (bidState.m_fMinTPCPoints >= PTS_NT_GAME )) 
 		{
 			nBid = BID_3NT;
 			status << "S2RB1! With a balanced distribution and " &

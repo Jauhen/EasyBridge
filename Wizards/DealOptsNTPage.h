@@ -9,7 +9,8 @@
 //
 // DealOptsNoTrumpPage.h : header file
 //
-class CObjectWithProperties;
+#include <memory>
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsNoTrumpPage dialog
@@ -26,12 +27,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsNoTrumpPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsNoTrumpPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsNoTrumpPage();
 
 // Dialog Data

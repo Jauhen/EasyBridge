@@ -23,6 +23,7 @@
 #include "engine/handopts.h"
 #include "model/deal.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 //
@@ -226,7 +227,7 @@ void CHandHoldings::FormatHoldingsString()
 	CString strTemp,strTemp2;
 	for(int i=3;i>=0;i--) 
 	{
-		int nSuit = app_->GetSuitSequence(i);
+		int nSuit = app_->GetSettings()->GetSuitSequence(i);
 		strTemp.Format("%c:", CCard::GetSuitLetter(nSuit));
 		if (m_suit[i].GetLength() == 0) 
 		{
@@ -510,11 +511,11 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 	//
 
 	// deduct 1 point for an aceless hand
-	if (app_->IsAcelessPenalty() && (m_numAces == 0))
+	if (app_->GetSettings()->GetAcelessPenalty() && (m_numAces == 0))
 		m_numPenaltyPoints++;
 
 	// and add 1 point for holding all 4 aces
-	if (app_->IsFourAceBonus() && (m_numAces == 4))
+	if (app_->GetSettings()->Get4AceBonus() && (m_numAces == 4))
 		m_numBonusPoints++;
 
 	//

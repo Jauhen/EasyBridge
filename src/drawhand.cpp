@@ -245,7 +245,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
 			//
 			if ( (m_nCurrMode == MODE_CARDLAYOUT) || (m_nCurrMode == MODE_EDITHANDS) ||
 				 (pDOC->GetDeal()->GetDeclarerPosition() == NORTH) ||
-				 (theApp.AreCardsFaceUp()) ) 
+				 (theApp.AreCardsFaceUpSettings()) )
 			{
 				// show grouped cards
 				if (!bCardPlayed)
@@ -345,7 +345,7 @@ void CEasyBView::DrawHoriz(CDC* pDC, Position nPos, int nDisplaySuit,
 	// display in traditional format
 	for(i=nStartSuit;i<=nEndSuit;i++) 
 	{
-		nSuit = theApp.GetSuitSequence(i);
+		nSuit = theApp.GetSettings()->GetSuitSequence(i);
 		m_rectSuitOffset[nPos][i].left = x;
 		m_rectSuitOffset[nPos][i].top = y;
 		//
@@ -377,7 +377,7 @@ void CEasyBView::PartialDrawHoriz(CDC* pDC, Position nPos)
 	int x = m_drawPoint[nPos].x;
 	int y = m_drawPoint[nPos].y;
 
-	if (!theApp.AreCardsFaceUp()) 
+	if (!theApp.AreCardsFaceUpSettings())
 	{
 		//
 		// non-dummy north, face down, 
@@ -485,7 +485,7 @@ void CEasyBView::DrawHorizGrouped(CDC* pDC, Position nPos, int nDisplaySuit,
 	// else draw
 	for(i=nStartSuit;i<=nEndSuit;i++) 
 	{
-		nSuit = theApp.GetSuitSequence(i);
+		nSuit = theApp.GetSettings()->GetSuitSequence(i);
 		// init the suit locations or read from it
 		if (m_rectSuitOffset[nPos][i].left == -1) 
 		{
@@ -627,7 +627,7 @@ void CEasyBView::DrawHorizDummy(CDC* pDC, Position nPos, int nDisplaySuit,
 	for(i=nStartSuit;i<=nEndSuit;i++) 
 	{
 		// use the DUMMY suit sequence
-		nSuit = theApp.GetDummySuitSequence(i);
+		nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 		m_rectSuitOffset[nPos][i].left = x;
 		m_rectSuitOffset[nPos][i].top = y;
 		int numInSuit = PLAYER(nPos).GetNumCardsInSuit(nSuit);
@@ -814,7 +814,7 @@ void CEasyBView::DrawVert(CDC* pDC, Position nPos, int nDisplaySuit,
 		return;
 	// else draw
 	int nSuitsShown = 0;
-	BOOL bFaceUp = theApp.AreCardsFaceUp() || PLAYER(nPos).AreCardsExposed();
+	BOOL bFaceUp = theApp.AreCardsFaceUpSettings() || PLAYER(nPos).AreCardsExposed();
 	for(i=nStartSuit=0;i<=nEndSuit;i++) 
 	{
 		if (bFaceUp && m_bOffsetVertSuits) 
@@ -839,7 +839,7 @@ void CEasyBView::DrawVert(CDC* pDC, Position nPos, int nDisplaySuit,
 			xx = x;
 			cx = x + m_nCardWidth;
 		}
-		nSuit = theApp.GetSuitSequence(i);
+		nSuit = theApp.GetSettings()->GetSuitSequence(i);
 		m_rectSuitOffset[nPos][i].left = xx;
 		m_rectSuitOffset[nPos][i].right = cx;
 		m_rectSuitOffset[nPos][i].top = y;
@@ -870,14 +870,14 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 	int x = m_drawPoint[nPos].x;
 	int y = m_drawPoint[nPos].y;
 	//
-	if (!theApp.AreCardsFaceUp()) 
+	if (!theApp.AreCardsFaceUpSettings())
 	{
 		//
 		// non-dummy east-west, face DOWN, partial draw
 		//
 
 		// adjust clear area
-		BOOL bFaceUp = theApp.AreCardsFaceUp() || PLAYER(nPos).AreCardsExposed();
+		BOOL bFaceUp = theApp.AreCardsFaceUpSettings() || PLAYER(nPos).AreCardsExposed();
 		if (bFaceUp && !m_bOffsetVertSuits) 
 		{
 			if (nPos == WEST)
@@ -940,7 +940,7 @@ void CEasyBView::PartialDrawVert(CDC* pDC, Position nPos)
 		eraseRect.right = pCard1->GetXPosition() + m_nCardWidth;
 		eraseRect.bottom = pCard2->GetYPosition() + m_nCardHeight;
 		// expand rect if drawing with vert suit offsets
-		if ( (theApp.AreCardsFaceUp() || PLAYER(nPos).AreCardsExposed()) && m_bOffsetVertSuits) 
+		if ( (theApp.AreCardsFaceUpSettings() || PLAYER(nPos).AreCardsExposed()) && m_bOffsetVertSuits)
 		{
 			eraseRect.left = m_drawPoint[nPos].x - m_nHorizSuitOffset;
 			eraseRect.right = m_drawPoint[nPos].x + m_nCardWidth + m_nHorizSuitOffset;
@@ -992,7 +992,7 @@ void CEasyBView::DrawVertDummy(CDC* pDC, Position nPos, int nDisplaySuit,
 	for(i=nStartSuit;i<=nEndSuit;i++) 
 	{
 		// use the DUMMY suit sequence
-		nSuit = theApp.GetDummySuitSequence(i);
+		nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 		m_rectSuitOffset[nPos][i].left = x;
 		m_rectSuitOffset[nPos][i].top = y;
 		int numInSuit = PLAYER(nPos).GetNumCardsInSuit(nSuit);
@@ -1079,7 +1079,7 @@ void CEasyBView::PartialDrawVertDummy(CDC* pDC, Position nPos)
 	for(i=nStart;i<=nEnd;i++) 
 	{					
 		// use DUMMY's suit sequence
-		nDisplaySuit = theApp.GetDummySuitSequence(i);
+		nDisplaySuit = theApp.GetSettings()->GetDummySuitSequence(i);
 		numInSuit = PLAYER(nPos).GetNumCardsInSuit(nDisplaySuit);
 		// move cards over on suit just played
 		if (nDisplaySuit == nSuit) 
@@ -1286,9 +1286,9 @@ CCard* CEasyBView::GetPlayerBottomCard(CPlayer& player)
 	for(i=3;i>=0;i--) 
 	{
 		if (player.IsDummy())
-			nSuit = theApp.GetDummySuitSequence(i);
+			nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 		else
-			nSuit = theApp.GetSuitSequence(i);
+			nSuit = theApp.GetSettings()->GetSuitSequence(i);
 		if(player.GetNumCardsInSuit(nSuit) > 0)
 		break;
 	}

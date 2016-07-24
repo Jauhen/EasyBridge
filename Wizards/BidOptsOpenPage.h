@@ -9,7 +9,9 @@
 //
 // BidOptsOpenPage.h : header file
 //
+#include <memory>
 class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CBidOptsOpenPage dialog
@@ -26,14 +28,14 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_conventionSet;
 	//
 	int	m_nAllowableOpenings;
 
 // Construction
 public:
-	CBidOptsOpenPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsOpenPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsOpenPage();
 
 // Dialog Data

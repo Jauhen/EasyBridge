@@ -3,6 +3,8 @@
 
 #include "engine/card_constants.h"
 #include "app_interface.h"
+#include "model/globals.h"
+
 
 class CPlayer;
 class CGameRecord;

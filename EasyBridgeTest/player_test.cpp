@@ -14,6 +14,7 @@ namespace UnitTests {
 class PlayerTests : public Test {
 protected:
   shared_ptr<MockApp> app = make_shared<MockApp>();
+
   CPlayer pS = CPlayer(app);
   CPlayer pW = CPlayer(app);
   CPlayer pN = CPlayer(app);

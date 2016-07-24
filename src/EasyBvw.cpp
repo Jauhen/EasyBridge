@@ -17,7 +17,6 @@
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "EasyBvw.h"
-#include "progopts.h"
 #include "viewopts.h"
 #include "dialogs/BidDialog.h"
 #include "dialogs/GameReviewDialog.h"
@@ -133,7 +132,7 @@ CEasyBView::CEasyBView()
 	// load the default background bitmap
 	m_defaultBitmap.LoadBitmap(IDB_DEFAULT_BACKGROUND);
 	// load the mini-card bitmaps
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = theApp.GetSettings()->GetLowResOption();
 	if (bSmallCards)
 	{
 		m_winnersBitmap.LoadBitmap(IDBS_WINNERS);
@@ -819,7 +818,7 @@ void CEasyBView::OnActivateView(BOOL bActivate, CView* pActivateView,
 		ASSERT(pActivateView == this);
 		OnDoRealize();
 		// make sure the bidding dialog is showing
-		if (theApp.IsBiddingInProgress()) 
+		if (theApp.GetSettings()->GetBiddingInProgress())
 			pMAINFRAME->MakeDialogVisible(twBidDialog);
 	}
 }
@@ -913,7 +912,7 @@ BOOL CEasyBView::OnCommand(WPARAM wParam, LPARAM lParam)
 			// hide the card layout dialog, just in case
 			((CCardLayoutDialog*) pMAINFRAME->GetDialog(twLayoutDialog))->ShowWindow(SW_HIDE);
 			// and bid immediately if so ordered
-			if (theApp.GetValue(tbAutoBidStart)) 
+			if (theApp.GetSettings()->GetAutoBidStart())
 			{
 				OnBidCurrentHand();
 			} 
@@ -1054,7 +1053,7 @@ bool CEasyBView::Notify(long lCode, long param1, long param2, long param3)
 			// hide the card layout dialog, just in case
 			((CCardLayoutDialog*) pMAINFRAME->GetDialog(twLayoutDialog))->ShowWindow(SW_HIDE);
 			// and bid immediately if so ordered
-			if (theApp.GetValue(tbAutoBidStart)) 
+			if (theApp.GetSettings()->GetAutoBidStart())
 			{
 				OnBidCurrentHand();
 			} 
@@ -1236,7 +1235,7 @@ void CEasyBView::OnLButtonDown(UINT nFlags, CPoint point)
 		int nIndex;
 		for(i=3;i>=0;i--) 
 		{
-			nSuit = theApp.GetSuitSequence(i);
+			nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			for(j=0;j<13;j++) 
 			{
 				nIndex = nSuit*13 + j;
@@ -1444,9 +1443,9 @@ BOOL CEasyBView::GetCardUnderPoint(int& nPlayer, CCard*& pCard, CPoint* pTargetP
 			// get the proper suit sequence
 			int nSuit;
 			if (PLAYER(nPlayer).IsDummy())
-				nSuit = theApp.GetDummySuitSequence(i);
+				nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 			else
-				nSuit = theApp.GetSuitSequence(i);
+				nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			//
 			if (((nPlayer == EAST) || (nPlayer == SOUTH))
 							 && (PLAYER(nPlayer).IsDummy())) 
@@ -1588,15 +1587,15 @@ void CEasyBView::OnMouseMove(UINT nFlags, CPoint point)
 	{
 		// else we're not dragging a card
 		// see if we're waiting for a mouse click from the user
-		if (!theApp.IsGameInProgress())
+		if (!theApp.GetSettings()->GetGameInProgress())
 			return;
 		CPlayer* pPlayer = pDOC->GetDeal()->GetCurrentPlayer();
 		int nCurrPlayerPos = pPlayer->GetPosition();
-		int nPlayMode = theApp.GetValue(tnCardPlayMode);
+		int nPlayMode = theApp.GetSettings()->GetCardPlayMode();
 		BOOL bManualPlay;
 		if ( (pPlayer && pPlayer->IsHumanPlayer()) ||
-			 (nPlayMode == CEasyBApp::PLAY_MANUAL) ||
-		     ((nPlayMode == CEasyBApp::PLAY_MANUAL_DEFEND) && (pDOC->GetDeal()->GetCurrentPlayer()->IsDefending())) )
+			 (nPlayMode == Settings::PLAY_MANUAL) ||
+		     ((nPlayMode == Settings::PLAY_MANUAL_DEFEND) && (pDOC->GetDeal()->GetCurrentPlayer()->IsDefending())) )
 			bManualPlay = TRUE;
 		else
 			bManualPlay = FALSE;
@@ -1832,9 +1831,9 @@ void CEasyBView::OnRButtonDown(UINT nFlags, CPoint point)
 		for(i=3;i>=0;i--) 
 		{
 			if (PLAYER(nPlayer).IsDummy())
-				nSuit = theApp.GetDummySuitSequence(i);
+				nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 			else
-				nSuit = theApp.GetSuitSequence(i);
+				nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			for(j=PLAYER(nPlayer).GetNumCardsInSuit(nSuit)-1;j>=0;j--) 
 			{
 				pCard = PLAYER(nPlayer).GetCardInSuit(nSuit,j);
@@ -1870,9 +1869,9 @@ void CEasyBView::OnRButtonDown(UINT nFlags, CPoint point)
 		for(i=3;i>=0;i--) 
 		{
 			if (PLAYER(nPlayer).IsDummy())
-				nSuit = theApp.GetDummySuitSequence(i);
+				nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 			else
-				nSuit = theApp.GetSuitSequence(i);
+				nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			for(j=PLAYER(nDummy).GetNumCardsInSuit(nSuit)-1;j>=0;j--) 
 			{
  				pCard = PLAYER(nDummy).GetCardInSuit(nSuit,j);
@@ -1908,9 +1907,9 @@ void CEasyBView::OnRButtonDown(UINT nFlags, CPoint point)
 		for(i=3;i>=0;i--) 
 		{
 			if (PLAYER(nPlayer).IsDummy())
-				nSuit = theApp.GetDummySuitSequence(i);
+				nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 			else
-				nSuit = theApp.GetSuitSequence(i);
+				nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			for(j=PLAYER(nWest).GetNumCardsInSuit(nSuit)-1;j>=0;j--) 
 			{
 				pCard = PLAYER(nWest).GetCardInSuit(nSuit,j);
@@ -1945,9 +1944,9 @@ void CEasyBView::OnRButtonDown(UINT nFlags, CPoint point)
 	 	// check east's cards
 		for(i=3;i>=0;i--) {
 			if (PLAYER(nPlayer).IsDummy())
-				nSuit = theApp.GetDummySuitSequence(i);
+				nSuit = theApp.GetSettings()->GetDummySuitSequence(i);
 			else
-				nSuit = theApp.GetSuitSequence(i);
+				nSuit = theApp.GetSettings()->GetSuitSequence(i);
 			for(j=PLAYER(nEast).GetNumCardsInSuit(nSuit)-1;j>=0;j--) 
 			{
 				pCard = PLAYER(nEast).GetCardInSuit(nSuit,j);
@@ -1995,7 +1994,7 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC)
 	//
 	CEasyBDoc* pDoc = GetDocument();
 	BOOL bUseBitmap = ((m_bCanDisplayBitmap) && (m_bBitmapAvailable) && 
-						(m_bViewInitialized) && theApp.GetValue(tbShowBackgroundBitmap) );
+						(m_bViewInitialized) && theApp.GetSettings()->GetShowBackgroundBitmap() );
 
 	// see if the background bitmap is big enough to cover the screen
 	CRect rect;
@@ -2023,7 +2022,7 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC)
 		//
 		if ((m_customDIB.DibHeight() < rect.Height()) && (m_customDIB.DibWidth() < rect.Width()))
 		{
-			if (theApp.GetValue(tnBitmapDisplayMode) == 0)
+			if (theApp.GetSettings()->GetBitmapDisplayMode() == 0)
 			{
 				// tile
 				m_customDIB.Draw(pDC, rect);
@@ -2031,13 +2030,13 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC)
 			else
 			{
 				// draw centered
-				m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetValue(tbScaleLargeBitmaps));
+				m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetSettings()->GetScaleLargeBitmaps());
 			}
 		}
 		else
 		{
 			// bitmap is bigger than the window, so just draw (centered)
-			m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetValue(tbScaleLargeBitmaps));
+			m_customDIB.Draw(pDC, rect, nX, nY, theApp.GetSettings()->GetScaleLargeBitmaps());
 		}
 	} 
 
@@ -2054,7 +2053,7 @@ void CEasyBView::EraseBackground(CDC& dc)
 		return;
 	//
 	CBrush *pOldBrush,newBrush;
-	newBrush.CreateSolidBrush(theApp.GetValue(tnBackgroundColor));
+	newBrush.CreateSolidBrush(theApp.GetSettings()->GetBackgroundColor());
 	pOldBrush = (CBrush*) dc.SelectObject(&newBrush);
 	CRect rect;
 	dc.GetClipBox(&rect);     // Erase the area needed
@@ -2143,7 +2142,7 @@ void CEasyBView::OnDraw(CDC* pDC)
 
 			// force a repaint to show a bitmap
 			if ((m_bCanDisplayBitmap) && (m_bBitmapAvailable) &&
-				(theApp.GetValue(tbShowBackgroundBitmap)))
+				(theApp.GetSettings()->GetShowBackgroundBitmap()))
 				Invalidate();
 		}
 	}
@@ -2158,7 +2157,7 @@ void CEasyBView::OnDraw(CDC* pDC)
 		default:
 			// normal play mode
 			DrawPlayingField(pDC);
-			if (theApp.GetValue(tbGameInProgress))
+			if (theApp.GetSettings()->GetGameInProgress())
 				DisplayTricks();
 			break;
 	}
@@ -2186,7 +2185,7 @@ void CEasyBView::DisplayTricks(CDC* pSentDC)
 	int nPrevMode = pDC->SetBkMode(TRANSPARENT);
 
 	// new version -- draw cards criss-crossed
-	BOOL bSmallCards = theApp.GetValue(tbLowResOption);
+	BOOL bSmallCards = theApp.GetSettings()->GetLowResOption();
 	int nWinnerWidth = bSmallCards? smallWinnerBitmapSize.cx : winnerBitmapSize.cx;
 	int nWinnerHeight = bSmallCards? smallWinnerBitmapSize.cy : winnerBitmapSize.cy;
 	int nLoserWidth = bSmallCards? smallLoserBitmapSize.cx : loserBitmapSize.cx;
@@ -2368,7 +2367,7 @@ void CEasyBView::OnUndoCard()
 void CEasyBView::OnUpdateUndoTrick(CCmdUI* pCmdUI) 
 {
 //	if (!theApp.IsGameInProgress() || (pDOC->GetNumCardsPlayedInRound() == 0))
-	if (!theApp.IsGameInProgress() || 
+	if (!theApp.GetSettings()->GetGameInProgress() ||
 		((pDOC->GetDeal()->GetNumTricksPlayed() == 0) && (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 0)) )
 		pCmdUI->Enable(FALSE);
 }
@@ -2457,8 +2456,8 @@ void CEasyBView::OnUndoTrick()
 	}
 */
 	//
-	if (bImmediateRestart && (theApp.GetValue(tnCardPlayMode) != CEasyBApp::PLAY_FULL_AUTO) &&
-				(theApp.GetValue(tnCardPlayMode) != CEasyBApp::PLAY_FULL_AUTO_EXPRESS))
+	if (bImmediateRestart && (theApp.GetSettings()->GetCardPlayMode() != Settings::PLAY_FULL_AUTO) &&
+				(theApp.GetSettings()->GetCardPlayMode() != Settings::PLAY_FULL_AUTO_EXPRESS))
 	{
     pDOC->AdvanceToNextPlayer();
 	}
@@ -2559,7 +2558,7 @@ void CEasyBView::OnLayoutCards()
 			if (!ISPLAYER(nDealer))
 				nDealer = SOUTH;
 			handDialog.m_nPosition = nDealer;
-			BOOL bDuplicate = theApp.IsUsingDuplicateScoring();
+			BOOL bDuplicate = theApp.GetSettings()->GetUsingDuplicateScoring();
 			if (bDuplicate)
 				handDialog.m_bCollapsed = FALSE;
 
@@ -2646,7 +2645,7 @@ void CEasyBView::OnLayoutCards()
 	{
 		// starting layout
 		// confirm
-		if (theApp.GetValue(tbGameInProgress) && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
+		if (theApp.GetSettings()->GetGameInProgress() && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
 		{
 			if (AfxMessageBox("This will cancel the game in progress.  Do you wish to continue?", MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 				return;
@@ -2659,7 +2658,7 @@ void CEasyBView::OnLayoutCards()
 		// hide supplementary dialogs
 		SuppressRefresh();
 		pMAINFRAME->HideAllDialogs();
-		if (theApp.IsBiddingInProgress())
+		if (theApp.GetSettings()->GetBiddingInProgress())
 			pMAINFRAME->GetBidDialog()->CancelImmediate();
 //		UpdateWindow();
 
@@ -2667,10 +2666,10 @@ void CEasyBView::OnLayoutCards()
 		pDOC->GetDeal()->SetDealNumberAvailable(FALSE);
 
 		// if in the course of play, restore initial hands 
-		if (theApp.GetValue(tbGameInProgress))
+		if (theApp.GetSettings()->GetGameInProgress())
 		{
 			pDOC->GetDeal()->RestoreInitialHands();
-			theApp.SetValue(tbGameInProgress, FALSE);
+			theApp.GetSettings()->SetGameInProgress(false);
 		}
 
 		// clear display
@@ -2769,7 +2768,7 @@ void CEasyBView::OnEditExistingHands()
 		return;
 	}
 	// confirm
-	if (theApp.GetValue(tbGameInProgress) && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
+	if (theApp.GetSettings()->GetGameInProgress() && (pDOC->GetDeal()->GetNumCardsPlayedInGame() > 0))
 	{
 		if (AfxMessageBox("This will cancel the game in progress.  Do you wish to continue?", MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 			return;
@@ -2781,7 +2780,7 @@ void CEasyBView::OnEditExistingHands()
 	// hide supplementary dialogs
 	SuppressRefresh();
 	pMAINFRAME->HideAllDialogs();
-	if (theApp.IsBiddingInProgress())
+	if (theApp.GetSettings()->GetBiddingInProgress())
 		pMAINFRAME->GetBidDialog()->CancelImmediate();
 
 	//
@@ -2792,16 +2791,16 @@ void CEasyBView::OnEditExistingHands()
 	pDOC->GetDeal()->SetDealNumberAvailable(FALSE);
 
 	// if in the course of play, restore initial hands 
-	if (theApp.GetValue(tbGameInProgress))
+	if (theApp.GetSettings()->GetGameInProgress())
 	{
 		pDOC->GetDeal()->RestoreInitialHands();
-		theApp.SetValue(tbGameInProgress, FALSE);
+		theApp.GetSettings()->SetGameInProgress(false);
 	}
 
 	// and turn on card layout mode
 	pMAINFRAME->DisplayTricks(FALSE);
 	pMAINFRAME->DisplayContract(FALSE);
-	if (theApp.IsRubberInProgress())
+	if (theApp.GetSettings()->GetRubberInProgress())
 		pMAINFRAME->DisplayVulnerable(TRUE);
 	else
 		pMAINFRAME->DisplayVulnerable(FALSE);
@@ -2820,7 +2819,7 @@ void CEasyBView::OnEditExistingHands()
 	//
 	BOOL bUpdated = FALSE;
 	CDC* pDC = GetDC();
-	if (theApp.IsGameInProgress()) 
+	if (theApp.GetSettings()->GetGameInProgress())
 	{
 		OnEraseBkgnd(pDC);
 		ResetSuitOffsets();
@@ -2836,7 +2835,7 @@ void CEasyBView::OnEditExistingHands()
 	//
 	m_nPlayerCardLimit = 13;
 	pMAINFRAME->GetDialog(twLayoutDialog)->SendMessage(WM_COMMAND, WMS_SET_CARD_LIMIT, 13);
-	if (theApp.GetValue(tbShowLayoutOnEdit)) 
+	if (theApp.GetSettings()->GetShowLayoutOnEdit())
 	{
 		m_bLayoutDlgActive = TRUE;
 		CCardLayoutDialog* pDlg = (CCardLayoutDialog*) pMAINFRAME->GetDialog(twLayoutDialog);
@@ -2932,7 +2931,7 @@ void CEasyBView::OnDistributeRandom()
 //
 void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI) 
 {
-	if (theApp.IsGameInProgress()) 
+	if (theApp.GetSettings()->GetGameInProgress())
 	{
 		pCmdUI->SetText("Rebid Current Hand\tF3");	
 	} 
@@ -2942,7 +2941,7 @@ void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI)
 	}
 	//
 	BOOL foo = pDOC->GetDeal()->IsHandsDealt();
-	BOOL ack = theApp.GetValue(tbBiddingInProgress);
+	BOOL ack = theApp.GetSettings()->GetBiddingInProgress();
 	//
 	if ((!pDOC->GetDeal()->IsHandsDealt()) ||
 //				(theApp.GetValue(tbBiddingInProgress)) ||
@@ -2971,7 +2970,7 @@ void CEasyBView::OnUpdateBidCurrentHand(CCmdUI* pCmdUI)
 void CEasyBView::OnBidCurrentHand() 
 {
 	// see if we're restarting bidding
-	if (theApp.IsBiddingInProgress())
+	if (theApp.GetSettings()->GetBiddingInProgress())
 	{
 		pDOC->GetDeal()->RestartBidding();
 		pMAINFRAME->GetBidDialog()->InitBiddingSequence();
@@ -2982,7 +2981,7 @@ void CEasyBView::OnBidCurrentHand()
 	SuppressRefresh();
 
 	// hide the play history dialog if auto mode is on
-	if (theApp.GetValue(tbAutoHidePlayHistory))
+	if (theApp.GetSettings()->GetAutoHidePlayHistory())
 		pMAINFRAME->HideDialog(twPlayHistoryDialog);
 	//
 	pMAINFRAME->ClearStatusMessage();
@@ -3007,7 +3006,7 @@ void CEasyBView::OnBidCurrentHand()
 	}
 
 	// rebidding the hand after game is underway?
-	if (theApp.IsGameInProgress() || (m_nCurrMode == MODE_GAMEREVIEW))
+	if (theApp.GetSettings()->GetGameInProgress() || (m_nCurrMode == MODE_GAMEREVIEW))
 	{
 		// if in the midst of game review, hide the game review dialog
 		if (m_nCurrMode == MODE_GAMEREVIEW)
@@ -3027,7 +3026,7 @@ void CEasyBView::OnBidCurrentHand()
 	}
 
 	// show bidding history
-	if (theApp.GetValue(tbAutoShowBidHistory))
+	if (theApp.GetSettings()->GetAutoShowBidHistory())
 		pMAINFRAME->MakeDialogVisible(twBiddingHistoryDialog);
 
 	// make sure south's hand is exposed
@@ -3041,7 +3040,7 @@ void CEasyBView::OnBidCurrentHand()
 	Refresh(TRUE);	// make sure to invalidate
 
 	//
-	theApp.SetValue(tbBiddingInProgress, TRUE);
+	theApp.GetSettings()->SetBiddingInProgress(true);
 //	pMAINFRAME->SetModeIndicator(" Bid ");
 	pMAINFRAME->SetAllIndicators();
 	CBidDialog* pBidDlg = pMAINFRAME->GetBidDialog();
@@ -3069,9 +3068,9 @@ void CEasyBView::OnBidCurrentHand()
 void CEasyBView::GameLoaded() 
 {
 	// show/hide dialogs
-	if (theApp.GetValue(tbAutoHideBidHistory))
+	if (theApp.GetSettings()->GetAutoHideBidHistory())
 		pMAINFRAME->HideDialog(twBiddingHistoryDialog);
-	if (theApp.GetValue(tbAutoShowPlayHistory))
+	if (theApp.GetSettings()->GetAutoShowPlayHistory())
 		pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
 
 	// set mode to "click to begin"
@@ -3180,9 +3179,9 @@ void CEasyBView::BeginPlay()
 	BOOL bPlayDlgWasVisible = pMAINFRAME->IsDialogVisible(twPlayHistoryDialog);
 	
 	// show/hide dialogs
-	if (theApp.GetValue(tbAutoHideBidHistory))
+	if (theApp.GetSettings()->GetAutoHideBidHistory())
 		pMAINFRAME->HideDialog(twBiddingHistoryDialog);
-	if (theApp.GetValue(tbAutoShowPlayHistory))
+	if (theApp.GetSettings()->GetAutoShowPlayHistory())
 		pMAINFRAME->MakeDialogVisible(twPlayHistoryDialog);
 
 	//
@@ -3193,11 +3192,11 @@ void CEasyBView::BeginPlay()
 
 	//
 	SetCurrentMode(MODE_WAITCARDPLAY);
-	theApp.SetValue(tbGameInProgress, TRUE);
+	theApp.GetSettings()->SetGameInProgress(true);
 	pMAINFRAME->SetAllIndicators();
 	//
 	if ((pDOC->GetDeal()->GetCurrentPlayer()->IsHumanPlayer()) &&
-		(theApp.GetValue(tbAutoJumpCursor)))
+		(theApp.GetSettings()->GetAutoJumpCursor()))
 		JumpCursor();
 
 	// get the ball rolling
@@ -3210,8 +3209,8 @@ void CEasyBView::BeginPlay()
 	EnableRefresh();
 	
 	// may need to invalidate (redraw cards) if showing/hidings dialogs
-	if ((theApp.GetValue(tbAutoHideBidHistory) && bBidDlgWasVisible) || 
-		(theApp.GetValue(tbAutoShowPlayHistory) && !bPlayDlgWasVisible) )
+	if ((theApp.GetSettings()->GetAutoHideBidHistory() && bBidDlgWasVisible) ||
+		(theApp.GetSettings()->GetAutoShowPlayHistory() && !bPlayDlgWasVisible) )
 		Refresh(TRUE);
 	else
 		Refresh(FALSE);
@@ -3244,7 +3243,7 @@ void CEasyBView::RestartPlay()
 	//
 	if (pDOC->GetDeal()->IsAutoReplayMode())
 	{
-		if (theApp.InExpressAutoPlay())
+		if (theApp.GetSettings()->InExpressAutoPlay())
 		{
 			BeginPlay();
 		}

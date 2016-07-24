@@ -15,7 +15,10 @@
 #endif // _MSC_VER > 1000
 // DispOptsFontsPage.h : header file
 //
+#include <memory>
+
 class CObjectWithProperties;
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsFontsPage dialog
@@ -35,7 +38,7 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
 	//
@@ -49,7 +52,7 @@ private:
 
 // Construction
 public:
-	CDispOptsFontsPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsFontsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsFontsPage();
 
 // Dialog Data

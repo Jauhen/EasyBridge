@@ -26,9 +26,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsGeneralPage, CPropertyPage)
 
-CBidOptsGeneralPage::CBidOptsGeneralPage(CObjectWithProperties* pApp, CObjectWithProperties* pConventionSet) : 
+CBidOptsGeneralPage::CBidOptsGeneralPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pConventionSet) :
 		CPropertyPage(CBidOptsGeneralPage::IDD),
-		m_app(*pApp), m_conventionSet(*pConventionSet)
+		m_app(pApp), m_conventionSet(*pConventionSet)
 {
 	//{{AFX_DATA_INIT(CBidOptsGeneralPage)
 	m_bBlackwood = FALSE;

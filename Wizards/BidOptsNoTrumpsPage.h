@@ -9,7 +9,10 @@
 //
 // BidOptsNoTrumpsPage.h : header file
 //
+#include <memory>
+
 class CObjectWithProperties;
+class Settings;
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -27,13 +30,13 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_conventionSet;
 	int						m_nGambling3NTVersion;
 	
 // Construction
 public:
-	CBidOptsNoTrumpsPage(CObjectWithProperties* pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
+	CBidOptsNoTrumpsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pConventionSet=NULL);
 	~CBidOptsNoTrumpsPage();
 
 // Dialog Data

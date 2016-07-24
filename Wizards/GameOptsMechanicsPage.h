@@ -9,7 +9,8 @@
 //
 // GameOptsMechanicsPage.h : header file
 //
-class CObjectWithProperties;
+#include <memory>
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CGameOptsMechanicsPage dialog
@@ -24,12 +25,12 @@ public:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CGameOptsMechanicsPage(CObjectWithProperties* pApp=NULL);
+	CGameOptsMechanicsPage(std::shared_ptr<Settings> pApp=NULL);
 	~CGameOptsMechanicsPage();
 
 // Dialog Data

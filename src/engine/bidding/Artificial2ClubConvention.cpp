@@ -12,10 +12,12 @@
 
 #include "stdafx.h"
 #include "app_interface.h"
+#include "model/globals.h"
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/Artificial2ClubConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 
@@ -111,7 +113,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 			bidState.m_fMaxTPCPoints = fCardPts + bidState.m_fPartnersMax;
 
 			//
-			if (bidState.m_fMinTPPoints <= app_->GamePts() -2)
+			if (bidState.m_fMinTPPoints <= PTS_GAME -2)
 			{
 				nBid = BID_PASS;
 				status << "R2CLR10! But with only " & bidState.m_fMinTPPoints & " points in the partnership, we have to pass.\n";
@@ -193,7 +195,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	bidState.AdjustPartnershipPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints), 40 - fCardPts);
 
 	// respond negatively (2D) with < 33 points
-	if (bidState.m_fMinTPPoints < app_->SlamPts() ) 
+	if (bidState.m_fMinTPPoints < PTS_SLAM ) 
 	{
 		nBid = BID_2D;
 		status << "R2C04! With only " & fCardPts & "/" & fPts &
@@ -244,7 +246,7 @@ BOOL CArtificial2ClubConvention::RespondToConvention(const CPlayer& player,
 	// with < 26 total HCPs, 2NT
 	if (bidState.bBalanced) 
 	{
-		if (bidState.m_fMinTPCPoints >= app_->NTGamePts() )
+		if (bidState.m_fMinTPCPoints >= PTS_NT_GAME )
 			nBid = BID_3NT;
 		else
 			nBid = BID_2NT;
@@ -336,7 +338,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			bidState.m_fMaxTPCPoints = fCardPts + bidState.m_fPartnersMax;
 
 			// bid game or slam with 26+ pts
-			if ((bidState.m_fMinTPCPoints >= app_->NTGamePts() ) && (bidState.m_fMinTPCPoints < app_->SmallSlamPts() ))
+			if ((bidState.m_fMinTPCPoints >= PTS_NT_GAME ) && (bidState.m_fMinTPCPoints < PTS_SMALL_SLAM ))
 			{
 				if (bBalanced || bSemiBalanced)
 				{
@@ -344,15 +346,15 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 					status << "CRB1! With a balanced distribution and " &
 							  fCardPts & " HCPs in hand, rebid " & BidToFullString(nBid) & ".\n";
 				}
-				else if ( (ISMAJOR(nPrefSuit) && (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )) ||
-						  (ISMINOR(nPrefSuit) && (bidState.m_fMinTPPoints >= app_->MinorSuitGamePts() )) )
+				else if ( (ISMAJOR(nPrefSuit) && (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME )) ||
+						  (ISMINOR(nPrefSuit) && (bidState.m_fMinTPPoints >= PTS_MINOR_GAME )) )
 				{
 					nBid = bidState.GetGameBid(nPrefSuit);
 					status << "CRB2! With no help from partner, we have to unilaterally push on to game at " & BidToFullString(nBid) & ".\n";
 				}
 				bidState.SetConventionStatus(this, CONV_FINISHED);
 			}
-			else if ((bidState.m_fMinTPCPoints >= app_->SmallSlamPts() ) && (bidState.m_fMinTPCPoints < app_->GrandSlamPts() ))
+			else if ((bidState.m_fMinTPCPoints >= PTS_SMALL_SLAM ) && (bidState.m_fMinTPCPoints < PTS_GRAND_SLAM ))
 			{
 				if (bBalanced || bSemiBalanced)
 				{
@@ -368,7 +370,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 				}
 				bidState.SetConventionStatus(this, CONV_FINISHED);
 			}
-			else if (bidState.m_fMinTPCPoints >= app_->GrandSlamPts() )
+			else if (bidState.m_fMinTPCPoints >= PTS_GRAND_SLAM )
 			{
 				if (bBalanced || bSemiBalanced)
 				{
@@ -420,7 +422,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			if ( bidState.bSemiBalanced ||
 				 ((nPartnersSuitSupport <= SS_WEAK_SUPPORT) && (bBalanced)) )
 			{
-				if (bidState.m_fMinTPCPoints >= app_->SlamPts() )
+				if (bidState.m_fMinTPCPoints >= PTS_SLAM )
 					nBid = BID_6NT;
 				else
 					nBid = BID_3NT;
@@ -526,7 +528,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			else
 			{
 				// partner bid game!
-				if (bidState.m_fMinTPPoints < app_->SlamPts() )
+				if (bidState.m_fMinTPPoints < PTS_SLAM )
 				{
 					// we don't have points for a slam, so pass
 					nBid = BID_PASS;
@@ -559,7 +561,7 @@ BOOL CArtificial2ClubConvention::HandleConventionResponse(const CPlayer& player,
 			if ( bidState.bSemiBalanced ||
 				 ((nPartnersSuitSupport <= SS_WEAK_SUPPORT) && (bBalanced)) )
 			{
-				if (bidState.m_fMinTPCPoints >= app_->SlamPts() )
+				if (bidState.m_fMinTPCPoints >= PTS_SLAM )
 					nBid = BID_6NT;
 				else
 					nBid = BID_3NT;

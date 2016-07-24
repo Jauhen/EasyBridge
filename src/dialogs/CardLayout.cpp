@@ -18,7 +18,6 @@
 #include "subclass.h"
 #include "engine/card.h"
 #include "CardLayout.h"
-#include "progopts.h"
 #include "../Help/HelpCode.h"
 
 #ifdef _DEBUG
@@ -42,7 +41,7 @@ CCardLayoutDialog::CCardLayoutDialog(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_nCardLimit = 0;
 	m_nPlayer = SOUTH;
-	m_bUseSuitDisplayOrder = theApp.GetValue(tbLayoutFollowsDisplayOrder);
+	m_bUseSuitDisplayOrder = theApp.GetSettings()->GetLayoutFollowsDisplayOrder();
 }
 
 
@@ -131,7 +130,7 @@ BOOL CCardLayoutDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 		//		
 		nScreenSuit = (nID - IDC_CHECK1) / 13;
 		if (m_bUseSuitDisplayOrder)
-			nSuit = theApp.GetSuitSequence(nScreenSuit);
+			nSuit = theApp.GetSettings()->GetSuitSequence(nScreenSuit);
 		else
 			nSuit = SPADES - nScreenSuit;
 		nValue = 12 - ((nID - IDC_CHECK1) % 13);
@@ -202,10 +201,10 @@ void CCardLayoutDialog::Reset(BOOL bForceRefresh)
 	for(i=0;i<4;i++) 
 	{
 		if (m_bUseSuitDisplayOrder)
-			nIndex = theApp.GetSuitSequence(i);
+			nIndex = theApp.GetSettings()->GetSuitSequence(i);
 		else
 			nIndex = SPADES - i;
-		SetDlgItemText(i+IDC_STATIC1,theApp.GetSuitName(nIndex));
+		SetDlgItemText(i+IDC_STATIC1,theApp.GetSettings()->GetSuitName(nIndex));
 	}
 
 	// then clear all checks
@@ -250,7 +249,7 @@ void CCardLayoutDialog::ForceRefresh()
 void CCardLayoutDialog::OnDisplayOrder() 
 {
 	UpdateData(TRUE);
-	theApp.SetValue(tbLayoutFollowsDisplayOrder, m_bUseSuitDisplayOrder);
+	theApp.GetSettings()->SetLayoutFollowsDisplayOrder(m_bUseSuitDisplayOrder);
 	ForceRefresh();
 }
 
@@ -288,7 +287,7 @@ void CCardLayoutDialog::EnableOrDisable(BOOL bForceReset)
 		for(i=0;i<52;i++) 
 		{
 			if (m_bUseSuitDisplayOrder)
-				nSuit = theApp.GetSuitSequence(i/13);
+				nSuit = theApp.GetSettings()->GetSuitSequence(i/13);
 			else
 				nSuit = SPADES - (i/13);
 			//

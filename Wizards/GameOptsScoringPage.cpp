@@ -12,9 +12,8 @@
 
 #include "stdafx.h"
 #include "resource.h"
-#include "ObjectWithProperties.h"
+#include "model/settings.h"
 #include "GameOptsScoringPage.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -27,16 +26,16 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CGameOptsScoringPage, CPropertyPage)
 
-CGameOptsScoringPage::CGameOptsScoringPage(CObjectWithProperties* pApp) : 
+CGameOptsScoringPage::CGameOptsScoringPage(std::shared_ptr<Settings> pApp) :
 		CPropertyPage(CGameOptsScoringPage::IDD),
-		m_app(*pApp)
+		m_app(pApp)
 {
 	//{{AFX_DATA_INIT(CGameOptsScoringPage)
 	m_bScoreHonorsBonuses = FALSE;
 	m_bUseDuplicateScoring = FALSE;
 	//}}AFX_DATA_INIT
-	m_bScoreHonorsBonuses = m_app.GetValue(tbScoreHonorsBonuses);
-	m_bUseDuplicateScoring = m_app.GetValue(tbUsingDuplicateScoring);
+	m_bScoreHonorsBonuses = m_app->GetScoreHonorsBonuses();
+	m_bUseDuplicateScoring = m_app->GetUsingDuplicateScoring();
 }
 
 CGameOptsScoringPage::~CGameOptsScoringPage()
@@ -68,7 +67,7 @@ END_MESSAGE_MAP()
 void CGameOptsScoringPage::Update()
 {
 	// store results
-	m_app.SetValue(tbScoreHonorsBonuses, m_bScoreHonorsBonuses);
-	m_app.SetValue(tbUsingDuplicateScoring, m_bUseDuplicateScoring);
+	m_app->SetScoreHonorsBonuses(m_bScoreHonorsBonuses);
+	m_app->SetUsingDuplicateScoring(m_bUseDuplicateScoring);
 }
 

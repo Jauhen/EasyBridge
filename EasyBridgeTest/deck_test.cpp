@@ -18,8 +18,6 @@ protected:
 };
 
 TEST_F(DeckTests, Init) {
-  EXPECT_CALL(*app, GetSuitSequence(_)).WillRepeatedly(Return('H'));
-
   d.InitializeCards();
 }
 

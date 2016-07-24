@@ -9,7 +9,8 @@
 //
 // dealmjpg.h : header file
 //
-class CObjectWithProperties;
+#include <memory>
+class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDealOptsMajorsPage dialog
@@ -26,12 +27,12 @@ private:
 
 // data
 private:
-	CObjectWithProperties&	m_app;
+  std::shared_ptr<Settings>	m_app;
 
 
 // Construction
 public:
-	CDealOptsMajorsPage(CObjectWithProperties* pApp=NULL);
+	CDealOptsMajorsPage(std::shared_ptr<Settings> pApp=NULL);
 	~CDealOptsMajorsPage();
 
 // Dialog Data

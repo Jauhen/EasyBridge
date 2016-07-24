@@ -17,6 +17,7 @@
 #include "engine/bidding/bidengine.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 //
@@ -125,13 +126,13 @@ int CBidEngine::MakeRespondingBid()
 			// 0-7 HCPs (up to 23 pts min. based on 16-18 
 			// 1NT count):  pass
 			// this means we'd pass w/ 8 pts when playing 15-17 1NT
-			if (m_fMinTPCPoints <= app_->GamePts() -2) 
+			if (m_fMinTPCPoints <= PTS_GAME -2) 
 			{
 				m_nBid = BID_PASS;
 				status << "B10! We do not have quite enough for game even if partner has max opening points, so pass.\n";
 			// 24+ tot. HCPs:  raise to 2NT
 			} 
-			else if (m_fMinTPCPoints == app_->GamePts() -1) 
+			else if (m_fMinTPCPoints == PTS_GAME -1) 
 			{
 				// see if we're playing 4-suit Jacoby -- then
 				// we have to bid 2C
@@ -149,14 +150,14 @@ int CBidEngine::MakeRespondingBid()
 							  " bid.\n";
 				}
 			} 
-			else if ((m_fMinTPCPoints >= app_->NTGamePts() ) && (m_fMinTPCPoints <= app_->SlamPts() -3)) 
+			else if ((m_fMinTPCPoints >= PTS_NT_GAME ) && (m_fMinTPCPoints <= PTS_SLAM -3)) 
 			{
 				// 26-30 tot HCPs:  raise to 3NT
 				m_nBid = BID_3NT;
 				status << "B30! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " combined HC points, game is reachable.  Bid " & BidToFullString(m_nBid) & ".\n";
 			} 
-			else if ((m_fMinTPCPoints >= app_->SlamPts() -2) && (m_fMinTPCPoints <= app_->SlamPts() -1)) 
+			else if ((m_fMinTPCPoints >= PTS_SLAM -2) && (m_fMinTPCPoints <= PTS_SLAM -1)) 
 			{
 				// 31-32 tot HCPs:  raise to 4NT
 				m_nBid = BID_4NT;
@@ -164,7 +165,7 @@ int CBidEngine::MakeRespondingBid()
 						  " combined HC points, entertain slam possibilities with an invitational " &
 						  BidToFullString(m_nBid) & " bid.\n";
 			} 
-			else if ((m_fMinTPCPoints >= app_->SlamPts() ) && (m_fMinTPCPoints <= app_->SlamPts() +1)) 
+			else if ((m_fMinTPCPoints >= PTS_SLAM ) && (m_fMinTPCPoints <= PTS_SLAM +1)) 
 			{
 				// 33-34 tot HCPs:  raise to 6NT
 				m_nBid = BID_6NT;
@@ -172,7 +173,7 @@ int CBidEngine::MakeRespondingBid()
 						  " combined HC points, a small slam should be reachable.  Bid " &
 						  BidToFullString(m_nBid) & ".\n";
 			} 
-			else if ((m_fMinTPCPoints >= app_->SlamPts() +2) && (m_fMinTPCPoints <= app_->SlamPts() +3)) 
+			else if ((m_fMinTPCPoints >= PTS_SLAM +2) && (m_fMinTPCPoints <= PTS_SLAM +3)) 
 			{
 				// 35-36 tot HCPs:  raise to 5NT; inviting to 
 				// grand slam if opener has more than min. pts
@@ -206,7 +207,7 @@ int CBidEngine::MakeRespondingBid()
 		//
 		// with < 23 min team points, pass
 		//
-		if (m_fMinTPPoints < app_->GamePts() -3) 
+		if (m_fMinTPPoints < PTS_GAME -3) 
 		{
 			m_nBid = BID_PASS;
 			status << "C00! With only " & fCardPts & "/" & fPts &
@@ -222,14 +223,14 @@ int CBidEngine::MakeRespondingBid()
 		// 23-25 team points (7-8 in hand playing 16-18 1NT):  
 		// bid with a long suit, pass otherwise
 		//
-		if (m_fMinTPPoints < app_->GamePts() ) 
+		if (m_fMinTPPoints < PTS_GAME ) 
 		{
 			//
 			// with 25 pts and a 6-card major suit, jump to 4
 			//
 			if ((numCardsInSuit[HEARTS] >= 6) || 
 						(numCardsInSuit[SPADES] >= 6) &&
-											(fPts >= app_->GamePts() -1) )
+											(fPts >= PTS_GAME -1) )
 			{
 				nSuit = GetBestSuitofAtLeast(HEARTS,SPADES,6);
 				m_nBid = MAKEBID(nSuit,4);
@@ -242,7 +243,7 @@ int CBidEngine::MakeRespondingBid()
 			//
 			// with 24+ HCPs and a 6-card minor, jump to 3NT
 			//
-			if ((m_fMinTPCPoints >= app_->GamePts() -2) &&
+			if ((m_fMinTPCPoints >= PTS_GAME -2) &&
 				((numCardsInSuit[CLUBS] >= 6) || 
 						(numCardsInSuit[DIAMONDS] >= 6)) ) 
 			{
@@ -312,7 +313,7 @@ int CBidEngine::MakeRespondingBid()
 		//   with no length anywhere:  jump to 3NT
 		//   with 14+ points, bid 3 first, then try for slam later
 		//
-		if ((m_fMinTPPoints >= app_->GamePts() ) && (m_fMinTPPoints < app_->SlamPts() ))
+		if ((m_fMinTPPoints >= PTS_GAME ) && (m_fMinTPPoints < PTS_SLAM ))
 		{
 
 			// with a 6-card major suit, jump to 4 (game)
@@ -327,7 +328,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 			// with 25 HCPs and a 6-card minor, jump to 3NT
-			if ( (m_fMinTPCPoints >= app_->GamePts() -1) &&
+			if ( (m_fMinTPCPoints >= PTS_GAME -1) &&
 				 ((numCardsInSuit[CLUBS] >= 6) || (numCardsInSuit[DIAMONDS] >= 6)) ) 
 			{
 				nSuit = GetBestSuitofAtLeast(CLUBS,DIAMONDS,6);
@@ -455,8 +456,8 @@ int CBidEngine::MakeRespondingBid()
 	{
 
 		//
-		m_fPartnersMin = app_->GetMinimumOpeningValue(m_pPartner);
-		m_fPartnersMax = app_->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)) - 1;
+		m_fPartnersMin = m_pPartner->GetMinimumOpeningValue();
+		m_fPartnersMax = app_->GetSettings()->OpenPoints(app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints)) - 1;
 		//
 		if ((m_pPartner->GetOpeningPosition() == 0) ||		
 				(m_pPartner->GetOpeningPosition() == 1)) 
@@ -485,14 +486,14 @@ int CBidEngine::MakeRespondingBid()
 		// also pass if we have < 6 unadjusted pts with nothing but 
 		// support for partner's minor
 		//
-		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts < app_->OpenPoints(6))) ||
-			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts < app_->OpenPoints(6))) ||
-			(ISMINOR(nPartnersSuit) && (fPts < app_->OpenPoints(6))) ) 
+		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts < app_->GetSettings()->OpenPoints(6))) ||
+			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts < app_->GetSettings()->OpenPoints(6))) ||
+			(ISMINOR(nPartnersSuit) && (fPts < app_->GetSettings()->OpenPoints(6))) ) 
 		{
 			// pass
 			m_nBid = BID_PASS;
 			// check if the extra support points are wasted
-			if ((fAdjPts > app_->OpenPoints(5)) && (nPartnersSuitSupport < SS_WEAK_SUPPORT))
+			if ((fAdjPts > app_->GetSettings()->OpenPoints(5)) && (nPartnersSuitSupport < SS_WEAK_SUPPORT))
 				status << "F02! But we have only " & fCardPts & "/" & fPts & "/" & fAdjPts &
 						  " points with weak trump support, so we have to pass.\n";
 			else if (ISMAJOR(nPartnersSuit))
@@ -523,20 +524,20 @@ int CBidEngine::MakeRespondingBid()
 		// for responding are stricter if we're responding to a minor
 		//
 		if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-							(fPts >= app_->OpenPoints(6)) && (fPts < app_->OpenPoints(11))) ||
+							(fPts >= app_->GetSettings()->OpenPoints(6)) && (fPts < app_->GetSettings()->OpenPoints(11))) ||
 			 (ISMAJOR(nPartnersSuit) && 
 							(nPartnersSuitSupport >= SS_WEAK_SUPPORT) && 
-				 			(fAdjPts >= app_->OpenPoints(6)) && (fAdjPts < app_->OpenPoints(11))) || 
+				 			(fAdjPts >= app_->GetSettings()->OpenPoints(6)) && (fAdjPts < app_->GetSettings()->OpenPoints(11))) || 
 			 (ISMINOR(nPartnersSuit) && 
 							(nPartnersSuitSupport >= SS_WEAK_SUPPORT) && 
-				 			(fPts >= app_->OpenPoints(6)) && (fAdjPts < app_->OpenPoints(11))) ) 
+				 			(fPts >= app_->GetSettings()->OpenPoints(6)) && (fAdjPts < app_->GetSettings()->OpenPoints(11))) ) 
 		{
 
 			// look for a triple raise in a major suit
 			// need 5+ trumps, 6-10 HCPs, 
 			// and a void or a singleton
 			if ((ISMAJOR(nPartnersSuit)) && 
-				(fCardPts >= app_->OpenPoints(6)) && (fCardPts < app_->OpenPoints(10)) &&
+				(fCardPts >= app_->GetSettings()->OpenPoints(6)) && (fCardPts < app_->GetSettings()->OpenPoints(10)) &&
 				(numSupportCards >= 5) &&
 				((numVoids > 0) || (numSingletons > 0)) ) 
 			{
@@ -651,7 +652,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 			// bid 2/1 with 10 HCPs and a good suit
-			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->OpenPoints(10)) &&
+			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->GetSettings()->OpenPoints(10)) &&
 					(nPrefSuitStrength >= SS_OPENABLE)) 
 			{
 				// move to the 2 level with the lower suit
@@ -664,7 +665,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 			// bid 2/1 with 9 pts and a really good suit
-			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->OpenPoints(9)) &&
+			if ((nPrefSuit < nPartnersSuit) && (fCardPts >= app_->GetSettings()->OpenPoints(9)) &&
 					 (nPrefSuitStrength >= SS_STRONG) && (bPrefSuitIsSolid)) 
 			{
 				// move to the 2 level with the lower suit
@@ -695,7 +696,7 @@ int CBidEngine::MakeRespondingBid()
 			// bid a higher minor if possible
 			// i.e., Diamonds over clubs
 			if ((nPartnersSuit == CLUBS) && 
-				(nPrefSuit == DIAMONDS) && (fPts >= app_->OpenPoints(6)) &&
+				(nPrefSuit == DIAMONDS) && (fPts >= app_->GetSettings()->OpenPoints(6)) &&
 				(nPrefSuitStrength >= SS_OPENABLE)) 
 			{
 				m_nBid = BID_1D;
@@ -766,16 +767,16 @@ int CBidEngine::MakeRespondingBid()
 		// but if playing limit raises, can raise w/ 4 trumps
 		//
 		if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-						(fPts >= app_->OpenPoints(11)) && (fPts < app_->OpenPoints(13))) ||
+						(fPts >= app_->GetSettings()->OpenPoints(11)) && (fPts < app_->GetSettings()->OpenPoints(13))) ||
 			 ((nPartnersSuitSupport >= SS_WEAK_SUPPORT) &&
-					    (fAdjPts >= app_->OpenPoints(11)) && (fAdjPts < app_->OpenPoints(13))) ) 
+					    (fAdjPts >= app_->GetSettings()->OpenPoints(11)) && (fAdjPts < app_->GetSettings()->OpenPoints(13))) ) 
 		{
 
 			// note, however, that this point range can still
 			// look attractive for a triple raise if we have
 			// less than 10 High Card points
 			if ((ISMAJOR(nPartnersSuit)) && 
-				(fCardPts > app_->OpenPoints(5)) && (fCardPts < app_->OpenPoints(10)) &&
+				(fCardPts > app_->GetSettings()->OpenPoints(5)) && (fCardPts < app_->GetSettings()->OpenPoints(10)) &&
 				(numSupportCards >= 5) &&
 				((numVoids > 0) || (numSingletons > 0)) ) 
 			{
@@ -798,7 +799,7 @@ int CBidEngine::MakeRespondingBid()
 			// look for a limit raise of partner's major suit
 			if ((ISMAJOR(nPartnersSuit)) &&
 				  (PlayingConvention(tidLimitRaises)) &&
-									(fAdjPts >= app_->OpenPoints(11)) && 
+									(fAdjPts >= app_->GetSettings()->OpenPoints(11)) && 
 									(numSupportCards >= 4)) 
 			{	
 				m_nAgreedSuit = nPartnersSuit;
@@ -870,7 +871,7 @@ int CBidEngine::MakeRespondingBid()
 			// major opening to a 2 or 3 level
 			// raise to the 3 level with 11-12 pts 
 			// only if holding _very_ strong trump support
-			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts >= app_->OpenPoints(11)) && 
+			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts >= app_->GetSettings()->OpenPoints(11)) && 
 							(nPartnersSuitSupport > SS_GOOD_SUPPORT)) 
 			{
 				m_nAgreedSuit = nPartnersSuit;
@@ -884,7 +885,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 	 		// else raise a major suit to 2 with 11-12.5 pts and weak trump support
-			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts < app_->OpenPoints(13)) &&
+			if ((ISMAJOR(nPartnersSuit)) && (fAdjPts < app_->GetSettings()->OpenPoints(13)) &&
 							(nPartnersSuitSupport >= SS_WEAK_SUPPORT)) 
 			{
 				m_nAgreedSuit = nPartnersSuit;
@@ -982,9 +983,9 @@ int CBidEngine::MakeRespondingBid()
 		// (13-18 orig pts or 13-18.5 reval. pts w/ trump support)
 		// 
 		if ( ((nPartnersSuitSupport < SS_WEAK_SUPPORT) && 
-						(fPts >= app_->OpenPoints(13)) && (fPts < app_->OpenPoints(19))) ||
+						(fPts >= app_->GetSettings()->OpenPoints(13)) && (fPts < app_->GetSettings()->OpenPoints(19))) ||
 			 ((nPartnersSuitSupport >= SS_WEAK_SUPPORT) &&
-			 			(fAdjPts >= app_->OpenPoints(13)) && (fAdjPts < app_->OpenPoints(19))) ) 
+			 			(fAdjPts >= app_->GetSettings()->OpenPoints(13)) && (fAdjPts < app_->GetSettings()->OpenPoints(19))) ) 
 		{
 
 			// see if we have good support for partner's major suit
@@ -1006,12 +1007,12 @@ int CBidEngine::MakeRespondingBid()
 			// else see if we have a balanced hand worthy of a 
 			// 2NT or 3NT bid -- also need the other suits stopped
 			// need strength in the unbid suits (i.e., > than a Jack)
-			if ((bBalanced) && (m_fMinTPCPoints >= app_->NTGamePts() -1) &&
+			if ((bBalanced) && (m_fMinTPCPoints >= PTS_NT_GAME -1) &&
 					(m_pHand->AllOtherSuitsStopped(nPartnersSuit))) 
 			{
 				// need 27+ pts (alt) for a 3NT bid, 25+ for 2NT
 				// because partner may not be balanced
-				if (m_fMinTPCPoints > app_->GamePts() +1)
+				if (m_fMinTPCPoints > PTS_GAME +1)
 					m_nBid = BID_3NT;
 				else
 					m_nBid = BID_2NT;
@@ -1065,7 +1066,7 @@ int CBidEngine::MakeRespondingBid()
 				   
 			if ((!PlayingConvention(tidLimitRaises)) &&
 				(ISMAJOR(nPartnersSuit)) && 
-				(fAdjPts >= app_->OpenPoints(16)) && (numSupportCards >= 4)) 
+				(fAdjPts >= app_->GetSettings()->OpenPoints(16)) && (numSupportCards >= 4)) 
 			{
 				// we can sneak in a double raise with 16+ pts & 4 small trumps
 				m_nAgreedSuit = nPartnersSuit;
@@ -1128,8 +1129,8 @@ int CBidEngine::MakeRespondingBid()
 		// Responding to a 1-bid, with 19+ pts in hand
 		// Make a jump response in a new suit
 		// 
-		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts >= app_->OpenPoints(19))) ||
-			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts >= app_->OpenPoints(19))) ) 
+		if (((nPartnersSuitSupport < SS_WEAK_SUPPORT) && (fPts >= app_->GetSettings()->OpenPoints(19))) ||
+			((nPartnersSuitSupport >= SS_WEAK_SUPPORT) && (fAdjPts >= app_->GetSettings()->OpenPoints(19))) ) 
 		{
 		
 			// if we have a different preferred suit, respond in that

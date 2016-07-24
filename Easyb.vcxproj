@@ -340,6 +340,7 @@
     <ClCompile Include="src\engine\player.cpp" />
     <ClCompile Include="src\engine\PlayerStatusDialog.CPP" />
     <ClCompile Include="src\engine\play\PlayList.cpp" />
+    <ClCompile Include="src\model\settings.cpp" />
     <ClCompile Include="src\print.cpp" />
     <ClCompile Include="src\model\rdfile.cpp" />
     <ClCompile Include="src\model\RdFilePBN.cpp" />
@@ -419,7 +420,7 @@
     <ClInclude Include="src\engine\bidding\ConventionSet.h" />
     <ClInclude Include="src\engine\bidding\CueBidConvention.h" />
     <ClInclude Include="src\dialogs\DealNumberDialog.h" />
-    <ClInclude Include="src\DEALPARM.H" />
+    <ClInclude Include="src\model\DEALPARM.H" />
     <ClInclude Include="src\engine\Deck.H" />
     <ClInclude Include="src\engine\deckopts.h" />
     <ClInclude Include="src\engine\play\DeclarerPlayEngine.H" />
@@ -468,6 +469,7 @@
     <ClInclude Include="src\mainfrm.h" />
     <ClInclude Include="src\engine\bidding\MichaelsCueBidConvention.h" />
     <ClInclude Include="src\dialogs\MyCustomDialog.h" />
+    <ClInclude Include="src\model\settings.h" />
     <ClInclude Include="src\MyException.h" />
     <ClInclude Include="src\dialogs\MYFILDLG.H" />
     <ClInclude Include="src\engine\bidding\NegativeDoublesConvention.h" />
@@ -481,10 +483,8 @@
     <ClInclude Include="src\engine\play\Play.h" />
     <ClInclude Include="src\engine\play\PlayEngine.H" />
     <ClInclude Include="src\engine\PLAYER.H" />
-    <ClInclude Include="src\engine\playeropts.h" />
     <ClInclude Include="src\engine\PlayerStatusDialog.H" />
     <ClInclude Include="src\engine\play\PlayList.h" />
-    <ClInclude Include="src\progopts.h" />
     <ClInclude Include="src\dialogs\roundfinisheddialog.h" />
     <ClInclude Include="src\engine\play\Ruff.h" />
     <ClInclude Include="src\dialogs\saveopts.h" />

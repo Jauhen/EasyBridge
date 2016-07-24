@@ -277,7 +277,7 @@ void CMyCustomDialog::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 BOOL CMyCustomDialog::OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
 {
     TOOLTIPTEXT *pTTT = (TOOLTIPTEXT *)pNMHDR;
-    UINT nID = pNMHDR->idFrom;
+    UINT_PTR nID = pNMHDR->idFrom;
 	int nIndex;
 	//
     if (pTTT->uFlags & TTF_IDISHWND)

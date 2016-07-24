@@ -15,6 +15,8 @@
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/ShutoutBidsConvention.h"
 #include "app_interface.h"
+#include "model/settings.h"
+
 
 
 //
@@ -163,8 +165,8 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	//
 	 
 	// first state expectations
-	bidState.m_fPartnersMin = app_->OpenPoints(6);
-	bidState.m_fPartnersMax = app_->OpenPoints(9);
+	bidState.m_fPartnersMin = app_->GetSettings()->OpenPoints(6);
+	bidState.m_fPartnersMax = app_->GetSettings()->OpenPoints(9);
 	status << "SHUTR0! Partner made a preemptive " & bidState.szPB & 
 			  " bid, showing a " & 
 			  ((bidState.nPartnersBidLevel==3)? 7:(bidState.nPartnersBidLevel==4)? 8:9) &
@@ -197,7 +199,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	//
 	if ((nPartnersBidLevel == 3) && (ISMAJOR(nPartnersSuit)) &&
 		(numSupportCards >= 4) && (numQuickTricks >= 2) && 
-		(numLikelyWinners >= 5) && (fMinTPPoints >= app_->GamePts() )) 
+		(numLikelyWinners >= 5) && (fMinTPPoints >= PTS_GAME )) 
 	{
 		nBid = MAKEBID(nPartnersSuit,4);
 		status << "SHUTR2! We have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
@@ -214,7 +216,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	// support && 6+ winners && 28+ TPs
 	if ((nPartnersBidLevel <= 4)  && (ISMINOR(nPartnersSuit)) &&
 		(numSupportCards >= 5) && (numQuickTricks >= 2) && 
-		(numLikelyWinners >= 6) && (fMinTPPoints >= app_->MinorSuitGamePts() )) 
+		(numLikelyWinners >= 6) && (fMinTPPoints >= PTS_MINOR_GAME )) 
 	{
 		nBid = MAKEBID(nPartnersSuit,5);
 		status << "SHUTR4! We have " & fCardPts & "/" & fPts & "/" & fAdjPts & 
@@ -230,7 +232,7 @@ BOOL CShutoutBidsConvention::RespondToConvention(const CPlayer& player,
 	// raise a 3 or 4 bid to slam with strong support,
 	// >= 32 TPs, and 4 QTs
 	if ((nPartnersBidLevel < 5) && (nPartnersSuitSupport >= SS_GOOD_SUPPORT) &&
-		(numQuickTricks >= 4) && (fMinTPPoints >= app_->SlamPts() )) 
+		(numQuickTricks >= 4) && (fMinTPPoints >= PTS_SLAM )) 
 	{
 		nBid = MAKEBID(nPartnersSuit,6);
 		status << "SHUTR6! We have " & fCardPts & "/" & fPts & "/" & fAdjPts & 

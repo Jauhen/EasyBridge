@@ -44,6 +44,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "model/deal.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 
@@ -364,7 +365,7 @@ void CDeclarerPlayEngine::RecordCardPlay(int nPos, CCard* pCard)
 	// see if we are currently restoring a position, and this is dummy's 
 	// first card played
 	// OR: we are in manual mode, watching the human play for us
-	if ( (app_->IsInGameRestoreMode() || app_->IsInManualCardPlayMode()) && 
+	if ( (app_->IsInGameRestoreMode() || app_->GetSettings()->GetEnableGIBForDeclarer()) &&
 		 (nPos == m_pPartner->GetPosition()) && (app_->GetDeal()->GetNumCardsPlayedInGame() == 2) )
 	{
 		// if so, we have to init the combined hand at this point, since
@@ -530,7 +531,7 @@ void CDeclarerPlayEngine::AssessPosition()
 	CPlayEngine::AssessPosition();
 
 	// then perform class-specific operations
-	m_bUsingGIB = app_->IsEnableGIBForDeclarer();
+	m_bUsingGIB = app_->GetSettings()->GetEnableGIBForDeclarer();
 }
 
 
@@ -876,7 +877,7 @@ CCard* CDeclarerPlayEngine::PlayForDummy()
 	//
 	// see if we're using GIB
 	CCard* pCard;
-	m_bUsingGIB = app_->IsEnableGIBForDeclarer();
+	m_bUsingGIB = app_->GetSettings()->GetEnableGIBForDeclarer();
 	if (m_bUsingGIB)
 	{
 		// call gib
@@ -942,7 +943,7 @@ void CDeclarerPlayEngine::TestForClaim()
 		return;
 
 	//
-	if (app_->InExpressAutoPlay())
+	if (app_->GetSettings()->InExpressAutoPlay())
 		return;
 
 	// see if we can claim the hand (or should concede)
@@ -962,7 +963,7 @@ void CDeclarerPlayEngine::TestForClaim()
 		//     in DIFFERENT suits
 
 		// test condition #1
-		if ((numWinners < numRemainingTricks) || !app_->IsComputerCanClaim())
+		if ((numWinners < numRemainingTricks) || !app_->GetSettings()->GetComputerCanClaim())
 			return;
 
 		// check entries

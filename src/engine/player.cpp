@@ -14,7 +14,6 @@
 #include "stdafx.h"
 #include "engine/card_constants.h"
 #include "engine/Card.h"
-#include "engine/playeropts.h"
 #include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
 #include "engine/play/HandHoldings.h"
@@ -31,6 +30,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "model/deal.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 extern int nSuitDisplaySequence[];
@@ -201,7 +201,7 @@ int CPlayer::GetNumSuitsStopped() const
 int CPlayer::GetBiddingHint(BOOL bAutoHintMode) 
 { 
 //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode);
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	//
 	app_->SetCurrentModeTemp(160/*CEasyBView::MODE_THINKING*/);
@@ -211,7 +211,7 @@ int CPlayer::GetBiddingHint(BOOL bAutoHintMode)
 	m_pStatusDlg->EndHintBlock();
 	app_->RestoreMode();
 	//
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		ResumeTrace();
 //	if (bAutoHintMode)
 //		m_pStatusDlg->SetAutoHintMode(FALSE);
@@ -709,7 +709,7 @@ int CPlayer::GetPriorBid(int nIndex)
 CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode) 
 { 
 //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode); 
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	CCard* pCard = NULL;
 	//
@@ -741,7 +741,7 @@ CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode)
 	m_pStatusDlg->EndHintBlock();
 	app_->RestoreMode();
 	//
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		ResumeTrace();
 //	if (bAutoHintMode)
 //		m_pStatusDlg->SetAutoHintMode(FALSE); 
@@ -772,8 +772,8 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 	if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1))
 	{
 		// sleep if necessary
-		if (app_->IsInsertBiddingPause())
-			Sleep(app_->GetPlayPauseLength() * 100);
+		if (app_->GetSettings()->GetInsertBiddingPause())
+			Sleep(app_->GetSettings()->GetPlayPauseLength() * 100);
 
 		// auto play last card in suit
 		CCard* pPlayCard = GetCardInSuit(nSuitLed, 0);
@@ -782,7 +782,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1002);
 
 		// note the play in the hint window
-		if (app_->GetAutoHintMode() > 0)
+		if (app_->GetSettings()->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
@@ -795,8 +795,8 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 	else if (GetNumCards() == 1)
 	{
 		// sleep if necessary
-		if (app_->IsInsertBiddingPause())
-			Sleep(app_->GetPlayPauseLength() * 100);
+		if (app_->GetSettings()->GetInsertBiddingPause())
+			Sleep(app_->GetSettings()->GetPlayPauseLength() * 100);
 
 		// auto play last card in hand
 		CCard* pPlayCard = GetCardByPosition(0);
@@ -805,7 +805,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1003);
 		
 		// note the play in the hint window
-		if (app_->GetAutoHintMode() > 0)
+		if (app_->GetSettings()->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
@@ -862,19 +862,6 @@ LPVOID CPlayer::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch (nItem)
 	{
-		case tnPosition:
-			return (LPVOID) m_nPosition;
-		case tnSkillLevel:
-			return (LPVOID) m_nSkillLevel;
-		case tbDummy:
-			return (LPVOID) m_bDummy;
-		case tbTeamIsVulnerable:
-			return (LPVOID) m_bTeamIsVulnerable;
-		case tpPartner:
-			return (LPVOID) m_pPartner;
-		// game info
-		case tszAnalysis:
-			return (LPVOID) m_pStatusDlg->GetText();
 
 		//
 		// the following get passed into m_pHand
@@ -1006,18 +993,13 @@ LPVOID CPlayer::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 	return NULL;
 }
 
-//
-double CPlayer::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex3)
-{
-	switch (nItem)
-	{
-		case tfQuickTricks:	
-			return m_pHand->GetNumQuickTricks();
-		default:
-			AfxMessageBox("Unhandled Call to CPlayer::GetValue");
-			return 1;
-	}
-	return 0;
+void CPlayer::SetAnalysis(CString str) {
+	m_pStatusDlg->Clear();
+	*m_pStatusDlg << str;
+}
+
+const char* CPlayer::GetAnalysis() {
+	return m_pStatusDlg->GetText();
 }
 
 //
@@ -1031,27 +1013,6 @@ int CPlayer::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int n
 	//
 	switch (nItem)
 	{
-		case tnPosition:
-			m_nPosition = (Position) nVal;
-			break;
-		case tnSkillLevel:
-			m_nSkillLevel = nVal;
-			break;
-		case tbDummy:
-			m_bDummy = bVal;
-			break;
-		case tbTeamIsVulnerable:
-			m_bTeamIsVulnerable = bVal;
-			break;
-		case tpPartner:
-			m_pPartner = (CPlayer*) value;
-			break;
-		// game info
-		case tszAnalysis:
-			m_pStatusDlg->Clear();
-			*m_pStatusDlg << sVal;
-			break;
-			
 		//
 		// the following get passed to m_pHand
 		//
@@ -1195,11 +1156,6 @@ int CPlayer::SetValue(int nItem, double fValue, int nIndex1, int nIndex2, int nI
 //	return 0;
 }
 
-// conversion functions
-LPCTSTR CPlayer::GetValueString(int nItem, int nIndex1, int nIndex2, int nIndex3)
-{
-	return (LPCTSTR) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
 
 void CPlayer::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3)
 {
@@ -1214,4 +1170,14 @@ int CPlayer::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3)
 int CPlayer::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3)
 {
 	return SetValuePV(nItem, (LPVOID) nValue, nIndex1, nIndex2, nIndex3);
+}
+
+
+int CPlayer::GetMinimumOpeningValue() {
+	int nOpeningPos = (int)m_pBidder->GetValuePV(tnOpeningPosition);
+	if (nOpeningPos < 0 || nOpeningPos > 3)
+		return 10;
+	bool b3rd4thPos = nOpeningPos == 2 || nOpeningPos == 3;
+
+	return b3rd4thPos ? 10 : 12;
 }

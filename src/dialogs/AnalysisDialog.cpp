@@ -15,9 +15,7 @@
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "subclass.h"
-#include "progopts.h"
 #include "engine/player.h"
-#include "engine/playeropts.h"
 #include "analysisDialog.h"
 #include "../Help/HelpCode.h"
 
@@ -126,7 +124,7 @@ BOOL CAnalysisDialog::OnInitDialog()
 	// set the edit control's font
 	SendDlgItemMessage(IDC_EDIT,
 		 			   WM_SETFONT, 
-					   (LONG)m_pFont->m_hObject,
+					   (WPARAM)m_pFont->m_hObject,
 					   FALSE);
 	// and set window info
 	CString strTemp;
@@ -241,7 +239,7 @@ BOOL CAnalysisDialog::OnCommand(WPARAM wParam, LPARAM lParam)
 		case WMS_SET_ANALYSIS_FONT:
 			SendDlgItemMessage(IDC_EDIT,
 			 				   WM_SETFONT, 
-							   (LONG)pMAINFRAME->m_analysisFont.m_hObject,
+							   (WPARAM)pMAINFRAME->m_analysisFont.m_hObject,
 							   FALSE);
 			return TRUE;
 		case WMS_SETTEXT:
@@ -285,7 +283,7 @@ void CAnalysisDialog::OnSysCommand(UINT nID, LPARAM lParam)
 		// write
 		CString strTemp;
 		strTemp.Format("EasyBridge Analysis record\r\nProgram version %s",
-							theApp.GetProgramVersionString());
+							theApp.GetSettings()->GetProgramVersionString());
 		file.Write((LPCTSTR)strTemp,strTemp.GetLength());
 		//
 		CTime time = CTime::GetCurrentTime();
@@ -308,7 +306,7 @@ void CAnalysisDialog::OnSysCommand(UINT nID, LPARAM lParam)
 	} 
 	else if (nID == ID_CLEAR_ANALYSIS) 
 	{
-		pDOC->GetDeal()->GetPlayer(m_nPlayer)->SetValueString(tszAnalysis, "");
+		pDOC->GetDeal()->GetPlayer(m_nPlayer)->SetAnalysis("");
 	}
 	else if (nID == ID_SET_ANALYSIS_FONT) 
 	{

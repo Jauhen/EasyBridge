@@ -32,7 +32,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CDealOptionsPropSheet, CPropertySheet)
 
-CDealOptionsPropSheet::CDealOptionsPropSheet(CObjectWithProperties* pApp, CWnd* pParentWnd, UINT iSelectPage) :
+CDealOptionsPropSheet::CDealOptionsPropSheet(std::shared_ptr<Settings> pApp, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Deal Options"), pParentWnd, iSelectPage)
 {
 	// first create the pages

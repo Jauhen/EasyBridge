@@ -6,6 +6,7 @@
 #include "engine/Player.h"
 #include "engine/play/CardHoldings.h"
 #include "engine/play/HandHoldings.h"
+#include "model/settings.h"
 
 #include "MyException.h"
 #include "dialogs/roundfinisheddialog.h"
@@ -14,12 +15,12 @@ BOOL Deal::m_bInitialized = FALSE;
 
 Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
   //
-  m_strFileProgTitle = app_->GetProgramTitle();
-  m_nFileProgMajorVersion = app_->GetProgramMajorVersion();
-  m_nFileProgMinorVersion = app_->GetProgramMinorVersion();
-  m_nFileProgIncrementVersion = app_->GetProgramIncrementVersion();
-  m_nFileProgBuildNumber = app_->GetProgramBuildNumber();
-  m_strFileProgBuildDate = app_->GetProgramBuildDate();
+  m_strFileProgTitle = app_->GetSettings()->GetProgramTitle();
+  m_nFileProgMajorVersion = app_->GetSettings()->GetProgramMajorVersion();
+  m_nFileProgMinorVersion = app_->GetSettings()->GetProgramMinorVersion();
+  m_nFileProgIncrementVersion = app_->GetSettings()->GetProgramIncrementVersion();
+  m_nFileProgBuildNumber = app_->GetSettings()->GetProgramBuildNumber();
+  m_strFileProgBuildDate = app_->GetSettings()->GetProgramBuildDate();
   m_strFileDate = "??/??/??";
 
   //
@@ -33,7 +34,7 @@ Deal::Deal(std::shared_ptr<AppInterface> app) : app_(app) {
   for (int i = 0; i < 4; i++) {
     m_bSavePlayerAnalysis[i] = FALSE;
   }
-  m_bSaveIntermediatePositions = app_->IsSaveIntermediatePositions();
+  m_bSaveIntermediatePositions = app_->GetSettings()->GetSaveIntermediatePositions();
 
   // create the players
   for (int i = 0; i < 4; i++)
@@ -110,15 +111,15 @@ void Deal::PrepForNewDeal() {
   m_bGameReviewAvailable = FALSE;
 
   // turn off game auto-play
-  if (app_->IsFullAutoPlayMode() || app_->IsFullAutoExpressPlayMode()) {
-    app_->SetNormalPlayMode();
+  if (app_->GetSettings()->IsFullAutoPlayMode() || app_->GetSettings()->IsFullAutoExpressPlayMode()) {
+    app_->GetSettings()->SetNormalPlayMode();
     m_bExpressPlayMode = FALSE;
     m_bAutoReplayMode = FALSE;
   }
 
   // init a new document ONLY if a rubber is not in progress
   // else it's still the same "Document"
-  if (!app_->IsRubberInProgress())
+  if (!app_->GetSettings()->GetRubberInProgress())
     app_->OnNewDocument();
 
   // and update status display
@@ -128,7 +129,7 @@ void Deal::PrepForNewDeal() {
 
 //
 void Deal::RestartCurrentHand(BOOL bUpdateView) {
-  if (!app_->IsGameInProgress())
+  if (!app_->GetSettings()->GetGameInProgress())
     return;
 
   // replay the hands
@@ -156,8 +157,8 @@ void Deal::RestartCurrentHand(BOOL bUpdateView) {
     m_pPlayer[NORTH]->ExposeCards(TRUE, FALSE);
 
   // reset auto play if enabled
-  if (app_->IsFullAutoPlayMode() || app_->IsFullAutoExpressPlayMode()) {
-    app_->SetNormalPlayMode();
+  if (app_->GetSettings()->IsFullAutoPlayMode() || app_->GetSettings()->IsFullAutoExpressPlayMode()) {
+    app_->GetSettings()->SetNormalPlayMode();
     m_bExpressPlayMode = FALSE;
     //		m_bAutoReplayMode = FALSE;
   }
@@ -178,7 +179,7 @@ void Deal::RestartCurrentHand(BOOL bUpdateView) {
 //
 void Deal::InitializeVulnerability() {
   // if playing in practice mode with duplicate scoring, randomize vulnerability
-  if (!app_->IsRubberInProgress() && app_->IsUsingDuplicateScoring())
+  if (!app_->GetSettings()->GetRubberInProgress() && app_->GetSettings()->GetUsingDuplicateScoring())
     m_nVulnerableTeam = (Team)(GetRandomValue(3) - 1);
   //
   if ((m_nVulnerableTeam == NORTH_SOUTH) || (m_nVulnerableTeam == BOTH))
@@ -421,7 +422,7 @@ void Deal::UpdateScore() {
   }
 
   // check for honors bonuses
-  if (app_->IsScoreHonorsBonuses()) {
+  if (app_->GetSettings()->GetScoreHonorsBonuses()) {
     if (ISSUIT(m_nTrumpSuit)) {
       // check to see if a player had 4 or 5 trump honors
       for (int i = 0; i < 4; i++) {
@@ -515,7 +516,7 @@ void Deal::UpdateScore() {
       m_strTotalPointsRecord.Format("%4d\t%4d\tFinal Score", m_nTotalScore[NORTH_SOUTH], m_nTotalScore[EAST_WEST]);
 
       // and rubber is over!
-      app_->SetRubberInProgress(false);
+      app_->GetSettings()->SetRubberInProgress(false);
 
       if (m_nTotalScore[NORTH_SOUTH] > m_nTotalScore[EAST_WEST])
         app_->SetStatusMessage("Rubber is over -- North/South won the match.");
@@ -534,16 +535,16 @@ void Deal::UpdateScore() {
 //
 void Deal::DisplayScore() {
   // temporarily mark the game as inactive
-  app_->SetGameInProgress(false);
+  app_->GetSettings()->SetGameInProgress(false);
 
   // show the score
   app_->DisplayScoreDialog(m_strArrayBonusPointsRecord, m_strArrayTrickPointsRecord, m_strTotalPointsRecord);
 
   // temporarily mark the game as inactive
-  app_->SetGameInProgress(true);
+  app_->GetSettings()->SetGameInProgress(true);
 
   // and proceed to the next hand, if appropriate
-  if (app_->IsRubberInProgress()) {
+  if (app_->GetSettings()->GetRubberInProgress()) {
     app_->OnDealNewHand();
   } else {
     ClearAllInfo();
@@ -796,16 +797,16 @@ void Deal::UpdateDuplicateScore() {
 //
 void Deal::DisplayDuplicateScore() {
   // temporarily mark the game as inactive
-  app_->SetGameInProgress(false);
+  app_->GetSettings()->SetGameInProgress(false);
 
   // show the score
   app_->DisplayScoreDialog(m_strArrayBonusPointsRecord, m_strArrayTrickPointsRecord, m_strTotalPointsRecord);
 
   // temporarily mark the game as inactive
-  app_->SetGameInProgress(true);
+  app_->GetSettings()->SetGameInProgress(true);
 
   // and proceed to the next hand, if appropriate
-  if (app_->IsRubberInProgress()) {
+  if (app_->GetSettings()->GetRubberInProgress()) {
     app_->OnDealNewHand();
   } else {
     ClearAllInfo();
@@ -910,7 +911,7 @@ BOOL Deal::SwapPlayersHands(Position player1, Position player2, BOOL bRefresh, B
   }
 
   // and update
-  if (bRestartBidding && app_->IsBiddingInProgress()) {
+  if (bRestartBidding && app_->GetSettings()->GetBiddingInProgress()) {
     app_->RestartBidding();
   }
 
@@ -1100,8 +1101,8 @@ void Deal::ClearAllInfo() {
   m_bGameReviewAvailable = FALSE;
 
   // turn off game auto-play, if it's on
-  if (app_->IsFullAutoPlayMode() || app_->IsFullAutoExpressPlayMode()) {
-    app_->SetNormalPlayMode();
+  if (app_->GetSettings()->IsFullAutoPlayMode() || app_->GetSettings()->IsFullAutoExpressPlayMode()) {
+    app_->GetSettings()->SetNormalPlayMode();
   }
   //
   m_bExpressPlayMode = FALSE;
@@ -1109,7 +1110,7 @@ void Deal::ClearAllInfo() {
   m_bBatchMode = FALSE;
 
   // turn off rubber
-  app_->SetRubberInProgress(false);
+  app_->GetSettings()->SetRubberInProgress(false);
 
   // clear view mode
   app_->ClearMode();
@@ -1258,7 +1259,7 @@ void Deal::InitNewMatch() {
 
   // if playing rubber, init the dealer to East -- will advance to south
   // upon first deal
-  if (app_->IsRubberInProgress()) {
+  if (app_->GetSettings()->GetRubberInProgress()) {
     m_nPrevDealer = EAST;
     m_nDealer = EAST;
     m_nCurrPlayer = m_nDealer;
@@ -1277,7 +1278,7 @@ void Deal::InitNewMatch() {
 void Deal::InitNewHand(BOOL bRestarting) {
   //	pMAINFRAME->ClearStatusText(0, TRUE);
   //
-  app_->SetGameInProgress(false);
+  app_->GetSettings()->SetGameInProgress(false);
 
   // clear bidding info
   ClearBiddingInfo();
@@ -1361,7 +1362,7 @@ void Deal::ClearBiddingInfo() {
   m_nLastBiddingHint = NONE;
   m_bHintFollowed = TRUE;
   //
-  app_->SetBiddingInProgress(false);
+  app_->GetSettings()->SetBiddingInProgress(false);
 }
 
 
@@ -1394,16 +1395,16 @@ void Deal::InitPlay(BOOL bRedrawScreen, BOOL bRestarting) {
   }
 
   // return at this point if in test mode
-  if (app_->IsInAutoTestMode()) {
+  if (app_->GetSettings()->GetAutoTestMode()) {
     return;
   }
 
   // if debugging, save out the hand
-  if ((app_->IsDebugModeActive()) && (!bRestarting)) {
+  if ((app_->GetSettings()->GetDebugMode()) && (!bRestarting)) {
     CFile file;
     CFileException fileException;
     CString strPath;
-    strPath.Format("%s\\AutoSave.brd", app_->GetProgramDirectory());
+    strPath.Format("%s\\AutoSave.brd", app_->GetSettings()->GetProgramDirectory());
     int nCode = file.Open((LPCTSTR)strPath,
       CFile::modeWrite | CFile::modeCreate | CFile::shareDenyWrite,
       &fileException);
@@ -1520,7 +1521,7 @@ void Deal::LoadGameRecord(const CGameRecord& game) {
     m_pPlayer[i]->InitializeRestoredHand();
 
   // then set cards face up if desired
-  if (app_->IsExposePBNGameCards() && !app_->AreCardsFaceUp()) {
+  if (app_->GetSettings()->GetExposePBNGameCards() && !app_->AreCardsFaceUp()) {
     app_->ExposeAllCards();
   }
 
@@ -1572,7 +1573,7 @@ void Deal::PlayGameRecord(int nGameIndex) {
   //
   if (ISBID(game.m_nContract)) {
     // reset suit sequence
-    app_->InitDummySuitSequence(BID_SUIT(game.m_nContract), GetPartner(m_nDeclarer));
+    app_->GetSettings()->InitDummySuitSequence(BID_SUIT(game.m_nContract), GetPartner(m_nDeclarer));
   }
 
   // get count of positions to rotate (clockwise)
@@ -1586,7 +1587,7 @@ void Deal::PlayGameRecord(int nGameIndex) {
   // and finally begin play
   //
   m_bReviewingGame = FALSE;
-  app_->SetGameInProgress(true);
+  app_->GetSettings()->SetGameInProgress(true);
   //
   app_->EndGameReview();
   app_->EnableRefresh(true);
@@ -1958,7 +1959,7 @@ int Deal::EnterBid(int nPos, int nBid) {
 // Undo last bid
 // 
 int Deal::UndoBid() {
-  if (!app_->IsBiddingInProgress() || (m_numBidsMade == 0))
+  if (!app_->GetSettings()->GetBiddingInProgress() || (m_numBidsMade == 0))
     return 0;
 
   /*
@@ -2163,10 +2164,10 @@ void Deal::UpdateBiddingHistory() {
   }
 
   // check resolution
-  BOOL bSmallCards = app_->IsLowResOption();
+  BOOL bSmallCards = app_->GetSettings()->GetLowResOption();
 
   // check mode
-  bool bUseSymbols = app_->IsUseSuitSymbols();
+  bool bUseSymbols = app_->GetSettings()->GetUseSuitSymbols();
 
   //
   for (int i = 0; i<4; i++) {
@@ -2247,8 +2248,8 @@ void Deal::RestartBidding() {
   InitNewHand(TRUE);	// restarting
 
                       // reset auto play if enabled
-  if (app_->IsFullAutoPlayMode() || app_->IsFullAutoExpressPlayMode()) {
-    app_->SetNormalPlayMode();
+  if (app_->GetSettings()->IsFullAutoPlayMode() || app_->GetSettings()->IsFullAutoExpressPlayMode()) {
+    app_->GetSettings()->SetNormalPlayMode();
     m_bExpressPlayMode = FALSE;
     m_bAutoReplayMode = FALSE;
   }
@@ -2270,7 +2271,7 @@ void Deal::RestartBidding() {
     m_pPlayer[i]->RestartBidding();
 
   // and set global flag
-  app_->SetBiddingInProgress(true);
+  app_->GetSettings()->SetBiddingInProgress(true);
 }
 
 
@@ -2289,8 +2290,8 @@ void Deal::RestartBidding() {
 //
 void Deal::BeginRound() {
   // make sure the view reflects the new dummy suit sequence
-  if (app_->IsShowDummyTrumpsOnLeft()) {
-    app_->InitDummySuitSequence(m_nTrumpSuit, m_nDummy);
+  if (app_->GetSettings()->GetShowDummyTrumpsOnLeft()) {
+    app_->GetSettings()->InitDummySuitSequence(m_nTrumpSuit, m_nDummy);
     app_->ResetDummySuitSequence();
   }
 
@@ -2408,9 +2409,9 @@ void Deal::InvokeNextPlayer() {
 
   // see if we'll be pausing between plays
   int nPauseLength = 0, nStartTime = 0;
-  if (app_->IsInsertBiddingPause() && !m_bExpressPlayMode) {
+  if (app_->GetSettings()->GetInsertBiddingPause() && !m_bExpressPlayMode) {
     // get pause duration
-    nPauseLength = app_->GetPlayPauseLength() * 100;
+    nPauseLength = app_->GetSettings()->GetPlayPauseLength() * 100;
 
     // and the time
     if (nPauseLength > 0)
@@ -2704,7 +2705,7 @@ void Deal::ClearTrick() {
     m_pCurrTrick[i] = NULL;
 
   // update counts
-  if (!app_->IsInAutoTestMode()) {
+  if (!app_->GetSettings()->GetAutoTestMode()) {
     UpdatePlayHistory();
     app_->DisplayTricks();
     app_->DisplayTricksView();
@@ -2761,17 +2762,17 @@ void Deal::OnGameComplete() {
   CString strMessage, strOldMessage;
 
   // see if we're in autotest
-  if (app_->IsInAutoTestMode()) {
+  if (app_->GetSettings()->GetAutoTestMode()) {
     // simply return
     return;
   }
 
   // clear hints if enabled
-  if (app_->GetAutoHintMode() > 0)
+  if (app_->GetSettings()->GetAutoHintMode() > 0)
     app_->ClearAutoHints();
 
   // see if we're in practice mode using duplicate scoring
-  if (!app_->IsRubberInProgress() && app_->IsUsingDuplicateScoring()) {
+  if (!app_->GetSettings()->GetRubberInProgress() && app_->GetSettings()->GetUsingDuplicateScoring()) {
     // if duplicate scoring is enabled, get the score
     UpdateDuplicateScore();
     int nResult = (nDiff >= 0) ? (m_numTricksWon[m_nContractTeam] - 6) : nDiff;
@@ -2813,12 +2814,12 @@ void Deal::OnGameComplete() {
   }
 
   // reset suit sequence w/ no dummy
-  app_->InitDummySuitSequence(NONE, NONE);
+  app_->GetSettings()->InitDummySuitSequence(NONE, NONE);
 
   // show the original hands
   BOOL bCardsFaceUpMode = app_->AreCardsFaceUp();
   m_pPlayer[m_nDummy]->SetDummyFlag(FALSE);
-  app_->SetShowCardsFaceUp(true);
+  app_->GetSettings()->SetShowCardsFaceUp(true);
   //
   for (int i = 0; i < 4; i++)
     m_pPlayer[i]->RestoreInitialHand();
@@ -2828,7 +2829,7 @@ void Deal::OnGameComplete() {
 
   // if playing rubber, save the old score so the proper update is
   // done in the rubber score window
-  if (app_->IsRubberInProgress()) {
+  if (app_->GetSettings()->GetRubberInProgress()) {
     if (m_bAutoReplayMode) {
       // computer just replayed -- restore old score
       m_numTricksWon[m_nContractTeam] = m_numActualTricksWon;
@@ -2840,11 +2841,11 @@ void Deal::OnGameComplete() {
 
   // turn off game auto-play
   BOOL bReplayMode = m_bAutoReplayMode;	// but save setting first
-  if (app_->IsFullAutoPlayMode() || app_->IsFullAutoExpressPlayMode()) {
-    if (app_->IsFullAutoExpressPlayMode()) {
+  if (app_->GetSettings()->IsFullAutoPlayMode() || app_->GetSettings()->IsFullAutoExpressPlayMode()) {
+    if (app_->GetSettings()->IsFullAutoExpressPlayMode()) {
       app_->EndWaitCursorDoc();
     }
-    app_->SetNormalPlayMode();
+    app_->GetSettings()->SetNormalPlayMode();
     m_bExpressPlayMode = FALSE;
     m_bAutoReplayMode = FALSE;
     //		pVIEW->EnableRefresh();		// not necessary due to ResetDisplay() above
@@ -2861,7 +2862,7 @@ void Deal::OnGameComplete() {
 
   if (roundFinishedDlgCode > -1) {
     // cancel, replay, or rebid the current hand
-    app_->SetShowCardsFaceUp(bCardsFaceUpMode);
+    app_->GetSettings()->SetShowCardsFaceUp(bCardsFaceUpMode);
     switch (roundFinishedDlgCode) {
     case CRoundFinishedDialog::RF_NONE:
     {
@@ -2900,7 +2901,7 @@ void Deal::OnGameComplete() {
   }
 
   // restore the cards' face-up/down status
-  app_->SetShowCardsFaceUp(bCardsFaceUpMode);
+  app_->GetSettings()->SetShowCardsFaceUp(bCardsFaceUpMode);
 
   //
   PostProcessGame();
@@ -2927,7 +2928,7 @@ void Deal::PostProcessGame() {
 
   // at this point, if we're playing rubber, show the score
   // else we're practicing, so just deal the next hand
-  if (app_->IsRubberInProgress()) {
+  if (app_->GetSettings()->GetRubberInProgress()) {
     // update score
     UpdateScore();
     // display score and deal next hand or end rubber as appropriate
@@ -2967,10 +2968,10 @@ void Deal::UpdatePlayHistory() {
   }
 
   // check resolution
-  BOOL bSmallCards = app_->IsLowResOption();
+  BOOL bSmallCards = app_->GetSettings()->GetLowResOption();
 
   // check mode
-  BOOL bUseSymbols = app_->IsUseSuitSymbols();
+  BOOL bUseSymbols = app_->GetSettings()->GetUseSuitSymbols();
 
   //
   strPlays = "Trk ";
@@ -3187,7 +3188,7 @@ void Deal::RestoreInitialHands() {
 void Deal::ComputerReplay(BOOL bFullAuto) {
   // this routine is similar to OnRestartCurrentHand() above, but 
   // slightly different, as the view will launch play immediately
-  if (!app_->IsGameInProgress())
+  if (!app_->GetSettings()->GetGameInProgress())
     return;
 
   // restart the hands, but don't update the view yet
@@ -3338,8 +3339,8 @@ const CString Deal::GetFullContractString() const {
 // IsHintAvailable()
 //
 BOOL Deal::IsHintAvailable() {
-  if ((app_->IsBiddingInProgress() && (m_nLastBiddingHint >= 0) && m_bHintFollowed) ||
-    (app_->IsGameInProgress() && m_pLastPlayHint))
+  if ((app_->GetSettings()->GetBiddingInProgress() && (m_nLastBiddingHint >= 0) && m_bHintFollowed) ||
+    (app_->GetSettings()->GetGameInProgress() && m_pLastPlayHint))
     return TRUE;
   else
     return FALSE;
@@ -3351,11 +3352,11 @@ BOOL Deal::IsHintAvailable() {
 //
 void Deal::ShowAutoHint() {
   // see if auto hints are enabled
-  if (!app_->IsAutoHintEnabled()) {
+  if (!app_->GetSettings()->IsAutoHintEnabled()) {
     // no auto hints
     // still, if we're bidding & we're South, get a fake bid 
     // to fill out internal variables
-    if (app_->IsBiddingInProgress() && (m_nCurrPlayer == SOUTH)) {
+    if (app_->GetSettings()->GetBiddingInProgress() && (m_nCurrPlayer == SOUTH)) {
       // this is a terrible hack, but it's necessary to keep from 
       // screwing up the internal state variables
       m_pPlayer[m_nCurrPlayer]->SetTestBiddingMode(true);
@@ -3366,14 +3367,14 @@ void Deal::ShowAutoHint() {
   }
 
   // no more hints if user didn't follow our previous advice
-  if (app_->IsBiddingInProgress() && !m_bHintFollowed)
+  if (app_->GetSettings()->GetBiddingInProgress() && !m_bHintFollowed)
     return;
 
   //
   BOOL bCanGiveHint = FALSE;
   if (m_nCurrPlayer == SOUTH)
     bCanGiveHint = TRUE;
-  if (app_->IsGameInProgress() && (m_nContractTeam == NORTH_SOUTH) &&
+  if (app_->GetSettings()->GetGameInProgress() && (m_nContractTeam == NORTH_SOUTH) &&
     (m_nCurrPlayer == NORTH))
     bCanGiveHint = TRUE;
   //
@@ -3382,14 +3383,14 @@ void Deal::ShowAutoHint() {
 
   // 
   app_->ShowAutoHintDialog();
-  if (app_->IsBiddingInProgress()) {
+  if (app_->GetSettings()->GetBiddingInProgress()) {
     // get the hint
     m_bHintMode = FALSE;
     app_->EnableHintDialog();
     int nBid = m_pPlayer[SOUTH]->GetBiddingHint(TRUE);
     app_->FlashBidDialogButton(nBid);
     m_nLastBiddingHint = nBid;
-  } else if (app_->IsGameInProgress()) {
+  } else if (app_->GetSettings()->GetGameInProgress()) {
     // get the play hint
     CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint(TRUE);
     if (pCard) {
@@ -3412,7 +3413,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
   //		return;
 
   // 
-  if (app_->IsBiddingInProgress()) {
+  if (app_->GetSettings()->GetBiddingInProgress()) {
     // see if a hint is pending
     if (m_nLastBiddingHint >= 0) {
       // accept the hint
@@ -3424,7 +3425,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
     } else {
       // no hint given yet, and a hint was requested
       // reject a manual request if auto hints are on (wait for auto hint to be generated)
-      if (!bAutoHintRequest && (app_->GetAutoHintMode() > 0))
+      if (!bAutoHintRequest && (app_->GetSettings()->GetAutoHintMode() > 0))
         return;
       // get the hint
       m_bHintMode = FALSE;
@@ -3432,7 +3433,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
       m_nLastBiddingHint = m_pPlayer[m_nCurrPlayer]->GetBiddingHint();
       app_->FlashBidDialogButton(m_nLastBiddingHint);
     }
-  } else if (app_->IsGameInProgress()) {
+  } else if (app_->GetSettings()->GetGameInProgress()) {
     // special code -- allow a <space> to be used to clear a trick
     if (m_numCardsPlayedInRound == 4) {
       if (app_->IsInClickForNextTrickMode()) {
@@ -3456,7 +3457,7 @@ void Deal::GetGameHint(BOOL bAutoHintRequest) {
     } else {
       // no hint given yet, and a hint was requested
       // reject a manual request if auto hints are on (wait for auto hint to be generated)
-      if (!bAutoHintRequest && (app_->GetAutoHintMode() > 0))
+      if (!bAutoHintRequest && (app_->GetSettings()->GetAutoHintMode() > 0))
         return;
       // get the hint
       CCard* pCard = m_pPlayer[m_nCurrPlayer]->GetPlayHint();
@@ -3501,7 +3502,7 @@ CString Deal::FormatOriginalHands() {
       strHands += northCards[nIndex]->GetCardLetter();
       strHands += ' ';
     }
-    strHands += "\r\n";
+    strHands += "\n";
   }
 
   // write out West & East
@@ -3531,7 +3532,7 @@ CString Deal::FormatOriginalHands() {
       strHands += eastCards[nIndex]->GetCardLetter();
       strHands += ' ';
     }
-    strHands += "\r\n";
+    strHands += "\n";
   }
   strHands += strTemp;
 
@@ -3546,7 +3547,7 @@ CString Deal::FormatOriginalHands() {
       strHands += southCards[nIndex]->GetCardLetter();
       strHands += ' ';
     }
-    strHands += "\r\n";
+    strHands += "\n";
   }
 
   //
@@ -3632,7 +3633,7 @@ CString Deal::FormatCurrentHands() {
 //
 CString Deal::GetDealIDString() {
   CString strDealID;
-  if (m_bDealNumberAvailable && app_->IsEnableDealNumbering()) {
+  if (m_bDealNumberAvailable && app_->GetSettings()->GetEnableDealNumbering()) {
     strDealID.Format("%08lX", m_nDealNumber);
 
     // appended code = vulnerability + dealer
@@ -3652,7 +3653,7 @@ CString Deal::GetDealIDString() {
 
 void Deal::InitNewDocument() {
   // do init
-  if (app_->IsRubberInProgress() || app_->IsUsingDuplicateScoring()) {
+  if (app_->GetSettings()->GetRubberInProgress() || app_->GetSettings()->GetUsingDuplicateScoring()) {
     InitNewMatch();
   } else {
     InitNewGame();
@@ -3738,5 +3739,5 @@ void Deal::SwapPositionsAlreadyInPlay(int pos1, int pos2) {
 
 
 bool Deal::IsGameNotFinished() {
-  return app_->IsGameInProgress() && GetNumTricksPlayed() < 13;
+  return app_->GetSettings()->GetGameInProgress() && GetNumTricksPlayed() < 13;
 }

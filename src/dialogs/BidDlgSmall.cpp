@@ -13,7 +13,6 @@
 #include "easyb.h"
 #include "model/easybDoc.h"
 #include "BidDlgSmall.h"
-#include "progopts.h"
 #include "engine/Player.h"
 #include "subclass.h"
 #include "../Help/Helpcode.h"
@@ -161,7 +160,7 @@ void CBidDialogSmall::InitBiddingSequence()
 //
 void CBidDialogSmall::EnableButtonImages(BOOL bEnable)
 {
-	if ((bEnable) && (theApp.GetValue(tnWindowsMajorVersion) >= 4))
+	if ((bEnable) && (theApp.GetSettings()->GetWindowsMajorVersion() >= 4))
 	{
 /*
 		// set level button icons

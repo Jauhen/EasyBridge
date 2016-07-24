@@ -26,9 +26,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CBidOptsNoTrumpsPage, CPropertyPage)
 
-CBidOptsNoTrumpsPage::CBidOptsNoTrumpsPage(CObjectWithProperties* pApp, CObjectWithProperties* pConventionSet) : 
+CBidOptsNoTrumpsPage::CBidOptsNoTrumpsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pConventionSet) :
 		CPropertyPage(CBidOptsNoTrumpsPage::IDD),
-		m_app(*pApp), m_conventionSet(*pConventionSet)
+		m_app(pApp), m_conventionSet(*pConventionSet)
 {
 	//{{AFX_DATA_INIT(CBidOptsNoTrumpsPage)
 	m_n1NTRange = -1;

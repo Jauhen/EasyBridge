@@ -1,9 +1,16 @@
 #pragma once
+#include <memory>
+#include <vector>
+#include "engine/card_constants.h"
 
-#include "EasyB.h"
-
+class Settings;
+class ConventionPool;
 class Deal;
+class CConventionSet;
 class CGIB;
+class CCard;
+class CDeck;
+class CPlayer;
 class CHandHoldings;
 class CPlayerStatusDialog;
 class CRoundFinishedDialog;
@@ -19,90 +26,14 @@ public:
   //
   //////////////////////////////////////////////////////////////////////////
 
-  virtual bool IsEnableAnalysisTracing() = 0;
-  virtual int AnalysisTraceLevel() = 0;
-  virtual bool InExpressAutoPlay() = 0;
-  virtual bool IsShowCommentIdentifiers() = 0;
-  virtual bool IsEnableAnalysisDuringHints() = 0;
+  virtual std::shared_ptr<Settings> GetSettings() = 0;
   virtual std::shared_ptr<ConventionPool> GetConventionPool() = 0;
-  virtual double GamePts() = 0;
-  virtual double MajorSuitGamePts() = 0;
-  virtual double MinorSuitGamePts() = 0;
-  virtual double NTGamePts() = 0;
-  virtual double FourthLevelPts() = 0;
-  virtual double ThirdLevelPts() = 0;
-  virtual double SecondLevelPts() = 0;
-  virtual double SlamPts() = 0;
-  virtual double SmallSlamPts() = 0;
-  virtual double GrandSlamPts() = 0;
   virtual CConventionSet* GetCurrentConventionSet() = 0;
-  virtual double OpenPoints(double points) = 0;
-  virtual double PointCount(double points) = 0;
-  virtual int GetMinimumOpeningValue(CPlayer* player) const = 0;
-  virtual int GetProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
-  virtual void WriteProfileInt(const char* appName, const char* keyName, int defaultValue) = 0;
-  virtual bool IsInManualCardPlayMode() = 0;
   virtual bool AreCardsFaceUp() = 0;
-  virtual bool IsEnableGIBForDeclarer() = 0;
   virtual CGIB& GetGIB() = 0;
-  virtual bool IsInExpressAutoPlay() = 0;
-  virtual bool IsComputerCanClaim() = 0;
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) = 0;
-  virtual bool IsEnableGIBForDefender() = 0;
-  virtual double GetHonorValue(int faceValue) = 0;
-  virtual int GetSuitSequence(int suit) const = 0;
-  virtual bool IsAcelessPenalty() = 0;
-  virtual bool IsFourAceBonus() = 0;
-  virtual bool IsCountShortSuits() = 0;
-  virtual bool IsPenalizeUGHonors() = 0;
-  virtual int GetAutoHintMode() = 0;
-  virtual bool IsInsertBiddingPause() = 0;
-  virtual int GetPlayPauseLength() = 0;
   virtual std::shared_ptr<CDeck> GetDeck() = 0;
-  virtual bool IsLowResOption() = 0;
-  virtual bool IsEnableDealNumbering() = 0;
   virtual void SetFeedbackText(const char* msg) = 0;
-  virtual int GetRequiredPointsForGame(int suitCode, int side /* 0 - min, 1 - max */) = 0;
-  virtual int GetRequiredPointsForSlam(int suitCode, int side /* 0 - min, 1 - max */) = 0;
-  virtual int GetMinSuitDistributions(int code) = 0;
-  virtual int GetMinSuitDistributionsTable(int code, int distribution, int hand) = 0;
-  virtual int GetMaxImbalanceForNT() = 0;
-  virtual bool IsNeedTwoBalancedTrumpHands() = 0;
-  virtual int GetMinCardsInMajor() = 0;
-  virtual int GetMinTopMajorCard() = 0;
-  virtual int GetMinCardsInMinor() = 0;
-  virtual int GetMinTopMinorCard() = 0;
-  virtual int GetAcesForSlam(int slamCode) = 0;
-  virtual int GetKingsForSlam(int slamCode) = 0;
-  virtual bool IsBalaceTeamHands() = 0;
-  virtual bool IsFullAutoPlayMode() = 0;
-  virtual bool IsFullAutoExpressPlayMode() = 0;
-  virtual void SetNormalPlayMode() = 0;
-  virtual void SetRubberInProgress(bool value) = 0;
-  virtual void SetGameInProgress(bool value) = 0;
-  virtual void SetBiddingInProgress(bool value) = 0;
-  virtual const char* GetProgramTitle() = 0;
-  virtual int GetProgramMajorVersion() = 0;
-  virtual int GetProgramMinorVersion() = 0;
-  virtual int GetProgramIncrementVersion() = 0;
-  virtual int GetProgramBuildNumber() = 0;
-  virtual const char* GetProgramBuildDate() = 0;
-  virtual bool IsRubberInProgress() = 0;
-  virtual bool IsGameInProgress() = 0;
-  virtual bool IsBiddingInProgress() = 0;
-  virtual CString GetProgramVersionString() = 0;
-  virtual bool IsSaveIntermediatePositions() = 0;
-  virtual bool IsScoreHonorsBonuses() = 0;
-  virtual bool IsInAutoTestMode() = 0;
-  virtual const char* GetProgramDirectory() = 0;
-  virtual bool IsExposePBNGameCards() = 0;
-  virtual bool IsUseSuitSymbols() = 0;
-  virtual void SetShowCardsFaceUp(bool value) = 0;
-  virtual bool IsShowDummyTrumpsOnLeft() = 0;
-  virtual void InitDummySuitSequence(int trump, int dummy_position) = 0;
-  virtual bool IsAutoHintEnabled() = 0;
-  virtual bool IsUsingDuplicateScoring() = 0;
-  virtual bool IsDebugModeActive() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////

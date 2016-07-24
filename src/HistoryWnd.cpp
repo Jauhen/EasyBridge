@@ -14,7 +14,6 @@
 #include "mainfrm.h"
 #include "MainFrameOpts.h"
 #include "HistoryWnd.h"
-#include "progopts.h"
 #include "Subclass.h"
 #include "../Help/Helpcode.h"
 
@@ -94,8 +93,8 @@ int CHistoryWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// set font
 	CFont* pFont = (CFont*) pMAINFRAME->GetValuePV(tpFontHistory);
-	m_editBidding.SendMessage(WM_SETFONT, (LONG)pFont->m_hObject, FALSE);
-	m_editPlay.SendMessage(WM_SETFONT, (LONG)pFont->m_hObject, FALSE);
+	m_editBidding.SendMessage(WM_SETFONT, (WPARAM)pFont->m_hObject, FALSE);
+	m_editPlay.SendMessage(WM_SETFONT, (WPARAM)pFont->m_hObject, FALSE);
 
 	// get text metrics
 	CWindowDC textDC(&m_editBidding);
@@ -129,15 +128,15 @@ int CHistoryWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_btnPlay.SetCheck(m_bShowPlay);
 
 	// and set fonts
-	m_btnBidding.SendMessage(WM_SETFONT, (UINT)GetStockObject(ANSI_VAR_FONT), 0L);
-	m_btnPlay.SendMessage(WM_SETFONT, (UINT)GetStockObject(ANSI_VAR_FONT), 0L);
+	m_btnBidding.SendMessage(WM_SETFONT, (WPARAM)GetStockObject(ANSI_VAR_FONT), 0L);
+	m_btnPlay.SendMessage(WM_SETFONT, (WPARAM)GetStockObject(ANSI_VAR_FONT), 0L);
 
 	// restore old font
 	dc.SelectObject(pOldFont);
 
 	// set fonts
-	m_lblBidding.SendMessage(WM_SETFONT, (LONG)pFont->m_hObject, FALSE);
-	m_lblPlay.SendMessage(WM_SETFONT, (LONG)pFont->m_hObject, FALSE);
+	m_lblBidding.SendMessage(WM_SETFONT, (WPARAM)pFont->m_hObject, FALSE);
+	m_lblPlay.SendMessage(WM_SETFONT, (WPARAM)pFont->m_hObject, FALSE);
 
 	// create the popup menu
 	m_menuPopup.LoadMenu(IDR_HISTORY_POPUP);
@@ -592,7 +591,7 @@ BOOL CHistoryWnd::OnHelpInfo(HELPINFO* pHelpInfo)
 // 
 void CHistoryWnd::SetBiddingHistory(LPCTSTR szText) 
 {
-	BOOL bUseSuitSymbols = theApp.GetValue(tbUseSuitSymbols);
+	BOOL bUseSuitSymbols = theApp.GetSettings()->GetUseSuitSymbols();
 	if (bUseSuitSymbols)
 		m_editBidding.LockWindowUpdate();
 	//
@@ -614,7 +613,7 @@ void CHistoryWnd::SetBiddingHistory(LPCTSTR szText)
 // 
 void CHistoryWnd::SetPlayHistory(LPCTSTR szText) 
 {
-	BOOL bUseSuitSymbols = theApp.GetValue(tbUseSuitSymbols);
+	BOOL bUseSuitSymbols = theApp.GetSettings()->GetUseSuitSymbols();
 	if (bUseSuitSymbols)
 		m_editPlay.LockWindowUpdate();
 	//

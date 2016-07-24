@@ -12,7 +12,6 @@
 #include "stdafx.h"
 #include "easyb.h"
 #include "PassedHandSimpleDialog.h"
-#include "progopts.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -59,7 +58,7 @@ BOOL CPassedHandSimpleDialog::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	//
-	int nInterval = theApp.GetValue(tnPassedHandWaitInterval);
+	int nInterval = theApp.GetSettings()->GetPassedHandWaitInterval();
 	SetTimer(0, nInterval, NULL);
 	CenterWindow();
 
