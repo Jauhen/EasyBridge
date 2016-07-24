@@ -16,6 +16,8 @@
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "model/deal.h"
+#include "model/settings.h"
+
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -254,7 +256,7 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
       // decipher the contract
       if ((strValue.GetLength() < 2) || (strValue[0] == '?')) {
         // contract has not yet been set
-        app_->SetGameInProgress(false);
+        app_->GetSettings()->SetGameInProgress(false);
         break;
       }
       int nContractLevel = atoi(strValue);

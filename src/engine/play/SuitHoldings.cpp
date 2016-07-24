@@ -20,7 +20,7 @@
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/Player.h"
 #include "model/deal.h"
-
+#include "model/settings.h"
 
 //
 //--------------------------------------------------------------
@@ -369,14 +369,14 @@ double CSuitHoldings::CountPoints(const BOOL bForceCount)
 	}
 
 	// and set the total points tally
-	if (app_->IsCountShortSuits())
+	if (app_->GetSettings()->GetCountShortSuits())
 		m_numTotalPoints = m_numHCPoints + m_numLengthPoints + m_numShortPoints;
 	else
 		m_numTotalPoints = m_numHCPoints + m_numLengthPoints;
 
 	// check for unguarded/poorly guarded honors
 	m_numPenaltyPoints = 0;
-	if (app_->IsPenalizeUGHonors()) 
+	if (app_->GetSettings()->GetPenalizeUGHonors())
 	{
 		//
 		if (m_numCards == 1) 

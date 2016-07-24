@@ -45,7 +45,7 @@ int	CDeck::GetCardWidth() const
 	else
 	{
 		// not initialized yet
-		if (app_->IsLowResOption())
+		if (app_->GetSettings()->GetLowResOption())
 			return SMALLCARDWIDTH;
 		else
 			return DEFCARDWIDTH;
@@ -62,7 +62,7 @@ int	CDeck::GetCardHeight() const
 	else
 	{
 		// not initialized yet
-		if (app_->IsLowResOption())
+		if (app_->GetSettings()->GetLowResOption())
 			return SMALLCARDHEIGHT;
 		else
 			return DEFCARDHEIGHT;
@@ -142,7 +142,7 @@ void CDeck::InitializeBitmaps()
 	CDC *pDC = app_->GetDC();
 
 	// see whether we're using small cards
-	BOOL bSmallCards = app_->IsLowResOption();
+	BOOL bSmallCards = app_->GetSettings()->GetLowResOption();
 	int nBase = bSmallCards ? IDBS_CARDS_BASE : IDB_CARDS_BASE;
 	
 	if (bSmallCards)
@@ -261,7 +261,7 @@ int CDeck::Shuffle(int nSeed, bool bSuppressSeed)
 {
 	// copy from the ordered deck if deal numbering is enabled
 	// else leave shuffled
-	if (app_->IsEnableDealNumbering())
+	if (app_->GetSettings()->GetEnableDealNumbering())
 	{
 		for(int i=0;i<52;i++)
 			m_cards[i] = m_sortedCards[i];

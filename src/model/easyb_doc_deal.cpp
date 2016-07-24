@@ -14,6 +14,7 @@
 #include "engine/deck.h"
 #include "engine/Card.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -79,8 +80,8 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
 
   case 1:
     // game deal
-    nMin = app_->GetRequiredPointsForGame(nSuitCode, 0);
-    nMax = app_->GetRequiredPointsForGame(nSuitCode, 1);
+    nMin = app_->GetSettings()->GetRequiredPointsForGame(nSuitCode, 0);
+    nMax = app_->GetSettings()->GetRequiredPointsForGame(nSuitCode, 1);
     fScoreTarget = nMin + GetRandomValue(nMax - nMin);
     switch (nSuitCode) {
     case 0:
@@ -104,8 +105,8 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
 
   case 2:
     // slam deal
-    nMin = app_->GetRequiredPointsForSlam(nSlamCode, 0);
-    nMax = app_->GetRequiredPointsForSlam(nSlamCode, 1);
+    nMin = app_->GetSettings()->GetRequiredPointsForSlam(nSlamCode, 0);
+    nMax = app_->GetSettings()->GetRequiredPointsForSlam(nSlamCode, 1);
     fScoreTarget = nMin + GetRandomValue(nMax - nMin);
     switch (nSlamCode) {
     case 0:
@@ -175,11 +176,11 @@ shuffle:
     numInSuit[i] = m_pPlayer[SOUTH]->GetNumCardsInSuit(i) +
       m_pPlayer[NORTH]->GetNumCardsInSuit(i);
     // check for a proper card distribution (min 4/3)
-    int nDistIndex = app_->GetMinSuitDistributions(nSuitCode - 1);
+    int nDistIndex = app_->GetSettings()->GetMinSuitDistributions(nSuitCode - 1);
     int nDistVal[2];
     // TODO(Jauhen): probably should be tnMinSuitDistributionsTable
-    nDistVal[0] = app_->GetMinSuitDistributionsTable(nSuitCode - 1, nDistIndex, 0);
-    nDistVal[1] = app_->GetMinSuitDistributionsTable(nSuitCode - 1, nDistIndex, 1);
+    nDistVal[0] = app_->GetSettings()->GetMinSuitDistributionTable(nSuitCode - 1, nDistIndex, 0);
+    nDistVal[1] = app_->GetSettings()->GetMinSuitDistributionTable(nSuitCode - 1, nDistIndex, 1);
     if ((nSuitCode == 1) || (nSuitCode == 2)) {
       if (((m_pPlayer[SOUTH]->GetNumCardsInSuit(i) >= nDistVal[0]) &&
         (m_pPlayer[NORTH]->GetNumCardsInSuit(i) >= nDistVal[1])) ||
@@ -205,8 +206,8 @@ shuffle:
   if (nSuitCode == 3) {
 
     // No Trump contract -- check hand balance
-    int nMaxImbalance = app_->GetMaxImbalanceForNT();
-    if (app_->IsNeedTwoBalancedTrumpHands()) {
+    int nMaxImbalance = app_->GetSettings()->GetMaxImbalanceForNT();
+    if (app_->GetSettings()->GetNeedTwoBalancedTrumpHands()) {
       // both players need balanced hands
       if ((m_pPlayer[SOUTH]->GetBalanceValue() > nMaxImbalance) ||
         (m_pPlayer[NORTH]->GetBalanceValue() > nMaxImbalance))
@@ -222,7 +223,7 @@ shuffle:
 
     // major suit game -- need at least one major suit
     // that has >= min cards
-    int nCardsInMajor = app_->GetMinCardsInMajor();
+    int nCardsInMajor = app_->GetSettings()->GetMinCardsInMajor();
     if ((numInSuit[HEARTS] < nCardsInMajor) &&
       (numInSuit[SPADES] < nCardsInMajor))
       goto shuffle;
@@ -231,7 +232,7 @@ shuffle:
       goto shuffle;
     // and also check that the suit is adequately topped
     BOOL bTopped = FALSE;
-    int nMinTopMajorCard = app_->GetMinTopMajorCard();
+    int nMinTopMajorCard = app_->GetSettings()->GetMinTopMajorCard();
     if ((bSuitFit[HEARTS]) && (m_pPlayer[SOUTH]->GetNumCardsInSuit(HEARTS) >= 4) &&
       (m_pPlayer[SOUTH]->GetCardInSuit(HEARTS, 0)->GetFaceValue() >= nMinTopMajorCard))
       bTopped = TRUE;
@@ -251,7 +252,7 @@ shuffle:
 
     // minor suit game -- need at least one major suit
     // that has >= min cards
-    int nCardsInMinor = app_->GetMinCardsInMinor();
+    int nCardsInMinor = app_->GetSettings()->GetMinCardsInMinor();
     if ((numInSuit[CLUBS] < nCardsInMinor) &&
       (numInSuit[DIAMONDS] < nCardsInMinor))
       goto shuffle;
@@ -260,7 +261,7 @@ shuffle:
       goto shuffle;
     // and also check that the suit is adequately topped
     BOOL bTopped = FALSE;
-    int nMinTopMinorCard = app_->GetMinTopMinorCard();
+    int nMinTopMinorCard = app_->GetSettings()->GetMinTopMinorCard();
     if ((bSuitFit[CLUBS]) && (m_pPlayer[SOUTH]->GetNumCardsInSuit(CLUBS) >= 4) &&
       (m_pPlayer[SOUTH]->GetCardInSuit(CLUBS, 0)->GetFaceValue() >= nMinTopMinorCard))
       bTopped = TRUE;
@@ -310,7 +311,7 @@ shuffle:
   int numAcesRequired;
   int numAcesHeld;
   if (nGameCode == 2) {
-    numAcesRequired = app_->GetAcesForSlam(nSlamCode);
+    numAcesRequired = app_->GetSettings()->GetAcesForSlam(nSlamCode);
     numAcesHeld = m_pPlayer[SOUTH]->GetNumCardsOf(ACE) + m_pPlayer[NORTH]->GetNumCardsOf(ACE);
     int numCards, nSrcPlayer, nDestPlayer, nSuit1, nSuit2, nDestCard;
     int fDiff = numAcesRequired - numAcesHeld;
@@ -384,7 +385,7 @@ shuffle:
   int numKingsRequired;
   int numKingsHeld;
   if (nGameCode == 2) {
-    numKingsRequired = app_->GetKingsForSlam(nSlamCode);
+    numKingsRequired = app_->GetSettings()->GetKingsForSlam(nSlamCode);
     numKingsHeld = m_pPlayer[SOUTH]->GetNumCardsOf(KING) + m_pPlayer[NORTH]->GetNumCardsOf(KING);
     int numCards, nSrcPlayer, nDestPlayer, nSuit1, nSuit2, nDestCard, nSrcCard;
     int fDiff = numKingsRequired - numKingsHeld;
@@ -492,7 +493,7 @@ shuffle:
     nDest = (GetRandomValue(1) == 0) ? EAST : WEST;
     if (fDiff < 0) {
       // adjust hand upwards
-      if ((app_->IsBalaceTeamHands()) &&
+      if ((app_->GetSettings()->GetBalanceTeamHands()) &&
         ((fSouthPoints >= 13) || (fNorthPoints >= 13))) {
         if (fSouthPoints < fNorthPoints)
           nSource = SOUTH;
@@ -512,7 +513,7 @@ shuffle:
         break;
       }
       // else proceed
-      if ((app_->IsBalaceTeamHands()) &&
+      if ((app_->GetSettings()->GetBalanceTeamHands()) &&
         ((fSouthPoints >= 13) || (fNorthPoints >= 13))) {
         // deduct points from hand with the most points, unless that hand
         // lacks honors below a king (which must be held)
@@ -584,9 +585,9 @@ shuffle:
     m_pPlayer[SOUTH]->GetNumSuitsStopped());
   strFeedback += strTemp;
   if (nGameCode == 2) {
-    int numAcesRequired = app_->GetAcesForSlam(nSlamCode);
+    int numAcesRequired = app_->GetSettings()->GetAcesForSlam(nSlamCode);
     int numAcesHeld = m_pPlayer[SOUTH]->GetNumCardsOf(ACE) + m_pPlayer[NORTH]->GetNumCardsOf(ACE);
-    int numKingsRequired = app_->GetKingsForSlam(nSlamCode);
+    int numKingsRequired = app_->GetSettings()->GetKingsForSlam(nSlamCode);
     int numKingsHeld = m_pPlayer[SOUTH]->GetNumCardsOf(KING) + m_pPlayer[NORTH]->GetNumCardsOf(KING);
     strTemp.Format("\nAces, Kings held by team = %d/%d, %d/%d",
       numAcesHeld, numAcesRequired,
@@ -604,8 +605,8 @@ shuffle:
     m_pPlayer[i]->InitializeHand();
 
   // turn off game auto-play
-  if ((app_->IsFullAutoPlayMode()) || (app_->IsFullAutoExpressPlayMode())) {
-    app_->SetNormalPlayMode();
+  if ((app_->GetSettings()->IsFullAutoPlayMode()) || (app_->GetSettings()->IsFullAutoExpressPlayMode())) {
+    app_->GetSettings()->SetNormalPlayMode();
   }
 
   // done dealing
@@ -653,9 +654,9 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
   double fValSwapped = 0;
   do {
     // values needed to observe Ace/King constraints
-    int numAcesRequired = app_->GetAcesForSlam(nSlamCode);
+    int numAcesRequired = app_->GetSettings()->GetAcesForSlam(nSlamCode);
     int numAcesHeld = m_pPlayer[SOUTH]->GetNumCardsOf(ACE) + m_pPlayer[NORTH]->GetNumCardsOf(ACE);
-    int numKingsRequired = app_->GetKingsForSlam(nSlamCode);
+    int numKingsRequired = app_->GetSettings()->GetKingsForSlam(nSlamCode);
     int numKingsHeld = m_pPlayer[SOUTH]->GetNumCardsOf(KING) + m_pPlayer[NORTH]->GetNumCardsOf(KING);
     // first see if there's an honor card in the source hand
     int nSum = 0;
@@ -693,12 +694,12 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
           // diamonds honor above minimum
           if (((nSuit == CLUBS) || (nSuit == DIAMONDS)) &&
             ((nSource == SOUTH) || (nSource == NORTH)) &&
-            (nSrcVal >= app_->GetMinTopMinorCard()))
+            (nSrcVal >= app_->GetSettings()->GetMinTopMinorCard()))
             bInvalid = TRUE;
         } else if (nSuitCode == 2) {
           if (((nSuit == HEARTS) || (nSuit == SPADES)) &&
             ((nSource == SOUTH) || (nSource == NORTH)) &&
-            (nSrcVal >= app_->GetMinTopMajorCard()))
+            (nSrcVal >= app_->GetSettings()->GetMinTopMajorCard()))
             bInvalid = TRUE;
         }
         // if dealing slam, don't pull an ace from N/S

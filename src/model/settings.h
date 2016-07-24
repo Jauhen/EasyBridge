@@ -278,7 +278,19 @@ public:
     return points - GetBiddingAgressiveness()*0.5;
   }
   bool IsInManualCardPlayMode() {
-    return GetCardPlayMode() == Settings::PLAY_MANUAL;
+    return GetCardPlayMode() == PLAY_MANUAL;
+  }
+
+  bool IsFullAutoPlayMode() {
+    return GetCardPlayMode() == PLAY_FULL_AUTO;
+  }
+
+  bool IsFullAutoExpressPlayMode() {
+    return GetCardPlayMode() == PLAY_FULL_AUTO_EXPRESS;
+  }
+
+  void SetNormalPlayMode() {
+    SetCardPlayMode(PLAY_NORMAL);
   }
 
 

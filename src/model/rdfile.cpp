@@ -15,6 +15,7 @@
 #include "engine/deck.h"
 #include "engine/card.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -343,17 +344,17 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 break;
 
               case ITEM_RUBBER_IN_PROGRESS:
-                app_->SetRubberInProgress(bValue);
+                app_->GetSettings()->SetRubberInProgress(bValue);
                 break;
 
               case ITEM_GAME_IN_PROGRESS:
                 // TEMP
                 //						theApp.SetValue(tbGameInProgress, FALSE);
-                app_->SetGameInProgress(bValue);
+                app_->GetSettings()->SetGameInProgress(bValue);
                 break;
 
               case ITEM_BIDDING_IN_PROGRESS:
-                app_->SetBiddingInProgress(bValue);
+                app_->GetSettings()->SetBiddingInProgress(bValue);
                 break;
 
               case ITEM_HANDS_DEALT:
@@ -577,7 +578,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
   //
   m_nContract = MAKEBID(m_nContractSuit, m_nContractLevel);
   if (!ISPLAYER(m_nDeclarer) || !ISBID(m_nContract)) {
-    app_->SetGameInProgress(false);
+    app_->GetSettings()->SetGameInProgress(false);
   }
 
   //

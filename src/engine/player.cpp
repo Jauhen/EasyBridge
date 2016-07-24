@@ -772,8 +772,8 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 	if (ISSUIT(nSuitLed) && (GetNumCardsInSuit(nSuitLed) == 1))
 	{
 		// sleep if necessary
-		if (app_->IsInsertBiddingPause())
-			Sleep(app_->GetPlayPauseLength() * 100);
+		if (app_->GetSettings()->GetInsertBiddingPause())
+			Sleep(app_->GetSettings()->GetPlayPauseLength() * 100);
 
 		// auto play last card in suit
 		CCard* pPlayCard = GetCardInSuit(nSuitLed, 0);
@@ -782,7 +782,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1002);
 
 		// note the play in the hint window
-		if (app_->GetAutoHintMode() > 0)
+		if (app_->GetSettings()->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();
@@ -795,8 +795,8 @@ BOOL CPlayer::TestForAutoPlayLastCard()
 	else if (GetNumCards() == 1)
 	{
 		// sleep if necessary
-		if (app_->IsInsertBiddingPause())
-			Sleep(app_->GetPlayPauseLength() * 100);
+		if (app_->GetSettings()->GetInsertBiddingPause())
+			Sleep(app_->GetSettings()->GetPlayPauseLength() * 100);
 
 		// auto play last card in hand
 		CCard* pPlayCard = GetCardByPosition(0);
@@ -805,7 +805,7 @@ BOOL CPlayer::TestForAutoPlayLastCard()
     app_->PlayCard(pPlayCard, 1003);
 		
 		// note the play in the hint window
-		if (app_->GetAutoHintMode() > 0)
+		if (app_->GetSettings()->GetAutoHintMode() > 0)
 		{
 			m_pStatusDlg->ClearHints();
 			m_pStatusDlg->BeginHintBlock();

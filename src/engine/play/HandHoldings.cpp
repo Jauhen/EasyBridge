@@ -511,11 +511,11 @@ double CHandHoldings::CountPoints(const BOOL bForceCount)
 	//
 
 	// deduct 1 point for an aceless hand
-	if (app_->IsAcelessPenalty() && (m_numAces == 0))
+	if (app_->GetSettings()->GetAcelessPenalty() && (m_numAces == 0))
 		m_numPenaltyPoints++;
 
 	// and add 1 point for holding all 4 aces
-	if (app_->IsFourAceBonus() && (m_numAces == 4))
+	if (app_->GetSettings()->Get4AceBonus() && (m_numAces == 4))
 		m_numBonusPoints++;
 
 	//
