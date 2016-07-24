@@ -16,6 +16,7 @@
 #include "JacobyTransferConvention.h"
 #include "ConventionSet.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 
@@ -423,7 +424,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	//
 	// see if we're below game
 	//
-	if (bidState.m_fMinTPPoints < app_->GamePts() )
+	if (bidState.m_fMinTPPoints < PTS_GAME )
 	{
 		// are we correctiug?
 		if (nTargetSuit != nNewSuit)
@@ -443,7 +444,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 			//
 			// with < 23 pts, pass or bail out at the suit
 			//
-			if (bidState.m_fMinTPPoints <= app_->GamePts() -3) 
+			if (bidState.m_fMinTPPoints <= PTS_GAME -3) 
 			{
 				nBid = BID_PASS;
 				status << "JC40! With " & fCardPts & "/" & fPts & "/" & fAdjPts & 
@@ -457,7 +458,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 			//
 			// with 23-25 pts, raise to the 3-level
 			//
-			else if ((bidState.m_fMinTPPoints>= app_->GamePts() -2) && (bidState.m_fMinTPPoints < app_->GamePts() ))
+			else if ((bidState.m_fMinTPPoints>= PTS_GAME -2) && (bidState.m_fMinTPPoints < PTS_GAME ))
 			{
 				if (nPartnersBidLevel < 3) 
 				{
@@ -488,7 +489,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	//
 	// need 26 pts for a major game
 	//
-	else if ((bidState.m_fMinTPPoints >= app_->GamePts() ) && (bidState.m_fMinTPPoints < app_->SlamPts() )) 
+	else if ((bidState.m_fMinTPPoints >= PTS_GAME ) && (bidState.m_fMinTPPoints < PTS_SLAM )) 
 	{
 		// bid a major game
 		if (ISMAJOR(nTargetSuit))
@@ -497,7 +498,7 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 		} 
 		else 
 		{
-			if (bidState.m_fMinTPPoints < app_->MinorSuitGamePts() )
+			if (bidState.m_fMinTPPoints < PTS_MINOR_GAME )
 				nBid = MAKEBID(nTargetSuit, 4);
 			else
 				nBid = MAKEBID(nTargetSuit, 5);

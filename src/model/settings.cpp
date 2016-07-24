@@ -40,6 +40,7 @@ double	Settings::m_fDefaultGrandSlamPts = c_tfDefaultGrandSlamPts;
 //
 double	Settings::m_fMajorSuitGamePts = c_tfDefaultMajorSuitGamePts;
 double	Settings::m_fMinorSuitGamePts = c_tfDefaultMinorSuitGamePts;
+double	Settings::m_fGamePts = c_tfDefaultNTGamePts;
 double	Settings::m_fNTGamePts = c_tfDefaultNTGamePts;
 double	Settings::m_f4LevelPts = c_tfDefault4LevelPts;
 double	Settings::m_f3LevelPts = c_tfDefault3LevelPts;

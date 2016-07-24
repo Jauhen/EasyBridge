@@ -20,6 +20,8 @@
 #include "app_interface.h"
 #include "engine/bidding/convention_pool.h"
 #include "model/deal.h"
+#include "model/settings.h"
+
 
 
 
@@ -281,10 +283,10 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			// need 18+ total pts at the 1 level, 22+ at the 2 level, 24+ at the 3 level, 
 			// and 26+ at the 4 level (assume partner contributes 12 HCPs)
 			int nPartnersContrib = 12;
-			if ( ((nLevel == 1) && (bidState.fCardPts >= app_->NTGamePts() -7-nPartnersContrib)) ||
-				 ((nLevel == 2) && (bidState.fCardPts >= app_->NTGamePts() -3-nPartnersContrib)) ||
-				 ((nLevel == 3) && (bidState.fCardPts >= app_->NTGamePts() -1-nPartnersContrib)) ||
-				 ((nLevel == 4) && (bidState.fCardPts >= app_->NTGamePts() +1-nPartnersContrib)))
+			if ( ((nLevel == 1) && (bidState.fCardPts >= PTS_NT_GAME -7-nPartnersContrib)) ||
+				 ((nLevel == 2) && (bidState.fCardPts >= PTS_NT_GAME -3-nPartnersContrib)) ||
+				 ((nLevel == 3) && (bidState.fCardPts >= PTS_NT_GAME -1-nPartnersContrib)) ||
+				 ((nLevel == 4) && (bidState.fCardPts >= PTS_NT_GAME +1-nPartnersContrib)))
 			{
 				status << "TKOTR14! However, assuming partner has 12+ HCPs, that amount combined with our " &
 						  bidState.fCardPts & "/" & bidState.fPts &
@@ -609,18 +611,18 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			// raise to the 4-level with 26-32 pts (major) and 5 trumps
 			// raise to the 4-level with 26-28 pts (minor) and 5 trumps
 			// raise to the 5-level with 29-32 pts (minor) and 5 trumps
-			if ( (bidState.RebidSuit(SUIT_ANY,REBID_AT_2,app_->GamePts() -6,app_->GamePts() -4,LENGTH_4)) ||
-			     (bidState.RebidSuit(SUIT_ANY,REBID_AT_3,app_->GamePts() -3,app_->GamePts() -1,LENGTH_5)) ||
-				 (bidState.RebidSuit(SUIT_ANY,REBID_AT_4,app_->GamePts() ,app_->SlamPts() -1,LENGTH_5)) ||
-				 (bidState.RebidSuit(SUIT_MINOR,REBID_AT_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() -1,LENGTH_5)) ||
-				 (bidState.RebidSuit(SUIT_MINOR,REBID_AT_5,app_->MinorSuitGamePts() ,app_->SlamPts() -1,LENGTH_5)) )
+			if ( (bidState.RebidSuit(SUIT_ANY,REBID_AT_2,PTS_GAME -6,PTS_GAME -4,LENGTH_4)) ||
+			     (bidState.RebidSuit(SUIT_ANY,REBID_AT_3,PTS_GAME -3,PTS_GAME -1,LENGTH_5)) ||
+				 (bidState.RebidSuit(SUIT_ANY,REBID_AT_4,PTS_GAME ,PTS_SLAM -1,LENGTH_5)) ||
+				 (bidState.RebidSuit(SUIT_MINOR,REBID_AT_4,PTS_MINOR_GAME -3,PTS_MINOR_GAME -1,LENGTH_5)) ||
+				 (bidState.RebidSuit(SUIT_MINOR,REBID_AT_5,PTS_MINOR_GAME ,PTS_SLAM -1,LENGTH_5)) )
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 
 			// else pass with <= 32 pts
-			if (fMinTPPoints < app_->SlamPts() ) 
+			if (fMinTPPoints < PTS_SLAM ) 
 			{
 				status << "TKOTR65! With a total in the partnership of " & 
 						  fMinTPPoints & "-" & fMaxTPPoints &
@@ -649,8 +651,8 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			//
 			// with 20-24 min total pts, raise partner's suit to 
 			// the 2 or 3-level with 3-card trump support
-			if ( (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_2,app_->GamePts() -5,app_->GamePts() -3,SUPLEN_3)) ||
-				 (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,app_->GamePts() -2,app_->GamePts() -1,SUPLEN_3)) )
+			if ( (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_2,PTS_GAME -5,PTS_GAME -3,SUPLEN_3)) ||
+				 (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,PTS_GAME -2,PTS_GAME -1,SUPLEN_3)) )
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
@@ -660,7 +662,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			// the other suits stopped, bid 2NT
 			if ((bidState.nPartnersBidLevel == 2) && (bidState.numSupportCards < 3))
 			{
-				if (bidState.BidNoTrump(LEVEL_2,app_->GamePts() -2,app_->GamePts() -1,FALSE,STOPPED_ALLOTHER,nPartnersSuit))
+				if (bidState.BidNoTrump(LEVEL_2,PTS_GAME -2,PTS_GAME -1,FALSE,STOPPED_ALLOTHER,nPartnersSuit))
 				{
 					bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 					return TRUE;
@@ -668,7 +670,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			}
 
 			// else rebid a 6-card suit with 22-24 pts
-			if (bidState.RebidSuit(SUIT_ANY,REBID_CHEAPEST,app_->GamePts() -3,app_->GamePts() -1,LENGTH_6))
+			if (bidState.RebidSuit(SUIT_ANY,REBID_CHEAPEST,PTS_GAME -3,PTS_GAME -1,LENGTH_6))
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
@@ -676,7 +678,7 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 
 			// else with 20-24 min total pts, bid another good suit;
 			// or else pass
-			if (fMinTPPoints < app_->GamePts() ) 
+			if (fMinTPPoints < PTS_GAME ) 
 			{
 				// see what the bid would be
 				int nSuit = bidState.GetNextBestSuit(nPreviousSuit, nPartnersSuit);
@@ -698,11 +700,11 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 				{
 					// not 'nuff pts, so either pass or return to partner's suit
 					// with 2 trumps
-					if (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_2,app_->GamePts() -5,app_->GamePts() -3,SUPLEN_2))
+					if (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_2,PTS_GAME -5,PTS_GAME -3,SUPLEN_2))
 					{
 						bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 					}
-					else if (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,app_->GamePts() -2,app_->GamePts() -1,SUPLEN_2))
+					else if (bidState.RaisePartnersSuit(SUIT_ANY,RAISE_TO_3,PTS_GAME -2,PTS_GAME -1,SUPLEN_2))
 					{
 						bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 					}
@@ -729,28 +731,28 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 
 			// raise a major to game with 3-card support & 26+ pts
 			// or with 2-card support & 26+ pts
-			if ( (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_3)) ||
-				(bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->GamePts() +1,app_->SlamPts() -1,SUPLEN_2)) )
+			if ( (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_GAME ,PTS_SLAM -1,SUPLEN_3)) ||
+				(bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_GAME +1,PTS_SLAM -1,SUPLEN_2)) )
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 
 			// Bid 3NT with 26-31 HCPs and all suits stopped
-			if (bidState.BidNoTrump(LEVEL_3,app_->NTGamePts() ,app_->SlamPts() -1,FALSE,STOPPED_ALLOTHER,nPartnersSuit))
+			if (bidState.BidNoTrump(LEVEL_3,PTS_NT_GAME ,PTS_SLAM -1,FALSE,STOPPED_ALLOTHER,nPartnersSuit))
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 			// or 2NT without all stoppers
-			if (bidState.BidNoTrump(LEVEL_2,app_->GamePts() ,app_->SlamPts() -1,FALSE,STOPPED_DONTCARE))
+			if (bidState.BidNoTrump(LEVEL_2,PTS_GAME ,PTS_SLAM -1,FALSE,STOPPED_DONTCARE))
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 
 			// jump to game in a self-supporing major
-			if (bidState.RebidSuit(SUIT_MAJOR,REBID_AT_4,app_->GamePts() ,app_->SlamPts() -1,LENGTH_6,SS_SELFSUPPORTING,HONORS_3))
+			if (bidState.RebidSuit(SUIT_MAJOR,REBID_AT_4,PTS_GAME ,PTS_SLAM -1,LENGTH_6,SS_SELFSUPPORTING,HONORS_3))
 			{
 				status << "TKOTR80! With a self-supporting " & bidState.szPrefS &
 						  " suit and " & fMinTPPoints & "-" & fMaxTPPoints &
@@ -761,14 +763,14 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			
 			// raise partner's major to the 3-level with 2 support cards
 			// and 26+ points, if possible
-			if (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_2))
+			if (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,PTS_GAME ,PTS_SLAM -1,SUPLEN_2))
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 
 			// jump to game in a self-supporting minor (7 cards min)
-			if (bidState.RebidSuit(SUIT_MINOR,REBID_AT_5,app_->MinorSuitGamePts() ,app_->SlamPts() -1,LENGTH_7,SS_SELFSUPPORTING,HONORS_3))
+			if (bidState.RebidSuit(SUIT_MINOR,REBID_AT_5,PTS_MINOR_GAME ,PTS_SLAM -1,LENGTH_7,SS_SELFSUPPORTING,HONORS_3))
 			{
 				status << "TKOTR82! With a self-supporting " & bidState.szPrefS &
 						  " suit and " & fMinTPPoints & 
@@ -778,23 +780,23 @@ BOOL CTakeoutDoublesConvention::RespondToConvention(const CPlayer& player,
 			}
 			
 			// raise partner's minor to 4 or 5 with 3 trumps
-			if ( (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,app_->MinorSuitGamePts() ,app_->SlamPts() -1,SUPLEN_3)) ||
-				 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_4,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_3)) )
+			if ( (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,PTS_MINOR_GAME ,PTS_SLAM -1,SUPLEN_3)) ||
+				 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_4,PTS_GAME ,PTS_SLAM -1,SUPLEN_3)) )
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 
 			// rebid a good 6-card suit
-			if ( (bidState.RebidSuit(SUIT_MAJOR,REBID_CHEAPEST,app_->GamePts() ,app_->SlamPts() -1,LENGTH_6,SS_STRONG)) ||
-				 (bidState.RebidSuit(SUIT_MINOR,REBID_CHEAPEST,app_->MinorSuitGamePts() ,app_->SlamPts() -1,LENGTH_6,SS_STRONG)) )
+			if ( (bidState.RebidSuit(SUIT_MAJOR,REBID_CHEAPEST,PTS_GAME ,PTS_SLAM -1,LENGTH_6,SS_STRONG)) ||
+				 (bidState.RebidSuit(SUIT_MINOR,REBID_CHEAPEST,PTS_MINOR_GAME ,PTS_SLAM -1,LENGTH_6,SS_STRONG)) )
 			{
 				bidState.SetConventionStatus(this, CONV_RESPONDED_ROUND2);
 				return TRUE;
 			}
 
 			// else rebid our suit at the cheapest level
-			else if (fMinTPPoints < app_->SlamPts() ) 
+			else if (fMinTPPoints < PTS_SLAM ) 
 			{
 				nBid = bidState.GetCheapestShiftBid(nPreviousSuit);
 				status << "TKOTR85! With " & fMinTPPoints & "-" & fMaxTPPoints &
@@ -1076,7 +1078,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				// zero pts, so adjust rqmts accordingly
 
 				// if partner jumped to game && we have < 32 pts, pass
-				if ((bPartnerJumpedToGame) && (bidState.m_fMinTPPoints < app_->SlamPts() ))
+				if ((bPartnerJumpedToGame) && (bidState.m_fMinTPPoints < PTS_SLAM ))
 				{
 					status << "TKRb70! Partner jumped to game in his " & bidState.szPSS & 
 							  " suit, so with a team total of " &
@@ -1091,9 +1093,9 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				// raise a major to game with 24-32 pts and 4 trumps
 				//					  or with 26-32 pts and 3 trumps
 				// or raise to the 3-level with 21-25 pts and 3 trumps
-				if ( (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->GamePts() -2,app_->SlamPts() -1,SUPLEN_4)) ||
-				     (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,app_->GamePts() ,app_->SlamPts() -1,SUPLEN_3)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,app_->GamePts() -5,app_->GamePts() -1,SUPLEN_3)))
+				if ( (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_GAME -2,PTS_SLAM -1,SUPLEN_4)) ||
+				     (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_4,PTS_GAME ,PTS_SLAM -1,SUPLEN_3)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MAJOR,RAISE_TO_3,PTS_GAME -5,PTS_GAME -1,SUPLEN_3)))
 				{
 					if (!bPartnerJumped)
 						status << "TKRb71a! (we can assume partner has some strength in the " & bidState.szPSS & 
@@ -1105,10 +1107,10 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 				//                    or with 28-32 pts and 3 trumps
 				// or raise to the 4-level with 26-27 pts and 3 trumps
 				// or raise to the 3-level with 21-25 pts and 3 trumps
-				if ( (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,app_->MinorSuitGamePts() -3,app_->SlamPts() -1,SUPLEN_4)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,app_->MinorSuitGamePts() -1,app_->SlamPts() -1,SUPLEN_3)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_4,app_->MinorSuitGamePts() -3,app_->MinorSuitGamePts() -2,SUPLEN_3)) ||
-					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_3,app_->MinorSuitGamePts() -8,app_->MinorSuitGamePts() -4,SUPLEN_3)) )
+				if ( (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,PTS_MINOR_GAME -3,PTS_SLAM -1,SUPLEN_4)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_5,PTS_MINOR_GAME -1,PTS_SLAM -1,SUPLEN_3)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_4,PTS_MINOR_GAME -3,PTS_MINOR_GAME -2,SUPLEN_3)) ||
+					 (bidState.RaisePartnersSuit(SUIT_MINOR,RAISE_TO_3,PTS_MINOR_GAME -8,PTS_MINOR_GAME -4,SUPLEN_3)) )
 				{
 					if (!bPartnerJumped)
 						status << "TKRb71b! We can assume partner has some strength in the " & bidState.szPSS & 
@@ -1117,7 +1119,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 					return TRUE;
 				}
 				// with 33+ pts, invoke Blackwood
-				if (bidState.m_fMinTPCPoints >= app_->SlamPts() )
+				if (bidState.m_fMinTPCPoints >= PTS_SLAM )
 				{
 					bidState.InvokeBlackwood(bidState.m_nAgreedSuit);
 					bidState.SetConventionStatus(this, CONV_INVOKED_ROUND2);
@@ -1239,12 +1241,12 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				// partner bid game or beyond
 				if ((nPartnersBidLevel == 7) ||
-					((nPartnersBidLevel == 6) && (fMinTPPoints <= app_->GrandSlamPts() )) )
+					((nPartnersBidLevel == 6) && (fMinTPPoints <= PTS_GRAND_SLAM )) )
 				{
 					status << "TKRc10! Partner raised our " & bidState.szPVSS & 
 							  " suit to a slam, so pass.\n";
 				}
-				else if ((nPartnersBidLevel <= 6) && (fMinTPPoints >= app_->GrandSlamPts() +1))
+				else if ((nPartnersBidLevel <= 6) && (fMinTPPoints >= PTS_GRAND_SLAM +1))
 				{
 					nBid = MAKEBID(nPreviousSuit, 7);
 					status << "TKRc11! Partner raised our " & bidState.szPVSS & 
@@ -1253,7 +1255,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 							  ", but we have the poitns to push to a grand slam, so bid " & 
 							  BidToFullString(nBid) & ".\n";
 				}
-				else if ((nPartnersBidLevel < 6) && (fMinTPPoints >= app_->SmallSlamPts() +1))
+				else if ((nPartnersBidLevel < 6) && (fMinTPPoints >= PTS_SMALL_SLAM +1))
 				{
 					nBid = MAKEBID(nPreviousSuit, 6);
 					status << "TKRc12! Partner raised our " & bidState.szPVSS & 
@@ -1273,8 +1275,8 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			{
 				// partner raised below game
 				// re-raise if possible
-				if ( (ISMAJOR(nPreviousSuit) && (fMinTPPoints >= app_->GamePts() )) ||
-					 (ISMINOR(nPreviousSuit) && (fMinTPPoints >= app_->MinorSuitGamePts() )) )
+				if ( (ISMAJOR(nPreviousSuit) && (fMinTPPoints >= PTS_GAME )) ||
+					 (ISMINOR(nPreviousSuit) && (fMinTPPoints >= PTS_MINOR_GAME )) )
 				{
 					nBid = bidState.GetGameBid(nPreviousSuit);
 					status << "TKRc20! With a total of " & 
@@ -1336,7 +1338,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 			int nSuit = bidState.GetFourthSuit(nPreviousSuit, nPartnersSuit, nPartnersPrevSuit);
 			nBid = bidState.GetCheapestShiftBid(nSuit);
 
-			if ((fMinTPPoints >= app_->GamePts() ) && (nBid < bidState.GetGameBid(nSuit)))
+			if ((fMinTPPoints >= PTS_GAME ) && (nBid < bidState.GetGameBid(nSuit)))
 			{
 				status << "TKRc40! With a total of " & 
 						  fMinTPPoints & "-" & fMaxTPPoints & 
@@ -1352,7 +1354,7 @@ BOOL CTakeoutDoublesConvention::HandleConventionResponse(const CPlayer& player,
 							  fMinTPPoints & "-" & fMaxTPPoints & 
 							  " pts in the partnership, partner has gone to game in his suit at " &
 							  bidState.szPB & ", so pass.\n";
-				else if (fMinTPPoints >= app_->GamePts() )
+				else if (fMinTPPoints >= PTS_GAME )
 					status << "TKRc46! With a total of " & 
 							  fMinTPPoints & "-" & fMaxTPPoints & 
 							  " pts in the partnership, but having run out of bidding room, we have to bail out and pass.\n";

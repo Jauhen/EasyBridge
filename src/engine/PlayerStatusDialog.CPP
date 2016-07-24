@@ -15,6 +15,7 @@
 #include "stdafx.h"
 #include "app_interface.h"
 #include "engine/PlayerStatusDialog.h"
+#include "model/settings.h"
 
 //#define _STRIP_HEADERS_
 
@@ -173,16 +174,16 @@ void CPlayerStatusDialog::Trace(const CString& strText)
 	if (m_bSuppressOutput)
 		return;
 #else
-	if (app_->InExpressAutoPlay() || m_bSuppressOutput)
+	if (app_->GetSettings()->InExpressAutoPlay() || m_bSuppressOutput)
 		return;
 #endif
 
 	// need to be either printing analysis or providing a hint
-	if (!app_->IsEnableAnalysisTracing() && !m_bCopyHintBlock)
+	if (!app_->GetSettings()->GetEnableAnalysisTracing() && !m_bCopyHintBlock)
 		return;
 
 	// get and test the trace level
-  int nTraceLevelLimit = app_->AnalysisTraceLevel();
+  int nTraceLevelLimit = app_->GetSettings()->GetAnalysisTraceLevel();
 	m_nCurrentOutputLevel = 0;
 
 	// see if a verbosity escape code is present
@@ -232,7 +233,7 @@ void CPlayerStatusDialog::Trace(const CString& strText)
 	BOOL bOutputText = ConvertNewlines(strNewText, strOutput);
 
 	// show analysis notes
-	if (app_->IsEnableAnalysisTracing())
+	if (app_->GetSettings()->GetEnableAnalysisTracing())
 	{
 		m_strAnalysis += strNewText;
 		if (bOutputText)
@@ -265,12 +266,12 @@ void CPlayerStatusDialog::AddTrace(const CString& strText)
 	if (m_bSuppressOutput)
 		return;
 #else
-	if (app_->InExpressAutoPlay() || m_bSuppressOutput)
+	if (app_->GetSettings()->InExpressAutoPlay() || m_bSuppressOutput)
 		return;
 #endif
 
 	// need to be either printing analysis or providing a hint
-	if (!app_->IsEnableAnalysisTracing() && !m_bCopyHintBlock)
+	if (!app_->GetSettings()->GetEnableAnalysisTracing() && !m_bCopyHintBlock)
 		return;
 
 	//
@@ -284,7 +285,7 @@ void CPlayerStatusDialog::AddTrace(const CString& strText)
 	else
 	{
 		// show analysis notes if enabled
-		if (app_->IsEnableAnalysisTracing())
+		if (app_->GetSettings()->GetEnableAnalysisTracing())
 		{
 			m_strAnalysis += strNewText;
 			if (bOutputText)
@@ -405,7 +406,7 @@ BOOL CPlayerStatusDialog::ConvertNewlines(CString& strOutput, LPCTSTR szInput)
 	}
 */
 	// if in debug, strip header if desired
-	if (!app_->IsShowCommentIdentifiers())
+	if (!app_->GetSettings()->GetShowCommentIdentifiers())
 	{
 		const TCHAR* pcToken = NULL;
 		if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)

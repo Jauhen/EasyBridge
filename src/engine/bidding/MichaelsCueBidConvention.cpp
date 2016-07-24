@@ -19,6 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 
@@ -451,9 +452,9 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		if (ISMINOR(nAgreedSuit))
 		{
 			// Clubs or Diamonds
-			if (bidState.m_fMinTPPoints <= app_->MinorSuitGamePts() -6)	// <= 22
+			if (bidState.m_fMinTPPoints <= PTS_MINOR_GAME -6)	// <= 22
 				nBid = BID_PASS;
-			else if (bidState.m_fMinTPPoints <= app_->MinorSuitGamePts() -4)	// <= 24
+			else if (bidState.m_fMinTPPoints <= PTS_MINOR_GAME -4)	// <= 24
 				nBid = MAKEBID(nPartnersBid, 4);
 			else 
 				nBid = MAKEBID(nPartnersBid, 5);	// go for game
@@ -473,7 +474,7 @@ BOOL CMichaelsCueBidConvention::RespondToConvention(const CPlayer& player,
 		{
 			// sticking with the major (though not a very good one!)
 			// sign off at the 3-level or go to game
-			if (bidState.m_fMinTPPoints < app_->MajorSuitGamePts() )	// < 25
+			if (bidState.m_fMinTPPoints < PTS_MAJOR_GAME )	// < 25
 				nBid = MAKEBID(nPartnersBid, 3);
 			else	
 				nBid = MAKEBID(nPartnersBid, 4);

@@ -16,6 +16,8 @@
 #include "engine/bidding/StaymanConvention.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/settings.h"
+
 
 
 
@@ -430,7 +432,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 		// see if we have a good 5+ card major -- then bid it invitationally
 		// but realistically we need 24+ total pts here even at the 2 level, 
 		// since partner has a balanced (flat) distribuion
-		if (!bidState.bBalanced && (bidState.m_fMinTPPoints >= app_->GamePts() - 1) &&
+		if (!bidState.bBalanced && (bidState.m_fMinTPPoints >= PTS_GAME - 1) &&
 			( ((bidState.numCardsInSuit[HEARTS] >= 5) && (bidState.nSuitStrength[HEARTS] >= SS_OPENABLE)) || 
 			  ((bidState.numCardsInSuit[SPADES] >= 5) && (bidState.nSuitStrength[SPADES] >= SS_OPENABLE)) ) )
 		{
@@ -444,7 +446,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		// else bid NT
-		else if (bidState.m_fMinTPCPoints < app_->GamePts() -3) 
+		else if (bidState.m_fMinTPCPoints < PTS_GAME -3) 
 		{
 			// really shouldn't even be here!
 			nBid = BID_PASS;
@@ -452,7 +454,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 					  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 					  " HCPs in the partnership, we have to pass.\n";
 		} 
-		else if (bidState.m_fMinTPCPoints < app_->GamePts() ) 
+		else if (bidState.m_fMinTPCPoints < PTS_GAME ) 
 		{
 			// cheapest NT may be 2NT or 3NT, depending on opening
 			nBid = bidState.GetCheapestShiftBid(NOTRUMP);
@@ -460,7 +462,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 					  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 					  " HCPs in the partnership, bid " & BidToFullString(nBid) & ".\n";
 		} 
-		else if (bidState.m_fMinTPCPoints < app_->SlamPts() -3) 
+		else if (bidState.m_fMinTPCPoints < PTS_SLAM -3) 
 		{
 			// 26-30 pts:  bid game
 			nBid = BID_3NT;
@@ -468,7 +470,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 					  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 					  " HCPs in the partnership, bid game at 3NT.\n";
 		} 
-		else if (bidState.m_fMinTPCPoints <= app_->SlamPts() ) 
+		else if (bidState.m_fMinTPCPoints <= PTS_SLAM ) 
 		{
 			// 31-32 pts:  raise to 4NT (invitational towards slam)
 			nBid = BID_4NT;
@@ -476,7 +478,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 					  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 					  " HCPs in the partnership, invite towards slam with a bid of 4NT.\n";
 		} 
-		else if (bidState.m_fMinTPCPoints <= app_->SlamPts() +1) 
+		else if (bidState.m_fMinTPCPoints <= PTS_SLAM +1) 
 		{
 			// 33-34 pts:  bid 6NT directly
 			nBid = BID_6NT;
@@ -484,7 +486,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 					  bidState.m_fMinTPCPoints & "-" & bidState.m_fMaxTPCPoints &
 					  " HCPs in the partnership, bid a small slam directly at 6NT.\n";
 		} 
-		else if (bidState.m_fMinTPPoints == app_->GrandSlamPts() -1) 
+		else if (bidState.m_fMinTPPoints == PTS_GRAND_SLAM -1) 
 		{
 			// 35-36 pts -- bid 5NT, inviting towards grand slam
 			nBid = BID_5NT;
@@ -517,7 +519,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	bidState.SetConventionStatus(this, CONV_FINISHED);
 
 	// pass with <= 22 pts
-	if (bidState.m_fMinTPPoints < app_->GamePts() -3) 
+	if (bidState.m_fMinTPPoints < PTS_GAME -3) 
 	{
 		//
 		nBid = BID_PASS;
@@ -525,7 +527,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 				  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
 				  " points in the partnership, settle for a part score and pass.\n";
 	} 
-	else if (bidState.m_fMinTPPoints < app_->GamePts() ) 
+	else if (bidState.m_fMinTPPoints < PTS_GAME ) 
 	{
 		// raise to 3 with 23-25 pts
 		if (nPartnersBidLevel < 3)
@@ -545,7 +547,7 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 					  " points in the partnership, so we have to pass.\n";
 		}
 	} 
-	else if (bidState.m_fMinTPPoints < app_->SlamPts() )
+	else if (bidState.m_fMinTPPoints < PTS_SLAM )
 	{
 		// raise to game
 		nBid = MAKEBID(nSuit,4);

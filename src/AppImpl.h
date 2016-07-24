@@ -28,68 +28,8 @@ public:
     return theApp.GetSettings();
   }
 
-  virtual bool IsEnableAnalysisTracing() {
-    return theApp.GetSettings()->GetEnableAnalysisTracing();
-  }
-
-  virtual int AnalysisTraceLevel() {
-    return theApp.GetSettings()->GetAnalysisTraceLevel();
-  }
-
-  virtual bool InExpressAutoPlay() {
-    return theApp.GetSettings()->InExpressAutoPlay() == TRUE;
-  }
-
-  virtual bool IsEnableAnalysisDuringHints() {
-    return theApp.GetSettings()->GetEnableAnalysisDuringHints();
-  }
-
-  virtual bool IsShowCommentIdentifiers() {
-    return theApp.GetSettings()->GetShowCommentIdentifiers();
-  }
-
   virtual std::shared_ptr<ConventionPool> GetConventionPool() {
     return theApp.GetConventionPool();
-  }
-
-  virtual double GamePts() {
-    return Settings::m_fNTGamePts;
-  }
-
-  virtual double MajorSuitGamePts() {
-    return Settings::m_fMajorSuitGamePts;
-  }
-
-  virtual double MinorSuitGamePts() {
-    return Settings::m_fMinorSuitGamePts;
-  }
-
-  virtual double NTGamePts() {
-    return Settings::m_fNTGamePts;
-  }
-
-  virtual double FourthLevelPts() {
-    return Settings::m_f4LevelPts;
-  }
-
-  virtual double ThirdLevelPts() {
-    return Settings::m_f3LevelPts;
-  }
-
-  virtual double SecondLevelPts() {
-    return Settings::m_f2LevelPts;
-  }
-
-  virtual double SlamPts() {
-    return Settings::m_fSlamPts;
-  }
-
-  virtual double SmallSlamPts() {
-    return Settings::m_fSlamPts;
-  }
-
-  virtual double GrandSlamPts() {
-    return Settings::m_fGrandSlamPts;
   }
 
   virtual CConventionSet* GetCurrentConventionSet() {
@@ -126,10 +66,6 @@ public:
 
   virtual CGIB& GetGIB() {
     return *(theApp.GetGIB());
-  }
-
-  virtual bool IsInExpressAutoPlay() {
-    return theApp.GetSettings()->InExpressAutoPlay() == TRUE;
   }
 
   virtual bool IsComputerCanClaim() {

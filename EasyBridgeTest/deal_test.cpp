@@ -19,8 +19,13 @@ protected:
   virtual void SetUp() {
     app = make_shared<MockApp>();
     deck = make_shared<CDeck>(app);
+    settings = make_shared<Settings>();
 
     set = unique_ptr<CConventionSet>(new CConventionSet(app));
+
+    EXPECT_CALL(*app, GetDeck()).WillRepeatedly(Return(deck));
+    EXPECT_CALL(*app, GetSettings()).WillRepeatedly(Return(settings));
+    EXPECT_CALL(*app, GetCurrentConventionSet()).WillRepeatedly(Return(set.get()));
 
     EXPECT_CALL(*app, GetProgramTitle()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, GetProgramMajorVersion()).WillRepeatedly(Return(4));
@@ -30,7 +35,6 @@ protected:
     EXPECT_CALL(*app, GetProgramBuildDate()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, GetProgramVersionString()).WillRepeatedly(Return("abc"));
     EXPECT_CALL(*app, IsSaveIntermediatePositions()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*app, GetCurrentConventionSet()).WillRepeatedly(Return(set.get()));
     EXPECT_CALL(*app, IsMainFrameExists()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, SetBiddingInProgress(false)).Times(AnyNumber());
     EXPECT_CALL(*app, SetGameInProgress(false)).Times(AnyNumber());
@@ -38,7 +42,6 @@ protected:
     EXPECT_CALL(*app, ClearMode(false)).Times(AnyNumber());
     EXPECT_CALL(*app, IsFullAutoPlayMode()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsFullAutoExpressPlayMode()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*app, GetDeck()).WillRepeatedly(Return(deck));
     EXPECT_CALL(*app, GetSuitSequence(_)).WillRepeatedly(Return('H'));
     EXPECT_CALL(*app, GetSuitToScreenIndex(_)).WillRepeatedly(Return(2));
     EXPECT_CALL(*app, GetHonorValue(_)).WillRepeatedly(Return(1));
@@ -46,8 +49,6 @@ protected:
     EXPECT_CALL(*app, IsPenalizeUGHonors()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsAcelessPenalty()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsFourAceBonus()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*app, InExpressAutoPlay()).WillRepeatedly(Return(false));
-    EXPECT_CALL(*app, IsEnableAnalysisTracing()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsInAutoTestMode()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsDebugModeActive()).WillRepeatedly(Return(false));
     EXPECT_CALL(*app, IsRubberInProgress()).WillRepeatedly(Return(false));
@@ -56,6 +57,7 @@ protected:
     EXPECT_CALL(*app, InitNewDeal()).Times(AnyNumber());
 
     deck->InitializeCards();
+    settings->Initialize();
   }
 
   virtual ~DealTests() {}
@@ -65,6 +67,7 @@ protected:
 
   shared_ptr<MockApp> app;
   shared_ptr<CDeck> deck;
+  shared_ptr<Settings> settings;
   unique_ptr<CConventionSet> set;
 };
 

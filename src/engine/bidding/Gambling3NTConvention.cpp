@@ -20,6 +20,7 @@
 #include "engine/Card.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 //
@@ -209,10 +210,10 @@ BOOL CGambling3NTConvention::RespondToConvention(const CPlayer& player,
 			bidState.AdjustPartnershipPoints(16, 21);
 
 			// respond positively only if there's interest in slam
-			if (bidState.m_fMinTPPoints >= app_->SlamPts() )
+			if (bidState.m_fMinTPPoints >= PTS_SLAM )
 			{
 				// bid slam directly
-				if (bidState.m_fMinTPPoints >= app_->GrandSlamPts() )
+				if (bidState.m_fMinTPPoints >= PTS_GRAND_SLAM )
 				{
 					nBid = BID_7NT;
 					status << "G3NT21! With a total of " & 

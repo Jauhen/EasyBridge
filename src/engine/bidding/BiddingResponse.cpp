@@ -17,6 +17,7 @@
 #include "engine/bidding/bidengine.h"
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 //
@@ -125,13 +126,13 @@ int CBidEngine::MakeRespondingBid()
 			// 0-7 HCPs (up to 23 pts min. based on 16-18 
 			// 1NT count):  pass
 			// this means we'd pass w/ 8 pts when playing 15-17 1NT
-			if (m_fMinTPCPoints <= app_->GamePts() -2) 
+			if (m_fMinTPCPoints <= PTS_GAME -2) 
 			{
 				m_nBid = BID_PASS;
 				status << "B10! We do not have quite enough for game even if partner has max opening points, so pass.\n";
 			// 24+ tot. HCPs:  raise to 2NT
 			} 
-			else if (m_fMinTPCPoints == app_->GamePts() -1) 
+			else if (m_fMinTPCPoints == PTS_GAME -1) 
 			{
 				// see if we're playing 4-suit Jacoby -- then
 				// we have to bid 2C
@@ -149,14 +150,14 @@ int CBidEngine::MakeRespondingBid()
 							  " bid.\n";
 				}
 			} 
-			else if ((m_fMinTPCPoints >= app_->NTGamePts() ) && (m_fMinTPCPoints <= app_->SlamPts() -3)) 
+			else if ((m_fMinTPCPoints >= PTS_NT_GAME ) && (m_fMinTPCPoints <= PTS_SLAM -3)) 
 			{
 				// 26-30 tot HCPs:  raise to 3NT
 				m_nBid = BID_3NT;
 				status << "B30! With " & m_fMinTPCPoints & "-" & m_fMaxTPCPoints &
 						  " combined HC points, game is reachable.  Bid " & BidToFullString(m_nBid) & ".\n";
 			} 
-			else if ((m_fMinTPCPoints >= app_->SlamPts() -2) && (m_fMinTPCPoints <= app_->SlamPts() -1)) 
+			else if ((m_fMinTPCPoints >= PTS_SLAM -2) && (m_fMinTPCPoints <= PTS_SLAM -1)) 
 			{
 				// 31-32 tot HCPs:  raise to 4NT
 				m_nBid = BID_4NT;
@@ -164,7 +165,7 @@ int CBidEngine::MakeRespondingBid()
 						  " combined HC points, entertain slam possibilities with an invitational " &
 						  BidToFullString(m_nBid) & " bid.\n";
 			} 
-			else if ((m_fMinTPCPoints >= app_->SlamPts() ) && (m_fMinTPCPoints <= app_->SlamPts() +1)) 
+			else if ((m_fMinTPCPoints >= PTS_SLAM ) && (m_fMinTPCPoints <= PTS_SLAM +1)) 
 			{
 				// 33-34 tot HCPs:  raise to 6NT
 				m_nBid = BID_6NT;
@@ -172,7 +173,7 @@ int CBidEngine::MakeRespondingBid()
 						  " combined HC points, a small slam should be reachable.  Bid " &
 						  BidToFullString(m_nBid) & ".\n";
 			} 
-			else if ((m_fMinTPCPoints >= app_->SlamPts() +2) && (m_fMinTPCPoints <= app_->SlamPts() +3)) 
+			else if ((m_fMinTPCPoints >= PTS_SLAM +2) && (m_fMinTPCPoints <= PTS_SLAM +3)) 
 			{
 				// 35-36 tot HCPs:  raise to 5NT; inviting to 
 				// grand slam if opener has more than min. pts
@@ -206,7 +207,7 @@ int CBidEngine::MakeRespondingBid()
 		//
 		// with < 23 min team points, pass
 		//
-		if (m_fMinTPPoints < app_->GamePts() -3) 
+		if (m_fMinTPPoints < PTS_GAME -3) 
 		{
 			m_nBid = BID_PASS;
 			status << "C00! With only " & fCardPts & "/" & fPts &
@@ -222,14 +223,14 @@ int CBidEngine::MakeRespondingBid()
 		// 23-25 team points (7-8 in hand playing 16-18 1NT):  
 		// bid with a long suit, pass otherwise
 		//
-		if (m_fMinTPPoints < app_->GamePts() ) 
+		if (m_fMinTPPoints < PTS_GAME ) 
 		{
 			//
 			// with 25 pts and a 6-card major suit, jump to 4
 			//
 			if ((numCardsInSuit[HEARTS] >= 6) || 
 						(numCardsInSuit[SPADES] >= 6) &&
-											(fPts >= app_->GamePts() -1) )
+											(fPts >= PTS_GAME -1) )
 			{
 				nSuit = GetBestSuitofAtLeast(HEARTS,SPADES,6);
 				m_nBid = MAKEBID(nSuit,4);
@@ -242,7 +243,7 @@ int CBidEngine::MakeRespondingBid()
 			//
 			// with 24+ HCPs and a 6-card minor, jump to 3NT
 			//
-			if ((m_fMinTPCPoints >= app_->GamePts() -2) &&
+			if ((m_fMinTPCPoints >= PTS_GAME -2) &&
 				((numCardsInSuit[CLUBS] >= 6) || 
 						(numCardsInSuit[DIAMONDS] >= 6)) ) 
 			{
@@ -312,7 +313,7 @@ int CBidEngine::MakeRespondingBid()
 		//   with no length anywhere:  jump to 3NT
 		//   with 14+ points, bid 3 first, then try for slam later
 		//
-		if ((m_fMinTPPoints >= app_->GamePts() ) && (m_fMinTPPoints < app_->SlamPts() ))
+		if ((m_fMinTPPoints >= PTS_GAME ) && (m_fMinTPPoints < PTS_SLAM ))
 		{
 
 			// with a 6-card major suit, jump to 4 (game)
@@ -327,7 +328,7 @@ int CBidEngine::MakeRespondingBid()
 			}
 
 			// with 25 HCPs and a 6-card minor, jump to 3NT
-			if ( (m_fMinTPCPoints >= app_->GamePts() -1) &&
+			if ( (m_fMinTPCPoints >= PTS_GAME -1) &&
 				 ((numCardsInSuit[CLUBS] >= 6) || (numCardsInSuit[DIAMONDS] >= 6)) ) 
 			{
 				nSuit = GetBestSuitofAtLeast(CLUBS,DIAMONDS,6);
@@ -1006,12 +1007,12 @@ int CBidEngine::MakeRespondingBid()
 			// else see if we have a balanced hand worthy of a 
 			// 2NT or 3NT bid -- also need the other suits stopped
 			// need strength in the unbid suits (i.e., > than a Jack)
-			if ((bBalanced) && (m_fMinTPCPoints >= app_->NTGamePts() -1) &&
+			if ((bBalanced) && (m_fMinTPCPoints >= PTS_NT_GAME -1) &&
 					(m_pHand->AllOtherSuitsStopped(nPartnersSuit))) 
 			{
 				// need 27+ pts (alt) for a 3NT bid, 25+ for 2NT
 				// because partner may not be balanced
-				if (m_fMinTPCPoints > app_->GamePts() +1)
+				if (m_fMinTPCPoints > PTS_GAME +1)
 					m_nBid = BID_3NT;
 				else
 					m_nBid = BID_2NT;

@@ -14,6 +14,7 @@
 #include "app_interface.h"
 #include "engine/PlayerStatusDialog.h"
 #include "engine/bidding/4thSuitForcingConvention.h"
+#include "model/settings.h"
 
 
 //
@@ -80,7 +81,7 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 		// bid 3NT with no voids and 26+ HCPs
 		//
 		if ((bidState.numVoids == 0) && (nPartnersBidLevel <= 3) && 
-										(fMinTPCPoints >= app_->NTGamePts() ))
+										(fMinTPCPoints >= PTS_NT_GAME ))
 		{
 			nBid = BID_3NT;
 			status << "SF4! With no agreement in suits, but with " & 
@@ -101,17 +102,15 @@ BOOL C4thSuitForcingConvention::TryConvention(const CPlayer& player,
 			nSuit = SUIT_ANY;
 
 		// raise to game level with 26+ total pts
-		if (bidState.RaisePartnersSuit(SUIT_PREV,RAISE_TO_NO_MORE_THAN_GAME,app_->GamePts() ,99,SUPLEN_2))
-		{
-			// the bid (m_nBid) is set automatically
-			return TRUE;
-		}
+    if (bidState.RaisePartnersSuit(SUIT_PREV, RAISE_TO_NO_MORE_THAN_GAME, PTS_GAME, 99, SUPLEN_2)) {
+      // the bid (m_nBid) is set automatically
+      return TRUE;
+    }
 
 		// raise to 3-level with 23 pts
-		if (bidState.RaisePartnersSuit(SUIT_PREV,RAISE_TO_3,app_->GamePts() -3,99,SUPLEN_2))
-		{
-			return TRUE;
-		}
+    if (bidState.RaisePartnersSuit(SUIT_PREV, RAISE_TO_3, PTS_GAME - 3, 99, SUPLEN_2)) {
+      return TRUE;
+    }
 
 		//
 		// bid 2NT with no voids 

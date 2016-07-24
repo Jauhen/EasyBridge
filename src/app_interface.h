@@ -27,22 +27,7 @@ public:
   //////////////////////////////////////////////////////////////////////////
 
   virtual std::shared_ptr<Settings> GetSettings() = 0;
-  virtual bool IsEnableAnalysisTracing() = 0;
-  virtual int AnalysisTraceLevel() = 0;
-  virtual bool InExpressAutoPlay() = 0;
-  virtual bool IsShowCommentIdentifiers() = 0;
-  virtual bool IsEnableAnalysisDuringHints() = 0;
   virtual std::shared_ptr<ConventionPool> GetConventionPool() = 0;
-  virtual double GamePts() = 0;
-  virtual double MajorSuitGamePts() = 0;
-  virtual double MinorSuitGamePts() = 0;
-  virtual double NTGamePts() = 0;
-  virtual double FourthLevelPts() = 0;
-  virtual double ThirdLevelPts() = 0;
-  virtual double SecondLevelPts() = 0;
-  virtual double SlamPts() = 0;
-  virtual double SmallSlamPts() = 0;
-  virtual double GrandSlamPts() = 0;
   virtual CConventionSet* GetCurrentConventionSet() = 0;
   virtual double OpenPoints(double points) = 0;
   virtual double PointCount(double points) = 0;
@@ -52,7 +37,6 @@ public:
   virtual bool AreCardsFaceUp() = 0;
   virtual bool IsEnableGIBForDeclarer() = 0;
   virtual CGIB& GetGIB() = 0;
-  virtual bool IsInExpressAutoPlay() = 0;
   virtual bool IsComputerCanClaim() = 0;
   virtual int InvokeGIB(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog) = 0;
   virtual bool IsEnableGIBForDefender() = 0;

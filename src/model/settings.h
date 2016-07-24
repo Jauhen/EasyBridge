@@ -282,6 +282,7 @@ public:
   //
   static double m_fMajorSuitGamePts;
   static double m_fMinorSuitGamePts;
+  static double m_fGamePts;
   static double m_fNTGamePts;
   static double m_f4LevelPts;
   static double m_f3LevelPts;

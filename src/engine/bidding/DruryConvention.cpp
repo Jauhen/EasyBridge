@@ -20,6 +20,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 
@@ -241,7 +242,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 			bidState.AdjustPartnershipPoints(12, app_->GetCurrentConventionSet()->GetValue(tn2ClubOpeningPoints));
 			
 			//
-			if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )
+			if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME )
 			{
 				nBid = MAKEBID(nSuit, 4);
 				status << "DRUR42! And with an adjusted count of " & 
@@ -249,7 +250,7 @@ BOOL CDruryConvention::HandleConventionResponse(const CPlayer& player,
 						  bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints & 
 						  " pts, we can go ahead and bid game at " & BidToFullString(nBid) & ".\n";
 			}
-			else if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts()  - 3)
+			else if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME  - 3)
 			{
 				nBid = MAKEBID(nSuit, 3);
 				status << "DRUR43! With an adjusted point of " & 

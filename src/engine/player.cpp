@@ -30,6 +30,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "model/deal.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 extern int nSuitDisplaySequence[];
@@ -200,7 +201,7 @@ int CPlayer::GetNumSuitsStopped() const
 int CPlayer::GetBiddingHint(BOOL bAutoHintMode) 
 { 
 //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode);
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	//
 	app_->SetCurrentModeTemp(160/*CEasyBView::MODE_THINKING*/);
@@ -210,7 +211,7 @@ int CPlayer::GetBiddingHint(BOOL bAutoHintMode)
 	m_pStatusDlg->EndHintBlock();
 	app_->RestoreMode();
 	//
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		ResumeTrace();
 //	if (bAutoHintMode)
 //		m_pStatusDlg->SetAutoHintMode(FALSE);
@@ -708,7 +709,7 @@ int CPlayer::GetPriorBid(int nIndex)
 CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode) 
 { 
 //	m_pStatusDlg->SetAutoHintMode(bAutoHintMode); 
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		SuspendTrace();
 	CCard* pCard = NULL;
 	//
@@ -740,7 +741,7 @@ CCard* CPlayer::GetPlayHint(BOOL bAutoHintMode)
 	m_pStatusDlg->EndHintBlock();
 	app_->RestoreMode();
 	//
-	if (!app_->IsEnableAnalysisDuringHints() && !bAutoHintMode)
+	if (!app_->GetSettings()->GetEnableAnalysisDuringHints() && !bAutoHintMode)
 		ResumeTrace();
 //	if (bAutoHintMode)
 //		m_pStatusDlg->SetAutoHintMode(FALSE); 

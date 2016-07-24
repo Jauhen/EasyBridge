@@ -15,7 +15,7 @@ protected:
 };
 
 TEST_F(SettingsTests, Init) {
-  s.InitializeAll();
+  s.Initialize();
 
   EXPECT_EQ(4.0, s.GetCustomAceValue());
 }

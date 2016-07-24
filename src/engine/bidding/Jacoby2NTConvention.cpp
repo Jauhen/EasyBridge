@@ -19,6 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 
@@ -331,7 +332,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 		}
 
 		// now figure out what to do
-		if (bidState.m_fMinTPPoints >= app_->SlamPts() )
+		if (bidState.m_fMinTPPoints >= PTS_SLAM )
 		{
 			// go to Blackwood
 			status << "J2N60! With a total of " & bidState.m_fMinTPPoints & "-" & bidState.m_fMaxTPPoints &
@@ -340,7 +341,7 @@ BOOL CJacoby2NTConvention::HandleConventionResponse(const CPlayer& player,
 			bidState.SetConventionStatus(this, CONV_FINISHED);
 			return TRUE;
 		}
-		else if (bidState.m_fMinTPPoints >= app_->MajorSuitGamePts() )
+		else if (bidState.m_fMinTPPoints >= PTS_MAJOR_GAME )
 		{
 			// we want to bid game
 			if (nPartnersBid < bidState.GetGameBid(nPrevSuit))

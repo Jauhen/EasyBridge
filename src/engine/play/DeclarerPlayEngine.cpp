@@ -44,6 +44,7 @@
 #include "engine/PlayerStatusDialog.h"
 #include "model/deal.h"
 #include "app_interface.h"
+#include "model/settings.h"
 
 
 
@@ -942,7 +943,7 @@ void CDeclarerPlayEngine::TestForClaim()
 		return;
 
 	//
-	if (app_->InExpressAutoPlay())
+	if (app_->GetSettings()->InExpressAutoPlay())
 		return;
 
 	// see if we can claim the hand (or should concede)

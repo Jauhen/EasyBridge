@@ -19,6 +19,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 
 
 //
@@ -187,7 +188,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 //		bidState.SetConventionStatus(this, CONV_FINISHED);
 
 		// if we have the points for a slam or game; else bid at the 3-level
-		if (bidState.m_fMinTPPoints >= app_->SlamPts() )
+		if (bidState.m_fMinTPPoints >= PTS_SLAM )
 		{
 			// cue-bid the enemy suit for a slam try
 			nBid = bidState.GetCheapestShiftBid(nLHOSuit, app_->GetDeal()->GetLastValidBid());
@@ -342,7 +343,7 @@ BOOL CUnusualNTConvention::RespondToConvention(const CPlayer& player,
 					  
 			// if we have the points, go to slam or game in our last bid suit
 			int nSuit = bidState.nPreviousSuit;
-			if (bidState.m_fMinTPPoints >= app_->SlamPts() )
+			if (bidState.m_fMinTPPoints >= PTS_SLAM )
 			{
 				// slam calls us!
 				status << "UNTR71! So we can proceed towards slam.\n";

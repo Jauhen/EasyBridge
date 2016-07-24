@@ -27,6 +27,7 @@
 #include "engine/bidding/ConventionSet.h"
 #include "app_interface.h"
 #include "model/deal.h"
+#include "model/settings.h"
 //#include "NeuralNet.h"
 //#include "NNetOutputDialog.h"
 
@@ -276,7 +277,7 @@ void CBidEngine::TraceNH(const CString& strText)
 void CBidEngine::AddTrace(CString& strMessage, CString& strTemp)
 {
 	// return if trace disabled
-	if (!app_->IsEnableAnalysisTracing())
+	if (!app_->GetSettings()->GetEnableAnalysisTracing())
 		return;
 	//
 	strMessage += strTemp;
@@ -290,7 +291,7 @@ void CBidEngine::AddTrace(CString& strMessage, CString& strTemp)
 void CBidEngine::AddTrace(CString& strMessage, LPCTSTR szTemp)
 {
 	// return if trace disabled
-	if (!app_->IsEnableAnalysisTracing())
+	if (!app_->GetSettings()->GetEnableAnalysisTracing())
 		return;
 	//
 	strMessage += szTemp;
@@ -1629,11 +1630,11 @@ BOOL CBidEngine::PlayerOpenedSuit(int nSuit)
 double CBidEngine::GetGamePoints(int nSuit)
 {
 	if (ISMAJOR(nSuit))
-		return app_->MajorSuitGamePts() ;
+		return PTS_MAJOR_GAME ;
 	else if (ISMINOR(nSuit))
-		return app_->MinorSuitGamePts() ;
+		return PTS_MINOR_GAME ;
 	else
-		return app_->NTGamePts() ;
+		return PTS_NT_GAME ;
 }
 
 
@@ -2598,15 +2599,15 @@ void CBidEngine::CalcNoTrumpPoints()
 		{
 			case BID_2NT:
 				// invitational towards game, 24 HCPs min.
-				m_fPartnersMin = (app_->NTGamePts() -2) - fMin;
-				m_fPartnersMax = (app_->NTGamePts() -1) - fMin;
+				m_fPartnersMin = (PTS_NT_GAME -2) - fMin;
+				m_fPartnersMax = (PTS_NT_GAME -1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
 				break;
 
 			case BID_3NT:
 				// game bid, 25 HCPs min
-				m_fPartnersMin = app_->NTGamePts()  - fMin;
+				m_fPartnersMin = PTS_NT_GAME  - fMin;
 				m_fPartnersMax = 30 - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
@@ -2615,8 +2616,8 @@ void CBidEngine::CalcNoTrumpPoints()
 			case BID_4NT:
 				// invitational towards a small slam
 				m_bInvitedToSlam = TRUE;
-				m_fPartnersMin = (app_->SmallSlamPts() -2) - fMin;
-				m_fPartnersMax = (app_->SmallSlamPts() -1) - fMin;
+				m_fPartnersMin = (PTS_SMALL_SLAM -2) - fMin;
+				m_fPartnersMax = (PTS_SMALL_SLAM -1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
 				break;
@@ -2624,21 +2625,21 @@ void CBidEngine::CalcNoTrumpPoints()
 			case BID_5NT:
 				// invitational towards a grand slam
 				m_bInvitedToSlam = TRUE;
-				m_fPartnersMin = (app_->GrandSlamPts() -2) - fMin;
-				m_fPartnersMax = (app_->GrandSlamPts() -1) - fMin;
+				m_fPartnersMin = (PTS_GRAND_SLAM -2) - fMin;
+				m_fPartnersMax = (PTS_GRAND_SLAM -1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;;
 				break;
 
 			case BID_6NT:
-				m_fPartnersMin = app_->SmallSlamPts()  - fMin;
-				m_fPartnersMax = (app_->SmallSlamPts() +1) - fMin;
+				m_fPartnersMin = PTS_SMALL_SLAM  - fMin;
+				m_fPartnersMax = (PTS_SMALL_SLAM +1) - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;
 				break;
 
 			case BID_7NT:
-				m_fPartnersMin = app_->GrandSlamPts()  - fMin;
+				m_fPartnersMin = PTS_GRAND_SLAM  - fMin;
 				m_fPartnersMax = 40 - fMin;
 				m_fMinTPPoints = m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 				m_fMaxTPPoints = m_fMaxTPCPoints = fCardPts + m_fPartnersMax;
@@ -2829,11 +2830,11 @@ BOOL CBidEngine::IsBidSafe(int nBid, double fAdjustment)
 		fPoints = m_fMinTPCPoints + fAdjustment;
 		if ( ((nLevel == 1) && (fPoints < 16)) || 
 			 ((nLevel == 2) && (fPoints < 20)) || 
-			 ((nLevel == 3) && (fPoints < app_->GamePts() -2+1)) || 
-			 ((nLevel == 4) && (fPoints < app_->MajorSuitGamePts() +1)) || 
-			 ((nLevel == 5) && (fPoints < app_->MinorSuitGamePts() +1)) || 
-			 ((nLevel == 6) && (fPoints < app_->SmallSlamPts() +1)) ||
-			 ((nLevel == 7) && (fPoints < app_->GrandSlamPts() +1)) )
+			 ((nLevel == 3) && (fPoints < PTS_GAME -2+1)) || 
+			 ((nLevel == 4) && (fPoints < PTS_MAJOR_GAME +1)) || 
+			 ((nLevel == 5) && (fPoints < PTS_MINOR_GAME +1)) || 
+			 ((nLevel == 6) && (fPoints < PTS_SMALL_SLAM +1)) ||
+			 ((nLevel == 7) && (fPoints < PTS_GRAND_SLAM +1)) )
 			return FALSE;
 		else
 			return TRUE;
@@ -2844,11 +2845,11 @@ BOOL CBidEngine::IsBidSafe(int nBid, double fAdjustment)
 		fPoints = m_fMinTPPoints + fAdjustment;
 		if ( ((nLevel == 1) && (fPoints < 16)) || 
 			 ((nLevel == 2) && (fPoints < 20)) || 
-			 ((nLevel == 3) && (fPoints < app_->GamePts() -2)) || 
-			 ((nLevel == 4) && (fPoints < app_->MajorSuitGamePts() )) || 
-			 ((nLevel == 5) && (fPoints < app_->MinorSuitGamePts() )) || 
-			 ((nLevel == 6) && (fPoints < app_->SmallSlamPts() )) ||
-			 ((nLevel == 7) && (fPoints < app_->GrandSlamPts() )) )
+			 ((nLevel == 3) && (fPoints < PTS_GAME -2)) || 
+			 ((nLevel == 4) && (fPoints < PTS_MAJOR_GAME )) || 
+			 ((nLevel == 5) && (fPoints < PTS_MINOR_GAME )) || 
+			 ((nLevel == 6) && (fPoints < PTS_SMALL_SLAM )) ||
+			 ((nLevel == 7) && (fPoints < PTS_GRAND_SLAM )) )
 			return FALSE;
 		else
 			return TRUE;

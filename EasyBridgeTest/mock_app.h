@@ -6,22 +6,8 @@
 
 class MockApp : public AppInterface {
 public:
-  MOCK_METHOD0(IsEnableAnalysisTracing, bool());
-  MOCK_METHOD0(AnalysisTraceLevel, int());
-  MOCK_METHOD0(InExpressAutoPlay, bool());
-  MOCK_METHOD0(IsShowCommentIdentifiers, bool());
-  MOCK_METHOD0(IsEnableAnalysisDuringHints, bool());
+  MOCK_METHOD0(GetSettings, std::shared_ptr<Settings>());
   MOCK_METHOD0(GetConventionPool, std::shared_ptr<ConventionPool>());
-  MOCK_METHOD0(GamePts, double());
-  MOCK_METHOD0(MajorSuitGamePts, double());
-  MOCK_METHOD0(MinorSuitGamePts, double());
-  MOCK_METHOD0(NTGamePts, double());
-  MOCK_METHOD0(FourthLevelPts, double());
-  MOCK_METHOD0(ThirdLevelPts, double());
-  MOCK_METHOD0(SecondLevelPts, double());
-  MOCK_METHOD0(SlamPts, double());
-  MOCK_METHOD0(SmallSlamPts, double());
-  MOCK_METHOD0(GrandSlamPts, double());
   MOCK_METHOD0(GetCurrentConventionSet, CConventionSet*());
   MOCK_METHOD1(OpenPoints, double(double points));
   MOCK_METHOD1(PointCount, double(double points));
@@ -31,7 +17,6 @@ public:
   MOCK_METHOD0(AreCardsFaceUp, bool());
   MOCK_METHOD0(IsEnableGIBForDeclarer, bool());
   MOCK_METHOD0(GetGIB, CGIB&());
-  MOCK_METHOD0(IsInExpressAutoPlay, bool());
   MOCK_METHOD0(IsComputerCanClaim, bool());
   MOCK_METHOD5(InvokeGIB, int(CGIB& gib, CPlayer* player, CHandHoldings* hand, CHandHoldings* dummyHand, CPlayerStatusDialog* statusDialog));
   MOCK_METHOD0(IsEnableGIBForDefender, bool());
