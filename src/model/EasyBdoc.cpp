@@ -931,7 +931,7 @@ void CEasyBDoc::OnGameAutoPlayAll() {
     theApp.GetSettings()->SetCardPlayMode(Settings::PLAY_NORMAL);
     if (((deal_->GetCurrentPlayerPosition() == NORTH) || (deal_->GetCurrentPlayerPosition() == SOUTH)) &&
         (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
-      AdvanceToNextPlayer();
+      deal_->AdvanceToNextPlayer();
     }
   } else {
     // have the computer play for the human
@@ -985,7 +985,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
     EndWaitCursor();
     if (((deal_->GetCurrentPlayerPosition() == NORTH) || (deal_->GetCurrentPlayerPosition() == SOUTH)) &&
         (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
-       AdvanceToNextPlayer();
+      deal_->AdvanceToNextPlayer();
     }
   } else {
     // have the computer play for the human
@@ -1009,7 +1009,7 @@ void CEasyBDoc::OnGameAutoPlayExpress() {
     }
     //
     if ((theApp.GetSettings()->GetGameInProgress()) && (pVIEW->GetCurrentMode() == CEasyBView::MODE_WAITCARDPLAY)) {
-      AdvanceToNextPlayer();
+      deal_->AdvanceToNextPlayer();
     }
   }
 }
@@ -1096,7 +1096,7 @@ void CEasyBDoc::OnSwapCardsClockwise() {
     // play has started
     deal_->RotatePartialHands(1);
     deal_->ResetDisplay();
-    AdvanceToNextPlayer();
+    deal_->AdvanceToNextPlayer();
   }
 }
 
@@ -1111,7 +1111,7 @@ void CEasyBDoc::OnSwapCardsCounterclockwise() {
     // play has started
     deal_->RotatePartialHands(3);
     deal_->ResetDisplay();
-    AdvanceToNextPlayer();
+    deal_->AdvanceToNextPlayer();
   }
 }
 
@@ -1313,77 +1313,4 @@ void CEasyBDoc::OnFileProperties() {
   propDlg.DoModal();
 }
 
-
-//
-void CEasyBDoc::AdvanceToNextPlayer() {
-  // see whether this is a human or computer player
-  BOOL bManualPlay = FALSE;
-  int nPlayMode = theApp.GetSettings()->GetCardPlayMode();
-  if (deal_->GetCurrentPlayer()->IsHumanPlayer() && 
-      (nPlayMode != Settings::PLAY_FULL_AUTO && nPlayMode != Settings::PLAY_FULL_AUTO_EXPRESS)) {
-    bManualPlay = TRUE;
-  } else if ((theApp.GetSettings()->GetManualPlayMode()) ||
-      (nPlayMode == Settings::PLAY_MANUAL) ||
-      ((nPlayMode == Settings::PLAY_MANUAL_DEFEND) && (deal_->GetCurrentPlayer()->IsDefending()))) {
-    bManualPlay = TRUE;
-  }
-
-  // it's not manual if computer is replaying
-  if (deal_->IsAutoReplayMode()) {
-    bManualPlay = FALSE;
-  }
-
-  //
-  if (bManualPlay) {
-    // this is a human player
-    // first see if autoplay last card option is enabled
-    if (theApp.GetSettings()->GetAutoPlayLastCard()) {
-      CPlayer* pPlayer = deal_->GetCurrentPlayer();
-      if (pPlayer->TestForAutoPlayLastCard()) {
-        return;
-      }
-    }
-
-    // jump the cursor if appropriate
-    if (theApp.GetSettings()->GetAutoJumpCursor()) {
-      pVIEW->JumpCursor();
-    }
-
-    // set the prompt
-    CString strMessage;
-    strMessage.Format("%s's turn -- select a card to play.",
-        PositionToString(deal_->GetCurrentPlayerPosition()));
-    pMAINFRAME->SetStatusText(strMessage);
-
-    // and set status code
-    pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
-
-    // finally, show auto hint if appropriate
-    deal_->ShowAutoHint();
-  } else {
-    // this is a computer player
-    pVIEW->SetCurrentMode(CEasyBView::MODE_NONE);	// clear up loose ends
-    BOOL bExpressMode = theApp.GetSettings()->InExpressAutoPlay();
-    // prompt if not in express mode
-    if (!bExpressMode && !theApp.GetSettings()->GetAutoTestMode()) {
-      CWaitCursor wait;
-      CString strMessage;
-      if ((!deal_->GetCurrentPlayer()->IsDefending() && theApp.GetSettings()->GetEnableGIBForDeclarer()) ||
-          (deal_->GetCurrentPlayer()->IsDefending() && theApp.GetSettings()->GetEnableGIBForDefender())) {
-        strMessage.Format("%s is playing (GIB)...", PositionToString(deal_->GetCurrentPlayerPosition()));
-      }
-      else {
-        strMessage.Format("%s is playing...", PositionToString(deal_->GetCurrentPlayerPosition()));
-      }
-      pVIEW->SetPrompt(strMessage);
-    }
-
-    // and move to the next player
-    // don't pop up wait cursor if in auto mode!
-    if (!bExpressMode) {
-      CWaitCursor wait;
-    }
-    deal_->InvokeNextPlayer();
-  }
-}
 

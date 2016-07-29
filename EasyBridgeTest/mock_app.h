@@ -50,6 +50,7 @@ public:
   MOCK_METHOD0(DisplayTricksView, void());
   MOCK_METHOD0(PromptLead, void());
   MOCK_METHOD0(WaitCardPlayMode, void());
+  MOCK_METHOD0(NonePlayMode, void());
   MOCK_METHOD0(GameFinished, void());
   MOCK_METHOD0(BidCurrentHand, void());
   MOCK_METHOD0(RestoreGameReview, void());
@@ -63,6 +64,8 @@ public:
   MOCK_METHOD1(SetCurrentMode, void(int value));
   MOCK_METHOD0(IsInCardLayoutMode, bool());
   MOCK_METHOD0(GetCurrentMode, int());
+  MOCK_METHOD1(SetPrompt, void(const char* msg));
+  MOCK_METHOD0(JumpCursor, void());
 
 
   MOCK_METHOD1(SetAutoHintDialogHintText, void(CString text));

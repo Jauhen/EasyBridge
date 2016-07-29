@@ -203,7 +203,9 @@ private:
 	void BeginPlay();
 	void RestartPlay();
 	void PromptGameOver();
-	void SetPrompt(LPCSTR szText, BOOL bLockPane=TRUE);
+public:
+  void SetPrompt(LPCSTR szText, BOOL bLockPane=TRUE);
+private:
 	void ResetPrompt(BOOL bLockPane=FALSE);
 	void ClearPrompt(BOOL bLockPane=FALSE);
 	void DrawPlayerLabels(CDC* pDC);
@@ -230,8 +232,10 @@ private:
 	void ClearDisplayArea(int nLeft, int nTop, int nRight, int nBottom,CDC* pSentDC=NULL);
 	void HandleCardPlay(CCard* pCard);
 	// misc routines
+public:
 	void JumpCursor(int nPlayer=NONE);
-	void CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, CCard* pPlayedCard, BOOL bRedraw);
+private:
+  void CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, CCard* pPlayedCard, BOOL bRedraw);
 	CCard* GetPlayerBottomCard(CPlayer& player);
 	void SetViewParameters(int cx=0, int cy=0);
 	void ResetSuitSequence();

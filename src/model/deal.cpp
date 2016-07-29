@@ -2296,7 +2296,7 @@ void Deal::BeginRound() {
   }
 
   // then start the play
-  app_->AdvanceToNextPlayer();
+  AdvanceToNextPlayer();
   //	InvokeNextPlayer();
 }
 
@@ -3740,4 +3740,77 @@ void Deal::SwapPositionsAlreadyInPlay(int pos1, int pos2) {
 
 bool Deal::IsGameNotFinished() {
   return app_->GetSettings()->GetGameInProgress() && GetNumTricksPlayed() < 13;
+}
+
+
+//
+void Deal::AdvanceToNextPlayer() {
+  // see whether this is a human or computer player
+  BOOL bManualPlay = FALSE;
+  int nPlayMode = app_->GetSettings()->GetCardPlayMode();
+  if (GetCurrentPlayer()->IsHumanPlayer() &&
+    (nPlayMode != Settings::PLAY_FULL_AUTO && nPlayMode != Settings::PLAY_FULL_AUTO_EXPRESS)) {
+    bManualPlay = TRUE;
+  } else if ((app_->GetSettings()->GetManualPlayMode()) ||
+    (nPlayMode == Settings::PLAY_MANUAL) ||
+    ((nPlayMode == Settings::PLAY_MANUAL_DEFEND) && (GetCurrentPlayer()->IsDefending()))) {
+    bManualPlay = TRUE;
+  }
+
+  // it's not manual if computer is replaying
+  if (IsAutoReplayMode()) {
+    bManualPlay = FALSE;
+  }
+
+  //
+  if (bManualPlay) {
+    // this is a human player
+    // first see if autoplay last card option is enabled
+    if (app_->GetSettings()->GetAutoPlayLastCard()) {
+      CPlayer* pPlayer = GetCurrentPlayer();
+      if (pPlayer->TestForAutoPlayLastCard()) {
+        return;
+      }
+    }
+
+    // jump the cursor if appropriate
+    if (app_->GetSettings()->GetAutoJumpCursor()) {
+      app_->JumpCursor();
+    }
+
+    // set the prompt
+    CString strMessage;
+    strMessage.Format("%s's turn -- select a card to play.",
+      PositionToString(GetCurrentPlayerPosition()));
+    app_->SetStatusText(strMessage);
+
+    // and set status code
+    app_->WaitCardPlayMode();
+
+    // finally, show auto hint if appropriate
+    ShowAutoHint();
+  } else {
+    // this is a computer player
+    app_->NonePlayMode();	// clear up loose ends
+    BOOL bExpressMode = app_->GetSettings()->InExpressAutoPlay();
+    // prompt if not in express mode
+    if (!bExpressMode && !app_->GetSettings()->GetAutoTestMode()) {
+      CWaitCursor wait;
+      CString strMessage;
+      if ((!GetCurrentPlayer()->IsDefending() && app_->GetSettings()->GetEnableGIBForDeclarer()) ||
+        (GetCurrentPlayer()->IsDefending() && app_->GetSettings()->GetEnableGIBForDefender())) {
+        strMessage.Format("%s is playing (GIB)...", PositionToString(GetCurrentPlayerPosition()));
+      } else {
+        strMessage.Format("%s is playing...", PositionToString(GetCurrentPlayerPosition()));
+      }
+      app_->SetPrompt(strMessage);
+    }
+
+    // and move to the next player
+    // don't pop up wait cursor if in auto mode!
+    if (!bExpressMode) {
+      CWaitCursor wait;
+    }
+    InvokeNextPlayer();
+  }
 }

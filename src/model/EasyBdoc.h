@@ -55,7 +55,6 @@ public:
 #endif
 
   void EndWaitCursorDoc();
-  void AdvanceToNextPlayer();
 
 
   // Generated message map functions

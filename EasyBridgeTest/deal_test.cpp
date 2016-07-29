@@ -5,6 +5,7 @@
 
 #include "mock_app.h"
 #include "../src/engine/Deck.H"
+#include "../src/engine/Player.H"
 #include "../src/engine/bidding/ConventionSet.h"
 #include "../src/model/deal.h"
 
@@ -33,10 +34,29 @@ protected:
     EXPECT_CALL(*app, SetAnalysisText(_, _)).Times(AnyNumber());
     EXPECT_CALL(*app, InitNewRound()).Times(AnyNumber());
     EXPECT_CALL(*app, InitNewDeal()).Times(AnyNumber());
+    EXPECT_CALL(*app, ClearHintDialog()).Times(AnyNumber());
+    EXPECT_CALL(*app, DisableHintDialog()).Times(AnyNumber());
+    EXPECT_CALL(*app, SetPlayHistory(_, false)).Times(AnyNumber());
+    EXPECT_CALL(*app, SetPlainPlayHistory(_)).Times(AnyNumber());
+    EXPECT_CALL(*app, ResetDummySuitSequence()).Times(AnyNumber());
+    EXPECT_CALL(*app, NonePlayMode()).Times(AnyNumber());
+    EXPECT_CALL(*app, SetPrompt(_)).Times(AnyNumber());
+    EXPECT_CALL(*app, TimeGetTime()).Times(AnyNumber());
+    EXPECT_CALL(*app, PlayCard(_, 1001)).Times(AnyNumber());
+    EXPECT_CALL(*app, IsInGameRestoreMode()).Times(AnyNumber());
+    EXPECT_CALL(*app, UpdateStatusWindowWithSuitStatus()).Times(AnyNumber());
+    EXPECT_CALL(*app, UpdateStatusWindow()).Times(AnyNumber());
+    EXPECT_CALL(*app, UpdateStatusWindowWithPlayPlan()).Times(AnyNumber());
+    EXPECT_CALL(*app, SetStatusText(_)).Times(AnyNumber());
+    EXPECT_CALL(*app, WaitCardPlayMode()).Times(AnyNumber());
 
     deck->InitializeCards();
+    set->Initialize();
     settings->Initialize();
+    settings->InitSettings();
     settings->ParseVersion("4.0.2");
+    settings->SetDebugMode(false);
+    settings->GetAutoTestMode();
   }
 
   virtual ~DealTests() {}
@@ -64,9 +84,62 @@ TEST_F(DealTests, DealNumberedHand) {
   std::shared_ptr<Deal> d = std::make_shared<Deal>(app);
   EXPECT_CALL(*app, GetDeal()).WillRepeatedly(Return(d));
   EXPECT_CALL(*app, GetToday()).WillRepeatedly(Return("2016.07.12"));
+  EXPECT_CALL(*app, SetBiddingHistory(_, false)).Times(AnyNumber());
+  EXPECT_CALL(*app, SetPlainBiddingHistory(_)).Times(AnyNumber());
+  EXPECT_CALL(*app, SuspendHints()).Times(AnyNumber());
+  EXPECT_CALL(*app, ResumeHints()).Times(AnyNumber());
 
   d->InitNewHand();
   d->DealNumberedHand(0, 0, 0, 1);
+  
+  // 1st bidding round
+  int bid = d->GetPlayer(0)->Bid();
+  d->EnterBid(0, bid);
+  bid = d->GetPlayer(1)->Bid();
+  d->EnterBid(1, bid);
+  bid = d->GetPlayer(2)->Bid();
+  d->EnterBid(2, bid);
+  bid = d->GetPlayer(3)->Bid();
+  d->EnterBid(3, bid);
+
+  // 2nd bidding round
+  bid = d->GetPlayer(0)->Bid();
+  d->EnterBid(0, bid);
+  bid = d->GetPlayer(1)->Bid();
+  d->EnterBid(1, bid);
+  bid = d->GetPlayer(2)->Bid();
+  d->EnterBid(2, bid);
+  bid = d->GetPlayer(3)->Bid();
+  d->EnterBid(3, bid);
+
+  // last bidding round
+  bid = d->GetPlayer(0)->Bid();
+  d->EnterBid(0, bid);
+  bid = d->GetPlayer(1)->Bid();
+  d->EnterBid(1, bid);
+
+  d->BeginRound();
+  CCard* c = d->GetCurrentPlayer()->PlayCard();
+  d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+  d->ExposeDummy(true);
+
+  d->AdvanceToNextPlayer();
+  c = d->GetCurrentPlayer()->PlayCard();
+  d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+  d->AdvanceToNextPlayer();
+  c = d->GetCurrentPlayer()->PlayCard();
+  d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+  d->AdvanceToNextPlayer();
+  c = d->GetCurrentPlayer()->PlayCard();
+  d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+  // 2nd round
+  //d->AdvanceToNextPlayer();
+  //c = d->GetCurrentPlayer()->PlayCard();
+  //d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
 
   string pbn = d->WriteFilePBN();
 
@@ -87,8 +160,8 @@ TEST_F(DealTests, DealNumberedHand) {
     "[VULNERABLE \"NS\"]\n"
     "[DEAL \"W:T7632.J86.T84.32 AJ4.T9.Q763.A874 KQ5.K543.J5.QJ65 98.AQ72.AK92.KT9\"]\n"
     "[SCORING \"None\"]\n"
-    "[DECLARER \"?\"]\n"
-    "[CONTRACT \"?\"]\n"
+    "[DECLARER \"S\"]\n"
+    "[CONTRACT \"3NT\"]\n"
     "[RESULT \"?\"]\n"
     "{\n"
     "                S: A J 4 \n"
@@ -105,8 +178,10 @@ TEST_F(DealTests, DealNumberedHand) {
     "                C: K T 9 \n"
     "}\n"
     "[AUCTION \"S\"]\n"
-    "*\n"
-    "[PLAY \"?\"]\n"
+    "1D Pass 2C Pass \n"
+    "2NT Pass 3NT Pass \n"
+    "Pass Pass \n"
+    "[PLAY \"W\"]\n"
     "*\n"
     "[GENERATOR \"Easy Bridge version Version 4.0.2\"]\n"
     "[DESCRIPTION \"\"]\n";

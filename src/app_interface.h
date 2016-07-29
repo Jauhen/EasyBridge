@@ -99,7 +99,6 @@ public:
   virtual void OnDealNewHand() = 0;
   virtual void EndWaitCursorDoc() = 0;
   virtual void OnRestartCurrentHand() = 0;
-  virtual void AdvanceToNextPlayer() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////
@@ -131,6 +130,7 @@ public:
   virtual void DisplayTricksView() = 0;
   virtual void PromptLead() = 0;
   virtual void WaitCardPlayMode() = 0;
+  virtual void NonePlayMode() = 0;
   virtual void GameFinished() = 0;
   virtual void BidCurrentHand() = 0;
   virtual void RestoreGameReview() = 0;
@@ -144,6 +144,8 @@ public:
   virtual void SetCurrentMode(int value) = 0;
   virtual bool IsInCardLayoutMode() = 0;
   virtual int GetCurrentMode() = 0;
+  virtual void SetPrompt(const char* msg) = 0;
+  virtual void JumpCursor() = 0;
 
 
   //////////////////////////////////////////////////////////////////////////

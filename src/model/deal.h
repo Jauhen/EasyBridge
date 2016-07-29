@@ -31,6 +31,7 @@ public:
   void SwapPositionsAlreadyInPlay(int pos1, int pos2);
   void InitNewDocument();
   bool IsGameNotFinished();
+  void AdvanceToNextPlayer();
 
 
   //

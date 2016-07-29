@@ -321,12 +321,12 @@ int CPlay::ObtainUniquePlayID()
 {
 	// assign play IDs one at a time
 	int nCode;
-	EnterCriticalSection(&m_csPlayIDLock);
-	{
+	//EnterCriticalSection(&m_csPlayIDLock);
+	//{
 		// clear the previous location
 		nCode = m_nPlayIDCounter++;
-	}
-	LeaveCriticalSection(&m_csPlayIDLock);
+	//}
+	//LeaveCriticalSection(&m_csPlayIDLock);
 	return nCode;
 }
 

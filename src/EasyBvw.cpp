@@ -1201,12 +1201,12 @@ void CEasyBView::OnLButtonDown(UINT nFlags, CPoint point)
 
 		case MODE_CLICKTORESUMEPLAY:
 			// ready to resume play
-			pDOC->AdvanceToNextPlayer();
+			pDOC->GetDeal()->AdvanceToNextPlayer();
 			return;
 
 		case MODE_CLICKTORESTARTTRICK:
 			// ready to proceed afer taking trick back
-			pDOC->AdvanceToNextPlayer();
+			pDOC->GetDeal()->AdvanceToNextPlayer();
 			return;
 
 		case MODE_CLICKFORNEXTGAME:
@@ -2305,7 +2305,7 @@ void CEasyBView::HandleCardPlay(CCard* pCard)
 	if (pDOC->GetDeal()->GetNumCardsPlayedInRound() < 4)
 	{
 		// and move on, if more cards need to be played
-    pDOC->AdvanceToNextPlayer();
+    pDOC->GetDeal()->AdvanceToNextPlayer();
 	} 
 	else 
 	{
@@ -2356,7 +2356,7 @@ void CEasyBView::OnUndoCard()
 	ReleaseDC(pDC);
 
 	// correct the prompt and invoke the (previous) player 
-  pDOC->AdvanceToNextPlayer();
+  pDOC->GetDeal()->AdvanceToNextPlayer();
 }
 
 
@@ -2459,7 +2459,7 @@ void CEasyBView::OnUndoTrick()
 	if (bImmediateRestart && (theApp.GetSettings()->GetCardPlayMode() != Settings::PLAY_FULL_AUTO) &&
 				(theApp.GetSettings()->GetCardPlayMode() != Settings::PLAY_FULL_AUTO_EXPRESS))
 	{
-    pDOC->AdvanceToNextPlayer();
+    pDOC->GetDeal()->AdvanceToNextPlayer();
 	}
 	else
 	{
@@ -3201,7 +3201,7 @@ void CEasyBView::BeginPlay()
 
 	// get the ball rolling
 	if (pDOC->GetDeal()->IsAutoReplayMode())
-    pDOC->AdvanceToNextPlayer();
+    pDOC->GetDeal()->AdvanceToNextPlayer();
 	else
 		pDOC->GetDeal()->BeginRound();
 

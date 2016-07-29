@@ -276,9 +276,6 @@ public:
     pDOC->OnRestartCurrentHand();
   }
 
-  virtual void AdvanceToNextPlayer() {
-    pDOC->AdvanceToNextPlayer();
-  }
 
   //////////////////////////////////////////////////////////////////////////
   //
@@ -378,6 +375,10 @@ public:
     pVIEW->SetCurrentMode(CEasyBView::MODE_WAITCARDPLAY);
   }
 
+  virtual void NonePlayMode() {
+    pVIEW->SetCurrentMode(CEasyBView::MODE_NONE);
+  }
+
   virtual void GameFinished() {
     pVIEW->GameFinished();
   }
@@ -431,6 +432,13 @@ public:
     return pVIEW->GetCurrentMode();
   }
 
+  virtual void SetPrompt(const char* msg) {
+    pVIEW->SetPrompt(msg);
+  }
+
+  virtual void JumpCursor() {
+    pVIEW->JumpCursor();
+  }
 
   //////////////////////////////////////////////////////////////////////////
   //
