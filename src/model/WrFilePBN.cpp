@@ -120,7 +120,7 @@ std::string Deal::WriteFilePBN() {
 
   // Result tag
   if (m_numTricksPlayed == 13)
-    fe.WriteLine(TAG_RESULT, (const char*)FormString("\"%d\"", m_numTricksWon[m_nContractTeam]));
+    fe.WriteLine(TAG_RESULT, (const char*)FormString("%d", m_numTricksWon[m_nContractTeam]));
   else
     fe.WriteLine(TAG_RESULT, "?");
 

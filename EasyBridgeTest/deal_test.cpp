@@ -43,12 +43,24 @@ protected:
     EXPECT_CALL(*app, SetPrompt(_)).Times(AnyNumber());
     EXPECT_CALL(*app, TimeGetTime()).Times(AnyNumber());
     EXPECT_CALL(*app, PlayCard(_, 1001)).Times(AnyNumber());
+    EXPECT_CALL(*app, PlayCard(_, 1002)).Times(AnyNumber());
+    EXPECT_CALL(*app, PlayCard(_, 1003)).Times(AnyNumber());
     EXPECT_CALL(*app, IsInGameRestoreMode()).Times(AnyNumber());
     EXPECT_CALL(*app, UpdateStatusWindowWithSuitStatus()).Times(AnyNumber());
     EXPECT_CALL(*app, UpdateStatusWindow()).Times(AnyNumber());
     EXPECT_CALL(*app, UpdateStatusWindowWithPlayPlan()).Times(AnyNumber());
     EXPECT_CALL(*app, SetStatusText(_)).Times(AnyNumber());
     EXPECT_CALL(*app, WaitCardPlayMode()).Times(AnyNumber());
+    EXPECT_CALL(*app, ClickForNextTrickMode()).Times(AnyNumber());
+    EXPECT_CALL(*app, DisplayTricks()).Times(AnyNumber());
+    EXPECT_CALL(*app, DisplayTricksView()).Times(AnyNumber());
+    EXPECT_CALL(*app, PromptLead()).Times(AnyNumber());
+    EXPECT_CALL(*app, ClearStatusMessage()).Times(AnyNumber());
+    EXPECT_CALL(*app, AreCardsFaceUp()).WillRepeatedly(Return(true));
+    EXPECT_CALL(*app, ResetDisplay()).Times(AnyNumber());
+    EXPECT_CALL(*app, DisplayRoundFinishedDialog(false, false, _, _)).Times(AnyNumber());
+    EXPECT_CALL(*app, RefreshScreen()).Times(AnyNumber());
+    EXPECT_CALL(*app, GameFinished()).Times(AnyNumber());
 
     deck->InitializeCards();
     set->Initialize();
@@ -57,6 +69,7 @@ protected:
     settings->ParseVersion("4.0.2");
     settings->SetDebugMode(false);
     settings->GetAutoTestMode();
+    settings->SetInsertBiddingPause(0);
   }
 
   virtual ~DealTests() {}
@@ -136,10 +149,29 @@ TEST_F(DealTests, DealNumberedHand) {
   c = d->GetCurrentPlayer()->PlayCard();
   d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
 
+  d->EvaluateTrick(true);
+  d->ClearTrick();
+
   // 2nd round
-  //d->AdvanceToNextPlayer();
-  //c = d->GetCurrentPlayer()->PlayCard();
-  //d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+  for (int round = 1; round < 13; round++) {
+    c = d->GetCurrentPlayer()->PlayCard();
+    d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+  
+    d->AdvanceToNextPlayer();
+    c = d->GetCurrentPlayer()->PlayCard();
+    d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+    d->AdvanceToNextPlayer();
+    c = d->GetCurrentPlayer()->PlayCard();
+    d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+    d->AdvanceToNextPlayer();
+    c = d->GetCurrentPlayer()->PlayCard();
+    d->EnterCardPlay((Position)d->GetCurrentPlayerPosition(), c);
+
+    d->EvaluateTrick(true);
+    d->ClearTrick();
+  }
 
   string pbn = d->WriteFilePBN();
 
@@ -162,7 +194,7 @@ TEST_F(DealTests, DealNumberedHand) {
     "[SCORING \"None\"]\n"
     "[DECLARER \"S\"]\n"
     "[CONTRACT \"3NT\"]\n"
-    "[RESULT \"?\"]\n"
+    "[RESULT \"9\"]\n"
     "{\n"
     "                S: A J 4 \n"
     "                H: T 9 \n"
@@ -182,7 +214,19 @@ TEST_F(DealTests, DealNumberedHand) {
     "2NT Pass 3NT Pass \n"
     "Pass Pass \n"
     "[PLAY \"W\"]\n"
-    "*\n"
+    "S3 SJ SQ S8 \n"
+    "ST SA S5 S9 \n"
+    "H6 H9 H3 HQ \n"
+    "H8 HT H4 HA \n"
+    "D4 DQ D5 D2 \n"
+    "D8 D3 DJ DA \n"
+    "C2 C4 CJ CT \n"
+    "HJ C7 HK H2 \n"
+    "S2 S4 SK C9 \n"
+    "C3 D6 H5 H7 \n"
+    "DT C8 C5 CK \n"
+    "S6 D7 C6 DK \n"
+    "S7 CA CQ D9 \n"
     "[GENERATOR \"Easy Bridge version Version 4.0.2\"]\n"
     "[DESCRIPTION \"\"]\n";
 
