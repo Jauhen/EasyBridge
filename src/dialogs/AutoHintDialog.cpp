@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "model/easybDoc.h"
+#include "easybDoc.h"
 #include "Mainfrm.h"
 #include "MainFrameOpts.h"
 #include "AutoHintDialog.h"

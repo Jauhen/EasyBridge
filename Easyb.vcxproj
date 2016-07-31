@@ -291,7 +291,7 @@
     <ClCompile Include="src\engine\bidding\DruryConvention.cpp" />
     <ClCompile Include="src\engine\play\DummyPlayEngine.cpp" />
     <ClCompile Include="src\EasyB.cpp" />
-    <ClCompile Include="src\model\EasyBdoc.cpp" />
+    <ClCompile Include="src\EasyBdoc.cpp" />
     <ClCompile Include="src\EasyBvw.cpp" />
     <ClCompile Include="src\EasyBVw2.cpp" />
     <ClCompile Include="src\dialogs\editdlg.cpp" />
@@ -435,7 +435,7 @@
     <ClInclude Include="src\engine\bidding\DruryConvention.h" />
     <ClInclude Include="src\engine\play\DummyPlayEngine.H" />
     <ClInclude Include="src\EasyB.h" />
-    <ClInclude Include="src\model\EasyBdoc.h" />
+    <ClInclude Include="src\EasyBdoc.h" />
     <ClInclude Include="src\EasyBvw.h" />
     <ClInclude Include="src\dialogs\editdlg.h" />
     <ClInclude Include="src\EventProcessor.h" />

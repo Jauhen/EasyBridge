@@ -14,7 +14,7 @@
 #include <string>
 #include "EasyB.h"
 #include "mainfrm.h"
-#include "model/EasyBdoc.h"
+#include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
 #include "engine/bidding/bidopts.h"

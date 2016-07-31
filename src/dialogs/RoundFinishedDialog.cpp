@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "EasyB.h"
-#include "model/EasyBDoc.h"
+#include "EasyBDoc.h"
 #include "EasyBVw.h"
 #include "viewopts.h"
 #include "engine/deck.h"

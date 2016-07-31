@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "model/easybdoc.h"
+#include "easybdoc.h"
 #include "mainfrm.h"
 #include "Mainframeopts.h"
 #include "StatusAnalysesPage.h"

@@ -11,7 +11,7 @@
 
 #include "stdafx.h"
 #include "easyb.h"
-#include "model/EasyBDoc.h"
+#include "EasyBDoc.h"
 #include "EasyBVw.h"
 #include "Mainfrm.h"
 #include "engine/Player.h"
