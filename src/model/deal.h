@@ -156,6 +156,7 @@ public:
   void DealNumberedHand(int dealer, int vulnerability, int specialDealCode, int dealNumber);
   bool PlayClaimTricks();
   bool PlayClaimContract();
+  int GetTotalScoreNS() const { return m_nTotalScore[NORTH_SOUTH]; }
 
 
   CString GetFileDescription() const { return m_strFileDescription; }

@@ -15,7 +15,7 @@ using namespace std;
 
 namespace UnitTests {
 
-class DealTests : public TestWithParam< ::tuple<int, const char*> > {
+class DealTests : public TestWithParam< ::tuple<int, const char*, int> > {
 protected:
   DealTests() {}
   virtual void SetUp() {
@@ -155,12 +155,15 @@ TEST_P(DealTests, DealNumberedHand) {
     d->ClearTrick();
   }
 
+  d->UpdateDuplicateScore();
+
   string pbn = d->WriteFilePBN();
 
   const char* expectedPbn = ::get<1>(GetParam());
-  d.reset();
-
   EXPECT_STREQ(expectedPbn, pbn.c_str());
+  EXPECT_EQ(::get<2>(GetParam()), d->GetTotalScoreNS());
+
+  d.reset();
   EXPECT_TRUE(Mock::VerifyAndClearExpectations(app.get()));
 }
 
@@ -440,11 +443,11 @@ const char* expectedPbnFor76 = "%% \n"
 
 
 INSTANTIATE_TEST_CASE_P(Params, DealTests, ::Values(
-  ::tuple<int, const char*>(1, expectedPbnFor1),
-  ::tuple<int, const char*>(4, expectedPbnFor4),
-  ::tuple<int, const char*>(26, expectedPbnFor26), // Blackwood, but wrong suit
-  ::tuple<int, const char*>(36, expectedPbnFor36), // Stayman
-  ::tuple<int, const char*>(76, expectedPbnFor76) // Concurrent, very passive
+  ::tuple<int, const char*, int>(1, expectedPbnFor1, 600),
+  ::tuple<int, const char*, int>(4, expectedPbnFor4, 50),
+  ::tuple<int, const char*, int>(26, expectedPbnFor26, 250), // Blackwood, but wrong suit
+  ::tuple<int, const char*, int>(36, expectedPbnFor36, 100), // Stayman
+  ::tuple<int, const char*, int>(76, expectedPbnFor76, 110) // Concurrent, very passive
 ));
 
 } // namespace UnitTests
