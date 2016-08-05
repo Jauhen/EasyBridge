@@ -341,6 +341,7 @@
     <ClCompile Include="src\engine\PlayerStatusDialog.CPP" />
     <ClCompile Include="src\engine\play\PlayList.cpp" />
     <ClCompile Include="src\model\settings.cpp" />
+    <ClCompile Include="src\model\view_state.cpp" />
     <ClCompile Include="src\print.cpp" />
     <ClCompile Include="src\model\rdfile.cpp" />
     <ClCompile Include="src\model\RdFilePBN.cpp" />
@@ -470,6 +471,7 @@
     <ClInclude Include="src\engine\bidding\MichaelsCueBidConvention.h" />
     <ClInclude Include="src\dialogs\MyCustomDialog.h" />
     <ClInclude Include="src\model\settings.h" />
+    <ClInclude Include="src\model\view_state.h" />
     <ClInclude Include="src\MyException.h" />
     <ClInclude Include="src\dialogs\MYFILDLG.H" />
     <ClInclude Include="src\engine\bidding\NegativeDoublesConvention.h" />

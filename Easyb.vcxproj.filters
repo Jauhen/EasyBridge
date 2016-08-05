@@ -390,6 +390,9 @@
     <ClCompile Include="src\EasyBdoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\model\view_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyB.rc">
@@ -773,6 +776,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\EasyBdoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\view_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
