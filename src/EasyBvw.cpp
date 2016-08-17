@@ -109,7 +109,7 @@ CEasyBView::CEasyBView() {
   // screen-oriented inits flags
   m_bOpeningSequenceDone = FALSE;
   m_pIntroWnd = NULL;
-  m_nSuppressRefresh = 0;
+  state_->EnableRefresh(true);
   //
   //
   m_bLayoutCardSelected = FALSE;
@@ -283,124 +283,19 @@ LPVOID CEasyBView::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) 
   switch (nItem) {
     case tbAnimateCards:
       return (LPVOID)m_bAnimateCards;
-    case tbAutoRestackCards:
-      return (LPVOID)m_bAutoRestackCards;
-    case tbBitmapAvailable:
-      return (LPVOID)m_bBitmapAvailable;
     case tbCanDisplayBitmap:
       return (LPVOID)m_bCanDisplayBitmap;
-    case tbExchanging:
-      return (LPVOID)m_bExchanging;
-    case tbLayoutCardSelected:
-      return (LPVOID)m_bLayoutCardSelected;
-    case tbLayoutDialogActive:
-      return (LPVOID)m_bLayoutDlgActive;
     case tbOffsetVerticalSuits:
       return (LPVOID)m_bOffsetVertSuits;
     case tbTripleBuffer:
       return (LPVOID)m_bTripleBuffer;
-    case tbViewInitialized:
-      return (LPVOID)m_bViewInitialized;
-    case tbOpeningSequenceDone:
-      return (LPVOID)m_bOpeningSequenceDone;
-    case tpCardDest:
-      return (nIndex2 == 0) ? (LPVOID)m_cardDest[nIndex1].x :
-        (nIndex2 == 1) ? (LPVOID)m_cardDest[nIndex1].y : NULL;
-    case tpvCustomDIB:
-      return (LPVOID)&m_customDIB;
-    case tpvDefaultBitmap:
-      return (LPVOID)m_defaultBitmap;
     case tpDrawPoint:
       return (nIndex2 == 0) ? (LPVOID)m_drawPoint[nIndex1].x :
         (nIndex2 == 1) ? (LPVOID)m_drawPoint[nIndex1].y : NULL;
-    case tpDummyDrawOffset:
-      return (nIndex2 == 0) ? (LPVOID)m_dummyDrawOffset[nIndex1].x :
-        (nIndex2 == 1) ? (LPVOID)m_dummyDrawOffset[nIndex1].y : NULL;
-    case tpDummyLabelOffset:
-      return (nIndex2 == 0) ? (LPVOID)m_dummyLabelOffset[nIndex1].x :
-        (nIndex2 == 1) ? (LPVOID)m_dummyLabelOffset[nIndex1].y : NULL;
-    case tnCardWidth:
-      return (LPVOID)m_nCardWidth;
-    case tnCardHeight:
-      return (LPVOID)m_nCardHeight;
-    case tnCardXGap:
-      return (LPVOID)m_nCardXGap;
-    case tnCardYGap:
-      return (LPVOID)m_nCardYGap;
-    case tnOverlapYOffset:
-      return (LPVOID)m_nOverlapYOffset;
-    case tnSuitSpacer:
-      return (LPVOID)m_nSuitSpacer;
-    case tnDummySuitSpacer:
-      return (LPVOID)m_nDummySuitSpacer;
-    case tpvCursor:
-      return (LPVOID)m_hCursor[nIndex1];
-    case tpvCursorExchange:
-      return (LPVOID)m_hCursorExchange;
-    case tpvCursorGrab:
-      return (LPVOID)m_hCursorGrab;
-    case tpvCursorInvalid:
-      return (LPVOID)m_hCursorInvalid[nIndex1];
-    case tpvLayoutDeck:
-      return (LPVOID)m_layoutDeck;
     case tnAnimationGranularity:
       return (LPVOID)m_nAnimationGranularity;
-    case tnCurrentMode:
-      return (LPVOID)m_nCurrMode;
-    case tnExchangeSrcPlayer:
-      return (LPVOID)m_nExchangeSrcPlayer;
-    case tnLayoutCardDestination:
-      return (LPVOID)m_nLayoutCardDest;
-    case tnLayoutCardOrigin:
-      return (LPVOID)m_nLayoutCardOrigin;
-    case tnPlayerCardLimit:
-      return (LPVOID)m_nPlayerCardLimit;
-    case tnSuitToScreenIndex:
-      return (LPVOID)m_nSuitToScreenIndex[nIndex1];
-    case tnDummySuitToScreenIndex:
-      return (LPVOID)m_nDummySuitToScreenIndex[nIndex1];
-    case tnumCardsUnassigned:
-      return (LPVOID)m_numCardsUnassigned;
-    case tpvExchangeCard:
-      return (LPVOID)m_pExchangeCard;
-    case tpvLayoutCard:
-      return (LPVOID)m_pLayoutCard;
-    case tpLayout:
-      return (nIndex2 == 0) ? (LPVOID)m_pointLayout.x :
-        (nIndex2 == 1) ? (LPVOID)m_pointLayout.y : NULL;
-    case tpLayoutCardOffset:
-      return (nIndex2 == 0) ? (LPVOID)m_pointLayoutCardOffset.x :
-        (nIndex2 == 1) ? (LPVOID)m_pointLayoutCardOffset.y : NULL;
-    case trCardDest:
-      return (nIndex2 == 0) ? (LPVOID)m_rectCardDest[nIndex1].left :
-        (nIndex2 == 1) ? (LPVOID)m_rectCardDest[nIndex1].top :
-        (nIndex2 == 2) ? (LPVOID)m_rectCardDest[nIndex1].right :
-        (nIndex2 == 3) ? (LPVOID)m_rectCardDest[nIndex1].bottom : NULL;
-    case trLayout:
-      return (nIndex2 == 0) ? (LPVOID)m_rectLayout.left :
-        (nIndex2 == 1) ? (LPVOID)m_rectLayout.top :
-        (nIndex2 == 2) ? (LPVOID)m_rectLayout.right :
-        (nIndex2 == 3) ? (LPVOID)m_rectLayout.bottom : NULL;
-    case trSuitOffset:
-      return (nIndex3 == 0) ? (LPVOID)m_rectSuitOffset[nIndex1][nIndex2].left :
-        (nIndex3 == 1) ? (LPVOID)m_rectSuitOffset[nIndex1][nIndex2].top :
-        (nIndex3 == 2) ? (LPVOID)m_rectSuitOffset[nIndex1][nIndex2].right :
-        (nIndex3 == 3) ? (LPVOID)m_rectSuitOffset[nIndex1][nIndex2].bottom : NULL;
-    case trTable:
-      return (nIndex2 == 0) ? (LPVOID)m_rectTable.left :
-        (nIndex2 == 1) ? (LPVOID)m_rectTable.top :
-        (nIndex2 == 2) ? (LPVOID)m_rectTable.right :
-        (nIndex2 == 3) ? (LPVOID)m_rectTable.bottom : NULL;
     case tszBackgroundBitmap:
       return (LPVOID)(LPCTSTR)m_strBackgroundBitmap;
-    case tpvTableRegion:
-      return (LPVOID)&m_tableRegion;
-    case tnColorDepth:
-      return (LPVOID)&m_nColorDepth;
-    case tnScreenWidth:
-      return (LPVOID)&m_nScreenWidth;
-    case tnScreenHeight:
-      return (LPVOID)&m_nScreenHeight;
     default:
       AfxMessageBox("Unhandled Call to CEasyBView::GetValuePV()");
       return NULL;
@@ -418,23 +313,8 @@ int CEasyBView::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, in
     case tbAnimateCards:
       m_bAnimateCards = bVal;
       break;
-    case tbAutoRestackCards:
-      m_bAutoRestackCards = bVal;
-      break;
-    case tbBitmapAvailable:
-      m_bBitmapAvailable = bVal;
-      break;
     case tbCanDisplayBitmap:
       m_bCanDisplayBitmap = bVal;
-      break;
-    case tbExchanging:
-      m_bExchanging = bVal;
-      break;
-    case tbLayoutCardSelected:
-      m_bLayoutCardSelected = bVal;
-      break;
-    case tbLayoutDialogActive:
-      m_bLayoutDlgActive = bVal;
       break;
     case tbOffsetVerticalSuits:
       m_bOffsetVertSuits = bVal;
@@ -442,146 +322,14 @@ int CEasyBView::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, in
     case tbTripleBuffer:
       m_bTripleBuffer = bVal;
       break;
-    case tbViewInitialized:
-      m_bViewInitialized = bVal;
-      break;
-    case tbOpeningSequenceDone:
-      m_bOpeningSequenceDone = bVal;
-      break;
-    case tpCardDest:
-      if (nIndex2 == 0)
-        m_cardDest[nIndex1].x = nVal;
-      else if (nIndex2 == 1)
-        m_cardDest[nIndex1].y = nVal;
-      break;
-    case tpvCustomDIB:
-    case tpvDefaultBitmap:
-      break;
     case tpDrawPoint:
       if (nIndex2 == 0)
         m_drawPoint[nIndex1].x = nVal;
       else if (nIndex2 == 1)
         m_drawPoint[nIndex1].y = nVal;
       break;
-    case tpDummyDrawOffset:
-      if (nIndex2 == 0)
-        m_dummyDrawOffset[nIndex1].x = nVal;
-      else if (nIndex2 == 1)
-        m_dummyDrawOffset[nIndex1].y = nVal;
-      break;
-    case tpDummyLabelOffset:
-      if (nIndex2 == 0)
-        m_dummyLabelOffset[nIndex1].x = nVal;
-      else if (nIndex2 == 1)
-        m_dummyLabelOffset[nIndex1].y = nVal;
-      break;
-    case tnCardWidth:
-      m_nCardWidth = nVal;
-      break;
-    case tnCardHeight:
-      m_nCardHeight = nVal;
-      break;
-    case tnCardXGap:
-      m_nCardXGap = nVal;
-      break;
-    case tnCardYGap:
-      m_nCardYGap = nVal;
-      break;
-    case tnOverlapYOffset:
-      m_nOverlapYOffset = nVal;
-      break;
-    case tnSuitSpacer:
-      m_nSuitSpacer = nVal;
-      break;
-    case tnDummySuitSpacer:
-      m_nDummySuitSpacer = nVal;
-      break;
-    case tpvCursor:
-    case tpvCursorExchange:
-    case tpvCursorGrab:
-    case tpvCursorInvalid:
-    case tpvLayoutDeck:
-      break;
     case tnAnimationGranularity:
       m_nAnimationGranularity = nVal;
-      break;
-    case tnCurrentMode:
-      SetCurrentMode((ScreenMode)nVal);
-      break;
-    case tnExchangeSrcPlayer:
-      m_nExchangeSrcPlayer = nVal;
-      break;
-    case tnLayoutCardDestination:
-      m_nLayoutCardDest = (Position)nVal;
-      break;
-    case tnLayoutCardOrigin:
-      m_nLayoutCardOrigin = (Position)nVal;
-      break;
-    case tnPlayerCardLimit:
-      m_nPlayerCardLimit = nVal;
-      break;
-    case tnSuitToScreenIndex:
-      m_nSuitToScreenIndex[nIndex1] = nVal;
-      break;
-    case tnDummySuitToScreenIndex:
-      m_nDummySuitToScreenIndex[nIndex1] = nVal;
-      break;
-    case tnumCardsUnassigned:
-      m_numCardsUnassigned = nVal;
-      break;
-    case tpvExchangeCard:
-      break;
-    case tpLayout:
-      if (nIndex2 == 0)
-        m_pointLayout.x = nVal;
-      else if (nIndex2 == 1)
-        m_pointLayout.y = nVal;
-      break;
-    case tpLayoutCardOffset:
-      if (nIndex2 == 0)
-        m_pointLayoutCardOffset.x = nVal;
-      else if (nIndex2 == 1)
-        m_pointLayoutCardOffset.y = nVal;
-      break;
-    case trCardDest:
-      if (nIndex2 == 0)
-        m_rectCardDest[nIndex1].left = nVal;
-      else if (nIndex2 == 1)
-        m_rectCardDest[nIndex1].top = nVal;
-      else if (nIndex2 == 2)
-        m_rectCardDest[nIndex1].right = nVal;
-      else if (nIndex2 == 3)
-        m_rectCardDest[nIndex1].bottom = nVal;
-      break;
-    case trLayout:
-      if (nIndex2 == 0)
-        m_rectLayout.left = nVal;
-      else if (nIndex2 == 1)
-        m_rectLayout.top = nVal;
-      else if (nIndex2 == 2)
-        m_rectLayout.right = nVal;
-      else if (nIndex2 == 3)
-        m_rectLayout.bottom = nVal;
-      break;
-    case trSuitOffset:
-      if (nIndex3 == 0)
-        m_rectSuitOffset[nIndex1][nIndex2].left = nVal;
-      else if (nIndex3 == 1)
-        m_rectSuitOffset[nIndex1][nIndex2].top = nVal;
-      else if (nIndex3 == 2)
-        m_rectSuitOffset[nIndex1][nIndex2].right = nVal;
-      else if (nIndex3 == 3)
-        m_rectSuitOffset[nIndex1][nIndex2].bottom = nVal;
-      break;
-    case trTable:
-      if (nIndex2 == 0)
-        m_rectTable.left = nVal;
-      else if (nIndex2 == 1)
-        m_rectTable.top = nVal;
-      else if (nIndex2 == 2)
-        m_rectTable.right = nVal;
-      else if (nIndex2 == 3)
-        m_rectTable.bottom = nVal;
       break;
     case tszBackgroundBitmap:
     {
@@ -590,14 +338,6 @@ int CEasyBView::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, in
         return -1;
       break;
     }
-    case tpvTableRegion:
-      break;
-    case tnColorDepth:
-      break;
-    case tnScreenWidth:
-      break;
-    case tnScreenHeight:
-      break;
     default:
       AfxMessageBox("Unhandled Call to CEasyBView::SetValuePV()");
       return 1;
@@ -702,7 +442,7 @@ CEasyBDoc* CEasyBView::GetDocument() // non-debug version is inline
 //
 // SetCurrentMode()
 //
-// called both from iniude & outside 
+// called both from inside & outside 
 //
 void CEasyBView::SetCurrentMode(int nMode) {
   // sanity check
@@ -800,7 +540,7 @@ BOOL CEasyBView::OnCommand(WPARAM wParam, LPARAM lParam) {
       ResetSuitOffsets();
       SetViewParameters();
       if (lParam) {
-        m_nSuppressRefresh = 0;
+        state_->EnableRefresh(true);
         Invalidate();
         UpdateWindow();
       }
@@ -855,7 +595,7 @@ BOOL CEasyBView::OnCommand(WPARAM wParam, LPARAM lParam) {
       } else {
         // if in layout mode, toggle 
         // else if in edit mode, continue
-        if (m_nCurrMode == MODE_CARDLAYOUT)
+        if (state_->IsInCardLayoutMode())
           OnLayoutCards();
       }
       return TRUE;
@@ -932,7 +672,7 @@ bool CEasyBView::Notify(long lCode, long param1, long param2, long param3) {
       ResetSuitOffsets();
       SetViewParameters();
       if (param2) {
-        m_nSuppressRefresh = 0;
+        state_->EnableRefresh(true);
         Invalidate();
         UpdateWindow();
       }
@@ -987,7 +727,7 @@ bool CEasyBView::Notify(long lCode, long param1, long param2, long param3) {
       } else {
         // if in layout mode, toggle 
         // else if in edit mode, continue
-        if (m_nCurrMode == MODE_CARDLAYOUT)
+        if (state_->IsInCardLayoutMode())
           OnLayoutCards();
       }
       return true;
@@ -1828,7 +1568,7 @@ void CEasyBView::OnRButtonDown(UINT nFlags, CPoint point) {
 //
 BOOL CEasyBView::OnEraseBkgnd(CDC* pDC) {
   // avoid multiple updates
-  if (m_nSuppressRefresh > 0)
+  if (state_->IsRefreshSuppressed())
     return TRUE;
 
   //
@@ -1881,7 +1621,7 @@ BOOL CEasyBView::OnEraseBkgnd(CDC* pDC) {
 
 //
 void CEasyBView::EraseBackground(CDC& dc) {
-  if (m_nSuppressRefresh > 0)
+  if (state_->IsRefreshSuppressed())
     return;
   //
   CBrush *pOldBrush, newBrush;
@@ -1902,7 +1642,7 @@ void CEasyBView::EraseBackground(CDC& dc) {
 //
 void CEasyBView::OnDraw(CDC* pDC) {
   //
-  if (m_nSuppressRefresh > 0)
+  if (state_->IsRefreshSuppressed())
     return;
 
   // first init the view & show animation, if called for
@@ -2278,12 +2018,12 @@ void CEasyBView::OnUpdateLayoutCards(CCmdUI* pCmdUI) {
   //	if (!pDOC->GetValue(tbHandsDealt))
   //		pCmdUI->Enable(FALSE);
     //
-  if (m_nCurrMode == MODE_CARDLAYOUT)
+  if (state_->IsInCardLayoutMode())
     pCmdUI->SetCheck(1);
   else
     pCmdUI->SetCheck(0);
   //
-  if (m_nCurrMode == MODE_CARDLAYOUT)
+  if (state_->IsInCardLayoutMode())
     pCmdUI->SetText("End Layout Mode\tF9");
   else if (m_nCurrMode == MODE_EDITHANDS)
     pCmdUI->SetText("End Edit Mode\tF9");
@@ -2522,7 +2262,7 @@ void CEasyBView::ClearCardExchangeMode() {
 // OnUpdateEditExistingHands() 
 //
 void CEasyBView::OnUpdateEditExistingHands(CCmdUI* pCmdUI) {
-  if (!pDOC->GetDeal()->IsHandsDealt() || (m_nCurrMode == MODE_CARDLAYOUT))
+  if (!pDOC->GetDeal()->IsHandsDealt() || state_->IsInCardLayoutMode())
     pCmdUI->Enable(FALSE);
   //
   if (m_nCurrMode == MODE_EDITHANDS)
@@ -2674,7 +2414,7 @@ void CEasyBView::OnDistributeRandom() {
   //
   ResetSuitOffsets();
   // redraw cards
-  if (m_nSuppressRefresh == 0) {
+  if (!state_->IsRefreshSuppressed()) {
     CDC* pDC = GetDC();
     OnEraseBkgnd(pDC);
     DrawCardLayoutMode(pDC);
@@ -2883,7 +2623,7 @@ void CEasyBView::BiddingComplete(BOOL bSuccess) {
     }
 
     // don't mark as waiting to bid if canceling bidding to edit hands
-    if ((m_nCurrMode != MODE_CARDLAYOUT) && (m_nCurrMode != MODE_EDITHANDS))
+    if (!state_->IsAllCardVisible())
       SetCurrentMode(MODE_WAITTOBID);
 
     //

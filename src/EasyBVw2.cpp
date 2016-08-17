@@ -62,65 +62,8 @@ void CEasyBView::ClearPrompt(BOOL bLockPane) {
 }
 
 
-//
-BOOL CEasyBView::CanDealNewHand() {
-  switch (m_nCurrMode) {
-    // new deal illegal in the following modes
-    case MODE_TITLESCREEN:
-    case MODE_INTROSCREEN:
-    case MODE_WAITTIMER:
-    case MODE_GAMERESTORE:
-      //		case MODE_THINKING:
-      return FALSE;
-
-      // new deal OK in the following modes
-    case MODE_NONE:
-    case MODE_WAITCARDPLAY:
-    case MODE_CLICKTOBEGINPLAY:
-    case MODE_CLICKFORNEXTTRICK:
-    case MODE_CLICKTORESTARTTRICK:
-    case MODE_CLICKTOCONTINUE:
-    case MODE_CLICKFORNEXTGAME:
-    case MODE_WAITKEYPRESS:
-    case MODE_CARDLAYOUT:
-    case MODE_EDITHANDS:
-    case MODE_WAITTOBID:
-    case MODE_GAMEREVIEW:
-    case MODE_THINKING:
-      return TRUE;
-
-      // otherwise return false (should never get here!)
-    default:
-      return FALSE;	// don't know
-  }
-}
 
 
-
-
-//
-// CanSaveFile() 
-//
-BOOL CEasyBView::CanSaveFile() {
-  switch (m_nCurrMode) {
-    //
-    case MODE_CARDLAYOUT:
-    case MODE_EDITHANDS:
-      //			if (m_numCardsUnassigned > 0)
-      return FALSE;
-      break;
-
-      // other restrictions?
-    case MODE_THINKING:
-      return FALSE;
-
-    default:
-      break;
-  }
-
-  // default is TRUE
-  return TRUE;
-}
 
 
 
@@ -254,7 +197,7 @@ void CEasyBView::DrawPlayingField(CDC* pDC) {
 
   // and any trick cards on the table
   if (theApp.GetSettings()->GetGameInProgress() || pDOC->GetDeal()->IsReviewingGame() ||
-    (m_nCurrMode == MODE_CARDLAYOUT))
+    state_->IsInCardLayoutMode())
     DrawTableCards(pDC, bFullDraw);
 }
 
@@ -418,7 +361,7 @@ void CEasyBView::ThrowCard(Position nPos, CCard* pCard) {
   FEEDBACK(strLine);
 
   // skip drawing if in express play mode, OR if updates are disabled
-  if (theApp.GetSettings()->InExpressAutoPlay() || (m_nSuppressRefresh > 0)) {
+  if (theApp.GetSettings()->InExpressAutoPlay() || state_->IsRefreshSuppressed()) {
     if ((pDOC->GetDeal()->GetNumTricksPlayed() == 0) &&
       (pDOC->GetDeal()->GetNumCardsPlayedInRound() == 1))
       pDOC->GetDeal()->ExposeDummy(TRUE);

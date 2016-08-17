@@ -133,7 +133,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
     // player's hand (south); always display face up
     //
 //		if ((bDummy) && (pDOC->IsDummyExposed()) && (theApp.IsGameInProgress())) 
-    if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT)) {
+    if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && !state_->IsInCardLayoutMode()) {
       //
       // Dummy player
       //
@@ -163,7 +163,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
     // Opponents hands
     //
 //		if ((bDummy) && (pDOC->IsDummyExposed()) && (theApp.IsGameInProgress())) 
-    if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT)) {
+    if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && !state_->IsInCardLayoutMode()) {
       //
       // Dummy east-west here
       //
@@ -194,7 +194,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
     // north (partner)
     //
 //		if ((bDummy) && (pDOC->IsDummyExposed()) && (theApp.IsGameInProgress())) 
-    if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && (m_nCurrMode != MODE_CARDLAYOUT)) {
+    if ((bDummy) && (pDOC->GetDeal()->IsDummyExposed()) && !state_->IsInCardLayoutMode()) {
       //
       // North, Dummy format
       //

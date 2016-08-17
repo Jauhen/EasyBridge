@@ -51,17 +51,13 @@ public:
   BOOL SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest);
   void ClearMode(BOOL bRedraw = TRUE);
   void ClearDisplay() { ClearDisplayArea(NULL, NULL); }
-  void SuppressRefresh() { m_nSuppressRefresh++; }
   BOOL EnableCardAnimation(BOOL bEnable);
-  void EnableRefresh(BOOL bReset = FALSE) { if (bReset) m_nSuppressRefresh = 0; else m_nSuppressRefresh--; }
   void Refresh(BOOL bInvalidate = FALSE) { if (bInvalidate) Invalidate(); UpdateWindow(); }
-  BOOL CanDealNewHand();
-  BOOL CanSaveFile();
   void InitNewRound();
   void PromptLead();
   void DisplayHand(Position nPos, int nDisplaySuit = -1, BOOL bClearBackground = TRUE, BOOL bCardPlayed = FALSE);
   void DisplayTricks(CDC* pSentDC = NULL);
-  BOOL AreCardsFaceUp() const { return ((m_nCurrMode == MODE_CARDLAYOUT) || (m_nCurrMode == MODE_EDITHANDS)); }
+  BOOL AreCardsFaceUp() const { return state_->IsAllCardVisible(); }
 
   //
   void ClearTable();
@@ -75,7 +71,6 @@ public:
   void RestoreGameReview();
   // 
   void SetCurrentMode(int nMode);
-  int GetCurrentMode() { return (int)m_nCurrMode; }
   void SetCurrentModeTemp(int nMode);
   void RestoreMode();
   int GetSuitToScreenIndex(int nIndex) { return m_nSuitToScreenIndex[nIndex]; }
@@ -92,7 +87,6 @@ private:
   static BOOL	m_bViewInitialized;
 
   ViewState* state_;
-  int			m_nSuppressRefresh;
   //
   CCard*  m_layoutDeck[52];
   POINT 	m_drawPoint[4];

@@ -31,11 +31,22 @@ public:
   ViewState();
   ~ViewState();
 
-  bool IsAllCardVisible() { return m_nCurrMode == MODE_CARDLAYOUT || m_nCurrMode == MODE_EDITHANDS; }
+  bool IsAllCardVisible() const { return m_nCurrMode == MODE_CARDLAYOUT || m_nCurrMode == MODE_EDITHANDS; }
+  bool IsInCardLayoutMode() const { return m_nCurrMode == MODE_CARDLAYOUT; }
+
+  int GetCurrentMode() { return (int)m_nCurrMode; }
+  bool CanDealNewHand();
+  bool CanSaveFile();
+  void SuppressRefresh() { m_nSuppressRefresh++; }
+  void EnableRefresh(bool bReset = false) { if (bReset) m_nSuppressRefresh = 0; else m_nSuppressRefresh--; }
+  bool IsRefreshSuppressed() { return m_nSuppressRefresh > 0; }
+
+
 public:
   //
   ScreenMode m_nCurrMode;
   ScreenMode m_nOldMode;
+  int m_nSuppressRefresh;
 
 };
 
