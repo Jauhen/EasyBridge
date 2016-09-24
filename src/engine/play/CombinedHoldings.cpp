@@ -576,7 +576,7 @@ void CCombinedHoldings::EvaluateHoldings()
 	//
 	// first report the hand
 	//
-	CString strLine,str1,str2;
+	CString strLine,str1;
 	status.SetStreamOutputLevel(2);
 	status << "Combined hand (Dummy/Hand):\n" & 
 				    "  S:" & m_pSuit[3]->GetHoldingsString() & "\n" &

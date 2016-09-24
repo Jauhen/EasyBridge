@@ -1651,7 +1651,6 @@ void CBidEngine::CancelBidding()
 //
 void CBidEngine::RestartBidding()
 {
-	CString strLine;
 	TraceNH("***Bidding restarted***");
 	Clear();
 }

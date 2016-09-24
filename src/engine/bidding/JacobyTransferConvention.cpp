@@ -352,7 +352,6 @@ BOOL CJacobyTransferConvention::HandleConventionResponse(const CPlayer& player,
 	else if (nPartnersBid == BID_PASS)
 	{
 		BOOL bInterference = ISBID(bidState.nLHOBid);
-		CString strTemp = BidToFullString(nPartnersBid);
 		status << "2JC31! Partner passed our Jacoby Transfer " &
 				  (bInterference? "after interference from the opponents" : "") &
 				   ", so Jacoby is no longer in effect.\n";

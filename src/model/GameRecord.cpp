@@ -213,7 +213,6 @@ bool CGameRecord::IsValid()
 		TStringList::const_iterator iter;
 		for(iter=m_listTags.begin();iter!=m_listTags.end();iter++)
 		{
-			CString strTag = *iter;
 			if ((*iter).CompareNoCase(strKey) == 0)
 				break;
 		}

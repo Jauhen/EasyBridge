@@ -81,11 +81,9 @@ static int numLines;
 //
 BOOL Deal::ReadFilePBN(CArchive& ar) {
   int nLineCode, nValue, nCode;
-  CString strMessage, string, strTag, strValue, partString, strModifier;
+  CString strTag, strValue, strModifier;
   double fValue;
   BOOL bValue;
-  CString strLine;
-
 
   // init some flags
   m_bReviewingGame = FALSE;

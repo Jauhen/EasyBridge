@@ -4494,7 +4494,6 @@ int CDeclarerPlayEngine::FilterPlays(CPlayList& playList)
 			CPlay* pExistingPlay = m_playPlan[j];
 			if (pExistingPlay == pProposedPlay)
 				continue;
-			CString strDescription = pExistingPlay->GetDescription();
 			CCard* pPreviouslyConsumedCard = pExistingPlay->GetConsumedCard();
 			if (pProposedPlay->RequiresCard(pPreviouslyConsumedCard))
 			{

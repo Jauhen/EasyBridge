@@ -665,7 +665,7 @@ void CHandHoldings::EvaluateHoldings()
 	//
 	// first report the hand
 	//
-	CString strLine,str1,str2;
+	CString strLine,str1;
 	status << "4=====================================\n";
 	status << "4Received hand:\n  " & m_strHoldings & "\n";
 
