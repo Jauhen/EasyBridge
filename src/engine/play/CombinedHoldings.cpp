@@ -239,9 +239,9 @@ void CCombinedHoldings::ClearHand()
 	m_numSuitsUnstopped = 0;
 	for(i=0;i<4;i++)
 	{
-		m_nSuitsStopped[i];
-		m_nSuitsProbStopped[i];
-		m_nSuitsUnstopped[i];
+		m_nSuitsStopped[i] = 0;
+		m_nSuitsProbStopped[i] = 0;
+		m_nSuitsUnstopped[i] = 0;
 	}
 	//
 	m_strSuitsStopped.Empty();

@@ -43,6 +43,8 @@ CAutoHintDialog::CAutoHintDialog(CWnd* pParent /*=NULL*/)
 	//
 	m_strText = _T("");
 	m_bInitialized = FALSE;
+  m_numVisibleRows = 0;
+  m_pFont = nullptr;
 }
 
 

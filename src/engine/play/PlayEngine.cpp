@@ -103,7 +103,7 @@ void CPlayEngine::Clear()
 	m_nPrioritySuit = NONE;
 	m_nPartnersPrioritySuit = NONE;
 	for(int i=0;i<4;i++)
-		m_nSuitPriorityList[4] = NONE;
+		m_nSuitPriorityList[i] = NONE;
 }
 
 	

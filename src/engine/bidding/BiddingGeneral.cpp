@@ -147,11 +147,11 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			  " points and decent (3-4 card) support for our " & CCard::SuitToSingularString(m_nAgreedSuit) & " suit.\n";
 	int nTricks = CountModifiedPlayingTricks(m_nAgreedSuit);
 
+
 	// get adjusted hand point count as declarer
-	int nSuit;
-	double fAdjPts = m_pHand->RevalueHand(REVALUE_DECLARER, m_nAgreedSuit, TRUE);
-	m_fMinTPPoints = fAdjPts + m_fPartnersMin;
-	m_fMaxTPPoints = fAdjPts + m_fPartnersMax;
+	double adjPts = m_pHand->RevalueHand(REVALUE_DECLARER, m_nAgreedSuit, TRUE);
+	m_fMinTPPoints = adjPts + m_fPartnersMin;
+	m_fMaxTPPoints = adjPts + m_fPartnersMax;
 	m_fMinTPCPoints = fCardPts + m_fPartnersMin;
 	m_fMaxTPCPoints = fCardPts + m_fPartnersMax;
 
@@ -222,12 +222,12 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 		else if (nTricks < 7)
 		{
 			// bid a support suit with 6 playing tricks and 22-24 pts
-			nSuit = GetNextBestSuit(m_nAgreedSuit);
-			m_nBid = GetCheapestShiftBid(nSuit);
+			int suit = GetNextBestSuit(m_nAgreedSuit);
+			m_nBid = GetCheapestShiftBid(suit);
 			status << "R14! Using the modified trick count, we have " & nTricks &
 					  " playing tricks in hand and a total of " &
 					  m_fMinTPPoints & "-" & m_fMaxTPPoints & 
-					  " points in the partnership, so show the " & CCard::SuitToSingularString(nSuit) &
+					  " points in the partnership, so show the " & CCard::SuitToSingularString(suit) &
 					  " support suit in a bid of " & BidToFullString(m_nBid) & ".\n";
 			return ValidateBid(m_nBid);
 		} 
@@ -333,11 +333,11 @@ int CBidEngine::RespondToSingleRaise(int nPartnersBid)
 			// find a support suit, if appropriate
 			if (nPartnersBidLevel < 3)
 			{
-				nSuit = GetNextBestSuit(m_nAgreedSuit);
-				m_nBid = GetCheapestShiftBid(nSuit);
+				int suit = GetNextBestSuit(m_nAgreedSuit);
+				m_nBid = GetCheapestShiftBid(suit);
 				status << "R26! We have a total of " & m_fMinTPPoints & "-" & m_fMaxTPPoints & 
 						  " points in the partnership for a minor suit, so show the " & 
-						  CCard::SuitToSingularString(nSuit) & " support suit in a bid of " & BidToFullString(m_nBid) & ".\n";
+						  CCard::SuitToSingularString(suit) & " support suit in a bid of " & BidToFullString(m_nBid) & ".\n";
 			}
 			else
 			{

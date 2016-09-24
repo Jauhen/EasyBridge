@@ -73,7 +73,7 @@ protected:
 // construction/destruction
 public:
 	CPlayList();
-	~CPlayList();
+	virtual ~CPlayList();
 };
 
 

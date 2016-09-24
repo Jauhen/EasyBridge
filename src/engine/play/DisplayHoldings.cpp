@@ -28,6 +28,7 @@
 CDisplayHoldings::CDisplayHoldings(std::shared_ptr<AppInterface> app) 
   : CCardHoldings(app)
 {
+  m_bDummy = false;
 }
 // destructor
 CDisplayHoldings::~CDisplayHoldings()

@@ -59,7 +59,7 @@ public:
 	virtual void RemoveCardFromCombinedHand(CCard* pCard);
 
 	// analysis routines
-	virtual int	 GetOutstandingCards(int nSuit, CCardList& cardList) const;
+	virtual int	 GetOutstandingCards(int nSuit, CCardList& cardList, bool bCountDummy = false) const;
 	//
 	virtual int	 GetNumDeclarerEntries() { return m_numDeclarerEntries; }
 	virtual int	 GetNumDummyEntries() { return m_numDummyEntries; }

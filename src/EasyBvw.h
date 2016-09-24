@@ -51,7 +51,6 @@ public:
   BOOL SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest);
   void ClearMode(BOOL bRedraw = TRUE);
   void ClearDisplay() { ClearDisplayArea(NULL, NULL); }
-  BOOL EnableCardAnimation(BOOL bEnable);
   void Refresh(BOOL bInvalidate = FALSE) { if (bInvalidate) Invalidate(); UpdateWindow(); }
   void InitNewRound();
   void PromptLead();
@@ -73,11 +72,7 @@ public:
   void SetCurrentMode(int nMode);
   void SetCurrentModeTemp(int nMode);
   void RestoreMode();
-  int GetSuitToScreenIndex(int nIndex) { return m_nSuitToScreenIndex[nIndex]; }
-  int GetDummySuitToScreenIndex(int nIndex) { return m_nDummySuitToScreenIndex[nIndex]; }
   RECT& GetRectSuitOffset(int nPlayer, int nSuit) { return m_rectSuitOffset[nPlayer][nSuit]; }
-
-  void ResetDummySuitSequence();
 
 
   // Data
@@ -95,8 +90,6 @@ private:
   POINT 	m_cardDest[4];
   RECT 	m_rectCardDest[4];
   CRgn	m_tableRegion;
-  int 	m_nSuitToScreenIndex[4];
-  int 	m_nDummySuitToScreenIndex[4];
   RECT	m_rectTable;
   RECT 	m_rectSuitOffset[4][4];
   POINT	m_ptTricksDisplayDest[2];
@@ -144,18 +137,13 @@ private:
   int			m_nScreenWidth;
   int			m_nScreenHeight;
   BOOL		m_bOpeningSequenceDone;
-  BOOL		m_bCanDisplayBitmap;
   BOOL		m_bBitmapAvailable;
   CBitmap 	m_defaultBitmap;
   CBitmap 	m_winnersBitmap;
   CBitmap 	m_losersBitmap;
   CDIB		m_customDIB;
   CString		m_strBackgroundBitmap;
-  BOOL		m_bTripleBuffer;
-  BOOL		m_bAnimateCards;
-  BOOL		m_bOffsetVertSuits;
   BOOL		m_bAutoRestackCards;
-  int			m_nAnimationGranularity;
   //
   CIntroWnd*	m_pIntroWnd;
 
@@ -209,7 +197,6 @@ private:
   void CheckForTrickCardsOverlap(CDC* pDC, RECT& eraseRect, CCard* pPlayedCard, BOOL bRedraw);
   CCard* GetPlayerBottomCard(CPlayer& player);
   void SetViewParameters(int cx = 0, int cy = 0);
-  void ResetSuitSequence();
   void ResetSuitOffsets(Position nPos = UNKNOWN);
   void DoOpeningSequence();
   void OnDoRealize();

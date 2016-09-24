@@ -327,14 +327,6 @@ void CEasyBView::DrawCardLayoutMode(CDC* pDC, BOOL bDrawPile, BOOL bDrawHands) {
 
 
 
-//
-// EnableCardAnimation()
-//
-BOOL CEasyBView::EnableCardAnimation(BOOL bEnable) {
-  BOOL bOldMode = m_bAnimateCards;
-  m_bAnimateCards = bEnable;
-  return bOldMode;
-}
 
 
 
@@ -584,30 +576,6 @@ void CEasyBView::ClearTableRegion(CDC* pSentDC) {
 }
 
 
-
-//
-void CEasyBView::ResetSuitSequence() {
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < 4; j++) {
-      if (theApp.GetSettings()->GetSuitSequence(j) == i)
-        m_nSuitToScreenIndex[i] = j;
-    }
-  }
-  //
-  ResetDummySuitSequence();
-}
-
-
-
-//
-void CEasyBView::ResetDummySuitSequence() {
-  for (int i = 0; i < 4; i++) {
-    for (int j = 0; j < 4; j++) {
-      if (theApp.GetSettings()->GetDummySuitSequence(j) == i)
-        m_nDummySuitToScreenIndex[i] = j;
-    }
-  }
-}
 
 
 

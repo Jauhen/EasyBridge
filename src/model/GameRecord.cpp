@@ -40,7 +40,7 @@ const int c_mandatoryTags[] = {
 	TAG_RESULT,
 };
 //
-const int c_numMandatoryTags = sizeof(c_mandatoryTags) / sizeof(LPCTSTR);
+const int c_numMandatoryTags = sizeof(c_mandatoryTags) / sizeof(c_mandatoryTags[0]);
 
 //
 // PBN tags that must not be empty!
@@ -65,7 +65,7 @@ const int c_nonEmptyTags[] = {
 };
 
 //
-const int c_numNonEmptyTags = sizeof(c_nonEmptyTags) / sizeof(LPCTSTR);
+const int c_numNonEmptyTags = sizeof(c_nonEmptyTags) / sizeof(c_nonEmptyTags[0]);
 
 
 

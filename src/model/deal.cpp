@@ -2034,7 +2034,7 @@ int Deal::UndoBid() {
     // search back for the last valid bid
     int i = 0;
     for (i = m_numBidsMade - 1; i >= 0; i--) {
-      if ((m_nBiddingHistory[i] != BID_PASS) && (m_nBiddingHistory[i] != BID_DOUBLE) && (m_nBiddingHistory[i] != BID_DOUBLE))
+      if ((m_nBiddingHistory[i] != BID_PASS) && (m_nBiddingHistory[i] != BID_DOUBLE) && (m_nBiddingHistory[i] != BID_REDOUBLE))
         break;
     }
     if (i >= 0) {

@@ -633,7 +633,7 @@ void CHandHoldings::EvaluateHoldings()
 		m_nSuitsByPreference[i] = NONE;
 	}
 	for(int i=0;i<4;i++)
-		m_nSuitsByLength[4] = NONE;
+		m_nSuitsByLength[i] = NONE;
 	for(int i=0;i<4;i++) 
 		m_bRevaluedForSuit[i] = FALSE;
 

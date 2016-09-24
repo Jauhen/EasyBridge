@@ -347,7 +347,7 @@ LPCTSTR TeamToShortString(int nTeam)
 		return tszTeamBrief[1];
 	else if (nTeam == BOTH)
 		return tszTeamBrief[2];
-	else  if (nTeam == BOTH)
+	else if (nTeam == NEITHER)
 		return tszTeamBrief[3];
 	else
 		return _T("???");
@@ -392,7 +392,7 @@ int CharToFaceValue(TCHAR c)
 	//
 	char t = c;
 	if (islower(c))
-		char t = toupper(c);
+	  t = toupper(c);
 	//
 	if (isdigit(c))
 	{

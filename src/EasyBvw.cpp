@@ -92,6 +92,7 @@ static BOOL bStart = FALSE;
 CEasyBView::CEasyBView() {
   m_pView = this;
   state_ = this;
+  state_->SetApp(appImpl);
 
   // read in the saved variables from the .INI file
   Initialize();
@@ -1331,15 +1332,15 @@ void CEasyBView::OnLButtonUp(UINT nFlags, CPoint point) {
           x = m_drawPoint[m_nLayoutCardDest].x;
           y = m_drawPoint[m_nLayoutCardDest].y;
         }
-        if ((m_nLayoutCardDest != m_nLayoutCardOrigin) &&
-          (m_bAnimateCards)) {
+        if (m_nLayoutCardDest != m_nLayoutCardOrigin && m_bAnimateCards) {
           pCard->Animate(pDC, x, y, TRUE);
         }
         // and draw destination hand
         DisplayHand((Position)m_nLayoutCardDest);
         // and draw table if needed
-        if ((m_nLayoutCardOrigin == TABLE) && (!m_bTripleBuffer))
+        if (m_nLayoutCardOrigin == TABLE && !m_bTripleBuffer) {
           DrawCardLayoutMode(pDC, TRUE, FALSE);
+        }
       } else {
         // stick card back in the table pile
         nIndex = pCard->GetSuit() * 13 + pCard->GetFaceValue() - 2;

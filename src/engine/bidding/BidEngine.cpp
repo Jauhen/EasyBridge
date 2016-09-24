@@ -1348,8 +1348,9 @@ void CBidEngine::FillNeuralNetInputs(NVALUE* fInputs, int numInputs)
 	}
 
 	// 163..175
-	for(int nLength=13;nLength<=0;nLength--)
-		fInputs[nIndex++]		= (NVALUE) m_pHand->GetNumSuitsOfAtLeast(nLength);
+  for (int nLength = 13; nLength >= 0; nLength--) {
+    fInputs[nIndex++] = (NVALUE)m_pHand->GetNumSuitsOfAtLeast(nLength);
+  }
 
 	// 176..179 - dummy
 	fInputs[nIndex++]		= (NVALUE) 0;
@@ -1532,7 +1533,7 @@ int CBidEngine::ValidateBid(int& nBid, int nOvercallBid)
 	else if (nOvercallBid > nLVBid) 
 	{
 		//
-		strTemp.Format("But opponent bid %s, so overcall at %s.",
+		strTemp.Format("But opponent bid %d, so overcall at %d.",
 						nBid,nOvercallBid);
 		nBid = nOvercallBid;
 		m_numBidsMade++;

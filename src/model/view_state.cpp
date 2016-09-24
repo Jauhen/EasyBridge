@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "model/view_state.h"
+#include "model/settings.h"
+#include "app_interface.h"
 
 ViewState::ViewState() {
   m_nCurrMode = MODE_NONE;
   m_nOldMode = MODE_NONE;
 }
+
+
 
 ViewState::~ViewState() {}
 
@@ -65,3 +69,37 @@ bool ViewState::CanSaveFile() {
   // default is TRUE
   return true;
 }
+
+//
+// EnableCardAnimation()
+//
+bool ViewState::EnableCardAnimation(bool bEnable) {
+  bool bOldMode = m_bAnimateCards;
+  m_bAnimateCards = bEnable;
+  return bOldMode;
+}
+
+//
+void ViewState::ResetSuitSequence() {
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (app_->GetSettings()->GetSuitSequence(j) == i)
+        m_nSuitToScreenIndex[i] = j;
+    }
+  }
+  //
+  ResetDummySuitSequence();
+}
+
+
+
+//
+void ViewState::ResetDummySuitSequence() {
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      if (app_->GetSettings()->GetDummySuitSequence(j) == i)
+        m_nDummySuitToScreenIndex[i] = j;
+    }
+  }
+}
+

@@ -588,7 +588,7 @@ void CDeclarerPlayEngine::AdjustHoldingsCount(CCard* pCard)
 // outstanding means all the cards that are not in our own hand
 // or dummy, _and_ which have not been played
 //
-int	CDeclarerPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList) const
+int	CDeclarerPlayEngine::GetOutstandingCards(int nSuit, CCardList& cardList, bool bCountDummy) const
 {
 	// call the base class
 	CPlayEngine::GetOutstandingCards(nSuit, cardList);
@@ -809,7 +809,7 @@ CCard* CDeclarerPlayEngine::PlayCard()
 		// find and play the card
 		if (ISDECKVAL(nPlay))
 			pCard = m_pHand->FindCardByDeckValue(nPlay);
-		if (pCard)
+		if (pCard != nullptr)
 		{
 			status << "3GIB! GIB plays the " & pCard->GetName() & ".\n";
 			VERIFY(pCard->IsValid());
@@ -839,7 +839,7 @@ CCard* CDeclarerPlayEngine::PlayCard()
 	pCard = TrySelectedPlays();
 
 	// did the play list fail?
-	if (pCard == NULL)
+	if (pCard == nullptr)
 		pCard = CPlayEngine::PlayCard();	
 
 	// do some sanity checks here
@@ -887,7 +887,7 @@ CCard* CDeclarerPlayEngine::PlayForDummy()
 		// find and play the card
 		if (ISDECKVAL(nPlay))
 			pCard = m_pPartnersHand->FindCardByDeckValue(nPlay);
-		if (pCard)
+		if (pCard != nullptr)
 		{
 			status << "3GIB! GIB plays the " & pCard->GetName() & ".\n";
 			return pCard;	
@@ -982,7 +982,7 @@ void CDeclarerPlayEngine::TestForClaim()
 			int i = 0;
 			for(i=0;i<4;i++)
 			{
-				if (m_numDeclarerEntriesInSuit[i] != m_numDeclarerEntriesInSuit[i])
+				if (m_numDeclarerEntriesInSuit[i] != m_numDummyEntriesInSuit[i])
 					break;
 			}
 			if (i == 4)

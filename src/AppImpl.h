@@ -493,8 +493,8 @@ public:
 
     //
     roundFinishedDlg->m_bReplayMode = isReplayMode;
-    BOOL bCode = roundFinishedDlg->DoModal();
-    if (bCode) {
+    INT_PTR bCode = roundFinishedDlg->DoModal();
+    if (bCode != FALSE) {
       return -1;
     }
     return roundFinishedDlg->m_nCode;

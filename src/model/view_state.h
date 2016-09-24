@@ -1,6 +1,9 @@
 #ifndef EZ_MODEL_VIEW_STATE_
 #define EZ_MODEL_VIEW_STATE_
 
+#include <memory>
+
+class AppInterface;
 
 class ViewState {
 public:
@@ -31,6 +34,8 @@ public:
   ViewState();
   ~ViewState();
 
+  void SetApp(std::shared_ptr<AppInterface> app) { app_ = app; }
+
   bool IsAllCardVisible() const { return m_nCurrMode == MODE_CARDLAYOUT || m_nCurrMode == MODE_EDITHANDS; }
   bool IsInCardLayoutMode() const { return m_nCurrMode == MODE_CARDLAYOUT; }
 
@@ -41,12 +46,28 @@ public:
   void EnableRefresh(bool bReset = false) { if (bReset) m_nSuppressRefresh = 0; else m_nSuppressRefresh--; }
   bool IsRefreshSuppressed() { return m_nSuppressRefresh > 0; }
 
+  bool EnableCardAnimation(bool bEnable);
+  void ResetSuitSequence();
+  void ResetDummySuitSequence();
+  int GetSuitToScreenIndex(int nIndex) { return m_nSuitToScreenIndex[nIndex]; }
+  int GetDummySuitToScreenIndex(int nIndex) { return m_nDummySuitToScreenIndex[nIndex]; }
+
 
 public:
   //
+  std::shared_ptr<AppInterface> app_;
+
   ScreenMode m_nCurrMode;
   ScreenMode m_nOldMode;
   int m_nSuppressRefresh;
+  bool m_bAnimateCards;
+  BOOL m_bCanDisplayBitmap;
+  BOOL m_bTripleBuffer;
+  BOOL m_bOffsetVertSuits;
+  int m_nAnimationGranularity;
+
+  int 	m_nSuitToScreenIndex[4];
+  int 	m_nDummySuitToScreenIndex[4];
 
 };
 
