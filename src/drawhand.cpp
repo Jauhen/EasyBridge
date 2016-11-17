@@ -100,7 +100,7 @@ void CEasyBView::DisplayHand(Position nPos, int nDisplaySuit,
     nWidth = clipRect.right - clipRect.left;
     nHeight = clipRect.bottom - clipRect.top;
     cacheDC.BitBlt(clipRect.left, clipRect.top, nWidth, nHeight, pDC, clipRect.left, clipRect.top, SRCCOPY);
-    // pull a switcheroo here
+    // pull a switcher to here
     pOldDC = pDC;
     pDC = &cacheDC;
   }
