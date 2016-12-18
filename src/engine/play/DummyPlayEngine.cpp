@@ -35,12 +35,10 @@
 //
 //
 CDummyPlayEngine::CDummyPlayEngine(std::shared_ptr<AppInterface> app)
-  : CPlayEngine(app) {
-}
+  : CPlayEngine(app) {}
 
-CDummyPlayEngine::~CDummyPlayEngine()
-{
-	Clear();
+CDummyPlayEngine::~CDummyPlayEngine() {
+  Clear();
 }
 
 
@@ -52,10 +50,9 @@ CDummyPlayEngine::~CDummyPlayEngine()
 //
 // one-time initialization at program start
 //
-void CDummyPlayEngine::Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent, CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine* pBidder, CPlayerStatusDialog* pStatusDlg)
-{ 
-	// call base class first
-	CPlayEngine::Initialize(pPlayer, pPartner, pLHOpponent, pRHOpponent, pHoldings, pCardLocation, ppGuessedHands, pBidder, pStatusDlg);
+void CDummyPlayEngine::Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent, CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine* pBidder, CPlayerStatusDialog* pStatusDlg) {
+  // call base class first
+  CPlayEngine::Initialize(pPlayer, pPartner, pLHOpponent, pRHOpponent, pHoldings, pCardLocation, ppGuessedHands, pBidder, pStatusDlg);
 
 }
 
@@ -66,16 +63,15 @@ void CDummyPlayEngine::Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* 
 //
 // Clear()
 //
-void CDummyPlayEngine::Clear()
-{ 
-	// call base class first
-	CPlayEngine::Clear();
-		
+void CDummyPlayEngine::Clear() {
+  // call base class first
+  CPlayEngine::Clear();
+
 }
 
 
 
-	
+
 
 //
 //-----------------------------------------------------------------------
@@ -84,13 +80,12 @@ void CDummyPlayEngine::Clear()
 //
 // called when the hand is dealt (or play is restarted)
 //
-void CDummyPlayEngine::InitNewHand()
-{ 
-	// make sure we're declarer
-	VERIFY(!m_pPlayer->IsDeclarer());
+void CDummyPlayEngine::InitNewHand() {
+  // make sure we're declarer
+  VERIFY(!m_pPlayer->IsDeclarer());
 
-	// call base class first
-	CPlayEngine::InitNewHand();
+  // call base class first
+  CPlayEngine::InitNewHand();
 
 }
 
@@ -99,10 +94,9 @@ void CDummyPlayEngine::InitNewHand()
 //
 // RestartPlay()
 //
-void CDummyPlayEngine::RestartPlay()
-{
-	// call base class
-	CPlayEngine::RestartPlay();
+void CDummyPlayEngine::RestartPlay() {
+  // call base class
+  CPlayEngine::RestartPlay();
 }
 
 
@@ -129,12 +123,11 @@ void CDummyPlayEngine::RestartPlay()
 //
 // called once on each round of play
 //
-void CDummyPlayEngine::AssessPosition()
-{
-	// call base class first
-	CPlayEngine::AssessPosition();
+void CDummyPlayEngine::AssessPosition() {
+  // call base class first
+  CPlayEngine::AssessPosition();
 
-	// then perform class-specific operations
+  // then perform class-specific operations
 }
 
 
@@ -146,9 +139,8 @@ void CDummyPlayEngine::AssessPosition()
 //
 // adjust card count and analysis after a card is played
 //
-void CDummyPlayEngine::AdjustCardCount(int nPos, CCard* pCard)
-{
-	// do nothing for now
+void CDummyPlayEngine::AdjustCardCount(int nPos, CCard* pCard) {
+  // do nothing for now
 //	if ((nPos != m_pPlayer->GetPosition() && (nPos != m_pPartner->GetPosition())
 //		CPlayEngine::AdjustCardCount(nPos, pCard);
 }
@@ -163,10 +155,9 @@ void CDummyPlayEngine::AdjustCardCount(int nPos, CCard* pCard)
 //
 // called to adjust analysis of holdings after a round of play
 //
-void CDummyPlayEngine::AdjustHoldingsCount(CCard* pCard)
-{
-	// do nothing for now
-	CPlayEngine::AdjustHoldingsCount(pCard);
+void CDummyPlayEngine::AdjustHoldingsCount(CCard* pCard) {
+  // do nothing for now
+  CPlayEngine::AdjustHoldingsCount(pCard);
 }
 
 
@@ -174,13 +165,12 @@ void CDummyPlayEngine::AdjustHoldingsCount(CCard* pCard)
 //
 // GetLeadCard()
 //
-CCard* CDummyPlayEngine::GetLeadCard()
-{
-	// shouldn't call this routine!
+CCard* CDummyPlayEngine::GetLeadCard() {
+  // shouldn't call this routine!
 //	ASSERT(FALSE);
 
-	// still, we might have to, if declarer runs out of plays
-	return CPlayEngine::GetLeadCard();
+  // still, we might have to, if declarer runs out of plays
+  return CPlayEngine::GetLeadCard();
 }
 
 
@@ -191,15 +181,14 @@ CCard* CDummyPlayEngine::GetLeadCard()
 //
 // select a card to play
 // 
-CCard* CDummyPlayEngine::PlayCard()
-{ 
-	CPlayerStatusDialog& status = *m_pStatusDlg;
-	AssessPosition();
+CCard* CDummyPlayEngine::PlayCard() {
+  CPlayerStatusDialog& status = *m_pStatusDlg;
+  AssessPosition();
 
-	// pass control over to declarer
-	CCard* pCard = m_pPartner->PlayForDummy();
-	VERIFY(pCard->IsValid());
-	return pCard;
+  // pass control over to declarer
+  CCard* pCard = m_pPartner->PlayForDummy();
+  VERIFY(pCard->IsValid());
+  return pCard;
 }
 
 
@@ -211,10 +200,9 @@ CCard* CDummyPlayEngine::PlayCard()
 //
 // let the dummy play for himself
 // 
-CCard* CDummyPlayEngine::PlayForSelf()
-{
-	// call default
-	return CPlayEngine::PlayCard();
+CCard* CDummyPlayEngine::PlayForSelf() {
+  // call default
+  return CPlayEngine::PlayCard();
 }
 
 
@@ -223,9 +211,8 @@ CCard* CDummyPlayEngine::PlayForSelf()
 //
 // GetPlayHint()
 //
-CCard* CDummyPlayEngine::GetPlayHint()
-{
-	return m_pPartner->GetPlayHintForDummy();
+CCard* CDummyPlayEngine::GetPlayHint() {
+  return m_pPartner->GetPlayHintForDummy();
 }
 
 
@@ -233,7 +220,6 @@ CCard* CDummyPlayEngine::GetPlayHint()
 //
 // GetNumClaimableTricks() 
 //
-int CDummyPlayEngine::GetNumClaimableTricks() 
-{ 
-	return m_pPartner->GetNumClaimableTricks(); 
+int CDummyPlayEngine::GetNumClaimableTricks() {
+  return m_pPartner->GetNumClaimableTricks();
 }

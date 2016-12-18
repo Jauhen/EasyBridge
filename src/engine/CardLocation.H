@@ -17,20 +17,20 @@
 // 
 class CCardLocation {
 
-// public operations
+  // public operations
 public:
-	void Clear();
-	CGuessedCard& operator[](int nIndex) { VERIFY(ISDECKVAL(nIndex)); return *m_cards[nIndex]; }
+  void Clear();
+  CGuessedCard& operator[](int nIndex) { VERIFY(ISDECKVAL(nIndex)); return *m_cards[nIndex]; }
 
-// private data
+  // private data
 private:
   std::shared_ptr<AppInterface> app_;
   std::vector<std::shared_ptr<CGuessedCard>> m_cards;
 
-// construction / destruction
+  // construction / destruction
 public:
-	CCardLocation(std::shared_ptr<AppInterface> app);
-	~CCardLocation();
+  CCardLocation(std::shared_ptr<AppInterface> app);
+  ~CCardLocation();
 };
 
 

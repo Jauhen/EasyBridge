@@ -16,15 +16,14 @@
 
 
 //
-BOOL CSlamConvention::ApplyTest(const CPlayer& player, 
-							    const CConventionSet& conventions, 
-							    CHandHoldings& hand, 
-							    CCardLocation& cardLocation, 
-							    CGuessedHandHoldings** ppGuessedHands,
-						        CBidEngine& playerBidState, 
-							    CPlayerStatusDialog& status)
-{
-	return FALSE;
+BOOL CSlamConvention::ApplyTest(const CPlayer& player,
+  const CConventionSet& conventions,
+  CHandHoldings& hand,
+  CCardLocation& cardLocation,
+  CGuessedHandHoldings** ppGuessedHands,
+  CBidEngine& playerBidState,
+  CPlayerStatusDialog& status) {
+  return FALSE;
 }
 
 
@@ -32,12 +31,9 @@ BOOL CSlamConvention::ApplyTest(const CPlayer& player,
 //==================================================================
 // construciton & destruction
 CSlamConvention::CSlamConvention(std::shared_ptr<AppInterface> app)
-  : CConvention(app) {
-}
+  : CConvention(app) {}
 
-CSlamConvention::~CSlamConvention() 
-{
-}
+CSlamConvention::~CSlamConvention() {}
 
 
 

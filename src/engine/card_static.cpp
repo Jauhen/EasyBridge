@@ -6,7 +6,7 @@
 int CCard::CharToSuit(TCHAR c) {
   int i;
   //
-  for (i = 0; i<5; i++)
+  for (i = 0; i < 5; i++)
     if ((c == cSuit[i]) || (toupper(c) == cSuit[i]))
       break;
   if (i < 5)

@@ -160,10 +160,10 @@ public:
   bool GetManualPlayMode() const { return m_bManualPlayMode; }
   void SetManualPlayMode(bool val) { m_bManualPlayMode = val; }
   int GetCardPlayMode() const { return m_bManualPlayMode ? Settings::PLAY_MANUAL : m_nPlayMode; }
-  void SetCardPlayMode(int val, bool forse = false) { 
-   if (!m_bPlayModeLocked || forse) {
-   m_nPlayMode = val;
-   }
+  void SetCardPlayMode(int val, bool forse = false) {
+    if (!m_bPlayModeLocked || forse) {
+      m_nPlayMode = val;
+    }
   }
   bool GetPlayModeLocked() const { return m_bPlayModeLocked; }
   void SetPlayModeLocked(bool val) { m_bPlayModeLocked = val; }
@@ -234,7 +234,7 @@ public:
   bool GetEnableDealNumbering() const { return m_bEnableDealNumbering; }
   void SetEnableDealNumbering(bool val) { m_bEnableDealNumbering = val; }
   int GetMinSuitDistributionTable(int code, int distribution, int hand) const {
-	  return m_nMinSuitDistTable[code][distribution][hand];
+    return m_nMinSuitDistTable[code][distribution][hand];
   }
   int GetMaxImbalanceForNT() const { return m_nMaxImbalanceForNT; }
   void SetMaxImbalanceForNT(int val) { m_nMaxImbalanceForNT = val; }
@@ -247,9 +247,9 @@ public:
   bool GetPenalizeUGHonors() const { return m_bPenalizeUGHonors; }
   void SetPenalizeUGHonors(bool val) { m_bPenalizeUGHonors = val; }
   double GetBiddingAggressiveness() const { return m_fBiddingAggressiveness; }
-  void SetBiddingAggressiveness(double val) { 
-	  m_fBiddingAggressiveness = val; 
-	  InitPointCountRequirements();
+  void SetBiddingAggressiveness(double val) {
+    m_fBiddingAggressiveness = val;
+    InitPointCountRequirements();
   }
   void SetProgPath(CString str) { m_strProgPath = str; }
   void ParseVersion(const char* str) {
@@ -316,7 +316,7 @@ public:
   //
   static double m_fHonorValue[15];
 
- private:
+private:
   //
   // program status
   //
@@ -373,7 +373,7 @@ public:
   CNeuralNet* m_pNeuralNet;
   */
 
-                              // counting options
+  // counting options
   int m_nHonorsValuationMode;
   double m_fAceValue;
   double m_fKingValue;

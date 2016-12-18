@@ -21,38 +21,38 @@
 //
 class CTrumpPull : virtual public CPlay {
 
-// public data
+  // public data
 public:
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
-	//
-	virtual int		UsesUpEntry();
-	//
-	virtual int		IsOptional() { return m_bOptional; }
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
+  //
+  virtual int		UsesUpEntry();
+  //
+  virtual int		IsOptional() { return m_bOptional; }
 
 
-// protected routines
+  // protected routines
 protected:
 
-// protected data
+  // protected data
 protected:
-	int		m_nCardVal;	// 2..14 (deuce through Ace)
-	BOOL	m_bOptional;
-	CCardList*	m_pOutstandingCards;
+  int		m_nCardVal;	// 2..14 (deuce through Ace)
+  BOOL	m_bOptional;
+  CCardList*	m_pOutstandingCards;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
-	CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner=TRUE, BOOL bOptional=TRUE);
-	virtual ~CTrumpPull();
+  CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit, int nCardVal, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner = TRUE, BOOL bOptional = TRUE);
+  CTrumpPull(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard, CCardList* pRequiredPlayedCards, CCardList* pOutstandingCards, BOOL bWinner = TRUE, BOOL bOptional = TRUE);
+  virtual ~CTrumpPull();
 };
 
 

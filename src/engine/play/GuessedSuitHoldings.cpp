@@ -26,15 +26,14 @@
 // constructor
 CGuessedSuitHoldings::CGuessedSuitHoldings(std::shared_ptr<AppInterface> app)
   : CGuessedCardHoldings(app) {
-	// clear all variables
-	m_nSuit = NONE;
-	Init();
+  // clear all variables
+  m_nSuit = NONE;
+  Init();
 }
 
 // destructor
-CGuessedSuitHoldings::~CGuessedSuitHoldings()
-{
-	Clear();
+CGuessedSuitHoldings::~CGuessedSuitHoldings() {
+  Clear();
 }
 
 
@@ -43,40 +42,34 @@ CGuessedSuitHoldings::~CGuessedSuitHoldings()
 //
 
 //
-void CGuessedSuitHoldings::Init()
-{
-	CGuessedCardHoldings::Init();
-	//
-	m_bShownOut = FALSE;
-	m_bSuitWasVoid = FALSE;
-	m_bAllCardsIdentified = FALSE;
-	// 
-	m_numMaxRemainingCards = 13;
-	m_numMaxOriginalCards = 13;
+void CGuessedSuitHoldings::Init() {
+  CGuessedCardHoldings::Init();
+  //
+  m_bShownOut = FALSE;
+  m_bSuitWasVoid = FALSE;
+  m_bAllCardsIdentified = FALSE;
+  // 
+  m_numMaxRemainingCards = 13;
+  m_numMaxOriginalCards = 13;
 }
 
 
 //
-void CGuessedSuitHoldings::Clear(BOOL bDelete)
-{
-	CGuessedCardHoldings::Clear(bDelete);
+void CGuessedSuitHoldings::Clear(BOOL bDelete) {
+  CGuessedCardHoldings::Clear(bDelete);
 }
 
 
 //
-void CGuessedSuitHoldings::FormatHoldingsString()
-{
-	// format the holdings string
-	m_strHoldings.Empty();
-	if (m_numTotalCards > 0) 
-	{
-		for(int i=0;i<m_numTotalCards;i++) 
-			m_strHoldings += m_cards[i]->GetCardLetter();
-	} 
-	else 
-	{
-		m_strHoldings = "---";
-	}
+void CGuessedSuitHoldings::FormatHoldingsString() {
+  // format the holdings string
+  m_strHoldings.Empty();
+  if (m_numTotalCards > 0) {
+    for (int i = 0; i < m_numTotalCards; i++)
+      m_strHoldings += m_cards[i]->GetCardLetter();
+  } else {
+    m_strHoldings = "---";
+  }
 }
 
 
@@ -84,20 +77,18 @@ void CGuessedSuitHoldings::FormatHoldingsString()
 //
 // RemoveByIndex()
 //
-CGuessedCard* CGuessedSuitHoldings::RemoveByIndex(int nIndex)
-{
-	// first call base class
-	CGuessedCard* pCard = CGuessedCardHoldings::RemoveByIndex(nIndex);
+CGuessedCard* CGuessedSuitHoldings::RemoveByIndex(int nIndex) {
+  // first call base class
+  CGuessedCard* pCard = CGuessedCardHoldings::RemoveByIndex(nIndex);
 
-	// then clean up items in this class
-	if (pCard->WasPlayed() && (m_bShownOut))
-	{
-		// "forget" that the suit was shown out
-		m_bShownOut = FALSE;
-	}
+  // then clean up items in this class
+  if (pCard->WasPlayed() && (m_bShownOut)) {
+    // "forget" that the suit was shown out
+    m_bShownOut = FALSE;
+  }
 
-	// done
-	return pCard;
+  // done
+  return pCard;
 }
 
 
@@ -116,47 +107,41 @@ CGuessedCard* CGuessedSuitHoldings::RemoveByIndex(int nIndex)
 // 
 // a player has shown out in this suit
 //
-void CGuessedSuitHoldings::MarkSuitShownOut(BOOL bCode) 
-{ 
-	if (m_bShownOut == bCode)
-		return;
-	//
-	m_bShownOut = bCode; 
+void CGuessedSuitHoldings::MarkSuitShownOut(BOOL bCode) {
+  if (m_bShownOut == bCode)
+    return;
+  //
+  m_bShownOut = bCode;
 
-	// see if the player turned out to have been void
-	if (GetNumCardsPlayed() == 0)
-	{
-		// mark the suit as void
-		m_bSuitWasVoid = TRUE;
-	}
+  // see if the player turned out to have been void
+  if (GetNumCardsPlayed() == 0) {
+    // mark the suit as void
+    m_bSuitWasVoid = TRUE;
+  }
 
-	// remove any speculative cards from this list
-	for(int i=0,nIndex=0;i<m_numTotalCards;i++)
-	{
-		if (!m_cards[nIndex]->WasPlayed())
-		{
-			Delete(m_cards[nIndex]);
-		}
-		else
-		{
-			nIndex++;
-		}
-	}
+  // remove any speculative cards from this list
+  for (int i = 0, nIndex = 0; i < m_numTotalCards; i++) {
+    if (!m_cards[nIndex]->WasPlayed()) {
+      Delete(m_cards[nIndex]);
+    } else {
+      nIndex++;
+    }
+  }
 
-	// adjust counts
-	m_numTotalCards = m_numDefiniteCards = m_numPlayedCards;
-	m_numLikelyCards = 0;
+  // adjust counts
+  m_numTotalCards = m_numDefiniteCards = m_numPlayedCards;
+  m_numLikelyCards = 0;
 
-	// remaining cards are now zero
-	m_numRemainingCards = 0;
-	m_numMinRemainingCards = m_numMaxRemainingCards = 0;
+  // remaining cards are now zero
+  m_numRemainingCards = 0;
+  m_numMinRemainingCards = m_numMaxRemainingCards = 0;
 
-	// original (strating) cards = cards played
-	m_numOriginalCards = m_numPlayedCards;
-	m_numMinOriginalCards = m_numMaxOriginalCards = m_numPlayedCards;
+  // original (strating) cards = cards played
+  m_numOriginalCards = m_numPlayedCards;
+  m_numMinOriginalCards = m_numMaxOriginalCards = m_numPlayedCards;
 
-	// mark status
-	m_bAllCardsIdentified = TRUE;
+  // mark status
+  m_bAllCardsIdentified = TRUE;
 }
 
 
@@ -164,17 +149,13 @@ void CGuessedSuitHoldings::MarkSuitShownOut(BOOL bCode)
 //
 // GetNumRemainingCards()
 //
-int CGuessedSuitHoldings::GetNumRemainingCards()
-{
-	// see if all cardshave been indentified
-	if (m_bAllCardsIdentified)
-	{
-		return m_numOriginalCards - m_numPlayedCards;
-	}
-	else
-	{
-		// don't know yet
-		return -1;
-	}
+int CGuessedSuitHoldings::GetNumRemainingCards() {
+  // see if all cardshave been indentified
+  if (m_bAllCardsIdentified) {
+    return m_numOriginalCards - m_numPlayedCards;
+  } else {
+    // don't know yet
+    return -1;
+  }
 }
 

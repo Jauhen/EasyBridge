@@ -74,55 +74,55 @@ void Deal::DealSpecial(int nGameCode, int nSuitCode, int nSlamCode, int nTeam, i
   //
   switch (nGameCode) {
 
-  case 0:
-    // any random deal
-    break;
-
-  case 1:
-    // game deal
-    nMin = app_->GetSettings()->GetRequiredPointsForGame(nSuitCode, 0);
-    nMax = app_->GetSettings()->GetRequiredPointsForGame(nSuitCode, 1);
-    fScoreTarget = nMin + GetRandomValue(nMax - nMin);
-    switch (nSuitCode) {
     case 0:
-      // game hand, any suit
-      strFeedback.Format("Dealt game hand\n");
+      // any random deal
       break;
-    case 1:
-      // game hand, minor suit
-      strFeedback.Format("Dealt Minor game hand\n");
-      break;
-    case 2:
-      // game hand, major suit
-      strFeedback.Format("Dealt Major game hand\n");
-      break;
-    case 3:
-      // game hand, notrumps
-      strFeedback.Format("Dealt NoTrump game hand\n");
-      break;
-    }
-    break;
 
-  case 2:
-    // slam deal
-    nMin = app_->GetSettings()->GetRequiredPointsForSlam(nSlamCode, 0);
-    nMax = app_->GetSettings()->GetRequiredPointsForSlam(nSlamCode, 1);
-    fScoreTarget = nMin + GetRandomValue(nMax - nMin);
-    switch (nSlamCode) {
-    case 0:
-      // any slam
-      strFeedback.Format("Dealt slam hand\n");
-      break;
     case 1:
-      // small slam
-      strFeedback.Format("Dealt small slam hand\n");
+      // game deal
+      nMin = app_->GetSettings()->GetRequiredPointsForGame(nSuitCode, 0);
+      nMax = app_->GetSettings()->GetRequiredPointsForGame(nSuitCode, 1);
+      fScoreTarget = nMin + GetRandomValue(nMax - nMin);
+      switch (nSuitCode) {
+        case 0:
+          // game hand, any suit
+          strFeedback.Format("Dealt game hand\n");
+          break;
+        case 1:
+          // game hand, minor suit
+          strFeedback.Format("Dealt Minor game hand\n");
+          break;
+        case 2:
+          // game hand, major suit
+          strFeedback.Format("Dealt Major game hand\n");
+          break;
+        case 3:
+          // game hand, notrumps
+          strFeedback.Format("Dealt NoTrump game hand\n");
+          break;
+      }
       break;
+
     case 2:
-      // grand slam
-      strFeedback.Format("Dealt grand slam hand\n");
+      // slam deal
+      nMin = app_->GetSettings()->GetRequiredPointsForSlam(nSlamCode, 0);
+      nMax = app_->GetSettings()->GetRequiredPointsForSlam(nSlamCode, 1);
+      fScoreTarget = nMin + GetRandomValue(nMax - nMin);
+      switch (nSlamCode) {
+        case 0:
+          // any slam
+          strFeedback.Format("Dealt slam hand\n");
+          break;
+        case 1:
+          // small slam
+          strFeedback.Format("Dealt small slam hand\n");
+          break;
+        case 2:
+          // grand slam
+          strFeedback.Format("Dealt grand slam hand\n");
+          break;
+      }
       break;
-    }
-    break;
   }
 
   // declare loop counters
@@ -172,7 +172,7 @@ shuffle:
   // at this point, check cards' distribution
   int numInSuit[4];
   BOOL bSuitFit[4];
-  for (i = 0; i<4; i++) {
+  for (i = 0; i < 4; i++) {
     numInSuit[i] = m_pPlayer[SOUTH]->GetNumCardsInSuit(i) +
       m_pPlayer[NORTH]->GetNumCardsInSuit(i);
     // check for a proper card distribution (min 4/3)
@@ -317,7 +317,7 @@ shuffle:
     int fDiff = numAcesRequired - numAcesHeld;
     // trade aces with opponents
     if (fDiff > 0) {
-      for (i = 0; i<fDiff; i++) {
+      for (i = 0; i < fDiff; i++) {
         // first pick a source opponent, semi-randomly
         // 0 or 1; 0 means west, unless west has zero aces
         if (((GetRandomValue(1) == 0) &&
@@ -392,7 +392,7 @@ shuffle:
 
     // trade kings with opponents
     if (fDiff > 0) {
-      for (i = 0; i<fDiff; i++) {
+      for (i = 0; i < fDiff; i++) {
         // first pick a source opponent, semi-randomly
         // 0 or 1; 0 means west, unless west has zero kings
         if (((GetRandomValue(1) == 0) &&
@@ -562,7 +562,7 @@ shuffle:
   strFeedback += strTemp;
   */
 
-  for (i = 0; i<4; i++)
+  for (i = 0; i < 4; i++)
     m_pPlayer[i]->CountCardPoints(TRUE);
   //
   strTemp.Format("S: %d/%d pts;  N: %d/%d pts (Total: %d/%d/%d)\nEast: %d/%d pts;  West: %d/%d pts (Total E/W: %d)",
@@ -601,7 +601,7 @@ shuffle:
     RotatePlayersHands(0, FALSE, FALSE);
 
   // copy hands to the initial hands
-  for (i = 0; i<4; i++)
+  for (i = 0; i < 4; i++)
     m_pPlayer[i]->InitializeHand();
 
   // turn off game auto-play
@@ -661,7 +661,7 @@ double Deal::SwapPoints(int nDest, int nSource, double fMax,
     // first see if there's an honor card in the source hand
     int nSum = 0;
     BOOL bIsHonor = FALSE;
-    for (i = 0; i<13; i++) {
+    for (i = 0; i < 13; i++) {
       if (ISHONOR(nSource, i)) {
         bIsHonor = TRUE;
         break;

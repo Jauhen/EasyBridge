@@ -76,13 +76,11 @@ Deal::~Deal() {
 //
 
 //
-void Deal::Initialize() {
-}
+void Deal::Initialize() {}
 
 
 //
-void Deal::Terminate() {
-}
+void Deal::Terminate() {}
 
 
 //
@@ -264,20 +262,20 @@ void Deal::UpdateScore() {
     if (numOvertricks < 0)
       numOvertricks = 0;
     switch (m_nContractSuit) {
-    case CLUBS:  case DIAMONDS:
-      numTrickPoints = nContractLevel * 20;
-      numOvertrickPoints = numOvertricks * 20;
-      break;
+      case CLUBS:  case DIAMONDS:
+        numTrickPoints = nContractLevel * 20;
+        numOvertrickPoints = numOvertricks * 20;
+        break;
 
-    case HEARTS: case SPADES:
-      numTrickPoints = nContractLevel * 30;
-      numOvertrickPoints = numOvertricks * 30;
-      break;
+      case HEARTS: case SPADES:
+        numTrickPoints = nContractLevel * 30;
+        numOvertrickPoints = numOvertricks * 30;
+        break;
 
-    case NOTRUMP:
-      numTrickPoints = 40 + (nContractLevel - 1) * 30;
-      numOvertrickPoints = numOvertricks * 30;
-      break;
+      case NOTRUMP:
+        numTrickPoints = 40 + (nContractLevel - 1) * 30;
+        numOvertrickPoints = numOvertricks * 30;
+        break;
     }
 
     // adjust for doubling/redoubling
@@ -588,20 +586,20 @@ void Deal::UpdateDuplicateScore() {
     if (numOvertricks < 0)
       numOvertricks = 0;
     switch (m_nContractSuit) {
-    case CLUBS:  case DIAMONDS:
-      numTrickPoints = m_nContractLevel * 20;
-      numOvertrickPoints = numOvertricks * 20;
-      break;
+      case CLUBS:  case DIAMONDS:
+        numTrickPoints = m_nContractLevel * 20;
+        numOvertrickPoints = numOvertricks * 20;
+        break;
 
-    case HEARTS: case SPADES:
-      numTrickPoints = m_nContractLevel * 30;
-      numOvertrickPoints = numOvertricks * 30;
-      break;
+      case HEARTS: case SPADES:
+        numTrickPoints = m_nContractLevel * 30;
+        numOvertrickPoints = numOvertricks * 30;
+        break;
 
-    case NOTRUMP:
-      numTrickPoints = 40 + (m_nContractLevel - 1) * 30;
-      numOvertrickPoints = numOvertricks * 30;
-      break;
+      case NOTRUMP:
+        numTrickPoints = 40 + (m_nContractLevel - 1) * 30;
+        numOvertrickPoints = numOvertricks * 30;
+        break;
     }
 
     // adjust for doubling/redoubling
@@ -825,7 +823,7 @@ void Deal::SwapPartialHands(int nPos1, int nPos2) {
   CPlayer* pPlayer2 = m_pPlayer[nPos2];
 
   // first remove player 1's cards
-  CCardList tempCards{ app_ };
+  CCardList tempCards {app_};
   int numCards1 = pPlayer1->GetNumCards();
   for (int i = 0; i < numCards1; i++)
     tempCards << pPlayer1->RemoveCardFromHand(0);
@@ -842,7 +840,7 @@ void Deal::SwapPartialHands(int nPos1, int nPos2) {
   //
   // now swap initial cards
   //
-  CCardList tempInitialCards{ app_ };
+  CCardList tempInitialCards {app_};
   for (int i = 0; i < 13; i++)
     tempInitialCards << pPlayer1->RemoveCardFromInitialHand(0);
 
@@ -1122,14 +1120,14 @@ void Deal::ClearAllInfo() {
 //
 void Deal::ClearMatchInfo() {
   int i, j;
-  for (i = 0; i<2; i++) {
+  for (i = 0; i < 2; i++) {
     m_numGamesWon[i] = 0;
     m_nBonusScore[i] = 0;
     m_nTotalScore[i] = 0;
     m_bVulnerable[i] = FALSE;
   }
-  for (i = 0; i<3; i++)
-    for (j = 0; j<2; j++)
+  for (i = 0; i < 3; i++)
+    for (j = 0; j < 2; j++)
       m_nGameScore[i][j] = 0;
   m_nVulnerableTeam = NEITHER;
   m_nCurrGame = 0;
@@ -1309,7 +1307,7 @@ void Deal::InitNewHand(BOOL bRestarting) {
 void Deal::ClearBiddingInfo() {
   //
   int i, j;
-  for (i = 0; i<4; i++)
+  for (i = 0; i < 4; i++)
     m_pPlayer[i]->ClearBiddingInfo();
   //
   m_nContract = 0;
@@ -1326,12 +1324,12 @@ void Deal::ClearBiddingInfo() {
   m_nDefendingTeam = NEITHER;
   m_nDeclarer = NONE;
   m_nDummy = NONE;
-  for (i = 0; i<4; i++) {
+  for (i = 0; i < 4; i++) {
     m_pPlayer[i]->SetDeclarerFlag(FALSE);
     m_pPlayer[i]->SetDummyFlag(FALSE);
   }
   m_nPartnershipSuit[0] = m_nPartnershipSuit[1] = -1;
-  for (i = 0; i<5; i++) {
+  for (i = 0; i < 5; i++) {
     m_nPartnershipLead[0][i] = NONE;
     m_nPartnershipLead[1][i] = NONE;
   }
@@ -1341,12 +1339,12 @@ void Deal::ClearBiddingInfo() {
   m_nOpeningBidder = NONE;
   m_nBiddingRound = 0;
   m_numValidBidsMade = 0;
-  for (i = 0; i<100; i++) {
+  for (i = 0; i < 100; i++) {
     m_nBiddingHistory[i] = 0;
     m_nValidBidHistory[i] = 0;
   }
-  for (i = 0; i<4; i++)
-    for (j = 0; j<50; j++)
+  for (i = 0; i < 4; i++)
+    for (j = 0; j < 50; j++)
       m_nBidsByPlayer[i][j] = 0;
   //
   if (app_->IsMainFrameExists())
@@ -1380,7 +1378,7 @@ void Deal::InitPlay(BOOL bRedrawScreen, BOOL bRestarting) {
   m_bHandsDealt = TRUE;
 
   // initialize each hand's holdings
-  for (int i = 0; i<4; i++) {
+  for (int i = 0; i < 4; i++) {
     // make sure cards face-up status is properly set
     if (i == 0)
       m_pPlayer[i]->ExposeCards(TRUE, FALSE);
@@ -1449,7 +1447,7 @@ void Deal::LoadGameRecord(const CGameRecord& game) {
   ClearHands();
 
   // clear players' states
-  for (int i = 0; i<4; i++) {
+  for (int i = 0; i < 4; i++) {
     m_pPlayer[i]->ClearHand();
     m_pPlayer[i]->ClearBiddingInfo();
     m_pPlayer[i]->ClearAnalysis();
@@ -1511,11 +1509,11 @@ void Deal::LoadGameRecord(const CGameRecord& game) {
     m_bVulnerable[1] = TRUE;
   //
   m_numBidsMade = game.GetNumBids();
-  for (int i = 0; i<m_numBidsMade; i++)
+  for (int i = 0; i < m_numBidsMade; i++)
     m_nBiddingHistory[i] = game.m_nBids[i];
 
   // finally, have the players init their hands
-  for (int i = 0; i<4; i++)
+  for (int i = 0; i < 4; i++)
     m_pPlayer[i]->InitializeRestoredHand();
 
   // then set cards face up if desired
@@ -1899,7 +1897,7 @@ int Deal::EnterBid(int nPos, int nBid) {
   UpdateBiddingHistory();
 
   // give each player a chance to note the bid
-  for (int i = 0; i<4; i++)
+  for (int i = 0; i < 4; i++)
     m_pPlayer[i]->RecordBid(nPos, nBid);
 
   // see if the hand was passed out 
@@ -1931,7 +1929,7 @@ int Deal::EnterBid(int nPos, int nBid) {
     m_nTrickLead[0] = m_nRoundLead;
 
     // record end of bidding 
-    for (int i = 0; i<4; i++)
+    for (int i = 0; i < 4; i++)
       m_pPlayer[i]->BiddingFinished();
 
     //
@@ -2051,12 +2049,12 @@ int Deal::UndoBid() {
     // re-check to see which player led for team
     // first clear 
     m_nPartnershipSuit[NORTH_SOUTH] = m_nPartnershipSuit[EAST_WEST] = NONE;
-    for (int i = 0; i<4; i++) {
+    for (int i = 0; i < 4; i++) {
       m_nPartnershipLead[NORTH_SOUTH][i] = NONE;
       m_nPartnershipLead[EAST_WEST][i] = NONE;
     }
     // then scan
-    for (int i = 0; i<m_numBidsMade; i++) {
+    for (int i = 0; i < m_numBidsMade; i++) {
       int nBid = m_nBiddingHistory[i];
       int nSuit = (nBid - 1) % 5;
       if (nSuit != m_nPartnershipSuit[nTeam]) {
@@ -2088,7 +2086,7 @@ int Deal::UndoBid() {
 // WasSuitBid()
 //
 int Deal::WasSuitBid(int nSuit) const {
-  for (int i = 0; i<m_numValidBidsMade; i++) {
+  for (int i = 0; i < m_numValidBidsMade; i++) {
     if (nSuit == BID_SUIT(m_nValidBidHistory[i]))
       return TRUE;
   }
@@ -2102,10 +2100,10 @@ int Deal::WasSuitBid(int nSuit) const {
 // GetSuitsBid()
 //
 int Deal::GetSuitsBid(CArray<int, int>& suits) const {
-  BOOL nSuitsBid[4] = { FALSE, FALSE, FALSE, FALSE };
+  BOOL nSuitsBid[4] = {FALSE, FALSE, FALSE, FALSE};
   suits.RemoveAll();
   //
-  for (int i = 0; i<m_numValidBidsMade; i++) {
+  for (int i = 0; i < m_numValidBidsMade; i++) {
     int nSuit = BID_SUIT(m_nValidBidHistory[i]);
     if (!nSuitsBid[nSuit]) {
       nSuitsBid[nSuit] = TRUE;
@@ -2122,7 +2120,7 @@ int Deal::GetSuitsBid(CArray<int, int>& suits) const {
 // GetSuitsUnbid()
 //
 int Deal::GetSuitsUnbid(CArray<int, int>& suits) const {
-  for (int i = 0; i<4; i++) {
+  for (int i = 0; i < 4; i++) {
     if (!WasSuitBid(i))
       suits.InsertAt(0, i);
   }
@@ -2168,7 +2166,7 @@ void Deal::UpdateBiddingHistory() {
   bool bUseSymbols = app_->GetSettings()->GetUseSuitSymbols();
 
   //
-  for (int i = 0; i<4; i++) {
+  for (int i = 0; i < 4; i++) {
     strTemp.Format("%-5s", PositionToString(nPos));
     strBids += strTemp;
     strBids += " ";
@@ -2179,7 +2177,7 @@ void Deal::UpdateBiddingHistory() {
   //
   CString strSpace = "    ";
 
-  for (int i = 0; i<m_numBidsMade; i++) {
+  for (int i = 0; i < m_numBidsMade; i++) {
     // get the bid string
     int nBid = m_nBiddingHistory[i];
     if (bUseSymbols && ISBID(nBid)) {
@@ -2584,12 +2582,12 @@ void Deal::UndoPreviousTrick() {
 
   // also adjust trick count
   switch (m_nTrickWinner[nRound]) {
-  case SOUTH: case NORTH:
-    m_numTricksWon[NORTH_SOUTH]--;
-    break;
-  case EAST: case WEST:
-    m_numTricksWon[EAST_WEST]--;
-    break;
+    case SOUTH: case NORTH:
+      m_numTricksWon[NORTH_SOUTH]--;
+      break;
+    case EAST: case WEST:
+      m_numTricksWon[EAST_WEST]--;
+      break;
   }
 
   // see if we should hide dummy
@@ -2673,7 +2671,7 @@ void Deal::EvaluateTrick(BOOL bQuietMode) {
   // we don't finalize anything yet, since the last move can
   // still be taken back
   if (!m_bReviewingGame && !m_bBatchMode) {
-    	app_->ClickForNextTrickMode();
+    app_->ClickForNextTrickMode();
   }
 }
 
@@ -2862,37 +2860,37 @@ void Deal::OnGameComplete() {
     // cancel, replay, or rebid the current hand
     app_->GetSettings()->SetShowCardsFaceUp(bCardsFaceUpMode);
     switch (roundFinishedDlgCode) {
-    case CRoundFinishedDialog::RF_NONE:
-    {
-      // return to just after the last trick
-      for (int i = 0; i < 4; i++)
-        m_pPlayer[i]->RemoveAllCardsFromHand();
-      m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
-      app_->RefreshScreen();
-      app_->GameFinished();
-      break;
-    }
+      case CRoundFinishedDialog::RF_NONE:
+      {
+        // return to just after the last trick
+        for (int i = 0; i < 4; i++)
+          m_pPlayer[i]->RemoveAllCardsFromHand();
+        m_pPlayer[m_nDummy]->SetDummyFlag(TRUE);
+        app_->RefreshScreen();
+        app_->GameFinished();
+        break;
+      }
 
-    case CRoundFinishedDialog::RF_REBID:
-      app_->BidCurrentHand();
-      break;
+      case CRoundFinishedDialog::RF_REBID:
+        app_->BidCurrentHand();
+        break;
 
-    case CRoundFinishedDialog::RF_REPLAY:
-      // replay game
-      app_->OnRestartCurrentHand();
-      break;
+      case CRoundFinishedDialog::RF_REPLAY:
+        // replay game
+        app_->OnRestartCurrentHand();
+        break;
 
-    case CRoundFinishedDialog::RF_AUTOPLAY:
-      ComputerReplay(FALSE);
-      break;
+      case CRoundFinishedDialog::RF_AUTOPLAY:
+        ComputerReplay(FALSE);
+        break;
 
-    case CRoundFinishedDialog::RF_AUTOPLAY_FULL:
-      ComputerReplay(TRUE);
-      break;
+      case CRoundFinishedDialog::RF_AUTOPLAY_FULL:
+        ComputerReplay(TRUE);
+        break;
 
-    default:
-      ASSERT(FALSE);
-      break;
+      default:
+        ASSERT(FALSE);
+        break;
     }
     // return now
     return;
@@ -3694,7 +3692,7 @@ bool Deal::PlayClaimTricks() {
     AfxMessageBox(FormString("The claim isn't evident yet -- you have only %d clear tricks versus %d more required.\nPlease play on.", numClaimableTricks, numTricksRequired), MB_ICONINFORMATION);
     return false;
   }
-  
+
   // process the claim
   ClaimTricks(nPos);
   return true;

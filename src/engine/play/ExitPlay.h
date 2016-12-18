@@ -19,36 +19,36 @@
 //
 // The CExitPlay class
 //
-class CExitPlay: public CPlay {
+class CExitPlay : public CPlay {
 
-// public data
+  // public data
 public:
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int		m_nHand;
-	int		m_nSuit1;
-	int		m_nSuit2;
+  int		m_nHand;
+  int		m_nSuit1;
+  int		m_nSuit2;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CExitPlay(std::shared_ptr<AppInterface> app, CPlayList* pPrerequisites, int nSuit1=ANY, int nSuit2=ANY);
-	//CExitPlay(CExitPlay& srcPlay);
-	virtual ~CExitPlay();
+  CExitPlay(std::shared_ptr<AppInterface> app, CPlayList* pPrerequisites, int nSuit1 = ANY, int nSuit2 = ANY);
+  //CExitPlay(CExitPlay& srcPlay);
+  virtual ~CExitPlay();
 };
 
 

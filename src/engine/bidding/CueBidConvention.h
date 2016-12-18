@@ -18,31 +18,30 @@
 //
 // The CCueBidConvention class
 //
-class CCueBidConvention : public CSlamConvention
-{
+class CCueBidConvention : public CSlamConvention {
 
-	// public routines
+  // public routines
 public:
-	BOOL ApplyTest(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL TryCueBid(CHandHoldings& hand, CBidEngine& bidState,  CPlayerStatusDialog& status);
-	//
-	BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) { ASSERT(FALSE); return FALSE; }
-	BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL ApplyTest(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL TryCueBid(CHandHoldings& hand, CBidEngine& bidState, CPlayerStatusDialog& status);
+  //
+  BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) { ASSERT(FALSE); return FALSE; }
+  BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
 
-// private routines
+  // private routines
 private:
-	int GetCheapestAce(CHandHoldings& hand, int nBaseSuit, int nSecondSuit = NONE);
-	int GetCheapestKingOrVoid(CHandHoldings& hand, int nBaseSuit, int nSecondSuit = NONE);
+  int GetCheapestAce(CHandHoldings& hand, int nBaseSuit, int nSecondSuit = NONE);
+  int GetCheapestKingOrVoid(CHandHoldings& hand, int nBaseSuit, int nSecondSuit = NONE);
 
-// data
+  // data
 private:
 
-	
-// 
+
+  // 
 public:
-	CCueBidConvention(std::shared_ptr<AppInterface> app);
-	virtual ~CCueBidConvention();
+  CCueBidConvention(std::shared_ptr<AppInterface> app);
+  virtual ~CCueBidConvention();
 };
 
 

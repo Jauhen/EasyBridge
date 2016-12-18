@@ -22,7 +22,7 @@ public:
   void DeleteContents();
   bool HasRecords() { return m_gameRecords.GetSize() > 0; };
   void SetTitle(const char* title) { m_strDocTitle = title; }
-  CString GetTitle() const  { return m_strDocTitle; }
+  CString GetTitle() const { return m_strDocTitle; }
   std::vector<CString> GetBonusPointsRecords() const { return m_strArrayBonusPointsRecord; }
   std::vector<CString> GetTrickPointsRecords() const { return m_strArrayTrickPointsRecord; }
   bool IsHintFollowed() const { return m_bHintFollowed; }
@@ -99,7 +99,7 @@ public:
   BOOL IsContractDoubled() const { return m_bDoubled; }
   BOOL IsContractRedoubled() const { return m_bRedoubled; }
   int	GetDealer() const { return m_nDealer; }
-  void SetDealer(int val) { m_nDealer = val;  }
+  void SetDealer(int val) { m_nDealer = val; }
   CPlayer* GetDeclarer() const { return ISPLAYER(m_nDeclarer) ? m_pPlayer[m_nDeclarer] : NULL; }
   int	GetDeclarerPosition() const { return m_nDeclarer; }
   int GetDeclaringTeam() const { return GetPlayerTeam(m_nDeclarer); }
@@ -221,7 +221,7 @@ public:
   std::string WriteFilePBN();
   BOOL ExportGameInfo(CArchive& ar);
 
- private:
+private:
   static BOOL m_bInitialized;
 
   CPlayer* m_pPlayer[4];

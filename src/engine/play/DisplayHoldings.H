@@ -18,27 +18,27 @@
 //
 class CDisplayHoldings : public CCardHoldings {
 
-// public routines
+  // public routines
 public:
-	virtual void Init();
-	virtual void Clear();
-	virtual void Add(CCard* pCard, const BOOL bSort=FALSE);
-	virtual CCard* RemoveByIndex(const int nIndex);
-	virtual void Sort();
+  virtual void Init();
+  virtual void Clear();
+  virtual void Add(CCard* pCard, const BOOL bSort = FALSE);
+  virtual CCard* RemoveByIndex(const int nIndex);
+  virtual void Sort();
 
-	//
-	void	SetDummyFlag(BOOL bValue=TRUE) { m_bDummy = bValue; }
+  //
+  void	SetDummyFlag(BOOL bValue = TRUE) { m_bDummy = bValue; }
 
-// public data
+  // public data
 public:
 
-// private data
+  // private data
 private:
-	BOOL	m_bDummy;
+  BOOL	m_bDummy;
 
 public:
-	CDisplayHoldings::CDisplayHoldings(std::shared_ptr<AppInterface> app);
-	CDisplayHoldings::~CDisplayHoldings();
+  CDisplayHoldings::CDisplayHoldings(std::shared_ptr<AppInterface> app);
+  CDisplayHoldings::~CDisplayHoldings();
 };
 
 #endif

@@ -25,5 +25,4 @@ ConventionPool::ConventionPool(std::shared_ptr<AppInterface> app) {
 }
 
 
-ConventionPool::~ConventionPool() {
-}
+ConventionPool::~ConventionPool() {}

@@ -86,7 +86,7 @@ void CDeck::Initialize() {
   InitializeCards();
   // read in some values
   m_nCurrCardBack = app_->GetSettings()->
-      ReadIntConfig(szDeckSettings, szCurrentCardBack, 0);
+    ReadIntConfig(szDeckSettings, szCurrentCardBack, 0);
   // init the time
   m_nPrevTime = time(NULL);
 }

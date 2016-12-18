@@ -52,36 +52,36 @@ public:
   int				m_numTricksPlayed;
   int				m_nPlayRecord[52];	// this is NOT ordered by player
   int				m_numTricksWon[2];
-  std::map<int, int> m_mapBiddingNotes{};
-  std::map<int, int> m_mapPlayNotes{};
-	CStringArray	m_strBiddingNotes;
-	CStringArray	m_strPlayNotes;
+  std::map<int, int> m_mapBiddingNotes {};
+  std::map<int, int> m_mapPlayNotes {};
+  CStringArray	m_strBiddingNotes;
+  CStringArray	m_strPlayNotes;
 
-	// map containing all tag-value pairs
-	typedef	std::map<CString,CString>	TStringMap;
-	TStringMap		m_mapTagValues;
+  // map containing all tag-value pairs
+  typedef	std::map<CString, CString>	TStringMap;
+  TStringMap		m_mapTagValues;
 
-	// string list containing tags in order
-	typedef	std::list<CString>		TStringList;
-	TStringList		m_listTags;
+  // string list containing tags in order
+  typedef	std::list<CString>		TStringList;
+  TStringList		m_listTags;
 
 
-// private routines
+  // private routines
 private:
 
-// private data
+  // private data
 private:
-	//
-	int			m_nIndex;
-//	BOOL		m_bBidsAvailable;
-//	BOOL		m_bPlaysAvailable;
+  //
+  int			m_nIndex;
+  //	BOOL		m_bBidsAvailable;
+  //	BOOL		m_bPlaysAvailable;
 
   std::shared_ptr<AppInterface> app_;
 
-// construction / destruction
+  // construction / destruction
 public:
-	CGameRecord(std::shared_ptr<AppInterface> app);
-	~CGameRecord();
+  CGameRecord(std::shared_ptr<AppInterface> app);
+  ~CGameRecord();
 };
 
 

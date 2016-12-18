@@ -18,31 +18,30 @@
 //
 // The CGerberConvention class
 //
-class CGerberConvention : public CSlamConvention
-{
+class CGerberConvention : public CSlamConvention {
 
-// public routines
+  // public routines
 public:
-	virtual BOOL ApplyTest(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, 
-						   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
-						   CBidEngine& bidState, CPlayerStatusDialog& status);
-	virtual BOOL InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, CPlayerStatusDialog& status, int nEventualSuit);
-	//
-	BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) { ASSERT(FALSE); return FALSE; }
-	BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  virtual BOOL ApplyTest(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CBidEngine& bidState, CPlayerStatusDialog& status);
+  virtual BOOL InvokeGerber(CHandHoldings& hand, CBidEngine& bidState, CPlayerStatusDialog& status, int nEventualSuit);
+  //
+  BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status) { ASSERT(FALSE); return FALSE; }
+  BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
 
-// private routines
+  // private routines
 private:
 
-// data
+  // data
 private:
 
-	
-// 
+
+  // 
 public:
-	CGerberConvention(std::shared_ptr<AppInterface> app);
-	virtual ~CGerberConvention();
+  CGerberConvention(std::shared_ptr<AppInterface> app);
+  virtual ~CGerberConvention();
 };
 
 

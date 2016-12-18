@@ -20,55 +20,50 @@
 
 // constructor
 CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app, int nSuit, int nFaceValue, BOOL bOutstanding, int nLocation, float fFixProbability) :
-  app_(app), 
+  app_(app),
   m_nSuit(nSuit),
-			m_nFaceValue(nFaceValue),
-			m_bOutstanding(bOutstanding), 
-			m_nLocation(nLocation), 
-			m_fFixProbability(fFixProbability)
-{	
-	int nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
-	VERIFY(ISDECKVAL(nDeckValue));
-	m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
-	strcpy(m_szName, m_pCard->GetName());
+  m_nFaceValue(nFaceValue),
+  m_bOutstanding(bOutstanding),
+  m_nLocation(nLocation),
+  m_fFixProbability(fFixProbability) {
+  int nDeckValue = MAKEDECKVALUE(m_nSuit, m_nFaceValue);
+  VERIFY(ISDECKVAL(nDeckValue));
+  m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
+  strcpy(m_szName, m_pCard->GetName());
 }
 
 CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app, CCard* pCard, BOOL bOutstanding, int nLocation, float fFixProbability) :
-      app_(app),
-			m_pCard(pCard),
-			m_bOutstanding(bOutstanding), 
-			m_nLocation(nLocation), 
-			m_fFixProbability(fFixProbability)
-{
-	VERIFY(pCard);
-	m_nSuit = pCard->GetSuit();
-	m_nFaceValue = pCard->GetFaceValue();
-	strcpy(m_szName, pCard->GetName());
+  app_(app),
+  m_pCard(pCard),
+  m_bOutstanding(bOutstanding),
+  m_nLocation(nLocation),
+  m_fFixProbability(fFixProbability) {
+  VERIFY(pCard);
+  m_nSuit = pCard->GetSuit();
+  m_nFaceValue = pCard->GetFaceValue();
+  strcpy(m_szName, pCard->GetName());
 }
 
 CGuessedCard::CGuessedCard(std::shared_ptr<AppInterface> app) : app_(app) {
-	Clear();
+  Clear();
 }
 
 // destructor
-CGuessedCard::~CGuessedCard()
-{
-}
+CGuessedCard::~CGuessedCard() {}
 
 //
 // Init()
 //
 // call this if the default constructor is used
 //
-void CGuessedCard::Init(int nSuit, int nFaceValue)
-{
-	m_nSuit = nSuit;
-	m_nFaceValue = nFaceValue;
-	int nDeckValue = MAKEDECKVALUE(m_nSuit,m_nFaceValue);
-	m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
-	strcpy(m_szName, CCard::CardToShortString(nDeckValue));
-	//
-	Clear();
+void CGuessedCard::Init(int nSuit, int nFaceValue) {
+  m_nSuit = nSuit;
+  m_nFaceValue = nFaceValue;
+  int nDeckValue = MAKEDECKVALUE(m_nSuit, m_nFaceValue);
+  m_pCard = app_->GetDeck()->GetSortedCard(nDeckValue);
+  strcpy(m_szName, CCard::CardToShortString(nDeckValue));
+  //
+  Clear();
 }
 
 
@@ -84,11 +79,10 @@ void CGuessedCard::Init(int nSuit, int nFaceValue)
 // Clear()
 //
 //
-void CGuessedCard::Clear()
-{
-	m_nLocation = UNKNOWN;
-	m_bOutstanding = TRUE;
-	m_fFixProbability = 0.0f;
+void CGuessedCard::Clear() {
+  m_nLocation = UNKNOWN;
+  m_bOutstanding = TRUE;
+  m_fFixProbability = 0.0f;
 }
 
 
@@ -102,15 +96,14 @@ void CGuessedCard::Clear()
 // e.g., 30% scaled by 0.0 is 30%	(0% adj has no effect)
 // e.g.,  0% scaled by 1.5 is  0%   (0% scaled always stays at zero)
 //
-float CGuessedCard::ScaleFixProbability(float fAdj)
-{
-	if (m_fFixProbability == 0.0f)
-		return 0.0f;
-	// adjust only if scalar is > 0)
-	if (fAdj > 0.0f)
-		m_fFixProbability *= fAdj;
-	// adjust the probability to make sense
-	return ClampFixProbability();
+float CGuessedCard::ScaleFixProbability(float fAdj) {
+  if (m_fFixProbability == 0.0f)
+    return 0.0f;
+  // adjust only if scalar is > 0)
+  if (fAdj > 0.0f)
+    m_fFixProbability *= fAdj;
+  // adjust the probability to make sense
+  return ClampFixProbability();
 }
 
 
@@ -124,13 +117,12 @@ float CGuessedCard::ScaleFixProbability(float fAdj)
 // e.g., 30% adjusted by  0.5 (+50%) is 80%
 // e.g., 60% adjusted by -0.5 (-50%) is 10%
 //
-float CGuessedCard::AdjustFixProbability(float fAdj)
-{
-	if (fAdj < -1.0f)
-		fAdj = -1.0f;
-	//
-	m_fFixProbability += fAdj;
-	return ClampFixProbability();
+float CGuessedCard::AdjustFixProbability(float fAdj) {
+  if (fAdj < -1.0f)
+    fAdj = -1.0f;
+  //
+  m_fFixProbability += fAdj;
+  return ClampFixProbability();
 }
 
 
@@ -147,18 +139,17 @@ float CGuessedCard::AdjustFixProbability(float fAdj)
 // e.g., 40% adjusted by  1.0 (+100% increment of 60% gap) is 100%
 // e.g., 40% adjusted by -0.5 (- 50% of probability) is 20%
 //
-float CGuessedCard::AdjustFixProbabilityIncremental(float fAdj)
-{
-	if (fAdj > 1.0f)
-		fAdj = 1.0f;
-	if (fAdj < -1.0f)
-		fAdj = -1.0f;
-	//
-	if (fAdj > 0)
-		m_fFixProbability += (1.0f - m_fFixProbability) * fAdj;
-	else if (fAdj < 0)
-		m_fFixProbability -= m_fFixProbability * fAdj;
-	return ClampFixProbability();
+float CGuessedCard::AdjustFixProbabilityIncremental(float fAdj) {
+  if (fAdj > 1.0f)
+    fAdj = 1.0f;
+  if (fAdj < -1.0f)
+    fAdj = -1.0f;
+  //
+  if (fAdj > 0)
+    m_fFixProbability += (1.0f - m_fFixProbability) * fAdj;
+  else if (fAdj < 0)
+    m_fFixProbability -= m_fFixProbability * fAdj;
+  return ClampFixProbability();
 }
 
 

@@ -252,300 +252,300 @@ BOOL Deal::ReadFile(CArchive& ar) {
 
               switch (nLineCode) {
 
-              case ITEM_PROGRAM_ID:
-                m_strFileProgTitle = string;
-                break;
-
-              case ITEM_MAJOR_VERSIONNO:
-                m_nFileProgMajorVersion = nValue;
-                break;
-
-              case ITEM_MINOR_VERSIONNO:
-                m_nFileProgMinorVersion = nValue;
-                break;
-
-              case ITEM_INCREMENT_VERSIONNO:
-                m_nFileProgIncrementVersion = nValue;
-                break;
-
-              case ITEM_BUILD_NUMBER:
-                m_nFileProgBuildNumber = nValue;
-                break;
-
-              case ITEM_BUILD_DATE:
-                m_strFileProgBuildDate = string;
-                break;
-
-              case ITEM_FILE_DATE:
-                m_strFileDate = string;
-                break;
-
-                // hand info, 10..19
-              case ITEM_CURRHAND_NORTH:
-                AssignCards(string, NORTH);
-                break;
-
-              case ITEM_CURRHAND_EAST:
-                AssignCards(string, EAST);
-                break;
-
-              case ITEM_CURRHAND_SOUTH:
-                AssignCards(string, SOUTH);
-                break;
-
-              case ITEM_CURRHAND_WEST:
-                AssignCards(string, WEST);
-                break;
-
-              case ITEM_ORIGHAND_NORTH:
-                AssignCards(string, NORTH, TRUE);
-                break;
-
-              case ITEM_ORIGHAND_EAST:
-                AssignCards(string, EAST, TRUE);
-                break;
-
-              case ITEM_ORIGHAND_SOUTH:
-                AssignCards(string, SOUTH, TRUE);
-                break;
-
-              case ITEM_ORIGHAND_WEST:
-                AssignCards(string, WEST, TRUE);
-                break;
-
-                // current round info
-              case ITEM_CURR_ROUND_LEAD:
-                m_nRoundLead = StringToPosition(string);
-                break;
-
-              case ITEM_NUM_CARDS_PLAYED_IN_ROUND:
-                m_numCardsPlayedInRound = nValue;
-                break;
-
-              case ITEM_TRICK_CARD_1:
-                m_pCurrTrick[0] = app_->GetDeck()->GetCard(string);
-                break;
-
-              case ITEM_TRICK_CARD_2:
-                m_pCurrTrick[1] = app_->GetDeck()->GetCard(string);
-                break;
-
-              case ITEM_TRICK_CARD_3:
-                m_pCurrTrick[2] = app_->GetDeck()->GetCard(string);
-                break;
-
-              case ITEM_TRICK_CARD_4:
-                m_pCurrTrick[3] = app_->GetDeck()->GetCard(string);
-                break;
-
-                // game status info
-              case ITEM_VIEW_STATUS_CODE:
-                app_->SetCurrentMode(nValue);
-                break;
-
-              case ITEM_RUBBER_IN_PROGRESS:
-                app_->GetSettings()->SetRubberInProgress(bValue);
-                break;
-
-              case ITEM_GAME_IN_PROGRESS:
-                // TEMP
-                //						theApp.SetValue(tbGameInProgress, FALSE);
-                app_->GetSettings()->SetGameInProgress(bValue);
-                break;
-
-              case ITEM_BIDDING_IN_PROGRESS:
-                app_->GetSettings()->SetBiddingInProgress(bValue);
-                break;
-
-              case ITEM_HANDS_DEALT:
-                m_bHandsDealt = bValue;
-                break;
-
-              case ITEM_CONTRACT_SUIT:
-                nLen = string.GetLength();
-                m_nContractSuit = CCard::CharToSuit(string.GetAt(0));
-                break;
-
-              case ITEM_CONTRACT_LEVEL:
-                m_nContractLevel = nValue;
-                break;
-
-              case ITEM_CONTRACT_MODIFIER:
-                switch (nValue) {
-                case 0:
-                  m_bDoubled = FALSE;
-                  m_bRedoubled = FALSE;
-                  m_nContractModifier = 0;
+                case ITEM_PROGRAM_ID:
+                  m_strFileProgTitle = string;
                   break;
-                case 1:
-                  m_bDoubled = TRUE;
-                  m_bRedoubled = FALSE;
-                  m_nContractModifier = 1;
+
+                case ITEM_MAJOR_VERSIONNO:
+                  m_nFileProgMajorVersion = nValue;
                   break;
-                case 2:
-                  m_bDoubled = FALSE;
-                  m_bRedoubled = TRUE;
-                  m_nContractModifier = 2;
+
+                case ITEM_MINOR_VERSIONNO:
+                  m_nFileProgMinorVersion = nValue;
                   break;
-                }
-                break;
 
-              case ITEM_DEALER:
-                m_nDealer = StringToPosition(string);
-                break;
+                case ITEM_INCREMENT_VERSIONNO:
+                  m_nFileProgIncrementVersion = nValue;
+                  break;
 
-              case ITEM_NUM_BIDS:
-                //						m_numBidsMade = nValue;
-                break;
+                case ITEM_BUILD_NUMBER:
+                  m_nFileProgBuildNumber = nValue;
+                  break;
 
-              case ITEM_BIDDING_HISTORY:
-                strBiddingHistory = string;
-                break;
+                case ITEM_BUILD_DATE:
+                  m_strFileProgBuildDate = string;
+                  break;
 
-              case ITEM_DECLARER:
-                m_nDeclarer = StringToPosition(string);
-                m_nContractTeam = GetPlayerTeam(m_nDeclarer);
-                m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH) ? EAST_WEST : NORTH_SOUTH;
-                break;
+                case ITEM_FILE_DATE:
+                  m_strFileDate = string;
+                  break;
 
-                // game record
-              case ITEM_NUM_TRICKS_PLAYED:
-                m_numTricksPlayed = nValue;
-                break;
+                  // hand info, 10..19
+                case ITEM_CURRHAND_NORTH:
+                  AssignCards(string, NORTH);
+                  break;
 
-              case ITEM_NUM_TRICKS_WON_NS:
-                m_numTricksWon[0] = nValue;
-                break;
+                case ITEM_CURRHAND_EAST:
+                  AssignCards(string, EAST);
+                  break;
 
-              case ITEM_NUM_TRICKS_WON_EW:
-                m_numTricksWon[1] = nValue;
-                break;
+                case ITEM_CURRHAND_SOUTH:
+                  AssignCards(string, SOUTH);
+                  break;
 
-              case ITEM_GAME_LEAD:
-                m_nGameLead = StringToPosition(string);
-                break;
+                case ITEM_CURRHAND_WEST:
+                  AssignCards(string, WEST);
+                  break;
 
-              case ITEM_GAME_TRICK_1: case ITEM_GAME_TRICK_2:
-              case ITEM_GAME_TRICK_3: case ITEM_GAME_TRICK_4:
-              case ITEM_GAME_TRICK_5: case ITEM_GAME_TRICK_6:
-              case ITEM_GAME_TRICK_7: case ITEM_GAME_TRICK_8:
-              case ITEM_GAME_TRICK_9: case ITEM_GAME_TRICK_10:
-              case ITEM_GAME_TRICK_11: case ITEM_GAME_TRICK_12:
-              case ITEM_GAME_TRICK_13:
-                try {
-                  nIndex = nLineCode - ITEM_GAME_TRICK_1;
-                  nOffset = 0;
+                case ITEM_ORIGHAND_NORTH:
+                  AssignCards(string, NORTH, TRUE);
+                  break;
+
+                case ITEM_ORIGHAND_EAST:
+                  AssignCards(string, EAST, TRUE);
+                  break;
+
+                case ITEM_ORIGHAND_SOUTH:
+                  AssignCards(string, SOUTH, TRUE);
+                  break;
+
+                case ITEM_ORIGHAND_WEST:
+                  AssignCards(string, WEST, TRUE);
+                  break;
+
+                  // current round info
+                case ITEM_CURR_ROUND_LEAD:
+                  m_nRoundLead = StringToPosition(string);
+                  break;
+
+                case ITEM_NUM_CARDS_PLAYED_IN_ROUND:
+                  m_numCardsPlayedInRound = nValue;
+                  break;
+
+                case ITEM_TRICK_CARD_1:
+                  m_pCurrTrick[0] = app_->GetDeck()->GetCard(string);
+                  break;
+
+                case ITEM_TRICK_CARD_2:
+                  m_pCurrTrick[1] = app_->GetDeck()->GetCard(string);
+                  break;
+
+                case ITEM_TRICK_CARD_3:
+                  m_pCurrTrick[2] = app_->GetDeck()->GetCard(string);
+                  break;
+
+                case ITEM_TRICK_CARD_4:
+                  m_pCurrTrick[3] = app_->GetDeck()->GetCard(string);
+                  break;
+
+                  // game status info
+                case ITEM_VIEW_STATUS_CODE:
+                  app_->SetCurrentMode(nValue);
+                  break;
+
+                case ITEM_RUBBER_IN_PROGRESS:
+                  app_->GetSettings()->SetRubberInProgress(bValue);
+                  break;
+
+                case ITEM_GAME_IN_PROGRESS:
+                  // TEMP
+                  //						theApp.SetValue(tbGameInProgress, FALSE);
+                  app_->GetSettings()->SetGameInProgress(bValue);
+                  break;
+
+                case ITEM_BIDDING_IN_PROGRESS:
+                  app_->GetSettings()->SetBiddingInProgress(bValue);
+                  break;
+
+                case ITEM_HANDS_DEALT:
+                  m_bHandsDealt = bValue;
+                  break;
+
+                case ITEM_CONTRACT_SUIT:
                   nLen = string.GetLength();
-                  // first read the lead player for the trick
-                  partString = string.Mid(nOffset);
-                  m_nTrickLead[nIndex] = StringToPosition(partString);
-                  nOffset = string.Find(' ');
-                  //
-                  for (i = 0; i<4; i++) {
+                  m_nContractSuit = CCard::CharToSuit(string.GetAt(0));
+                  break;
+
+                case ITEM_CONTRACT_LEVEL:
+                  m_nContractLevel = nValue;
+                  break;
+
+                case ITEM_CONTRACT_MODIFIER:
+                  switch (nValue) {
+                    case 0:
+                      m_bDoubled = FALSE;
+                      m_bRedoubled = FALSE;
+                      m_nContractModifier = 0;
+                      break;
+                    case 1:
+                      m_bDoubled = TRUE;
+                      m_bRedoubled = FALSE;
+                      m_nContractModifier = 1;
+                      break;
+                    case 2:
+                      m_bDoubled = FALSE;
+                      m_bRedoubled = TRUE;
+                      m_nContractModifier = 2;
+                      break;
+                  }
+                  break;
+
+                case ITEM_DEALER:
+                  m_nDealer = StringToPosition(string);
+                  break;
+
+                case ITEM_NUM_BIDS:
+                  //						m_numBidsMade = nValue;
+                  break;
+
+                case ITEM_BIDDING_HISTORY:
+                  strBiddingHistory = string;
+                  break;
+
+                case ITEM_DECLARER:
+                  m_nDeclarer = StringToPosition(string);
+                  m_nContractTeam = GetPlayerTeam(m_nDeclarer);
+                  m_nDefendingTeam = (m_nContractTeam == NORTH_SOUTH) ? EAST_WEST : NORTH_SOUTH;
+                  break;
+
+                  // game record
+                case ITEM_NUM_TRICKS_PLAYED:
+                  m_numTricksPlayed = nValue;
+                  break;
+
+                case ITEM_NUM_TRICKS_WON_NS:
+                  m_numTricksWon[0] = nValue;
+                  break;
+
+                case ITEM_NUM_TRICKS_WON_EW:
+                  m_numTricksWon[1] = nValue;
+                  break;
+
+                case ITEM_GAME_LEAD:
+                  m_nGameLead = StringToPosition(string);
+                  break;
+
+                case ITEM_GAME_TRICK_1: case ITEM_GAME_TRICK_2:
+                case ITEM_GAME_TRICK_3: case ITEM_GAME_TRICK_4:
+                case ITEM_GAME_TRICK_5: case ITEM_GAME_TRICK_6:
+                case ITEM_GAME_TRICK_7: case ITEM_GAME_TRICK_8:
+                case ITEM_GAME_TRICK_9: case ITEM_GAME_TRICK_10:
+                case ITEM_GAME_TRICK_11: case ITEM_GAME_TRICK_12:
+                case ITEM_GAME_TRICK_13:
+                  try {
+                    nIndex = nLineCode - ITEM_GAME_TRICK_1;
+                    nOffset = 0;
+                    nLen = string.GetLength();
+                    // first read the lead player for the trick
+                    partString = string.Mid(nOffset);
+                    m_nTrickLead[nIndex] = StringToPosition(partString);
+                    nOffset = string.Find(' ');
+                    //
+                    for (i = 0; i < 4; i++) {
+                      while ((nOffset < nLen) && (string[nOffset] == ' '))
+                        nOffset++;
+                      partString = string.Mid(nOffset);
+                      nOffset += 2;
+                      if (partString.IsEmpty()) {
+                        strMessage.Format("Incomplete Trick record at line %d;\n%s",
+                          m_nLineNumber, string);
+                        AfxMessageBox(strMessage);
+                        break;
+                      }
+                      //
+                      if (partString.Left(2) == "--") {
+                        m_pGameTrick[nIndex][i] = NULL;
+                      } else {
+                        pCard = app_->GetDeck()->GetCard(partString);
+                        m_pGameTrick[nIndex][i] = pCard;
+                      }
+                    }
+                    // insert the trick record into the game record
+                    // in the proper order
+                    nPlayOffset = nIndex * 4;
+                    nPos = m_nTrickLead[nIndex];
+                    for (i = 0; i < 4; i++) {
+                      CCard* pCard = m_pGameTrick[nIndex][nPos];
+                      if (pCard)
+                        m_nPlayRecord[nPlayOffset + i] = pCard->GetDeckValue();
+                      nPos = GetNextPlayer(nPos);
+                    }
+                    // and finally read the trick's winner 
                     while ((nOffset < nLen) && (string[nOffset] == ' '))
                       nOffset++;
                     partString = string.Mid(nOffset);
-                    nOffset += 2;
-                    if (partString.IsEmpty()) {
-                      strMessage.Format("Incomplete Trick record at line %d;\n%s",
-                        m_nLineNumber, string);
-                      AfxMessageBox(strMessage);
-                      break;
-                    }
-                    //
-                    if (partString.Left(2) == "--") {
-                      m_pGameTrick[nIndex][i] = NULL;
-                    } else {
-                      pCard = app_->GetDeck()->GetCard(partString);
-                      m_pGameTrick[nIndex][i] = pCard;
-                    }
+                    m_nTrickWinner[nIndex] = StringToPosition(partString);
+                  } catch (...) {
+                    // error
                   }
-                  // insert the trick record into the game record
-                  // in the proper order
-                  nPlayOffset = nIndex * 4;
-                  nPos = m_nTrickLead[nIndex];
-                  for (i = 0; i<4; i++) {
-                    CCard* pCard = m_pGameTrick[nIndex][nPos];
-                    if (pCard)
-                      m_nPlayRecord[nPlayOffset + i] = pCard->GetDeckValue();
-                    nPos = GetNextPlayer(nPos);
-                  }
-                  // and finally read the trick's winner 
-                  while ((nOffset < nLen) && (string[nOffset] == ' '))
-                    nOffset++;
-                  partString = string.Mid(nOffset);
-                  m_nTrickWinner[nIndex] = StringToPosition(partString);
-                } catch (...) {
-                  // error
-                }
-                break;
+                  break;
 
-                // match info
-              case ITEM_SCORE_NS_BONUS:
-                m_nBonusScore[NORTH_SOUTH] = nValue;
-                break;
+                  // match info
+                case ITEM_SCORE_NS_BONUS:
+                  m_nBonusScore[NORTH_SOUTH] = nValue;
+                  break;
 
-              case ITEM_SCORE_NS_GAME0:
-                m_nGameScore[0][NORTH_SOUTH] = nValue;
-                break;
+                case ITEM_SCORE_NS_GAME0:
+                  m_nGameScore[0][NORTH_SOUTH] = nValue;
+                  break;
 
-              case ITEM_SCORE_NS_GAME1:
-                m_nGameScore[1][NORTH_SOUTH] = nValue;
-                break;
+                case ITEM_SCORE_NS_GAME1:
+                  m_nGameScore[1][NORTH_SOUTH] = nValue;
+                  break;
 
-              case ITEM_SCORE_NS_GAME2:
-                m_nGameScore[2][NORTH_SOUTH] = nValue;
-                break;
+                case ITEM_SCORE_NS_GAME2:
+                  m_nGameScore[2][NORTH_SOUTH] = nValue;
+                  break;
 
-              case ITEM_SCORE_NS_GAMES_WON:
-                m_numGamesWon[NORTH_SOUTH] = nValue;
-                break;
+                case ITEM_SCORE_NS_GAMES_WON:
+                  m_numGamesWon[NORTH_SOUTH] = nValue;
+                  break;
 
-              case ITEM_SCORE_EW_BONUS:
-                m_nBonusScore[EAST_WEST] = nValue;
-                break;
+                case ITEM_SCORE_EW_BONUS:
+                  m_nBonusScore[EAST_WEST] = nValue;
+                  break;
 
-              case ITEM_SCORE_EW_GAME0:
-                m_nGameScore[0][EAST_WEST] = nValue;
-                break;
+                case ITEM_SCORE_EW_GAME0:
+                  m_nGameScore[0][EAST_WEST] = nValue;
+                  break;
 
-              case ITEM_SCORE_EW_GAME1:
-                m_nGameScore[1][EAST_WEST] = nValue;
-                break;
+                case ITEM_SCORE_EW_GAME1:
+                  m_nGameScore[1][EAST_WEST] = nValue;
+                  break;
 
-              case ITEM_SCORE_EW_GAME2:
-                m_nGameScore[2][EAST_WEST] = nValue;
-                break;
+                case ITEM_SCORE_EW_GAME2:
+                  m_nGameScore[2][EAST_WEST] = nValue;
+                  break;
 
-              case ITEM_SCORE_EW_GAMES_WON:
-                m_numGamesWon[EAST_WEST] = nValue;
-                break;
+                case ITEM_SCORE_EW_GAMES_WON:
+                  m_numGamesWon[EAST_WEST] = nValue;
+                  break;
 
-              case ITEM_CURRENT_GAME_INDEX:
-                m_nCurrGame = nValue - 1;
-                break;
+                case ITEM_CURRENT_GAME_INDEX:
+                  m_nCurrGame = nValue - 1;
+                  break;
 
-              case ITEM_BONUS_SCORE_RECORD:
-                m_strArrayBonusPointsRecord.push_back(StripQuotes(string));
-                break;
+                case ITEM_BONUS_SCORE_RECORD:
+                  m_strArrayBonusPointsRecord.push_back(StripQuotes(string));
+                  break;
 
-              case ITEM_GAME_SCORE_RECORD:
-                m_strArrayTrickPointsRecord.push_back(StripQuotes(string));
-                break;
+                case ITEM_GAME_SCORE_RECORD:
+                  m_strArrayTrickPointsRecord.push_back(StripQuotes(string));
+                  break;
 
-                // misc info
-              case ITEM_AUTOSHOW_COMMENTS:
-                m_bShowCommentsUponOpen = bValue;
-                break;
-              case ITEM_AUTOSHOW_BID_HISTORY:
-                m_bShowBidHistoryUponOpen = bValue;
-                break;
-              case ITEM_AUTOSHOW_PLAY_HISTORY:
-                m_bShowPlayHistoryUponOpen = bValue;
-                break;
-              case ITEM_AUTOSHOW_ANALYSES:
-                m_bShowAnalysesUponOpen = bValue;
-                break;
+                  // misc info
+                case ITEM_AUTOSHOW_COMMENTS:
+                  m_bShowCommentsUponOpen = bValue;
+                  break;
+                case ITEM_AUTOSHOW_BID_HISTORY:
+                  m_bShowBidHistoryUponOpen = bValue;
+                  break;
+                case ITEM_AUTOSHOW_PLAY_HISTORY:
+                  m_bShowPlayHistoryUponOpen = bValue;
+                  break;
+                case ITEM_AUTOSHOW_ANALYSES:
+                  m_bShowAnalysesUponOpen = bValue;
+                  break;
 
               }
 
@@ -668,7 +668,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
   }
 
   // restore initial hands (temp?)
-  for (i = 0; i<4; i++)
+  for (i = 0; i < 4; i++)
     m_pPlayer[i]->RestoreInitialHand();
 
   // not reviewing game
@@ -689,7 +689,7 @@ void Deal::AssignCards(CString& str, int nPosition, BOOL bInitialHand) {
   BOOL bError = FALSE;
   CCard* pCard;
   //
-  for (i = 0; i<13; i++) {
+  for (i = 0; i < 13; i++) {
     // skip spaces
     while ((nOffset < nLen) && (str[nOffset] == ' '))
       nOffset++;
@@ -728,13 +728,13 @@ int Deal::ParseLine(CString& string, int nLineLength) {
   //	int	nLen,nCode;
 
   // compare against block designators
-  for (i = 0; i<NUM_BLOCKS; i++) {
+  for (i = 0; i < NUM_BLOCKS; i++) {
     if (string == tszBlockName[i])
       return -i;
   }
   // not a block item, so scan the line for an '=' sign
   // to see if this is a data item
-  for (nEnd = 0; nEnd<nLineLength; nEnd++)
+  for (nEnd = 0; nEnd < nLineLength; nEnd++)
     if (string[nEnd] == '=')
       break;
   // see if we reached the end -- if so, return negative
@@ -746,7 +746,7 @@ int Deal::ParseLine(CString& string, int nLineLength) {
   while ((nEnd > 0) && (string[nEnd - 1] == ' '))
     nEnd--;
   // and check for a valid item code
-  for (i = 0; i<NUM_ITEMS; i++) {
+  for (i = 0; i < NUM_ITEMS; i++) {
     if (string.Left(nEnd) == tszItemName[i])
       return i;
   }
@@ -805,7 +805,7 @@ int Deal::ReadLine(CArchive&ar, CString& strDest) {
 
     // find end of line - 10(LF) or 13(CR)
     len = nBytesRead;
-    for (i = 0; i<nBytesRead; i++) {
+    for (i = 0; i < nBytesRead; i++) {
       if ((strBuffer[i] == 10) || (strBuffer[i] == 13)) {
         len = i;
         break;

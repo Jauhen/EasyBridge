@@ -38,11 +38,9 @@ std::vector<std::string> tszTagName = {
 };
 
 
-FileExporter::FileExporter() {
-}
+FileExporter::FileExporter() {}
 
-FileExporter::~FileExporter() {
-}
+FileExporter::~FileExporter() {}
 
 void FileExporter::SkipLine() {
   data_ << endl;
@@ -66,9 +64,9 @@ void FileExporter::WriteComment(const std::string& strValue) {
 
 const string FileExporter::GetUppercaseTag(int nLineCode) {
   if ((nLineCode < 0) || (nLineCode > tszTagName.size())) {
-    return string{};
+    return string {};
   }
- 
+
   string strTag = tszTagName[nLineCode];
   transform(strTag.begin(), strTag.end(), strTag.begin(), ::toupper);
   return strTag;
