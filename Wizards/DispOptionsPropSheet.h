@@ -10,6 +10,7 @@
 // DispOptionsPropSheet.h : header file
 //
 class Settings;
+class CDeck;
 class CObjectWithProperties;
 class CDispOptsSuitsPage;
 class CDispOptsCardsPage;
@@ -28,7 +29,7 @@ class AFX_EXT_CLASS CDispOptionsPropSheet : public CPropertySheet
 
 // Construction
 public:
-	CDispOptionsPropSheet(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, CObjectWithProperties* pDeck=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+	CDispOptionsPropSheet(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, std::shared_ptr<CDeck> pDeck=NULL, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 
 // Attributes
 public:

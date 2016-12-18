@@ -277,6 +277,8 @@ BOOL CEasyBApp::InitInstance()
 
 	// now that the main window has been created, we can create the cards
 	deck_->Initialize();
+  deck_->InitializeBitmaps();
+
 	// and shuffle the deck
 	deck_->Shuffle();
 

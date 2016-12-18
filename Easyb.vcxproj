@@ -423,7 +423,6 @@
     <ClInclude Include="src\dialogs\DealNumberDialog.h" />
     <ClInclude Include="src\model\DEALPARM.H" />
     <ClInclude Include="src\engine\Deck.H" />
-    <ClInclude Include="src\engine\deckopts.h" />
     <ClInclude Include="src\engine\play\DeclarerPlayEngine.H" />
     <ClInclude Include="src\engine\play\DefenderPlayEngine.H" />
     <ClInclude Include="src\DEFINES.H" />
@@ -847,10 +846,6 @@
       <Project>{65031f56-61ba-4e8c-af27-53e9c48bed5b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
