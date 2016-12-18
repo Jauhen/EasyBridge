@@ -53,13 +53,6 @@ public:
     CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, 
     CPlayerStatusDialog* pStatusDlg);
 	void Clear();
-	//
-	LPVOID GetValuePV(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValuePV(int nItem, LPVOID value, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	double GetValueDouble(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, double fValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int GetValue(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, int nValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
 
 	//
 	// basic routines

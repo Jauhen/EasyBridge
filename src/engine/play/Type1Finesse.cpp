@@ -77,7 +77,6 @@ void CType1Finesse::Init()
 //
 CString CType1Finesse::GetFullDescription()
 {
-	CString strText;
 	int nTrumpSuit = app_->GetDeal()->GetTrumpSuit();
 	if (m_pCoverCards->GetNumCards() > 1)
 		return FormString("Lead a low %s from %s to finesse the %s in %s against %s, with the { %s } as possible cover cards.",

@@ -111,7 +111,7 @@ protected:
 public:
 	CCardList(std::shared_ptr<AppInterface> app);
 	CCardList(std::shared_ptr<AppInterface> app, const CCardList& srcList);
-	~CCardList();
+	virtual ~CCardList();
 };
 
 #endif

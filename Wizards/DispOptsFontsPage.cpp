@@ -41,9 +41,9 @@ CDispOptsFontsPage::CDispOptsFontsPage(std::shared_ptr<Settings> pApp, CObjectWi
 	//}}AFX_DATA_INIT
 
 	// copy logical font info
-	m_lfAutoHint = *((LOGFONT*) m_frame.GetValuePV(tpLogFontAutoHint));
-	m_lfHistory = *((LOGFONT*) m_frame.GetValuePV(tpLogFontHistory));
-	m_lfAnalysis = *((LOGFONT*) m_frame.GetValue(tpLogFontAnalysis));
+	//m_lfAutoHint = *((LOGFONT*) m_frame.GetValuePV(tpLogFontAutoHint));
+	//m_lfHistory = *((LOGFONT*) m_frame.GetValuePV(tpLogFontHistory));
+	//m_lfAnalysis = *((LOGFONT*) m_frame.GetValue(tpLogFontAnalysis));
 	m_bUseSuitSymbols = m_app->GetUseSuitSymbols();
 	//
 	m_bFontModified = false;

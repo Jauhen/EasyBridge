@@ -17,7 +17,6 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
 #include "engine/bidding/ConventionSet.h"
 #include "engine/bidding/convention_pool.h"
@@ -277,6 +276,8 @@ BOOL CEasyBApp::InitInstance()
 
 	// now that the main window has been created, we can create the cards
 	deck_->Initialize();
+  deck_->InitializeBitmaps();
+
 	// and shuffle the deck
 	deck_->Shuffle();
 

@@ -390,6 +390,9 @@
     <ClCompile Include="src\EasyBdoc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\model\view_state.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyB.rc">
@@ -413,9 +416,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\bidding\ConvCodes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\bidding\Bidopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\bidding\Bidparams.H">
@@ -506,9 +506,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\Force.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\Handopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\PlayList.h">
@@ -745,9 +742,6 @@
     <ClInclude Include="src\engine\GuessedCard.H">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\deckopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\model\FILECODE.H">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -773,6 +767,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\EasyBdoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\model\view_state.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1721,9 +1718,5 @@
     <CustomBuild Include="Res\play_west.cur">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

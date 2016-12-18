@@ -38,87 +38,78 @@ CString	CPlayerStatusDialog::m_strHintBlock;
 
 
 // constructor
-CPlayerStatusDialog::CPlayerStatusDialog(std::shared_ptr<AppInterface> app) : app_(app)
-{
-	m_nOverrideOutputLevel = 0;
-	m_nSuppressCode = 1;
-	m_bSuppressOutput = FALSE;
-	m_bSuppressStream = FALSE;
-	m_bIgnoreStreamLevel = FALSE;
-	//
+CPlayerStatusDialog::CPlayerStatusDialog(std::shared_ptr<AppInterface> app) : app_(app) {
+  m_nOverrideOutputLevel = 0;
+  m_nSuppressCode = 1;
+  m_bSuppressOutput = FALSE;
+  m_bSuppressStream = FALSE;
+  m_bIgnoreStreamLevel = FALSE;
+  //
 /*
-	m_bAutoHintMode = FALSE;
-	m_bCopyHintBlock = FALSE;
-	m_nRequiredHintTraceLevel = tnDefaultRequiredHintTraceLevel;
+  m_bAutoHintMode = FALSE;
+  m_bCopyHintBlock = FALSE;
+  m_nRequiredHintTraceLevel = tnDefaultRequiredHintTraceLevel;
 */
 }
 
 // destructor
-CPlayerStatusDialog::~CPlayerStatusDialog()
-{
+CPlayerStatusDialog::~CPlayerStatusDialog() {}
+
+
+//
+void CPlayerStatusDialog::EnableTrace(BOOL bEnable) {
+  // now semaphore based
+  if (bEnable)
+    m_nSuppressCode++;
+  else
+    m_nSuppressCode--;
+  //	if (m_nSuppressCode < 0)
+  //		m_nSuppressCode = 0;
+
+    //
+  if (m_nSuppressCode == 0)
+    m_bSuppressOutput = TRUE;
+  else
+    m_bSuppressOutput = FALSE;
 }
 
 
 //
-void CPlayerStatusDialog::EnableTrace(BOOL bEnable) 
-{ 
-	// now semaphore based
-	if (bEnable)
-		m_nSuppressCode++;
-	else
-		m_nSuppressCode--;
-//	if (m_nSuppressCode < 0)
-//		m_nSuppressCode = 0;
-	
-	//
-	if (m_nSuppressCode == 0)
-		m_bSuppressOutput = TRUE; 
-	else
-		m_bSuppressOutput = FALSE; 
-}
-
-
-//
-void CPlayerStatusDialog::OutputText()
-{
-	// show all text in the mainframe status window
+void CPlayerStatusDialog::OutputText() {
+  // show all text in the mainframe status window
   app_->SetAnalysisText(m_nPosition, m_strAnalysis);
 }
 
 
 //
-void CPlayerStatusDialog::Clear()
-{
-	m_strAnalysis.Empty();
-	m_bAutoHintMode = FALSE;
-	m_nCurrentOutputLevel = 0;
-	m_nOverrideOutputLevel = 0;
-	//
-	m_bCopyHintBlock = FALSE;
-	m_strHintBlock.Empty();
-	//
-	OutputText();
+void CPlayerStatusDialog::Clear() {
+  m_strAnalysis.Empty();
+  m_bAutoHintMode = FALSE;
+  m_nCurrentOutputLevel = 0;
+  m_nOverrideOutputLevel = 0;
+  //
+  m_bCopyHintBlock = FALSE;
+  m_strHintBlock.Empty();
+  //
+  OutputText();
 }
 
 
 //
-void CPlayerStatusDialog::ClearHint()
-{
-	m_bCopyHintBlock = FALSE;
-	m_strHintBlock.Empty();
+void CPlayerStatusDialog::ClearHint() {
+  m_bCopyHintBlock = FALSE;
+  m_strHintBlock.Empty();
   app_->SetAutoHintDialogHintText(m_strHintBlock);
 }
 
 
 //
-void CPlayerStatusDialog::ResetRequiredHintTraceLevel()
-{
-	m_nRequiredHintTraceLevel = tnDefaultRequiredHintTraceLevel;
+void CPlayerStatusDialog::ResetRequiredHintTraceLevel() {
+  m_nRequiredHintTraceLevel = tnDefaultRequiredHintTraceLevel;
 }
 
 //
-void CPlayerStatusDialog::Show(BOOL bShow)
-{
+void CPlayerStatusDialog::Show(BOOL bShow) {
   if (bShow) {
     app_->ShowAnalysisDialog(m_nPosition);
   } else {
@@ -134,121 +125,109 @@ void CPlayerStatusDialog::Show(BOOL bShow)
 //
 // outputs a complete line to the player status dialog
 //
-CPlayerStatusDialog& CPlayerStatusDialog::operator<<(const CString& strText)
-{
-	Trace(strText);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<<(const CString& strText) {
+  Trace(strText);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator<<(char cText)
-{
-	CString strText = cText;
-	Trace(strText);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<<(char cText) {
+  CString strText = cText;
+  Trace(strText);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator<<(int nValue)
-{
-	CString strTemp;
-	strTemp.Format("%d",nValue);
-	Trace(strTemp);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<<(int nValue) {
+  CString strTemp;
+  strTemp.Format("%d", nValue);
+  Trace(strTemp);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator<<(double fValue)
-{
-	CString strTemp;
-	strTemp.Format("%.1f",fValue);
-	Trace(strTemp);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<<(double fValue) {
+  CString strTemp;
+  strTemp.Format("%.1f", fValue);
+  Trace(strTemp);
+  return *this;
 }
 
 
 //
-void CPlayerStatusDialog::Trace(const CString& strText)
-{
-	// sanity check
-	CString strOutput = strText;
-	if (strOutput.IsEmpty() || m_bSuppressStream)
-		return;
+void CPlayerStatusDialog::Trace(const CString& strText) {
+  // sanity check
+  CString strOutput = strText;
+  if (strOutput.IsEmpty() || m_bSuppressStream)
+    return;
 
-	// no analysis if in express autoplay or output is suppressed
+  // no analysis if in express autoplay or output is suppressed
 #ifdef _TESTING
-	if (m_bSuppressOutput)
-		return;
+  if (m_bSuppressOutput)
+    return;
 #else
-	if (app_->GetSettings()->InExpressAutoPlay() || m_bSuppressOutput)
-		return;
+  if (app_->GetSettings()->InExpressAutoPlay() || m_bSuppressOutput)
+    return;
 #endif
 
-	// need to be either printing analysis or providing a hint
-	if (!app_->GetSettings()->GetEnableAnalysisTracing() && !m_bCopyHintBlock)
-		return;
+  // need to be either printing analysis or providing a hint
+  if (!app_->GetSettings()->GetEnableAnalysisTracing() && !m_bCopyHintBlock)
+    return;
 
-	// get and test the trace level
+  // get and test the trace level
   int nTraceLevelLimit = app_->GetSettings()->GetAnalysisTraceLevel();
-	m_nCurrentOutputLevel = 0;
+  m_nCurrentOutputLevel = 0;
 
-	// see if a verbosity escape code is present
-	if (strOutput[0] == '!')
-	{
-		m_bIgnoreStreamLevel = TRUE;
-		strOutput = strOutput.Mid(1);
-	}
-	else
-	{
-		m_bIgnoreStreamLevel = FALSE;
-	}
+  // see if a verbosity escape code is present
+  if (strOutput[0] == '!') {
+    m_bIgnoreStreamLevel = TRUE;
+    strOutput = strOutput.Mid(1);
+  } else {
+    m_bIgnoreStreamLevel = FALSE;
+  }
 
-	// see if a verbosity level code is present
-	if (isdigit(strOutput[0]))
-		m_nCurrentOutputLevel = strOutput[0] - '0';
-	else 
-		m_nCurrentOutputLevel = tnDefaultTraceLevel;
+  // see if a verbosity level code is present
+  if (isdigit(strOutput[0]))
+    m_nCurrentOutputLevel = strOutput[0] - '0';
+  else
+    m_nCurrentOutputLevel = tnDefaultTraceLevel;
 
-	// look for an autohint bypass (not so informative information)
-	BOOL bSkipAutoHint = FALSE;
-	if (strOutput[0] == _T('$'))
-	{
-		bSkipAutoHint = TRUE;
-		strOutput = strOutput.Mid(1);
-	}
+  // look for an autohint bypass (not so informative information)
+  BOOL bSkipAutoHint = FALSE;
+  if (strOutput[0] == _T('$')) {
+    bSkipAutoHint = TRUE;
+    strOutput = strOutput.Mid(1);
+  }
 
-	// check for temporary stream level override
-	if ((m_nOverrideOutputLevel > 0) && (!m_bIgnoreStreamLevel))
-		m_nCurrentOutputLevel = m_nOverrideOutputLevel;
+  // check for temporary stream level override
+  if ((m_nOverrideOutputLevel > 0) && (!m_bIgnoreStreamLevel))
+    m_nCurrentOutputLevel = m_nOverrideOutputLevel;
 
-	// skip if the verbosity in the stream is too high
-	if (m_nCurrentOutputLevel > nTraceLevelLimit)
-	{
-		// if this string doesn't contain a CR, suppress remainder of output stream
-		if (strOutput.Find('\n') < 0)
-			m_bSuppressStream = TRUE;
-		return;
-	}
+  // skip if the verbosity in the stream is too high
+  if (m_nCurrentOutputLevel > nTraceLevelLimit) {
+    // if this string doesn't contain a CR, suppress remainder of output stream
+    if (strOutput.Find('\n') < 0)
+      m_bSuppressStream = TRUE;
+    return;
+  }
 
-	// strip the verbosity level digit
-	if (isdigit(strOutput[0]))
-		strOutput = strOutput.Mid(1);
+  // strip the verbosity level digit
+  if (isdigit(strOutput[0]))
+    strOutput = strOutput.Mid(1);
 
-	// convert newlines
-	CString strNewText;
-	BOOL bOutputText = ConvertNewlines(strNewText, strOutput);
+  // convert newlines
+  CString strNewText;
+  BOOL bOutputText = ConvertNewlines(strNewText, strOutput);
 
-	// show analysis notes
-	if (app_->GetSettings()->GetEnableAnalysisTracing())
-	{
-		m_strAnalysis += strNewText;
-		if (bOutputText)
-			OutputText();
-	}
+  // show analysis notes
+  if (app_->GetSettings()->GetEnableAnalysisTracing()) {
+    m_strAnalysis += strNewText;
+    if (bOutputText)
+      OutputText();
+  }
 
-	// and show hints
+  // and show hints
 //	if (m_bAutoHintMode && m_bCopyHintBlock && !bSkipAutoHint && (m_nSuspendHints == 0) &&
-	if (m_bCopyHintBlock && !bSkipAutoHint && (m_nSuspendHints == 0) &&
-						(m_nCurrentOutputLevel <= m_nRequiredHintTraceLevel))
-	{
-		// route to the autohint window
-		m_strHintBlock += strNewText;
+  if (m_bCopyHintBlock && !bSkipAutoHint && (m_nSuspendHints == 0) &&
+    (m_nCurrentOutputLevel <= m_nRequiredHintTraceLevel)) {
+    // route to the autohint window
+    m_strHintBlock += strNewText;
     app_->SetAutoHintDialogHintText(m_strHintBlock);
-	}
+  }
 }
 
 
@@ -259,49 +238,43 @@ void CPlayerStatusDialog::Trace(const CString& strText)
 // updated with the new text only if there's a newline character 
 // in the text.
 //
-void CPlayerStatusDialog::AddTrace(const CString& strText)
-{
-	// no analysis if in express autoplay or output is suppressed
+void CPlayerStatusDialog::AddTrace(const CString& strText) {
+  // no analysis if in express autoplay or output is suppressed
 #ifdef _TESTING
-	if (m_bSuppressOutput)
-		return;
+  if (m_bSuppressOutput)
+    return;
 #else
-	if (app_->GetSettings()->InExpressAutoPlay() || m_bSuppressOutput)
-		return;
+  if (app_->GetSettings()->InExpressAutoPlay() || m_bSuppressOutput)
+    return;
 #endif
 
-	// need to be either printing analysis or providing a hint
-	if (!app_->GetSettings()->GetEnableAnalysisTracing() && !m_bCopyHintBlock)
-		return;
+  // need to be either printing analysis or providing a hint
+  if (!app_->GetSettings()->GetEnableAnalysisTracing() && !m_bCopyHintBlock)
+    return;
 
-	//
-	CString strNewText;
-	BOOL bOutputText = ConvertNewlines(strNewText, strText);
-	if (m_bSuppressStream)
-	{
-		if (bOutputText)
-			m_bSuppressStream = FALSE;	// reset
-	}
-	else
-	{
-		// show analysis notes if enabled
-		if (app_->GetSettings()->GetEnableAnalysisTracing())
-		{
-			m_strAnalysis += strNewText;
-			if (bOutputText)
-				OutputText();
-		}
+  //
+  CString strNewText;
+  BOOL bOutputText = ConvertNewlines(strNewText, strText);
+  if (m_bSuppressStream) {
+    if (bOutputText)
+      m_bSuppressStream = FALSE;	// reset
+  } else {
+    // show analysis notes if enabled
+    if (app_->GetSettings()->GetEnableAnalysisTracing()) {
+      m_strAnalysis += strNewText;
+      if (bOutputText)
+        OutputText();
+    }
 
-		// and update hint window
+    // and update hint window
 //		if (m_bAutoHintMode && m_bCopyHintBlock && (m_nSuspendHints == 0) &&
-		if (m_bCopyHintBlock && (m_nSuspendHints == 0) &&
-						(m_nCurrentOutputLevel <= m_nRequiredHintTraceLevel))
-		{
-			// route to the autohint window
-			m_strHintBlock += strNewText;
+    if (m_bCopyHintBlock && (m_nSuspendHints == 0) &&
+      (m_nCurrentOutputLevel <= m_nRequiredHintTraceLevel)) {
+      // route to the autohint window
+      m_strHintBlock += strNewText;
       app_->SetAutoHintDialogHintText(m_strHintBlock);
-		}
-	}
+    }
+  }
 }
 
 
@@ -310,13 +283,12 @@ void CPlayerStatusDialog::AddTrace(const CString& strText)
 //
 // ClearHints()
 //
-void CPlayerStatusDialog::ClearHints(BOOL bRefresh)
-{
-	m_strHintBlock = _T("");
-//	if (bRefresh)
-	{
+void CPlayerStatusDialog::ClearHints(BOOL bRefresh) {
+  m_strHintBlock = _T("");
+  //	if (bRefresh)
+  {
     app_->SetAutoHintDialogHintText(m_strHintBlock);
-	}
+  }
 }
 
 
@@ -328,55 +300,47 @@ void CPlayerStatusDialog::ClearHints(BOOL bRefresh)
 // the operators < and & are the same as <<, but without 
 // the check for the debug mode / header stripping
 //
-CPlayerStatusDialog& CPlayerStatusDialog::operator<(const CString& strText)
-{
-	AddTrace(strText);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<(const CString& strText) {
+  AddTrace(strText);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator<(char cText)
-{
-	CString strText = cText;
-	AddTrace(strText);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<(char cText) {
+  CString strText = cText;
+  AddTrace(strText);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator<(int nValue)
-{
-	CString strTemp;
-	strTemp.Format("%d",nValue);
-	AddTrace(strTemp);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<(int nValue) {
+  CString strTemp;
+  strTemp.Format("%d", nValue);
+  AddTrace(strTemp);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator<(double fValue)
-{
-	CString strTemp;
-	strTemp.Format("%.1f",fValue);
-	AddTrace(strTemp);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator<(double fValue) {
+  CString strTemp;
+  strTemp.Format("%.1f", fValue);
+  AddTrace(strTemp);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator&(const CString& strText)
-{
-	AddTrace(strText);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator&(const CString& strText) {
+  AddTrace(strText);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator&(char cText)
-{
-	CString strText = cText;
-	AddTrace(strText);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator&(char cText) {
+  CString strText = cText;
+  AddTrace(strText);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator&(int nValue)
-{
-	CString strTemp;
-	strTemp.Format("%d",nValue);
-	AddTrace(strTemp);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator&(int nValue) {
+  CString strTemp;
+  strTemp.Format("%d", nValue);
+  AddTrace(strTemp);
+  return *this;
 }
-CPlayerStatusDialog& CPlayerStatusDialog::operator&(double fValue)
-{
-	CString strTemp;
-	strTemp.Format("%.1f",fValue);
-	AddTrace(strTemp);
-	return *this;
+CPlayerStatusDialog& CPlayerStatusDialog::operator&(double fValue) {
+  CString strTemp;
+  strTemp.Format("%.1f", fValue);
+  AddTrace(strTemp);
+  return *this;
 }
 
 
@@ -387,67 +351,59 @@ CPlayerStatusDialog& CPlayerStatusDialog::operator&(double fValue)
 // - replaces all instances of the '\n' character in the source string
 //   with the "\r\n" pair.
 //
-BOOL CPlayerStatusDialog::ConvertNewlines(CString& strOutput, LPCTSTR szInput)
-{
-	int nSrcLen = _tcslen(szInput);
+BOOL CPlayerStatusDialog::ConvertNewlines(CString& strOutput, LPCTSTR szInput) {
+  int nSrcLen = _tcslen(szInput);
 
-/*
-	// first bang characters
-	TCHAR* pcToken = NULL;
-	if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)
-	{
-		// chop off the header
-		int nOffset = (pcToken - szInput) + 2;
-		if (nSrcLen > nOffset)
-		{
-			szInput += nOffset;
-			nSrcLen -= nOffset;
-		}
-	}
-*/
-	// if in debug, strip header if desired
-	if (!app_->GetSettings()->GetShowCommentIdentifiers())
-	{
-		const TCHAR* pcToken = NULL;
-		if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)
-		{
-			// chop off the header
-			int nOffset = (pcToken - szInput) + 2;
-			if (nSrcLen >= nOffset)
-			{
-				szInput += nOffset;
-				nSrcLen -= nOffset;
-			}
-		}
-	}
+  /*
+    // first bang characters
+    TCHAR* pcToken = NULL;
+    if ((pcToken = _tcschr(szInput, _T('!'))) != NULL)
+    {
+      // chop off the header
+      int nOffset = (pcToken - szInput) + 2;
+      if (nSrcLen > nOffset)
+      {
+        szInput += nOffset;
+        nSrcLen -= nOffset;
+      }
+    }
+  */
+  // if in debug, strip header if desired
+  if (!app_->GetSettings()->GetShowCommentIdentifiers()) {
+    const TCHAR* pcToken = NULL;
+    if ((pcToken = _tcschr(szInput, _T('!'))) != NULL) {
+      // chop off the header
+      int nOffset = (pcToken - szInput) + 2;
+      if (nSrcLen >= nOffset) {
+        szInput += nOffset;
+        nSrcLen -= nOffset;
+      }
+    }
+  }
 
-	//	
-	int nActualLen = nSrcLen;
-	TCHAR tChar;
-	LPCTSTR pSrc = szInput;
-	LPTSTR pDest = strOutput.GetBuffer(nSrcLen*2);	// max possible length
-	BOOL bNewlineFound = FALSE;
-	// 
-	for(int i=0;i<nSrcLen;i++)
-	{
-		//
-		if ((tChar = *pSrc++) == '\n')
-		{
-			// perform the substitution
-			*pDest++ = '\r';
-			*pDest++ = '\n';
-			nActualLen++;
-			bNewlineFound = TRUE;
-		}
-		else
-		{
-			// replace any exclamation points
-			if (tChar == _T('!'))
-				*pDest++ = _T(':');
-			else
-				*pDest++ = tChar;
-		}
-	}
-	strOutput.ReleaseBuffer(nActualLen);
-	return bNewlineFound;
+  //	
+  int nActualLen = nSrcLen;
+  TCHAR tChar;
+  LPCTSTR pSrc = szInput;
+  LPTSTR pDest = strOutput.GetBuffer(nSrcLen * 2);	// max possible length
+  BOOL bNewlineFound = FALSE;
+  // 
+  for (int i = 0; i < nSrcLen; i++) {
+    //
+    if ((tChar = *pSrc++) == '\n') {
+      // perform the substitution
+      *pDest++ = '\r';
+      *pDest++ = '\n';
+      nActualLen++;
+      bNewlineFound = TRUE;
+    } else {
+      // replace any exclamation points
+      if (tChar == _T('!'))
+        *pDest++ = _T(':');
+      else
+        *pDest++ = tChar;
+    }
+  }
+  strOutput.ReleaseBuffer(nActualLen);
+  return bNewlineFound;
 }

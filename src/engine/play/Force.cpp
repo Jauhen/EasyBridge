@@ -28,7 +28,7 @@
 
 //
 //==================================================================
-// constructon & destruction
+// construction & destruction
 
 CForce::CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal) :
 			CPlay(app, CPlay::FORCE, nTargetHand, nSuit, PP_LOSER),

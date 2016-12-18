@@ -870,7 +870,7 @@ CCard* CDefenderPlayEngine::GetLeadCard()
 					 BOOL bLHOShowOut = m_ppGuessedHands[GetNextPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
 					 BOOL bRHOShowOut = m_ppGuessedHands[GetPrevPlayer(m_nPosition)]->IsSuitShownOut(m_nPrioritySuit);
 					 if ( (bPartnerShownOut && bLHOShowOut && !bRHOShowOut) ||
-							(bPartnerShownOut && bLHOShowOut && !bRHOShowOut) )
+							(bPartnerShownOut && !bLHOShowOut && bRHOShowOut) )
 					 {
 						 status << "4PLYLD50! Since both partner and " & (bLHOShowOut? "LHO" : "RHO") &
 								   " have shown out, there is no point in trying to keep developing the " &

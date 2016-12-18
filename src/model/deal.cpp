@@ -560,8 +560,6 @@ void Deal::DisplayScore() {
 // - this is purely preliminary code
 //
 void Deal::UpdateDuplicateScore() {
-  CString strScore;
-
   // calculate the duplicate score
   int numTricksRequired = 6 + m_nContractLevel;
   int numTricksMade = m_numTricksWon[m_nContractTeam];
@@ -2034,7 +2032,7 @@ int Deal::UndoBid() {
     // search back for the last valid bid
     int i = 0;
     for (i = m_numBidsMade - 1; i >= 0; i--) {
-      if ((m_nBiddingHistory[i] != BID_PASS) && (m_nBiddingHistory[i] != BID_DOUBLE) && (m_nBiddingHistory[i] != BID_DOUBLE))
+      if ((m_nBiddingHistory[i] != BID_PASS) && (m_nBiddingHistory[i] != BID_DOUBLE) && (m_nBiddingHistory[i] != BID_REDOUBLE))
         break;
     }
     if (i >= 0) {
@@ -2150,7 +2148,7 @@ void Deal::SetBiddingComplete() {
 
 //
 void Deal::UpdateBiddingHistory() {
-  CString strBids, strPlainBids, strScreenBids, strTemp, strTempPlain;
+  CString strBids, strPlainBids, strTemp, strTempPlain;
 
   // return if output suppressed
   if (m_bSuppressBidHistoryUpdate)
@@ -2992,8 +2990,6 @@ void Deal::UpdatePlayHistory() {
 
   // dup the string so far
   strPlaysPlain = strPlays;
-
-  CString strSpace = "    ";
 
   // iterate over tricks
   int numRounds;

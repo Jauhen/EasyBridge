@@ -86,9 +86,7 @@ BOOL CNegativeDoublesConvention::TryConvention(const CPlayer& player,
 			}
 		}
 */
-		if ((bidState.numSupportCards >= 3) &&
-			(bidState.numSupportCards >= 3) && (bidState.fPts >= app_->GetSettings()->OpenPoints(6)))
-		{
+		if (bidState.numSupportCards >= 3 && bidState.fPts >= app_->GetSettings()->OpenPoints(6)) {
 			// if we can raise partner at the 2-level, forget the neg double
 			if (app_->GetCurrentConventionSet()->IsConventionEnabled(tidLimitRaises) && 
 						(bidState.fPts >= app_->GetSettings()->OpenPoints(11)) && (bidState.fPts < app_->GetSettings()->OpenPoints(13)))

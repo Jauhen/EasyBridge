@@ -22,7 +22,7 @@ int CCard::CharToFaceValue(TCHAR c) {
   //
   char t = c;
   if (islower(c))
-    char t = toupper(c);
+    t = toupper(c);
   //
   if (isdigit(c)) {
     nValue = c - '0';

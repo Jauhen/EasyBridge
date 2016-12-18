@@ -44,9 +44,7 @@ CCardList::CCardList(std::shared_ptr<AppInterface> app, const CCardList& srcList
 }
 
 // destructor
-CCardList::~CCardList()
-{
-}
+CCardList::~CCardList() {}
 
 
 

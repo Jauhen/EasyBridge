@@ -341,6 +341,7 @@
     <ClCompile Include="src\engine\PlayerStatusDialog.CPP" />
     <ClCompile Include="src\engine\play\PlayList.cpp" />
     <ClCompile Include="src\model\settings.cpp" />
+    <ClCompile Include="src\model\view_state.cpp" />
     <ClCompile Include="src\print.cpp" />
     <ClCompile Include="src\model\rdfile.cpp" />
     <ClCompile Include="src\model\RdFilePBN.cpp" />
@@ -403,7 +404,6 @@
     <ClInclude Include="src\dialogs\BidDlgLarge.h" />
     <ClInclude Include="src\dialogs\BidDlgSmall.h" />
     <ClInclude Include="src\engine\bidding\BidEngine.H" />
-    <ClInclude Include="src\engine\bidding\Bidopts.h" />
     <ClInclude Include="src\engine\bidding\Bidparams.H" />
     <ClInclude Include="src\engine\bidding\BlackwoodConvention.h" />
     <ClInclude Include="src\engine\CARD.H" />
@@ -422,7 +422,6 @@
     <ClInclude Include="src\dialogs\DealNumberDialog.h" />
     <ClInclude Include="src\model\DEALPARM.H" />
     <ClInclude Include="src\engine\Deck.H" />
-    <ClInclude Include="src\engine\deckopts.h" />
     <ClInclude Include="src\engine\play\DeclarerPlayEngine.H" />
     <ClInclude Include="src\engine\play\DefenderPlayEngine.H" />
     <ClInclude Include="src\DEFINES.H" />
@@ -460,7 +459,6 @@
     <ClInclude Include="src\engine\play\GuessedHandHoldings.H" />
     <ClInclude Include="src\engine\play\GuessedSuitHoldings.H" />
     <ClInclude Include="src\engine\play\HandHoldings.H" />
-    <ClInclude Include="src\engine\Handopts.h" />
     <ClInclude Include="src\HistoryWnd.h" />
     <ClInclude Include="src\engine\play\HoldUp.h" />
     <ClInclude Include="src\engine\bidding\Jacoby2NTConvention.h" />
@@ -470,6 +468,7 @@
     <ClInclude Include="src\engine\bidding\MichaelsCueBidConvention.h" />
     <ClInclude Include="src\dialogs\MyCustomDialog.h" />
     <ClInclude Include="src\model\settings.h" />
+    <ClInclude Include="src\model\view_state.h" />
     <ClInclude Include="src\MyException.h" />
     <ClInclude Include="src\dialogs\MYFILDLG.H" />
     <ClInclude Include="src\engine\bidding\NegativeDoublesConvention.h" />
@@ -845,10 +844,6 @@
       <Project>{65031f56-61ba-4e8c-af27-53e9c48bed5b}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -19,6 +19,7 @@
 #include <memory>
 
 class CObjectWithProperties;
+class CDeck;
 class Settings;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -37,14 +38,14 @@ private:
   std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
 	CObjectWithProperties&	m_view;
-	CObjectWithProperties&	m_deck;
+	std::shared_ptr<CDeck>	m_deck;
 	//
 	int		m_nIndex;
 
 
 // Construction
 public:
-	CDispOptsCardBacksPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, CObjectWithProperties* pDeck=NULL);
+	CDispOptsCardBacksPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, std::shared_ptr<CDeck> pDeck=NULL);
 	~CDispOptsCardBacksPage();
 
 public:

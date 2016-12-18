@@ -1678,8 +1678,8 @@ int CBidEngine::MakeRebidExtended()
 		//  - if partner raised our suit, go to game in majors with 26 pts 
 		//    or in minors with 29 pts
 		//
-		if ((nPartnersSuit == nPrefSuit) || (nPartnersSuit == nNextPrevSuit) ||
-			(nPartnersSuit == nPreviousSuit) && (nPreviousBid != BID_2C))
+		if ((nPartnersSuit == nPrefSuit || nPartnersSuit == nNextPrevSuit || nPartnersSuit == nPreviousSuit) && 
+        nPreviousBid != BID_2C)
 		{
 			if (nPartnersSuit == nPrefSuit)
 				nSuit = nPrefSuit;

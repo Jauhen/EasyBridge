@@ -94,7 +94,6 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 	BOOL bPlayingInHand = (app_->GetDeal()->GetCurrentPlayer() == pPlayer);
 	CHandHoldings& playerHand = *(combinedHand.GetPlayerHand());
 	CHandHoldings& dummyHand = *(combinedHand.GetPartnerHand());
-	CString strRHO = PositionToString(GetPrevPlayer(playEngine.GetPlayerPosition()));
 	CCard* pCardLed = app_->GetDeal()->GetCurrentTrickCardByOrder(0);
 	int nSuitLed = pCardLed? pCardLed->GetSuit() : NONE;
 	//
@@ -138,7 +137,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 						// only one suit specified, so it's OK
 						bPlayViable = TRUE;
 					}
-					// pull the bottom card fom the suit
+					// pull the bottom card from the suit
 					if (bPlayViable)
 						pPlayCard = suit.GetDeclarerSuit().GetBottomCard();
 				}
@@ -194,7 +193,7 @@ PlayResult CExitPlay::Perform(CPlayEngine& playEngine, CCombinedHoldings& combin
 						// only one suit specified, so it's OK
 						bPlayViable = TRUE;
 					}
-					// pull the bottom card fom the suit
+					// pull the bottom card from the suit
 					if (bPlayViable)
 						pPlayCard = suit.GetDummySuit().GetBottomCard();
 				}

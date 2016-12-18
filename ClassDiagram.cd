@@ -1,0 +1,1103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CAboutDlg" Collapsed="true">
+    <Position X="45.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAECAAAAAQBAABIAADABAAAAAEAAAAIQAAAAAgA=</HashCode>
+      <FileName>src\EasyB.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConventionPool" Collapsed="true">
+    <Position X="52.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIgAAACAMAAgAgFIAAAAAABEIAhAgABQAgAAICA=</HashCode>
+      <FileName>src\engine\bidding\convention_pool.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppImpl" Collapsed="true">
+    <Position X="5.5" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>qACyWKoIaxjxhAAIaGgEHQrEUSohxgNgDZMpF6AugxA=</HashCode>
+      <FileName>src\AppImpl.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AppInterface" Collapsed="true">
+    <Position X="5.5" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>qACyWKoIaxjxhAAIaGgEHQrEUSogxgNgDZMpF6AugxA=</HashCode>
+      <FileName>src\app_interface.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="C4thSuitForcingConvention" Collapsed="true">
+    <Position X="34" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\4thSuitForcingConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CAnalysisDialog" Collapsed="true">
+    <Position X="47.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EATBBAEAACMDAAAAAJAAACCQACIAAAAAAAYAAwBQAAA=</HashCode>
+      <FileName>src\dialogs\AnalysisDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CArtificial2ClubConvention" Collapsed="true">
+    <Position X="40.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\Artificial2ClubConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CAutoHintDialog" Collapsed="true">
+    <Position X="49" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACEAAKFABggIEBgAAAABEAJAAAAAAAZAAARAAAg=</HashCode>
+      <FileName>src\dialogs\AutoHintDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CBidDialog" Collapsed="true">
+    <Position X="1.75" Y="15.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCBBACUigggAEEAGA7wKICAQgiICVAZAAAAogQADAgA=</HashCode>
+      <FileName>src\dialogs\BidDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CBiddingFinishedDialog" Collapsed="true">
+    <Position X="50.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAABAAgAAAJAAAAABAAAEAAAgAAAAAAAAIAA=</HashCode>
+      <FileName>src\dialogs\BiddingFinishedDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CBidDialogLarge" Collapsed="true">
+    <Position X="0.5" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABBAAECAgAABAAEABgAIAAQACBAQAAAAAAIgAAAAAA=</HashCode>
+      <FileName>src\dialogs\BidDlgLarge.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CBidDialogSmall" Collapsed="true">
+    <Position X="2.75" Y="17" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABBAAECAgACAiEEARgAIAAQACAAQAAACAAIgAABAAA=</HashCode>
+      <FileName>src\dialogs\BidDlgSmall.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CBidEngine" Collapsed="true">
+    <Position X="52.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>3xqnwxXeIjvHu+H6borYpwbLXNTauPsix7xQ457/5I8=</HashCode>
+      <FileName>src\engine\bidding\BidEngine.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CBlackwoodConvention" Collapsed="true">
+    <Position X="20.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAACAAAAgAAAAAAAIAAAIEE=</HashCode>
+      <FileName>src\engine\bidding\BlackwoodConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCard" Collapsed="true">
+    <Position X="54.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MVgiIBIIAIBKywwAwQpAoQcgi8BMAcBIEA0g1ijAVMI=</HashCode>
+      <FileName>src\engine\CARD.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCardHoldings" Collapsed="true">
+    <Position X="4" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAAAQAAAQAAAQAAIQCGAAAAAAgABCAADABAA=</HashCode>
+      <FileName>src\engine\play\CardHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCardLayoutDialog" Collapsed="true">
+    <Position X="56" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIHAAAEgAAQBBAAAABAAACARAEAAAAAABAMAAAAAAAA=</HashCode>
+      <FileName>src\dialogs\CardLayout.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCardList" Collapsed="true">
+    <Position X="4" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ASNAHJQAAACCEIEgBGiQpQokABMCDQBBSABuAQBQGQU=</HashCode>
+      <FileName>src\engine\CardList.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCardLocation" Collapsed="true">
+    <Position X="45.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABQAAAAAAAAAAAAAAAAAAAEAAAAACACAAABAAAA=</HashCode>
+      <FileName>src\engine\CardLocation.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCash" Collapsed="true">
+    <Position X="26.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAgAAAAAAERAAACAAAAAAAAACAABAAAA=</HashCode>
+      <FileName>src\engine\play\Cash.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCombinedHoldings" Collapsed="true">
+    <Position X="7.5" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>NuoMhC8gboPHQzpgBhQb4KyaQg+EoICxyABlLbCCzLQ=</HashCode>
+      <FileName>src\engine\play\CombinedHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCombinedSuitHoldings" Collapsed="true">
+    <Position X="0.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUMBGQMkoKZEYRBFBVIYsAmIQopAHCQQqRBC4BBHxAQ=</HashCode>
+      <FileName>src\engine\play\CombinedSuitHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CConvention" Collapsed="true">
+    <Position X="22.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIIBAAAAggAQAAAAEAmAAAAAAAAAAAAAIkYAABAEE=</HashCode>
+      <FileName>src\engine\bidding\Convention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CConventionSet" Collapsed="true">
+    <Position X="13" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IhAAAjIgIABgQxglsSAGowQAIAAUACCBRCkkAEQBQAA=</HashCode>
+      <FileName>src\engine\bidding\ConventionSet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CCueBidConvention" Collapsed="true">
+    <Position X="16" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAQAIAAAgAgAAAAEAAAAAAAAAAAAAAAIAAAAEE=</HashCode>
+      <FileName>src\engine\bidding\CueBidConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDealNumberDialog" Collapsed="true">
+    <Position X="47.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAQCAAAAAAAIAAABAAAAAAAAAAAQBIAAAgAABAAAA=</HashCode>
+      <FileName>src\dialogs\DealNumberDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDeck" Collapsed="true">
+    <Position X="15.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBAQBQAIAEBSyAAwAIAIgAEUEHGAAAABBwGBABCEIA=</HashCode>
+      <FileName>src\engine\Deck.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDeclarerPlayEngine" Collapsed="true">
+    <Position X="6" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>aVMcTFx05MISBUMFwXACDRIlyUoiGAeyLA4VOBTPNqo=</HashCode>
+      <FileName>src\engine\play\DeclarerPlayEngine.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDefenderPlayEngine" Collapsed="true">
+    <Position X="8.25" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAQAQBwRIAEQABARAEAQAEAQADEKAABAIEEEBIEAA=</HashCode>
+      <FileName>src\engine\play\DefenderPlayEngine.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDiscard" Collapsed="true">
+    <Position X="4" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAEBAAAAAAAEAAAAACCABAAAA=</HashCode>
+      <FileName>src\engine\play\Discard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDisplayHoldings" Collapsed="true">
+    <Position X="3" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAEAAAAAAAAAAAAAQIAAAAAAAAAIAABAKAABAAAA=</HashCode>
+      <FileName>src\engine\play\DisplayHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Deal" Collapsed="true">
+    <Position X="49" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>jrpGfvrdf/6P0X3nP+2lkt6jfN3+z6pfxzs/v/o9of4=</HashCode>
+      <FileName>src\model\deal.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDrop" Collapsed="true">
+    <Position X="17.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgBQAAAAEBAAQAAAAAACAAACBABAAAA=</HashCode>
+      <FileName>src\engine\play\Drop.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDruryConvention" Collapsed="true">
+    <Position X="25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAgAIAAQAEA=</HashCode>
+      <FileName>src\engine\bidding\DruryConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CDummyPlayEngine" Collapsed="true">
+    <Position X="3.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAQAAAQAIAAQADAAAAAAAAEAAgAAAAAAAEEABIAAA=</HashCode>
+      <FileName>src\engine\play\DummyPlayEngine.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CEasyBApp" Collapsed="true">
+    <Position X="9" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIEAgCAAIhAAAAQAAEgAABAACABERAGABBAIAAAgI=</HashCode>
+      <FileName>src\EasyB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CEasyBDoc" Collapsed="true">
+    <Position X="49" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>NBQBABEgTiGAAXAHSpGQiEKEaaCgmAItRAAJaIIpAAA=</HashCode>
+      <FileName>src\EasyBdoc.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CEasyBView" Collapsed="true">
+    <Position X="14" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>twIn2uWm91HAgzFOfCLD6Vr1EhfCknNNBYwv3+d/KbM=</HashCode>
+      <FileName>src\EasyBvw.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CEditDialog" Collapsed="true">
+    <Position X="50.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACABAEAAAAAAAAAgJAAACAQAAIEAAAAAEAAgAhYAAE=</HashCode>
+      <FileName>src\dialogs\editdlg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNotifyEvent" Collapsed="true">
+    <Position X="50.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAgACACAAA=</HashCode>
+      <FileName>src\EventProcessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CEventProcessor" Collapsed="true">
+    <Position X="10" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAgAAAAAAAAAQCAAAABAAAACAEAAAAA=</HashCode>
+      <FileName>src\EventProcessor.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CExitPlay" Collapsed="true">
+    <Position X="1.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAgAAIAAAEAAAAAAAAAAAAAgCAIBQAAA=</HashCode>
+      <FileName>src\engine\play\ExitPlay.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFileCommentsDialog" Collapsed="true">
+    <Position X="52.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AATEAAEAAAkABAAAABAAACAQAAAAAAAAAQQAAQAAAAA=</HashCode>
+      <FileName>src\dialogs\FileComments.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFilePropertiesDialog" Collapsed="true">
+    <Position X="54.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAEAAAAAAAEAABAAAAAAEAAAAAAAAAIAAABAAAA=</HashCode>
+      <FileName>src\dialogs\FilePropertiesDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFinesse" Collapsed="true">
+    <Position X="10.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAABAAAAIwAAAAAAEBAIQAATAQAAAAgCAABAAAA=</HashCode>
+      <FileName>src\engine\play\Finesse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CForce" Collapsed="true">
+    <Position X="19.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAiAAAAAAEBAQAAAAAAAAAAACAABAAAA=</HashCode>
+      <FileName>src\engine\play\Force.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGambling3NTConvention" Collapsed="true">
+    <Position X="27.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAQAAEAAAAAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\Gambling3NTConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FileExporter" Collapsed="true">
+    <Position X="50.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAACIAAIAAAAAAAIAAAAAAAAAICAAAAAAAI=</HashCode>
+      <FileName>src\model\file_exporter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGameRecord" Collapsed="true">
+    <Position X="45.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgAAQBAAhCAAQICCA3gAEcAAIBwAIAAEQBAAAAIAAAA=</HashCode>
+      <FileName>src\model\GameRecord.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGameReviewDialog" Collapsed="true">
+    <Position X="7.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AlRCQoEAAEAABQAEAFAQAGoJRAhAAgAAIAIEAAAgEKA=</HashCode>
+      <FileName>src\dialogs\GameReviewDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGerberConvention" Collapsed="true">
+    <Position X="18.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAEAAAAAgAAAAAAAAAIEAAAEE=</HashCode>
+      <FileName>src\engine\bidding\GerberConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGIB" Collapsed="true">
+    <Position X="47.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAAAAAABCIAEAgQQAAgAACCAACgAAAACIIgQMABAA=</HashCode>
+      <FileName>src\GIB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGIBDialog" Collapsed="true">
+    <Position X="49" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABEACUAAAAAIQAAAJAAACAAAAAAAEAABooAAACAEAA=</HashCode>
+      <FileName>src\dialogs\GIBDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGIBMonitorThread" Collapsed="true">
+    <Position X="50.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAIAAAAQAAAAAQAAAAAAAAAJAAAAAAQAACQQAAAAAAI=</HashCode>
+      <FileName>src\GIBMonitorThread.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGuessedCard" Collapsed="true">
+    <Position X="52.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAp0QBAAAABKQBAAAABQAAEMyQBAAABIMBQSgAhAxAA=</HashCode>
+      <FileName>src\engine\GuessedCard.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGuessedCardHoldings" Collapsed="true">
+    <Position X="12.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ESIADBRCEASAAIoAhmiRLAgwUBMPESBBUQBuIQFAAAQ=</HashCode>
+      <FileName>src\engine\play\GuessedCardHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGuessedHandHoldings" Collapsed="true">
+    <Position X="11.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgIAAAAAwCAAAACQMQAAAAAAAAAAAABHCABAgAA=</HashCode>
+      <FileName>src\engine\play\GuessedHandHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGuessedSuitHoldings" Collapsed="true">
+    <Position X="13.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACACgIAAABAACAEAAAAIQAAQQICAAAAAABCCABAgAA=</HashCode>
+      <FileName>src\engine\play\GuessedSuitHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CHandHoldings" Collapsed="true">
+    <Position X="5.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>vL/YVanufoMFZ7rkjhQecqw7A9+0zHG6yxPVDfAGTGs=</HashCode>
+      <FileName>src\engine\play\HandHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CHistoryWnd" Collapsed="true">
+    <Position X="54.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhRAgEAAgAkAGABAEhAAAIkQFCIApAACAkKikAgaAAE=</HashCode>
+      <FileName>src\HistoryWnd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CHoldUp" Collapsed="true">
+    <Position X="24.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAggAAAEAAAAAAAAAAAAAACAABAAAA=</HashCode>
+      <FileName>src\engine\play\HoldUp.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CJacoby2NTConvention" Collapsed="true">
+    <Position X="31.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAEAAAAAAAAQAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\Jacoby2NTConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CJacobyTransferConvention" Collapsed="true">
+    <Position X="36.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAQAAIAABAEA=</HashCode>
+      <FileName>src\engine\bidding\JacobyTransferConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMainFrame" Collapsed="true">
+    <Position X="11" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>cC9Tr6bRo3F3U6UZKLw4zJX36u+c+iP2XVttCOwfkQs=</HashCode>
+      <FileName>src\mainfrm.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMichaelsCueBidConvention" Collapsed="true">
+    <Position X="2.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAgAAAAAEAAAAAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\MichaelsCueBidConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMyCustomDialog" Collapsed="true">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQBIANlgACAAUAAABAAACgQEDIQAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>src\dialogs\MyCustomDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Settings" Collapsed="true">
+    <Position X="16" Y="14.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>r/v3//f+xy43v+dPv3uL/+pvj///tn/xrTn//8f//f8=</HashCode>
+      <FileName>src\model\settings.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ViewState" Collapsed="true">
+    <Position X="18" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACQADgQQAAgAIAEkSAABUAAGAAAACABABAAgAACAAA=</HashCode>
+      <FileName>src\model\view_state.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMyException" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAKAAAAEAAAAY=</HashCode>
+      <FileName>src\MyException.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CGIBException" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\MyException.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMyFileDialog" Collapsed="true">
+    <Position X="56" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAhAAAEAAAAAAAAAABAAAAAAAQTIAAAAAAAAgCAAAAA=</HashCode>
+      <FileName>src\dialogs\MYFILDLG.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNegativeDoublesConvention" Collapsed="true">
+    <Position X="29.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\NegativeDoublesConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNNetAutotrainStatusDlg" Collapsed="true">
+    <Position X="45.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAQCEgAAAAAAEAABAACAEAAAAAAAAAIAAJhAAABAA=</HashCode>
+      <FileName>src\dialogs\NNetAutotrainStatusDlg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNNetConfigDialog" Collapsed="true">
+    <Position X="47.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACEgAAAAAgAAEBAAAAEBAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>src\dialogs\NNetConfigDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CNNetOutputDialog" Collapsed="true">
+    <Position X="49" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QASAAAUAAAQIAABAABQAgCAAEAIAAQAAAAAAAABAAAA=</HashCode>
+      <FileName>src\dialogs\NNetOutputDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CObjectWithProperties" Collapsed="true">
+    <Position X="14" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAIAAAAiEAAAAAAAAAAAAAAABAQAAABAACAAA=</HashCode>
+      <FileName>src\ObjectWithProperties.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="COvercallsConvention" Collapsed="true">
+    <Position X="43" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAECAABAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\OvercallsConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPassedHandDialog" Collapsed="true">
+    <Position X="54.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAABAAAECAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\dialogs\PassedHandDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPassedHandSimpleDialog" Collapsed="true">
+    <Position X="56" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAEAAAAAAAAAAJAAAAAQAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>src\dialogs\PassedHandSimpleDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPlay" Collapsed="true">
+    <Position X="15.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQBEJhiIHABAxgwqIh5AlQCGYQgAVYEKBEICBoFERJQ=</HashCode>
+      <FileName>src\engine\play\Play.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPlayEngine" Collapsed="true">
+    <Position X="6" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CyMIUJQKoBoBKyhlEyOQAAbEAUtiuAAEbgoEEgBqfAI=</HashCode>
+      <FileName>src\engine\play\PlayEngine.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPlayer" Collapsed="true">
+    <Position X="45.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>W4MU0RCGsSagLrPxiXgSBg5lAZAhqJoCBhxQkiCqtBE=</HashCode>
+      <FileName>src\engine\PLAYER.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPlayerStatusDialog" Collapsed="true">
+    <Position X="47.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAABBQCIALAAAAMQAKAQiaAAAwEChAAQAIhAABAAQw=</HashCode>
+      <FileName>src\engine\PlayerStatusDialog.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CPlayList" Collapsed="true">
+    <Position X="49" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAxIACIAEBgqACDEEACAIgAABAMAAQAEgAAIgIBAgAg=</HashCode>
+      <FileName>src\engine\play\PlayList.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CRoundFinishedDialog" Collapsed="true">
+    <Position X="50.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EABAAKEACAAAAgAABBAAAAIDCAAEAgCCAAAAgAACIAA=</HashCode>
+      <FileName>src\dialogs\roundfinisheddialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CRuff" Collapsed="true">
+    <Position X="28.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgABAAAAEQAAIAAAAAAAAAACAABABAA=</HashCode>
+      <FileName>src\engine\play\Ruff.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CFileSaveOptionsDlg" Collapsed="true">
+    <Position X="56" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBAgCAAAAAAAAEAABAAAAAgAIAgQQAAAAAAAGAAgAI=</HashCode>
+      <FileName>src\dialogs\saveopts.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CScoreDialog" Collapsed="true">
+    <Position X="52.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgBAEAAAAAAAAAABEQAAABAAAAgAAAAEIAAgBAoAA=</HashCode>
+      <FileName>src\dialogs\ScoreDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CScreenSizeWarningDlg" Collapsed="true">
+    <Position X="54.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAABAgIAABAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>src\dialogs\ScreenSizeWarningDlg.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSelectHandDialog" Collapsed="true">
+    <Position X="56" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAACECgBAAAIAAABAAAAABBAAAAgCCAAAIAkAACAA=</HashCode>
+      <FileName>src\dialogs\SelectHandDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CShutoutBidsConvention" Collapsed="true">
+    <Position X="11.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAEAAAIAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\ShutoutBidsConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSlamConvention" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAAAAE=</HashCode>
+      <FileName>src\engine\bidding\SlamConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSplinterBidsConvention" Collapsed="true">
+    <Position X="13.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAEAAAAAAAAAAAAAABIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\SplinterBidsConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusAnalysesPage" Collapsed="true">
+    <Position X="45.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgUAAIMBFCFAAAAAEhgAAAiAlAINAABECBYAABBaAAE=</HashCode>
+      <FileName>src\StatusAnalysesPage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusCardLocationsPage" Collapsed="true">
+    <Position X="47.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQFAAEEBAGAAAAAABIAAAAUkAYAIAAAAAAAAABRAAI=</HashCode>
+      <FileName>src\StatusCardLocationsPage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusFeedbackPage" Collapsed="true">
+    <Position X="49" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAEAAAAAAgAAABBAAAAQEAIAAAAAAAAABABQAAA=</HashCode>
+      <FileName>src\StatusFeedbackPage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusGIBMonitorPage" Collapsed="true">
+    <Position X="50.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAEAAAAAABgAAAAQEAIAAAAAQAAABABQIAE=</HashCode>
+      <FileName>src\StatusGIBMonitorPage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusHoldingsPage" Collapsed="true">
+    <Position X="52.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQFAAEABAEAAAAAABIAAAAAkAIAIAAAAAAAAABQIAg=</HashCode>
+      <FileName>src\StatusHoldingsPage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusPlayPlanPage" Collapsed="true">
+    <Position X="54.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQFAAFIBAEAAAgCABBAACgQkBIAIAEAAAAAIABQACA=</HashCode>
+      <FileName>src\StatusPlayPlanPage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusSheet" Collapsed="true">
+    <Position X="56" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARBAAEAAAEAAABCgABACAAQEAoAAAAEEAAAAEBYAAA=</HashCode>
+      <FileName>src\StatusSheet.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStatusWnd" Collapsed="true">
+    <Position X="45.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAACAACEAAAAgAAAAEAAQECIAAAACAAIAAABQAAA=</HashCode>
+      <FileName>src\StatusWnd.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStaymanConvention" Collapsed="true">
+    <Position X="4.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAFAAAAAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\StaymanConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CStrongTwoBidsConvention" Collapsed="true">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAIAAAAAAEAAAAAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\StrongTwoBidsConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CSuitHoldings" Collapsed="true">
+    <Position X="0.75" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>dpsIAowCzIrhRKxsJz4RZLwyBM8GjwgIhBJCR+DSzKA=</HashCode>
+      <FileName>src\engine\play\SuitHoldings.H</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTakeoutDoublesConvention" Collapsed="true">
+    <Position X="22.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAEAAAAAAAIAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\TakeoutDoublesConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTestPlayDialog" Collapsed="true">
+    <Position X="47.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAEAACAAACAAEBAACEABIAAAAAAAAEIAAAIIAAA=</HashCode>
+      <FileName>src\dialogs\TestPlayDialog.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTrumpPull" Collapsed="true">
+    <Position X="22" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEQAgAAEQAAERAAAAAAAAAAIAACAABAAAA=</HashCode>
+      <FileName>src\engine\play\TrumpPull.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CType1Finesse" Collapsed="true">
+    <Position X="6.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAEAAAAAAEAAAAIAACAABAQAA=</HashCode>
+      <FileName>src\engine\play\Type1Finesse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CType2Finesse" Collapsed="true">
+    <Position X="8.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAgAAAAAAEAAAAAAAAAAAIAACAABAQAA=</HashCode>
+      <FileName>src\engine\play\Type2Finesse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CType3Finesse" Collapsed="true">
+    <Position X="10.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAgAAAAAAEAAAAAAAAAAAAAACAABAQAA=</HashCode>
+      <FileName>src\engine\play\Type3Finesse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTypeAFinesse" Collapsed="true">
+    <Position X="13" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAEEAAAAAAAAAAAAAACAABAQAA=</HashCode>
+      <FileName>src\engine\play\TypeAFinesse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CTypeBFinesse" Collapsed="true">
+    <Position X="15.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAEAAAAAAAAAAAAAACAABASAA=</HashCode>
+      <FileName>src\engine\play\TypeBFinesse.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CUnusualNTConvention" Collapsed="true">
+    <Position X="38.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAEAAAgAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\UnusualNTConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CWeakTwoBidsConvention" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAEAAIAAAAAAAAAAAAIAAAAEA=</HashCode>
+      <FileName>src\engine\bidding\WeakTwoBidsConvention.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="RuffInfo" Collapsed="true">
+    <Position X="47.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAIQAAEAAAAAAAQAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>src\engine\play\DeclarerPlayEngine.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0097_1" Collapsed="true">
+    <Position X="5.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAEDAAAAAAAQA=</HashCode>
+      <FileName>src\engine\play\DeclarerPlayEngine.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="null_deleter" Collapsed="true">
+    <Position X="45.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EasyB.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_00cb_1" Collapsed="true">
+    <Position X="1.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\GIB.cpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0058_1" Collapsed="true">
+    <Position X="1.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\ConventionSet.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0005_1" Collapsed="true">
+    <Position X="9.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQBAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>src\DialogInfo.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="__unnamed_struct_0005_2" Collapsed="true">
+    <Position X="17.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>src\DialogInfo.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="DevOpportunity" Collapsed="true">
+    <Position X="5.5" Y="26.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\play\DeclarerPlayEngine.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="GIBStruct" Collapsed="true">
+    <Position X="1.5" Y="26.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\GIB.cpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="NVALUE" Collapsed="true">
+    <Position X="49" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\dialogs\NNetOutputDialog.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="RaiseLevel" Collapsed="true">
+    <Position X="9.5" Y="25.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="BidLevel" Collapsed="true">
+    <Position X="17.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="BalancedCode" Collapsed="true">
+    <Position X="13.5" Y="24.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="SuitLength" Collapsed="true">
+    <Position X="23.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="SupportLength" Collapsed="true">
+    <Position X="21.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="HonorsCount" Collapsed="true">
+    <Position X="21.5" Y="18.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="RebidLevel" Collapsed="true">
+    <Position X="20.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="StoppedCode" Collapsed="true">
+    <Position X="5.5" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="BID" Collapsed="true">
+    <Position X="45.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\card_constants.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="CIntArray" Collapsed="true">
+    <Position X="47.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\card_constants.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="MINMAX" Collapsed="true">
+    <Position X="1.5" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\ConventionSet.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="DialogControlInfo" Collapsed="true">
+    <Position X="9.5" Y="20.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\DialogInfo.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="DialogToolTipInfo" Collapsed="true">
+    <Position X="17.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\DialogInfo.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="PlayResult" Collapsed="true">
+    <Position X="13.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\play\Play.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="bidopts" Collapsed="true">
+    <Position X="47.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AGAAAAAIQCCAAEAAICIEAACGIBAQAEKBQAAAAQIAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidopts.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_1" Collapsed="true">
+    <Position X="9.5" Y="23.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RAABAAAEwABAhEAAIAAAAAoAgIAAAAAAcg4AAAm/AAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_2" Collapsed="true">
+    <Position X="17.5" Y="22.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwDgAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_3" Collapsed="true">
+    <Position X="13.5" Y="22.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_4" Collapsed="true">
+    <Position X="22.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCAAwAAAMRAQAAKAQAAAEAFAIAAAgEAIAACIBCAQAgA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_5" Collapsed="true">
+    <Position X="21.5" Y="21.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAEAAAAAIAAAACKAAAAAQAAQAAAIBAAIAQAAAgAAAgA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_6" Collapsed="true">
+    <Position X="21.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAEAAAABCAIACAAAAAAABAAAAAFAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_7" Collapsed="true">
+    <Position X="20.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/EkwAgEAgAAEAgAgAoQACAAAAS0AAAAEBAGIBAAIggE=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_0051_8" Collapsed="true">
+    <Position X="5.5" Y="19.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAABAUAAAAAQAAAAAAA=</HashCode>
+      <FileName>src\engine\bidding\Bidparams.H</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Suit" Collapsed="true">
+    <Position X="45.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAQAAAEAAAAAkAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>src\engine\card_constants.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Position" Collapsed="true">
+    <Position X="56" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgBAAAAABAIAQAAAAAEAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\card_constants.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Team" Collapsed="true">
+    <Position X="47.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAgAAAAAAAAAAAAAAAACAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>src\engine\card_constants.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Bids" Collapsed="true">
+    <Position X="49" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QADARAAAAAIASgUAAAAAoBAAAAAAAAgCAAAAAAAgAgA=</HashCode>
+      <FileName>src\engine\card_constants.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="bidconvcodes" Collapsed="true">
+    <Position X="45.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>FAAIQIRAiQAgMAADAAIIAAAISQAAAYBYAAABgEALICA=</HashCode>
+      <FileName>src\engine\bidding\ConvCodes.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="deckopts" Collapsed="true">
+    <Position X="50.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAACAAAAAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\deckopts.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="handopts" Collapsed="true">
+    <Position X="52.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>VJEAOCKQgIQkCEAEEhMJGUA4SdYYxQwoKQDAdAJIJqY=</HashCode>
+      <FileName>src\engine\Handopts.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="mainframeopts" Collapsed="true">
+    <Position X="54.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>4MgBhQiFUAGQAZQMAUBDgAUIAlQIgSQGBYgIIAVVAQw=</HashCode>
+      <FileName>src\MainFrameopts.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_00b4_1" Collapsed="true">
+    <Position X="13.5" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQEAAAAAAAAAAIAAAAEAAAABAYAAQAAAAAAAAAA=</HashCode>
+      <FileName>src\engine\play\Play.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="viewopts" Collapsed="true">
+    <Position X="49" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAEAAAAAAAAQAIAAAAAAAIAAACAAAAAAAAAAAE=</HashCode>
+      <FileName>src\viewopts.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

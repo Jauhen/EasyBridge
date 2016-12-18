@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "engine/card_constants.h"
 #include "engine/PLAYER.H"
-#include "engine/bidding/Bidopts.h"
 #include "model/DEALPARM.H"
 #include "model/Globals.h"
 #include "model/settings.h"

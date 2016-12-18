@@ -355,7 +355,6 @@ BOOL CStaymanConvention::HandleConventionResponse(const CPlayer& player,
 	else if (nPartnersBid == BID_PASS)
 	{
 		BOOL bInterference = ISBID(bidState.nLHOBid);
-		CString strTemp = BidToFullString(nPartnersBid);
 		status << "STYX04! Partner passed our Stayman inquiry " &
 				  (bInterference? "after interference from the opponents" : "") &
 				   ", so Stayman is no longer in effect.\n";

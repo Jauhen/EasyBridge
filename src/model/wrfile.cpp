@@ -430,11 +430,11 @@ BOOL Deal::ExportGameInfo(CArchive& ar) {
   WriteText(ar, "[Bidding History]\r\n");
   const CString strBiddingHistory = app_->GetBiddingHistory();
   WriteText(ar, strBiddingHistory);
-  if (ISBID(GetContract())) {
-    int nDeclarer = GetDeclarerPosition();
-    CString strContract = FormString("Contract: %s by %s; %s leads", GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
+  //if (ISBID(GetContract())) {
+    //int nDeclarer = GetDeclarerPosition();
+    // CString strContract = FormString("Contract: %s by %s; %s leads", GetContractString(), PositionToString(nDeclarer), PositionToString(GetNextPlayer(nDeclarer)));
     //		WriteText(pFile, strContract);
-  }
+  //}
 
   // export play history
   WriteText(ar, "\r\n\r\n\r\n");

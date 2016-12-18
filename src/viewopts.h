@@ -15,57 +15,13 @@
 #pragma once;
 
 enum viewopts {
-	tbAnimateCards,
-	tbAutoRestackCards,
-	tbBitmapAvailable,
-	tbCanDisplayBitmap,
-	tbExchanging,
-	tbLayoutCardSelected,
-	tbLayoutDialogActive,
-	tbOffsetVerticalSuits,
-	tbTripleBuffer,
-	tbViewInitialized,
-	tbOpeningSequenceDone,
-	tpCardDest,	
-	tpvCustomDIB,
-	tpvDefaultBitmap,
-	tpDrawPoint,
-	tpDummyDrawOffset,
-	tpDummyLabelOffset,
-	tnCardWidth,
-	tnCardHeight,
-	tnCardXGap,
-	tnCardYGap,
-	tnOverlapYOffset,
-	tnSuitSpacer,
-	tnDummySuitSpacer,
-	tpvCursor,
-	tpvCursorExchange,
-	tpvCursorGrab,
-	tpvCursorInvalid,
-	tpvLayoutDeck,
-	tnAnimationGranularity,
-	tnCurrentMode,
-	tnExchangeSrcPlayer,
-	tnLayoutCardDestination,
-	tnLayoutCardOrigin,
-	tnPlayerCardLimit,
-	tnSuitToScreenIndex,
-	tnDummySuitToScreenIndex,
-	tnumCardsUnassigned,
-	tpvExchangeCard,
-	tpvLayoutCard,
-	tpLayout,
-	tpLayoutCardOffset,
-	trCardDest,
-	trLayout,
-	trSuitOffset,
-	trTable,
-	tszBackgroundBitmap,
-	tpvTableRegion,
-	tnColorDepth,
-	tnScreenWidth,
-	tnScreenHeight,
+	tbAnimateCards, //
+	tbCanDisplayBitmap, //
+	tbOffsetVerticalSuits, //
+	tbTripleBuffer, //
+  tpDrawPoint, 
+	tnAnimationGranularity, //
+	tszBackgroundBitmap, //
 };
 
 

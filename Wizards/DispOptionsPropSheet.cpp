@@ -32,7 +32,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CDispOptionsPropSheet, CPropertySheet)
 
-CDispOptionsPropSheet::CDispOptionsPropSheet(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, CObjectWithProperties* pDeck, CWnd* pParentWnd, UINT iSelectPage) :
+CDispOptionsPropSheet::CDispOptionsPropSheet(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, std::shared_ptr<CDeck> pDeck, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Display Options"), pParentWnd, iSelectPage)
 {
 	// create the pages

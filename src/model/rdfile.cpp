@@ -222,7 +222,7 @@ BOOL Deal::ReadFile(CArchive& ar) {
                 (nSectionCode == BLOCK_EAST_ANALYSIS)) {
                 // don't bother to save the analysis
                 int nPlayer = nSectionCode - BLOCK_SOUTH_ANALYSIS;
-                CString strAnalysisBiffer;
+                // CString strAnalysisBiffer;
                 do {
                   nRtnCode = ReadLine(ar, strBuf);
                   //					strBuf += "\r\n";

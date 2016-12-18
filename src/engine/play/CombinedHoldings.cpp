@@ -17,7 +17,6 @@
 #include "engine/play/CombinedSuitHoldings.h"
 #include "engine/play/CombinedHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-#include "engine/handopts.h"
 #include "app_interface.h"
 #include "model/deal.h"
 #include "model/settings.h"
@@ -239,9 +238,9 @@ void CCombinedHoldings::ClearHand()
 	m_numSuitsUnstopped = 0;
 	for(i=0;i<4;i++)
 	{
-		m_nSuitsStopped[i];
-		m_nSuitsProbStopped[i];
-		m_nSuitsUnstopped[i];
+		m_nSuitsStopped[i] = 0;
+		m_nSuitsProbStopped[i] = 0;
+		m_nSuitsUnstopped[i] = 0;
 	}
 	//
 	m_strSuitsStopped.Empty();
@@ -576,7 +575,7 @@ void CCombinedHoldings::EvaluateHoldings()
 	//
 	// first report the hand
 	//
-	CString strLine,str1,str2;
+	CString strLine,str1;
 	status.SetStreamOutputLevel(2);
 	status << "Combined hand (Dummy/Hand):\n" & 
 				    "  S:" & m_pSuit[3]->GetHoldingsString() & "\n" &
@@ -1006,87 +1005,3 @@ int	CCombinedHoldings::GetLongestSuit(int nType) const
 	ASSERT(FALSE);
 	return NONE;
 }
-
-
-
-
-
-//====================================================================
-//
-// Value Set/Retrieval
-//
-//====================================================================
-
-//
-LPVOID CCombinedHoldings::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-/*
-	switch (nItem)
-	{
-		//
-		default:
-			AfxMessageBox("Unhandled Call to CCombinedHoldings::GetValue()");
-			return NULL;
-	}
-*/
-	return NULL;
-}
-
-//
-double CCombinedHoldings::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	switch (nItem)
-	{
-		case tfQuickTricks:	
-			return m_numQuickTricks;
-		default:
-			AfxMessageBox("Unhandled Call to CCombinedHoldings::GetValue");
-			return 1;
-	}
-	return 0;
-}
-
-//
-// SetValuePV()
-//
-int CCombinedHoldings::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3)
-{
-	int nVal = (int) value;
-	BOOL bVal = (BOOL) value;
-	LPCTSTR sVal = (LPCTSTR) value;
-/*
-	//
-	switch (nItem)
-	{
-		//
-		default:
-			AfxMessageBox("Unhandled Call to CCombinedHoldings::SetValue()");
-			return 1;
-	}
-*/
-	return 0;
-}
-
-// "double" version
-int CCombinedHoldings::SetValue(int nItem, double fValue, int nIndex1, int nIndex2, int nIndex3)
-{
-//	switch (nItem)
-//	{
-//		default:
-			AfxMessageBox("Unhandled Call to CCombinedHoldings::SetValue()");
-			return 1;
-//	}
-//	return 0;
-}
-
-//
-int CCombinedHoldings::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	return (int) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
-
-int CCombinedHoldings::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	return SetValuePV(nItem, (LPVOID) nValue, nIndex1, nIndex2, nIndex3);
-}
-
