@@ -17,7 +17,6 @@
 #include "engine/play/CombinedSuitHoldings.h"
 #include "engine/play/CombinedHoldings.h"
 #include "engine/PlayerStatusDialog.h"
-#include "engine/handopts.h"
 #include "app_interface.h"
 #include "model/deal.h"
 #include "model/settings.h"
@@ -1037,8 +1036,6 @@ double CCombinedHoldings::GetValueDouble(int nItem, int nIndex1, int nIndex2, in
 {
 	switch (nItem)
 	{
-		case tfQuickTricks:	
-			return m_numQuickTricks;
 		default:
 			AfxMessageBox("Unhandled Call to CCombinedHoldings::GetValue");
 			return 1;

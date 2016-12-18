@@ -460,7 +460,6 @@
     <ClInclude Include="src\engine\play\GuessedHandHoldings.H" />
     <ClInclude Include="src\engine\play\GuessedSuitHoldings.H" />
     <ClInclude Include="src\engine\play\HandHoldings.H" />
-    <ClInclude Include="src\engine\Handopts.h" />
     <ClInclude Include="src\HistoryWnd.h" />
     <ClInclude Include="src\engine\play\HoldUp.h" />
     <ClInclude Include="src\engine\bidding\Jacoby2NTConvention.h" />

@@ -26,7 +26,6 @@
 #include "engine/CardLocation.h"
 #include "engine/play/GuessedHandHoldings.h"
 #include "engine/player.h"
-#include "engine/handopts.h"
 #include "engine/PlayerStatusDialog.h"
 #include "model/deal.h"
 #include "app_interface.h"
@@ -862,96 +861,6 @@ LPVOID CPlayer::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
 {
 	switch (nItem)
 	{
-
-		//
-		// the following get passed into m_pHand
-		//
-
-		// card info
-		case tInitialHand:
-		case tHand:		
-		case tDisplayHand:
-		case tstrHoldings:		
-		case tstrScreenHoldings:	
-		case tbHandSorted:
-		case tbExposeCards:
-		case tnumCardsHeld:
-		case tSuitHoldings:
-		case tnumCardsInSuit:
-		// basic hand statistics
-		case tnumAcesHeld:	
-		case tnumKingsHeld:	
-		case tnumHighCardPoints:
-		case tnumSuitPoints:
-		case tnumShortPoints:
-		case tnumLongPoints:
-		case tnumBonusPoints:
-		case tnumPenaltyPoints:
-		case tnumTotalPoints:
-		case tnumAdjustedPoints:
-		case tnBalanceValue:
-		// more detailed hand analysis
-		case tnumSuitHonors:
-		case tbSuitStopped:	
-		case tbSuitProbStopped:
-		case tnumSuitsStopped:		
-		case tnumSuitsProbStopped:	
-		case tnumStoppersInSuit:
-		case tnumSuitsUnstopped:
-		case tnStoppedSuits:
-		case tnProbStoppedSuits:
-		case tnUnstoppedSuits:
-		case tstrSuitsStopped:
-		case tstrSuitsUnstopped:
-		case tnumRebiddableSuits:
-		case tbSuitIsRebiddable:
-		case tnSuitStrength:	
-		case tbSuitIsMarginal:
-		case tbSuitIsOpenable:
-		case tbSuitIsStrong:
-		case tbSuitIsPreferred:
-		case tbSuitIsAbsolute:
-		case tbSuitIsSolid:	
-		case tnumMarginalSuits:
-		case tnumOpenableSuits:
-		case tnumStrongSuits:
-		case tnumPreferredSuits:
-		case tnumAbsoluteSuits:
-		case tnumSolidSuits:
-		case tnLowestMarginalSuit:
-		case tnLowestOpenableSuit:	
-		case tnLowestStrongSuit:
-		case tnLowestPreferredSuit:
-		case tnLowestAbsoluteSuit:
-		case tnLowestSolidSuit:
-		case tnMarginalSuitList:
-		case tnOpenableSuitList:
-		case tnStrongSuitList:	
-		case tnPreferredSuitList:
-		case tnAbsoluteSuitList:
-		case tnSolidSuitList:	
-		case tnHighestMarginalSuit:
-		case tnHighestOpenableSuit:
-		case tnHighestStrongSuit:
-		case tnHighestPreferredSuit:
-		case tnHighestAbsoluteSuit:
-		case tnHighestSolidSuit:
-		case tnPreferredSuit:	
-		case tnSuitsByPreference:
-		case tnSuitRank:		
-		case tnumVoidSuits:
-		case tnVoidSuits:		
-		case tnumSingletonSuits:
-		case tnSingletonSuits:
-		case tnumDoubletonSuits:
-		case tnDoubletonSuits:	
-		case tnSuitsOfAtLeast:	
-		case tnumWinners:
-		case tnumLosers:
-		case tnumSuitWinners:	
-		case tnumSuitLosers:	
-			return m_pHand->GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-
 		//
 		// the following get passed to m_bidStatus
 		//
@@ -1013,95 +922,6 @@ int CPlayer::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int n
 	//
 	switch (nItem)
 	{
-		//
-		// the following get passed to m_pHand
-		//
-		// card info
-		case tInitialHand:
-		case tHand:		
-		case tDisplayHand:
-		case tstrHoldings:		
-		case tstrScreenHoldings:	
-		case tbHandSorted:
-		case tbExposeCards:
-		case tnumCardsHeld:
-		case tSuitHoldings:
-		case tnumCardsInSuit:
-		// basic hand statistics
-		case tnumAcesHeld:	
-		case tnumKingsHeld:	
-		case tnumHighCardPoints:
-		case tnumSuitPoints:
-		case tnumShortPoints:
-		case tnumLongPoints:
-		case tnumBonusPoints:
-		case tnumPenaltyPoints:
-		case tnumTotalPoints:
-		case tnumAdjustedPoints:
-		case tnBalanceValue:
-		// more detailed hand analysis
-		case tnumSuitHonors:
-		case tbSuitStopped:	
-		case tbSuitProbStopped:
-		case tnumSuitsStopped:		
-		case tnumSuitsProbStopped:	
-		case tnumStoppersInSuit:
-		case tnumSuitsUnstopped:
-		case tnStoppedSuits:
-		case tnProbStoppedSuits:
-		case tnUnstoppedSuits:
-		case tstrSuitsStopped:
-		case tstrSuitsUnstopped:
-		case tnumRebiddableSuits:
-		case tbSuitIsRebiddable:
-		case tnSuitStrength:	
-		case tbSuitIsMarginal:
-		case tbSuitIsOpenable:
-		case tbSuitIsStrong:
-		case tbSuitIsPreferred:
-		case tbSuitIsAbsolute:
-		case tbSuitIsSolid:	
-		case tnumMarginalSuits:
-		case tnumOpenableSuits:
-		case tnumStrongSuits:
-		case tnumPreferredSuits:
-		case tnumAbsoluteSuits:
-		case tnumSolidSuits:
-		case tnLowestMarginalSuit:
-		case tnLowestOpenableSuit:	
-		case tnLowestStrongSuit:
-		case tnLowestPreferredSuit:
-		case tnLowestAbsoluteSuit:
-		case tnLowestSolidSuit:
-		case tnMarginalSuitList:
-		case tnOpenableSuitList:
-		case tnStrongSuitList:	
-		case tnPreferredSuitList:
-		case tnAbsoluteSuitList:
-		case tnSolidSuitList:	
-		case tnHighestMarginalSuit:
-		case tnHighestOpenableSuit:
-		case tnHighestStrongSuit:
-		case tnHighestPreferredSuit:
-		case tnHighestAbsoluteSuit:
-		case tnHighestSolidSuit:
-		case tnPreferredSuit:	
-		case tnSuitsByPreference:
-		case tnSuitRank:		
-		case tnumVoidSuits:
-		case tnVoidSuits:		
-		case tnumSingletonSuits:
-		case tnSingletonSuits:
-		case tnumDoubletonSuits:
-		case tnDoubletonSuits:	
-		case tnSuitsOfAtLeast:	
-		case tnumWinners:
-		case tnumLosers:
-		case tnumSuitWinners:	
-		case tnumSuitLosers:	
-			m_pHand->SetValuePV(nItem, value, nIndex1, nIndex2, nIndex3);
-			return 0;
-
 		//
 		// the following get passed to m_bidStatus
 		//
