@@ -14,7 +14,6 @@
 #include "stdafx.h"
 #include "engine/card_constants.h"
 #include "engine/Card.h"
-#include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
 #include "engine/play/HandHoldings.h"
 #include "engine/play/CombinedHoldings.h"
@@ -847,61 +846,6 @@ BOOL CPlayer::IsHumanPlayer() const
 
 
 
-///////////////////////////////////////////////////////////////
-//
-// Data get/set functions
-//
-///////////////////////////////////////////////////////////////
-
-
-
-
-//
-LPVOID CPlayer::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3)
-{
-	switch (nItem)
-	{
-		//
-		// the following get passed to m_bidStatus
-		//
-		// team pos
-		case tnMinimumTPPoints:		
-		case tnMinimumTPCPoints:	
-		case tnMaximumTPPoints:	
-		case tnMaximumTPCPoints:
-		case tnPartnersMinimum:
-		case tnPartnersMaximum:
-		//
-		case tnBid:
-		case tnumBidTurns:
-		case tnumBidsMadeByPlayer:
-		case tnNextIntendedBid:
-		case tnIntendedSuit:
-		case tnIntendedContract:
-		//
-		case tnOpeningPosition:
-		case tnPartnersSuit:
-		case tnAgreedSuit:
-		case tbRoundForceActive:
-		case tbGameForceActive:
-		// convention status
-		case tnBlackwoodStatus:
-		case tnGerberStatus:
-		case tnJacobyTransferStatus:
-		case tnStaymanStatus:
-		// partner's hand info
-		case tnumPartnersAces:
-		case tnumPartnersKings:
-			return m_pBidder->GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-
-		//
-		default:
-			AfxMessageBox("Unhandled Call to CPlayer::GetFaceValue()");
-			return NULL;
-	}
-	return NULL;
-}
-
 void CPlayer::SetAnalysis(CString str) {
 	m_pStatusDlg->Clear();
 	*m_pStatusDlg << str;
@@ -911,90 +855,10 @@ const char* CPlayer::GetAnalysis() {
 	return m_pStatusDlg->GetText();
 }
 
-//
-// SetValuePV()
-//
-int CPlayer::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3)
-{
-	int nVal = (int) value;
-	BOOL bVal = (BOOL) value;
-	LPCTSTR sVal = (LPCTSTR) value;
-	//
-	switch (nItem)
-	{
-		//
-		// the following get passed to m_bidStatus
-		//
-		// team pos
-		case tnMinimumTPPoints:		
-		case tnMinimumTPCPoints:	
-		case tnMaximumTPPoints:	
-		case tnMaximumTPCPoints:
-		case tnPartnersMinimum:
-		case tnPartnersMaximum:
-		//
-		case tnBid:
-		case tnumBidTurns:
-		case tnumBidsMadeByPlayer:
-		case tnNextIntendedBid:
-		case tnIntendedSuit:
-		case tnIntendedContract:
-		//
-		case tnOpeningPosition:
-		case tnPartnersSuit:
-		case tnAgreedSuit:
-		case tbRoundForceActive:
-		case tbGameForceActive:
-		// convention status
-		case tnBlackwoodStatus:
-		case tnGerberStatus:
-		case tnJacobyTransferStatus:
-		case tnStaymanStatus:
-		// partner's hand info
-		case tnumPartnersAces:
-		case tnumPartnersKings:
-			m_pBidder->SetValuePV(nItem, value, nIndex1, nIndex2, nIndex3);
-			return 0;
-
-		//
-		default:
-			AfxMessageBox("Unhandled Call to CPlayer::SetValue()");
-			return 1;
-	}
-	return 0;
-}
-
-// "double" version
-int CPlayer::SetValue(int nItem, double fValue, int nIndex1, int nIndex2, int nIndex3)
-{
-//	switch (nItem)
-//	{
-//		default:
-			AfxMessageBox("Unhandled Call to CPlayer::SetValue()");
-			return 1;
-//	}
-//	return 0;
-}
-
-
-void CPlayer::SetValueString(int nItem, LPCTSTR szValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	SetValuePV(nItem, (LPVOID) szValue, nIndex1, nIndex2, nIndex3);
-}
-
-int CPlayer::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3)
-{
-	return (int) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
-
-int CPlayer::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	return SetValuePV(nItem, (LPVOID) nValue, nIndex1, nIndex2, nIndex3);
-}
 
 
 int CPlayer::GetMinimumOpeningValue() {
-	int nOpeningPos = (int)m_pBidder->GetValuePV(tnOpeningPosition);
+	int nOpeningPos = m_pBidder->GetOpeningPosition();
 	if (nOpeningPos < 0 || nOpeningPos > 3)
 		return 10;
 	bool b3rd4thPos = nOpeningPos == 2 || nOpeningPos == 3;

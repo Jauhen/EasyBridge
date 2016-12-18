@@ -404,7 +404,6 @@
     <ClInclude Include="src\dialogs\BidDlgLarge.h" />
     <ClInclude Include="src\dialogs\BidDlgSmall.h" />
     <ClInclude Include="src\engine\bidding\BidEngine.H" />
-    <ClInclude Include="src\engine\bidding\Bidopts.h" />
     <ClInclude Include="src\engine\bidding\Bidparams.H" />
     <ClInclude Include="src\engine\bidding\BlackwoodConvention.h" />
     <ClInclude Include="src\engine\CARD.H" />

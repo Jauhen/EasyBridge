@@ -418,9 +418,6 @@
     <ClInclude Include="src\engine\bidding\ConvCodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\bidding\Bidopts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\bidding\Bidparams.H">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -509,9 +506,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\Force.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\Handopts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\play\PlayList.h">

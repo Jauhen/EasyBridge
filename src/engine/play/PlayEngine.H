@@ -89,14 +89,6 @@ public:
 	CPlayer* GetLHOpponent() const { return m_pLHOpponent; }
 	CPlayer* GetRHOpponent() const { return m_pRHOpponent; }
 
-	// value get/set functions
-	LPVOID GetValuePV(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	double GetValueDouble(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	int GetValue(int nItem, int nIndex1=0, int nIndex2=0, int nIndex3=0) const;
-	int SetValuePV(int nItem, LPVOID value, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, double fValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-	int SetValue(int nItem, int nValue, int nIndex1=0, int nIndex2=0, int nIndex3=0);
-
 //
 // protected routines
 //

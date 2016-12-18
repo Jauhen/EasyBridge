@@ -1610,93 +1610,6 @@ void CPlayEngine::AssessPosition()
 }
 
 
-
-
-
-
-
-
-
-
-//
-//================================================================
-//
-// Value Set/Retrieval
-//
-
-//
-LPVOID CPlayEngine::GetValuePV(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	switch (nItem)
-	{
-		case 0:
-			break;
-		//
-		default:
-			AfxMessageBox("Unhandled Call to CDeclarerPlayEngine::GetValue()");
-			return NULL;
-	}
-	return NULL;
-}
-
-//
-double CPlayEngine::GetValueDouble(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-/*	switch (nItem)
-	{
-		default:
-			AfxMessageBox("Unhandled Call to CDeclarerPlayEngine::GetValue");
-			return 1;
-	}
-*/
-	return 0;
-}
-
-//
-// SetValuePV()
-//
-int CPlayEngine::SetValuePV(int nItem, LPVOID value, int nIndex1, int nIndex2, int nIndex3)
-{
-	int nValue = (int) value;
-	BOOL bValue = (BOOL) value;
-	LPCTSTR sValue = (LPCTSTR) value;
-	//
-	switch (nItem)
-	{
-		case 0:
-			break;
-		// 
-		default:
-			AfxMessageBox("Unhandled Call to CDeclarerPlayEngine::SetValue()");
-			return 1;
-	}
-	return 0;
-}
-
-// "double" version
-int CPlayEngine::SetValue(int nItem, double fValue, int nIndex1, int nIndex2, int nIndex3)
-{
-//	switch (nItem)
-//	{
-//		default:
-			AfxMessageBox("Unhandled Call to CDeclarerPlayEngine::SetValue()");
-			return 1;
-//	}
-//	return 0;
-}
-
-//
-int CPlayEngine::GetValue(int nItem, int nIndex1, int nIndex2, int nIndex3) const
-{
-	return (int) GetValuePV(nItem, nIndex1, nIndex2, nIndex3);
-}
-
-int CPlayEngine::SetValue(int nItem, int nValue, int nIndex1, int nIndex2, int nIndex3)
-{
-	return SetValuePV(nItem, (LPVOID) nValue, nIndex1, nIndex2, nIndex3);
-}
-
-
 //
 int CPlayEngine::GetPlayerPosition() const
 {
@@ -1708,5 +1621,3 @@ int CPlayEngine::GetPartnerPosition() const
 {
 	return m_pPartner->GetPosition();
 }
-
-

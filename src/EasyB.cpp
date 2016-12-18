@@ -17,7 +17,6 @@
 #include "EasyBdoc.h"
 #include "EasyBvw.h"
 #include "engine/Player.h"
-#include "engine/bidding/bidopts.h"
 #include "engine/bidding/bidparams.h"
 #include "engine/bidding/ConventionSet.h"
 #include "engine/bidding/convention_pool.h"
