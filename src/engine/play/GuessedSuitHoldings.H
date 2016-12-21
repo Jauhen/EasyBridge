@@ -19,42 +19,42 @@
 //
 class CGuessedSuitHoldings : public CGuessedCardHoldings {
 
-// public routines
+  // public routines
 public:
-	virtual void Init();
-	virtual void Clear(BOOL bDelete =TRUE);
-	virtual void FormatHoldingsString();
-	virtual CGuessedCard* RemoveByIndex(int nIndex);
-	//
-	virtual void MarkSuitShownOut(BOOL bCode=TRUE);
-	virtual BOOL IsSuitShownOut() { return m_bShownOut; }
-	virtual void MarkSuitVoid(BOOL bCode=TRUE) { m_bSuitWasVoid = bCode; }
-	virtual BOOL WasSuitVoid() { return m_bSuitWasVoid; }
-	virtual void MarkAllCardsIdentified(BOOL bCode=TRUE) { m_bAllCardsIdentified = bCode; }
-	virtual BOOL AreAllCardsIdentified() { return m_bAllCardsIdentified; }
-	//
-	virtual int GetNumRemainingCards();
+  virtual void Init();
+  virtual void Clear(BOOL bDelete = TRUE);
+  virtual void FormatHoldingsString();
+  virtual CGuessedCard* RemoveByIndex(int nIndex);
+  //
+  virtual void MarkSuitShownOut(BOOL bCode = TRUE);
+  virtual BOOL IsSuitShownOut() { return m_bShownOut; }
+  virtual void MarkSuitVoid(BOOL bCode = TRUE) { m_bSuitWasVoid = bCode; }
+  virtual BOOL WasSuitVoid() { return m_bSuitWasVoid; }
+  virtual void MarkAllCardsIdentified(BOOL bCode = TRUE) { m_bAllCardsIdentified = bCode; }
+  virtual BOOL AreAllCardsIdentified() { return m_bAllCardsIdentified; }
+  //
+  virtual int GetNumRemainingCards();
 
-	//
-	// misc functions
-	//
-	void SetSuit(int nSuit) { m_nSuit = nSuit; }
-//	CGuessedCard* operator[](int nIndex) const { VERIFY(nIndex < m_numCards); return m_cards[nIndex]; }
-	
-// public data
+  //
+  // misc functions
+  //
+  void SetSuit(int nSuit) { m_nSuit = nSuit; }
+  //	CGuessedCard* operator[](int nIndex) const { VERIFY(nIndex < m_numCards); return m_cards[nIndex]; }
+
+  // public data
 public:
 
-// private data
+  // private data
 protected:
-	int		m_nSuit;
-	BOOL	m_bShownOut;
-	BOOL	m_bSuitWasVoid;
-	BOOL	m_bAllCardsIdentified;
+  int		m_nSuit;
+  BOOL	m_bShownOut;
+  BOOL	m_bSuitWasVoid;
+  BOOL	m_bAllCardsIdentified;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CGuessedSuitHoldings(std::shared_ptr<AppInterface> app);
-	~CGuessedSuitHoldings();
+  CGuessedSuitHoldings(std::shared_ptr<AppInterface> app);
+  ~CGuessedSuitHoldings();
 };
 
 #endif

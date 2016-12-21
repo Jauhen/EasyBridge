@@ -18,26 +18,25 @@
 //
 // The CSlamConvention class
 //
-class CSlamConvention : public CConvention
-{
+class CSlamConvention : public CConvention {
 
-// public routines
+  // public routines
 public:
-	BOOL ApplyTest(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, 
-				   CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
-				   CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL ApplyTest(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CBidEngine& bidState, CPlayerStatusDialog& status);
 
-// private routines
+  // private routines
 private:
 
-// data
+  // data
 private:
 
-	
-// 
+
+  // 
 public:
-	CSlamConvention(std::shared_ptr<AppInterface> app);
-	virtual ~CSlamConvention();
+  CSlamConvention(std::shared_ptr<AppInterface> app);
+  virtual ~CSlamConvention();
 };
 
 

@@ -185,135 +185,135 @@ BOOL Deal::ReadFilePBN(CArchive& ar) {
     //
 
     switch (nLineCode) {
-    case TAG_EVENT:
-      break;
+      case TAG_EVENT:
+        break;
 
-    case TAG_SITE:
-      // ignore for now
-      break;
+      case TAG_SITE:
+        // ignore for now
+        break;
 
-    case TAG_DATE:
-      // ignore for now
-      break;
+      case TAG_DATE:
+        // ignore for now
+        break;
 
-    case TAG_ROUND:
-      // ignore for now
-      break;
+      case TAG_ROUND:
+        // ignore for now
+        break;
 
-    case TAG_BOARD:
-      // ignore for now
-      break;
+      case TAG_BOARD:
+        // ignore for now
+        break;
 
-    case TAG_WEST:
-      // ignore for now
-      break;
+      case TAG_WEST:
+        // ignore for now
+        break;
 
-    case TAG_NORTH:
-      // ignore for now
-      break;
+      case TAG_NORTH:
+        // ignore for now
+        break;
 
-    case TAG_EAST:
-      // ignore for now
-      break;
+      case TAG_EAST:
+        // ignore for now
+        break;
 
-    case TAG_SOUTH:
-      // ignore for now
-      break;
+      case TAG_SOUTH:
+        // ignore for now
+        break;
 
-      // dealer
-    case TAG_DEALER:
-      if (!strValue.IsEmpty() && (strValue[0] != '?'))
-        pGameRecord->m_nDealer = CharToPosition(strValue[0]);
-      break;
+        // dealer
+      case TAG_DEALER:
+        if (!strValue.IsEmpty() && (strValue[0] != '?'))
+          pGameRecord->m_nDealer = CharToPosition(strValue[0]);
+        break;
 
-      // vulnerability
-    case TAG_VULNERABLE:
-      if (strValue.CompareNoCase("NS") == 0)
-        pGameRecord->m_nVulnerability = NORTH_SOUTH;
-      else if (strValue.CompareNoCase("EW") == 0)
-        pGameRecord->m_nVulnerability = EAST_WEST;
-      else if ((strValue.CompareNoCase("All") == 0) || (strValue.CompareNoCase("Both") == 0))
-        pGameRecord->m_nVulnerability = BOTH;
-      break;
+        // vulnerability
+      case TAG_VULNERABLE:
+        if (strValue.CompareNoCase("NS") == 0)
+          pGameRecord->m_nVulnerability = NORTH_SOUTH;
+        else if (strValue.CompareNoCase("EW") == 0)
+          pGameRecord->m_nVulnerability = EAST_WEST;
+        else if ((strValue.CompareNoCase("All") == 0) || (strValue.CompareNoCase("Both") == 0))
+          pGameRecord->m_nVulnerability = BOTH;
+        break;
 
-    case TAG_DEAL:
-      //				AssignCardsPBN(strValue);
-      break;
+      case TAG_DEAL:
+        //				AssignCardsPBN(strValue);
+        break;
 
-    case TAG_SCORING:
-      // ignore for now
-      break;
+      case TAG_SCORING:
+        // ignore for now
+        break;
 
-    case TAG_DECLARER:
-      if (!strValue.IsEmpty() && (strValue[0] != '?'))
-        pGameRecord->m_nDeclarer = CharToPosition(strValue[0]);
-      break;
+      case TAG_DECLARER:
+        if (!strValue.IsEmpty() && (strValue[0] != '?'))
+          pGameRecord->m_nDeclarer = CharToPosition(strValue[0]);
+        break;
 
-    case TAG_CONTRACT:
-    {
-      // decipher the contract
-      if ((strValue.GetLength() < 2) || (strValue[0] == '?')) {
-        // contract has not yet been set
-        app_->GetSettings()->SetGameInProgress(false);
+      case TAG_CONTRACT:
+      {
+        // decipher the contract
+        if ((strValue.GetLength() < 2) || (strValue[0] == '?')) {
+          // contract has not yet been set
+          app_->GetSettings()->SetGameInProgress(false);
+          break;
+        }
+        int nContractLevel = atoi(strValue);
+        int nContractSuit = CCard::CharToSuit(strValue[1]);
+        int nContract = MAKEBID(nContractSuit, nContractLevel);
+        int nContractModifier = 0;
+        //
+        pGameRecord->m_nContract = nContract;
+        // get modifier
+        if (nContractSuit == NOTRUMP)
+          strModifier = strValue.Mid(3);
+        else
+          strModifier = strValue.Mid(2);
+        if (strModifier.CompareNoCase("X") == 0)
+          nContractModifier = 1;
+        else if (strModifier.CompareNoCase("XX") == 0)
+          nContractModifier = 2;
+        //
+        pGameRecord->m_nContractModifier = nContractModifier;
         break;
       }
-      int nContractLevel = atoi(strValue);
-      int nContractSuit = CCard::CharToSuit(strValue[1]);
-      int nContract = MAKEBID(nContractSuit, nContractLevel);
-      int nContractModifier = 0;
-      //
-      pGameRecord->m_nContract = nContract;
-      // get modifier
-      if (nContractSuit == NOTRUMP)
-        strModifier = strValue.Mid(3);
-      else
-        strModifier = strValue.Mid(2);
-      if (strModifier.CompareNoCase("X") == 0)
-        nContractModifier = 1;
-      else if (strModifier.CompareNoCase("XX") == 0)
-        nContractModifier = 2;
-      //
-      pGameRecord->m_nContractModifier = nContractModifier;
-      break;
-    }
 
-    case TAG_RESULT:
-      // ignore for now
-      break;
-
-      // ge the auction
-    case TAG_AUCTION:
-      if (strValue.IsEmpty())
+      case TAG_RESULT:
+        // ignore for now
         break;
-      // parse the bids
-      nCode = ParseBidsPBN(ar, strValue);
-      break;
 
-    case TAG_PLAY:
-      // read in the plays
-      if (strValue.IsEmpty() || (strValue[0] == '?'))
+        // ge the auction
+      case TAG_AUCTION:
+        if (strValue.IsEmpty())
+          break;
+        // parse the bids
+        nCode = ParseBidsPBN(ar, strValue);
         break;
-      // parse the plays
-      nCode = ParsePlaysPBN(ar, strValue);
-      // mark this file as being reviewable
-      if (ISBID(pGameRecord->m_nContract)) {
-        // contract must also be valid
-        m_bReviewingGame = TRUE;
-        m_bGameReviewAvailable = TRUE;
-      }
-      break;
 
-    case TAG_NOTE:
-      // add to the appropriate list
-      if (nPreviousTag == TAG_AUCTION)
-        pGameRecord->m_strBiddingNotes.Add(strValue);
-      else if (nPreviousTag == TAG_PLAY)
-        pGameRecord->m_strPlayNotes.Add(strValue);
-      break;
+      case TAG_PLAY:
+        // read in the plays
+        if (strValue.IsEmpty() || (strValue[0] == '?'))
+          break;
+        // parse the plays
+        nCode = ParsePlaysPBN(ar, strValue);
+        // mark this file as being reviewable
+        if (ISBID(pGameRecord->m_nContract)) {
+          // contract must also be valid
+          m_bReviewingGame = TRUE;
+          m_bGameReviewAvailable = TRUE;
+        }
+        break;
 
-    case TAG_TERMINATOR:
-      // ignore for now
-      break;
+      case TAG_NOTE:
+        // add to the appropriate list
+        if (nPreviousTag == TAG_AUCTION)
+          pGameRecord->m_strBiddingNotes.Add(strValue);
+        else if (nPreviousTag == TAG_PLAY)
+          pGameRecord->m_strPlayNotes.Add(strValue);
+        break;
+
+      case TAG_TERMINATOR:
+        // ignore for now
+        break;
     }
 
     // save this tag

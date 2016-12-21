@@ -18,58 +18,58 @@
 //
 class CDummyPlayEngine : public CPlayEngine {
 
-	friend class CPlayer;
+  friend class CPlayer;
 
-//
-// public routines
-//
+  //
+  // public routines
+  //
 public:
-	// virtual functions
-	virtual void Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent, CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine* pBidder, CPlayerStatusDialog* pStatusDlg);
-	virtual void InitNewHand();
-	virtual void Clear();
-	//
-	virtual CCard*  PlayCard();
-	//
-	virtual CCard*  GetLeadCard();
-	virtual CCard*	GetPlayHint();
-	//
+  // virtual functions
+  virtual void Initialize(CPlayer* pPlayer, CPlayer* pPartner, CPlayer* pLHOpponent, CPlayer* pRHOpponent, CHandHoldings* pHoldings, CCardLocation* pCardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine* pBidder, CPlayerStatusDialog* pStatusDlg);
+  virtual void InitNewHand();
+  virtual void Clear();
+  //
+  virtual CCard*  PlayCard();
+  //
+  virtual CCard*  GetLeadCard();
+  virtual CCard*	GetPlayHint();
+  //
 /*
-	virtual CCard*	PlayFirst() { return m_pPartner->PlayForDummy(0); }
-	virtual CCard*	PlaySecond() { return m_pPartner->PlayForDummy(1); }
-	virtual CCard*	PlayThird() { return m_pPartner->PlayForDummy(2); }
-	virtual CCard*	PlayFourth() { return m_pPartner->PlayForDummy(3); }
+  virtual CCard*	PlayFirst() { return m_pPartner->PlayForDummy(0); }
+  virtual CCard*	PlaySecond() { return m_pPartner->PlayForDummy(1); }
+  virtual CCard*	PlayThird() { return m_pPartner->PlayForDummy(2); }
+  virtual CCard*	PlayFourth() { return m_pPartner->PlayForDummy(3); }
 */
-	virtual int  GetNumClaimableTricks();
-	//
-	virtual void AdjustCardCount(int nPos, CCard* pCard);
-	virtual void AdjustHoldingsCount(CCard* pCard);
-	virtual void RestartPlay();
+  virtual int  GetNumClaimableTricks();
+  //
+  virtual void AdjustCardCount(int nPos, CCard* pCard);
+  virtual void AdjustHoldingsCount(CCard* pCard);
+  virtual void RestartPlay();
 
-	// class-specific functions
-	virtual CCard* PlayForSelf();
+  // class-specific functions
+  virtual CCard* PlayForSelf();
 
-//
-// protected routines
-//
+  //
+  // protected routines
+  //
 protected:
-	//
-	virtual void	AssessPosition();
+  //
+  virtual void	AssessPosition();
 
 
-// public data
+  // public data
 public:
 
-// private data
+  // private data
 private:
-	// class-specific data
+  // class-specific data
 
 //
 // private routines
 //
 private:
-	CDummyPlayEngine(std::shared_ptr<AppInterface> app);
-	virtual ~CDummyPlayEngine();
+  CDummyPlayEngine(std::shared_ptr<AppInterface> app);
+  virtual ~CDummyPlayEngine();
 };
 
 #endif

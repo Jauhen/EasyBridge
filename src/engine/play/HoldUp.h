@@ -19,34 +19,34 @@
 //
 // The CHoldUp class
 //
-class CHoldUp: public CPlay {
+class CHoldUp : public CPlay {
 
-// public data
+  // public data
 public:
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
 
 
-// construction/destruction
+  // construction/destruction
 public:
-	CHoldUp(std::shared_ptr<AppInterface> app, int nSuit=NONE);
-	CHoldUp(std::shared_ptr<AppInterface> app, CHoldUp& srcPlay);
-	virtual ~CHoldUp();
+  CHoldUp(std::shared_ptr<AppInterface> app, int nSuit = NONE);
+  CHoldUp(std::shared_ptr<AppInterface> app, CHoldUp& srcPlay);
+  virtual ~CHoldUp();
 };
 
 

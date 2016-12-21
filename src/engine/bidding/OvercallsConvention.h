@@ -18,23 +18,22 @@
 //
 // The COvercallsConvention class
 //
-class COvercallsConvention : public CConvention
-{
-// private routines
+class COvercallsConvention : public CConvention {
+  // private routines
 private:
-	BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	// 
-	BOOL ApplySuitStrengthTest(int nSuit, int nOppBid, CBidEngine& bidState);
+  BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  // 
+  BOOL ApplySuitStrengthTest(int nSuit, int nOppBid, CBidEngine& bidState);
 
-// data
+  // data
 private:
-	
-// 
+
+  // 
 public:
-	COvercallsConvention(std::shared_ptr<AppInterface> app);
-	virtual ~COvercallsConvention();
+  COvercallsConvention(std::shared_ptr<AppInterface> app);
+  virtual ~COvercallsConvention();
 };
 
 

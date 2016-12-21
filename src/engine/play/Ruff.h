@@ -21,37 +21,37 @@
 //
 class CRuff : public CPlay {
 
-// public data
+  // public data
 public:
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
-	//
-	virtual int		UsesUpEntry();
-	virtual int		GetNumDiscardsRequired() const { return m_numDiscardsRequired; }
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
+  //
+  virtual int		UsesUpEntry();
+  virtual int		GetNumDiscardsRequired() const { return m_numDiscardsRequired; }
 
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int		m_numDiscardsRequired;
+  int		m_numDiscardsRequired;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, int nSuit=NONE, PlayProspect=PP_LIKELY_WINNER);
-	CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect=PP_LIKELY_WINNER);
-	CRuff(std::shared_ptr<AppInterface> app, CRuff& srcPlay);
-	virtual ~CRuff();
+  CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, int nSuit = NONE, PlayProspect = PP_LIKELY_WINNER);
+  CRuff(std::shared_ptr<AppInterface> app, int nTargetHand, int numDiscardsRequired, CCard* pCard, PlayProspect nPlayProspect = PP_LIKELY_WINNER);
+  CRuff(std::shared_ptr<AppInterface> app, CRuff& srcPlay);
+  virtual ~CRuff();
 };
 
 

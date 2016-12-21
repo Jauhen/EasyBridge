@@ -21,29 +21,29 @@ class CCardList;
 //
 class CType2Finesse : public CFinesse {
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	CCardList*	m_pCoverCards;
+  CCardList*	m_pCoverCards;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, int nSuit, int nCardVal);
-	CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard);
-	virtual ~CType2Finesse();
+  CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, int nSuit, int nCardVal);
+  CType2Finesse(std::shared_ptr<AppInterface> app, int nPlayerPosition, int nTargetHand, CCardList* pGapCards, CCardList* pCoverCards, CCard* pCard);
+  virtual ~CType2Finesse();
 };
 
 

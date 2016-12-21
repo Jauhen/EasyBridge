@@ -21,42 +21,42 @@
 //
 class CDrop : public CPlay {
 
-// public data
+  // public data
 public:
-	enum { 
-		AGAINST_LHO=0, 
-		AGAINST_RHO=1, 
-		AGAINST_EITHER=2,
-	};
+  enum {
+    AGAINST_LHO = 0,
+    AGAINST_RHO = 1,
+    AGAINST_EITHER = 2,
+  };
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int			m_nCardVal;	// 2..14 (deuce through Ace)
-	int			m_numTargetCards;
-	int			m_nTargetOpponent;
-	CString		m_strDropCards;
-	CString		m_strDropMessage;
+  int			m_nCardVal;	// 2..14 (deuce through Ace)
+  int			m_numTargetCards;
+  int			m_nTargetOpponent;
+  CString		m_strDropCards;
+  CString		m_strDropMessage;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, int nSuit, int nCardVal);
-	CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, CCard* pCard);
-	CDrop(std::shared_ptr<AppInterface> app, CDrop& srcPlay);
-	virtual ~CDrop();
+  CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, int nSuit, int nCardVal);
+  CDrop(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetOpponent, CCardList* m_pEnemyCards, CCard* pCard);
+  CDrop(std::shared_ptr<AppInterface> app, CDrop& srcPlay);
+  virtual ~CDrop();
 };
 
 

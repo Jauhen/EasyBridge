@@ -21,33 +21,33 @@
 //
 class CForce : public CPlay {
 
-// public data
+  // public data
 public:
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int		m_nTargetCardVal;	// lowest target card to force out
-	int		m_nCardVal;	// 2..14 (deuce through Ace)
+  int		m_nTargetCardVal;	// lowest target card to force out
+  int		m_nCardVal;	// 2..14 (deuce through Ace)
 
 // construction/destruction
 public:
-	CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal);
-	CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard);
-	virtual ~CForce();
+  CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, int nSuit, int nCardVal);
+  CForce(std::shared_ptr<AppInterface> app, int nTargetHand, int nTargetCardVal, CCardList* pReqPlayedList, CCard* pCard);
+  virtual ~CForce();
 };
 
 

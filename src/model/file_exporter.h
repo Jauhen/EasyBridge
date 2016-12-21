@@ -6,7 +6,7 @@
 
 
 class FileExporter {
- public:
+public:
   FileExporter();
   ~FileExporter();
 
@@ -18,7 +18,7 @@ class FileExporter {
 
   std::string GetFileContent() const;
 
- private:
+private:
   const std::string FileExporter::GetUppercaseTag(int nLineCode);
 
   std::ostringstream data_;

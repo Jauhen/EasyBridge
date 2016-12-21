@@ -21,36 +21,37 @@
 //
 class CDiscard : public CPlay {
 
-// public data
+  // public data
 public:
-	enum { IN_HAND=0, 
-		   IN_DUMMY=1, 
-	};
+  enum {
+    IN_HAND = 0,
+    IN_DUMMY = 1,
+  };
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int		m_nCardVal;
+  int		m_nCardVal;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit=NONE, int nCardVal=NONE);
-	CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard);
-	CDiscard(std::shared_ptr<AppInterface> app, CDiscard& srcPlay);
-	virtual ~CDiscard();
+  CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, int nSuit = NONE, int nCardVal = NONE);
+  CDiscard(std::shared_ptr<AppInterface> app, int nTargetHand, CCard* pCard);
+  CDiscard(std::shared_ptr<AppInterface> app, CDiscard& srcPlay);
+  virtual ~CDiscard();
 };
 
 

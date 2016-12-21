@@ -21,33 +21,33 @@
 //
 class CCash : public CPlay {
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription();
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard);
-	//
-	virtual int		UsesUpEntry();
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription();
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard);
+  //
+  virtual int		UsesUpEntry();
 
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int		m_nCardVal;	// 2..14 (deuce through Ace)
+  int		m_nCardVal;	// 2..14 (deuce through Ace)
 
 // construction/destruction
 public:
-	CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit=NONE, int nCardVal=NONE, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
-	CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect=PP_LIKELY_WINNER, BOOL bOpportunistic=FALSE);
-	CCash(std::shared_ptr<AppInterface> app, CCash& srcPlay);
-	virtual ~CCash();
+  CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, int nSuit = NONE, int nCardVal = NONE, PlayProspect nProspect = PP_LIKELY_WINNER, BOOL bOpportunistic = FALSE);
+  CCash(std::shared_ptr<AppInterface> app, int nTargetHand, int nStartingHand, CCardList* pRequiredPlayedCards, CCard* pCard, PlayProspect nProspect = PP_LIKELY_WINNER, BOOL bOpportunistic = FALSE);
+  CCash(std::shared_ptr<AppInterface> app, CCash& srcPlay);
+  virtual ~CCash();
 };
 
 

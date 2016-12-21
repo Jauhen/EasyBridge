@@ -23,19 +23,16 @@
 //extern const LPCTSTR szSuitName[];
 
 // utility templates
-template<class T> const T& Min(const T& x, const T& y)
-{
-	return ((x < y)? x : y);
+template<class T> const T& Min(const T& x, const T& y) {
+  return ((x < y) ? x : y);
 }
 //
-template<class T> const T& Max(const T& x, const T& y)
-{
-	return ((x > y)? x : y);
+template<class T> const T& Max(const T& x, const T& y) {
+  return ((x > y) ? x : y);
 }
 //
-template<class T> const T Abs(const T x)
-{
-	return ((x >= 0)? x : -x);
+template<class T> const T Abs(const T x) {
+  return ((x >= 0) ? x : -x);
 }
 
 
@@ -58,8 +55,8 @@ const CString	BidToShortString(int nBid);
 const CString	BidToBriefString(int nBid);
 const CString	BidToPBNString(int nBid);
 const CString	BidToFullString(int nBid);
-const CString	ContractToString(int nContract, int nModifier=0);
-const CString	ContractToFullString(int nContract, int nModifier=0);
+const CString	ContractToString(int nContract, int nModifier = 0);
+const CString	ContractToFullString(int nContract, int nModifier = 0);
 int				StringToBid(LPCTSTR szBid);
 int				StringToDeckValue(LPCTSTR psz);
 int				StringToPosition(LPCTSTR psz);

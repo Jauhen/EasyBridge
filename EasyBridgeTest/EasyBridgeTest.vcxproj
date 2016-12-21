@@ -156,7 +156,6 @@
     <ClInclude Include="..\src\engine\bidding\4thSuitForcingConvention.h" />
     <ClInclude Include="..\src\engine\bidding\Artificial2ClubConvention.h" />
     <ClInclude Include="..\src\engine\bidding\BidEngine.H" />
-    <ClInclude Include="..\src\engine\bidding\Bidopts.h" />
     <ClInclude Include="..\src\engine\bidding\Bidparams.H" />
     <ClInclude Include="..\src\engine\bidding\BlackwoodConvention.h" />
     <ClInclude Include="..\src\engine\bidding\ConvCodes.h" />
@@ -183,14 +182,10 @@
     <ClInclude Include="..\src\engine\CARD.H" />
     <ClInclude Include="..\src\engine\CardList.H" />
     <ClInclude Include="..\src\engine\CardLocation.H" />
-    <ClInclude Include="..\src\engine\cardopts.h" />
     <ClInclude Include="..\src\engine\card_constants.h" />
     <ClInclude Include="..\src\engine\Deck.H" />
-    <ClInclude Include="..\src\engine\deckopts.h" />
     <ClInclude Include="..\src\engine\GuessedCard.H" />
-    <ClInclude Include="..\src\engine\Handopts.h" />
     <ClInclude Include="..\src\engine\Player.h" />
-    <ClInclude Include="..\src\engine\playeropts.h" />
     <ClInclude Include="..\src\engine\PlayerStatusDialog.H" />
     <ClInclude Include="..\src\engine\play\CardHoldings.H" />
     <ClInclude Include="..\src\engine\play\Cash.h" />

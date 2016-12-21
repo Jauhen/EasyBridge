@@ -18,26 +18,25 @@
 //
 // The CArtificial2ClubConvention class
 //
-class CArtificial2ClubConvention : public CConvention
-{
+class CArtificial2ClubConvention : public CConvention {
 
-// public routines
+  // public routines
 public:
-	BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
-	BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL RespondToConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+  BOOL HandleConventionResponse(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
 
-// private routines
+  // private routines
 private:
 
-// data
+  // data
 private:
 
-	
-// 
+
+  // 
 public:
-	CArtificial2ClubConvention(std::shared_ptr<AppInterface> app);
-	virtual ~CArtificial2ClubConvention();
+  CArtificial2ClubConvention(std::shared_ptr<AppInterface> app);
+  virtual ~CArtificial2ClubConvention();
 };
 
 

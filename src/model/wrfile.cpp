@@ -86,57 +86,57 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   WriteBlockHeader(BLOCK_HANDINFO);
   // first the current hand
-  for (i = 0; i<4; i++) {
+  for (i = 0; i < 4; i++) {
     numCards = m_pPlayer[i]->GetNumCards();
     strHand.Empty();
-    for (j = 0; j<numCards; j++) {
+    for (j = 0; j < numCards; j++) {
       strHand += m_pPlayer[i]->GetCardByPosition(j)->GetName();
       strHand += " ";
     }
     switch (i) {
-    case NORTH:
-      WriteString(ITEM_CURRHAND_NORTH, strHand);
-      break;
-    case EAST:
-      WriteString(ITEM_CURRHAND_EAST, strHand);
-      break;
-    case SOUTH:
-      WriteString(ITEM_CURRHAND_SOUTH, strHand);
-      break;
-    case WEST:
-      WriteString(ITEM_CURRHAND_WEST, strHand);
-      break;
+      case NORTH:
+        WriteString(ITEM_CURRHAND_NORTH, strHand);
+        break;
+      case EAST:
+        WriteString(ITEM_CURRHAND_EAST, strHand);
+        break;
+      case SOUTH:
+        WriteString(ITEM_CURRHAND_SOUTH, strHand);
+        break;
+      case WEST:
+        WriteString(ITEM_CURRHAND_WEST, strHand);
+        break;
     }
   }
   // then the original hand
-  for (i = 0; i<4; i++) {
+  for (i = 0; i < 4; i++) {
     if (app_->IsInCardLayoutMode()) {
       numCards = m_pPlayer[i]->GetNumCards();
       strHand.Empty();
-      for (j = 0; j<numCards; j++) {
+      for (j = 0; j < numCards; j++) {
         strHand += m_pPlayer[i]->GetCardByPosition(j)->GetName();
         strHand += " ";
       }
     } else {
       strHand.Empty();
-      for (j = 0; j<13; j++) {
+      for (j = 0; j < 13; j++) {
         strHand += m_pPlayer[i]->GetInitialHandCard(j)->GetName();
         strHand += " ";
       }
     }
     switch (i) {
-    case NORTH:
-      WriteString(ITEM_ORIGHAND_NORTH, strHand);
-      break;
-    case EAST:
-      WriteString(ITEM_ORIGHAND_EAST, strHand);
-      break;
-    case SOUTH:
-      WriteString(ITEM_ORIGHAND_SOUTH, strHand);
-      break;
-    case WEST:
-      WriteString(ITEM_ORIGHAND_WEST, strHand);
-      break;
+      case NORTH:
+        WriteString(ITEM_ORIGHAND_NORTH, strHand);
+        break;
+      case EAST:
+        WriteString(ITEM_ORIGHAND_EAST, strHand);
+        break;
+      case SOUTH:
+        WriteString(ITEM_ORIGHAND_SOUTH, strHand);
+        break;
+      case WEST:
+        WriteString(ITEM_ORIGHAND_WEST, strHand);
+        break;
     }
   }
   SkipLine();
@@ -212,12 +212,12 @@ BOOL Deal::WriteFile(CArchive& ar) {
     WriteString(ITEM_GAME_LEAD, PositionToString(m_nGameLead));
 
     // and the record of tricks
-    for (i = 0; i<13; i++) {
+    for (i = 0; i < 13; i++) {
       if (i <= m_numTricksPlayed) {
         strTemp.Empty();
         strTemp += PositionToString(m_nTrickLead[i]);
         strTemp += " ";
-        for (j = 0; j<4; j++) {
+        for (j = 0; j < 4; j++) {
           CCard* pCard = NULL;
           if (i < m_numTricksPlayed)
             pCard = m_pGameTrick[i][j];
@@ -272,11 +272,11 @@ BOOL Deal::WriteFile(CArchive& ar) {
 
     // write out score record
     int numBonusScoreRecords = m_strArrayBonusPointsRecord.size();
-    for (int i = 0; i<numBonusScoreRecords; i++)
+    for (int i = 0; i < numBonusScoreRecords; i++)
       WriteString(ITEM_BONUS_SCORE_RECORD, WrapInQuotes(m_strArrayBonusPointsRecord[i]));
     //
     int numGameScoreRecords = m_strArrayTrickPointsRecord.size();
-    for (i = 0; i<numGameScoreRecords; i++)
+    for (i = 0; i < numGameScoreRecords; i++)
       WriteString(ITEM_GAME_SCORE_RECORD, WrapInQuotes(m_strArrayTrickPointsRecord[i]));
     //
     SkipLine();
@@ -312,7 +312,7 @@ BOOL Deal::WriteFile(CArchive& ar) {
   //
   // PlayerAnalysis, if appropriate
   //
-  for (i = 0; i<4; i++) {
+  for (i = 0; i < 4; i++) {
     if (m_bSavePlayerAnalysis[i]) {
       // save out the player analysis text
       WriteBlockHeader(BLOCK_PLAYER_ANALYSIS + i);

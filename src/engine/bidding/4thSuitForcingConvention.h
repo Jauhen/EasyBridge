@@ -18,25 +18,24 @@
 //
 // The C4thSuitForcingConvention class
 //
-class C4thSuitForcingConvention : public CConvention
-{
-	BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
+class C4thSuitForcingConvention : public CConvention {
+  BOOL TryConvention(const CPlayer& player, const CConventionSet& conventions, CHandHoldings& hand, CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, CBidEngine& bidState, CPlayerStatusDialog& status);
 
-// public routines
+  // public routines
 public:
 #include "Convention.h"
 
-// private routines
+  // private routines
 private:
 
-// data
+  // data
 private:
 
-	
-// 
+
+  // 
 public:
-	C4thSuitForcingConvention(std::shared_ptr<AppInterface> app);
-	virtual ~C4thSuitForcingConvention();
+  C4thSuitForcingConvention(std::shared_ptr<AppInterface> app);
+  virtual ~C4thSuitForcingConvention();
 };
 
 

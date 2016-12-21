@@ -24,9 +24,7 @@ CCardLocation::CCardLocation(std::shared_ptr<AppInterface> app) : app_(app) {
   }
 }
 
-CCardLocation::~CCardLocation()
-{
-}
+CCardLocation::~CCardLocation() {}
 
 
 
@@ -41,13 +39,12 @@ CCardLocation::~CCardLocation()
 //
 //========================================================================
 
-	
+
 
 //
 // Clear() 
 //
-void CCardLocation::Clear() 
-{
-	for(int i=0;i<52;i++) m_cards[i]->Clear(); 
+void CCardLocation::Clear() {
+  for (int i = 0; i < 52; i++) m_cards[i]->Clear();
 }
 

@@ -44,9 +44,6 @@
     <ClInclude Include="..\src\engine\bidding\BidEngine.H">
       <Filter>sources\bidding</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\bidding\Bidopts.h">
-      <Filter>sources\bidding</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\engine\bidding\Bidparams.H">
       <Filter>sources\bidding</Filter>
     </ClInclude>
@@ -215,25 +212,13 @@
     <ClInclude Include="..\src\engine\CardLocation.H">
       <Filter>sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\cardopts.h">
-      <Filter>sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\engine\Deck.H">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\deckopts.h">
       <Filter>sources</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\GuessedCard.H">
       <Filter>sources</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\engine\Handopts.h">
-      <Filter>sources</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\engine\Player.h">
-      <Filter>sources</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\engine\playeropts.h">
       <Filter>sources</Filter>
     </ClInclude>
     <ClInclude Include="..\src\engine\PlayerStatusDialog.H">

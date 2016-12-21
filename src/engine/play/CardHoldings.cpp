@@ -28,19 +28,17 @@
 
 // constructor
 CCardHoldings::CCardHoldings(std::shared_ptr<AppInterface> app) : CCardList(app) {
-	// clear all variables
-	Clear();
+  // clear all variables
+  Clear();
 }
 
 // destructor
-CCardHoldings::~CCardHoldings()
-{
-}
+CCardHoldings::~CCardHoldings() {}
 
 
 
 
-	
+
 //
 //================================================================
 //
@@ -50,9 +48,8 @@ CCardHoldings::~CCardHoldings()
 //
 
 //
-void CCardHoldings::Init()
-{
-	CCardList::Init();
+void CCardHoldings::Init() {
+  CCardList::Init();
 }
 
 
@@ -61,21 +58,19 @@ void CCardHoldings::Init()
 //
 // clear the holding of all cards
 //
-void CCardHoldings::Clear()
-{
-	CCardList::Clear();
-	// always clear the point count when clearing the hand
-	ClearPointCount();
+void CCardHoldings::Clear() {
+  CCardList::Clear();
+  // always clear the point count when clearing the hand
+  ClearPointCount();
 }
 
 
 //
 // ClearPointCount()
 //
-void CCardHoldings::ClearPointCount()
-{
-	m_bCountPerformed = FALSE;
-	m_numHCPoints = 0;
+void CCardHoldings::ClearPointCount() {
+  m_bCountPerformed = FALSE;
+  m_numHCPoints = 0;
 }
 
 
@@ -85,13 +80,12 @@ void CCardHoldings::ClearPointCount()
 
 
 //
-void CCardHoldings::Sort()
-{
-	// first call base class to sort the cards in S-H-D-C order
-	CCardList::Sort();
+void CCardHoldings::Sort() {
+  // first call base class to sort the cards in S-H-D-C order
+  CCardList::Sort();
 
-	// and set the custom hand description for GIB
-	FormatGIBHoldingsString();
+  // and set the custom hand description for GIB
+  FormatGIBHoldingsString();
 }
 
 
@@ -99,23 +93,20 @@ void CCardHoldings::Sort()
 //
 // GetCardsOfSuit()
 //
-int CCardHoldings::GetCardsOfSuit(const int nSuit, CCardList* pSuitList) const
-{
-	int nCount = 0;
-	for(int i=0;i<m_numCards;i++)
-	{
-		if (m_cards[i]->GetSuit() == nSuit)
-		{
-			nCount++;
-			if (pSuitList)
-				*pSuitList << m_cards[i];
-		}
-	}
-	//
-	if ((pSuitList) && (!pSuitList->IsSorted()))
-		pSuitList->Sort();
-	//
-	return nCount;
+int CCardHoldings::GetCardsOfSuit(const int nSuit, CCardList* pSuitList) const {
+  int nCount = 0;
+  for (int i = 0; i < m_numCards; i++) {
+    if (m_cards[i]->GetSuit() == nSuit) {
+      nCount++;
+      if (pSuitList)
+        *pSuitList << m_cards[i];
+    }
+  }
+  //
+  if ((pSuitList) && (!pSuitList->IsSorted()))
+    pSuitList->Sort();
+  //
+  return nCount;
 }
 
 
@@ -124,13 +115,12 @@ int CCardHoldings::GetCardsOfSuit(const int nSuit, CCardList* pSuitList) const
 //
 // FormatHoldingsString()
 //
-void CCardHoldings::FormatHoldingsString()
-{
-	// first call the base class
-	CCardList::FormatHoldingsString();
+void CCardHoldings::FormatHoldingsString() {
+  // first call the base class
+  CCardList::FormatHoldingsString();
 
-	// then format for GIB
-	FormatGIBHoldingsString();
+  // then format for GIB
+  FormatGIBHoldingsString();
 }
 
 
@@ -139,53 +129,46 @@ void CCardHoldings::FormatHoldingsString()
 //
 // FormatGIBHoldingsString()
 //
-void CCardHoldings::FormatGIBHoldingsString()
-{
-	// format the hand string in GIB style
-	int nCurrentSuit = SPADES;
-	int i,nIndex=0;
-	m_strGIBFormatHoldings.Empty();
-	for(i=0;i<4;i++)
-	{
-		while((nIndex < m_numCards) &&
-				  (m_cards[nIndex]->GetSuit() == nCurrentSuit))
-		{
-			m_strGIBFormatHoldings += m_cards[nIndex]->GetCardLetter();
-			nIndex++;
-		}
-		if (i < 3)
-			m_strGIBFormatHoldings += '.';
-		nCurrentSuit--;
-	}
+void CCardHoldings::FormatGIBHoldingsString() {
+  // format the hand string in GIB style
+  int nCurrentSuit = SPADES;
+  int i, nIndex = 0;
+  m_strGIBFormatHoldings.Empty();
+  for (i = 0; i < 4; i++) {
+    while ((nIndex < m_numCards) &&
+      (m_cards[nIndex]->GetSuit() == nCurrentSuit)) {
+      m_strGIBFormatHoldings += m_cards[nIndex]->GetCardLetter();
+      nIndex++;
+    }
+    if (i < 3)
+      m_strGIBFormatHoldings += '.';
+    nCurrentSuit--;
+  }
 }
 
 
 
 //
-double CCardHoldings::CountPoints(const BOOL bForceCount)
-{
-	// avoid repeating the count unless forced to do so
-	if ((m_bCountPerformed) && (!bForceCount))
-		return m_numHCPoints;
+double CCardHoldings::CountPoints(const BOOL bForceCount) {
+  // avoid repeating the count unless forced to do so
+  if ((m_bCountPerformed) && (!bForceCount))
+    return m_numHCPoints;
 
-	// else clear and start the count
-	ClearPointCount();
-	for(int i=0;i<m_numCards;i++)
-	{
-		int nFaceVal = m_cards[i]->GetFaceValue();
-		if (nFaceVal >= 10)
-			m_numHCPoints += HONOR_VALUE(nFaceVal);
-	}
+  // else clear and start the count
+  ClearPointCount();
+  for (int i = 0; i < m_numCards; i++) {
+    int nFaceVal = m_cards[i]->GetFaceValue();
+    if (nFaceVal >= 10)
+      m_numHCPoints += HONOR_VALUE(nFaceVal);
+  }
 
-	// done
-	m_bCountPerformed = TRUE;
-	return m_numHCPoints;
+  // done
+  m_bCountPerformed = TRUE;
+  return m_numHCPoints;
 }
 
 
 //
-void CCardHoldings::EvaluateHoldings()
-{
-}
+void CCardHoldings::EvaluateHoldings() {}
 
 

@@ -20,57 +20,59 @@
 //
 class CFinesse : public CPlay {
 
-// public data
+  // public data
 public:
-	// finesse target
-	enum { AGAINST_LHO=0, 
-		   AGAINST_RHO=1, 
-		   AGAINST_BOTH=2,
-	};
-	// finesse type
-	enum { TYPE_I=0, 
-		   TYPE_II, 
-		   TYPE_III, 
-		   TYPE_IV, 
-		   TYPE_A, 
-		   TYPE_B, 
-	};
+  // finesse target
+  enum {
+    AGAINST_LHO = 0,
+    AGAINST_RHO = 1,
+    AGAINST_BOTH = 2,
+  };
+  // finesse type
+  enum {
+    TYPE_I = 0,
+    TYPE_II,
+    TYPE_III,
+    TYPE_IV,
+    TYPE_A,
+    TYPE_B,
+  };
 
-// public routines
+  // public routines
 public:
-	// overloadable functions
-	virtual void	Clear();
-	virtual void	Init();
-	virtual CString GetFullDescription() = 0;
-	virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand, 
-								CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands, 
-								CPlayerStatusDialog& status, CCard*& pPlayCard) = 0;
-	//
-	virtual int			GetTargetPos() { return m_nTargetPos; }
-	virtual int			GetDepth() { return m_nGapSize; }
-	virtual CCardList*	GetGapCards() { return m_pGapCards; }
-	virtual int			GetSubType() { return m_nSubType; }
+  // overloadable functions
+  virtual void	Clear();
+  virtual void	Init();
+  virtual CString GetFullDescription() = 0;
+  virtual PlayResult	Perform(CPlayEngine& playEngine, CCombinedHoldings& combinedHand,
+    CCardLocation& cardLocation, CGuessedHandHoldings** ppGuessedHands,
+    CPlayerStatusDialog& status, CCard*& pPlayCard) = 0;
+  //
+  virtual int			GetTargetPos() { return m_nTargetPos; }
+  virtual int			GetDepth() { return m_nGapSize; }
+  virtual CCardList*	GetGapCards() { return m_pGapCards; }
+  virtual int			GetSubType() { return m_nSubType; }
 
 
-// protected routines
+  // protected routines
 protected:
 
 
-// protected data
+  // protected data
 protected:
-	int		m_nSubType;
-	int		m_nPlayerPosition;
-	int		m_nTarget;			// AGAINST_LHO or AGAINST_RHO
-	int		m_nTargetPos;		// North, West, etc...
-	int		m_nGapSize;
-	int		m_nCardVal;	// 2..14 (deuce through Ace)
-	CCardList*	m_pGapCards;
+  int		m_nSubType;
+  int		m_nPlayerPosition;
+  int		m_nTarget;			// AGAINST_LHO or AGAINST_RHO
+  int		m_nTargetPos;		// North, West, etc...
+  int		m_nGapSize;
+  int		m_nCardVal;	// 2..14 (deuce through Ace)
+  CCardList*	m_pGapCards;
 
-// construction/destruction
+  // construction/destruction
 public:
-	CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic=FALSE);
-	CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic=FALSE);
-	virtual ~CFinesse();
+  CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, int nSuit, int nCardVal, BOOL bOpportunistic = FALSE);
+  CFinesse(std::shared_ptr<AppInterface> app, int nSubType, int nTargetHand, int nPlayerPosition, CCardList* pGapCards, CCard* pCard, BOOL bOpportunistic = FALSE);
+  virtual ~CFinesse();
 };
 
 
