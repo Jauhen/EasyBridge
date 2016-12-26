@@ -91,10 +91,10 @@ struct null_deleter {
 
 CEasyBApp::CEasyBApp(std::shared_ptr<AppInterface> app) {
   conventionPool_ = std::make_shared<ConventionPool>(app);
-  deck_ = std::make_shared<CDeck>(app);
   std::shared_ptr<Settings> set(static_cast<Settings*>(this), null_deleter());
   settings_ = set;
-	// TODO: add construction code here,
+  deck_ = std::make_shared<CDeck>(app, settings_);
+  // TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 

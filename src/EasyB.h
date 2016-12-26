@@ -81,7 +81,7 @@ private:
 	DWORD 		m_dwSplashTime;
 
   // global deck objects
-  std::shared_ptr<CDeck>	deck_;
+  std::shared_ptr<CDeck> deck_;
   std::shared_ptr<ConventionPool> conventionPool_;
   std::shared_ptr<Settings> settings_;
 

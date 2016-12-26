@@ -14,7 +14,8 @@ namespace UnitTests {
 class DeckTests : public Test {
 protected:
   shared_ptr<MockApp> app = make_shared<MockApp>();
-  CDeck d{app};
+  shared_ptr<Settings> settings = make_shared<Settings>();
+  CDeck d{app, settings};
 };
 
 TEST_F(DeckTests, Init) {

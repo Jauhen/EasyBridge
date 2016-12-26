@@ -18,13 +18,16 @@
 #include <sys/types.h>
 #include <sys/timeb.h>
 #include "app_interface.h"
+#include "model/settings.h"
 #include "EasyB.h"
 
 
 //
 // construction/destruction
 //
-CDeck::CDeck(std::shared_ptr<AppInterface> app) : app_(app) {
+CDeck::CDeck(std::shared_ptr<AppInterface> app, std::shared_ptr<Settings> settings) : 
+    app_(app), 
+    settings_(settings) {
   m_bInitialized = FALSE;
 }
 
@@ -37,7 +40,7 @@ int	CDeck::GetCardWidth() const {
     return m_nCardWidth;
   } else {
     // not initialized yet
-    if (app_->GetSettings()->GetLowResOption())
+    if (settings_->GetLowResOption())
       return SMALLCARDWIDTH;
     else
       return DEFCARDWIDTH;
@@ -50,7 +53,7 @@ int	CDeck::GetCardHeight() const {
     return m_nCardHeight;
   } else {
     // not initialized yet
-    if (app_->GetSettings()->GetLowResOption())
+    if (settings_->GetLowResOption())
       return SMALLCARDHEIGHT;
     else
       return DEFCARDHEIGHT;
@@ -85,8 +88,8 @@ static TCHAR BASED_CODE szCurrentCardBack[] = _T("Current Card Back Index");
 void CDeck::Initialize() {
   InitializeCards();
   // read in some values
-  m_nCurrCardBack = app_->GetSettings()->
-    ReadIntConfig(szDeckSettings, szCurrentCardBack, 0);
+  m_nCurrCardBack = 
+      settings_->ReadIntConfig(szDeckSettings, szCurrentCardBack, 0);
   // init the time
   m_nPrevTime = time(NULL);
 }
@@ -122,7 +125,7 @@ void CDeck::InitializeBitmaps() {
   CDC *pDC = app_->GetDC();
 
   // see whether we're using small cards
-  BOOL bSmallCards = app_->GetSettings()->GetLowResOption();
+  BOOL bSmallCards = settings_->GetLowResOption();
   int nBase = bSmallCards ? IDBS_CARDS_BASE : IDB_CARDS_BASE;
 
   if (bSmallCards) {
@@ -203,7 +206,7 @@ void CDeck::InitializeBitmaps() {
 //
 void CDeck::Terminate() {
   // write out some settings
-  app_->GetSettings()->WriteIntConfig(szDeckSettings, szCurrentCardBack, m_nCurrCardBack);
+  settings_->WriteIntConfig(szDeckSettings, szCurrentCardBack, m_nCurrCardBack);
 
   //
   int nSuit, nValue, nCount = 0;
@@ -232,7 +235,7 @@ void CDeck::Terminate() {
 int CDeck::Shuffle(int nSeed, bool bSuppressSeed) {
   // copy from the ordered deck if deal numbering is enabled
   // else leave shuffled
-  if (app_->GetSettings()->GetEnableDealNumbering()) {
+  if (settings_->GetEnableDealNumbering()) {
     for (int i = 0; i < 52; i++)
       m_cards[i] = m_sortedCards[i];
   }

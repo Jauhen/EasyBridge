@@ -457,7 +457,7 @@ void CCard::Animate(CDC* pDC, int destx, int desty, BOOL bClearAtEnd, int nGranu
   int diffy = desty - y;
   int dx = ABS(diffx);
   int dy = ABS(diffy);
-  // use pythagorean theorem here
+  // use Pythagorean theorem here
   int max = (int)sqrt((double)dx*dx + dy*dy);
 
   //

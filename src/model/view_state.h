@@ -68,7 +68,6 @@ public:
 
   int 	m_nSuitToScreenIndex[4];
   int 	m_nDummySuitToScreenIndex[4];
-
 };
 
 #endif // EZ_MODEL_VIEW_STATE_

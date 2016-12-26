@@ -17,6 +17,7 @@
 #include "engine/card_constants.h"
 #include <memory>
 class AppInterface;
+class Settings;
 class CCard;
 
 // default card bitmap dimensions
@@ -50,7 +51,11 @@ public:
   CBitmap* GetMaskBitmap() { return &m_maskBitmap; }
   CBitmap* GetCardBitmap(int nIndex) { return &m_cardBitmap[nIndex]; }
   int GetNumCardBacks() { return m_numCardBacks; }
-  void SetCardBackIndex(int nIndex) { if ((nIndex >= 0) && (nIndex < m_numCardBacks)) m_nCurrCardBack = nIndex; }
+  void SetCardBackIndex(int index) {
+    if (index >= 0 && index < m_numCardBacks) {
+      m_nCurrCardBack = index;
+    }
+  }
   int GetCardBackIndex() { return m_nCurrCardBack; }
   CBitmap* GetCardBackBitmap(int nIndex = -1) {
     if (nIndex == -1) nIndex = m_nCurrCardBack;
@@ -75,10 +80,11 @@ private:
   BOOL m_bInitialized;
   int m_nPrevTime;
   std::shared_ptr<AppInterface> app_;
+  std::shared_ptr<Settings> settings_;
 
   // routines
 public:
-  CDeck(std::shared_ptr<AppInterface> app);
+  CDeck(std::shared_ptr<AppInterface> app, std::shared_ptr<Settings> settings);
   ~CDeck();
 };
 

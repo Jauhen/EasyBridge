@@ -20,8 +20,8 @@ protected:
   DealTests() {}
   virtual void SetUp() {
     app = make_shared<MockApp>();
-    deck = make_shared<CDeck>(app);
     settings = make_shared<Settings>();
+    deck = make_shared<CDeck>(app, settings);
     conventionPool = make_shared<ConventionPool>(app);
     set = unique_ptr<CConventionSet>(new CConventionSet(app));
 
