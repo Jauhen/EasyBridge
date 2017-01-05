@@ -3,7 +3,6 @@
 #include <vector>
 #include "engine/card_constants.h"
 
-
 class Settings;
 class ConventionPool;
 class Deal;

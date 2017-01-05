@@ -14,6 +14,7 @@
 #include "resource.h"
 #include "ObjectWithProperties.h"
 #include "DispOptsCardsPage.h"
+#include "model/view_state.h"
 #include "viewopts.h"
 
 #ifdef _DEBUG
@@ -26,7 +27,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsCardsPage, CPropertyPage)
 
-CDispOptsCardsPage::CDispOptsCardsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
+CDispOptsCardsPage::CDispOptsCardsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, ViewState* pView) :
 		CPropertyPage(CDispOptsCardsPage::IDD),
 		m_app(pApp), m_frame(*pFrame), m_view(*pView)
 {
@@ -36,10 +37,10 @@ CDispOptsCardsPage::CDispOptsCardsPage(std::shared_ptr<Settings> pApp, CObjectWi
 	m_bAnimateCards = FALSE;
 	m_strGranularity = _T("");
 	//}}AFX_DATA_INIT
-	m_bTripleBuffer = m_view.GetValue(tbTripleBuffer);
-	m_bAnimateCards = m_view.GetValue(tbAnimateCards);
-	m_bOffsetVertSuits = m_view.GetValue(tbOffsetVerticalSuits);
-	m_nAnimationGranularity = m_view.GetValue(tnAnimationGranularity);
+	m_bTripleBuffer = m_view.GetTripleBuffer();
+	m_bAnimateCards = m_view.GetAnimateCards();
+	m_bOffsetVertSuits = m_view.GetOffsetVerticalSuits();
+	m_nAnimationGranularity = m_view.GetAnimationGranularity();
 	m_strGranularity.Format("%d", m_nAnimationGranularity);
 }
 
@@ -111,12 +112,12 @@ BOOL CDispOptsCardsPage::Update()
 {
 	// store results & return if changes affect the display
 	BOOL bChanged = FALSE;
-	m_view.SetValue(tbTripleBuffer, m_bTripleBuffer);
-	m_view.SetValue(tbAnimateCards, m_bAnimateCards);
-	m_view.SetValue(tnAnimationGranularity,atoi(m_strGranularity));
-	if (m_bOffsetVertSuits != m_view.GetValue(tbOffsetVerticalSuits)) 
+	m_view.SetTripleBuffer(m_bTripleBuffer);
+	m_view.SetAnimateCards(m_bAnimateCards);
+	m_view.SetAnimationGranularity(atoi(m_strGranularity));
+	if (m_bOffsetVertSuits != m_view.GetOffsetVerticalSuits()) 
 	{
-		m_view.SetValue(tbOffsetVerticalSuits, m_bOffsetVertSuits);
+		m_view.SetOffsetVerticalSuits(m_bOffsetVertSuits);
 		bChanged = TRUE;
 	}
 	return bChanged;

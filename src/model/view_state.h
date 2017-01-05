@@ -51,7 +51,19 @@ public:
   void ResetDummySuitSequence();
   int GetSuitToScreenIndex(int nIndex) { return m_nSuitToScreenIndex[nIndex]; }
   int GetDummySuitToScreenIndex(int nIndex) { return m_nDummySuitToScreenIndex[nIndex]; }
+  
+  int GetAnimationGranularity() { return m_nAnimationGranularity; }
+  bool GetAnimateCards() { return m_bAnimateCards; }
+  bool GetTripleBuffer() { return m_bTripleBuffer; }
+  bool GetOffsetVerticalSuits() { return m_bOffsetVertSuits; }
+  bool CanDisplayBitmap() { return m_bCanDisplayBitmap; }
+  CString GetBackgroundBitmap() { return m_strBackgroundBitmap; }
 
+  void SetAnimationGranularity(int value) { m_nAnimationGranularity = value; }
+  void SetAnimateCards(bool value) { m_bAnimateCards = value; }
+  void SetTripleBuffer(bool value) { m_bTripleBuffer = value; }
+  void SetOffsetVerticalSuits(bool value) { m_bOffsetVertSuits = value; }
+  virtual bool SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest) { return true; }
 
 public:
   //
@@ -61,13 +73,14 @@ public:
   ScreenMode m_nOldMode;
   int m_nSuppressRefresh;
   bool m_bAnimateCards;
-  BOOL m_bCanDisplayBitmap;
-  BOOL m_bTripleBuffer;
-  BOOL m_bOffsetVertSuits;
+  bool m_bCanDisplayBitmap;
+  bool m_bTripleBuffer;
+  bool m_bOffsetVertSuits;
   int m_nAnimationGranularity;
 
-  int 	m_nSuitToScreenIndex[4];
-  int 	m_nDummySuitToScreenIndex[4];
+  int m_nSuitToScreenIndex[4];
+  int m_nDummySuitToScreenIndex[4];
+  CString m_strBackgroundBitmap;
 };
 
 #endif // EZ_MODEL_VIEW_STATE_

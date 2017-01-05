@@ -21,6 +21,7 @@
 class CObjectWithProperties;
 class CDeck;
 class Settings;
+class ViewState;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsCardBacksPage dialog
@@ -37,7 +38,6 @@ public:
 private:
   std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
-	CObjectWithProperties&	m_view;
 	std::shared_ptr<CDeck>	m_deck;
 	//
 	int		m_nIndex;
@@ -45,7 +45,7 @@ private:
 
 // Construction
 public:
-	CDispOptsCardBacksPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL, std::shared_ptr<CDeck> pDeck=NULL);
+	CDispOptsCardBacksPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, std::shared_ptr<CDeck> pDeck=NULL);
 	~CDispOptsCardBacksPage();
 
 public:

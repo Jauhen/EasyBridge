@@ -1995,7 +1995,7 @@ void CMainFrame::OnProgConfigWizard()
 {
 	// why is the cast necessary? (VC++ won't acceept it otherwise!)
 //	CProgramConfigWizard configWizard(&theApp, pDOC, pMAINFRAME, pVIEW, pCurrConvSet);
-	CProgramConfigWizard configWizard(theApp.GetSettings(), pMAINFRAME, pVIEW, (CObjectWithProperties*)pCurrConvSet);
+	CProgramConfigWizard configWizard(theApp.GetSettings(), pMAINFRAME, (pVIEW)->state_, (CObjectWithProperties*)pCurrConvSet);
 	configWizard.InitOptions(FALSE);
 
 	//
@@ -2121,7 +2121,7 @@ void CMainFrame::OnRButtonDown(UINT nFlags, CPoint point)
 //
 void CMainFrame::OnDisplayOptions() 
 {
-	CDispOptionsPropSheet dispOptsDialog(theApp.GetSettings(), pMAINFRAME, pVIEW, theApp.GetDeck(), this);
+	CDispOptionsPropSheet dispOptsDialog(theApp.GetSettings(), pMAINFRAME, (pVIEW)->state_, theApp.GetDeck(), this);
 	//
 	if (dispOptsDialog.DoModal() == IDOK)
 	{

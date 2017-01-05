@@ -26,6 +26,7 @@
 #include "engine/bidding/ConvCodes.h"
 #include "HelpCode.h"
 #include "model/settings.h"
+#include "model/view_state.h"
 #include <memory>
 
 #ifdef _DEBUG
@@ -40,7 +41,7 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CProgramConfigWizard, CPropertySheet)
 
 CProgramConfigWizard::CProgramConfigWizard(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame,
-										   CObjectWithProperties* pView,  CObjectWithProperties* pConventionSet,
+										   ViewState* pView,  CObjectWithProperties* pConventionSet,
 										   CWnd* pParentWnd, UINT iSelectPage)
 	: CPropertySheet(_T("Program Configuration Wizard"), pParentWnd, iSelectPage),
 	  m_app(pApp), m_frame(*pFrame), m_view(*pView), m_conventionSet(*pConventionSet)

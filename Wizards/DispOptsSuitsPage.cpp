@@ -15,6 +15,7 @@
 #include "ObjectWithProperties.h"
 #include "DispOptsSuitsPage.h"
 #include "model/settings.h"
+#include "model/view_state.h"
 #include <memory>
 
 #ifdef _DEBUG
@@ -27,9 +28,9 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsSuitsPage, CPropertyPage)
 
-CDispOptsSuitsPage::CDispOptsSuitsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
+CDispOptsSuitsPage::CDispOptsSuitsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame) :
 		CPropertyPage(CDispOptsSuitsPage::IDD),
-		m_app(pApp), m_frame(*pFrame), m_view(*pView)
+		m_app(pApp), m_frame(*pFrame)
 {
 	//{{AFX_DATA_INIT(CDispOptsSuitsPage)
 	m_nSuitSeqOption = -1;

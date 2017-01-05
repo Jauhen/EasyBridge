@@ -16,6 +16,7 @@
 #include "DispOptsFontsPage.h"
 #include "MainFrameOpts.h"
 #include "model/settings.h"
+#include "model/view_state.h"
 #include "model/Globals.h"
 
 #ifdef _DEBUG
@@ -29,9 +30,9 @@ static char THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsFontsPage, CPropertyPage)
 
-CDispOptsFontsPage::CDispOptsFontsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
+CDispOptsFontsPage::CDispOptsFontsPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame) :
 		CPropertyPage(CDispOptsFontsPage::IDD),
-		m_app(pApp), m_frame(*pFrame), m_view(*pView) 
+		m_app(pApp), m_frame(*pFrame) 
 {
 	//{{AFX_DATA_INIT(CDispOptsFontsPage)
 	m_strAutoHintDialogFont = _T("");

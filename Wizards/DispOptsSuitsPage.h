@@ -12,6 +12,7 @@
 #include <memory>
 
 class Settings;
+class ViewState;
 class CObjectWithProperties;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -28,12 +29,11 @@ public:
 // data
   std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
-	CObjectWithProperties&	m_view;
 
 
 // Construction
 public:
-	CDispOptsSuitsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
+	CDispOptsSuitsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL);
 	~CDispOptsSuitsPage();
 
 // Dialog Data

@@ -17,6 +17,7 @@
 #include "viewopts.h"
 #include "model/globals.h"
 #include "model/settings.h"
+#include "model/view_state.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -28,7 +29,7 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNCREATE(CDispOptsMiscPage, CPropertyPage)
 
-CDispOptsMiscPage::CDispOptsMiscPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView) :
+CDispOptsMiscPage::CDispOptsMiscPage(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, ViewState* pView) :
 		CPropertyPage(CDispOptsMiscPage::IDD),
 		m_app(pApp), m_frame(*pFrame), m_view(*pView)
 {
@@ -49,7 +50,7 @@ CDispOptsMiscPage::CDispOptsMiscPage(std::shared_ptr<Settings> pApp, CObjectWith
 	m_bShowSplashWindow = m_app->GetShowSplashWindow();
 	m_nBackgroundColor = m_app->GetBackgroundColor();
 	m_bLowResOption = m_app->GetLowResOption();
-	m_strFilePath = m_view.GetValueString(tszBackgroundBitmap);
+	m_strFilePath = m_view.GetBackgroundBitmap();
 }
 
 CDispOptsMiscPage::~CDispOptsMiscPage()
@@ -93,7 +94,7 @@ BOOL CDispOptsMiscPage::OnInitDialog()
 	CPropertyPage::OnInitDialog();
 
 	// see if we can display a bitmap
-	if (!m_view.GetValue(tbCanDisplayBitmap))
+	if (!m_view.CanDisplayBitmap())
 	{
 		m_bShowBackgroundBitmap = FALSE;
 		GetDlgItem(IDC_SHOW_BACKGROUND_BITMAP)->EnableWindow(FALSE);
@@ -136,7 +137,7 @@ void CDispOptsMiscPage::OnShowBackgroundBitmap()
 void CDispOptsMiscPage::OnBrowse() 
 {
 	// first retrieve the current filename & path
-	CString strFilePath = (LPCTSTR) m_view.GetValuePV(tszBackgroundBitmap);
+	CString strFilePath = m_view.GetBackgroundBitmap();
 	char szName[256], szPath[256];
 	szName[0] = _T('\0');
 	szPath[0] = _T('\0');
@@ -163,7 +164,7 @@ void CDispOptsMiscPage::OnBrowse()
 
 	// try loading the bitmap
 	CString strFileName = fileDlg.GetPathName();
-	if (m_view.SetValuePV(tszBackgroundBitmap, (LPVOID)(LPCTSTR)strFileName, 1) != 0) 
+	if (m_view.SetBackgroundBitmap(strFileName, 1) != 0) 
 	{
 		AfxMessageBox(FormString("Error reading file %s.\nIt may not be a Windows Bitmap file.",strFileName));
 	} 
@@ -219,7 +220,7 @@ BOOL CDispOptsMiscPage::Update()
 		 (m_nBitmapMode != m_app->GetBitmapDisplayMode()) ||
 		 (m_bScaleLargeBitmaps != m_app->GetScaleLargeBitmaps()) ||
 	 	 (m_nBackgroundColor != m_app->GetBackgroundColor()) ||
-		 (m_strFilePath != m_view.GetValue(tszBackgroundBitmap)) )
+		 (m_strFilePath != m_view.GetBackgroundBitmap()) )
 		bChanged = TRUE;
 
 	// update resolution setting in deferred mode
@@ -232,7 +233,7 @@ BOOL CDispOptsMiscPage::Update()
 	//
 //	m_app->SetValue(tbAutoAlignDialogs, m_bAutoAlignDialogs);
 //	m_app->SetValue(tbShowStartupAnimation, m_bShowStartupAnimation);
-	m_view.SetValuePV(tszBackgroundBitmap, (LPVOID)(LPCTSTR)m_strFilePath);
+	m_view.SetBackgroundBitmap(m_strFilePath, false);
 	m_app->SetShowBackgroundBitmap(m_bShowBackgroundBitmap);
 	m_app->SetBitmapDisplayMode(m_nBitmapMode);
 	m_app->SetScaleLargeBitmaps(m_bScaleLargeBitmaps);
