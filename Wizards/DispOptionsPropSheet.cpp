@@ -32,15 +32,15 @@ static char BASED_CODE THIS_FILE[] = __FILE__;
 
 IMPLEMENT_DYNAMIC(CDispOptionsPropSheet, CPropertySheet)
 
-CDispOptionsPropSheet::CDispOptionsPropSheet(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, ViewState* pView, std::shared_ptr<CDeck> pDeck, CWnd* pParentWnd, UINT iSelectPage) :
+CDispOptionsPropSheet::CDispOptionsPropSheet(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, CObjectWithProperties* pView, std::shared_ptr<CDeck> pDeck, CWnd* pParentWnd, UINT iSelectPage) :
 		CPropertySheet(_T("Display Options"), pParentWnd, iSelectPage)
 {
 	// create the pages
-	m_pSuitsPage = new CDispOptsSuitsPage(pApp, pFrame);
-	m_pCardsPage = new CDispOptsCardsPage(pApp, pFrame);
-	m_pCardBacksPage = new CDispOptsCardBacksPage(pApp, pFrame, pDeck);
+	m_pSuitsPage = new CDispOptsSuitsPage(pApp, pFrame, pView);
+	m_pCardsPage = new CDispOptsCardsPage(pApp, pFrame, pView);
+	m_pCardBacksPage = new CDispOptsCardBacksPage(pApp, pFrame, pView, pDeck);
 	m_pDialogsPage = new CDispOptsDialogsPage(pApp);
-	m_pFontsPage = new CDispOptsFontsPage(pApp, pFrame);
+	m_pFontsPage = new CDispOptsFontsPage(pApp, pFrame, pView);
 	m_pMiscPage = new CDispOptsMiscPage(pApp, pFrame, pView);
 
 	// then add the pages

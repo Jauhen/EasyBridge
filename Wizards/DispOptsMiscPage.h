@@ -13,7 +13,6 @@
 
 class CObjectWithProperties;
 class Settings;
-class ViewState;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsMiscPage dialog
@@ -33,14 +32,14 @@ private:
 private:
   std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
-	ViewState& m_view;
+	CObjectWithProperties&	m_view;
 	//
 	int	 m_nBackgroundColor;
 
 
 // Construction
 public:
-	CDispOptsMiscPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, ViewState* pView=NULL);
+	CDispOptsMiscPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsMiscPage();
 
 // Dialog Data

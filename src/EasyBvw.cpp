@@ -2802,7 +2802,7 @@ void CEasyBView::EndGameReview() {
 
 
 //
-bool CEasyBView::SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest) {
+BOOL CEasyBView::SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest) {
   // see if this is a test only
   if (bTest) {
     CDIB testDib;

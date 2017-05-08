@@ -29,7 +29,6 @@ public:
   //
 public:
   static CEasyBView* m_pView;
-  ViewState* state_;
 
 protected: // create from serialization only
   CEasyBView();
@@ -49,6 +48,7 @@ public:
   //
   static CEasyBView* GetView();
   //
+  BOOL SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest);
   void ClearMode(BOOL bRedraw = TRUE);
   void ClearDisplay() { ClearDisplayArea(NULL, NULL); }
   void Refresh(BOOL bInvalidate = FALSE) { if (bInvalidate) Invalidate(); UpdateWindow(); }
@@ -67,7 +67,6 @@ public:
   void GameFinished();
   void BeginGameReview(BOOL bReset = TRUE);
   void EndGameReview();
-  virtual bool SetBackgroundBitmap(LPCTSTR szFileName, BOOL bTest);
   void RestoreGameReview();
   // 
   void SetCurrentMode(int nMode);
@@ -82,6 +81,7 @@ private:
   static BOOL	m_bResourcesInitialized;
   static BOOL	m_bViewInitialized;
 
+  ViewState* state_;
   //
   CCard*  m_layoutDeck[52];
   POINT 	m_drawPoint[4];
@@ -142,6 +142,7 @@ private:
   CBitmap 	m_winnersBitmap;
   CBitmap 	m_losersBitmap;
   CDIB		m_customDIB;
+  CString		m_strBackgroundBitmap;
   BOOL		m_bAutoRestackCards;
   //
   CIntroWnd*	m_pIntroWnd;

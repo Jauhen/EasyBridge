@@ -19,7 +19,6 @@
 
 class CObjectWithProperties;
 class Settings;
-class ViewState;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsFontsPage dialog
@@ -41,6 +40,7 @@ private:
 private:
   std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
+	CObjectWithProperties&	m_view;
 	//
 	LOGFONT		m_lfAutoHint;
 	LOGFONT		m_lfHistory;
@@ -52,7 +52,7 @@ private:
 
 // Construction
 public:
-	CDispOptsFontsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL);
+	CDispOptsFontsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsFontsPage();
 
 // Dialog Data

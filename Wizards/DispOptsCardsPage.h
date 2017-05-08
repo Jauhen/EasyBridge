@@ -13,7 +13,6 @@
 
 class CObjectWithProperties;
 class Settings;
-class ViewState;
 
 /////////////////////////////////////////////////////////////////////////////
 // CDispOptsCardsPage dialog
@@ -30,13 +29,13 @@ public:
 private:
   std::shared_ptr<Settings>	m_app;
 	CObjectWithProperties&	m_frame;
-  ViewState& m_view;
+	CObjectWithProperties&	m_view;
 	//
 	int		m_nAnimationGranularity;
 
 // Construction
 public:
-	CDispOptsCardsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, ViewState* pView=NULL);
+	CDispOptsCardsPage(std::shared_ptr<Settings> pApp=NULL, CObjectWithProperties* pFrame=NULL, CObjectWithProperties* pView=NULL);
 	~CDispOptsCardsPage();
 
 // Dialog Data

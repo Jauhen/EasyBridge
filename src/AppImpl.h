@@ -316,7 +316,7 @@ public:
   }
 
   virtual int GetAnimationGranularity() {
-    return pVIEW->GetAnimationGranularity();
+    return pVIEW->GetValue(tnAnimationGranularity);
   }
 
   virtual void EndGameReview() {

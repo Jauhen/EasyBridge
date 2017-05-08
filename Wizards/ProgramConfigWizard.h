@@ -29,7 +29,6 @@ class CProgConfigPausesPage;
 class CProgConfigBiddingPage;
 class CProgConfigFinishPage;
 class Settings;
-class ViewState;
 
 /////////////////////////////////////////////////////////////////////////////
 // CProgramConfigWizard
@@ -53,7 +52,7 @@ private:
 	//
   std::shared_ptr<Settings>		m_app;
 	CObjectWithProperties&		m_frame;
-	ViewState& m_view;
+	CObjectWithProperties&		m_view;
 	CObjectWithProperties&		m_conventionSet;
 	//
 	CProgConfigIntroPage*			m_pIntroPage;
@@ -69,7 +68,7 @@ private:
 // Construction
 public:
 	CProgramConfigWizard(std::shared_ptr<Settings> pApp, CObjectWithProperties* pFrame, 
-						 ViewState* pView,  CObjectWithProperties* pConventionSet,
+						 CObjectWithProperties* pView,  CObjectWithProperties* pConventionSet,
 						 CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
 
 // Overrides
