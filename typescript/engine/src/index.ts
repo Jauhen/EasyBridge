@@ -25,3 +25,48 @@ export type { PlayEngineContext, PlayerRole } from './play/playEngine.js';
 export { DeclarerPlayEngine } from './play/declarerPlayEngine.js';
 export { DummyPlayEngine } from './play/dummyPlayEngine.js';
 export { DefenderPlayEngine } from './play/defenderPlayEngine.js';
+export { ConventionStatus, ConventionId } from './bidding/biddingCodes.js';
+export { Convention } from './bidding/convention.js';
+export type { ConventionBidContext, ConventionContext } from './bidding/convention.js';
+export { ConventionSet } from './bidding/conventionSet.js';
+export type { ConventionSetOptions } from './bidding/conventionSet.js';
+export { ConventionPool } from './bidding/conventionPool.js';
+export { BidEngine } from './bidding/bidEngine.js';
+export type { AuctionState } from './bidding/bidEngine.js';
+export {
+  StaymanConvention,
+  WeakTwoBidsConvention,
+  StrongTwoBidsConvention,
+  Artificial2ClubConvention,
+  FourthSuitForcingConvention,
+  BlackwoodConvention,
+  GerberConvention,
+  CueBidConvention,
+  SplinterBidsConvention,
+  MichaelsCueBidConvention,
+  Jacoby2NTConvention,
+  UnusualNTConvention,
+  Gambling3NTConvention,
+  DruryConvention,
+  NegativeDoublesConvention,
+  TakeoutDoublesConvention,
+  OvercallsConvention,
+  JacobyTransferConvention,
+  ShutoutBidsConvention,
+} from './bidding/conventionImplementations.js';
+export { Cash } from './play/cash.js';
+export { Discard } from './play/discard.js';
+export { Drop } from './play/drop.js';
+export { ExitPlay } from './play/exitPlay.js';
+export { Force } from './play/force.js';
+export { HoldUp } from './play/holdUp.js';
+export { Ruff } from './play/ruff.js';
+export { TrumpPull } from './play/trumpPull.js';
+export { Finesse } from './play/finesse.js';
+export {
+  Type1Finesse,
+  Type2Finesse,
+  Type3Finesse,
+  TypeAFinesse,
+  TypeBFinesse,
+} from './play/finesseVariants.js';

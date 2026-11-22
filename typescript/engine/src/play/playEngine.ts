@@ -25,6 +25,8 @@ export interface PlayerRole {
 }
 
 export class PlayEngine {
+  // Mirrors CPlayEngine::RecordCardPlay/RecordCardUndo and base card
+  // outstanding analysis. Subclasses retain declarer/dummy/defender roles.
   player: PlayerRole | null = null;
   partner: PlayerRole | null = null;
   leftOpponent: PlayerRole | null = null;

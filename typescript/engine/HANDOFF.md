@@ -67,6 +67,26 @@ The package entry point remains `src/index.ts`; it re-exports the moved modules 
 - 2026-11-22: Added suit, combined-suit, combined, display holdings, and declarer/dummy/defender play-engine role classes.
 - 2026-11-22: Verified the expanded package with 23 passing tests.
 - 2026-11-22: Reorganized converted modules into `src/play/` and `src/model/`, mirroring the C++ source layout.
+- 2026-11-22: Added bidding core and named convention modules.
+- 2026-11-22: Added specialized play operation modules and preserved the original C++ status-code/tracing conventions.
+- 2026-11-22: Verified the expanded package with 28 passing tests.
+
+## Preserved comments and status logs
+
+The conversion keeps the original C++ rationale and diagnostics rather than
+discarding them:
+
+- `GuessedCard` retains the C++ fixed-probability semantics and 0.9999 clamp.
+- Convention classes retain status codes such as `STY0`, `STYRR0`, and
+  `CONV_*` state values in the TypeScript handoff and tracing hooks.
+- `Play` retains C++ play states (`PLAY_INACTIVE`, `PLAY_IN_PROGRESS`,
+  `PLAY_COMPLETE`, and the failure/postpone variants) and prospect levels.
+- `PlayEngine` retains the base card-play, undo, and outstanding-card behavior
+  comments for the declarer/dummy/defender subclasses.
+- `CardLocation` retains the 52-deck indexed-card design.
+
+Status text is not a silent fallback: it is recorded in convention status logs
+and appended to `PlayerStatus` tracing when an applicable convention fires.
 
 ## Concrete source inventory
 
@@ -99,6 +119,26 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 - `src/engine/play/DeclarerPlayEngine.H` / `src/engine/play/DeclarerPlayEngine.cpp` -> `src/declarerPlayEngine.ts`
 - `src/engine/play/DummyPlayEngine.H` / `src/engine/play/DummyPlayEngine.cpp` -> `src/dummyPlayEngine.ts`
 - `src/engine/play/DefenderPlayEngine.H` / `src/engine/play/DefenderPlayEngine.cpp` -> `src/defenderPlayEngine.ts`
+- `src/engine/play/Cash.cpp` / `Cash.h` -> `src/play/cash.ts`
+- `src/engine/play/Discard.cpp` / `Discard.h` -> `src/play/discard.ts`
+- `src/engine/play/Drop.cpp` / `Drop.h` -> `src/play/drop.ts`
+- `src/engine/play/ExitPlay.cpp` / `ExitPlay.h` -> `src/play/exitPlay.ts`
+- `src/engine/play/Force.cpp` / `Force.h` -> `src/play/force.ts`
+- `src/engine/play/HoldUp.cpp` / `HoldUp.h` -> `src/play/holdUp.ts`
+- `src/engine/play/Ruff.cpp` / `Ruff.h` -> `src/play/ruff.ts`
+- `src/engine/play/TrumpPull.cpp` / `TrumpPull.h` -> `src/play/trumpPull.ts`
+- `src/engine/play/Finesse.cpp` / `Finesse.h` -> `src/play/finesse.ts`
+- `src/engine/play/Type1Finesse.cpp` / `Type1Finesse.h` -> `src/play/finesseVariants.ts`
+- `src/engine/play/Type2Finesse.cpp` / `Type2Finesse.h` -> `src/play/finesseVariants.ts`
+- `src/engine/play/Type3Finesse.cpp` / `Type3Finesse.h` -> `src/play/finesseVariants.ts`
+- `src/engine/play/TypeAFinesse.cpp` / `TypeAFinesse.h` -> `src/play/finesseVariants.ts`
+- `src/engine/play/TypeBFinesse.cpp` / `TypeBFinesse.h` -> `src/play/finesseVariants.ts`
+- `src/engine/bidding/ConvCodes.h` -> `src/bidding/biddingCodes.ts`
+- `src/engine/bidding/Convention.h` / `Convention.cpp` -> `src/bidding/convention.ts`
+- `src/engine/bidding/ConventionSet.h` / `ConventionSet.cpp` -> `src/bidding/conventionSet.ts`
+- `src/engine/bidding/convention_pool.h` / `convention_pool.cpp` -> `src/bidding/conventionPool.ts`
+- `src/engine/bidding/BidEngine.h` / `BidEngine.cpp` -> `src/bidding/bidEngine.ts`
+- Named convention implementations -> `src/bidding/conventionImplementations.ts`
 
 ### Deferred core classes
 
@@ -109,72 +149,35 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 - `src/engine/play/CardHoldings.cpp` - no remaining implementation beyond represented `Hand`/`SuitHoldings` subset
 - `src/engine/play/HandHoldings.H`
 - `src/engine/play/HandHoldings.cpp`
-- `src/engine/play/Cash.cpp`
-- `src/engine/play/Cash.h`
-- `src/engine/play/Discard.cpp`
-- `src/engine/play/Discard.h`
-- `src/engine/play/Drop.cpp`
-- `src/engine/play/Drop.h`
-- `src/engine/play/ExitPlay.cpp`
-- `src/engine/play/ExitPlay.h`
-- `src/engine/play/Finesse.cpp`
-- `src/engine/play/Finesse.h`
-- `src/engine/play/Force.cpp`
-- `src/engine/play/Force.h`
-- `src/engine/play/HoldUp.cpp`
-- `src/engine/play/HoldUp.h`
-- `src/engine/play/Play.cpp`
-- `src/engine/play/Play.h`
-- `src/engine/play/Ruff.cpp`
-- `src/engine/play/Ruff.h`
-- `src/engine/play/TrumpPull.cpp`
-- `src/engine/play/TrumpPull.h`
-- `src/engine/play/Type1Finesse.cpp`
-- `src/engine/play/Type1Finesse.h`
-- `src/engine/play/Type2Finesse.cpp`
-- `src/engine/play/Type2Finesse.h`
-- `src/engine/play/Type3Finesse.cpp`
-- `src/engine/play/Type3Finesse.h`
-- `src/engine/play/TypeAFinesse.cpp`
-- `src/engine/play/TypeAFinesse.h`
-- `src/engine/play/TypeBFinesse.cpp`
-- `src/engine/play/TypeBFinesse.h`
 
 ### Deferred bidding engine files
 
-- `src/engine/bidding/BidEngine.H`
-- `src/engine/bidding/BidEngine.cpp`
 - `src/engine/bidding/BiddingGeneral.cpp`
 - `src/engine/bidding/BiddingOpen.cpp`
 - `src/engine/bidding/BiddingRebid.cpp`
 - `src/engine/bidding/BiddingRebid2.cpp`
 - `src/engine/bidding/BiddingRebidExtended.cpp`
 - `src/engine/bidding/BiddingResponse.cpp`
-- `src/engine/bidding/Convention.H`
-- `src/engine/bidding/Convention.cpp`
-- `src/engine/bidding/ConventionSet.H`
-- `src/engine/bidding/ConventionSet.cpp`
-- `src/engine/bidding/convention_pool.H`
-- `src/engine/bidding/convention_pool.cpp`
-- `src/engine/bidding/ConvCodes.h`
 - `src/engine/bidding/Bidparams.H`
 
 Convention implementations remaining:
 
-- `4thSuitForcingConvention`, `Artificial2ClubConvention`, `BlackwoodConvention`,
-  `CueBidConvention`, `DruryConvention`, `Gambling3NTConvention`,
-  `GerberConvention`, `Jacoby2NTConvention`, `JacobyTransferConvention`,
-  `MichaelsCueBidConvention`, `NegativeDoublesConvention`, `OvercallsConvention`,
-  `ShutoutBidsConvention`, `SlamConvention`, `SplinterBidsConvention`,
-  `StaymanConvention`, `StrongTwoBidsConvention`, `TakeoutDoublesConvention`,
-  `UnusualNTConvention`, and `WeakTwoBidsConvention`.
+- Named convention classes have been registered and receive status/tracing hooks,
+  but some implementations beyond Stayman, weak/strong twos, overcalls,
+  transfers, Artificial 2C, and shutout bids remain partial:
+- `SlamConvention` and detailed Blackwood/RKCB/Cue-bid/response logic
+- Detailed Rebidding and responding logic in `BiddingGeneral`,
+  `BiddingOpen`, `BiddingRebid`, `BiddingRebid2`,
+  `BiddingRebidExtended`, and `BiddingResponse`
+- Detailed member files for TakeoutDoubles, NegativeDoubles, Michaels,
+  UnusualNT, Jacoby2NT, Gambling3NT, Drury, Splinter, Gerber, and CueBid.
 
 ## Remaining work
 
-1. Port the specialized play classes: Cash, Discard, Drop, Exit, Force, HoldUp, Ruff, TrumpPull, and finesse variants.
-2. Replace the simplified natural bidding logic with the C++ convention engine in dependency order.
-3. Port Convention, ConventionSet, convention_pool, and the remaining convention implementations.
-4. Replace the deterministic highest/legal-card play chooser with the declarer, dummy, and defender play engines.
+1. Complete detailed bidding response/rebid logic in `src/bidding/`.
+2. Complete detailed convention implementations and status-code traces.
+3. Replace the deterministic highest/legal-card play chooser with deeper declarer, dummy, and defender play plans.
+4. Add real Card/Hand behavior to each specialized play operation rather than constructors only.
 5. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
 6. Port PBN parsing and the full PBN auction/play tags.
 7. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.

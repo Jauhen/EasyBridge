@@ -23,6 +23,20 @@ import {
   DeclarerPlayEngine,
   DummyPlayEngine,
   DefenderPlayEngine,
+  Cash,
+  Discard,
+  Drop,
+  ExitPlay,
+  Force,
+  HoldUp,
+  Ruff,
+  TrumpPull,
+  Finesse,
+  Type1Finesse,
+  Type2Finesse,
+  Type3Finesse,
+  TypeAFinesse,
+  TypeBFinesse,
 } from '../src/index.js';
 
 describe('Card', () => {
@@ -219,5 +233,30 @@ describe('Play engines', () => {
     engine.hand = hand;
     const card = engine.chooseCard(Suit.Diamonds);
     expect(card?.name).toBe('DJ');
+  });
+});
+
+describe('Specialized play types', () => {
+  it('constructs the core play operations', () => {
+    expect(new Cash(Suit.Spades).type).toBe(1);
+    expect(new Discard().name).toBe('Discard');
+    expect(new Drop(Suit.Hearts).isValid).toBe(true);
+    expect(new ExitPlay().isValid).toBe(true);
+    expect(new Force(Suit.Clubs).isValid).toBe(true);
+  });
+
+  it('constructs ruff, trump pull, hold-up, and finesse operations', () => {
+    expect(new HoldUp(Suit.Diamonds).isValid).toBe(true);
+    expect(new Ruff(Suit.Hearts).isValid).toBe(true);
+    expect(new TrumpPull(Suit.Hearts).isValid).toBe(true);
+    expect(new Finesse(Suit.Spades).isValid).toBe(true);
+  });
+
+  it('constructs all finesse variants', () => {
+    expect(new Type1Finesse(Suit.Hearts).isValid).toBe(true);
+    expect(new Type2Finesse(Suit.Hearts).isValid).toBe(true);
+    expect(new Type3Finesse(Suit.Hearts).isValid).toBe(true);
+    expect(new TypeAFinesse(Suit.Hearts).isValid).toBe(true);
+    expect(new TypeBFinesse(Suit.Hearts).isValid).toBe(true);
   });
 });

@@ -2,6 +2,9 @@ import { Card } from './card.js';
 import { NONE, Position, Suit } from './constants.js';
 
 export class GuessedCard {
+  // Mirrors CGuessedCard::Clear, location, fixed probability, and outstanding
+  // card semantics from GuessedCard.CPP. Probability adjustments intentionally
+  // preserve the C++ 0.9999 clamp before certainty reaches 1.0.
   private outstanding = true;
   private probableLocationValue: Position | typeof NONE = NONE;
   private fixProbability = 0;

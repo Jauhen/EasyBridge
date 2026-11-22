@@ -41,6 +41,8 @@ export interface PlayDependencies {
 }
 
 export class Play {
+  // Mirrors CPlay: every play is identified once, has an active result,
+  // target/starting/ending hands, optional key/target cards, and a unique ID.
   private static nextId = 1;
   readonly id: number;
   status = PlayResult.Inactive;
