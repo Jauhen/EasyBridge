@@ -1,9 +1,13 @@
 import { Card } from './card.js';
 import { Bid, Position, Suit } from './constants.js';
 import { Hand } from './hand.js';
+import { CardLocation } from './cardLocation.js';
+import { PlayerStatus } from './playerStatus.js';
 
 export class Player {
   readonly hand = new Hand();
+  readonly cardLocation = new CardLocation();
+  readonly status = new PlayerStatus();
   private bids: number[] = [];
 
   constructor(readonly position: Position) {}
@@ -11,6 +15,8 @@ export class Player {
   clearHand(): void {
     this.hand.clear();
     this.bids = [];
+    this.cardLocation.clear();
+    this.status.clear();
   }
 
   addCard(card: Card): void {

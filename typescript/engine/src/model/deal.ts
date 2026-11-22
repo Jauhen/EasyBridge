@@ -1,7 +1,6 @@
-import { Bid, bidLevel, bidSuit, contractToPbn, isBid, nextPosition, Position, positionToChar, Suit, Team, Vulnerability } from './constants.js';
-import { Card } from './card.js';
-import { Player } from './player.js';
-import { bidToPbn } from './constants.js';
+import { Bid, bidLevel, bidSuit, contractToPbn, isBid, nextPosition, Position, positionToChar, Suit, Team, Vulnerability, bidToPbn } from '../constants.js';
+import { Card } from '../card.js';
+import { Player } from '../player.js';
 
 export interface DealOptions {
   dealer?: Position;

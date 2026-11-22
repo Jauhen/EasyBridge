@@ -1,5 +1,5 @@
-import { Card } from './card.js';
-import { charToFaceValue, charToSuit, Position, positionToChar, Suit } from './constants.js';
+import { Card } from '../card.js';
+import { charToFaceValue, charToSuit, Position, positionToChar, Suit } from '../constants.js';
 
 export interface PbnDealInput {
   dealer: Position;

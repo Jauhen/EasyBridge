@@ -1,8 +1,11 @@
 import {
   ACE,
   faceValue as deckFaceValue,
+  faceName,
   faceValueToChar,
   Suit,
+  suitName,
+  singularSuitName,
   suitToChar,
 } from './constants.js';
 
@@ -26,6 +29,14 @@ export class Card {
 
   get isHonor(): boolean {
     return this.faceValue >= 11;
+  }
+
+  get fullName(): string {
+    return `${faceName(this.faceValue)} of ${suitName(this.suit)}`;
+  }
+
+  get reverseFullName(): string {
+    return `${singularSuitName(this.suit)} ${faceName(this.faceValue)}`;
   }
 
   get honorPoints(): number {

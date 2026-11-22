@@ -34,6 +34,39 @@ export const QUEEN = 12;
 export const KING = 13;
 export const ACE = 14;
 
+export const SUIT_NAMES = ['Clubs', 'Diamonds', 'Hearts', 'Spades', 'No Trump'] as const;
+export const SUIT_NAMES_SINGULAR = ['Club', 'Diamond', 'Heart', 'Spade', 'No Trump'] as const;
+export const SUIT_NAMES_SHORT = ['C', 'D', 'H', 'S', 'NT'] as const;
+export const FACE_VALUE_NAMES = [
+  '',
+  '',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'Jack',
+  'Queen',
+  'King',
+  'Ace',
+] as const;
+
+export function suitName(suit: Suit): string {
+  return SUIT_NAMES[suit] ?? '????';
+}
+
+export function singularSuitName(suit: Suit): string {
+  return SUIT_NAMES_SINGULAR[suit] ?? '????';
+}
+
+export function faceName(faceValue: number): string {
+  return FACE_VALUE_NAMES[faceValue] ?? '???';
+}
+
 export enum Bid {
   Pass = 0,
   C1 = 1,

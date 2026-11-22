@@ -14,6 +14,19 @@ Create a standalone npm TypeScript package at `typescript/engine` that reproduce
 6. Integration tests using complete deals
 7. Incremental port of the remaining C++ play and convention engines
 
+## Folder layout
+
+Converted TypeScript files follow the C++ source layout:
+
+- `src/` - engine-level card, deck, hand, player, and shared constant classes
+- `src/play/` - play engines, play plans, and all play holdings types
+- `src/model/` - deal state and PBN model/export code
+- `src/bidding/` - reserved for the bidding engine and convention classes
+- `test/` - unit tests
+- `test/integration/` - complete deal/PBN integration tests
+
+The package entry point remains `src/index.ts`; it re-exports the moved modules from their new paths.
+
 ## File status
 
 | C++ source | TypeScript target | Status | Notes |
@@ -26,9 +39,9 @@ Create a standalone npm TypeScript package at `typescript/engine` that reproduce
 | `src/engine/play/HandHoldings.cpp` / `.H` | `src/hand.ts` | Converted subset | Hand by suit |
 | `src/engine/player.cpp` / `Player.h` | `src/player.ts` | Converted subset | Simple auction/delegation |
 | `src/engine/bidding/BidEngine.cpp` / `.H` | `src/player.ts` | Simple subset | Natural opening/responding behavior only |
-| `src/engine/play/PlayEngine.cpp` / `.H` | `src/deal.ts` | Temporary | Highest/legal-card fallback until full play engines are ported |
-| `src/model/deal.cpp` / `deal.h` | `src/deal.ts` | Converted subset | Core integration state and trick flow |
-| `src/model/WrFilePBN.cpp` | `src/deal.ts`, `src/pbn.ts` | Converted subset | PBN writer and hand-tag parsing helpers |
+| `src/engine/play/PlayEngine.cpp` / `.H` | `src/play/playEngine.ts` | Temporary | Highest/legal-card fallback until full play engines are ported |
+| `src/model/deal.cpp` / `deal.h` | `src/model/deal.ts` | Converted subset | Core integration state and trick flow |
+| `src/model/WrFilePBN.cpp` | `src/model/deal.ts`, `src/model/pbn.ts` | Converted subset | PBN writer and hand-tag parsing helpers |
 
 ## Established mappings
 
@@ -49,6 +62,11 @@ Create a standalone npm TypeScript package at `typescript/engine` that reproduce
 - 2026-11-22: Added the first executable vertical slice: constants, Card, CardList, Deck, Hand, Player, Deal, and PBN export.
 - 2026-11-22: Added Vitest unit tests and a complete PBN deal integration test.
 - 2026-11-22: Verified `npm run build` and `npm test`.
+- 2026-11-22: Converted deferred core card-location, guessed-card, and player-status state.
+- 2026-11-22: Added guessed-card holdings, guessed-suit holdings, guessed-hand holdings, play objects, and play lists.
+- 2026-11-22: Added suit, combined-suit, combined, display holdings, and declarer/dummy/defender play-engine role classes.
+- 2026-11-22: Verified the expanded package with 23 passing tests.
+- 2026-11-22: Reorganized converted modules into `src/play/` and `src/model/`, mirroring the C++ source layout.
 
 ## Concrete source inventory
 
@@ -63,48 +81,34 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 - `src/engine/play/HandHoldings.H` / `src/engine/play/HandHoldings.cpp` -> represented in `src/hand.ts`
 - `src/engine/play/CardHoldings.H` / `src/engine/play/CardHoldings.cpp` -> represented in `src/hand.ts`
 - `src/engine/Player.h` / `src/engine/player.cpp` -> `src/player.ts`
-- `src/model/deal.h` / `src/model/deal.cpp` -> `src/deal.ts`
-- `src/model/WrFilePBN.cpp` and `src/model/file_exporter.cpp` -> `src/deal.ts` and `src/pbn.ts`
+- `src/model/deal.h` / `src/model/deal.cpp` -> `src/model/deal.ts`
+- `src/model/WrFilePBN.cpp` and `src/model/file_exporter.cpp` -> `src/model/deal.ts` and `src/model/pbn.ts`
+- `src/engine/GuessedCard.H` / `src/engine/GuessedCard.CPP` -> `src/guessedCard.ts`
+- `src/engine/CardLocation.H` / `src/engine/CardLocation.cpp` -> `src/cardLocation.ts`
+- `src/engine/PlayerStatusDialog.H` / `src/engine/PlayerStatusDialog.CPP` -> `src/playerStatus.ts`
+- `src/engine/play/GuessedCardHoldings.H` / `src/engine/play/GuessedCardHoldings.cpp` -> `src/guessedCardHoldings.ts`
+- `src/engine/play/GuessedSuitHoldings.H` / `src/engine/play/GuessedSuitHoldings.cpp` -> `src/guessedSuitHoldings.ts`
+- `src/engine/play/GuessedHandHoldings.H` / `src/engine/play/GuessedHandHoldings.cpp` -> `src/guessedHandHoldings.ts`
+- `src/engine/play/SuitHoldings.H` / `src/engine/play/SuitHoldings.cpp` -> `src/suitHoldings.ts`
+- `src/engine/play/CombinedSuitHoldings.H` / `src/engine/play/CombinedSuitHoldings.cpp` -> `src/combinedSuitHoldings.ts`
+- `src/engine/play/CombinedHoldings.H` / `src/engine/play/CombinedHoldings.cpp` -> `src/combinedHoldings.ts`
+- `src/engine/play/DisplayHoldings.H` / `src/engine/play/DisplayHoldings.cpp` -> `src/displayHoldings.ts`
+- `src/engine/play/Play.H` / `src/engine/play/Play.cpp` -> `src/play.ts`
+- `src/engine/play/PlayList.H` / `src/engine/play/PlayList.cpp` -> `src/playList.ts`
+- `src/engine/play/PlayEngine.H` / `src/engine/play/PlayEngine.cpp` -> `src/playEngine.ts`
+- `src/engine/play/DeclarerPlayEngine.H` / `src/engine/play/DeclarerPlayEngine.cpp` -> `src/declarerPlayEngine.ts`
+- `src/engine/play/DummyPlayEngine.H` / `src/engine/play/DummyPlayEngine.cpp` -> `src/dummyPlayEngine.ts`
+- `src/engine/play/DefenderPlayEngine.H` / `src/engine/play/DefenderPlayEngine.cpp` -> `src/defenderPlayEngine.ts`
 
 ### Deferred core classes
 
-- `src/engine/CardLocation.H`
-- `src/engine/CardLocation.cpp`
 - `src/engine/card_static.cpp`
-- `src/engine/GuessedCard.H`
-- `src/engine/GuessedCard.CPP`
-- `src/engine/PlayerStatusDialog.H`
-- `src/engine/PlayerStatusDialog.CPP`
 
 ### Deferred play engine files
 
-- `src/engine/play/CardHoldings.cpp`
-- `src/engine/play/CombinedHoldings.H`
-- `src/engine/play/CombinedHoldings.cpp`
-- `src/engine/play/CombinedSuitHoldings.H`
-- `src/engine/play/CombinedSuitHoldings.cpp`
-- `src/engine/play/DeclarerPlayEngine.H`
-- `src/engine/play/DeclarerPlayEngine.cpp`
-- `src/engine/play/DefenderPlayEngine.H`
-- `src/engine/play/DefenderPlayEngine.cpp`
-- `src/engine/play/DisplayHoldings.H`
-- `src/engine/play/DisplayHoldings.cpp`
-- `src/engine/play/DummyPlayEngine.H`
-- `src/engine/play/DummyPlayEngine.cpp`
-- `src/engine/play/GuessedCardHoldings.H`
-- `src/engine/play/GuessedCardHoldings.cpp`
-- `src/engine/play/GuessedHandHoldings.H`
-- `src/engine/play/GuessedHandHoldings.cpp`
-- `src/engine/play/GuessedSuitHoldings.H`
-- `src/engine/play/GuessedSuitHoldings.cpp`
+- `src/engine/play/CardHoldings.cpp` - no remaining implementation beyond represented `Hand`/`SuitHoldings` subset
 - `src/engine/play/HandHoldings.H`
 - `src/engine/play/HandHoldings.cpp`
-- `src/engine/play/PlayEngine.H`
-- `src/engine/play/PlayEngine.cpp`
-- `src/engine/play/PlayList.H`
-- `src/engine/play/PlayList.cpp`
-- `src/engine/play/SuitHoldings.H`
-- `src/engine/play/SuitHoldings.cpp`
 - `src/engine/play/Cash.cpp`
 - `src/engine/play/Cash.h`
 - `src/engine/play/Discard.cpp`
@@ -167,8 +171,10 @@ Convention implementations remaining:
 
 ## Remaining work
 
-1. Replace the simplified natural bidding logic with the C++ convention engine in dependency order.
-2. Replace the deterministic highest/legal-card play chooser with the declarer, dummy, and defender play engines.
-3. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
-4. Port PBN parsing and the full PBN auction/play tags.
-5. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.
+1. Port the specialized play classes: Cash, Discard, Drop, Exit, Force, HoldUp, Ruff, TrumpPull, and finesse variants.
+2. Replace the simplified natural bidding logic with the C++ convention engine in dependency order.
+3. Port Convention, ConventionSet, convention_pool, and the remaining convention implementations.
+4. Replace the deterministic highest/legal-card play chooser with the declarer, dummy, and defender play engines.
+5. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
+6. Port PBN parsing and the full PBN auction/play tags.
+7. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.
