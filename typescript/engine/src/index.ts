@@ -1,9 +1,10 @@
 export * from './constants.js';
 export { Card } from './card.js';
 export { CardList } from './cardList.js';
-export { Deck } from './deck.js';
+export { Deck, DEFCARDWIDTH, DEFCARDHEIGHT, SMALLCARDWIDTH, SMALLCARDHEIGHT } from './deck.js';
 export { Hand } from './hand.js';
 export { Player } from './player.js';
+export type { PlayerDealView } from './player.js';
 export { Deal } from './model/deal.js';
 export type { DealOptions } from './model/deal.js';
 export { parsePbnDealTag, parsePbnHand } from './model/pbn.js';
@@ -11,7 +12,12 @@ export { parseBidPbn, parsePbnDocument } from './model/pbn.js';
 export type { PbnDocument } from './model/pbn.js';
 export { GuessedCard } from './guessedCard.js';
 export { CardLocation } from './cardLocation.js';
-export { PlayerStatus } from './playerStatus.js';
+export {
+  PlayerStatus,
+  DEFAULT_TRACE_LEVEL,
+  DEFAULT_REQUIRED_HINT_TRACE_LEVEL,
+} from './playerStatus.js';
+export type { PlayerStatusOptions } from './playerStatus.js';
 export { GuessedCardHoldings } from './play/guessedCardHoldings.js';
 export { GuessedSuitHoldings } from './play/guessedSuitHoldings.js';
 export { GuessedHandHoldings } from './play/guessedHandHoldings.js';

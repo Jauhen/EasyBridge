@@ -140,6 +140,87 @@ describe('Player status', () => {
     PlayerStatus.resumeHintOutput();
     expect(PlayerStatus.hintsSuspended).toBe(false);
   });
+
+  it('parses C++ verbosity prefixes, header stripping, bang replacement, and hint blocks', () => {
+    const status = new PlayerStatus({
+      analysisTraceLevel: 2,
+      showCommentIdentifiers: false,
+    });
+    status.setPosition(Position.South);
+    status.clearHints();
+    status.beginHintBlock();
+    // Level 2 <= 2: included; STY0! header stripped; remaining ! -> :
+    status.stream('2STY0! Partner opened 1NT! Bid 2C.\n');
+    // Level 4 > 2: skipped and suppresses continuation until newline
+    status.stream('4Verbose detail ').addStream('still suppressed\n');
+    // Escaped !1 overrides stream level
+    status.setStreamOutputLevel(4);
+    status.stream('!1Forced line\n');
+    status.clearStreamOutputLevel();
+    status.endHintBlock();
+
+    expect(status.text).toBe('Partner opened 1NT: Bid 2C.\nForced line\n');
+    expect(PlayerStatus.hintBlockText).toBe('Partner opened 1NT: Bid 2C.\nForced line\n');
+    status.clearHints();
+  });
+});
+
+describe('Phase 1 Core Engine C++ parity', () => {
+  it('ports card_static helpers and CCard metadata', () => {
+    expect(Card.charToSuit('h')).toBe(Suit.Hearts);
+    expect(Card.charToFaceValue('t')).toBe(10);
+    expect(Card.cardValToString(2)).toBe('Deuce');
+    expect(Card.cardToString(2)).toBe('Four of Clubs');
+    expect(Card.cardToShortString(37)).toBe('HK');
+    expect(Card.cardToReverseString(37)).toBe('Heart King');
+    expect(Card.suitToSingularString(Suit.Spades)).toBe('Spade');
+    expect(Card.suitToString(99)).toBe('????');
+
+    const card = new Card(Suit.Diamonds, 7);
+    expect(card.fullName).toBe('Seven of Diamonds');
+    expect(card.reverseFullName).toBe('Diamond Seven');
+    expect(card.faceName).toBe('seven');
+    expect(card.cardLetter).toBe('7');
+    expect(card.suitLetter).toBe('D');
+    card.setOwner(Position.South);
+    card.setAssigned(true);
+    expect(card.isCardAssigned).toBe(true);
+    card.setOwner(NONE);
+    expect(card.isCardAssigned).toBe(false);
+  });
+
+  it('ports CardList equivalent, range, above/below, and comma-delimited helpers', () => {
+    const list = new CardList([
+      new Card(Suit.Hearts, 14),
+      new Card(Suit.Hearts, 13),
+      new Card(Suit.Hearts, 12),
+      new Card(Suit.Hearts, 8),
+    ]);
+    expect(list.getHoldingsCommaDelimited()).toBe('HA, HK, HQ, and H8');
+    expect(list.rangeCovers(10)).toBe(true);
+    expect(list.rangeCovers(7)).toBe(false);
+    expect(list.getLowestCardAbove(10)?.name).toBe('HQ');
+    expect(list.getHighestCardBelow(12)?.name).toBe('H8');
+
+    const hk = list.findCard(Suit.Hearts, 13)!;
+    const hq = list.findCard(Suit.Hearts, 12)!;
+    const h8 = list.findCard(Suit.Hearts, 8)!;
+    expect(list.areEquivalentCards(hk, hq)).toBe(true);
+    expect(list.areEquivalentCards(hk, h8)).toBe(false);
+    expect(list.getHighestEquivalentCard(hq)?.name).toBe('HA');
+    expect(list.getLowestEquivalentCard(hk)?.name).toBe('HQ');
+
+    const equiv = new CardList();
+    expect(list.getEquivalentCards(hk, equiv, true)).toBe(3);
+    expect(equiv.holdingsString).toBe('HA HK HQ');
+  });
+
+  it('supports suit-first and rank-first Deck.getCardByName', () => {
+    const deck = new Deck();
+    expect(deck.getCardByName('HQ')?.name).toBe('HQ');
+    expect(deck.getCardByName('QH')?.name).toBe('HQ');
+    expect(deck.getCardBySuitAndFace(Suit.Spades, 14)?.name).toBe('SA');
+  });
 });
 
 describe('Guessed holdings and play plan', () => {

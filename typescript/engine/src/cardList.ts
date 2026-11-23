@@ -27,7 +27,8 @@ export class CardList {
   // Construction/Destruction
   //
   constructor(cards: readonly Card[] | CardList = []) {
-    this.clear();
+    // Note: fields are initialized directly rather than calling virtual clear()
+    // in the base constructor (matching C++ non-polymorphic base construction).
     this.autoSort = true;
     this.reverseSort = false;
     if (cards instanceof CardList) {

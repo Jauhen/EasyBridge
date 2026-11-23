@@ -132,7 +132,7 @@ export class Card {
     if (!isSuit(suit)) {
       throw new RangeError(`Invalid suit ${suit}`);
     }
-    return SUIT_NAMES[suit];
+    return SUIT_NAMES[suit] ?? '????';
   }
 
   static getCardName(faceValue: number): string {
@@ -302,7 +302,7 @@ export class Card {
 
   // GetSuitLetter() -- "D"
   get suitLetter(): string {
-    return SUIT_CHARS[this._suit];
+    return SUIT_CHARS[this._suit] ?? ' ';
   }
 
   get isHonor(): boolean {

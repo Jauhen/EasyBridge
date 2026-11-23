@@ -110,11 +110,11 @@ export enum Bid {
 }
 
 // string and character tables from card_constants.h
-export const POSITION_NAMES = ['South', 'West', 'North', 'East'] as const;
-export const POSITION_NAMES_SHORT = ['Sou.', 'West', 'Nor.', 'East'] as const;
-export const TEAM_NAMES = ['North/South', 'East/West', 'Both', 'Neither'] as const;
-export const TEAM_NAMES_BRIEF = ['N/S', 'E/W', 'Both', 'Neither'] as const;
-export const CARD_NAMES = [
+export const POSITION_NAMES: readonly string[] = ['South', 'West', 'North', 'East'];
+export const POSITION_NAMES_SHORT: readonly string[] = ['Sou.', 'West', 'Nor.', 'East'];
+export const TEAM_NAMES: readonly string[] = ['North/South', 'East/West', 'Both', 'Neither'];
+export const TEAM_NAMES_BRIEF: readonly string[] = ['N/S', 'E/W', 'Both', 'Neither'];
+export const CARD_NAMES: readonly string[] = [
   '',
   '',
   'Deuce',
@@ -130,11 +130,11 @@ export const CARD_NAMES = [
   'Queen',
   'King',
   'Ace',
-] as const;
-export const SUIT_NAMES = ['Clubs', 'Diamonds', 'Hearts', 'Spades', 'No Trump'] as const;
-export const SUIT_NAMES_SINGULAR = ['Club', 'Diamond', 'Heart', 'Spade', 'No Trump'] as const;
-export const SUIT_NAMES_SHORT = ['C', 'D', 'H', 'S', 'NT'] as const;
-export const FACE_VALUE_NAMES = [
+];
+export const SUIT_NAMES: readonly string[] = ['Clubs', 'Diamonds', 'Hearts', 'Spades', 'No Trump'];
+export const SUIT_NAMES_SINGULAR: readonly string[] = ['Club', 'Diamond', 'Heart', 'Spade', 'No Trump'];
+export const SUIT_NAMES_SHORT: readonly string[] = ['C', 'D', 'H', 'S', 'NT'];
+export const FACE_VALUE_NAMES: readonly string[] = [
   '',
   '',
   'two',
@@ -150,10 +150,10 @@ export const FACE_VALUE_NAMES = [
   'Queen',
   'King',
   'Ace',
-] as const;
+];
 
-export const SUIT_CHARS = ['C', 'D', 'H', 'S', 'N'] as const;
-export const CARD_CHARS = [
+export const SUIT_CHARS: readonly string[] = ['C', 'D', 'H', 'S', 'N'];
+export const CARD_CHARS: readonly string[] = [
   ' ',
   ' ',
   '2',
@@ -169,8 +169,8 @@ export const CARD_CHARS = [
   'Q',
   'K',
   'A',
-] as const;
-export const FACE_CARD_CHARS = ['T', 'J', 'Q', 'K', 'A'] as const;
+];
+export const FACE_CARD_CHARS: readonly string[] = ['T', 'J', 'Q', 'K', 'A'];
 
 export const NUM_DEF_CARD_BACKS = 1;
 
@@ -283,7 +283,7 @@ export function faceName(value: number): string {
 
 export function positionToString(position: Position): string {
   if (!isPosition(position)) return 'Unknown';
-  return POSITION_NAMES[position];
+  return POSITION_NAMES[position] ?? 'Unknown';
 }
 
 export function positionToChar(position: Position): string {
@@ -300,7 +300,7 @@ export function suitToChar(suit: Suit): string {
 }
 
 export function charToSuit(value: string): Suit {
-  const index = SUIT_CHARS.indexOf(value.toUpperCase() as (typeof SUIT_CHARS)[number]);
+  const index = SUIT_CHARS.indexOf(value.toUpperCase());
   return index === -1 ? (NONE as Suit) : (index as Suit);
 }
 
@@ -336,7 +336,7 @@ export function stringToDeckValue(input: string): number {
     if (c2 >= '0' && c2 <= '9') {
       nValue = c2.charCodeAt(0) - '0'.charCodeAt(0);
     } else {
-      const idx = FACE_CARD_CHARS.indexOf(c2 as (typeof FACE_CARD_CHARS)[number]);
+      const idx = FACE_CARD_CHARS.indexOf(c2);
       if (idx === -1) return -1;
       nValue = idx + 10;
     }
@@ -345,7 +345,7 @@ export function stringToDeckValue(input: string): number {
     if (c1 >= '0' && c1 <= '9') {
       nValue = c1.charCodeAt(0) - '0'.charCodeAt(0);
     } else {
-      const idx = FACE_CARD_CHARS.indexOf(c1 as (typeof FACE_CARD_CHARS)[number]);
+      const idx = FACE_CARD_CHARS.indexOf(c1);
       if (idx === -1) return -1;
       nValue = idx + 10;
     }
