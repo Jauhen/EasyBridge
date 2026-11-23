@@ -1,4 +1,4 @@
-import { Bid, makeBid, NONE, partnerPosition, Position, Suit } from '../constants.js';
+import { Bid, bidLevel, bidSuit, makeBid, NONE, partnerPosition, Position, Suit } from '../constants.js';
 import { Hand } from '../hand.js';
 import { Convention, ConventionBidContext, ConventionContext } from './convention.js';
 import { ConventionSet } from './conventionSet.js';
@@ -416,6 +416,133 @@ export class BidEngine {
       this.statusLog.push(`raise: ${hand.getSuitLength(partnerSuit)}-card ${Suit[partnerSuit]} support, raise to ${bid}.`);
       return bid;
     }
+
+  /**
+   * Mirrors CBidEngine::GetCheapestShiftBid.
+   * The old bid's level/suit determine the cheapest legal bid in target suit.
+   */
+  getCheapestShiftBid(targetSuit: Suit, oldBid: Bid = Bid.Pass): Bid {
+    if (oldBid === Bid.Double || oldBid === Bid.Redouble) return Bid.Pass;
+    if (oldBid === Bid.Pass) return makeBid(targetSuit, 1);
+    if (!oldBid || oldBid < Bid.C1 || oldBid > Bid.NT7) return Bid.Pass;
+    const oldLevel = bidLevel(oldBid);
+    const oldSuit = bidSuit(oldBid);
+    if (oldSuit === -1) return makeBid(targetSuit, oldLevel);
+    if (targetSuit > oldSuit) return makeBid(targetSuit, oldLevel);
+    if (oldLevel >= 7) return Bid.Pass;
+    return makeBid(targetSuit, oldLevel + 1);
+  }
+
+  /**
+   * Mirrors CBidEngine::GetJumpShiftBid.
+   * Jump shifts are forcing and are clamped at the 7-level.
+   */
+  getJumpShiftBid(targetSuit: Suit, oldBid: Bid, jumpLevel = 1): Bid {
+    if (oldBid < Bid.C1 || oldBid > Bid.NT7) return Bid.Pass;
+    const oldLevel = bidLevel(oldBid);
+    const oldSuit = bidSuit(oldBid);
+    if (oldSuit === -1) return makeBid(targetSuit, Math.min(7, oldLevel + jumpLevel));
+    const level = targetSuit > oldSuit
+      ? oldLevel + jumpLevel
+      : oldLevel + jumpLevel + 1;
+    if (level > 7) return Bid.Pass;
+    return makeBid(targetSuit, level);
+  }
+
+  /**
+   * Mirrors CBidEngine::RebidSuit.
+   * Applies point, length, and optional strength requirements, then computes
+   * the cheapest/jump/absolute rebid.
+   */
+  rebidSuit(
+    hand: Hand,
+    suit: Suit,
+    minimumHcp = 0,
+    maximumHcp = 99,
+    minimumLength = 0,
+    oldBid: Bid = Bid.Pass,
+    absoluteLevel: number | null = null,
+  ): Bid | null {
+    if (hand.getSuitLength(suit) < minimumLength) return null;
+    const hcp = hand.highCardPoints;
+    if (hcp < minimumHcp || hcp > maximumHcp) return null;
+    if (absoluteLevel !== null) {
+      if (absoluteLevel < 1 || absoluteLevel > 7) return null;
+      return makeBid(suit, absoluteLevel);
+    }
+    const bid = this.getCheapestShiftBid(suit, oldBid);
+    return bid === Bid.Pass ? null : bid;
+  }
+
+  /**
+   * Mirrors CBidEngine::BidNextBestSuit.
+   * Excludes previous, partner, and explicitly excluded suits.
+   */
+  bidNextBestSuit(
+    hand: Hand,
+    minimumLength = 4,
+    excludedSuit1: Suit = Suit.NoTrump,
+    excludedSuit2: Suit = Suit.NoTrump,
+    excludedSuit3: Suit = Suit.NoTrump,
+  ): Bid | null {
+    const excluded = [excludedSuit1, excludedSuit2, excludedSuit3];
+    const candidates = [Suit.Spades, Suit.Hearts, Suit.Diamonds, Suit.Clubs]
+      .filter(suit => !excluded.includes(suit))
+      .filter(suit => hand.getSuitLength(suit) >= minimumLength)
+      .sort((a, b) =>
+        hand.getSuitLength(b) - hand.getSuitLength(a) ||
+        b - a,
+      );
+    if (candidates.length === 0) return null;
+    return makeBid(candidates[0], 1);
+  }
+
+  /**
+   * Mirrors CBidEngine::BidNoTrump.
+   * Checks balance, stop count, void prohibition, partnership HCP range,
+   * and whether the proposed bid remains above partner's previous bid.
+   */
+  bidNoTrump(
+    hand: Hand,
+    level: number,
+    minimumHcp = 0,
+    maximumHcp = 99,
+    mustBeBalanced = true,
+    stoppedSuitCount = 0,
+    mustHaveNoVoids = true,
+    partnerBid: Bid = Bid.Pass,
+  ): Bid | null {
+    if (level < 1 || level > 7) return null;
+    if (mustBeBalanced && !hand.isBalanced) return null;
+    if (stoppedSuitCount > 0) {
+      let stopped = 0;
+      for (let suit = Suit.Clubs; suit <= Suit.Spades; suit++) {
+        if (hand.getSuitLength(suit as Suit) > 0 &&
+          hand.getSuitLength(suit as Suit) >= 2) stopped++;
+      }
+      if (stopped < stoppedSuitCount) return null;
+    }
+    if (mustHaveNoVoids) {
+      for (let suit = Suit.Clubs; suit <= Suit.Spades; suit++) {
+        if (hand.getSuitLength(suit as Suit) === 0) return null;
+      }
+    }
+    const hcp = hand.highCardPoints;
+    if (hcp < minimumHcp || hcp > maximumHcp) return null;
+    const bid = makeBid(Suit.NoTrump, level);
+    if (partnerBid !== Bid.Pass && bid <= partnerBid) return null;
+    this.statusLog.push(`BNT: ${hcp} HCP, balanced=${hand.isBalanced}, stopped=${stoppedSuitCount}; bid ${bid}.`);
+    return bid;
+  }
+
+  /**
+   * Mirrors CBidEngine::BidNoTrumpAsAppropriate.
+   * Chooses the normal NT level from partnership HCP ranges.
+   */
+  bidNoTrumpAsAppropriate(hand: Hand, partnerBid: Bid = Bid.Pass): Bid | null {
+    const hcp = hand.highCardPoints;
+    return this.bidNoTrump(hand, hcp >= 26 ? 3 : 2, hcp >= 26 ? 26 : 23, hcp >= 26 ? 31 : 25, true, 4, true, partnerBid);
+  }
 
   applyConventionTests(
     hand: Hand,

@@ -9,4 +9,9 @@ export class Finesse extends Play {
     super(PlayType.Finesse, NONE, suit, PlayProspect.Speculative);
     this.targetCard = targetCard;
   }
+
+  override perform(): import('./play.js').PlayResult {
+    this.status = this.targetCard ? 2 : 1;
+    return this.status;
+  }
 }

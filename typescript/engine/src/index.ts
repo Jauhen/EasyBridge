@@ -35,6 +35,16 @@ export { BidEngine } from './bidding/bidEngine.js';
 export type { AuctionState, PartnerRaiseResult } from './bidding/bidEngine.js';
 export { RaiseTarget } from './bidding/bidEngine.js';
 export {
+  SuitStrength,
+  SupportLength,
+  HonorsCount,
+  StoppedCode,
+  RebidLevel,
+  SuitType,
+  StoppingLevel,
+  suitStrengthMinimum,
+} from './bidding/bidParameters.js';
+export {
   StaymanConvention,
   WeakTwoBidsConvention,
   StrongTwoBidsConvention,
@@ -55,6 +65,7 @@ export {
   JacobyTransferConvention,
   ShutoutBidsConvention,
 } from './bidding/conventionImplementations.js';
+export { SlamConvention } from './bidding/slamConvention.js';
 export { Cash } from './play/cash.js';
 export { Discard } from './play/discard.js';
 export { Drop } from './play/drop.js';

@@ -5,4 +5,9 @@ export class Force extends Play {
   constructor(suit: Suit | typeof NONE = NONE) {
     super(PlayType.Force, NONE, suit, PlayProspect.Speculative);
   }
+
+  override perform(): import('./play.js').PlayResult {
+    this.status = 2;
+    return this.status;
+  }
 }

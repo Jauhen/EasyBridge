@@ -16,6 +16,11 @@ import {
   CardLocation,
   PlayerStatus,
   RaiseTarget,
+  BlackwoodConvention,
+  GerberConvention,
+  Jacoby2NTConvention,
+  SplinterBidsConvention,
+  SlamConvention,
 } from '../src/index.js';
 
 describe('Convention core', () => {
@@ -150,5 +155,110 @@ describe('General partner raise logic', () => {
 
     expect(engine.raisePartnersSuit(hand, Suit.Hearts, 2, RaiseTarget.RelativeByOne, 3, 0, 99)).toBe(Bid.H3);
     expect(engine.raisePartnersSuit(hand, Suit.Hearts, 2, RaiseTarget.ToGame, 3, 0, 99)).toBe(Bid.H4);
+  });
+});
+
+describe('BidEngine helper methods', () => {
+  it('returns cheapest and jump shift bids', () => {
+    const engine = new BidEngine();
+    expect(engine.getCheapestShiftBid(Suit.Hearts, Bid.C1)).toBe(Bid.H1);
+    expect(engine.getCheapestShiftBid(Suit.Clubs, Bid.H1)).toBe(Bid.C2);
+    expect(engine.getJumpShiftBid(Suit.Spades, Bid.C1, 1)).toBe(Bid.S2);
+  });
+
+  it('rebids suits and bids next best suit', () => {
+    const engine = new BidEngine();
+    const hand = new Hand();
+    for (const face of [14, 13, 12, 11, 10]) hand.add(new Card(Suit.Hearts, face));
+    hand.add(new Card(Suit.Spades, 14));
+    hand.add(new Card(Suit.Spades, 13));
+    hand.add(new Card(Suit.Spades, 12));
+    hand.add(new Card(Suit.Spades, 11));
+    for (let i = 2; i <= 6; i++) hand.add(new Card(i % 2 === 0 ? Suit.Clubs : Suit.Diamonds, i));
+
+    expect(engine.rebidSuit(hand, Suit.Hearts, 12, 99, 5, Bid.H1)).not.toBeNull();
+    expect(engine.bidNextBestSuit(hand, 4, Suit.Hearts, Suit.NoTrump, Suit.NoTrump)).not.toBeNull();
+  });
+
+  it('bids NT only for balanced hands and valid ranges', () => {
+    const engine = new BidEngine();
+    const balanced = new Hand();
+    for (const face of [14, 13]) balanced.add(new Card(Suit.Spades, face));
+    for (const face of [14, 13]) balanced.add(new Card(Suit.Hearts, face));
+    for (const face of [14, 13]) balanced.add(new Card(Suit.Diamonds, face));
+    for (const face of [14, 13]) balanced.add(new Card(Suit.Clubs, face));
+    balanced.countPoints(true);
+
+    expect(engine.bidNoTrump(balanced, 2, 26, 30, true, 4, true)).toBe(Bid.NT2);
+  });
+});
+
+describe('Slam conventions', () => {
+  it('responds to Blackwood 4NT by ace count', () => {
+    const blackwood = new BlackwoodConvention();
+    blackwood.enable();
+    const hand = new Hand();
+    for (const suit of [Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades]) {
+      hand.add(new Card(suit, 14));
+    }
+    for (let face = 2; face <= 11; face++) hand.add(new Card(Suit.Spades, face));
+
+    const bidContext = {
+      position: Position.South,
+      partnerPosition: Position.North,
+      partnerBid: Bid.NT4,
+      partnerOpenedForTeam: true,
+      partnerBidCount: 1,
+      rightHandOpponentPassed: true,
+      agreedSuit: Suit.Spades,
+      bid: Bid.Pass,
+      status: ConventionStatus.Inactive,
+      parameters: 0,
+      activeConvention: null,
+    };
+    const response = blackwood.respondToConvention({
+      hand,
+      cardLocation: new CardLocation(),
+      status: new PlayerStatus(),
+      bidContext,
+    });
+    expect(response).toBe(Bid.C5);
+  });
+
+  it('responds to Gerber 4C by ace count', () => {
+    const gerber = new GerberConvention();
+    gerber.enable();
+    const hand = new Hand();
+    hand.add(new Card(Suit.Clubs, 14));
+    hand.add(new Card(Suit.Diamonds, 14));
+    for (let i = 2; i <= 11; i++) hand.add(new Card(i % 2 === 0 ? Suit.Hearts : Suit.Spades, i));
+
+    const bidContext = {
+      position: Position.North,
+      partnerPosition: Position.South,
+      partnerBid: Bid.C4,
+      partnerOpenedForTeam: true,
+      partnerBidCount: 2,
+      rightHandOpponentPassed: true,
+      agreedSuit: Suit.NoTrump,
+      bid: Bid.Pass,
+      status: ConventionStatus.Inactive,
+      parameters: 0,
+      activeConvention: null,
+    };
+    const response = gerber.respondToConvention({
+      hand,
+      cardLocation: new CardLocation(),
+      status: new PlayerStatus(),
+      bidContext,
+    });
+    expect(response).toBe(Bid.H5);
+  });
+
+  it('registers Jacoby 2NT and splinter state', () => {
+    const jacoby = new Jacoby2NTConvention();
+    const splinter = new SplinterBidsConvention();
+    expect(jacoby.id).toBeGreaterThan(0);
+    expect(splinter.id).toBeGreaterThan(0);
   });
 });

@@ -76,6 +76,9 @@ The package entry point remains `src/index.ts`; it re-exports the moved modules 
 - 2026-11-22: Fixed declarer selection to use first bid of the contract suit in auction order.
 - 2026-11-22: Added single, double, and triple raise responses plus `RaisePartnersSuit` in `BidEngine`.
 - 2026-11-22: Added status codes RDR, S, Q, and `raise` status logging.
+- 2026-11-22: Added bidding strength/support/raise parameter enums and 4NT/4C slam responses.
+- 2026-11-22: Added final BidEngine shift, rebid-suit, next-best-suit, and NT helper methods.
+- 2026-11-22: Added specialized cash/discard/drop/exit/force/hold-up/ruff/trump-pull/finesse state transitions.
 
 ## Preserved comments and status logs
 
@@ -158,6 +161,8 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 - `src/engine/bidding/ConventionSet.h` / `ConventionSet.cpp` -> `src/bidding/conventionSet.ts`
 - `src/engine/bidding/convention_pool.h` / `convention_pool.cpp` -> `src/bidding/conventionPool.ts`
 - `src/engine/bidding/BidEngine.h` / `BidEngine.cpp` -> `src/bidding/bidEngine.ts`
+- `src/engine/bidding/Bidparams.H` -> `src/bidding/bidParameters.ts`
+- `src/engine/bidding/SlamConvention.h` / `SlamConvention.cpp` -> `src/bidding/slamConvention.ts`
 - Named convention implementations -> `src/bidding/conventionImplementations.ts`
 - `src/engine/bidding/BiddingOpen.cpp` -> opening logic in `src/bidding/bidEngine.ts`
 - `src/engine/bidding/BiddingResponse.cpp` -> responder logic in `src/bidding/bidEngine.ts`
@@ -182,10 +187,11 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 
 Convention implementations remaining:
 
-- Named convention classes have been registered and receive status/tracing hooks,
-  but some implementations beyond Stayman, weak/strong twos, overcalls,
-  transfers, Artificial 2C, and shutout bids remain partial:
-- `SlamConvention` and detailed Blackwood/RKCB/Cue-bid/response logic
+- Named convention classes are registered and receive status/tracing hooks.
+  Stayman, weak/strong twos, overcalls, transfers, Artificial 2C, shutout bids,
+  Blackwood, Gerber, Jacoby 2NT, Gambling 3NT, Drury, and splinter state
+  are represented. Remaining partial implementations:
+- Detailed RKCB king-response logic
 - Detailed Rebidding and responding logic in `BiddingGeneral`,
   `BiddingOpen`, `BiddingRebid`, `BiddingRebid2`,
   `BiddingRebidExtended`, and `BiddingResponse`
@@ -194,9 +200,9 @@ Convention implementations remaining:
 
 ## Remaining work
 
-1. Complete detailed convention implementations and status-code traces.
+1. Complete detailed RKCB, cue-bid, and remaining convention response logic.
 2. Replace the deterministic highest/legal-card play chooser with deeper declarer, dummy, and defender play plans.
-3. Add real Card/Hand behavior to each specialized play operation rather than constructors only.
+3. Add full play-plan viability, consumed-card, and target-card calculations to specialized play operations.
 4. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
-5. Port PBN parsing and the full PBN auction/play tags.
+5. Port PBN parsing and the remaining PBN auction/play edge cases.
 6. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.

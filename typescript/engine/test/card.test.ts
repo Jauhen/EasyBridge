@@ -259,4 +259,12 @@ describe('Specialized play types', () => {
     expect(new TypeAFinesse(Suit.Hearts).isValid).toBe(true);
     expect(new TypeBFinesse(Suit.Hearts).isValid).toBe(true);
   });
+
+  it('transitions specialized plays to complete or in-progress states', () => {
+    expect(new Cash(Suit.Spades).perform()).toBe(2);
+    expect(new HoldUp(Suit.Diamonds).perform()).toBe(1);
+    expect(new Ruff(Suit.Hearts).perform()).toBe(2);
+    expect(new TrumpPull(Suit.Hearts).perform()).toBe(2);
+    expect(new Finesse(Suit.Spades).perform()).toBe(1);
+  });
 });
