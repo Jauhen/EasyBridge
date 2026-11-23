@@ -32,7 +32,8 @@ export { ConventionSet } from './bidding/conventionSet.js';
 export type { ConventionSetOptions } from './bidding/conventionSet.js';
 export { ConventionPool } from './bidding/conventionPool.js';
 export { BidEngine } from './bidding/bidEngine.js';
-export type { AuctionState } from './bidding/bidEngine.js';
+export type { AuctionState, PartnerRaiseResult } from './bidding/bidEngine.js';
+export { RaiseTarget } from './bidding/bidEngine.js';
 export {
   StaymanConvention,
   WeakTwoBidsConvention,

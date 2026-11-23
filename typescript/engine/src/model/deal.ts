@@ -16,6 +16,7 @@ export class Deal {
   vulnerability: Vulnerability;
   private biddingHistory: Bid[] = [];
   private validBidHistory: Bid[] = [];
+  private validBidPositions: Position[] = [];
   private bidsByPosition: Bid[][] = [[], [], [], []];
   private passes = 0;
   private lastValidBid: Bid = Bid.Pass;
@@ -105,6 +106,7 @@ export class Deal {
         : Team.EastWest;
       this.lastValidBidTeam = team;
       this.validBidHistory.push(bid);
+      this.validBidPositions.push(position);
       this.contractModifier = 0;
     }
     this.biddingHistory.push(bid);
@@ -348,18 +350,21 @@ export class Deal {
   }
 
   private findDeclarer(team: Team, suit: Suit | -1): Position {
-    for (let position = this.dealer; ; position = nextPosition(position)) {
-      const inTeam = position === Position.South || position === Position.North
+    // Declarer is the player who first bid the contract suit or No Trump,
+    // in auction order. Position-order scanning can select a later bidder
+    // from the same partnership (for example, South instead of North).
+    for (let index = 0; index < this.validBidHistory.length; index++) {
+      const bid = this.validBidHistory[index];
+      const position = this.validBidPositions[index];
+      const bidderTeam = position === Position.South || position === Position.North
         ? Team.NorthSouth
         : Team.EastWest;
-      if (inTeam === team) {
-        const bid = this.validBidHistory.find(candidate =>
-          this.bidsByPosition[position].includes(candidate) &&
-          (suit === Suit.NoTrump ? candidate === Bid.NT1 || candidate === Bid.NT2 || candidate === Bid.NT3 : bidSuit(candidate) === suit),
-        );
-        if (bid !== undefined) return position;
-      }
-      if (position === prevPosition(this.dealer)) break;
+      if (bidderTeam !== team) continue;
+      const isMatchingContract =
+        suit === Suit.NoTrump
+          ? bid === Bid.NT1 || bid === Bid.NT2 || bid === Bid.NT3
+          : bidSuit(bid) === suit;
+      if (isMatchingContract) return position;
     }
     return team === Team.NorthSouth ? Position.South : Position.West;
   }

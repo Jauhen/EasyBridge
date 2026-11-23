@@ -3,11 +3,13 @@ import { Bid, Position, Suit } from './constants.js';
 import { Hand } from './hand.js';
 import { CardLocation } from './cardLocation.js';
 import { PlayerStatus } from './playerStatus.js';
+import { BidEngine } from './bidding/bidEngine.js';
 
 export class Player {
   readonly hand = new Hand();
   readonly cardLocation = new CardLocation();
   readonly status = new PlayerStatus();
+  readonly bidEngine = new BidEngine();
   private bids: number[] = [];
 
   constructor(readonly position: Position) {}
@@ -55,39 +57,13 @@ export class Player {
   }
 
   makeOpeningBid(): Bid {
-    if (this.hcp < 12) return Bid.Pass;
-    if (this.hcp >= 15 && this.hcp <= 17 && this.hand.isBalanced) {
-      return Bid.NT1;
-    }
-    const suit = this.longestSuit;
-    if (suit === Suit.NoTrump) return Bid.Pass;
-    const openingBySuit: Partial<Record<Suit, Bid>> = {
-      [Suit.Clubs]: Bid.C1,
-      [Suit.Diamonds]: Bid.D1,
-      [Suit.Hearts]: Bid.H1,
-      [Suit.Spades]: Bid.S1,
-    };
-    return openingBySuit[suit] ?? Bid.Pass;
+    // Delegates opening thresholds and convention tests to the C++-mapped
+    // BiddingOpen/BidEngine behavior instead of duplicating them here.
+    return this.bidEngine.makeOpeningBid(this.hand, this.position);
   }
 
   makeResponse(partnerBid: Bid): Bid {
-    if (partnerBid === Bid.NT1) {
-      if (this.hcp >= 10) return Bid.NT3;
-      if (this.hcp >= 8) return Bid.NT2;
-      return Bid.Pass;
-    }
-    if (this.hcp >= 6) {
-      const suit = this.longestSuit;
-      if (this.hand.getSuitLength(suit) >= 4) {
-        const responseBySuit: Partial<Record<Suit, Bid>> = {
-          [Suit.Clubs]: Bid.C2,
-          [Suit.Diamonds]: Bid.D2,
-          [Suit.Hearts]: Bid.H2,
-          [Suit.Spades]: Bid.S2,
-        };
-        return responseBySuit[suit] ?? Bid.Pass;
-      }
-    }
-    return Bid.Pass;
+    // Delegates to BiddingResponse.cpp / CBidEngine::MakeRespondingBid.
+    return this.bidEngine.makeResponse(this.hand, partnerBid);
   }
 }

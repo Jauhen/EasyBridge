@@ -70,6 +70,12 @@ The package entry point remains `src/index.ts`; it re-exports the moved modules 
 - 2026-11-22: Added bidding core and named convention modules.
 - 2026-11-22: Added specialized play operation modules and preserved the original C++ status-code/tracing conventions.
 - 2026-11-22: Verified the expanded package with 28 passing tests.
+- 2026-11-22: Added opening, opener-rebid, responder-rebid, and extended-rebid stage methods to `BidEngine`.
+- 2026-11-22: Wired `Player.makeOpeningBid()` and `Player.makeResponse()` through `BidEngine`.
+- 2026-11-22: Expanded integration coverage to five C++ deal fixtures: 3NT, 5D, 6H, 4S, and 3D.
+- 2026-11-22: Fixed declarer selection to use first bid of the contract suit in auction order.
+- 2026-11-22: Added single, double, and triple raise responses plus `RaisePartnersSuit` in `BidEngine`.
+- 2026-11-22: Added status codes RDR, S, Q, and `raise` status logging.
 
 ## Preserved comments and status logs
 
@@ -87,6 +93,20 @@ discarding them:
 
 Status text is not a silent fallback: it is recorded in convention status logs
 and appended to `PlayerStatus` tracing when an applicable convention fires.
+
+## Integration coverage
+
+`test/integration/deal.integration.test.ts` now exercises complete
+auction -> play -> PBN export flows for the five parameterized C++ deal fixtures:
+
+- Deal 1: 3NT
+- Deal 4: 5D
+- Deal 26: 6H
+- Deal 36: 4S
+- Deal 76: 3D
+
+Each scenario verifies the deal tag, auction tag, declarer, contract, play tag,
+13 retained tricks, empty hands after play, and PBN generator/description tags.
 
 ## Concrete source inventory
 
@@ -139,6 +159,12 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 - `src/engine/bidding/convention_pool.h` / `convention_pool.cpp` -> `src/bidding/conventionPool.ts`
 - `src/engine/bidding/BidEngine.h` / `BidEngine.cpp` -> `src/bidding/bidEngine.ts`
 - Named convention implementations -> `src/bidding/conventionImplementations.ts`
+- `src/engine/bidding/BiddingOpen.cpp` -> opening logic in `src/bidding/bidEngine.ts`
+- `src/engine/bidding/BiddingResponse.cpp` -> responder logic in `src/bidding/bidEngine.ts`
+- `src/engine/bidding/BiddingRebid.cpp` -> opener-rebid logic in `src/bidding/bidEngine.ts`
+- `src/engine/bidding/BiddingRebid2.cpp` -> responder-rebid logic in `src/bidding/bidEngine.ts`
+- `src/engine/bidding/BiddingRebidExtended.cpp` -> extended-rebid logic in `src/bidding/bidEngine.ts`
+- `src/engine/bidding/BiddingGeneral.cpp` -> single/double/triple raise and `RaisePartnersSuit` logic in `src/bidding/bidEngine.ts`
 
 ### Deferred core classes
 
@@ -152,12 +178,6 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 
 ### Deferred bidding engine files
 
-- `src/engine/bidding/BiddingGeneral.cpp`
-- `src/engine/bidding/BiddingOpen.cpp`
-- `src/engine/bidding/BiddingRebid.cpp`
-- `src/engine/bidding/BiddingRebid2.cpp`
-- `src/engine/bidding/BiddingRebidExtended.cpp`
-- `src/engine/bidding/BiddingResponse.cpp`
 - `src/engine/bidding/Bidparams.H`
 
 Convention implementations remaining:
@@ -174,10 +194,9 @@ Convention implementations remaining:
 
 ## Remaining work
 
-1. Complete detailed bidding response/rebid logic in `src/bidding/`.
-2. Complete detailed convention implementations and status-code traces.
-3. Replace the deterministic highest/legal-card play chooser with deeper declarer, dummy, and defender play plans.
-4. Add real Card/Hand behavior to each specialized play operation rather than constructors only.
-5. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
-6. Port PBN parsing and the full PBN auction/play tags.
-7. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.
+1. Complete detailed convention implementations and status-code traces.
+2. Replace the deterministic highest/legal-card play chooser with deeper declarer, dummy, and defender play plans.
+3. Add real Card/Hand behavior to each specialized play operation rather than constructors only.
+4. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
+5. Port PBN parsing and the full PBN auction/play tags.
+6. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.
