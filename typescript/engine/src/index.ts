@@ -28,7 +28,19 @@ export type { PlayerStatusOptions } from './playerStatus.js';
 export { GuessedCardHoldings } from './play/guessedCardHoldings.js';
 export { GuessedSuitHoldings } from './play/guessedSuitHoldings.js';
 export { GuessedHandHoldings } from './play/guessedHandHoldings.js';
-export { Play, PlayResult, PlayType, PlayProspect } from './play/play.js';
+export {
+  Play,
+  PlayResult,
+  PlayType,
+  PlayProspect,
+  PLAY_TYPE_NAMES,
+  IN_HAND,
+  IN_DUMMY,
+  IN_EITHER,
+  ENTRY_NONE,
+  ENTRY_HAND,
+  ENTRY_DUMMY,
+} from './play/play.js';
 export type { PlayDependencies } from './play/play.js';
 export { PlayList } from './play/playList.js';
 export { CardHoldings } from './play/cardHoldings.js';
@@ -85,13 +97,13 @@ export {
 export { SlamConvention } from './bidding/slamConvention.js';
 export { Cash } from './play/cash.js';
 export { Discard } from './play/discard.js';
-export { Drop } from './play/drop.js';
+export { Drop, AGAINST_LHO, AGAINST_RHO, AGAINST_EITHER } from './play/drop.js';
 export { ExitPlay } from './play/exitPlay.js';
 export { Force } from './play/force.js';
 export { HoldUp } from './play/holdUp.js';
 export { Ruff } from './play/ruff.js';
 export { TrumpPull } from './play/trumpPull.js';
-export { Finesse } from './play/finesse.js';
+export { Finesse, FinesseTarget, FinesseSubType } from './play/finesse.js';
 export {
   Type1Finesse,
   Type2Finesse,
@@ -99,3 +111,4 @@ export {
   TypeAFinesse,
   TypeBFinesse,
 } from './play/finesseVariants.js';
+export type { FinesseVariantOptions } from './play/finesseVariants.js';

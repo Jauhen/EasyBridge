@@ -471,4 +471,56 @@ describe('Specialized play types', () => {
       alreadyPlayedCards: [],
     })).toBe(false);
   });
+
+  it('executes Cash, HoldUp, and Type1Finesse with verbatim C++ status logs', () => {
+    const declarer = new Hand();
+    declarer.add(new Card(Suit.Spades, 14));
+    declarer.add(new Card(Suit.Spades, 4));
+    declarer.initializeInitialHand();
+
+    const dummy = new Hand();
+    dummy.add(new Card(Suit.Spades, 12));
+    dummy.add(new Card(Suit.Spades, 3));
+    dummy.initializeInitialHand();
+
+    const combined = new CombinedHoldings();
+    combined.initialize(declarer, dummy);
+
+    const status = new PlayerStatus();
+    const cash = new Cash(new Card(Suit.Spades, 14), 4, 0);
+    const deps = {
+      combinedHand: combined,
+      declarerHand: declarer,
+      dummyHand: dummy,
+      status,
+      numCardsPlayedInRound: 0,
+      isDummyTurn: false,
+      selectedCard: null as Card | null,
+    };
+    expect(cash.perform(deps)).toBe(1); // PlayResult.InProgress
+    expect(deps.selectedCard?.name).toBe('SA');
+    expect(status.text).toContain('PLCSH10: Cash the SA from hand.');
+
+    const finesseStatus = new PlayerStatus();
+    const finesse = new Type1Finesse(new Card(Suit.Spades, 12), {
+      playerPosition: Position.South,
+      targetHand: 1, // IN_DUMMY
+      gapCards: [new Card(Suit.Spades, 13)],
+      coverCards: [new Card(Suit.Spades, 14)],
+      leadCards: [new Card(Suit.Spades, 4)],
+    });
+    const finDeps = {
+      combinedHand: combined,
+      declarerHand: declarer,
+      dummyHand: dummy,
+      outstandingCards: [new Card(Suit.Spades, 13)],
+      status: finesseStatus,
+      numCardsPlayedInRound: 0,
+      isDummyTurn: false,
+      selectedCard: null as Card | null,
+    };
+    expect(finesse.perform(finDeps)).toBe(1);
+    expect(finDeps.selectedCard?.name).toBe('S4');
+    expect(finesseStatus.text).toContain('PL1FN12:');
+  });
 });
