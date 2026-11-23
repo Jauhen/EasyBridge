@@ -141,9 +141,13 @@ export interface BiddingRoundContext {
   readonly declarerPosition?: Position;
   readonly roundLead?: Position;
   readonly aggressiveBiddingOffset?: number;
+  readonly numValidBidsMade?: number;
+  readonly openingBid?: Bid;
+  readonly openingBidder?: Position;
   isBidValid(bid: Bid): boolean;
   getBidByPlayer(position: Position, round: number): Bid;
   getBidByIndex(index: number): Bid;
+  getValidBidRecord?(index: number): Bid;
 }
 
 function getTeamForPosition(pos: Position): number {
@@ -151,7 +155,7 @@ function getTeamForPosition(pos: Position): number {
 }
 
 export class BidEngine {
-  private pool: ConventionPool;
+  readonly pool: ConventionPool;
   private conventionSet: ConventionSet;
   readonly statusLog: string[] = [];
 
@@ -1551,11 +1555,83 @@ export class BidEngine {
     return this.m_pActiveConvention;
   }
 
+  setBid(nBid: Bid): void {
+    this.m_nBid = nBid;
+  }
+
+  setAgreedSuit(nSuit: Suit | typeof NONE): void {
+    this.m_nAgreedSuit = nSuit;
+  }
+
+  get nLastValidBid(): Bid {
+    return this.getLastValidBid();
+  }
+
+  pointCount(pts: number): number {
+    return pts;
+  }
+
+  SLTS(suit: Suit | typeof NONE): string {
+    return this.supportLevelToString(suit);
+  }
+
+  getValidBidRecord(index: number): Bid {
+    if (this.dealContext?.getValidBidRecord) {
+      return this.dealContext.getValidBidRecord(index);
+    }
+    if (!this.dealContext) return Bid.Pass;
+    let validCount = 0;
+    for (let i = 0; i < this.dealContext.numBidsMade; i++) {
+      const b = this.dealContext.getBidByIndex(i);
+      if (isBid(b)) {
+        if (validCount === index) return b;
+        validCount++;
+      }
+    }
+    return Bid.Pass;
+  }
+
+  getNumValidBidsMade(): number {
+    if (this.dealContext?.numValidBidsMade !== undefined) {
+      return this.dealContext.numValidBidsMade;
+    }
+    if (!this.dealContext) return 0;
+    let validCount = 0;
+    for (let i = 0; i < this.dealContext.numBidsMade; i++) {
+      if (isBid(this.dealContext.getBidByIndex(i))) validCount++;
+    }
+    return validCount;
+  }
+
+  getOpeningBid(): Bid {
+    if (this.dealContext?.openingBid !== undefined) {
+      return this.dealContext.openingBid;
+    }
+    return this.getValidBidRecord(0);
+  }
+
+  getOpeningBidder(): Position {
+    if (this.dealContext?.openingBidder !== undefined) {
+      return this.dealContext.openingBidder;
+    }
+    if (!this.dealContext) return Position.Unknown;
+    let pos = this.dealContext.dealer;
+    for (let i = 0; i < this.dealContext.numBidsMade; i++) {
+      const b = this.dealContext.getBidByIndex(i);
+      if (isBid(b)) return pos;
+      pos = nextPosition(pos);
+    }
+    return Position.Unknown;
+  }
+
   playingConvention(conventionId: ConventionId): boolean {
     return this.conventionSet.isConventionEnabled(conventionId);
   }
 
   invokeBlackwood(eventualSuit: Suit): boolean {
+    if (this.hand && this.status) {
+      return this.pool.blackwood.invokeBlackwood(this.hand, this, this.status, eventualSuit);
+    }
     this.m_nAgreedSuit = eventualSuit;
     this.m_nIntendedSuit = eventualSuit;
     if (this.playingConvention(ConventionId.Blackwood) && this.getLastValidBid() < Bid.NT4) {
@@ -1572,6 +1648,9 @@ export class BidEngine {
 
   tryCueBid(): boolean {
     if (!this.playingConvention(ConventionId.CueBids)) return false;
+    if (this.hand && this.status) {
+      return this.pool.cueBids.tryCueBid(this.hand, this, this.status);
+    }
     return false;
   }
 

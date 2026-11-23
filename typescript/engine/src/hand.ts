@@ -1317,12 +1317,24 @@ export class Hand extends CardHoldings {
     return this.suits[suit].isSuitStopped;
   }
 
+  isSuitProbablyStopped(suit: Suit): boolean {
+    return this.suits[suit].isSuitProbablyStopped;
+  }
+
   getUnstoppedSuitNames(): string {
     return this.strSuitsUnstopped;
   }
 
   suitHasAce(suit: Suit): boolean {
     return this.suits[suit].hasAce();
+  }
+
+  suitHasKing(suit: Suit): boolean {
+    return this.suits[suit].hasKing();
+  }
+
+  suitHasCard(suit: Suit, faceValue: number): boolean {
+    return this.suits[suit].hasCardOfFaceValue(faceValue);
   }
 
   getCardInSuit(suit: Suit, index: number): Card | undefined {

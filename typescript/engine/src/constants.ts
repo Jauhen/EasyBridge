@@ -191,6 +191,10 @@ export function isSuit(value: number): value is Suit {
   return value >= Suit.Clubs && value <= Suit.Spades;
 }
 
+export function getNextSuit(suit: Suit): Suit {
+  return ((suit + 1) % 4) as Suit;
+}
+
 export function isPosition(value: number): value is Position {
   return value >= Position.South && value <= Position.East;
 }

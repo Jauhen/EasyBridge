@@ -478,3 +478,216 @@ describe('Phase 5: C++ BidEngine & ConventionSet fidelity', () => {
     expect(status.text).toContain('TSTDBL4:');
   });
 });
+
+describe('Phase 6: C++ Bidding Conventions fidelity', () => {
+  function initEngineForHand(
+    pbn: string,
+    convSet: ConventionSet,
+    pos: Position,
+    partnerPos: Position,
+    partnerBids: Bid[] = [],
+    lhoPos: Position = Position.East,
+    lhoBids: Bid[] = [],
+    rhoPos: Position = Position.West,
+    rhoBids: Bid[] = [],
+    dealOverrides: Partial<BiddingRoundContext> = {},
+    ownBids: Bid[] = [],
+  ): { engine: BidEngine; status: PlayerStatus; hand: Hand } {
+    const hand = new Hand();
+    for (const c of parsePbnHand(pbn)) hand.add(c);
+    hand.countPoints(true);
+    hand.evaluateHoldings();
+
+    const status = new PlayerStatus();
+    const engine = new BidEngine(convSet);
+    engine.initialize(
+      makeMockPlayer(pos, ownBids),
+      makeMockPlayer(partnerPos, partnerBids),
+      makeMockPlayer(lhoPos, lhoBids),
+      makeMockPlayer(rhoPos, rhoBids),
+      hand,
+      new CardLocation(),
+      null,
+      status,
+      makeMockDealContext(dealOverrides),
+    );
+    engine.clear();
+    return { engine, status, hand };
+  }
+
+  it('invokes Stayman 2C over partner 1NT and logs STY0', () => {
+    const convSet = new ConventionSet({ stayman: true, jacobyTransfers: true });
+    const { engine, status } = initEngineForHand(
+      'KJ84.AQ73.942.75',
+      convSet,
+      Position.North,
+      Position.South,
+      [Bid.NT1],
+      Position.East,
+      [Bid.Pass],
+      Position.West,
+      [Bid.Pass],
+      { lastValidBid: Bid.NT1, numBidsMade: 2, lastValidBidTeam: 0 },
+    );
+    engine.m_bPartnerOpenedForTeam = true;
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.C2);
+    expect(status.text).toContain('STY0:');
+  });
+
+  it('responds 2H to partner Stayman 2C with 4-card hearts and logs STYR10', () => {
+    const convSet = new ConventionSet({ stayman: true });
+    const { engine, status } = initEngineForHand(
+      'KQ4.AJ85.KQ7.964',
+      convSet,
+      Position.South,
+      Position.North,
+      [Bid.C2],
+      Position.West,
+      [Bid.Pass],
+      Position.East,
+      [Bid.Pass],
+      { biddingRound: 1, lastValidBid: Bid.C2, numBidsMade: 4, lastValidBidTeam: 0 },
+      [Bid.NT1],
+    );
+    engine.m_nBid = Bid.NT1;
+    engine.m_numBidsMade = 1;
+    engine.m_numBidTurns = 1;
+    engine.m_bOpenedBiddingForTeam = true;
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.H2);
+    expect(status.text).toContain('STYR11:');
+  });
+
+  it('invokes Jacoby Transfer 2D over partner 1NT with 5 hearts and logs JAC0', () => {
+    const convSet = new ConventionSet({ stayman: true, jacobyTransfers: true });
+    const { engine, status } = initEngineForHand(
+      '842.AKJ95.742.96',
+      convSet,
+      Position.North,
+      Position.South,
+      [Bid.NT1],
+      Position.East,
+      [Bid.Pass],
+      Position.West,
+      [Bid.Pass],
+      { lastValidBid: Bid.NT1, numBidsMade: 2, lastValidBidTeam: 0 },
+    );
+    engine.m_bPartnerOpenedForTeam = true;
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.D2);
+    expect(status.text).toContain('JAC0:');
+  });
+
+  it('opens Weak Two 2S with 6-card spade suit and 6-10 HCP and logs WEAK2', () => {
+    const convSet = new ConventionSet({ weakTwoBids: true, shutoutBids: true });
+    const { engine, status } = initEngineForHand(
+      'KQJ974.842.96.73',
+      convSet,
+      Position.South,
+      Position.North,
+    );
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.S2);
+    expect(status.text).toContain('WEAK2:');
+  });
+
+  it('opens Artificial 2C with 23+ HCP and logs STR2C', () => {
+    const convSet = new ConventionSet({ artificial2Club: true });
+    const { engine, status } = initEngineForHand(
+      'AKQ84.AKQ5.AK7.6',
+      convSet,
+      Position.South,
+      Position.North,
+    );
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.C2);
+    expect(status.text).toContain('STR2C:');
+  });
+
+  it('makes a simple 1S overcall over RHO 1C opening and logs OVERCL8', () => {
+    const convSet = new ConventionSet({ takeoutDoubles: false });
+    const { engine, status } = initEngineForHand(
+      'AKQJ8.742.Q85.64',
+      convSet,
+      Position.South,
+      Position.North,
+      [],
+      Position.West,
+      [],
+      Position.East,
+      [Bid.C1],
+      { lastValidBid: Bid.C1, numBidsMade: 1, lastValidBidTeam: 1 },
+    );
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.S1);
+    expect(status.text).toContain('OVERCL8:');
+  });
+
+  it('makes a takeout double over RHO 1H opening with support for all unbid suits and logs TKOUT', () => {
+    const convSet = new ConventionSet({ takeoutDoubles: true });
+    const { engine, status } = initEngineForHand(
+      'KQ84.6.AJ73.K952',
+      convSet,
+      Position.South,
+      Position.North,
+      [],
+      Position.West,
+      [],
+      Position.East,
+      [Bid.H1],
+      { lastValidBid: Bid.H1, numBidsMade: 1, lastValidBidTeam: 1 },
+    );
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.Double);
+    expect(status.text).toContain('TKOUT:');
+  });
+
+  it('invokes Blackwood 4NT via BidEngine and responds 5H with 2 aces', () => {
+    const convSet = new ConventionSet({ blackwood: true });
+    const { engine: invoker, status: invokerStatus } = initEngineForHand(
+      'AKQ84.AK5.KQ7.A4',
+      convSet,
+      Position.South,
+      Position.North,
+      [Bid.S3],
+      Position.West,
+      [Bid.Pass],
+      Position.East,
+      [Bid.Pass],
+      { biddingRound: 1, lastValidBid: Bid.S3, numBidsMade: 4, lastValidBidTeam: 0 },
+      [Bid.S1],
+    );
+    invoker.assessPosition();
+    expect(invoker.invokeBlackwood(Suit.Spades)).toBe(true);
+    expect(invoker.m_nBid).toBe(Bid.NT4);
+    expect(invokerStatus.text).toContain('BLKWD:');
+
+    const { engine: responder, status: responderStatus } = initEngineForHand(
+      'J953.A64.A832.75',
+      convSet,
+      Position.North,
+      Position.South,
+      [Bid.NT4],
+      Position.East,
+      [Bid.Pass],
+      Position.West,
+      [Bid.Pass],
+      { biddingRound: 2, lastValidBid: Bid.NT4, numBidsMade: 6, lastValidBidTeam: 0 },
+      [Bid.S3],
+    );
+    responder.m_nAgreedSuit = Suit.Spades;
+    responder.m_numBidsMade = 1;
+    responder.m_numBidTurns = 1;
+    const response = responder.bid();
+    expect(response).toBe(Bid.H5);
+    expect(responderStatus.text).toContain('BK10:');
+  });
+});
