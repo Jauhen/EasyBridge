@@ -1277,6 +1277,18 @@ export class Hand extends CardHoldings {
     return this.suits[suit].length;
   }
 
+  getNumCardsInSuit(suit: Suit): number {
+    return this.suits[suit].length;
+  }
+
+  isSuitVoid(suit: Suit): boolean {
+    return this.suits[suit].length === 0;
+  }
+
+  getSuitStrength(suit: Suit): number {
+    return this.suits[suit].strength;
+  }
+
   getCardByValue(deckValue: number): Card | undefined {
     return this.suits[cardSuit(deckValue)].findCardByFaceValue(faceValue(deckValue));
   }

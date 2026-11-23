@@ -524,3 +524,143 @@ describe('Specialized play types', () => {
     expect(finesseStatus.text).toContain('PL1FN12:');
   });
 });
+
+describe('Phase 4 Play Engines C++ parity', () => {
+  it('tracks card plays, show-outs, and signaling in PlayEngine and DefenderPlayEngine', () => {
+    const status = new PlayerStatus({ analysisTraceLevel: 5, showCommentIdentifiers: true });
+    const westHand = new Hand();
+    for (const face of [13, 12, 11, 5, 2]) westHand.add(new Card(Suit.Spades, face));
+    for (const face of [14, 7, 3]) westHand.add(new Card(Suit.Hearts, face));
+    for (const face of [10, 8, 4]) westHand.add(new Card(Suit.Diamonds, face));
+    for (const face of [9, 6]) westHand.add(new Card(Suit.Clubs, face));
+    westHand.countPoints(true);
+    westHand.evaluateHoldings();
+
+    const eastHand = new Hand();
+    const northHand = new Hand();
+    const southHand = new Hand();
+
+    const guessedHands = [
+      new GuessedHandHoldings(),
+      new GuessedHandHoldings(),
+      new GuessedHandHoldings(),
+      new GuessedHandHoldings(),
+    ];
+    guessedHands[Position.West].initNewHand(westHand, Position.West);
+
+    const defender = new DefenderPlayEngine();
+    defender.initialize({
+      player: { position: Position.West, hand: westHand, status },
+      partner: { position: Position.East, hand: eastHand, status: new PlayerStatus() },
+      leftOpponent: { position: Position.North, hand: northHand, status: new PlayerStatus(), isDummy: true },
+      rightOpponent: { position: Position.South, hand: southHand, status: new PlayerStatus(), isDeclarer: true },
+      hand: westHand,
+      cardLocation: new CardLocation(),
+      guessedHands,
+      status,
+      contract: 15, // 3NT
+      trumpSuit: Suit.NoTrump,
+    });
+    defender.initNewHand(15, 0, Suit.NoTrump);
+
+    // Opening lead against 3NT from KQJ52 -> top of 3-card honor sequence SK
+    const lead = defender.getLeadCard({ playRound: 0, contract: 15, contractLevel: 3, trumpSuit: Suit.NoTrump });
+    expect(lead?.name).toBe('SK');
+    expect(status.text).toContain('PLYLD22:');
+
+    // Partner discards high (S8) on our SK lead -> PLYSIG0: suit preference signal
+    const s8 = new Card(Suit.Spades, 8);
+    s8.setOwner(Position.East);
+    defender.recordCardPlay(Position.East, s8, {
+      playRound: 0,
+      numCardsPlayedInRound: 3,
+      roundLead: Position.West,
+      leadCard: lead!,
+      currentHighCard: lead!,
+      trumpSuit: Suit.NoTrump,
+    });
+    expect(defender.partnerSuitPreference[Suit.Spades]).toBe(1);
+    expect(status.text).toContain('PLYSIG0:');
+  });
+
+  it('delegates DummyPlayEngine to declarer partner and runs DeclarerPlayEngine planPlay()', () => {
+    const declarerHand = new Hand();
+    for (const face of [14, 13, 12, 4]) declarerHand.add(new Card(Suit.Spades, face));
+    for (const face of [14, 13, 5]) declarerHand.add(new Card(Suit.Hearts, face));
+    for (const face of [14, 7, 2]) declarerHand.add(new Card(Suit.Diamonds, face));
+    for (const face of [14, 6, 3]) declarerHand.add(new Card(Suit.Clubs, face));
+    declarerHand.initializeInitialHand();
+    declarerHand.evaluateHoldings();
+
+    const dummyHand = new Hand();
+    for (const face of [11, 8, 3]) dummyHand.add(new Card(Suit.Spades, face));
+    for (const face of [12, 9, 2]) dummyHand.add(new Card(Suit.Hearts, face));
+    for (const face of [13, 6, 4]) dummyHand.add(new Card(Suit.Diamonds, face));
+    for (const face of [13, 12, 5, 2]) dummyHand.add(new Card(Suit.Clubs, face));
+    dummyHand.initializeInitialHand();
+    dummyHand.evaluateHoldings();
+
+    const declarerStatus = new PlayerStatus({ analysisTraceLevel: 4, showCommentIdentifiers: true });
+    const dummyStatus = new PlayerStatus();
+    const guessedHands = [
+      new GuessedHandHoldings(),
+      new GuessedHandHoldings(),
+      new GuessedHandHoldings(),
+      new GuessedHandHoldings(),
+    ];
+    guessedHands[Position.South].initNewHand(declarerHand, Position.South);
+    guessedHands[Position.North].initNewHand(dummyHand, Position.North);
+
+    const declarer = new DeclarerPlayEngine();
+    const declarerRole = {
+      position: Position.South,
+      hand: declarerHand,
+      status: declarerStatus,
+      isDeclarer: true,
+      playForDummy: () => declarer.playForDummy({ playRound: 0, numCardsPlayedInRound: 0, contract: 15, trumpSuit: Suit.NoTrump }),
+      getNumClaimableTricks: () => declarer.getNumClaimableTricks({ trumpSuit: Suit.NoTrump }),
+    };
+    const dummyRole = {
+      position: Position.North,
+      hand: dummyHand,
+      status: dummyStatus,
+      isDummy: true,
+    };
+
+    declarer.initialize({
+      player: declarerRole,
+      partner: dummyRole,
+      leftOpponent: { position: Position.West, hand: new Hand(), status: new PlayerStatus() },
+      rightOpponent: { position: Position.East, hand: new Hand(), status: new PlayerStatus() },
+      hand: declarerHand,
+      cardLocation: new CardLocation(),
+      guessedHands,
+      status: declarerStatus,
+      contract: 15, // 3NT
+      trumpSuit: Suit.NoTrump,
+    });
+    declarer.initNewHand(15, 0, Suit.NoTrump);
+
+    const dummy = new DummyPlayEngine();
+    dummy.initialize({
+      player: dummyRole,
+      partner: declarerRole,
+      leftOpponent: { position: Position.East, hand: new Hand(), status: new PlayerStatus() },
+      rightOpponent: { position: Position.West, hand: new Hand(), status: new PlayerStatus() },
+      hand: dummyHand,
+      cardLocation: new CardLocation(),
+      guessedHands,
+      status: dummyStatus,
+      contract: 15,
+      trumpSuit: Suit.NoTrump,
+    });
+
+    const playedFromDummy = dummy.playCard();
+    expect(playedFromDummy).not.toBeNull();
+    expect(declarer.playPlan.size).toBeGreaterThan(0);
+    expect(declarerStatus.text).toContain('PLN00:');
+    expect(declarerStatus.text).toContain('PLN10:');
+    expect(declarerStatus.text).toContain('PLNNT90');
+    expect(dummy.getNumClaimableTricks()).toBeGreaterThanOrEqual(9);
+  });
+});

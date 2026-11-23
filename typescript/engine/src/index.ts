@@ -50,7 +50,12 @@ export { CombinedSuitHoldings } from './play/combinedSuitHoldings.js';
 export { CombinedHoldings } from './play/combinedHoldings.js';
 export { DisplayHoldings } from './play/displayHoldings.js';
 export { PlayEngine } from './play/playEngine.js';
-export type { PlayEngineContext, PlayerRole } from './play/playEngine.js';
+export type {
+  PlayEngineContext,
+  PlayRoundContext,
+  PlayerRole,
+  TrickRecord,
+} from './play/playEngine.js';
 export { DeclarerPlayEngine } from './play/declarerPlayEngine.js';
 export { DummyPlayEngine } from './play/dummyPlayEngine.js';
 export { DefenderPlayEngine } from './play/defenderPlayEngine.js';

@@ -748,6 +748,10 @@ export class CombinedHoldings extends CardHoldings {
     return this.numSecondaryHonorsValue;
   }
 
+  get numMissingHonors(): number {
+    return this.numMissingHonorsValue;
+  }
+
   get stoppedSuitNames(): string {
     return this.strSuitsStopped;
   }

@@ -991,6 +991,10 @@ export class SuitHoldings extends CardHoldings {
     return this.numStoppersValue;
   }
 
+  get numLikelyWinners(): number {
+    return this.likelyWinners;
+  }
+
   get compressedHoldings(): string {
     return this.length === 0
       ? 'void'

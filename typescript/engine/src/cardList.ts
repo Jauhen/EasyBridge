@@ -258,6 +258,20 @@ export class CardList {
     return this.removeByIndex(index);
   }
 
+  removeAt(index: number): Card | null {
+    return this.removeByIndex(index);
+  }
+
+  addList(other: CardList): void {
+    for (const c of other.cards) {
+      this.add(c);
+    }
+  }
+
+  get all(): readonly Card[] {
+    return this.cards;
+  }
+
   sort(): void {
     if (this.sorted) return;
     this.cards.sort((a, b) => {

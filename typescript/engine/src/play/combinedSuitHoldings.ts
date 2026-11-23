@@ -565,6 +565,10 @@ export class CombinedSuitHoldings extends SuitHoldings {
     return this.numDeclarerWinnersValue - this.numDummyLosersValue;
   }
 
+  get lengthDiff(): number {
+    return this.declarerLengthValue - this.dummyLengthValue;
+  }
+
   get declaredEntries(): number {
     return this.declarerEntries;
   }

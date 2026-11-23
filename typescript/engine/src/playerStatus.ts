@@ -83,6 +83,10 @@ export class PlayerStatus {
     }
   }
 
+  get isTraceEnabled(): boolean {
+    return !this.suppressOutput;
+  }
+
   //
   // OutputText()
   //
