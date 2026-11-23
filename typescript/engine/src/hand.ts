@@ -1289,6 +1289,62 @@ export class Hand extends CardHoldings {
     return this.suits[suit].strength;
   }
 
+  getSuitRank(suit: Suit): number {
+    return this.suits[suit].rank;
+  }
+
+  getSuitHCPoints(suit: Suit): number {
+    return this.suits[suit].hcPoints;
+  }
+
+  getNumHonorsInSuit(suit: Suit): number {
+    return this.suits[suit].numHonors;
+  }
+
+  isSuitSolid(suit: Suit): boolean {
+    return this.suits[suit].isSolid;
+  }
+
+  isSuitRebiddable(suit: Suit): boolean {
+    return this.suits[suit].isRebiddable;
+  }
+
+  isSuitSelfSupporting(suit: Suit): boolean {
+    return this.suits[suit].isSelfSupporting;
+  }
+
+  isSuitStopped(suit: Suit): boolean {
+    return this.suits[suit].isSuitStopped;
+  }
+
+  getUnstoppedSuitNames(): string {
+    return this.strSuitsUnstopped;
+  }
+
+  suitHasAce(suit: Suit): boolean {
+    return this.suits[suit].hasAce();
+  }
+
+  getCardInSuit(suit: Suit, index: number): Card | undefined {
+    return this.suits[suit].at(index);
+  }
+
+  getLowestMarginalSuit(): Suit | typeof NONE {
+    return this.lowestMarginalSuit as Suit | typeof NONE;
+  }
+
+  getLowestOpenableSuit(): Suit | typeof NONE {
+    return this.lowestOpenableSuit as Suit | typeof NONE;
+  }
+
+  getLowestSolidSuit(): Suit | typeof NONE {
+    return this.lowestSolidSuit as Suit | typeof NONE;
+  }
+
+  getLowestAbsoluteSuit(): Suit | typeof NONE {
+    return this.lowestAbsoluteSuit as Suit | typeof NONE;
+  }
+
   getCardByValue(deckValue: number): Card | undefined {
     return this.suits[cardSuit(deckValue)].findCardByFaceValue(faceValue(deckValue));
   }

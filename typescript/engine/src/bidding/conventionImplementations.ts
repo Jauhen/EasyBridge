@@ -339,6 +339,14 @@ export class DruryConvention extends Convention {
 export class NegativeDoublesConvention extends Convention {
   constructor() { super(ConventionId.NegativeDoubles); }
   override tryConvention(context: ConventionContext): Bid | null {
+    if (
+      context.bidEngine &&
+      (context.bidEngine.nOpponentsBid <= Bid.Pass ||
+        context.bidEngine.m_numBidsMade > 0 ||
+        context.bidEngine.m_numPartnerBidsMade > 0)
+    ) {
+      return null;
+    }
     if (context.hand.highCardPoints < 8) return null;
     const major = context.hand.getSuitLength(Suit.Hearts) >=
       context.hand.getSuitLength(Suit.Spades)
@@ -372,6 +380,14 @@ export class OvercallsConvention extends Convention {
   constructor() { super(ConventionId.Overcalls); }
 
   override tryConvention(context: ConventionContext): Bid | null {
+    if (
+      context.bidEngine &&
+      (context.bidEngine.nOpponentsBid <= Bid.Pass ||
+        context.bidEngine.m_numBidsMade > 0 ||
+        context.bidEngine.m_numPartnerBidsMade > 0)
+    ) {
+      return null;
+    }
     if (context.hand.highCardPoints < 8) return null;
     let longest = Suit.Clubs;
     for (let suit = Suit.Clubs + 1; suit <= Suit.Spades; suit++) {

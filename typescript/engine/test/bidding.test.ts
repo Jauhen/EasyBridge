@@ -2,12 +2,17 @@ import { describe, expect, it } from 'vitest';
 import {
   Bid,
   BidEngine,
+  BiddingOption,
+  BiddingPlayerInfo,
+  BiddingRoundContext,
+  ConventionId,
   ConventionSet,
   ConventionStatus,
   Hand,
   Card,
   Position,
   Suit,
+  NONE,
   StaymanConvention,
   WeakTwoBidsConvention,
   StrongTwoBidsConvention,
@@ -21,6 +26,7 @@ import {
   Jacoby2NTConvention,
   SplinterBidsConvention,
   SlamConvention,
+  parsePbnHand,
 } from '../src/index.js';
 
 describe('Convention core', () => {
@@ -260,5 +266,215 @@ describe('Slam conventions', () => {
     const splinter = new SplinterBidsConvention();
     expect(jacoby.id).toBeGreaterThan(0);
     expect(splinter.id).toBeGreaterThan(0);
+  });
+});
+
+function makeMockPlayer(
+  position: Position,
+  bids: Bid[] = [],
+  lastBid: Bid = Bid.Pass,
+): BiddingPlayerInfo {
+  const nonPass = bids.filter(b => b > Bid.Pass && b < Bid.Double);
+  return {
+    position,
+    getNumBidsMade: () => nonPass.length,
+    getNumBidTurns: () => bids.length,
+    inquireLastBid: () => (bids.length > 0 ? bids[bids.length - 1] : lastBid),
+    getPriorBid: (index: number) => {
+      const idx = bids.length - 1 - index;
+      return idx >= 0 ? bids[idx] : Bid.Pass;
+    },
+    getPriorSuit: () => NONE,
+    getMinimumOpeningValue: () => 12,
+    getOpeningPosition: () => 0,
+  };
+}
+
+function makeMockDealContext(overrides: Partial<BiddingRoundContext> = {}): BiddingRoundContext {
+  const lastValidBid = overrides.lastValidBid ?? Bid.Pass;
+  return {
+    biddingRound: 0,
+    lastValidBid,
+    lastValidBidTeam: 1,
+    numBidsMade: 0,
+    dealer: Position.South,
+    contractModifier: 0,
+    isBidValid: (b: Bid) => b === Bid.Pass || b === Bid.Double || b === Bid.Redouble || b > lastValidBid,
+    getBidByPlayer: () => Bid.Pass,
+    getBidByIndex: () => Bid.Pass,
+    ...overrides,
+  };
+}
+
+function makeNaturalConventionSet(): ConventionSet {
+  return new ConventionSet({
+    fiveCardMajors: true,
+    stayman: false,
+    jacobyTransfers: false,
+    weakTwoBids: false,
+    strongTwoBids: false,
+    artificial2Club: false,
+    fourthSuitForcing: false,
+    blackwood: false,
+    gerber: false,
+    cueBids: false,
+    splinterBids: false,
+    michaels: false,
+    jacoby2NT: false,
+    unusualNT: false,
+    gambling3NT: false,
+    drury: false,
+    negativeDoubles: false,
+    takeoutDoubles: false,
+    overcalls: false,
+    shutoutBids: false,
+  });
+}
+
+describe('Phase 5: C++ BidEngine & ConventionSet fidelity', () => {
+  it('supports C++ ConventionSet getValue/setValue and NT range lookup', () => {
+    const set = new ConventionSet();
+    expect(set.getNTRangeMin(1)).toBe(15);
+    expect(set.getNTRangeMax(1)).toBe(17);
+    expect(set.getValue(BiddingOption.OneNTRangeMinPts)).toBe(15);
+    expect(set.getValue(BiddingOption.OneNTRangeMaxPts)).toBe(17);
+
+    set.setValue(BiddingOption.OneNTRange, 0); // 12-14 weak NT
+    expect(set.getNTRangeMin(1)).toBe(12);
+    expect(set.getNTRangeMax(1)).toBe(14);
+    expect(set.isConventionEnabled(ConventionId.FiveCardMajors)).toBe(true);
+  });
+
+  it('opens 1NT with balanced 16 HCP and logs C++ A08 message', () => {
+    const hand = new Hand();
+    for (const c of parsePbnHand('AQJ4.KJ8.Q94.K73')) hand.add(c);
+    hand.countPoints(true);
+    hand.evaluateHoldings();
+
+    const status = new PlayerStatus();
+    const engine = new BidEngine(makeNaturalConventionSet());
+    engine.initialize(
+      makeMockPlayer(Position.South),
+      makeMockPlayer(Position.North),
+      makeMockPlayer(Position.West),
+      makeMockPlayer(Position.East),
+      hand,
+      new CardLocation(),
+      null,
+      status,
+      makeMockDealContext(),
+    );
+    engine.clear();
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.NT1);
+    expect(status.text).toContain('A08:');
+  });
+
+  it('opens 1S with 5-card spade suit and logs C++ E01/E02 message', () => {
+    const hand = new Hand();
+    for (const c of parsePbnHand('AKQ84.K73.J84.62')) hand.add(c);
+    hand.countPoints(true);
+    hand.evaluateHoldings();
+
+    const status = new PlayerStatus();
+    const engine = new BidEngine(makeNaturalConventionSet());
+    engine.initialize(
+      makeMockPlayer(Position.South),
+      makeMockPlayer(Position.North),
+      makeMockPlayer(Position.West),
+      makeMockPlayer(Position.East),
+      hand,
+      new CardLocation(),
+      null,
+      status,
+      makeMockDealContext(),
+    );
+    engine.clear();
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.S1);
+    expect(status.text).toMatch(/E0[12]:/);
+  });
+
+  it('responds to partner 1S opening with 2S single raise and logs C++ response codes', () => {
+    const hand = new Hand();
+    for (const c of parsePbnHand('Q85.K64.9753.K84')) hand.add(c);
+    hand.countPoints(true);
+    hand.evaluateHoldings();
+
+    const status = new PlayerStatus();
+    const engine = new BidEngine(makeNaturalConventionSet());
+    engine.initialize(
+      makeMockPlayer(Position.North),
+      makeMockPlayer(Position.South, [Bid.S1]),
+      makeMockPlayer(Position.East, [Bid.Pass]),
+      makeMockPlayer(Position.West, [Bid.Pass]),
+      hand,
+      new CardLocation(),
+      null,
+      status,
+      makeMockDealContext({ lastValidBid: Bid.S1, numBidsMade: 2, lastValidBidTeam: 0 }),
+    );
+    engine.clear();
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.S2);
+    expect(status.text).toContain('F00:');
+  });
+
+  it('rebids as opener after single raise to 2S and logs RDR0', () => {
+    const hand = new Hand();
+    for (const c of parsePbnHand('AKQJ84.A73.K84.6')) hand.add(c);
+    hand.countPoints(true);
+    hand.evaluateHoldings();
+
+    const status = new PlayerStatus();
+    const engine = new BidEngine(makeNaturalConventionSet());
+    engine.initialize(
+      makeMockPlayer(Position.South, [Bid.S1]),
+      makeMockPlayer(Position.North, [Bid.S2]),
+      makeMockPlayer(Position.West, [Bid.Pass]),
+      makeMockPlayer(Position.East, [Bid.Pass]),
+      hand,
+      new CardLocation(),
+      null,
+      status,
+      makeMockDealContext({ biddingRound: 1, lastValidBid: Bid.S2, numBidsMade: 4, lastValidBidTeam: 0 }),
+    );
+    engine.clear();
+    engine.m_nBid = Bid.S1;
+    engine.m_numBidsMade = 1;
+
+    const bid = engine.bid();
+    expect(bid).toBe(Bid.S3);
+    expect(status.text).toContain('RDR0:');
+    expect(status.text).toContain('R18:');
+  });
+
+  it('doubles for penalties when holding enough likely tricks and logs TSTDBL4', () => {
+    const hand = new Hand();
+    for (const c of parsePbnHand('AKQJ9.AK4.A73.84')) hand.add(c);
+    hand.countPoints(true);
+    hand.evaluateHoldings();
+
+    const status = new PlayerStatus();
+    const engine = new BidEngine();
+    engine.initialize(
+      makeMockPlayer(Position.South),
+      makeMockPlayer(Position.North),
+      makeMockPlayer(Position.West),
+      makeMockPlayer(Position.East, [Bid.S4]),
+      hand,
+      new CardLocation(),
+      null,
+      status,
+      makeMockDealContext({ lastValidBid: Bid.S4, lastValidBidTeam: 1, contractModifier: 0 }),
+    );
+    engine.clear();
+    engine.assessPosition();
+
+    expect(engine.testForPenaltyDouble()).toBe(true);
+    expect(status.text).toContain('TSTDBL4:');
   });
 });

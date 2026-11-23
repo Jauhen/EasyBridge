@@ -59,14 +59,23 @@ export type {
 export { DeclarerPlayEngine } from './play/declarerPlayEngine.js';
 export { DummyPlayEngine } from './play/dummyPlayEngine.js';
 export { DefenderPlayEngine } from './play/defenderPlayEngine.js';
-export { ConventionStatus, ConventionId } from './bidding/biddingCodes.js';
+export {
+  ConventionStatus,
+  ConventionId,
+  BiddingOption,
+} from './bidding/biddingCodes.js';
 export { Convention } from './bidding/convention.js';
 export type { ConventionBidContext, ConventionContext } from './bidding/convention.js';
-export { ConventionSet } from './bidding/conventionSet.js';
+export { ConventionSet, NT_RANGE_TABLE, TWO_CLUB_OPEN_TABLE } from './bidding/conventionSet.js';
 export type { ConventionSetOptions } from './bidding/conventionSet.js';
 export { ConventionPool } from './bidding/conventionPool.js';
 export { BidEngine } from './bidding/bidEngine.js';
-export type { AuctionState, PartnerRaiseResult } from './bidding/bidEngine.js';
+export type {
+  AuctionState,
+  PartnerRaiseResult,
+  BiddingPlayerInfo,
+  BiddingRoundContext,
+} from './bidding/bidEngine.js';
 export { RaiseTarget } from './bidding/bidEngine.js';
 export {
   SuitStrength,
@@ -77,6 +86,18 @@ export {
   SuitType,
   StoppingLevel,
   suitStrengthMinimum,
+  PTS_2LEVEL,
+  PTS_3LEVEL,
+  PTS_4LEVEL,
+  PTS_GAME,
+  PTS_MAJOR_GAME,
+  PTS_MINOR_GAME,
+  PTS_NT_GAME,
+  PTS_SLAM,
+  PTS_SMALL_SLAM,
+  PTS_GRAND_SLAM,
+  openPts,
+  ptCount,
 } from './bidding/bidParameters.js';
 export {
   StaymanConvention,

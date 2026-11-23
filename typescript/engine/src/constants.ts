@@ -360,6 +360,27 @@ export function stringToDeckValue(input: string): number {
   return nSuit * 13 + nValue - 2;
 }
 
+export function bidToShortString(bid: number): string {
+  if (bid === Bid.Pass) return 'Pass';
+  if (bid === Bid.Double) return 'X';
+  if (bid === Bid.Redouble) return 'XX';
+  if (!isBid(bid)) return '??';
+  const suit = bidSuit(bid) as Suit;
+  const level = bidLevel(bid);
+  return suit === Suit.NoTrump ? `${level}NT` : `${level}${suitToChar(suit)}`;
+}
+
+export function bidToFullString(bid: number): string {
+  if (bid === Bid.Pass) return 'Pass';
+  if (bid === Bid.Double) return 'Double';
+  if (bid === Bid.Redouble) return 'Redouble';
+  if (!isBid(bid)) return '????';
+  const suit = bidSuit(bid) as Suit;
+  const level = bidLevel(bid);
+  if (suit === Suit.NoTrump) return `${level} No Trump`;
+  return level === 1 ? `1 ${singularSuitName(suit)}` : `${level} ${suitName(suit)}`;
+}
+
 export function bidToPbn(bid: number): string {
   if (bid === Bid.Pass) return 'Pass';
   if (bid === Bid.Double) return 'X';
