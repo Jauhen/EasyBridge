@@ -2,7 +2,14 @@ export * from './constants.js';
 export { Card } from './card.js';
 export { CardList } from './cardList.js';
 export { Deck, DEFCARDWIDTH, DEFCARDHEIGHT, SMALLCARDWIDTH, SMALLCARDHEIGHT } from './deck.js';
-export { Hand } from './hand.js';
+export {
+  Hand,
+  HandHoldings,
+  REVALUE_DUMMY,
+  REVALUE_DECLARER,
+  REVALUE_NOPENALTY_SHORTTRUMP,
+} from './hand.js';
+export type { HandEvaluationOptions } from './hand.js';
 export { Player } from './player.js';
 export type { PlayerDealView } from './player.js';
 export { Deal } from './model/deal.js';
@@ -24,7 +31,9 @@ export { GuessedHandHoldings } from './play/guessedHandHoldings.js';
 export { Play, PlayResult, PlayType, PlayProspect } from './play/play.js';
 export type { PlayDependencies } from './play/play.js';
 export { PlayList } from './play/playList.js';
+export { CardHoldings } from './play/cardHoldings.js';
 export { SuitHoldings } from './play/suitHoldings.js';
+export type { SuitEvaluationOptions } from './play/suitHoldings.js';
 export { CombinedSuitHoldings } from './play/combinedSuitHoldings.js';
 export { CombinedHoldings } from './play/combinedHoldings.js';
 export { DisplayHoldings } from './play/displayHoldings.js';

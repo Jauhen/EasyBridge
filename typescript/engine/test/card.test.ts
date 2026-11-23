@@ -223,6 +223,70 @@ describe('Phase 1 Core Engine C++ parity', () => {
   });
 });
 
+describe('Phase 2 Play Holdings C++ parity', () => {
+  it('evaluates SuitHoldings quick tricks, stoppers, sequences, and solid/rebiddable flags', () => {
+    const suit = new SuitHoldings();
+    suit.setSuit(Suit.Spades);
+    for (const face of [14, 13, 12, 9, 4]) {
+      suit.add(new Card(Suit.Spades, face));
+    }
+    suit.countPoints(true);
+    suit.evaluateHoldings();
+    expect(suit.quickTricks).toBe(2);
+    expect(suit.isSuitStopped).toBe(true);
+    expect(suit.numStoppers).toBe(2);
+    expect(suit.isSolid).toBe(true);
+    expect(suit.isRebiddable).toBe(true);
+    expect(suit.numTopHonors).toBe(3);
+    expect(suit.numSequences).toBe(3);
+    expect(suit.topSequence?.holdingsString).toBe('SA SK SQ');
+  });
+
+  it('evaluates CombinedHoldings and emits verbatim C++ status log lines', () => {
+    const declarer = new Hand();
+    for (const face of [14, 13, 7, 4]) declarer.add(new Card(Suit.Spades, face));
+    for (const face of [14, 5]) declarer.add(new Card(Suit.Hearts, face));
+    declarer.initializeInitialHand();
+
+    const dummy = new Hand();
+    for (const face of [12, 6, 3]) dummy.add(new Card(Suit.Spades, face));
+    for (const face of [13, 9]) dummy.add(new Card(Suit.Hearts, face));
+    dummy.initializeInitialHand();
+
+    const status = new PlayerStatus();
+    const combined = new CombinedHoldings();
+    combined.initialize(declarer, dummy, status);
+    combined.evaluateHoldings(4);
+
+    expect(combined.getSuit(Suit.Spades).numTopCards).toBe(3);
+    expect(combined.getSuit(Suit.Spades).holdingsDescription).toBe('AKQ7643 (Q63/AK74)');
+    expect(status.text).toContain('Combined hand (Dummy/Hand):');
+    expect(status.text).toContain('Combined hand evaluation:');
+    expect(status.text).toContain('Sure Winners');
+  });
+
+  it('evaluates HandHoldings and revalues hand as dummy with REVAL38 log message', () => {
+    const status = new PlayerStatus();
+    const hand = new Hand();
+    hand.initialize(Position.South, status);
+    // 4-card Spade support with Ace + singleton Club -> dummy revaluation bonus
+    for (const face of [14, 9, 6, 3]) hand.add(new Card(Suit.Spades, face));
+    for (const face of [13, 8, 5, 2]) hand.add(new Card(Suit.Hearts, face));
+    for (const face of [12, 10, 7, 4]) hand.add(new Card(Suit.Diamonds, face));
+    hand.add(new Card(Suit.Clubs, 2));
+    hand.initNewHand();
+    hand.evaluateHoldings();
+
+    expect(status.text).toContain('Received hand:');
+    expect(status.text).toContain('Hand evaluation:');
+    expect(status.text).toContain('Playing five-card majors, neither major suit qualifies for opening.');
+
+    const revalued = hand.revalueHand(0, Suit.Spades, true, true);
+    expect(revalued).toBeGreaterThan(hand.totalPoints);
+    expect(status.text).toContain('REVAL38:');
+  });
+});
+
 describe('Guessed holdings and play plan', () => {
   it('tracks guessed cards and suit holdings', () => {
     const holdings = new GuessedCardHoldings();

@@ -228,7 +228,7 @@ export class Player {
   }
 
   getCardByValue(deckValue: number): Card | null {
-    return this.hand.findCard(deckValue);
+    return this.hand.findCardByDeckValue(deckValue) ?? null;
   }
 
   getCardByPosition(index: number): Card | null {
