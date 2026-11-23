@@ -347,9 +347,14 @@ export class BidEngine {
   nOpponentsBidSuit: Suit | typeof NONE = NONE;
 
   constructor(conventionSet = new ConventionSet()) {
-    this.pool = new ConventionPool();
     this.conventionSet = conventionSet;
-    this.conventionSet.initialize(this.pool);
+    const existingPool = conventionSet.getPool();
+    if (existingPool) {
+      this.pool = existingPool;
+    } else {
+      this.pool = new ConventionPool();
+      this.conventionSet.initialize(this.pool);
+    }
   }
 
   get conventions(): ConventionSet {
@@ -403,6 +408,8 @@ export class BidEngine {
     this.partner = partner;
     this.lhOpponent = lhOpponent;
     this.rhOpponent = rhOpponent;
+    this.nPosition = player.position;
+    this.nPartnerPos = partner.position;
     this.hand = hand;
     this.cardLocation = cardLocation;
     this.guessedHands = guessedHands;

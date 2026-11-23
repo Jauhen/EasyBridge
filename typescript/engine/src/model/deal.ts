@@ -1,7 +1,29 @@
-import { Bid, bidLevel, bidSuit, charToPosition, contractToPbn, isBid, nextPosition, Position, positionToChar, Suit, Team, Vulnerability, bidToPbn } from '../constants.js';
+import {
+  Bid,
+  bidLevel,
+  bidSuit,
+  bidToPbn,
+  charToPosition,
+  contractToPbn,
+  isBid,
+  isMajor,
+  isMinor,
+  isSuit,
+  nextPosition,
+  NONE,
+  partnerPosition,
+  Position,
+  positionToChar,
+  Suit,
+  Team,
+  Vulnerability,
+} from '../constants.js';
 import { Card } from '../card.js';
 import { Deck } from '../deck.js';
 import { Player } from '../player.js';
+import type { BiddingRoundContext } from '../bidding/bidEngine.js';
+import { ConventionSet } from '../bidding/conventionSet.js';
+import type { PlayRoundContext, TrickRecord } from '../play/playEngine.js';
 import { PbnDocument, parsePbnDealTag } from './pbn.js';
 
 export interface DealOptions {
@@ -9,10 +31,12 @@ export interface DealOptions {
   vulnerability?: Vulnerability;
   date?: string;
   southHuman?: boolean;
+  conventionSet?: ConventionSet;
 }
 
 export class Deal {
   readonly players: readonly Player[];
+  readonly conventionSet: ConventionSet;
   private currentDate: string;
   dealer: Position;
   vulnerability: Vulnerability;
@@ -34,9 +58,11 @@ export class Deal {
   private cardsPlayedInRound = 0;
   private suitLed: Suit | -1 = -1;
   private roundLead: Position;
+  private dummyExposed = false;
   private tricksPlayed = 0;
   private tricksWon: [number, number] = [0, 0];
   private gameTricks: (Card | null)[][] = [];
+  private trickRecords: TrickRecord[] = [];
   private trickLeads: Position[] = [];
   private trickWinners: Position[] = [];
   private northSouthScore = 0;
@@ -50,11 +76,115 @@ export class Deal {
       new Player(Position.North),
       new Player(Position.East),
     ];
+    this.conventionSet = options.conventionSet ?? new ConventionSet();
+    this.conventionSet.initConventions();
     this.dealer = options.dealer ?? Position.South;
     this.currentPlayer = this.dealer;
     this.roundLead = this.dealer;
     this.vulnerability = options.vulnerability ?? Vulnerability.None;
     this.currentDate = options.date ?? '2016.07.12';
+
+    const biddingContext = this.createBiddingRoundContext();
+    for (let pos = Position.South; pos <= Position.East; pos++) {
+      const p = pos as Position;
+      const partner = this.players[partnerPosition(p)];
+      const lho = this.players[nextPosition(p)];
+      const rho = this.players[prevPosition(p)];
+      this.players[p].initializePlayer(p, partner, lho, rho);
+      this.players[p].initializeEngines();
+      this.players[p].initializeBidEngine(biddingContext, this.conventionSet);
+    }
+  }
+
+  private createBiddingRoundContext(): BiddingRoundContext {
+    const deal = this;
+    return {
+      get biddingRound(): number {
+        return Math.floor(deal.biddingHistory.length / 4);
+      },
+      get lastValidBid(): Bid {
+        return deal.lastValidBid;
+      },
+      get lastValidBidTeam(): number {
+        return deal.lastValidBidTeam === Team.NorthSouth ? 0 : deal.lastValidBidTeam === Team.EastWest ? 1 : -1;
+      },
+      get numBidsMade(): number {
+        return deal.biddingHistory.length;
+      },
+      get dealer(): Position {
+        return deal.dealer;
+      },
+      get contractModifier(): number {
+        return deal.contractModifier;
+      },
+      get contract(): Bid {
+        return deal.contract;
+      },
+      get declarerPosition(): Position {
+        return deal.declarer;
+      },
+      get roundLead(): Position {
+        return deal.roundLead;
+      },
+      get numValidBidsMade(): number {
+        return deal.validBidHistory.length;
+      },
+      get openingBid(): Bid {
+        return deal.validBidHistory[0] ?? Bid.Pass;
+      },
+      get openingBidder(): Position {
+        return deal.validBidPositions[0] ?? Position.Unknown;
+      },
+      isBidValid(bid: Bid): boolean {
+        if (bid === Bid.Pass) return true;
+        if (bid === Bid.Double) {
+          return isBid(deal.lastValidBid) && deal.contractModifier === 0;
+        }
+        if (bid === Bid.Redouble) {
+          return isBid(deal.lastValidBid) && deal.contractModifier === 1;
+        }
+        return isBid(bid) && bid > deal.lastValidBid;
+      },
+      getBidByPlayer(position: Position, round: number): Bid {
+        return deal.bidsByPosition[position]?.[round] ?? Bid.None;
+      },
+      getBidByIndex(index: number): Bid {
+        return deal.biddingHistory[index] ?? Bid.None;
+      },
+      getValidBidRecord(index: number): Bid {
+        return deal.validBidHistory[index] ?? Bid.Pass;
+      },
+    };
+  }
+
+  private resetAuctionAndPlayState(): void {
+    this.biddingHistory = [];
+    this.validBidHistory = [];
+    this.validBidPositions = [];
+    this.bidsByPosition = [[], [], [], []];
+    this.passes = 0;
+    this.lastValidBid = Bid.Pass;
+    this.lastValidBidTeam = Team.Neither;
+    this.contract = Bid.Pass;
+    this.contractModifier = 0;
+    this.dummyExposed = false;
+    this.tricksPlayed = 0;
+    this.tricksWon = [0, 0];
+    this.gameTricks = [];
+    this.trickRecords = [];
+    this.trickLeads = [];
+    this.trickWinners = [];
+    this.currentTrick = [null, null, null, null];
+    this.cardsPlayedInRound = 0;
+    this.suitLed = -1;
+    this.northSouthScore = 0;
+    this.eastWestScore = 0;
+    this.currentPlayer = this.dealer;
+    this.roundLead = this.dealer;
+    for (const player of this.players) {
+      player.clearBiddingInfo();
+      player.bidEngine.clear();
+    }
   }
 
   initializeNewHand(): void {
@@ -63,6 +193,7 @@ export class Deal {
 
   assignCards(hands: readonly (readonly Card[])[]): void {
     if (hands.length !== 4) throw new Error('Deal requires exactly four hands');
+    this.resetAuctionAndPlayState();
     for (let position = Position.South; position <= Position.East; position++) {
       this.players[position].clearHand();
       for (const card of hands[position]) this.players[position].addCard(card);
@@ -149,20 +280,7 @@ export class Deal {
       }
     }
     for (const player of this.players) player.initializeHand();
-    this.biddingHistory = [];
-    this.validBidHistory = [];
-    this.validBidPositions = [];
-    this.bidsByPosition = [[], [], [], []];
-    this.passes = 0;
-    this.lastValidBid = Bid.Pass;
-    this.lastValidBidTeam = Team.Neither;
-    this.contract = Bid.Pass;
-    this.contractModifier = 0;
-    this.tricksPlayed = 0;
-    this.tricksWon = [0, 0];
-    this.gameTricks = [];
-    this.trickLeads = [];
-    this.trickWinners = [];
+    this.resetAuctionAndPlayState();
     return actualSeed;
   }
 
@@ -188,56 +306,173 @@ export class Deal {
       this.contractModifier = 0;
     }
     this.biddingHistory.push(bid);
-    this.players[position].recordBid(bid);
     this.bidsByPosition[position].push(bid);
+    for (const player of this.players) {
+      player.recordBid(position, bid);
+    }
     this.currentPlayer = nextPosition(this.currentPlayer);
+
+    if (this.passes >= 4 && !isBid(this.lastValidBid)) {
+      return -1;
+    }
 
     if (this.passes >= 3 && isBid(this.lastValidBid)) {
       this.contract = this.lastValidBid;
       const suit = bidSuit(this.contract);
       this.declarer = this.findDeclarer(this.lastValidBidTeam, suit);
-      this.dummy = nextPosition(nextPosition(nextPosition(this.declarer)));
+      this.dummy = partnerPosition(this.declarer);
       this.gameLead = nextPosition(this.declarer);
       this.roundLead = this.gameLead;
       this.currentPlayer = this.gameLead;
+      this.notifyBiddingFinished();
       return 1;
     }
     return 0;
   }
 
+  private notifyBiddingFinished(): void {
+    const suit = bidSuit(this.contract);
+    const trumpSuit: Suit | typeof NONE = isSuit(suit) ? suit : NONE;
+    for (const player of this.players) {
+      const team = player.team;
+      const oppTeam = team === Team.NorthSouth ? Team.EastWest : Team.NorthSouth;
+      player.biddingFinished({
+        contract: this.contract,
+        contractModifier: this.contractModifier,
+        declarerPosition: this.declarer,
+        dummyPosition: this.dummy,
+        trumpSuit,
+        vulnerable: this.isTeamVulnerable(team),
+        opponentsVulnerable: this.isTeamVulnerable(oppTeam),
+      });
+    }
+  }
+
   bidAutomatically(): void {
-    while (this.passes < 3) {
+    let safety = 0;
+    while (safety++ < 200) {
+      if (this.passes >= 3 && isBid(this.lastValidBid)) break;
+      if (this.passes >= 4 && !isBid(this.lastValidBid)) break;
       const position = this.currentPlayer;
-      const priorBid = this.validBidHistory[this.validBidHistory.length - 1];
-      let bid: Bid;
-      if (this.biddingHistory.length === 0) {
-        bid = this.players[position].makeOpeningBid();
-      } else if (priorBid !== undefined) {
-        bid = this.players[position].makeResponse(priorBid);
-      } else {
-        bid = Bid.Pass;
-      }
+      let bid = this.players[position].bid();
       if (isBid(bid) && bid <= this.lastValidBid) bid = Bid.Pass;
-      this.enterBid(position, bid);
+      if (bid === Bid.Double && (!isBid(this.lastValidBid) || this.contractModifier !== 0)) bid = Bid.Pass;
+      if (bid === Bid.Redouble && (!isBid(this.lastValidBid) || this.contractModifier !== 1)) bid = Bid.Pass;
+      const result = this.enterBid(position, bid);
+      if (result !== 0) break;
     }
   }
 
   beginRound(): void {
+    this.dummyExposed = false;
     this.currentPlayer = this.roundLead;
+    if (isBid(this.contract) && !this.players[this.declarer].playEngine) {
+      this.notifyBiddingFinished();
+    }
+  }
+
+  exposeDummy(expose = true): void {
+    this.dummyExposed = expose;
+    this.players[this.dummy].exposeCards(expose);
+  }
+
+  private getCurrentTrickHigh(): { card: Card | null; position: Position | typeof NONE } {
+    if (this.cardsPlayedInRound === 0) return { card: null, position: NONE };
+    const contractSuit = bidSuit(this.contract);
+    let winner: Position | typeof NONE = this.roundLead;
+    let winningCard = this.currentTrick[this.roundLead];
+    if (!winningCard) return { card: null, position: NONE };
+    let pos = nextPosition(this.roundLead);
+    for (let step = 1; step < this.cardsPlayedInRound; step++) {
+      const card = this.currentTrick[pos];
+      if (card) {
+        if (isSuit(contractSuit) && winningCard.suit !== contractSuit && card.suit === contractSuit) {
+          winner = pos;
+          winningCard = card;
+        } else if (card.suit === winningCard.suit && card.faceValue > winningCard.faceValue) {
+          winner = pos;
+          winningCard = card;
+        }
+      }
+      pos = nextPosition(pos);
+    }
+    return { card: winningCard, position: winner };
+  }
+
+  private buildPlayRoundContext(position: Position): PlayRoundContext {
+    const suit = bidSuit(this.contract);
+    const trumpSuit: Suit | typeof NONE = isSuit(suit) ? suit : NONE;
+    const high = this.getCurrentTrickHigh();
+    const leadCard = this.cardsPlayedInRound > 0 ? this.currentTrick[this.roundLead] : null;
+    const partnerPos = partnerPosition(position);
+    const rhoPos = prevPosition(position);
+    const lhoPos = nextPosition(position);
+    const declarerTeamIdx = this.contractTeam === Team.NorthSouth ? 0 : 1;
+    const defenderTeamIdx = 1 - declarerTeamIdx;
+    const teamIdx = position === Position.South || position === Position.North ? 0 : 1;
+
+    const bidSuits = new Set<Suit>();
+    for (const b of this.validBidHistory) {
+      const s = bidSuit(b);
+      if (isSuit(s)) bidSuits.add(s);
+    }
+    const unbidSuits = ([Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades] as Suit[]).filter(
+      s => !bidSuits.has(s),
+    );
+
+    return {
+      numCardsPlayedInRound: this.cardsPlayedInRound,
+      playRound: this.tricksPlayed,
+      numTricksPlayed: this.tricksPlayed,
+      numTricksRemaining: 13 - this.tricksPlayed,
+      roundLead: this.roundLead,
+      leadCard,
+      currentHighCard: high.card,
+      currentHighPos: high.position,
+      partnersCard: this.currentTrick[partnerPos],
+      rhoCard: this.currentTrick[rhoPos],
+      declarersCard: this.currentTrick[this.declarer],
+      dummysCard: this.currentTrick[this.dummy],
+      trumpSuit,
+      wasTrumpPlayed: isSuit(trumpSuit) && this.currentTrick.some(c => c !== null && c.suit === trumpSuit),
+      dummyHand: this.players[this.dummy].hand,
+      dummyPosition: this.dummy,
+      declarerPosition: this.declarer,
+      dummyExposed: this.dummyExposed,
+      unbidSuits,
+      contract: this.contract,
+      contractLevel: isBid(this.contract) ? bidLevel(this.contract) : 0,
+      numTricksWonByTeam: this.tricksWon[teamIdx],
+      numTricksWonByDeclarer: this.tricksWon[declarerTeamIdx],
+      numTricksWonByDefenders: this.tricksWon[defenderTeamIdx],
+      gameTrickHistory: this.trickRecords,
+      partnerBids: this.bidsByPosition[partnerPos],
+      lhoBids: this.bidsByPosition[lhoPos],
+      rhoBids: this.bidsByPosition[rhoPos],
+      currentPlayerPosition: position,
+      isDummyTurn: position === this.dummy,
+    };
   }
 
   enterCardPlay(position: Position, card: Card): void {
     if (position !== this.currentPlayer) throw new Error(`It is ${positionToChar(this.currentPlayer)}'s turn`);
-    const owner = this.players[position].removeCard(card);
-    if (!owner) throw new Error(`${card.name} is not held by ${positionToChar(position)}`);
-    if (this.cardsPlayedInRound === 0) this.suitLed = card.suit;
     if (this.cardsPlayedInRound > 0 &&
       card.suit !== this.suitLed &&
       this.players[position].hand.getSuitLength(this.suitLed as Suit) > 0) {
       throw new Error('You must follow suit');
     }
+    const owner = this.players[position].removeCard(card);
+    if (!owner) throw new Error(`${card.name} is not held by ${positionToChar(position)}`);
+    if (this.cardsPlayedInRound === 0) this.suitLed = card.suit;
     this.currentTrick[position] = card;
     this.cardsPlayedInRound++;
+    if (this.tricksPlayed === 0 && this.cardsPlayedInRound === 1) {
+      this.exposeDummy(true);
+    }
+    for (let pos = Position.South; pos <= Position.East; pos++) {
+      const ctx = this.buildPlayRoundContext(pos as Position);
+      this.players[pos].recordCardPlay(position, card, ctx);
+    }
     this.currentPlayer = nextPosition(position);
   }
 
@@ -250,7 +485,7 @@ export class Deal {
     for (let position = 0; position < 4; position++) {
       const card = this.currentTrick[position];
       if (!card) continue;
-      if (winningCard.suit !== contractSuit && card.suit === contractSuit) {
+      if (isSuit(contractSuit) && winningCard.suit !== contractSuit && card.suit === contractSuit) {
         winner = position as Position;
         winningCard = card;
       } else if (card.suit === winningCard.suit && card.faceValue > winningCard.faceValue) {
@@ -259,11 +494,28 @@ export class Deal {
       }
     }
     this.trickWinners.push(winner);
+    const cardsMap: Partial<Record<Position, Card>> = {};
+    for (let p = Position.South; p <= Position.East; p++) {
+      const c = this.currentTrick[p];
+      if (c) cardsMap[p as Position] = c;
+    }
+    this.trickRecords.push({ lead: this.roundLead, winner, cards: cardsMap });
     const winnerTeam = winner === Position.South || winner === Position.North
       ? 0
       : 1;
     this.tricksWon[winnerTeam]++;
     this.tricksPlayed++;
+    for (const player of this.players) {
+      player.recordRoundComplete(winner, winningCard);
+    }
+    if (this.tricksPlayed === 13) {
+      const declarerTeam = this.contractTeam;
+      const declarerTricks = this.tricksWon[declarerTeam === Team.NorthSouth ? 0 : 1];
+      const result = declarerTricks - (bidLevel(this.contract) + 6);
+      for (const player of this.players) {
+        player.recordHandComplete(result, declarerTeam);
+      }
+    }
     return winner;
   }
 
@@ -279,7 +531,7 @@ export class Deal {
 
   playOneTrick(): Position {
     let position = this.roundLead;
-    this.beginRound();
+    this.currentPlayer = this.roundLead;
     for (let index = 0; index < 4; index++) {
       position = this.currentPlayer;
       const card = this.chooseCard(position);
@@ -298,50 +550,101 @@ export class Deal {
   }
 
   chooseCard(position: Position): Card {
-    const hand = this.players[position].hand;
-    if (this.cardsPlayedInRound === 0) {
-      for (let suit = Suit.Spades; suit >= Suit.Clubs; suit--) {
-        const cards = hand.getCardsInSuit(suit as Suit);
-        if (cards.length > 0) return cards[0];
+    const player = this.players[position];
+    const hand = player.hand;
+    const ledSuit: Suit | typeof NONE = this.cardsPlayedInRound > 0 && this.suitLed !== -1
+      ? (this.suitLed as Suit)
+      : NONE;
+
+    if (player.playEngine) {
+      const roundContext = this.buildPlayRoundContext(position);
+      const engineCard = player.playCard(ledSuit, roundContext);
+      if (engineCard) {
+        const heldCard = hand.findCardByDeckValue(engineCard.deckValue);
+        if (heldCard) {
+          const mustFollow = ledSuit !== NONE && hand.getSuitLength(ledSuit) > 0;
+          if (!mustFollow || heldCard.suit === ledSuit) {
+            return heldCard;
+          }
+        }
       }
     }
-    const led = this.suitLed;
-    if (led !== -1) {
-      const following = hand.getCardsInSuit(led as Suit);
-      if (following.length > 0) return following[0];
+
+    // Legal fallback if play engine did not select a legal card in hand
+    if (ledSuit !== NONE) {
+      const following = hand.getCardsInSuit(ledSuit);
+      if (following.length > 0) return following[following.length - 1];
     }
-    let lowest: Card | null = null;
     for (let suit = Suit.Spades; suit >= Suit.Clubs; suit--) {
       const cards = hand.getCardsInSuit(suit as Suit);
-      if (cards.length > 0) {
-        lowest = cards[cards.length - 1];
-        break;
-      }
+      if (cards.length > 0) return cards[cards.length - 1];
     }
-    if (!lowest) throw new Error(`Player ${positionToChar(position)} has no cards`);
-    return lowest;
+    throw new Error(`Player ${positionToChar(position)} has no cards`);
   }
 
   updateDuplicateScore(): void {
+    if (!isBid(this.contract)) {
+      this.northSouthScore = 0;
+      this.eastWestScore = 0;
+      return;
+    }
     const team = this.contractTeam;
-    const required = bidLevel(this.contract) + 6;
+    const level = bidLevel(this.contract);
+    const suit = bidSuit(this.contract);
+    const required = level + 6;
     const teamIndex = team === Team.NorthSouth ? 0 : 1;
     const made = this.tricksWon[teamIndex];
+    const vulnerable = this.isTeamVulnerable(team);
+
     if (made >= required) {
-      const suit = bidSuit(this.contract);
-      let points = suit === Suit.NoTrump
-        ? 40 + (bidLevel(this.contract) - 1) * 30
-        : bidLevel(this.contract) * (suit === Suit.Clubs || suit === Suit.Diamonds ? 20 : 30);
-      if (this.contractModifier === 1) points *= 2;
-      if (this.contractModifier === 2) points *= 4;
-      this.northSouthScore = team === Team.NorthSouth ? points : 0;
-      this.eastWestScore = team === Team.EastWest ? points : 0;
+      const overtricks = made - required;
+      let basePoints =
+        suit === Suit.NoTrump
+          ? 40 + (level - 1) * 30
+          : level * (isMinor(suit) ? 20 : 30);
+      if (this.contractModifier === 1) basePoints *= 2;
+      else if (this.contractModifier === 2) basePoints *= 4;
+
+      let bonus = basePoints >= 100 ? (vulnerable ? 500 : 300) : 50;
+      if (level === 6) bonus += vulnerable ? 750 : 500;
+      else if (level === 7) bonus += vulnerable ? 1500 : 1000;
+      if (this.contractModifier === 1) bonus += 50;
+      else if (this.contractModifier === 2) bonus += 100;
+
+      let overtrickPoints = 0;
+      if (overtricks > 0) {
+        if (this.contractModifier === 0) {
+          overtrickPoints = overtricks * (isMinor(suit) ? 20 : 30);
+        } else if (this.contractModifier === 1) {
+          overtrickPoints = overtricks * (vulnerable ? 200 : 100);
+        } else {
+          overtrickPoints = overtricks * (vulnerable ? 400 : 200);
+        }
+      }
+
+      const total = basePoints + bonus + overtrickPoints;
+      this.northSouthScore = team === Team.NorthSouth ? total : 0;
+      this.eastWestScore = team === Team.EastWest ? total : 0;
     } else {
-      const short = required - made;
-      const vulnerable = this.isTeamVulnerable(team);
-      const points = short * (vulnerable ? 100 : 50);
-      if (team === Team.NorthSouth) this.eastWestScore = points;
-      else this.northSouthScore = points;
+      const down = required - made;
+      let penalty = 0;
+      if (this.contractModifier === 0) {
+        penalty = down * (vulnerable ? 100 : 50);
+      } else if (this.contractModifier === 1) {
+        if (vulnerable) {
+          penalty = 200 + Math.max(0, down - 1) * 300;
+        } else {
+          penalty = 100 + Math.min(2, Math.max(0, down - 1)) * 200 + Math.max(0, down - 3) * 300;
+        }
+      } else {
+        if (vulnerable) {
+          penalty = 400 + Math.max(0, down - 1) * 600;
+        } else {
+          penalty = 200 + Math.min(2, Math.max(0, down - 1)) * 400 + Math.max(0, down - 3) * 600;
+        }
+      }
+      this.northSouthScore = team === Team.NorthSouth ? 0 : penalty;
+      this.eastWestScore = team === Team.NorthSouth ? penalty : 0;
     }
   }
 

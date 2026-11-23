@@ -37,12 +37,21 @@ export class DummyPlayEngine extends PlayEngine {
   //
   // select a card to play
   //
-  override playCard(ledSuit: Suit | typeof NONE = NONE, roundContext?: PlayRoundContext): Card | null {
-    this.assessPosition(roundContext);
+  override playCard(
+    ledSuitOrContext: Suit | typeof NONE | PlayRoundContext = NONE,
+    roundContext?: PlayRoundContext,
+  ): Card | null {
+    const ctx =
+      typeof ledSuitOrContext === 'object' && ledSuitOrContext !== null
+        ? ledSuitOrContext
+        : roundContext;
+    const ledSuit: Suit | typeof NONE =
+      typeof ledSuitOrContext === 'number' ? ledSuitOrContext : (ctx?.leadCard?.suit ?? NONE);
+    this.assessPosition(ctx);
 
     // pass control over to declarer if wired
     if (this.partner?.playForDummy) {
-      const delegated = this.partner.playForDummy();
+      const delegated = this.partner.playForDummy(ctx);
       if (delegated) return delegated;
     }
 
@@ -52,11 +61,11 @@ export class DummyPlayEngine extends PlayEngine {
       const following = this.hand.getCardsInSuit(ledSuit);
       if (following.length > 0) {
         const card = following[0];
-        this.hand.remove(card);
+        if (!ctx) this.hand.remove(card);
         return card;
       }
     }
-    return super.playCard(ledSuit, roundContext);
+    return ctx ? super.playCard(ctx) : super.playCard(ledSuit);
   }
 
   //

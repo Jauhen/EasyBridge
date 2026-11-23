@@ -14,17 +14,17 @@
 
 import { Suit } from '../constants.js';
 
-// Game / slam point defaults (from C++ Settings)
-export const PTS_2LEVEL = 19;
-export const PTS_3LEVEL = 22;
-export const PTS_4LEVEL = 25;
-export const PTS_GAME = 25;
-export const PTS_MAJOR_GAME = 25;
-export const PTS_MINOR_GAME = 28;
-export const PTS_NT_GAME = 25;
-export const PTS_SLAM = 32;
-export const PTS_SMALL_SLAM = 32;
-export const PTS_GRAND_SLAM = 36;
+// Game / slam point defaults (from C++ Settings::c_tfDefault*Pts in settings.cpp)
+export const PTS_2LEVEL = 20;
+export const PTS_3LEVEL = 23;
+export const PTS_4LEVEL = 26;
+export const PTS_GAME = 26;
+export const PTS_MAJOR_GAME = 26;
+export const PTS_MINOR_GAME = 29;
+export const PTS_NT_GAME = 26;
+export const PTS_SLAM = 33;
+export const PTS_SMALL_SLAM = 33;
+export const PTS_GRAND_SLAM = 37;
 
 // Opening/bidding points adjustment for aggressiveness
 // deduct 0.5 pts for each aggressiveness tick

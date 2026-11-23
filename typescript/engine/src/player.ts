@@ -29,9 +29,10 @@ import {
 import { Hand } from './hand.js';
 import { CardLocation } from './cardLocation.js';
 import { PlayerStatus } from './playerStatus.js';
-import { BidEngine } from './bidding/bidEngine.js';
+import { BidEngine, BiddingRoundContext } from './bidding/bidEngine.js';
+import { ConventionSet } from './bidding/conventionSet.js';
 import { GuessedHandHoldings } from './play/guessedHandHoldings.js';
-import { PlayEngine } from './play/playEngine.js';
+import { PlayEngine, PlayRoundContext } from './play/playEngine.js';
 import { DeclarerPlayEngine } from './play/declarerPlayEngine.js';
 import { DummyPlayEngine } from './play/dummyPlayEngine.js';
 import { DefenderPlayEngine } from './play/defenderPlayEngine.js';
@@ -60,7 +61,7 @@ export class Player {
 
   // owned member objects
   readonly hand = new Hand();
-  readonly bidEngine = new BidEngine();
+  bidEngine = new BidEngine();
   playEngine: PlayEngine | null = null;
   readonly declarerEngine = new DeclarerPlayEngine();
   readonly dummyEngine = new DummyPlayEngine();
@@ -136,6 +137,24 @@ export class Player {
 
     // clear hand at this point, after the engines have been initialized
     this.clearHand();
+  }
+
+  initializeBidEngine(dealContext: BiddingRoundContext, conventionSet?: ConventionSet): void {
+    if (conventionSet) {
+      this.bidEngine = new BidEngine(conventionSet);
+    }
+    this.bidEngine.initialize(
+      this,
+      this.partner ?? this,
+      this.lhOpponent ?? this,
+      this.rhOpponent ?? this,
+      this.hand,
+      this.cardLocation,
+      this.guessedHands,
+      this.status,
+      dealContext,
+    );
+    this.bidEngine.clear();
   }
 
   //
@@ -309,6 +328,8 @@ export class Player {
     this.dummyFlag = false;
     this.hand.sort();
     this.hand.initializeInitialHand();
+    this.hand.countPoints(true);
+    this.hand.evaluateHoldings();
     for (let i = 0; i < 4; i++) {
       this.guessedHands[i].clear();
       this.guessedHands[i].initNewHand(this.hand, this.position);
@@ -441,8 +462,24 @@ export class Player {
   // (mostly delegated to the m_pBidder object)
   //
 
-  recordBid(bid: Bid): void {
-    this.bids.push(bid);
+  recordBid(posOrBid: Position | Bid, maybeBid?: Bid): void {
+    if (maybeBid !== undefined) {
+      const pos = posOrBid as Position;
+      if (pos === this.position) {
+        this.bids.push(maybeBid);
+      }
+      this.bidEngine.recordBid(pos, maybeBid);
+    } else {
+      this.bids.push(posOrBid as Bid);
+    }
+  }
+
+  inquireLastBid(): Bid {
+    return this.bids.length > 0 ? (this.bids[this.bids.length - 1] as Bid) : Bid.None;
+  }
+
+  bid(): Bid {
+    return this.bidEngine.bid();
   }
 
   get bidsMade(): readonly number[] {
@@ -492,11 +529,45 @@ export class Player {
   //
   // bidding is finished, so prepare to play the hand
   //
-  biddingFinished(): void {
+  biddingFinished(dealContext?: {
+    contract: Bid;
+    contractModifier: number;
+    declarerPosition: Position;
+    dummyPosition: Position;
+    trumpSuit: Suit | typeof NONE;
+    vulnerable: boolean;
+    opponentsVulnerable: boolean;
+  }): void {
+    if (dealContext) {
+      this.declarerFlag = dealContext.declarerPosition === this.position;
+      this.dummyFlag = dealContext.dummyPosition === this.position;
+      this.teamIsVulnerable = dealContext.vulnerable;
+      this.bidEngine.biddingFinished();
+    }
+
     // determine the proper player
     if (this.declarerFlag) this.playEngine = this.declarerEngine;
     else if (this.dummyFlag) this.playEngine = this.dummyEngine;
     else this.playEngine = this.defenderEngine;
+
+    if (dealContext && this.playEngine) {
+      this.playEngine.initialize({
+        player: this,
+        partner: this.partner ?? this,
+        leftOpponent: this.lhOpponent ?? this,
+        rightOpponent: this.rhOpponent ?? this,
+        hand: this.hand,
+        cardLocation: this.cardLocation,
+        guessedHands: this.guessedHands,
+        status: this.status,
+        trumpSuit: dealContext.trumpSuit,
+        contract: dealContext.contract,
+        contractModifier: dealContext.contractModifier,
+        vulnerable: dealContext.vulnerable,
+        opponentsVulnerable: dealContext.opponentsVulnerable,
+      });
+      this.playEngine.initNewHand();
+    }
   }
 
   clearBiddingInfo(): void {
@@ -536,12 +607,27 @@ export class Player {
   // (mostly delegated to the m_pPlayEngine object)
   //
 
-  playCard(ledSuit: Suit | typeof NONE = NONE): Card | null {
+  playCard(ledSuit: Suit | typeof NONE = NONE, roundContext?: PlayRoundContext): Card | null {
+    if (roundContext) {
+      return this.playEngine?.playCard(roundContext) ?? null;
+    }
     return this.playEngine?.playCard(ledSuit) ?? null;
   }
 
-  recordCardPlay(pos: Position, card: Card): void {
-    this.playEngine?.recordCardPlay(pos, card);
+  playForDummy(roundContext?: PlayRoundContext): Card | null {
+    return this.declarerEngine.playForDummy(roundContext);
+  }
+
+  recordCardPlay(pos: Position, card: Card, roundContext?: PlayRoundContext): void {
+    this.playEngine?.recordCardPlay(pos, card, roundContext);
+  }
+
+  recordRoundComplete(winner: Position, winningCard: Card): void {
+    this.playEngine?.recordRoundComplete(winner, winningCard);
+  }
+
+  recordHandComplete(result: number, declaringTeam: Team = Team.NorthSouth): void {
+    this.playEngine?.recordHandComplete(result, declaringTeam);
   }
 
   recordCardUndo(pos: Position, card: Card): void {

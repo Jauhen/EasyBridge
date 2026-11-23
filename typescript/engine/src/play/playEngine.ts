@@ -41,8 +41,8 @@ export interface PlayerRole {
   isDeclarer?: boolean;
   isDummy?: boolean;
   team?: Team;
-  playForDummy?: () => Card | null;
-  getPlayHintForDummy?: () => Card | null;
+  playForDummy?: (roundContext?: PlayRoundContext) => Card | null;
+  getPlayHintForDummy?: (roundContext?: PlayRoundContext) => Card | null;
   getNumClaimableTricks?: () => number;
 }
 
@@ -999,12 +999,17 @@ export class PlayEngine {
   ): Card | null {
     if (typeof ledSuitOrContext === 'object' && ledSuitOrContext !== null) {
       const ctx = ledSuitOrContext;
-      const card = this.chooseCard(NONE, ctx);
-      if (card) this.hand?.remove(card);
-      return card;
+      this.assessPosition(ctx);
+      switch (ctx.numCardsPlayedInRound ?? this.numCardsPlayed) {
+        case 0: return this.playFirst(ctx);
+        case 1: return this.playSecond(ctx);
+        case 2: return this.playThird(ctx);
+        case 3: return this.playFourth(ctx);
+        default: return this.chooseCard(NONE, ctx);
+      }
     }
     const card = this.chooseCard(ledSuitOrContext, roundContext);
-    if (card) this.hand?.remove(card);
+    if (card && !roundContext) this.hand?.remove(card);
     return card;
   }
 

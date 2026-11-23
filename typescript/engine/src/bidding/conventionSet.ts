@@ -158,6 +158,10 @@ export class ConventionSet {
     this.initConventions();
   }
 
+  getPool(): ConventionPool | null {
+    return this.pool;
+  }
+
   initConventions(): void {
     if (!this.pool) return;
     const pool = this.pool;
