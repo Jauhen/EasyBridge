@@ -260,6 +260,27 @@ describe('Play engines', () => {
     const card = engine.chooseCard(Suit.Diamonds);
     expect(card?.name).toBe('DJ');
   });
+
+  it('builds declarer play plan from combined holdings', () => {
+    const declarer = new Hand();
+    declarer.add(new Card(Suit.Spades, 14));
+    declarer.add(new Card(Suit.Spades, 13));
+    const dummy = new Hand();
+    dummy.add(new Card(Suit.Spades, 12));
+    dummy.add(new Card(Suit.Spades, 11));
+    const engine = new DeclarerPlayEngine();
+    engine.hand = declarer;
+    engine.initializeCombinedHand(dummy);
+    engine.buildPlayPlan(Suit.Spades);
+    expect(engine.playPlan.size).toBeGreaterThan(0);
+  });
+
+  it('records defender suit preference and lead selection', () => {
+    const engine = new DefenderPlayEngine();
+    engine.recordSuitPreference(Suit.Hearts, 3);
+    engine.recordSuitPreference(Suit.Spades, 1);
+    expect(engine.getPreferredSuit()).toBe(Suit.Hearts);
+  });
 });
 
 describe('Specialized play types', () => {
@@ -292,5 +313,17 @@ describe('Specialized play types', () => {
     expect(new Ruff(Suit.Hearts).perform()).toBe(2);
     expect(new TrumpPull(Suit.Hearts).perform()).toBe(2);
     expect(new Finesse(Suit.Spades).perform()).toBe(1);
+  });
+
+  it('rejects nonviable plays with missing consumed, key, or target cards', () => {
+    const play = new Cash(Suit.Spades);
+    play.setConsumedCard(new Card(Suit.Spades, 14));
+    play.setTargetCard(new Card(Suit.Spades, 13));
+    play.setKeyCards([new Card(Suit.Spades, 12)]);
+    expect(play.isViable({
+      partnershipCards: [new Card(Suit.Hearts, 14)],
+      outstandingCards: [new Card(Suit.Diamonds, 13)],
+      alreadyPlayedCards: [],
+    })).toBe(false);
   });
 });

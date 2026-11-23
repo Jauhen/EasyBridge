@@ -44,6 +44,9 @@ export interface PbnDocument {
   tags: Record<string, string>;
   comments: string[];
   auction: number[];
+  auctionNotes: Map<number, number>;
+  playNotes: Map<number, number>;
+  nags: number[];
   plays: Array<Position[] | null>;
   playCards: Card[][];
 }
@@ -62,8 +65,12 @@ export function parseBidPbn(value: string): number | null {
 
 export function parsePbnDocument(source: string): PbnDocument {
   const tags: Record<string, string> = {};
+  const previousTags: Record<string, string> = {};
   const comments: string[] = [];
   const auction: number[] = [];
+  const auctionNotes = new Map<number, number>();
+  const playNotes = new Map<number, number>();
+  const nags: number[] = [];
   const plays: Array<Position[] | null> = [];
   const playCards: Card[][] = [];
   let auctionTag = false;
@@ -81,7 +88,13 @@ export function parsePbnDocument(source: string): PbnDocument {
     const tagMatch = /^\[([A-Za-z]+)\s+"(.*)"\]\s*$/.exec(line);
     if (tagMatch) {
       const [, name, value] = tagMatch;
-      tags[name.toUpperCase()] = value;
+      const tagName = name.toUpperCase();
+      if (value === '#' && previousTags[tagName] !== undefined) {
+        tags[tagName] = previousTags[tagName];
+      } else {
+        tags[tagName] = value;
+        previousTags[tagName] = value;
+      }
       if (name.toUpperCase() === 'AUCTION') {
         auctionTag = true;
         playTag = false;
@@ -98,9 +111,21 @@ export function parsePbnDocument(source: string): PbnDocument {
     }
 
     if (auctionTag) {
+      let auctionIndex = auction.length;
       for (const token of line.split(/\s+/)) {
+        if (/^\$\d+$/.test(token)) {
+          nags.push(Number(token.slice(1)));
+          continue;
+        }
+        if (/^=\d+$/.test(token)) {
+          auctionNotes.set(auctionIndex, Number(token.slice(1)));
+          continue;
+        }
         const bid = parseBidPbn(token);
-        if (bid !== null) auction.push(bid);
+        if (bid !== null) {
+          auction.push(bid);
+          auctionIndex = auction.length;
+        }
       }
       continue;
     }
@@ -109,11 +134,21 @@ export function parsePbnDocument(source: string): PbnDocument {
       const trick: Position[] = [];
       const cards: Card[] = [];
       const tokens = line.split(/\s+/).filter(Boolean);
+      let playIndex = playCards.reduce((sum, trickCards) => sum + trickCards.length, 0);
       for (let index = 0; index < 4; index++) {
         const position = ((playPosition + index) % 4) as Position;
         trick.push(position);
         const token = tokens[index];
-        if (!token || token === '-') continue;
+        if (!token) continue;
+        if (/^\$\d+$/.test(token)) {
+          nags.push(Number(token.slice(1)));
+          continue;
+        }
+        if (/^=\d+$/.test(token)) {
+          playNotes.set(playIndex, Number(token.slice(1)));
+          continue;
+        }
+        if (token === '-') continue;
         const suitLetter = token[0].toUpperCase();
         const faceLetter = token.slice(1).toUpperCase();
         const suit = charToSuit(suitLetter);
@@ -121,6 +156,7 @@ export function parsePbnDocument(source: string): PbnDocument {
         if (suit >= Suit.Clubs && suit <= Suit.Spades && face >= 2 && face <= 14) {
           cards.push(new Card(suit, face));
         }
+        playIndex++;
       }
       plays.push(trick);
       playCards.push(cards);
@@ -131,5 +167,5 @@ export function parsePbnDocument(source: string): PbnDocument {
   if (deal) {
     tags.HANDS = deal.map(hand => hand.map(card => card.name).join('')).join('|');
   }
-  return { tags, comments, auction, plays, playCards };
+  return { tags, comments, auction, auctionNotes, playNotes, nags, plays, playCards };
 }

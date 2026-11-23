@@ -80,7 +80,17 @@ export class Artificial2ClubConvention extends Convention {
 
 export class FourthSuitForcingConvention extends Convention {
   constructor() { super(ConventionId.FourthSuitForcing); }
-  override tryConvention(): Bid | null { return null; }
+  override tryConvention(context: ConventionContext): Bid | null {
+    const suitsBid = [Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades]
+      .filter(suit => context.hand.getSuitLength(suit) >= 4).length;
+    if (context.hand.highCardPoints >= 10 && suitsBid >= 3) {
+      context.bidContext.status = ConventionStatus.Invoked;
+      this.recordStatusLog('SF4', 'Fourth suit is forcing with at least 10 HCP.');
+      context.status.trace(`${this.statusLog.at(-1)}\n`);
+      return Bid.C2;
+    }
+    return null;
+  }
 }
 
 export class BlackwoodConvention extends Convention {
@@ -98,6 +108,21 @@ export class BlackwoodConvention extends Convention {
   }
 
   override respondToConvention(context: ConventionContext): Bid | null {
+    if (context.bidContext.status === ConventionStatus.RespondedRound1 &&
+      context.bidContext.partnerBid === Bid.NT5) {
+      const kingCount = countFace(context.hand, 13);
+      const response = kingCount === 0 || kingCount === 4
+        ? Bid.C6
+        : kingCount === 1
+          ? Bid.D6
+          : kingCount === 2
+            ? Bid.H6
+            : Bid.S6;
+      context.bidContext.status = ConventionStatus.RespondedRound2;
+      this.recordStatusLog('BK12', `With ${kingCount} king(s), respond to the RKCB 5NT king inquiry.`);
+      context.status.trace(`${this.statusLog.at(-1)}\n`);
+      return response;
+    }
     if (context.bidContext.partnerBid !== Bid.NT4) return null;
     const aceCount = countFace(context.hand, 14);
     const response = aceCount === 0 || aceCount === 4
@@ -145,7 +170,19 @@ export class GerberConvention extends Convention {
 
 export class CueBidConvention extends Convention {
   constructor() { super(ConventionId.CueBids); }
-  override tryConvention(): Bid | null { return null; }
+  override tryConvention(context: ConventionContext): Bid | null {
+    if (context.hand.highCardPoints < 20) return null;
+    for (const suit of [Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades]) {
+      if (context.hand.getSuitLength(suit) >= 4) {
+        context.bidContext.status = ConventionStatus.InvokedRound1;
+        context.bidContext.agreedSuit = suit;
+        this.recordStatusLog('CUET10', `Cue-bid with slam interest in ${Suit[suit]}.`);
+        context.status.trace(`${this.statusLog.at(-1)}\n`);
+        return makeBid(suit, 4);
+      }
+    }
+    return null;
+  }
 }
 
 export class SplinterBidsConvention extends Convention {
@@ -181,6 +218,25 @@ export class MichaelsCueBidConvention extends Convention {
     context.status.trace(`${this.statusLog.at(-1)}\n`);
     return makeBid(Suit.NoTrump, 2);
   }
+
+  override respondToConvention(context: ConventionContext): Bid | null {
+    if (context.bidContext.partnerBid !== Bid.H2 &&
+      context.bidContext.partnerBid !== Bid.S2 &&
+      context.bidContext.partnerBid !== Bid.D2 &&
+      context.bidContext.partnerBid !== Bid.C2) return null;
+    const major = context.hand.getSuitLength(Suit.Spades) >=
+      context.hand.getSuitLength(Suit.Hearts)
+      ? Suit.Spades
+      : Suit.Hearts;
+    if (context.hand.getSuitLength(major) >= 3) {
+      context.bidContext.agreedSuit = major;
+      context.bidContext.status = ConventionStatus.Responded;
+      this.recordStatusLog('MCLR', `With 3+ ${Suit[major]} support, respond in the Michaels major.`);
+      context.status.trace(`${this.statusLog.at(-1)}\n`);
+      return makeBid(major, 3);
+    }
+    return Bid.Pass;
+  }
 }
 
 export class Jacoby2NTConvention extends Convention {
@@ -198,11 +254,36 @@ export class Jacoby2NTConvention extends Convention {
     context.status.trace(`${this.statusLog.at(-1)}\n`);
     return Bid.NT2;
   }
+
+  override respondToConvention(context: ConventionContext): Bid | null {
+    if (context.bidContext.partnerBid !== Bid.NT2) return null;
+    const hcp = context.hand.highCardPoints;
+    const major = context.hand.getSuitLength(Suit.Spades) >=
+      context.hand.getSuitLength(Suit.Hearts)
+      ? Suit.Spades
+      : Suit.Hearts;
+    if (hcp >= 18) {
+      context.bidContext.status = ConventionStatus.Responded;
+      return makeBid(major, 3);
+    }
+    return hcp >= 15 ? Bid.NT3 : makeBid(major, 4);
+  }
 }
 
 export class UnusualNTConvention extends Convention {
   constructor() { super(ConventionId.UnusualNT); }
-  override tryConvention(): Bid | null { return null; }
+  override tryConvention(context: ConventionContext): Bid | null {
+    const twoLowLongest = [Suit.Clubs, Suit.Diamonds, Suit.Hearts]
+      .sort((a, b) => context.hand.getSuitLength(b) - context.hand.getSuitLength(a))
+      .slice(0, 2);
+    if (twoLowLongest.every(suit => context.hand.getSuitLength(suit) >= 5)) {
+      context.bidContext.status = ConventionStatus.Invoked;
+      this.recordStatusLog('UNT9', 'Unusual NT shows two 5-card lower suits.');
+      context.status.trace(`${this.statusLog.at(-1)}\n`);
+      return Bid.NT2;
+    }
+    return null;
+  }
 }
 
 export class Gambling3NTConvention extends Convention {
@@ -218,6 +299,16 @@ export class Gambling3NTConvention extends Convention {
     context.status.trace(`${this.statusLog.at(-1)}\n`);
     return Bid.NT3;
   }
+
+  override respondToConvention(context: ConventionContext): Bid | null {
+    if (context.bidContext.partnerBid !== Bid.NT3) return null;
+    const stopped = [Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades]
+      .filter(suit => context.hand.getSuitLength(suit) >= 2).length;
+    context.bidContext.status = stopped >= 3
+      ? ConventionStatus.Responded
+      : ConventionStatus.Inactive;
+    return stopped >= 3 ? Bid.Pass : Bid.C4;
+  }
 }
 
 export class DruryConvention extends Convention {
@@ -232,16 +323,49 @@ export class DruryConvention extends Convention {
     context.status.trace(`${this.statusLog.at(-1)}\n`);
     return Bid.C2;
   }
+
+  override respondToConvention(context: ConventionContext): Bid | null {
+    if (context.bidContext.partnerBid !== Bid.C2) return null;
+    const hcp = context.hand.highCardPoints;
+    const major = context.hand.getSuitLength(Suit.Spades) >
+      context.hand.getSuitLength(Suit.Hearts)
+      ? Suit.Spades
+      : Suit.Hearts;
+    if (hcp <= 12) return makeBid(major, 2);
+    return makeBid(major, 3);
+  }
 }
 
 export class NegativeDoublesConvention extends Convention {
   constructor() { super(ConventionId.NegativeDoubles); }
-  override tryConvention(): Bid | null { return null; }
+  override tryConvention(context: ConventionContext): Bid | null {
+    if (context.hand.highCardPoints < 8) return null;
+    const major = context.hand.getSuitLength(Suit.Hearts) >=
+      context.hand.getSuitLength(Suit.Spades)
+      ? Suit.Hearts
+      : Suit.Spades;
+    if (context.hand.getSuitLength(major) >= 4) {
+      context.bidContext.status = ConventionStatus.Invoked;
+      this.recordStatusLog('NEGDBL', `Negative double shows 4+ ${Suit[major]}s.`);
+      context.status.trace(`${this.statusLog.at(-1)}\n`);
+      return Bid.Double;
+    }
+    return null;
+  }
 }
 
 export class TakeoutDoublesConvention extends Convention {
   constructor() { super(ConventionId.TakeoutDoubles); }
-  override tryConvention(): Bid | null { return null; }
+  override tryConvention(context: ConventionContext): Bid | null {
+    if (context.hand.highCardPoints < 12) return null;
+    const suits = [Suit.Clubs, Suit.Diamonds, Suit.Hearts, Suit.Spades]
+      .filter(suit => context.hand.getSuitLength(suit) >= 3);
+    if (suits.length < 3) return null;
+    context.bidContext.status = ConventionStatus.Invoked;
+    this.recordStatusLog('TODBL', 'Takeout double shows support for three suits.');
+    context.status.trace(`${this.statusLog.at(-1)}\n`);
+    return Bid.Double;
+  }
 }
 
 export class OvercallsConvention extends Convention {

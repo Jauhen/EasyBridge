@@ -1,4 +1,26 @@
+//----------------------------------------------------------------------------------------
+//
+// This file and all other Easy Bridge source files are copyright (C) 2002 by Steven Han.
+// Use of this file is governed by the GNU General Public License.
+// See the files COPYING and COPYRIGHT for details.
+//
+//----------------------------------------------------------------------------------------
+
+//
+// card_constants.h -> constants.ts
+//
+
+// limits
+export const MAX_CARDBACKS = 32;
+// const MAXHOLDING = 13;
+export const MAXHOLDING = 26;
+
+// commonly used values
+export const NONE = -1;
+
+// card suits
 export enum Suit {
+  Any = -1,
   Clubs = 0,
   Diamonds = 1,
   Hearts = 2,
@@ -6,13 +28,30 @@ export enum Suit {
   NoTrump = 4,
 }
 
+// majors vs. minors selection
+export const SUITS_ANY = 0;
+export const SUITS_MINORS = 1;
+export const SUITS_MAJORS = 2;
+
+// honor card values
+export const TEN = 10;
+export const JACK = 11;
+export const QUEEN = 12;
+export const KING = 13;
+export const ACE = 14;
+
+// positions
 export enum Position {
+  Unknown = -1,
   South = 0,
   West = 1,
   North = 2,
   East = 3,
+  Table = 4,
 }
+export const ANY_POS = Position.Unknown;
 
+// teams
 export enum Team {
   Neither = -1,
   NorthSouth = 0,
@@ -27,47 +66,9 @@ export enum Vulnerability {
   Both = 3,
 }
 
-export const NONE = -1;
-export const TEN = 10;
-export const JACK = 11;
-export const QUEEN = 12;
-export const KING = 13;
-export const ACE = 14;
-
-export const SUIT_NAMES = ['Clubs', 'Diamonds', 'Hearts', 'Spades', 'No Trump'] as const;
-export const SUIT_NAMES_SINGULAR = ['Club', 'Diamond', 'Heart', 'Spade', 'No Trump'] as const;
-export const SUIT_NAMES_SHORT = ['C', 'D', 'H', 'S', 'NT'] as const;
-export const FACE_VALUE_NAMES = [
-  '',
-  '',
-  'two',
-  'three',
-  'four',
-  'five',
-  'six',
-  'seven',
-  'eight',
-  'nine',
-  'ten',
-  'Jack',
-  'Queen',
-  'King',
-  'Ace',
-] as const;
-
-export function suitName(suit: Suit): string {
-  return SUIT_NAMES[suit] ?? '????';
-}
-
-export function singularSuitName(suit: Suit): string {
-  return SUIT_NAMES_SINGULAR[suit] ?? '????';
-}
-
-export function faceName(faceValue: number): string {
-  return FACE_VALUE_NAMES[faceValue] ?? '???';
-}
-
+// bids
 export enum Bid {
+  None = -1,
   Pass = 0,
   C1 = 1,
   D1 = 2,
@@ -108,6 +109,84 @@ export enum Bid {
   Redouble = 37,
 }
 
+// string and character tables from card_constants.h
+export const POSITION_NAMES = ['South', 'West', 'North', 'East'] as const;
+export const POSITION_NAMES_SHORT = ['Sou.', 'West', 'Nor.', 'East'] as const;
+export const TEAM_NAMES = ['North/South', 'East/West', 'Both', 'Neither'] as const;
+export const TEAM_NAMES_BRIEF = ['N/S', 'E/W', 'Both', 'Neither'] as const;
+export const CARD_NAMES = [
+  '',
+  '',
+  'Deuce',
+  'Three',
+  'Four',
+  'Five',
+  'Six',
+  'Seven',
+  'Eight',
+  'Nine',
+  'Ten',
+  'Jack',
+  'Queen',
+  'King',
+  'Ace',
+] as const;
+export const SUIT_NAMES = ['Clubs', 'Diamonds', 'Hearts', 'Spades', 'No Trump'] as const;
+export const SUIT_NAMES_SINGULAR = ['Club', 'Diamond', 'Heart', 'Spade', 'No Trump'] as const;
+export const SUIT_NAMES_SHORT = ['C', 'D', 'H', 'S', 'NT'] as const;
+export const FACE_VALUE_NAMES = [
+  '',
+  '',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'Jack',
+  'Queen',
+  'King',
+  'Ace',
+] as const;
+
+export const SUIT_CHARS = ['C', 'D', 'H', 'S', 'N'] as const;
+export const CARD_CHARS = [
+  ' ',
+  ' ',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  'T',
+  'J',
+  'Q',
+  'K',
+  'A',
+] as const;
+export const FACE_CARD_CHARS = ['T', 'J', 'Q', 'K', 'A'] as const;
+
+export const NUM_DEF_CARD_BACKS = 1;
+
+// suit / bid / card macro equivalents
+export function isMajor(suit: number): boolean {
+  return suit === Suit.Hearts || suit === Suit.Spades;
+}
+
+export function isMinor(suit: number): boolean {
+  return suit === Suit.Clubs || suit === Suit.Diamonds;
+}
+
+export function isNoTrump(suit: number): boolean {
+  return suit === Suit.NoTrump;
+}
+
 export function isSuit(value: number): value is Suit {
   return value >= Suit.Clubs && value <= Suit.Spades;
 }
@@ -116,12 +195,40 @@ export function isPosition(value: number): value is Position {
   return value >= Position.South && value <= Position.East;
 }
 
+export function isPlayer(value: number): value is Position {
+  return isPosition(value);
+}
+
+export function isTeam(value: number): boolean {
+  return value === Team.NorthSouth || value === Team.EastWest;
+}
+
 export function isBid(value: number): boolean {
   return value >= Bid.C1 && value <= Bid.NT7;
 }
 
 export function isCard(deckValue: number): boolean {
   return deckValue >= 0 && deckValue <= 51;
+}
+
+export function isDeckVal(deckValue: number): boolean {
+  return isCard(deckValue);
+}
+
+export function isFaceVal(value: number): boolean {
+  return value >= 2 && value <= ACE;
+}
+
+export function isHonor(value: number): boolean {
+  return value >= JACK && value <= ACE;
+}
+
+export function otherMajor(suit: Suit): Suit {
+  return suit === Suit.Hearts ? Suit.Spades : Suit.Hearts;
+}
+
+export function otherMinor(suit: Suit): Suit {
+  return suit === Suit.Clubs ? Suit.Diamonds : Suit.Clubs;
 }
 
 export function cardSuit(deckValue: number): Suit {
@@ -162,6 +269,23 @@ export function partnerPosition(position: Position): Position {
   return ((position + 2) % 4) as Position;
 }
 
+export function suitName(suit: Suit): string {
+  return SUIT_NAMES[suit] ?? '????';
+}
+
+export function singularSuitName(suit: Suit): string {
+  return SUIT_NAMES_SINGULAR[suit] ?? '????';
+}
+
+export function faceName(value: number): string {
+  return FACE_VALUE_NAMES[value] ?? '???';
+}
+
+export function positionToString(position: Position): string {
+  if (!isPosition(position)) return 'Unknown';
+  return POSITION_NAMES[position];
+}
+
 export function positionToChar(position: Position): string {
   return ['S', 'W', 'N', 'E'][position] ?? '?';
 }
@@ -172,11 +296,11 @@ export function charToPosition(value: string): Position {
 }
 
 export function suitToChar(suit: Suit): string {
-  return ['C', 'D', 'H', 'S', 'N'][suit] ?? '?';
+  return SUIT_CHARS[suit] ?? '?';
 }
 
 export function charToSuit(value: string): Suit {
-  const index = ['C', 'D', 'H', 'S', 'N'].indexOf(value.toUpperCase());
+  const index = SUIT_CHARS.indexOf(value.toUpperCase() as (typeof SUIT_CHARS)[number]);
   return index === -1 ? (NONE as Suit) : (index as Suit);
 }
 
@@ -189,6 +313,51 @@ export function charToFaceValue(value: string): number {
   const upper = value.toUpperCase();
   if (/^\d$/.test(upper)) return Number(upper);
   return ({ T: TEN, J: JACK, Q: QUEEN, K: KING, A: ACE } as Record<string, number>)[upper] ?? NONE;
+}
+
+//
+// StringToDeckValue()
+//
+// return deck value (0..51) matching given string
+// returns -1 if error
+//
+export function stringToDeckValue(input: string): number {
+  const trimmed = input.trimStart();
+  if (trimmed.length < 2) return -1;
+  const c1 = trimmed[0].toUpperCase();
+  const c2 = trimmed[1].toUpperCase();
+
+  let nSuit = -1;
+  let nValue = -1;
+
+  if (c1 === 'C' || c1 === 'D' || c1 === 'H' || c1 === 'S') {
+    // suit-number order
+    nSuit = SUIT_CHARS.slice(0, 4).indexOf(c1 as 'C' | 'D' | 'H' | 'S');
+    if (c2 >= '0' && c2 <= '9') {
+      nValue = c2.charCodeAt(0) - '0'.charCodeAt(0);
+    } else {
+      const idx = FACE_CARD_CHARS.indexOf(c2 as (typeof FACE_CARD_CHARS)[number]);
+      if (idx === -1) return -1;
+      nValue = idx + 10;
+    }
+  } else {
+    // number-suit order
+    if (c1 >= '0' && c1 <= '9') {
+      nValue = c1.charCodeAt(0) - '0'.charCodeAt(0);
+    } else {
+      const idx = FACE_CARD_CHARS.indexOf(c1 as (typeof FACE_CARD_CHARS)[number]);
+      if (idx === -1) return -1;
+      nValue = idx + 10;
+    }
+    nSuit = SUIT_CHARS.slice(0, 4).indexOf(c2 as 'C' | 'D' | 'H' | 'S');
+    if (nSuit === -1) return -1;
+  }
+
+  // sanity check
+  if (nValue < 2 || nValue > 14 || nSuit < Suit.Clubs || nSuit > Suit.Spades) {
+    return -1;
+  }
+  return nSuit * 13 + nValue - 2;
 }
 
 export function bidToPbn(bid: number): string {
@@ -207,4 +376,17 @@ export function contractToPbn(contract: number, modifier = 0): string {
   const suit = bidSuit(contract);
   const level = bidLevel(contract);
   return `${level}${suit === Suit.NoTrump ? 'NT' : suitToChar(suit as Suit)}${suffix}`;
+}
+
+export function contractToFullString(contract: number, modifier = 0): string {
+  if (!isBid(contract)) return '?';
+  const suit = bidSuit(contract) as Suit;
+  const level = bidLevel(contract);
+  const suitStr = suit === Suit.NoTrump
+    ? 'No Trump'
+    : level === 1
+      ? singularSuitName(suit)
+      : suitName(suit);
+  const modStr = modifier === 1 ? ' (doubled)' : modifier === 2 ? ' (redoubled)' : '';
+  return `${level} ${suitStr}${modStr}`;
 }

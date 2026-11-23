@@ -81,6 +81,10 @@ The package entry point remains `src/index.ts`; it re-exports the moved modules 
 - 2026-11-22: Added specialized cash/discard/drop/exit/force/hold-up/ruff/trump-pull/finesse state transitions.
 - 2026-11-22: Completed deferred HandHoldings statistics and balance/quick-trick calculations.
 - 2026-11-22: Added deterministic numbered-deal generation and PBN-document loading.
+- 2026-11-22: Added PBN inheritance/NAG/auction/play parsing, RKCB king responses,
+  cue-bid/splinter/Drury/Jacoby/Gambling hooks, and declarer/defender preference plans.
+- 2026-11-22: Added special-dealCode recording and ordinary numbered-deal support.
+- 2026-11-22: Added PBN pass/double/redouble/suit parsing, note/NAG parsing, tag inheritance, and play-viability key/target checks.
 
 ## Preserved comments and status logs
 
@@ -200,18 +204,22 @@ Convention implementations remaining:
 
 ## Remaining work
 
-1. Complete detailed RKCB, cue-bid, and remaining convention response logic.
-2. Replace the deterministic highest/legal-card play chooser with deeper declarer, dummy, and defender play plans.
-3. Add full play-plan viability, consumed-card, and target-card calculations to specialized play operations.
-4. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
-5. Port PBN parsing and the remaining PBN auction/play edge cases.
-6. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.
+1. Deepen convention-specific late-round responses and RKCB king/queen
+   sequencing beyond the first ace/king response.
+2. Deepen declarer/dummy/defender play plans with exact entry, finesse, ruff,
+   hold-up, trump-pull, and combined-holdings sequencing.
+3. Port exact Visual C++ special-deal hand shaping and random seed-time behavior
+   beyond ordinary numbered deals.
+4. Complete PBN historical game-review and note/NAG replay formats.
+5. Replace fixture containment assertions with exact full PBN golden text
+   for all `DealTests` scenarios.
 
 ## Conversion completeness audit
 
 Audited against the original `src/engine/` inventory: 130 C++/header files,
-excluding dialogs and application UI. The TypeScript package now has 43 source
-modules grouped under `src/`, `src/model/`, `src/play/`, and `src/bidding/`.
+excluding dialogs and application UI. The TypeScript package now has more than
+50 source modules grouped under `src/`, `src/model/`, `src/play/`, and
+`src/bidding/`.
 
 ### Converted and executable
 
@@ -238,8 +246,8 @@ modules grouped under `src/`, `src/model/`, `src/play/`, and `src/bidding/`.
 
 ### Deferred deep implementation
 
-- Full declarer play-plan construction (finesse, ruff, hold-up, entry,
-  trump-pull, and combined-holdings plan sequencing)
+- Full declarer play-plan construction sequencing (full finesse, ruff,
+  hold-up, entry, trump-pull, and combined-holdings plan chains)
 - Full defender signaling and exact suit preference algorithms
 - RKCB, cue-bid, detailed slam response, and all long `BiddingRebid*` branches
 - Takeout/negative doubles, Michaels, unusual NT, gambling 3NT, Drury,

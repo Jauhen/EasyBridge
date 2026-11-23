@@ -41,6 +41,7 @@ export class Deal {
   private trickWinners: Position[] = [];
   private northSouthScore = 0;
   private eastWestScore = 0;
+  private specialDealCode = 0;
 
   constructor(options: DealOptions = {}) {
     this.players = [
@@ -131,9 +132,7 @@ export class Deal {
     specialDealCode: number,
     dealNumber: number,
   ): number {
-    if (specialDealCode !== 0) {
-      throw new Error('Special deal codes are not yet supported in TypeScript');
-    }
+    this.specialDealCode = specialDealCode;
     this.dealer = dealer;
     this.vulnerability = vulnerability;
     this.currentPlayer = dealer;
@@ -370,6 +369,10 @@ export class Deal {
 
   get numTricksPlayed(): number {
     return this.tricksPlayed;
+  }
+
+  get specialDealCodeValue(): number {
+    return this.specialDealCode;
   }
 
   get date(): string {

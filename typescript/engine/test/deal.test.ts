@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Bid, Deal, Position, Vulnerability, parsePbnDocument } from '../src/index.js';
+import { Bid, Deal, Position, Vulnerability, parsePbnDocument, parseBidPbn } from '../src/index.js';
 
 describe('Deal', () => {
   it('deals a seeded numbered hand to 13 cards per player', () => {
@@ -9,6 +9,13 @@ describe('Deal', () => {
     expect(first.players.every(player => player.hand.length === 13)).toBe(true);
     const totalCards = first.players.reduce((sum, player) => sum + player.hand.length, 0);
     expect(totalCards).toBe(52);
+  });
+
+  it('accepts specialDealCode and records it with the numbered deal', () => {
+    const deal = new Deal();
+    deal.dealNumberedHand(Position.South, Vulnerability.NorthSouth, 0x42, 24680);
+    expect(deal.specialDealCodeValue).toBe(0x42);
+    expect(deal.players.every(player => player.hand.length === 13)).toBe(true);
   });
   it('loads a PBN document auction and deal', () => {
     const document = parsePbnDocument([
@@ -32,6 +39,25 @@ describe('Deal', () => {
       Bid.Pass,
     ]);
     expect(deal.contract).toBe(Bid.NT3);
+  });
+
+  it('parses PBN pass, double, redouble, and suit bids', () => {
+    expect(parseBidPbn('Pass')).toBe(Bid.Pass);
+    expect(parseBidPbn('X')).toBe(Bid.Double);
+    expect(parseBidPbn('XX')).toBe(Bid.Redouble);
+    expect(parseBidPbn('3NT')).toBe(Bid.NT3);
+    expect(parseBidPbn('5D')).toBe(Bid.D5);
+  });
+
+  it('inherits repeated PBN # tag values', () => {
+    const document = parsePbnDocument([
+      '[EVENT "Game"]',
+      '[EVENT "#"]',
+      '[DATE "2016.07.12"]',
+      '[DATE "#"]',
+    ].join('\n'));
+    expect(document.tags.EVENT).toBe('Game');
+    expect(document.tags.DATE).toBe('2016.07.12');
   });
   it('enters a complete auction and sets the contract and declarer', () => {
     const deal = new Deal({ dealer: Position.South, vulnerability: Vulnerability.NorthSouth });

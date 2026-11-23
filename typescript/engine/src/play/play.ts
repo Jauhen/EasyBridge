@@ -38,6 +38,9 @@ export interface PlayDependencies {
   guessedHands?: unknown[];
   status?: unknown;
   combinedHand?: unknown;
+  outstandingCards?: Card[];
+  partnershipCards?: Card[];
+  alreadyPlayedCards?: Card[];
 }
 
 export class Play {
@@ -51,6 +54,12 @@ export class Play {
   targetHand: Position | typeof NONE = NONE;
   targetCard: Card | null = null;
   consumedCard: Card | null = null;
+  targetCards: Card[] = [];
+  keyCards: Card[] = [];
+  alternativeKeyCards: Card[] = [];
+  enemyKeyCards: Card[] = [];
+  enemyAlternativeKeyCards: Card[] = [];
+  requiredPlayedCards: Card[] = [];
 
   constructor(
     readonly type: PlayType,
@@ -91,6 +100,87 @@ export class Play {
 
   get name(): string {
     return PlayType[this.type];
+  }
+
+  setTargetCard(card: Card | null): void {
+    this.targetCard = card;
+  }
+
+  setConsumedCard(card: Card | null): void {
+    this.consumedCard = card;
+  }
+
+  setKeyCards(cards: Card[]): void {
+    this.keyCards = [...cards];
+  }
+
+  setAlternativeKeyCards(cards: Card[]): void {
+    this.alternativeKeyCards = [...cards];
+  }
+
+  setEnemyKeyCards(cards: Card[]): void {
+    this.enemyKeyCards = [...cards];
+  }
+
+  setEnemyAlternativeKeyCards(cards: Card[]): void {
+    this.enemyAlternativeKeyCards = [...cards];
+  }
+
+  setRequiredPlayedCards(cards: Card[]): void {
+    this.requiredPlayedCards = [...cards];
+  }
+
+  isViable(dependencies: PlayDependencies): boolean {
+    const outstanding = dependencies.outstandingCards ?? [];
+    const partnership = dependencies.partnershipCards ?? [];
+    const alreadyPlayed = dependencies.alreadyPlayedCards ?? [];
+
+    if (this.consumedCard &&
+      !partnership.some(card => card.deckValue === this.consumedCard?.deckValue)) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    if (this.targetCard &&
+      !outstanding.some(card => card.deckValue === this.targetCard?.deckValue)) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    if (this.keyCards.length > 0 &&
+      !this.keyCards.every(card =>
+        partnership.some(partnershipCard => partnershipCard.deckValue === card.deckValue),
+      )) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    if (this.alternativeKeyCards.length > 0 &&
+      !this.alternativeKeyCards.some(card =>
+        partnership.some(partnershipCard => partnershipCard.deckValue === card.deckValue),
+      )) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    if (this.enemyKeyCards.length > 0 &&
+      !this.enemyKeyCards.every(card =>
+        outstanding.some(outstandingCard => outstandingCard.deckValue === card.deckValue),
+      )) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    if (this.enemyAlternativeKeyCards.length > 0 &&
+      !this.enemyAlternativeKeyCards.some(card =>
+        outstanding.some(outstandingCard => outstandingCard.deckValue === card.deckValue),
+      )) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    if (this.requiredPlayedCards.length > 0 &&
+      !this.requiredPlayedCards.every(card =>
+        alreadyPlayed.some(playedCard => playedCard.deckValue === card.deckValue),
+      )) {
+      this.status = PlayResult.NotViable;
+      return false;
+    }
+    return true;
   }
 
   perform(_dependencies: PlayDependencies): PlayResult {
