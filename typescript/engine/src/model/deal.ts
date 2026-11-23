@@ -1,6 +1,8 @@
-import { Bid, bidLevel, bidSuit, contractToPbn, isBid, nextPosition, Position, positionToChar, Suit, Team, Vulnerability, bidToPbn } from '../constants.js';
+import { Bid, bidLevel, bidSuit, charToPosition, contractToPbn, isBid, nextPosition, Position, positionToChar, Suit, Team, Vulnerability, bidToPbn } from '../constants.js';
 import { Card } from '../card.js';
+import { Deck } from '../deck.js';
 import { Player } from '../player.js';
+import { PbnDocument, parsePbnDealTag } from './pbn.js';
 
 export interface DealOptions {
   dealer?: Position;
@@ -86,6 +88,83 @@ export class Deal {
       }
     }
     this.assignCards(hands);
+  }
+
+  loadPbnDocument(document: PbnDocument): void {
+    this.biddingHistory = [];
+    this.validBidHistory = [];
+    this.validBidPositions = [];
+    this.bidsByPosition = [[], [], [], []];
+    this.passes = 0;
+    this.lastValidBid = Bid.Pass;
+    this.lastValidBidTeam = Team.Neither;
+    this.contract = Bid.Pass;
+    this.contractModifier = 0;
+
+    const dealerText = document.tags.DEALER;
+    if (dealerText) this.dealer = charToPosition(dealerText);
+    const vulnerableText = document.tags.VULNERABLE?.toUpperCase();
+    this.vulnerability =
+      vulnerableText === 'BOTH' ? Vulnerability.Both :
+      vulnerableText === 'NS' ? Vulnerability.NorthSouth :
+      vulnerableText === 'EW' ? Vulnerability.EastWest :
+      Vulnerability.None;
+    if (document.tags.DEAL) {
+      const hands = parsePbnDealTag(document.tags.DEAL);
+      this.assignPbnHands(hands.map(cardsToPbnSuitStrings));
+    }
+    this.currentPlayer = this.dealer;
+    this.roundLead = this.dealer;
+    for (const bid of document.auction) {
+      if (this.passes >= 3) break;
+      this.enterBid(this.currentPlayer, bid as Bid);
+    }
+  }
+
+  /**
+   * Mirrors Deal::DealNumberedHand plus Deck::Shuffle for specialDealCode 0.
+   * Cards are dealt 13 rounds with position order S, W, N, E, matching C++.
+   */
+  dealNumberedHand(
+    dealer: Position,
+    vulnerability: Vulnerability,
+    specialDealCode: number,
+    dealNumber: number,
+  ): number {
+    if (specialDealCode !== 0) {
+      throw new Error('Special deal codes are not yet supported in TypeScript');
+    }
+    this.dealer = dealer;
+    this.vulnerability = vulnerability;
+    this.currentPlayer = dealer;
+    this.roundLead = dealer;
+
+    const deck = new Deck();
+    const actualSeed = deck.shuffle(dealNumber);
+    for (const player of this.players) player.clearHand();
+    let deckIndex = 0;
+    for (let round = 0; round < 13; round++) {
+      for (const position of [Position.South, Position.West, Position.North, Position.East]) {
+        const card = deck.cards[deckIndex++];
+        this.players[position].addCard(card);
+      }
+    }
+    for (const player of this.players) player.initializeHand();
+    this.biddingHistory = [];
+    this.validBidHistory = [];
+    this.validBidPositions = [];
+    this.bidsByPosition = [[], [], [], []];
+    this.passes = 0;
+    this.lastValidBid = Bid.Pass;
+    this.lastValidBidTeam = Team.Neither;
+    this.contract = Bid.Pass;
+    this.contractModifier = 0;
+    this.tricksPlayed = 0;
+    this.tricksWon = [0, 0];
+    this.gameTricks = [];
+    this.trickLeads = [];
+    this.trickWinners = [];
+    return actualSeed;
   }
 
   enterBid(position: Position, bid: Bid): number {
@@ -289,6 +368,10 @@ export class Deal {
     return this.tricksWon;
   }
 
+  get numTricksPlayed(): number {
+    return this.tricksPlayed;
+  }
+
   get date(): string {
     return this.currentDate;
   }
@@ -437,4 +520,14 @@ export class Deal {
 
 function prevPosition(position: Position): Position {
   return (position + 3) % 4 as Position;
+}
+
+function cardsToPbnSuitStrings(cards: readonly Card[]): readonly [string, string, string, string] {
+  const faces = [Suit.Spades, Suit.Hearts, Suit.Diamonds, Suit.Clubs]
+    .map(suit => cards
+      .filter(card => card.suit === suit)
+      .sort((a, b) => b.faceValue - a.faceValue)
+      .map(card => card.name[1])
+      .join(''));
+  return faces as unknown as readonly [string, string, string, string];
 }

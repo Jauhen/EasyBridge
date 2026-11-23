@@ -63,10 +63,36 @@ describe('Card', () => {
     expect(deck.cards).toHaveLength(52);
   });
 
+  it('shuffles deterministically for the same seed', () => {
+    const first = new Deck();
+    const second = new Deck();
+    first.shuffle(12345);
+    second.shuffle(12345);
+    expect(first.cards.map(card => card.deckValue))
+      .toEqual(second.cards.map(card => card.deckValue));
+  });
+
   it('formats card names like the C++ engine utilities', () => {
     const card = new Card(Suit.Hearts, 12);
     expect(card.fullName).toBe('Queen of Hearts');
     expect(card.reverseFullName).toBe('Heart Queen');
+  });
+
+  it('counts void, singleton, doubleton, honor, and quick-trick hand statistics', () => {
+    const hand = new Hand();
+    hand.add(new Card(Suit.Spades, 14));
+    hand.add(new Card(Suit.Spades, 13));
+    hand.add(new Card(Suit.Hearts, 14));
+    hand.add(new Card(Suit.Diamonds, 12));
+    hand.add(new Card(Suit.Diamonds, 11));
+    hand.add(new Card(Suit.Clubs, 10));
+    hand.add(new Card(Suit.Clubs, 9));
+    expect(hand.numAces).toBe(2);
+    expect(hand.numKings).toBe(1);
+    expect(hand.numQueens).toBe(1);
+    expect(hand.numVoids).toBe(0);
+    expect(hand.numSingletons).toBe(1);
+    expect(hand.numQuickTricks).toBeGreaterThan(0);
   });
 });
 

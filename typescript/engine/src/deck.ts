@@ -47,20 +47,27 @@ export class Deck {
     const actualSeed = seed === undefined || seed === 0
       ? Math.floor(Math.random() * 0x7ffffff)
       : seed;
-
     let state = actualSeed >>> 0;
-    const random = (): number => {
-      state = (Math.imul(1664525, state) + 1013904223) >>> 0;
-      return state % 0x80000000;
+    // Mirrors Visual C++'s srand/rand implementation used by CDeck::Shuffle:
+    // rand() is 15-bit and advances with state = state * 214013 + 2531011.
+    const rand = (): number => {
+      state = (Math.imul(state, 214013) + 2531011) >>> 0;
+      return (state >>> 16) & 0x7fff;
+    };
+    const getRandomValue = (max: number): number => {
+      const value = ((rand() / 32768) * (max + 1) - 0.4999);
+      let rounded = Math.round(value);
+      if (rounded < 0) rounded = 0;
+      if (rounded > max) rounded = max;
+      return rounded;
     };
 
     for (let round = 0; round < 10; round++) {
       for (let index = 0; index < 52; index++) {
-        const other = random() % 52;
-        if (other !== index) {
-          [this.shuffledCards[index], this.shuffledCards[other]] =
-            [this.shuffledCards[other], this.shuffledCards[index]];
-        }
+        let other = getRandomValue(51);
+        if (other === index) other = getRandomValue(51);
+        [this.shuffledCards[index], this.shuffledCards[other]] =
+          [this.shuffledCards[other], this.shuffledCards[index]];
       }
     }
     return actualSeed;

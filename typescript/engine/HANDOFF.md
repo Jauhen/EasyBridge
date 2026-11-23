@@ -79,6 +79,8 @@ The package entry point remains `src/index.ts`; it re-exports the moved modules 
 - 2026-11-22: Added bidding strength/support/raise parameter enums and 4NT/4C slam responses.
 - 2026-11-22: Added final BidEngine shift, rebid-suit, next-best-suit, and NT helper methods.
 - 2026-11-22: Added specialized cash/discard/drop/exit/force/hold-up/ruff/trump-pull/finesse state transitions.
+- 2026-11-22: Completed deferred HandHoldings statistics and balance/quick-trick calculations.
+- 2026-11-22: Added deterministic numbered-deal generation and PBN-document loading.
 
 ## Preserved comments and status logs
 
@@ -178,8 +180,6 @@ The original engine is under `src/engine/` and has 107 C++/header files:
 ### Deferred play engine files
 
 - `src/engine/play/CardHoldings.cpp` - no remaining implementation beyond represented `Hand`/`SuitHoldings` subset
-- `src/engine/play/HandHoldings.H`
-- `src/engine/play/HandHoldings.cpp`
 
 ### Deferred bidding engine files
 
@@ -206,3 +206,46 @@ Convention implementations remaining:
 4. Preserve deal-number seed compatibility against the original Visual C++ `rand()` implementation.
 5. Port PBN parsing and the remaining PBN auction/play edge cases.
 6. Add golden tests for all parameterized cases in `EasyBridgeTest/deal_test.cpp`.
+
+## Conversion completeness audit
+
+Audited against the original `src/engine/` inventory: 130 C++/header files,
+excluding dialogs and application UI. The TypeScript package now has 43 source
+modules grouped under `src/`, `src/model/`, `src/play/`, and `src/bidding/`.
+
+### Converted and executable
+
+- Card constants, Card, CardList, Deck, CardLocation, GuessedCard, and card
+  utility behavior
+- Hand, holdings, guessed holdings, suit holdings, combined holdings, and
+  display holdings
+- Deal auction, numbered dealing, trick state, trick evaluation, clearing,
+  score update, PBN export, PBN tag parsing, and PBN document parsing
+- Base bid engine stages: opening, response, opener rebid, responder rebid,
+  extended rebid, partner raises, NT/suit/shift helpers
+- Convention base/state/pool/set and the implemented convention subset
+- Base, declarer, dummy, and defender play-engine state
+- Cash, Discard, Drop, Exit, Force, HoldUp, Ruff, TrumpPull, Finesse, and
+  five finesse variants
+- Deterministic Visual C++-style seed state and 52-card deal generation
+
+### Intentionally excluded
+
+- MFC/GDI rendering, dialogs, status windows, resource bitmaps, mouse/drag,
+  animation, and Windows application integration
+- Neural-network training and GIB process integration
+- Full UI/settings persistence
+
+### Deferred deep implementation
+
+- Full declarer play-plan construction (finesse, ruff, hold-up, entry,
+  trump-pull, and combined-holdings plan sequencing)
+- Full defender signaling and exact suit preference algorithms
+- RKCB, cue-bid, detailed slam response, and all long `BiddingRebid*` branches
+- Takeout/negative doubles, Michaels, unusual NT, gambling 3NT, Drury,
+  splinter, Gerber, Jacoby 2NT, and their late auction responses
+- Exact Visual C++ special-deal generation beyond numbered ordinary deals
+- PBN `#` tag substitution, note/NAG mappings, and all historical game
+  review formats
+
+This is an executable core conversion, not an exact MFC application rewrite.

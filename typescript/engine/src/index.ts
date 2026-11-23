@@ -7,6 +7,8 @@ export { Player } from './player.js';
 export { Deal } from './model/deal.js';
 export type { DealOptions } from './model/deal.js';
 export { parsePbnDealTag, parsePbnHand } from './model/pbn.js';
+export { parseBidPbn, parsePbnDocument } from './model/pbn.js';
+export type { PbnDocument } from './model/pbn.js';
 export { GuessedCard } from './guessedCard.js';
 export { CardLocation } from './cardLocation.js';
 export { PlayerStatus } from './playerStatus.js';

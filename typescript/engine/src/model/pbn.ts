@@ -1,5 +1,5 @@
 import { Card } from '../card.js';
-import { charToFaceValue, charToSuit, Position, positionToChar, Suit } from '../constants.js';
+import { charToFaceValue, charToPosition, charToSuit, Position, Suit } from '../constants.js';
 
 export interface PbnDealInput {
   dealer: Position;
@@ -38,4 +38,98 @@ export function parsePbnHand(value: string): Card[] {
     }
   }
   return cards;
+}
+
+export interface PbnDocument {
+  tags: Record<string, string>;
+  comments: string[];
+  auction: number[];
+  plays: Array<Position[] | null>;
+  playCards: Card[][];
+}
+
+export function parseBidPbn(value: string): number | null {
+  const normalized = value.trim();
+  if (/^pass$/i.test(normalized)) return 0;
+  if (/^x$/i.test(normalized)) return 36;
+  if (/^xx$/i.test(normalized)) return 37;
+  const match = /^([1-7])(C|D|H|S|NT)$/i.exec(normalized);
+  if (!match) return null;
+  const level = Number(match[1]);
+  const suit = charToSuit(match[2].replace('NT', 'N'));
+  return 1 + (level - 1) * 5 + suit;
+}
+
+export function parsePbnDocument(source: string): PbnDocument {
+  const tags: Record<string, string> = {};
+  const comments: string[] = [];
+  const auction: number[] = [];
+  const plays: Array<Position[] | null> = [];
+  const playCards: Card[][] = [];
+  let auctionTag = false;
+  let playTag = false;
+  let auctionPosition: Position | null = null;
+  let playPosition: Position | null = null;
+
+  for (const rawLine of source.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    if (line.startsWith('%%')) {
+      comments.push(line.replace(/^%%\s*/, '').trim());
+      continue;
+    }
+    const tagMatch = /^\[([A-Za-z]+)\s+"(.*)"\]\s*$/.exec(line);
+    if (tagMatch) {
+      const [, name, value] = tagMatch;
+      tags[name.toUpperCase()] = value;
+      if (name.toUpperCase() === 'AUCTION') {
+        auctionTag = true;
+        playTag = false;
+        auctionPosition = charToPosition(value);
+      } else if (name.toUpperCase() === 'PLAY') {
+        auctionTag = false;
+        playTag = true;
+        playPosition = charToPosition(value);
+      } else {
+        auctionTag = false;
+        playTag = false;
+      }
+      continue;
+    }
+
+    if (auctionTag) {
+      for (const token of line.split(/\s+/)) {
+        const bid = parseBidPbn(token);
+        if (bid !== null) auction.push(bid);
+      }
+      continue;
+    }
+
+    if (playTag && playPosition !== null) {
+      const trick: Position[] = [];
+      const cards: Card[] = [];
+      const tokens = line.split(/\s+/).filter(Boolean);
+      for (let index = 0; index < 4; index++) {
+        const position = ((playPosition + index) % 4) as Position;
+        trick.push(position);
+        const token = tokens[index];
+        if (!token || token === '-') continue;
+        const suitLetter = token[0].toUpperCase();
+        const faceLetter = token.slice(1).toUpperCase();
+        const suit = charToSuit(suitLetter);
+        const face = charToFaceValue(faceLetter);
+        if (suit >= Suit.Clubs && suit <= Suit.Spades && face >= 2 && face <= 14) {
+          cards.push(new Card(suit, face));
+        }
+      }
+      plays.push(trick);
+      playCards.push(cards);
+    }
+  }
+
+  const deal = tags.DEAL ? parsePbnDealTag(tags.DEAL) : null;
+  if (deal) {
+    tags.HANDS = deal.map(hand => hand.map(card => card.name).join('')).join('|');
+  }
+  return { tags, comments, auction, plays, playCards };
 }
