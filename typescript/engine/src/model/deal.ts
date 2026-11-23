@@ -768,27 +768,30 @@ export class Deal {
     const west = this.players[Position.West].hand.getInitialPbnHoldings();
     const east = this.players[Position.East].hand.getInitialPbnHoldings();
     const south = this.players[Position.South].hand.getInitialPbnHoldings();
-    const formatSuitLine = (holding: string) => holding.split('.').map(suit => suit ? ` ${suit.split('').join(' ')}` : '').join('\n');
-    void formatSuitLine;
-    const split = (holding: string) => holding.split('.');
-    const ns = split(north);
-    const ws = split(west);
-    const es = split(east);
-    const ss = split(south);
+    const ns = north.split('.');
+    const ws = west.split('.');
+    const es = east.split('.');
+    const ss = south.split('.');
+    const formatCards = (cards: string) => (cards ? `${cards.split('').join(' ')} ` : '');
+    const formatWestEast = (label: string, westCards: string, eastCards: string) => {
+      const left = `${label}: ${formatCards(westCards)}`;
+      const padded = left.length < 32 ? left.padEnd(32, ' ') : `${left} `;
+      return `${padded}${label}: ${formatCards(eastCards)}`;
+    };
     return [
       '{',
-      `                S: ${ns[0].split('').join(' ')}`,
-      `                H: ${ns[1].split('').join(' ')}`,
-      `                D: ${ns[2].split('').join(' ')}`,
-      `                C: ${ns[3].split('').join(' ')}`,
-      `S: ${ws[0].split('').join(' ')}                    S: ${es[0].split('').join(' ')}`,
-      `H: ${ws[1].split('').join(' ')}                    H: ${es[1].split('').join(' ')}`,
-      `D: ${ws[2].split('').join(' ')}                    D: ${es[2].split('').join(' ')}`,
-      `C: ${ws[3].split('').join(' ')}                    C: ${es[3].split('').join(' ')}`,
-      `                S: ${ss[0].split('').join(' ')}`,
-      `                H: ${ss[1].split('').join(' ')}`,
-      `                D: ${ss[2].split('').join(' ')}`,
-      `                C: ${ss[3].split('').join(' ')}`,
+      `                S: ${formatCards(ns[0])}`,
+      `                H: ${formatCards(ns[1])}`,
+      `                D: ${formatCards(ns[2])}`,
+      `                C: ${formatCards(ns[3])}`,
+      formatWestEast('S', ws[0], es[0]),
+      formatWestEast('H', ws[1], es[1]),
+      formatWestEast('D', ws[2], es[2]),
+      formatWestEast('C', ws[3], es[3]),
+      `                S: ${formatCards(ss[0])}`,
+      `                H: ${formatCards(ss[1])}`,
+      `                D: ${formatCards(ss[2])}`,
+      `                C: ${formatCards(ss[3])}`,
       '}',
     ].join('\n');
   }

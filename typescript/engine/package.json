@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "play-pbn": "node dist/cli/playPbn.js"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
